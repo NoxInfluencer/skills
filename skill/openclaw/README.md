@@ -17,3 +17,4 @@
 - `analyze-creator/SKILL.md`
 - `nox-account/SKILL.md`
 - `outreach-creators/SKILL.md`
+- `track-performance/SKILL.md`
