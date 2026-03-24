@@ -40,4 +40,4 @@ Different platforms have different content types that affect performance metrics
 - **Null fields**: Some fields may return `null` on certain platforms. This is expected behavior, not a data error. Skills should explain that the value may be unavailable for that platform rather than treating it as a failure.
 - **Audience data**: Instagram audience data may be less granular than YouTube or TikTok.
 - **Cooperation data**: Pricing and communication metrics are most complete on YouTube. TikTok and Instagram may have partial or no pricing data.
-- **Creator IDs**: All creator IDs in search results are encrypted tokens. The same creator always produces the same token. Use the token directly in all `--creator_id` parameters without decryption.
+- **Creator IDs**: All creator IDs in search results are encrypted tokens. The same creator always produces the same token. Use the token directly as the positional `<creator_id>` argument in subsequent commands without decryption.

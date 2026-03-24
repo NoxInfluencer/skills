@@ -38,11 +38,13 @@ Use these dimensions when the user wants a full analysis:
 
 Default command set:
 
+Note: `creator_id` is a positional argument, not a flag. The `--detail` flag replaces the old `_detail` suffix commands.
+
 ```bash
-noxinfluencer get_creator_profile_detail --creator_id <id>
-noxinfluencer get_creator_audience_detail --creator_id <id>
-noxinfluencer get_creator_content_detail --creator_id <id> --language <code>
-noxinfluencer get_creator_cooperation_detail --creator_id <id>
+noxinfluencer creator profile <creator_id> --detail
+noxinfluencer creator audience <creator_id> --detail
+noxinfluencer creator content <creator_id> --detail --language <code>
+noxinfluencer creator cooperation <creator_id> --detail
 ```
 
 Use `--language zh` when the user is working in Chinese and audience-interest descriptions are more useful in Chinese. Otherwise keep the default language behavior.

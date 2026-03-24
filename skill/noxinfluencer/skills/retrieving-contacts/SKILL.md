@@ -21,8 +21,10 @@ If the user still needs to decide whether the creator is worth contacting, use `
 
 This skill currently supports one action only:
 
+Note: `creator_id` is a positional argument, not a flag.
+
 ```bash
-noxinfluencer get_creator_contacts --creator_id <id>
+noxinfluencer creator contacts <creator_id>
 ```
 
 The broader outreach workflow may expand later, but this skill should not pretend those capabilities already exist.

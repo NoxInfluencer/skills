@@ -48,17 +48,17 @@ All `noxinfluencer` CLI commands return a unified JSON response structure.
 
 ## Credit Costs
 
-| Action | Cost |
-|--------|------|
-| `search_creators` | 1 credit per result returned (dynamic) |
-| `get_creator_profile` | 1 |
-| `get_creator_audience` | 1 |
-| `get_creator_cooperation` | 1 |
-| `get_creator_content` | 1 |
-| `get_creator_profile_detail` | 1 |
-| `get_creator_audience_detail` | 1 |
-| `get_creator_content_detail` | 1 |
-| `get_creator_cooperation_detail` | 1 |
-| `get_creator_contacts` | 1 |
+| Command | Cost |
+|---------|------|
+| `creator search` | 1 credit per result returned (dynamic) |
+| `creator profile <id>` | 1 |
+| `creator audience <id>` | 1 |
+| `creator cooperation <id>` | 1 |
+| `creator content <id>` | 1 |
+| `creator profile <id> --detail` | 1 |
+| `creator audience <id> --detail` | 1 |
+| `creator content <id> --detail` | 1 |
+| `creator cooperation <id> --detail` | 1 |
+| `creator contacts <id>` | 1 |
 
 Video monitoring operations may have separate credit rules.

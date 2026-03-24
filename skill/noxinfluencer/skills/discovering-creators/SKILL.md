@@ -23,7 +23,7 @@ Do not use this skill for deep risk review or final cooperation judgment. Hand o
 1. Check whether the request is underspecified.
 2. If it is underspecified, ask for the 2-3 most decision-critical filters first.
 3. Prefer clarifying platform, niche, geography, creator size, and contact requirements before searching.
-4. Run `search_creators` only when the request is specific enough to produce a meaningful shortlist.
+4. Run `creator search` only when the request is specific enough to produce a meaningful shortlist.
 5. Keep the discovery pass shortlist-oriented. Do not drift into deep due diligence during sourcing.
 6. If the user wants more detail on a candidate, use the relevant overview command or suggest moving to `analyzing-creator`.
 
@@ -52,20 +52,20 @@ Reasonable filter priorities:
 ### Primary search command
 
 ```bash
-noxinfluencer search_creators --platform <platform> --keywords [keyword1,keyword2]
+noxinfluencer creator search --platform <platform> --keywords [keyword1,keyword2]
 ```
 
 Add filters only when the user asked for them or they are necessary to avoid a noisy result set. See [search-filters.md](references/search-filters.md) for the full list of available filter parameters.
 
 ### Overview follow-up commands
 
-Use these only when the user is still in discovery mode and wants a little more context on a shortlist candidate:
+Use these only when the user is still in discovery mode and wants a little more context on a shortlist candidate. Note: `creator_id` is a positional argument, not a flag.
 
 ```bash
-noxinfluencer get_creator_profile --creator_id <id>
-noxinfluencer get_creator_audience --creator_id <id>
-noxinfluencer get_creator_cooperation --creator_id <id>
-noxinfluencer get_creator_content --creator_id <id>
+noxinfluencer creator profile <creator_id>
+noxinfluencer creator audience <creator_id>
+noxinfluencer creator cooperation <creator_id>
+noxinfluencer creator content <creator_id>
 ```
 
 ## Output Rules

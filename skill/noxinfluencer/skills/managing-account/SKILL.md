@@ -36,11 +36,18 @@ noxinfluencer auth --key <key> --server http://host:port
 
 ### Check quota
 
-Use:
-
 ```bash
 noxinfluencer quota
 ```
+
+### Global options
+
+All commands support these flags:
+
+- `--json` — JSON output (default)
+- `--plain` — plain text / TSV output
+- `--verbose` — request details to stderr
+- `--env <env>` — override environment (online/pre/test/dev)
 
 ## Output Rules
 

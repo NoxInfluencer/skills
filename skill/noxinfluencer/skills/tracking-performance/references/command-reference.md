@@ -1,11 +1,11 @@
 # Video Monitoring Command Reference
 
-Full command syntax and parameter details for video monitoring operations.
+Full command syntax and parameter details for video monitoring operations (CLI v0.2.0+).
 
 ## List Projects
 
 ```bash
-noxinfluencer list_video_monitor_projects [--keyword <value>] [--page_num <n>] [--page_size <n>]
+noxinfluencer monitor list [--keyword <value>] [--page_num <n>] [--page_size <n>]
 ```
 
 | Parameter | Type | Default | Description |
@@ -19,26 +19,32 @@ noxinfluencer list_video_monitor_projects [--keyword <value>] [--page_num <n>] [
 ## Create Project
 
 ```bash
-noxinfluencer create_video_monitor_project --project_name <name>
+noxinfluencer monitor create --project_name <name> --force
 ```
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `--project_name` | string | yes | Name for the new monitoring project |
+| `--force` | flag | yes* | Execute the mutation (without it, dry-run only) |
+
+**Write operation**: defaults to dry-run. Must include `--force` to actually create.
 
 **Response:** project_id, project_name, created_at
 
 ## Add Monitoring Task
 
 ```bash
-noxinfluencer add_video_monitor_task --project_id <id> --video_url <url> --monitor_days <days>
+noxinfluencer monitor add-task --project_id <id> --video_url <url> [--monitor_days <n>] --force
 ```
 
 | Parameter | Type | Required | Default | Description |
 |-----------|------|----------|---------|-------------|
 | `--project_id` | string | yes | — | Target project ID |
 | `--video_url` | string | yes | — | YouTube, TikTok, or Instagram video URL |
-| `--monitor_days` | number | yes | 30 | Monitoring duration: `30`, `60`, or `180` only |
+| `--monitor_days` | number | no | 30 | Monitoring duration: `30`, `60`, or `180` only |
+| `--force` | flag | yes* | — | Execute the mutation (without it, dry-run only) |
+
+**Write operation**: defaults to dry-run. Must include `--force` to actually add.
 
 **Response:** task_id, video_url, monitor_days, status
 
@@ -49,7 +55,7 @@ noxinfluencer add_video_monitor_task --project_id <id> --video_url <url> --monit
 ## List Tasks
 
 ```bash
-noxinfluencer list_video_monitor_tasks --project_id <id> [--keyword <value>] [--page_num <n>] [--page_size <n>]
+noxinfluencer monitor tasks --project_id <id> [--keyword <value>] [--page_num <n>] [--page_size <n>]
 ```
 
 | Parameter | Type | Required | Default | Description |
@@ -64,7 +70,7 @@ noxinfluencer list_video_monitor_tasks --project_id <id> [--keyword <value>] [--
 ## Get Project Summary
 
 ```bash
-noxinfluencer get_video_monitor_project_summary --project_id <id>
+noxinfluencer monitor summary --project_id <id>
 ```
 
 | Parameter | Type | Required | Description |
@@ -82,3 +88,17 @@ noxinfluencer get_video_monitor_project_summary --project_id <id>
 | `completed` | Monitoring period ended |
 | `video restricted` | Video is restricted or unavailable |
 | `invalid link` | URL could not be resolved |
+
+## Global Options
+
+All commands support:
+
+| Flag | Description |
+|------|-------------|
+| `--json` | JSON output (default) |
+| `--plain` | Plain text / TSV output |
+| `--verbose` | Request details to stderr |
+| `--dry-run` | Explicit preview mode |
+| `--force` | Execute write operations |
+| `--no-input` | Agent mode: fail instead of prompting |
+| `--env <env>` | Override environment (online/pre/test/dev) |

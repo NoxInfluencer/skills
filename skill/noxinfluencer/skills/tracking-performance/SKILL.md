@@ -24,8 +24,8 @@ Do not use this skill for creator sourcing, creator due diligence, contact retri
 2. Create a project when the user wants a new one.
 3. If the user asks to create a project and monitor a video in one request, create the project first and add the task immediately after.
 4. To add a video into an existing project, require a `project_id`.
-5. For project overview, use `get_video_monitor_project_summary` first.
-6. For specific monitored videos, use `list_video_monitor_tasks`.
+5. For project overview, use `monitor summary` first.
+6. For specific monitored videos, use `monitor tasks`.
 7. Keep the workflow operational. Do not drift into performance analysis.
 
 ## Command Mapping
@@ -34,13 +34,23 @@ See [command-reference.md](references/command-reference.md) for the full command
 
 Core commands:
 
-- `noxinfluencer list_video_monitor_projects` — List projects
-- `noxinfluencer create_video_monitor_project --project_name <name>` — Create project
-- `noxinfluencer add_video_monitor_task --project_id <id> --video_url <url> --monitor_days <days>` — Add video
-- `noxinfluencer list_video_monitor_tasks --project_id <id>` — List tasks
-- `noxinfluencer get_video_monitor_project_summary --project_id <id>` — Project summary
+- `noxinfluencer monitor list` — List projects
+- `noxinfluencer monitor create --project_name <name> --force` — Create project
+- `noxinfluencer monitor add-task --project_id <id> --video_url <url> --force` — Add video
+- `noxinfluencer monitor tasks --project_id <id>` — List tasks
+- `noxinfluencer monitor summary --project_id <id>` — Project summary
 
-`monitor_days` rules:
+### Mutation guard (important)
+
+`monitor create` and `monitor add-task` are write operations. The CLI defaults to **dry-run** mode for safety:
+
+- Without `--force`: previews the request but does not execute
+- With `--force`: executes the mutation
+- With `--no-input` (agent mode) without `--force`: aborts with error
+
+Always include `--force` when the user has confirmed they want to proceed.
+
+### `monitor_days` rules
 
 - allowed values: `30`, `60`, `180`
 - default: `30`
@@ -81,11 +91,12 @@ The API returns task status as English description. Use it directly:
 ## Error Handling
 
 - If the API returns `DUPLICATE_DATA`, tell the user that the same video is already being monitored in that project.
+- If a dry-run preview is returned instead of actual execution, remind the user that write operations require `--force`.
 - If authentication fails, route the user to `managing-account`.
 - If quota or permission errors block the operation, surface the returned error clearly and keep the explanation short.
 - If the link is invalid or the task status comes back as `invalid link`, tell the user that the provided video link could not be accepted for monitoring.
-- If the user first asks for a project overview, use `get_video_monitor_project_summary` before listing tasks.
-- If the user then asks about a specific monitored video, use `list_video_monitor_tasks` with a keyword when possible.
+- If the user first asks for a project overview, use `monitor summary` before listing tasks.
+- If the user then asks about a specific monitored video, use `monitor tasks` with a keyword when possible.
 - If the user provides multiple video URLs, handle them as separate add operations.
 
 ## Boundaries

@@ -1,11 +1,11 @@
 # Search Filters Reference
 
-Complete list of filter parameters for the `search_creators` command.
+Complete list of filter parameters for the `creator search` command (CLI v0.2.0+).
 
 ## Usage
 
 ```bash
-noxinfluencer search_creators --platform <platform> --keywords [keyword1,keyword2] [filters...]
+noxinfluencer creator search --platform <platform> --keywords [keyword1,keyword2] [filters...]
 ```
 
 ## Required
@@ -66,7 +66,7 @@ Each result includes:
 
 ## Notes
 
-- The `id` returned is an encrypted token. Use it directly in all subsequent `--creator_id` parameters.
+- The `id` returned is an encrypted token. Use it directly as the positional `<creator_id>` argument in subsequent commands (e.g., `creator profile <id>`).
 - `--has_email true` filters for creators with known email, but does not retrieve the email. Use `retrieving-contacts` to get actual contact details.
 - Array parameters use bracket notation: `--country [US,DE,JP]`.
 - Credit cost for search is dynamic: 1 credit per result returned.
