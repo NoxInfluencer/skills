@@ -1,9 +1,9 @@
 ---
-name: outreach-creators
-description: Use when the user wants creator contact information as the first step toward outreach and needs a direct way to retrieve available contact details.
+name: retrieving-contacts
+description: Retrieves available contact information for a specific creator as the first step toward outreach. Use when the user has chosen a creator and needs their email or contact details.
 ---
 
-# Outreach Creators
+# Retrieving Contacts
 
 Use this skill when the user is ready to move from evaluation toward contact. At the moment, this skill is intentionally narrow: it retrieves contact information only.
 
@@ -15,7 +15,7 @@ Use this skill when the user:
 - asks for email or contact availability
 - is ready to prepare outreach and already knows which creator they mean
 
-If the user still needs to decide whether the creator is worth contacting, use `analyze-creator` first.
+If the user still needs to decide whether the creator is worth contacting, use `analyzing-creator` first.
 
 ## Current Scope
 
@@ -34,7 +34,7 @@ The broader outreach workflow may expand later, but this skill should not preten
 3. Run the contacts command.
 4. Return only the contact information that exists and the email quality signal.
 
-Do not turn this skill into a sourcing or due-diligence workflow. If the user has not chosen a creator yet, hand off instead of guessing.
+Do not turn this skill into a sourcing or due-diligence workflow. If the user has not chosen a creator yet, hand off to `discovering-creators` instead of guessing.
 
 ## Output Rules
 
@@ -61,7 +61,7 @@ If the email is null or the quality is `0`, clearly say that no reliable email i
 
 ## Errors and Fallbacks
 
-- If no `creator_id` is available, ask for one or direct the user back to `discover-creators`.
+- If no `creator_id` is available, ask for one or direct the user back to `discovering-creators`.
 - If the user is still comparing multiple creators, ask them to choose one creator first instead of retrieving contacts for several by default.
 - If quota is insufficient, state that contact retrieval cannot continue.
 - If the command fails, return the contact retrieval error without inventing extra outreach advice.

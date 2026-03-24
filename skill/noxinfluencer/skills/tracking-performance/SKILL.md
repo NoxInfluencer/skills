@@ -1,9 +1,9 @@
 ---
-name: track-performance
-description: Use when the user wants to manage video monitoring projects, add videos into monitoring, or check project-level monitoring status without doing deeper performance analysis.
+name: tracking-performance
+description: Manages video monitoring projects, adds videos for tracking, and retrieves project-level monitoring status. Use when the user wants to set up or check video performance monitoring.
 ---
 
-# Track Performance
+# Tracking Performance
 
 Use this skill for operational video-monitoring management. It manages projects and monitored videos, but does not judge performance quality.
 
@@ -30,30 +30,15 @@ Do not use this skill for creator sourcing, creator due diligence, contact retri
 
 ## Command Mapping
 
-- List projects:
-```bash
-noxinfluencer list_video_monitor_projects --keyword <keyword> --page_num <n> --page_size <n>
-```
+See [command-reference.md](references/command-reference.md) for the full command syntax and parameter details.
 
-- Create project:
-```bash
-noxinfluencer create_video_monitor_project --project_name <name>
-```
+Core commands:
 
-- Add task:
-```bash
-noxinfluencer add_video_monitor_task --project_id <id> --video_url <url> --monitor_days <days>
-```
-
-- List tasks:
-```bash
-noxinfluencer list_video_monitor_tasks --project_id <id> --keyword <keyword> --page_num <n> --page_size <n>
-```
-
-- Get project summary:
-```bash
-noxinfluencer get_video_monitor_project_summary --project_id <id>
-```
+- `noxinfluencer list_video_monitor_projects` — List projects
+- `noxinfluencer create_video_monitor_project --project_name <name>` — Create project
+- `noxinfluencer add_video_monitor_task --project_id <id> --video_url <url> --monitor_days <days>` — Add video
+- `noxinfluencer list_video_monitor_tasks --project_id <id>` — List tasks
+- `noxinfluencer get_video_monitor_project_summary --project_id <id>` — Project summary
 
 `monitor_days` rules:
 
@@ -86,7 +71,7 @@ Keep responses operational and concise.
 
 ## Status Rules
 
-The API already returns task status as English description. Use it directly:
+The API returns task status as English description. Use it directly:
 - `loading`
 - `monitoring`
 - `completed`
@@ -96,7 +81,7 @@ The API already returns task status as English description. Use it directly:
 ## Error Handling
 
 - If the API returns `DUPLICATE_DATA`, tell the user that the same video is already being monitored in that project.
-- If authentication fails, route the user to `nox-account`.
+- If authentication fails, route the user to `managing-account`.
 - If quota or permission errors block the operation, surface the returned error clearly and keep the explanation short.
 - If the link is invalid or the task status comes back as `invalid link`, tell the user that the provided video link could not be accepted for monitoring.
 - If the user first asks for a project overview, use `get_video_monitor_project_summary` before listing tasks.

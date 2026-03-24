@@ -1,9 +1,9 @@
 ---
-name: nox-account
-description: Use when the user wants to configure access, check quota, or resolve basic account-level issues for the NoxInfluencer workflow.
+name: managing-account
+description: Configures API access, checks quota balance, and resolves basic account-level issues. Use when the user needs to set up credentials or check remaining credits.
 ---
 
-# Nox Account
+# Managing Account
 
 Use this skill for simple account and quota operations. Keep it lightweight.
 

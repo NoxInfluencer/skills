@@ -1,9 +1,9 @@
 ---
-name: analyze-creator
-description: Use when the user already has a creator in mind and wants a decision-oriented assessment of reliability, risk, audience quality, data quality, or pricing reasonableness.
+name: analyzing-creator
+description: Performs decision-oriented due diligence on a specific creator, assessing reliability, risk, audience quality, and pricing reasonableness. Use when the user has a creator in mind and needs a go/no-go verdict.
 ---
 
-# Analyze Creator
+# Analyzing Creator
 
 Use this skill for due diligence. The goal is not to restate metrics. The goal is to help the user decide whether a creator is worth pursuing.
 
@@ -16,7 +16,7 @@ Use this skill when the user:
 - wants to check disputes, audience quality, benchmark position, or pricing reasonableness
 - wants a deeper decision beyond overview-level discovery data
 
-Do not use this skill for first-pass sourcing. Use `discover-creators` first when the user still needs a shortlist.
+Do not use this skill for first-pass sourcing. Use `discovering-creators` first when the user still needs a shortlist.
 
 ## Workflow
 
@@ -62,64 +62,22 @@ If only one narrow dimension was checked, explicitly present the answer as a sco
 
 ## Verdict Heuristics
 
-Use these heuristics to keep verdicts consistent:
+See [verdict-heuristics.md](references/verdict-heuristics.md) for detailed heuristic rules and the full due-diligence output structure.
 
-- **High-priority collaboration candidate**
-  - no meaningful dispute signal
-  - audience quality is healthy
-  - performance is competitive for the niche
-  - pricing and cooperation signals do not show obvious friction
-
-- **Viable, but with clear risks**
-  - overall profile is workable
-  - but one or two notable concerns exist, such as weak cooperation signals, volatility, or questionable pricing efficiency
-
-- **Needs manual review before proceeding**
-  - the evidence is mixed
-  - or commercial reasonableness cannot be judged confidently from the available data
-  - or one critical dimension is unclear enough that a firm recommendation would be misleading
-
-- **Not a priority collaboration candidate**
-  - multiple weak signals appear across data quality, audience quality, cooperation risk, or pricing reasonableness
-  - or the creator is clearly a poor fit for the stated collaboration goal
+- **High-priority collaboration candidate**: no dispute signal, healthy audience, competitive performance, no pricing friction.
+- **Viable, but with clear risks**: workable overall, but 1-2 notable concerns (weak cooperation signals, volatility, questionable pricing).
+- **Needs manual review before proceeding**: mixed evidence, or commercial reasonableness unclear from available data.
+- **Not a priority collaboration candidate**: multiple weak signals across data quality, audience, cooperation, or pricing.
 
 ## Output Rules
 
 After the verdict, organize the evidence into a due-diligence structure:
 
-### 1. Data Performance
-
-- views and engagement quality
-- stability and volatility
-- benchmark position against peers
-- content-type differences if relevant
-
-### 2. Audience Quality
-
-- authenticity
-- suspicious audience risk
-- demographic fit
-- marketing attractiveness and promotion signals
-
-### 3. Cooperation Risk
-
-- dispute history
-- cooperation tendency
-- negative partnership signals
-
-### 4. Commercial Reasonableness
-
-- pricing range
-- negotiation gap
-- response speed
-- collaboration efficiency
-- existing brand partnerships
-
-### 5. Final Recommendation
-
-- whether to continue
-- what should be double-checked manually
-- whether the next step should be outreach or shortlist replacement
+- [ ] Data Performance: views, engagement, stability, benchmark position
+- [ ] Audience Quality: authenticity, suspicious risk, demographic fit, marketing attractiveness
+- [ ] Cooperation Risk: dispute history, cooperation tendency, negative signals
+- [ ] Commercial Reasonableness: pricing, negotiation gap, response speed, brand partnerships
+- [ ] Final Recommendation: continue or not, what to double-check, next step
 
 Keep the write-up selective. Highlight decision-relevant evidence first instead of restating every returned metric.
 
@@ -141,6 +99,6 @@ Keep the write-up selective. Highlight decision-relevant evidence first instead 
 
 ## Errors and Fallbacks
 
-- If no `creator_id` is available, ask for one or return to `discover-creators`.
+- If no `creator_id` is available, ask for one or return to `discovering-creators`.
 - If quota is insufficient, state which detail step could not be completed.
 - If a field is null or platform-specific, explain that the missing value may be normal for that platform instead of treating it as a data error.

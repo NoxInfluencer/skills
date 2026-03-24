@@ -1,9 +1,9 @@
 ---
-name: discover-creators
-description: Use when the user wants to find suitable creators or influencers and needs a shortlist of candidates to compare before deeper analysis or outreach.
+name: discovering-creators
+description: Searches for creators and influencers matching specified criteria and produces a shortlist of candidates for comparison. Use when the user needs to find suitable creators before deeper analysis or outreach.
 ---
 
-# Discover Creators
+# Discovering Creators
 
 Use this skill to turn an open-ended creator search into a usable shortlist. The goal is not to run search immediately. The goal is to narrow the request enough that the final result is a visible candidate list worth reviewing.
 
@@ -16,7 +16,7 @@ Use this skill when the user:
 - wants a shortlist before deciding who to analyze
 - asks for overview-level creator, audience, cooperation, or content data during the sourcing phase
 
-Do not use this skill for deep risk review or final cooperation judgment. Hand off to `analyze-creator` when the user wants a decision on whether a creator is reliable or worth pursuing.
+Do not use this skill for deep risk review or final cooperation judgment. Hand off to `analyzing-creator` when the user wants a decision on whether a creator is reliable or worth pursuing.
 
 ## Workflow
 
@@ -25,7 +25,7 @@ Do not use this skill for deep risk review or final cooperation judgment. Hand o
 3. Prefer clarifying platform, niche, geography, creator size, and contact requirements before searching.
 4. Run `search_creators` only when the request is specific enough to produce a meaningful shortlist.
 5. Keep the discovery pass shortlist-oriented. Do not drift into deep due diligence during sourcing.
-6. If the user wants more detail on a candidate, use the relevant overview command or suggest moving to `analyze-creator`.
+6. If the user wants more detail on a candidate, use the relevant overview command or suggest moving to `analyzing-creator`.
 
 ## Clarification Rules
 
@@ -51,27 +51,11 @@ Reasonable filter priorities:
 
 ### Primary search command
 
-Use:
-
 ```bash
 noxinfluencer search_creators --platform <platform> --keywords [keyword1,keyword2]
 ```
 
-Add filters only when the user asked for them or they are necessary to avoid a noisy result set:
-
-- `--country`
-- `--follower_min` / `--follower_max`
-- `--has_email`
-- `--language`
-- `--gender`
-- `--engagement_rate_min` / `--engagement_rate_max`
-- `--avg_view_min` / `--avg_view_max`
-- `--published_within_days`
-- `--follower_countries`
-- `--follower_ages`
-- `--follower_female_pct_min`
-- `--follower_language`
-- `--page_size` / `--page_num`
+Add filters only when the user asked for them or they are necessary to avoid a noisy result set. See [search-filters.md](references/search-filters.md) for the full list of available filter parameters.
 
 ### Overview follow-up commands
 
@@ -117,22 +101,22 @@ When presenting a shortlist:
 
 If the user asked for many results, do not expand all items equally. Present a visible shortlist first, then mention that more results are available.
 
-If the user asks for a little more context on one shortlisted creator, use at most 1-2 overview follow-up commands before recommending `analyze-creator` for deeper review.
+If the user asks for a little more context on one shortlisted creator, use at most 1-2 overview follow-up commands before recommending `analyzing-creator` for deeper review.
 
 ## Handoff Rules
 
-Use `analyze-creator` next when:
+Use `analyzing-creator` next when:
 
 - the user wants to know whether one specific creator is reliable
 - the user asks about disputes, pricing reasonableness, audience quality, or deep due diligence
 - the user starts comparing shortlist candidates on trust, risk, or cooperation quality rather than discovery fit
 
-Use `outreach-creators` next when:
+Use `retrieving-contacts` next when:
 
 - the user already chose a creator and wants contact information
 - the user explicitly asks for email or contact details
 
-Do not jump to `outreach-creators` just because the search used `--has_email true`. That flag only indicates a search preference, not a verified retrieved contact.
+Do not jump to `retrieving-contacts` just because the search used `--has_email true`. That flag only indicates a search preference, not a verified retrieved contact.
 
 ## Decision Guidance
 
