@@ -101,4 +101,10 @@ Keep the write-up selective. Highlight decision-relevant evidence first instead 
 
 - If no `creator_id` is available, ask for one or return to `discovering-creators`.
 - If quota is insufficient, state which detail step could not be completed.
-- If a field is null or platform-specific, explain that the missing value may be normal for that platform instead of treating it as a data error.
+- If a field is null or platform-specific, explain that the missing value may be normal for that platform instead of treating it as a data error. See [Platform Support](../../references/platform-support.md) for details.
+
+## References
+
+- [CLI Response Format](../../references/cli-response-format.md) — unified JSON response structure and credit costs
+- [Error Codes](../../references/error-codes.md) — error code table and handling guidelines
+- [Platform Support](../../references/platform-support.md) — YouTube, TikTok, Instagram data availability differences

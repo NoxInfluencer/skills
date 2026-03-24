@@ -98,3 +98,9 @@ Do not use it for:
 - recommending campaign actions
 - explaining creator quality or audience quality
 - finding creators or retrieving contact details
+
+## References
+
+- [CLI Response Format](../../references/cli-response-format.md) — unified JSON response structure and credit costs
+- [Error Codes](../../references/error-codes.md) — error code table and handling guidelines
+- [Platform Support](../../references/platform-support.md) — YouTube, TikTok, Instagram data availability differences

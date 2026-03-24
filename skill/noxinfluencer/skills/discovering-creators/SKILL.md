@@ -132,3 +132,9 @@ This skill should optimize for shortlist quality, not search speed.
 - If authentication fails, direct the user to configure the API key with `noxinfluencer auth --key <key>`.
 - If quota is exhausted, state that the search cannot continue without more credits.
 - If the user does not have a `creator_id` for a follow-up command, search first and use an encrypted ID from the shortlist.
+
+## References
+
+- [CLI Response Format](../../references/cli-response-format.md) — unified JSON response structure and credit costs
+- [Error Codes](../../references/error-codes.md) — error code table and handling guidelines
+- [Platform Support](../../references/platform-support.md) — YouTube, TikTok, Instagram data availability differences

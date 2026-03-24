@@ -1,5 +1,9 @@
 {
   "name": "noxinfluencer",
+  "version": "0.1.0",
+  "author": {
+    "name": "NoxInfluencer"
+  },
   "description": "NoxInfluencer agent skills for creator discovery, analysis, contact retrieval, account management, and video monitoring.",
-  "skills": ["skills"]
+  "skills": "./skills/"
 }

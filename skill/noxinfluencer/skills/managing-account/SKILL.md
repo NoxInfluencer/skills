@@ -28,7 +28,7 @@ Use:
 noxinfluencer auth --key <key>
 ```
 
-If a custom server URL is needed, use:
+If a custom server URL is needed (legacy, rarely used):
 
 ```bash
 noxinfluencer auth --key <key> --server http://host:port
@@ -64,3 +64,8 @@ Keep this skill operational and lightweight. Do not expand into long troubleshoo
 - If the key is missing, tell the user to run the auth command first.
 - If the quota response is unsuccessful, surface the returned error and keep the explanation short.
 - If the user is actually blocked by creator workflow failures rather than auth/quota setup, route them back to the relevant business skill instead of over-handling the problem here.
+
+## References
+
+- [CLI Response Format](../../references/cli-response-format.md) — unified JSON response structure and credit costs
+- [Error Codes](../../references/error-codes.md) — error code table and handling guidelines

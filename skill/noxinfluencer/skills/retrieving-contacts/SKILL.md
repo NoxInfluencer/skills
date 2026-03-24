@@ -65,3 +65,8 @@ If the email is null or the quality is `0`, clearly say that no reliable email i
 - If the user is still comparing multiple creators, ask them to choose one creator first instead of retrieving contacts for several by default.
 - If quota is insufficient, state that contact retrieval cannot continue.
 - If the command fails, return the contact retrieval error without inventing extra outreach advice.
+
+## References
+
+- [CLI Response Format](../../references/cli-response-format.md) — unified JSON response structure and credit costs
+- [Error Codes](../../references/error-codes.md) — error code table and handling guidelines
