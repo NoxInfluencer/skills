@@ -1,0 +1,65 @@
+{
+  "skill_name": "discovering-creators",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I need to find cycling influencers for our new product CYPLORE - it's an ebike conversion kit for premium road and gravel bikes. We're launching on Kickstarter on April 21st. Budget is around $3,000 for 5 KOLs. Target markets are US and UK. We need creators with at least 30k followers on both YouTube and Instagram. The product's key selling point is that it's an invisible e-power upgrade - ultra-light, fully modular, aerodynamically integrated. We want cycling-focused influencers, especially road & gravel oriented ones. Here are some reference videos for the style we like: https://youtu.be/w8fcBYgzDzo and https://www.youtube.com/watch?v=cWApdkb6ZHg",
+      "expected_output": "Should execute creator search on both YouTube and Instagram with cycling keywords, follower_min 30000, country US/UK. Present a shortlist of 3-5 cycling creators per platform in a comparable format. Suggest next steps (analyze top candidates, then outreach).",
+      "files": [],
+      "expectations": [
+        "Executes noxinfluencer creator search with --platform youtube",
+        "Executes noxinfluencer creator search with --platform instagram",
+        "Uses --follower_min 30000 or similar threshold",
+        "Uses --country filter including US and/or UK",
+        "Keywords include cycling-related terms (cycling, road bike, gravel, ebike)",
+        "Output is a visible shortlist format, not raw JSON",
+        "Suggests analyzing or contacting top candidates as next step"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "We have a new ebike conversion kit and need some influencers to promote it. Budget is about 3k USD. Can you help find some good ones?",
+      "expected_output": "Should NOT search immediately. Should ask clarifying questions about platform (YouTube/TikTok/Instagram), target region/country, follower size requirements, and niche focus before running any search.",
+      "files": [],
+      "expectations": [
+        "Asks about which platform(s) to search on",
+        "Asks about target region or audience geography",
+        "Does NOT execute noxinfluencer creator search before getting clarification",
+        "Asks about follower range or creator size preference"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "我要推一个公路车电助力套件，帮我找几个骑行类的博主，主要投美国和英国市场，预算不多大概三千刀，粉丝至少3万吧，YouTube和IG都要看看",
+      "expected_output": "Should extract parameters from casual Chinese: platform=youtube+instagram, keywords=cycling/road bike, country=US+UK, follower_min=30000. Should search without excessive clarification since key parameters are all provided.",
+      "files": [],
+      "expectations": [
+        "Correctly infers YouTube and Instagram as target platforms",
+        "Extracts follower minimum around 30000",
+        "Extracts US and UK as target countries",
+        "Uses cycling-related keywords in the search"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "The creators from the last search are too mountain-bike focused. I need people who are more into road cycling and gravel riding specifically. Can you refine the search? Also maybe try adding keywords like 'gravel bike review' or 'road cycling'.",
+      "expected_output": "Should adjust keywords to be more road/gravel specific without starting the entire clarification flow over. Should run a refined search with updated keywords while keeping other filters (platform, country, follower_min) from context.",
+      "files": [],
+      "expectations": [
+        "Adjusts search keywords toward road/gravel cycling",
+        "Does not re-ask for platform, country, or follower range that was already established",
+        "Executes a new creator search with refined parameters"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "帮我深入分析一下 Joel Bruner 这个达人靠不靠谱，他的粉丝质量怎么样？有没有争议记录？值不值得花钱合作？",
+      "expected_output": "Should recognize this is a deep due-diligence request that belongs to analyzing-creator, not discovering-creators. Should recommend using the analyzing-creator skill or hand off, NOT try to answer with overview commands.",
+      "files": [],
+      "expectations": [
+        "Recommends or hands off to analyzing-creator skill",
+        "Does not attempt to answer the due-diligence question using only overview commands like creator profile or creator audience"
+      ]
+    }
+  ]
+}
