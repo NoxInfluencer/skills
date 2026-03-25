@@ -64,9 +64,21 @@ Each result includes:
 | `avg_views` | Average view count |
 | `language` | Content language |
 
+## Advanced: Body File Input
+
+For complex or repeated searches, pass the full search body as JSON from a file or stdin:
+
+```bash
+noxinfluencer creator search --platform youtube --body-file search_params.json
+cat search_params.json | noxinfluencer creator search --platform youtube --body-file -
+```
+
+This is useful when filter sets are long or when scripting batch searches.
+
 ## Notes
 
 - The `id` returned is an encrypted token. Use it directly as the positional `<creator_id>` argument in subsequent commands (e.g., `creator profile <id>`).
 - `--has_email true` filters for creators with known email, but does not retrieve the email. Use `retrieving-contacts` to get actual contact details.
 - Array parameters use bracket notation: `--country [US,DE,JP]`.
 - Credit cost for search is dynamic: 1 credit per result returned.
+- Use `noxinfluencer schema creator search` to see the machine-readable parameter schema.

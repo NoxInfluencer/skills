@@ -22,16 +22,14 @@ Do not use this skill for pricing interpretation, creator-specific quota reasoni
 
 ### Configure API key
 
-Use:
-
 ```bash
 noxinfluencer auth --key <key>
 ```
 
-If a custom server URL is needed (legacy, rarely used):
+For piped/automated setups, read the key from stdin:
 
 ```bash
-noxinfluencer auth --key <key> --server http://host:port
+echo "nox_xxx" | noxinfluencer auth --key-stdin
 ```
 
 ### Check quota
@@ -40,13 +38,24 @@ noxinfluencer auth --key <key> --server http://host:port
 noxinfluencer quota
 ```
 
+### Diagnose connectivity issues
+
+When auth or quota commands fail unexpectedly, run the health check first:
+
+```bash
+noxinfluencer doctor
+```
+
+This checks config file, API key, environment, server reachability, and auth validity in one shot.
+
 ### Global options
 
 All commands support these flags:
 
-- `--json` — JSON output (default)
-- `--plain` — plain text / TSV output
-- `--verbose` — request details to stderr
+- `--json` / `-j` — JSON output (default)
+- `--plain` / `-p` — plain text / TSV output
+- `--verbose` / `-v` — request details to stderr
+- `--trace-json` — structured trace to stderr (for debugging)
 - `--env <env>` — override environment (online/pre/test/dev)
 
 ## Output Rules
@@ -69,6 +78,7 @@ Keep this skill operational and lightweight. Do not expand into long troubleshoo
 
 - If the CLI is not available, point the user to the local setup instructions.
 - If the key is missing, tell the user to run the auth command first.
+- If auth or quota fails unexpectedly, suggest running `noxinfluencer doctor` to diagnose the issue before manual troubleshooting.
 - If the quota response is unsuccessful, surface the returned error and keep the explanation short.
 - If the user is actually blocked by creator workflow failures rather than auth/quota setup, route them back to the relevant business skill instead of over-handling the problem here.
 

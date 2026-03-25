@@ -26,6 +26,7 @@ noxinfluencer monitor create --project_name <name> --force
 |-----------|------|----------|-------------|
 | `--project_name` | string | yes | Name for the new monitoring project |
 | `--force` | flag | yes* | Execute the mutation (without it, dry-run only) |
+| `--body-file` | path | no | Read body from file or stdin (`-`) |
 
 **Write operation**: defaults to dry-run. Must include `--force` to actually create.
 
@@ -43,6 +44,7 @@ noxinfluencer monitor add-task --project_id <id> --video_url <url> [--monitor_da
 | `--video_url` | string | yes | — | YouTube, TikTok, or Instagram video URL |
 | `--monitor_days` | number | no | 30 | Monitoring duration: `30`, `60`, or `180` only |
 | `--force` | flag | yes* | — | Execute the mutation (without it, dry-run only) |
+| `--body-file` | path | no | — | Read body from file or stdin (`-`) |
 
 **Write operation**: defaults to dry-run. Must include `--force` to actually add.
 
