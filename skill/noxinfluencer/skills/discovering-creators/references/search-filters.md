@@ -1,84 +1,27 @@
-# Search Filters Reference
+# Search Filter Semantics
 
-Complete list of filter parameters for the `creator search` command (CLI v0.2.0+).
+For the full parameter list and syntax, run `noxinfluencer schema creator search`.
 
-## Usage
+This reference covers **when to use which filters** — the decision logic, not the syntax.
 
-```bash
-noxinfluencer creator search --platform <platform> --keywords [keyword1,keyword2] [filters...]
-```
+## Filter Priority by User Intent
 
-## Required
-
-| Parameter | Values | Description |
-|-----------|--------|-------------|
-| `--platform` | `youtube`, `tiktok`, `instagram` | Target platform |
-
-## Optional Filters
-
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `--keywords` | array | Niche or topic keywords, comma-separated |
-| `--country` | array | Creator country codes, e.g. `[US,DE]` |
-| `--follower_min` | number | Minimum follower count |
-| `--follower_max` | number | Maximum follower count |
-| `--has_email` | boolean | Only return creators with known email |
-| `--language` | array | Creator content language codes |
-| `--gender` | string | Creator gender filter |
-| `--engagement_rate_min` | number | Minimum engagement rate |
-| `--engagement_rate_max` | number | Maximum engagement rate |
-| `--avg_view_min` | number | Minimum average views |
-| `--avg_view_max` | number | Maximum average views |
-| `--est_exposure_min` | number | Minimum estimated exposure |
-| `--est_exposure_max` | number | Maximum estimated exposure |
-| `--view_per_followers_min` | number | Minimum views-per-follower ratio |
-| `--view_per_followers_max` | number | Maximum views-per-follower ratio |
-| `--published_within_days` | number | Only creators who published within N days |
-| `--follower_countries` | array | Audience country distribution filter |
-| `--follower_ages` | array | Audience age distribution filter |
-| `--follower_female_pct_min` | number | Minimum female audience percentage |
-| `--follower_language` | array | Audience language distribution filter |
-
-## Pagination
-
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `--page_size` | number | 20 | Results per page |
-| `--page_num` | number | 1 | Page number |
-| `--search_after` | string | — | Deep pagination cursor from previous results |
+| User intent | Key filters to apply | Why |
+|-------------|---------------------|-----|
+| Niche sourcing | `--keywords`, `--platform` | Narrow to relevant content creators |
+| Regional targeting | `--country`, `--follower_countries` | Match campaign geography |
+| Budget-constrained | `--follower_min`, `--follower_max` | Size correlates with cost |
+| Outreach-ready | `--has_email true` | Only creators with known email (does NOT retrieve the email — use `retrieving-contacts` for that) |
+| Audience fit | `--follower_ages`, `--follower_female_pct_min`, `--follower_language` | Match audience demographics |
+| Active creators | `--published_within_days` | Exclude dormant channels |
+| Performance floor | `--engagement_rate_min`, `--avg_view_min` | Filter out low-engagement creators |
 
 ## Search Result Fields
 
-Each result includes:
+Each result includes: `id` (encrypted token), `nickname`, `tags`, `followers`, `country`, `total_videos`, `view_per_followers`, `engagement_rate`, `avg_views`, `language`.
 
-| Field | Description |
-|-------|-------------|
-| `id` | Encrypted creator ID (use for all subsequent commands) |
-| `nickname` | Creator display name |
-| `tags` | Content tags |
-| `followers` | Follower count |
-| `country` | Creator country |
-| `total_videos` | Total video count |
-| `view_per_followers` | Views-per-follower ratio |
-| `engagement_rate` | Engagement rate |
-| `avg_views` | Average view count |
-| `language` | Content language |
+The `id` is an encrypted token — use it directly as the positional `<creator_id>` argument in subsequent commands. Do not try to decode it.
 
-## Advanced: Body File Input
+## Cost
 
-For complex or repeated searches, pass the full search body as JSON from a file or stdin:
-
-```bash
-noxinfluencer creator search --platform youtube --body-file search_params.json
-cat search_params.json | noxinfluencer creator search --platform youtube --body-file -
-```
-
-This is useful when filter sets are long or when scripting batch searches.
-
-## Notes
-
-- The `id` returned is an encrypted token. Use it directly as the positional `<creator_id>` argument in subsequent commands (e.g., `creator profile <id>`).
-- `--has_email true` filters for creators with known email, but does not retrieve the email. Use `retrieving-contacts` to get actual contact details.
-- Array parameters use bracket notation: `--country [US,DE,JP]`.
-- Credit cost for search is dynamic: 1 credit per result returned.
-- Use `noxinfluencer schema creator search` to see the machine-readable parameter schema.
+Search cost is dynamic: 1 credit per result returned. A search returning 20 results costs 20 credits.

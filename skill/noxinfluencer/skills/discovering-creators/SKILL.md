@@ -5,136 +5,65 @@ description: Searches for creators and influencers matching specified criteria a
 
 # Discovering Creators
 
-Use this skill to turn an open-ended creator search into a usable shortlist. The goal is not to run search immediately. The goal is to narrow the request enough that the final result is a visible candidate list worth reviewing.
+Turn an open-ended creator search into a usable shortlist. The goal is not to run search immediately — it's to narrow the request enough that the result is worth reviewing.
 
 ## When to Use
 
-Use this skill when the user:
+- User wants to find creators, influencers, or KOLs
+- User has a broad sourcing request and needs candidate discovery
+- User wants a shortlist before deciding who to analyze
 
-- wants to find creators, influencers, or KOLs
-- has a broad sourcing request and needs candidate discovery
-- wants a shortlist before deciding who to analyze
-- asks for overview-level creator, audience, cooperation, or content data during the sourcing phase
+Do not use for deep risk review or cooperation judgment. Hand off to `analyzing-creator` when the user wants a decision on reliability or fit.
 
-Do not use this skill for deep risk review or final cooperation judgment. Hand off to `analyzing-creator` when the user wants a decision on whether a creator is reliable or worth pursuing.
+## Clarification Strategy
 
-## Workflow
+Do not search immediately if the request is too broad. Ask for 2-3 critical filters at a time:
 
-1. Check whether the request is underspecified.
-2. If it is underspecified, ask for the 2-3 most decision-critical filters first.
-3. Prefer clarifying platform, niche, geography, creator size, and contact requirements before searching.
-4. Run `creator search` only when the request is specific enough to produce a meaningful shortlist.
-5. Keep the discovery pass shortlist-oriented. Do not drift into deep due diligence during sourcing.
-6. If the user wants more detail on a candidate, use the relevant overview command or suggest moving to `analyzing-creator`.
+1. **Platform** — YouTube, TikTok, or Instagram?
+2. **Niche / keywords** — what content area?
+3. **Region** — which countries or markets?
+4. **Creator size** — follower range?
+5. **Contactability** — does email availability matter?
 
-## Clarification Rules
+Stop asking once the request is specific enough to produce a useful shortlist. If the user provided most of these upfront, search directly.
 
-Do not search immediately if the request is too broad.
+## Search Execution
 
-When clarification is needed:
+Use `noxinfluencer schema creator search` to discover available filter parameters. Key decisions:
 
-- ask short, direct questions
-- ask for 2-3 critical filters at a time instead of building a long questionnaire
-- prioritize platform, niche, region, creator size, and whether contactability matters
-- stop asking once the search is specific enough to produce a useful shortlist
+- Multi-platform requests (e.g., "YouTube and IG") require separate searches per platform
+- Add `--has_email true` when the user's intent is commercial outreach
+- Start with one search, refine if results are too noisy or too broad
 
-Reasonable filter priorities:
+See [search-filters.md](references/search-filters.md) for filter selection semantics by user intent.
 
-- platform
-- niche or keywords
-- region or country
-- creator size or follower band
-- whether contact info is required
-- audience preference or budget sensitivity if the user already sounds commercially focused
+## Shortlist Presentation
 
-## Command Mapping
+Present results as a visible, comparable shortlist — not a raw JSON dump.
 
-### Primary search command
+For each candidate, show: nickname, platform, followers, engagement rate, average views, country, top tags.
 
-```bash
-noxinfluencer creator search --platform <platform> --keywords [keyword1,keyword2]
-```
-
-Add filters only when the user asked for them or they are necessary to avoid a noisy result set. See [search-filters.md](references/search-filters.md) for the full list of available filter parameters.
-
-### Overview follow-up commands
-
-Use these only when the user is still in discovery mode and wants a little more context on a shortlist candidate. Note: `creator_id` is a positional argument, not a flag.
-
-```bash
-noxinfluencer creator profile <creator_id>
-noxinfluencer creator audience <creator_id>
-noxinfluencer creator cooperation <creator_id>
-noxinfluencer creator content <creator_id>
-```
-
-## Output Rules
-
-The default output should be a shortlist, not a raw dump.
-
-For each candidate, prioritize a balanced view:
-
-- nickname
-- platform
-- followers
-- engagement rate
-- average views
-- country
-- top tags or niche signal
-- whether contactability was explicitly filtered in the search request
-
-The response should also include:
-
-- why these candidates match the request
-- what filters were applied
-- credits used and remaining
-- a clear next-step suggestion: refine the shortlist, analyze a candidate, or move to outreach later
-
-When presenting a shortlist:
-
-- show a visible list of candidates, not a raw JSON paraphrase
-- keep the shortlist focused, usually 3-5 candidates first
-- make each row easy to compare at a glance
-- state if the search was filtered with `--has_email true`, but do not imply that a verified email was already retrieved
-- do not expand into full due-diligence commentary for every candidate
-- if the result set is noisy or too broad, say so and ask for one more narrowing filter instead of pretending the shortlist is strong
-
-If the user asked for many results, do not expand all items equally. Present a visible shortlist first, then mention that more results are available.
-
-If the user asks for a little more context on one shortlisted creator, use at most 1-2 overview follow-up commands before recommending `analyzing-creator` for deeper review.
+Rules:
+- Keep shortlist focused: 3-5 candidates first
+- Make rows easy to compare at a glance
+- If results are noisy, say so and ask for one more narrowing filter
+- State if `--has_email true` was used, but do not imply email was already retrieved
+- Do not expand into full due-diligence commentary per candidate
+- Include: why candidates match, filters applied, credits used, next-step suggestion
 
 ## Handoff Rules
 
-Use `analyzing-creator` next when:
+→ `analyzing-creator`: user wants to know if a specific creator is reliable, asks about disputes/pricing/audience quality
+→ `retrieving-contacts`: user already chose a creator and wants email/contact details
 
-- the user wants to know whether one specific creator is reliable
-- the user asks about disputes, pricing reasonableness, audience quality, or deep due diligence
-- the user starts comparing shortlist candidates on trust, risk, or cooperation quality rather than discovery fit
+Do not jump to contacts just because `--has_email true` was used in search — that's a filter preference, not a retrieved contact.
 
-Use `retrieving-contacts` next when:
+## Error Handling
 
-- the user already chose a creator and wants contact information
-- the user explicitly asks for email or contact details
-
-Do not jump to `retrieving-contacts` just because the search used `--has_email true`. That flag only indicates a search preference, not a verified retrieved contact.
-
-## Decision Guidance
-
-This skill should optimize for shortlist quality, not search speed.
-
-- A narrower shortlist is better than a broad noisy result set.
-- If the user is clearly sourcing for outreach, contactability matters.
-- If the user is clearly sourcing for fit, niche and audience signals matter more.
-- If the user is clearly sourcing for scale, size and average performance matter more.
-
-## Errors and Fallbacks
-
-- If authentication fails, direct the user to configure the API key with `noxinfluencer auth --key <key>`.
-- If quota is exhausted, state that the search cannot continue without more credits.
-- If the user does not have a `creator_id` for a follow-up command, search first and use an encrypted ID from the shortlist.
+If an operation fails, the CLI response's `action` field contains the next step (URL and hint). Use it directly — do not infer error handling from memory.
 
 ## References
 
-- [CLI Response Format](../../references/cli-response-format.md) — unified JSON response structure and credit costs
-- [Error Codes](../../references/error-codes.md) — error code table and handling guidelines
-- [Platform Support](../../references/platform-support.md) — YouTube, TikTok, Instagram data availability differences
+- [Search Filter Semantics](references/search-filters.md) — when to use which filters
+- [Platform Support](../../references/platform-support.md) — data availability differences by platform
+- [CLI Response Format](../../references/cli-response-format.md) — response structure and credit costs

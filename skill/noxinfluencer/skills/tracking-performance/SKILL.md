@@ -5,113 +5,62 @@ description: Manages video monitoring projects, adds videos for tracking, and re
 
 # Tracking Performance
 
-Use this skill for operational video-monitoring management. It manages projects and monitored videos, but does not judge performance quality.
+Manage video monitoring projects and tracked videos. This skill is operational — it manages monitoring, not performance judgment.
 
 ## When to Use
 
-Use this skill when the user:
+- User wants to list, create, or manage monitoring projects
+- User wants to add a video to a project
+- User wants project summaries or task snapshots
 
-- wants to list monitoring projects
-- wants to create a monitoring project
-- wants to add a video into a project
-- wants to inspect a project summary or task snapshot
-
-Do not use this skill for creator sourcing, creator due diligence, contact retrieval, or marketing performance judgment.
+Do not use for creator sourcing, due diligence, contact retrieval, or marketing performance judgment.
 
 ## Workflow
 
 1. List projects first when the target project is unclear.
-2. Create a project when the user wants a new one.
-3. If the user asks to create a project and monitor a video in one request, create the project first and add the task immediately after.
-4. To add a video into an existing project, require a `project_id`.
-5. For project overview, use `monitor summary` first.
-6. For specific monitored videos, use `monitor tasks`.
-7. Keep the workflow operational. Do not drift into performance analysis.
+2. Create a project when user wants a new one.
+3. If user wants to create a project AND monitor a video in one request, create first then add task.
+4. For project overview, use summary first; for specific videos, use task list.
+5. Keep it operational. Do not drift into performance analysis.
 
-## Command Mapping
-
-See [command-reference.md](references/command-reference.md) for the full command syntax and parameter details.
-
-Core commands:
-
-- `noxinfluencer monitor list` — List projects
-- `noxinfluencer monitor create --project_name <name> --force` — Create project
-- `noxinfluencer monitor add-task --project_id <id> --video_url <url> --force` — Add video
-- `noxinfluencer monitor tasks --project_id <id>` — List tasks
-- `noxinfluencer monitor summary --project_id <id>` — Project summary
-
-### Mutation guard (important)
-
-`monitor create` and `monitor add-task` are write operations. The CLI defaults to **dry-run** mode for safety:
-
-- Without `--force`: previews the request but does not execute
-- With `--force`: executes the mutation
-- With `--no-input` (agent mode) without `--force`: aborts with error
-
-Always include `--force` when the user has confirmed they want to proceed.
-
-### `monitor_days` rules
-
-- allowed values: `30`, `60`, `180`
-- default: `30`
-- if the user asks for another value, ask them to choose one of the supported values
+Use `noxinfluencer schema monitor <subcommand>` for parameter details. Write operations (create, add-task) default to dry-run for safety — use `--force` to execute.
 
 ## Project Identification Rules
 
-- Always prefer `project_id` over `project_name` after the first lookup.
+- Prefer `project_id` over `project_name` after the first lookup.
 - Project names may repeat. Never choose a duplicated name automatically.
-- If several projects share a name, show only the fields needed for disambiguation:
-  - `project_id`
-  - project name
-  - created time
-  - platforms
-  - monitor count
-- If the user wants to add a video but no project is fixed yet, ask whether to create a new project or add to an existing one.
-- Once the user has selected a project in the current conversation, keep using that same `project_id` until they switch projects.
+- If names collide, show only disambiguation fields: project_id, name, created time, platforms, monitor count.
+- If no project is fixed yet, ask whether to create new or add to existing.
+- Once a project is selected in conversation, keep using that `project_id` until user switches.
 
 ## Output Rules
 
-Keep responses operational and concise.
+Keep responses operational and concise:
+- Project lists: name, project_id, platforms, monitor count
+- Summaries: monitor count, total views/likes/comments, avg engagement, platform breakdown
+- Task lists: creator name, video title, views, engagement rate, status
+- Do not turn outputs into performance verdicts
+- For long task lists, show a concise subset first and mention pagination
 
-- Project lists: prioritize project name, `project_id`, platforms, and monitor count.
-- Project summary: prioritize monitor count, total views, total likes, total comments, average engagement rate, and platform breakdown.
-- Task lists: prioritize creator name, video title, current views, engagement rate, and status.
-- Do not turn these outputs into a performance verdict.
-- If a task list is long, show a concise visible subset first and mention pagination.
+## Status Interpretation
 
-## Status Rules
-
-The API returns task status as English description. Use it directly:
-- `loading`
-- `monitoring`
-- `completed`
-- `video restricted`
-- `invalid link`
-
-## Error Handling
-
-- If the API returns `DUPLICATE_DATA`, tell the user that the same video is already being monitored in that project.
-- If a dry-run preview is returned instead of actual execution, remind the user that write operations require `--force`.
-- If authentication fails, route the user to `managing-account`.
-- If quota or permission errors block the operation, surface the returned error clearly and keep the explanation short.
-- If the link is invalid or the task status comes back as `invalid link`, tell the user that the provided video link could not be accepted for monitoring.
-- If the user first asks for a project overview, use `monitor summary` before listing tasks.
-- If the user then asks about a specific monitored video, use `monitor tasks` with a keyword when possible.
-- If the user provides multiple video URLs, handle them as separate add operations.
+| Status | Meaning |
+|--------|---------|
+| `loading` | Initializing |
+| `monitoring` | Actively collecting data |
+| `completed` | Monitoring period ended |
+| `video restricted` | Video unavailable |
+| `invalid link` | URL could not be resolved |
 
 ## Boundaries
 
-This skill is for monitoring management only.
+Do not use for: deciding if performance is strong/weak, recommending campaign actions, explaining creator or audience quality, finding creators or retrieving contacts.
 
-Do not use it for:
+## Error Handling
 
-- deciding whether performance is strong or weak
-- recommending campaign actions
-- explaining creator quality or audience quality
-- finding creators or retrieving contact details
+If an operation fails, use the CLI response's `action` field for next steps. For `DUPLICATE_DATA`, tell user the video is already being monitored in that project.
 
 ## References
 
-- [CLI Response Format](../../references/cli-response-format.md) — unified JSON response structure and credit costs
-- [Error Codes](../../references/error-codes.md) — error code table and handling guidelines
-- [Platform Support](../../references/platform-support.md) — YouTube, TikTok, Instagram data availability differences
+- [CLI Response Format](../../references/cli-response-format.md) — response structure and credit costs
+- [Platform Support](../../references/platform-support.md) — data availability differences by platform

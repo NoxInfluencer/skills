@@ -30,7 +30,6 @@ managing-account (as needed for auth/quota issues)
 | Reference | Content |
 |-----------|---------|
 | [cli-response-format.md](references/cli-response-format.md) | Unified JSON response structure and credit costs |
-| [error-codes.md](references/error-codes.md) | Error codes, HTTP status, and handling guidelines |
 | [platform-support.md](references/platform-support.md) | YouTube, TikTok, Instagram data availability differences |
 
 ## Development

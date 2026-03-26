@@ -38,7 +38,7 @@ All `noxinfluencer` CLI commands return a unified JSON response structure.
 | `success` | boolean | Whether the request succeeded |
 | `data` | object/null | Endpoint-specific payload; `null` on error |
 | `summary` | string | Human-readable summary of the result |
-| `error_code` | string/null | Error identifier; `null` on success. See [error-codes.md](error-codes.md) |
+| `error_code` | string/null | Error identifier; `null` on success |
 | `credits` | object/null | Credit usage info; `null` on auth errors |
 | `credits.used` | number | Credits consumed by this request |
 | `credits.remaining` | number | Credits remaining in the current period |

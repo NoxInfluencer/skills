@@ -79,6 +79,19 @@ Every SKILL.md should include:
 5. **Error Handling** — how to handle common failures
 6. **Handoff Rules** — when to delegate to other skills (if applicable)
 
+### CLI Self-Description First
+
+The NoxInfluencer CLI is self-describing. Skills should leverage it instead of duplicating:
+
+- **Parameters**: Use `noxinfluencer schema <cmd>` at runtime. Do not maintain parameter tables in Skills.
+- **Error handling**: CLI responses include an `action` field with URL and hint. Do not maintain error-code-to-action mappings in Skills.
+- **Diagnostics**: Use `noxinfluencer doctor` for setup issues. Do not re-implement health checks in Skills.
+- **Language routing**: CLI `--lang` option handles URL domain switching (cn vs www). Skills do not need URL tables.
+
+Skills should contain **decision logic** (when to use which command, how to interpret results, when to hand off) — not command documentation.
+
+See [ARCHITECTURE.md](ARCHITECTURE.md) for the full responsibility division framework.
+
 ### Writing Style
 
 - Be concise. Avoid generic filler.
