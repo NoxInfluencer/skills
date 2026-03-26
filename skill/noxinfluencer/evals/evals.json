@@ -1,64 +1,129 @@
 {
-  "skill_name": "discovering-creators",
+  "skill_name": "noxinfluencer-all",
   "evals": [
     {
       "id": 1,
-      "prompt": "I need to find cycling influencers for our new product CYPLORE - it's an ebike conversion kit for premium road and gravel bikes. We're launching on Kickstarter on April 21st. Budget is around $3,000 for 5 KOLs. Target markets are US and UK. We need creators with at least 30k followers on both YouTube and Instagram. The product's key selling point is that it's an invisible e-power upgrade - ultra-light, fully modular, aerodynamically integrated. We want cycling-focused influencers, especially road & gravel oriented ones. Here are some reference videos for the style we like: https://youtu.be/w8fcBYgzDzo and https://www.youtube.com/watch?v=cWApdkb6ZHg",
-      "expected_output": "Should execute creator search on both YouTube and Instagram with cycling keywords, follower_min 30000, country US/UK. Present a shortlist of 3-5 cycling creators per platform in a comparable format. Suggest next steps (analyze top candidates, then outreach).",
+      "skill": "discovering-creators",
+      "prompt": "I need to find cycling influencers for our new product CYPLORE - it's an ebike conversion kit for premium road and gravel bikes. We're launching on Kickstarter on April 21st. Budget is around $3,000 for 5 KOLs. Target markets are US and UK. We need creators with at least 30k followers on both YouTube and Instagram. The product's key selling point is that it's an invisible e-power upgrade - ultra-light, fully modular, aerodynamically integrated. We want cycling-focused influencers, especially road & gravel oriented ones.",
+      "expected_output": "Search both YouTube and Instagram, produce a comparable shortlist, suggest analyzing top candidates next",
       "files": [],
       "expectations": [
-        "Executes noxinfluencer creator search with --platform youtube",
-        "Executes noxinfluencer creator search with --platform instagram",
-        "Uses --follower_min 30000 or similar threshold",
-        "Uses --country filter including US and/or UK",
-        "Keywords include cycling-related terms (cycling, road bike, gravel, ebike)",
-        "Output is a visible shortlist format, not raw JSON",
-        "Suggests analyzing or contacting top candidates as next step"
+        "Searches on both YouTube and Instagram (two separate searches)",
+        "Uses appropriate follower and country filters",
+        "Presents a visible shortlist (not raw JSON)",
+        "Suggests analyzing-creator as next step"
       ]
     },
     {
       "id": 2,
+      "skill": "discovering-creators",
       "prompt": "We have a new ebike conversion kit and need some influencers to promote it. Budget is about 3k USD. Can you help find some good ones?",
-      "expected_output": "Should NOT search immediately. Should ask clarifying questions about platform (YouTube/TikTok/Instagram), target region/country, follower size requirements, and niche focus before running any search.",
+      "expected_output": "Should ask clarifying questions before searching — request is underspecified",
       "files": [],
       "expectations": [
-        "Asks about which platform(s) to search on",
-        "Asks about target region or audience geography",
-        "Does NOT execute noxinfluencer creator search before getting clarification",
-        "Asks about follower range or creator size preference"
+        "Asks about platform(s)",
+        "Asks about region or creator size",
+        "Does NOT execute a search before getting clarification"
       ]
     },
     {
       "id": 3,
+      "skill": "discovering-creators",
       "prompt": "我要推一个公路车电助力套件，帮我找几个骑行类的博主，主要投美国和英国市场，预算不多大概三千刀，粉丝至少3万吧，YouTube和IG都要看看",
-      "expected_output": "Should extract parameters from casual Chinese: platform=youtube+instagram, keywords=cycling/road bike, country=US+UK, follower_min=30000. Should search without excessive clarification since key parameters are all provided.",
+      "expected_output": "Extract parameters from casual Chinese and search directly — all key info is provided",
       "files": [],
       "expectations": [
-        "Correctly infers YouTube and Instagram as target platforms",
-        "Extracts follower minimum around 30000",
+        "Infers YouTube and Instagram as platforms",
+        "Extracts ~30k follower minimum",
         "Extracts US and UK as target countries",
-        "Uses cycling-related keywords in the search"
+        "Uses cycling-related keywords"
       ]
     },
     {
       "id": 4,
-      "prompt": "The creators from the last search are too mountain-bike focused. I need people who are more into road cycling and gravel riding specifically. Can you refine the search? Also maybe try adding keywords like 'gravel bike review' or 'road cycling'.",
-      "expected_output": "Should adjust keywords to be more road/gravel specific without starting the entire clarification flow over. Should run a refined search with updated keywords while keeping other filters (platform, country, follower_min) from context.",
+      "skill": "discovering-creators",
+      "prompt": "帮我深入分析一下 Joel Bruner 这个达人靠不靠谱，他的粉丝质量怎么样？有没有争议记录？值不值得花钱合作？",
+      "expected_output": "Hand off to analyzing-creator — this is due diligence, not discovery",
       "files": [],
       "expectations": [
-        "Adjusts search keywords toward road/gravel cycling",
-        "Does not re-ask for platform, country, or follower range that was already established",
-        "Executes a new creator search with refined parameters"
+        "Recommends or hands off to analyzing-creator",
+        "Does not attempt deep analysis itself"
       ]
     },
     {
       "id": 5,
-      "prompt": "帮我深入分析一下 Joel Bruner 这个达人靠不靠谱，他的粉丝质量怎么样？有没有争议记录？值不值得花钱合作？",
-      "expected_output": "Should recognize this is a deep due-diligence request that belongs to analyzing-creator, not discovering-creators. Should recommend using the analyzing-creator skill or hand off, NOT try to answer with overview commands.",
+      "skill": "analyzing-creator",
+      "prompt": "I've narrowed down to Joel Bruner (YouTube cycling creator). Can you do a full due diligence? I want to know if he's worth the investment — audience quality, any disputes, how his pricing compares to performance. His creator ID from the search is: kFUbmMsNLYXWT1baS5FSX9ZR--o0PTglBU3921yjjYYXLTQ69rB836o",
+      "expected_output": "Run profile/audience/content/cooperation detail, produce a verdict (one of the 4 levels), organize evidence by dimension",
       "files": [],
       "expectations": [
-        "Recommends or hands off to analyzing-creator skill",
-        "Does not attempt to answer the due-diligence question using only overview commands like creator profile or creator audience"
+        "Runs multiple detail commands (profile, audience, content, cooperation with --detail)",
+        "Leads with a clear verdict (one of the 4 framework levels)",
+        "Organizes evidence by dimension (data performance, audience quality, cooperation risk, commercial reasonableness)",
+        "Does not just dump raw numbers — interprets them"
+      ]
+    },
+    {
+      "id": 6,
+      "skill": "analyzing-creator",
+      "prompt": "我看了搜索结果里有个 Mobilant 频道，标签有 e-bike 和 road bike，粉丝3.8万。但我不确定他的受众是不是真的对公路车感兴趣，帮我查一下受众画像就好，不用做全套分析",
+      "expected_output": "Only check audience dimension (not full due diligence), present as scoped judgment not full verdict",
+      "files": [],
+      "expectations": [
+        "Only runs audience detail (not all 4 dimensions)",
+        "Presents result as scoped judgment, not a full 4-level verdict",
+        "Respects user's request to only check audience"
+      ]
+    },
+    {
+      "id": 7,
+      "skill": "retrieving-contacts",
+      "prompt": "OK I've decided to go with Joel Bruner. Can you get me his contact info so I can start outreach? His ID is kFUbmMsNLYXWT1baS5FSX9ZR--o0PTglBU3921yjjYYXLTQ69rB836o",
+      "expected_output": "Retrieve contacts, report email and quality level, do not add unsolicited outreach advice",
+      "files": [],
+      "expectations": [
+        "Runs contacts command for the given creator ID",
+        "Reports email address and quality interpretation",
+        "Does not add unsolicited outreach strategy or recommendations"
+      ]
+    },
+    {
+      "id": 8,
+      "skill": "tracking-performance",
+      "prompt": "We've started the collaboration with Joel Bruner. He just posted a video for us. I want to track its performance over the next 30 days. The video URL is https://www.youtube.com/watch?v=example123. Set up monitoring for me.",
+      "expected_output": "Create a project (or ask which project), add the video as a monitoring task",
+      "files": [],
+      "expectations": [
+        "Either creates a new monitoring project or asks which existing project to use",
+        "Adds the video URL as a monitoring task",
+        "Uses --force for write operations (not just dry-run)",
+        "Keeps response operational — does not make performance judgments"
+      ]
+    },
+    {
+      "id": 9,
+      "skill": "managing-account",
+      "prompt": "I just heard about NoxInfluencer Skills and want to try it for finding YouTube creators. How do I get started from scratch?",
+      "expected_output": "Guide through onboarding without exposing CLI commands to the user",
+      "files": [],
+      "expectations": [
+        "Does not expose raw CLI commands to the user",
+        "Runs doctor or checks setup status itself",
+        "Provides registration/dashboard URLs when needed",
+        "Suggests discovering-creators after setup is complete"
+      ]
+    },
+    {
+      "id": 10,
+      "skill": "managing-account",
+      "prompt": "搜索达人的时候报错说额度不够了，我该怎么续费？",
+      "expected_output": "Check quota silently, provide billing URL from CLI action field, do not explain error code technically",
+      "files": [],
+      "expectations": [
+        "Runs quota command itself (does not tell user to run it)",
+        "Provides billing URL (from CLI action field or skill knowledge)",
+        "Uses cn.noxinfluencer.com domain (user is speaking Chinese)",
+        "Does not explain INSUFFICIENT_CREDIT technically"
       ]
     }
   ]
