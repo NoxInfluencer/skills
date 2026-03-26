@@ -23,7 +23,7 @@ Do not use for first-pass sourcing. Use `discovering-creators` first when the us
 4. For content analysis in Chinese context, add `--language zh`.
 5. Return verdict first, then supporting evidence.
 
-Use `noxinfluencer schema creator <dimension>` to check available options for each command.
+Use `noxinfluencer schema creator.<dimension>` (e.g., `schema creator.profile`) to check available options for each command.
 
 ## Verdict Framework
 

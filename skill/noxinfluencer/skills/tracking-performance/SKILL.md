@@ -23,7 +23,7 @@ Do not use for creator sourcing, due diligence, contact retrieval, or marketing 
 4. For project overview, use summary first; for specific videos, use task list.
 5. Keep it operational. Do not drift into performance analysis.
 
-Use `noxinfluencer schema monitor <subcommand>` for parameter details. Write operations (create, add-task) default to dry-run for safety — use `--force` to execute.
+Use `noxinfluencer schema monitor.<subcommand>` (e.g., `schema monitor.create`) for parameter details. Write operations (create, add-task) default to dry-run for safety — use `--force` to execute.
 
 ## Project Identification Rules
 

@@ -29,7 +29,7 @@ Stop asking once the request is specific enough to produce a useful shortlist. I
 
 ## Search Execution
 
-Use `noxinfluencer schema creator search` to discover available filter parameters. Key decisions:
+Use `noxinfluencer schema creator.search` to discover available filter parameters. Key decisions:
 
 - Multi-platform requests (e.g., "YouTube and IG") require separate searches per platform
 - Add `--has_email true` when the user's intent is commercial outreach

@@ -1,6 +1,6 @@
 # Search Filter Semantics
 
-For the full parameter list and syntax, run `noxinfluencer schema creator search`.
+For the full parameter list and syntax, run `noxinfluencer schema creator.search`.
 
 This reference covers **when to use which filters** — the decision logic, not the syntax.
 

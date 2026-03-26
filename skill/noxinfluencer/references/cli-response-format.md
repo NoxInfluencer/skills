@@ -1,8 +1,8 @@
 # CLI Response Format
 
-All `noxinfluencer` CLI commands return a unified JSON response structure.
+## API Commands (creator, monitor, quota)
 
-## Success Response
+Commands that hit the API server return this envelope:
 
 ```json
 {
@@ -18,47 +18,38 @@ All `noxinfluencer` CLI commands return a unified JSON response structure.
 }
 ```
 
-## Error Response
+Error responses include an `action` field with next-step guidance:
 
 ```json
 {
   "success": false,
-  "data": null,
-  "summary": "API key is invalid or does not exist",
-  "error_code": "INVALID_API_KEY",
-  "credits": null,
-  "meta": { "request_id": "uuid", "latency_ms": 50 }
+  "error_code": "INSUFFICIENT_CREDIT",
+  "summary": "Insufficient credit quota",
+  "action": {
+    "type": "redirect",
+    "url": "https://www.noxinfluencer.com/skills/usage-billing",
+    "hint": "Subscribe or recharge to continue"
+  }
 }
 ```
 
-## Field Descriptions
+## Local Commands (different format)
 
-| Field | Type | Description |
-|-------|------|-------------|
-| `success` | boolean | Whether the request succeeded |
-| `data` | object/null | Endpoint-specific payload; `null` on error |
-| `summary` | string | Human-readable summary of the result |
-| `error_code` | string/null | Error identifier; `null` on success |
-| `credits` | object/null | Credit usage info; `null` on auth errors |
-| `credits.used` | number | Credits consumed by this request |
-| `credits.remaining` | number | Credits remaining in the current period |
-| `meta.request_id` | string | UUID for request tracing |
-| `meta.latency_ms` | number | Server-side processing time in milliseconds |
-| `meta.data_freshness` | string | ISO 8601 timestamp of when the upstream data was last refreshed |
+These commands have their own response structures — do not assume the API envelope:
+
+| Command | Response format |
+|---------|----------------|
+| `doctor` | `{ "checks": [...], "ok": boolean }` |
+| `auth` | `{ "success": boolean, "message": string }` |
+| `schema` | Command schema JSON (no envelope) |
 
 ## Credit Costs
 
 | Command | Cost |
 |---------|------|
 | `creator search` | 1 credit per result returned (dynamic) |
-| `creator profile <id>` | 1 |
-| `creator audience <id>` | 1 |
-| `creator cooperation <id>` | 1 |
-| `creator content <id>` | 1 |
-| `creator profile <id> --detail` | 1 |
-| `creator audience <id> --detail` | 1 |
-| `creator content <id> --detail` | 1 |
-| `creator cooperation <id> --detail` | 1 |
+| `creator profile/audience/cooperation/content <id>` | 1 each |
+| `creator *  <id> --detail` | 1 each |
 | `creator contacts <id>` | 1 |
 
 Video monitoring operations may have separate credit rules.
