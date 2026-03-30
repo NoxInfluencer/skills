@@ -1,37 +1,32 @@
 # NoxInfluencer Skills
 
-Agent skill assets for the NoxInfluencer workflow. These skills power creator discovery, analysis, outreach, and monitoring capabilities across YouTube, TikTok, and Instagram.
+Agent skill for influencer marketing — creator discovery, analysis, outreach, and monitoring across YouTube, TikTok, and Instagram.
 
-## Repository Structure
+## Structure
 
 ```
-skill/
-└── noxinfluencer/                 # NoxInfluencer skill plugin
-    ├── .claude-plugin/
-    │   └── plugin.json            # Plugin manifest
-    ├── README.md                  # Plugin overview
-    ├── SKILL_SPEC.md              # Skill development specification
-    ├── skills/                    # Individual skills
-    │   ├── discovering-creators/
-    │   ├── analyzing-creator/
-    │   ├── managing-account/
-    │   ├── retrieving-contacts/
-    │   └── tracking-performance/
-    ├── references/                # Shared reference docs
-    └── evals/                     # Evaluation assets
+skills/
+└── nox-influencer/
+    ├── SKILL.md               # Skill instructions
+    ├── references/            # Supporting docs
+    │   ├── cli-response-format.md
+    │   ├── platform-support.md
+    │   ├── search-filters.md
+    │   └── verdict-heuristics.md
+    └── evals/                 # Evaluation assets
+
+refs/                          # Development references
 ```
 
 ## Scope
 
 - This repository contains agent skill specifications only.
-- `server/`, `cli/`, and business docs are maintained in the private `kol_claw` repository.
+- CLI and server code are maintained in the private `kol_claw` repository.
 - Skills follow the Agent Skills Standard for cross-platform compatibility.
 
 ## Platform Support
 
-These skills are designed to work with multiple agent platforms:
-
-- Claude Code (plugin)
+- Claude Code
 - Anthropic Agent SDK
 - Anthropic Skills API
 - OpenClaw
@@ -39,4 +34,4 @@ These skills are designed to work with multiple agent platforms:
 
 ## Development
 
-Read `skill/noxinfluencer/SKILL_SPEC.md` before changing any skill. Keep skill behavior aligned with the CLI and Server contracts in the private project repository.
+See `refs/SKILL_SPEC.md` and `refs/ARCHITECTURE.md` for development guidelines.
