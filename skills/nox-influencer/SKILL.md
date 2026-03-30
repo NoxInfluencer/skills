@@ -39,7 +39,7 @@ The CLI is self-describing — use it instead of memorizing parameters:
 Run `noxinfluencer doctor` first to check the current state. Guide through only what's missing:
 
 1. **No CLI installed** → Tell user: "Run `npm install -g @noxinfluencer/cli` in your terminal." (the one step they must do themselves)
-2. **No API key** → Give registration and dashboard links (CLI's auth error `action` field provides these). Once they have a key, configure it yourself.
+2. **No API key** → Use `doctor` output and CLI hints to tell them they need an API key and point them to the dashboard or signup flow. Once they have a key, configure it yourself.
 3. **Everything configured** → Run `quota`, tell them their balance. New accounts come with free credits.
 
 ### Quota and Billing
@@ -204,11 +204,13 @@ Natural progression: discover → analyze → contact → monitor. But users can
 
 ## Error Handling
 
-When any operation fails, the CLI response includes an `action` field with:
+For API-backed failures (`quota`, `pricing`, `creator`, `monitor`), use the CLI response's `action` field when present:
 - `action.url` — where the user should go
 - `action.hint` — what to do
 
-Use this directly. Do not maintain a separate error-to-action mapping. For unexpected failures, run `doctor` as a first diagnostic step.
+Local commands (`auth`, `doctor`, `schema`) may not include `action`. Read their native output directly instead of assuming the API error envelope.
+
+For unexpected failures, run `doctor` as a first diagnostic step.
 
 ## References
 

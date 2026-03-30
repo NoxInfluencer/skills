@@ -14,7 +14,7 @@ Following Anthropic's eval-first development approach:
 
 ## Eval Query Design
 
-Each skill should have 3-5 eval queries covering:
+This skill should have 3-5 eval queries per major workflow category covering:
 
 - **Should-trigger**: Clear use cases that match the skill's description
 - **Should-not-trigger**: Near-miss queries that belong to a different skill
@@ -29,13 +29,7 @@ Negative examples must be **near-neighbor** queries — requests that sound simi
 ```
 evals/
 ├── README.md                     # This file
-├── discovering-creators/         # Per-skill eval cases
-│   ├── queries.json
-│   └── benchmark.json
-├── analyzing-creator/
-│   ├── queries.json
-│   └── benchmark.json
-└── ...
+└── evals.json                    # All eval cases for the single nox-influencer skill
 ```
 
 ## Status
