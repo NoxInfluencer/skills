@@ -1,54 +1,85 @@
 # NoxInfluencer Skills
 
-Agent skill for influencer marketing — creator discovery, analysis, outreach, and monitoring across YouTube, TikTok, and Instagram.
+Agent skill for influencer marketing: creator discovery, due-diligence analysis, contact retrieval, and video monitoring across YouTube, TikTok, and Instagram.
+
+Official website: [https://www.noxinfluencer.com/](https://www.noxinfluencer.com/)
 
 ## Structure
 
 ```
 skills/
+└── nox-influencer/            # Canonical skill source for ClawHub/OpenClaw/skills.sh
+    ├── SKILL.md
+    └── references/
+
+.claude-plugin/
+└── marketplace.json           # Claude Code marketplace wrapper
+
+plugins/
 └── nox-influencer/
-    ├── SKILL.md               # Skill instructions
-    ├── references/            # Supporting docs
-    │   ├── cli-response-format.md
-    │   ├── platform-support.md
-    │   ├── search-filters.md
-    │   └── verdict-heuristics.md
+    ├── .claude-plugin/
+    │   └── plugin.json        # Claude Code plugin manifest
+    └── skills/
+        └── nox-influencer -> ../../../skills/nox-influencer
 
 evals/
-└── nox-influencer/            # Evaluation assets and benchmark artifacts
+└── nox-influencer/            # Evaluation assets, not part of release artifact
 
-refs/                          # Development references
+refs/                          # Local development references, not part of release artifact
 ```
 
-## Scope
+## Canonical Source
 
-- This repository contains agent skill specifications only.
-- CLI and server code are maintained in the private `kol_claw` repository.
-- Published compatibility target is OpenClaw + ClawHub.
+- `skills/nox-influencer/` is the only skill source of truth.
+- ClawHub uploads use that directory directly.
+- OpenClaw loads that directory directly.
+- skills.sh discovers that directory directly.
+- Claude Code compatibility is added as a thin wrapper around the same files; it does not own a second copy of the skill.
 
-## Platform Support
+## Platform Matrix
 
-- OpenClaw
-- ClawHub
+| Platform | Packaging entry | Published identity |
+|----------|-----------------|--------------------|
+| ClawHub | `skills/nox-influencer/` | slug `noxinfluencer` |
+| OpenClaw | `skills/nox-influencer/` | skill `nox-influencer` |
+| skills.sh | repo root `skills/` tree | skill `nox-influencer` |
+| Claude Code Plugin Marketplace | repo root `.claude-plugin/marketplace.json` + `plugins/nox-influencer/` | marketplace `noxinfluencer`, plugin `nox-influencer` |
+
+Identity mapping:
+
+- skill name: `nox-influencer`
+- ClawHub slug: `noxinfluencer`
+- Claude marketplace name: `noxinfluencer`
+- Claude plugin name: `nox-influencer`
 
 ## Development
 
-See `refs/SKILL_SPEC.md` and `refs/ARCHITECTURE.md` for development guidelines.
+See `refs/SKILL_SPEC.md` and `refs/ARCHITECTURE.md` for local development guidance.
 
-## OpenClaw / ClawHub Release
+## Validation
 
-Use `skills/nox-influencer/` as the only release directory. It should contain only `SKILL.md` and bundled support files under `references/`.
-
-Pre-publish checks:
+Schema and CLI sanity checks:
 
 - `noxinfluencer schema creator.search`
 - `noxinfluencer schema 'creator search'`
 - `noxinfluencer auth --help`
+
+Discovery and runtime checks:
+
+- `npx -y skills add . --list`
+- `npx -y skills add . --list --agent openclaw`
+- `npx -y skills add . --list --agent claude-code`
 - `openclaw skills check`
+- `clawhub inspect noxinfluencer`
 
-Release notes:
+Claude marketplace checks:
 
-- Skill name in `SKILL.md` remains `nox-influencer`
-- ClawHub slug remains `noxinfluencer`
-- Official org releases should be done from the ClawHub web UI under `@noxinfluencer`
-- Do not use `clawhub publish` as the final organization release path because the CLI cannot choose an org publisher
+- `claude plugin validate .claude-plugin/marketplace.json`
+- `claude plugin validate plugins/nox-influencer`
+
+## Release Notes
+
+- Official ClawHub org releases should be published from the web UI under `@noxinfluencer`.
+- Continue uploading only `skills/nox-influencer/` to ClawHub; do not upload the repo root there.
+- Do not use `clawhub publish` as the final org release path because the CLI still cannot select an org publisher.
+- The Claude marketplace wrapper exists for Claude Code compatibility only; it is not the release source for ClawHub or OpenClaw.

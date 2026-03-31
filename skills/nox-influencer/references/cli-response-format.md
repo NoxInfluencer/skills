@@ -9,7 +9,13 @@ These commands return the standard API envelope:
 - `quota`
 - `pricing`
 
-Successful responses include `success`, `data`, `summary`, optional `credits`, and `meta`.
+Successful responses include `success`, `data`, `summary`, and `meta`. Some current endpoints may also include a legacy compatibility field named `credits`.
+
+Notes:
+
+- Treat `quota` response data as the canonical Skill quota snapshot
+- `pricing` returns membership plans, not per-action cost
+- Some current API envelopes may still include a legacy `credits` field for compatibility; do not treat it as the primary quota model
 
 Error responses include an `action` field with next-step guidance:
 
@@ -21,10 +27,12 @@ Error responses include an `action` field with next-step guidance:
   "action": {
     "type": "redirect",
     "url": "https://www.noxinfluencer.com/skills/usage-billing",
-    "hint": "Subscribe or recharge to continue"
+    "hint": "Open billing to renew or upgrade your available quota."
   }
 }
 ```
+
+The current server may still use legacy wording like `INSUFFICIENT_CREDIT` or `Insufficient credit quota`. Interpret that as "Skill quota is exhausted" for user communication.
 
 ## Local Commands (different format)
 

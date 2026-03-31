@@ -53,7 +53,7 @@ The CLI is self-describing — use it instead of memorizing parameters:
 | Get contact info | `noxinfluencer creator contacts <creator_id>` |
 | Check quota | `noxinfluencer quota` |
 | Check setup health | `noxinfluencer doctor` |
-| Check action pricing | `noxinfluencer pricing --action 'creator search'` |
+| Check membership plans | `noxinfluencer pricing` |
 | Inspect exact flags | `noxinfluencer schema <cmd>` |
 | List monitoring projects | `noxinfluencer monitor list` |
 | Create monitoring project | `noxinfluencer monitor create` |
@@ -71,11 +71,19 @@ Run `noxinfluencer doctor` first to check the current state. Guide through only 
 
 1. **No CLI installed** → Tell user: "Run `npm install -g @noxinfluencer/cli` in your terminal." (the one step they must do themselves)
 2. **No API key** → Use `doctor` output and CLI hints to tell them they need an API key and point them to the dashboard or signup flow. Once they have a key, configure it yourself. Prefer `noxinfluencer auth --key-stdin` so the key does not appear in argv, logs, or echoed output.
-3. **Everything configured** → Run `quota`, tell them their balance. New accounts come with free credits.
+3. **Everything configured** → Run `quota`, tell them the current Skill quota snapshot and any obvious blocking issues.
 
 ### Quota and Billing
 
-Run `quota` yourself, report the balance. If credits are low or exhausted, the error response's `action` field includes the billing URL. Pass it to the user.
+Run `quota` yourself and report the current Skill quota snapshot.
+
+Important:
+
+- Any API-backed skill call can consume the account's remaining Skill quota
+- The same call may also depend on underlying SaaS-side quota or entitlement for that capability
+- A request can therefore fail because Skill quota is exhausted, or because the underlying SaaS quota / permission is unavailable
+
+If quota is low or exhausted, the error response's `action` field includes the billing URL. Pass it to the user.
 
 ---
 
@@ -116,7 +124,7 @@ Rules:
 - Make rows easy to compare at a glance
 - If results are noisy, say so and ask for one more narrowing filter
 - State if `--has_email true` was used, but do not imply email was already retrieved
-- Include: why candidates match, filters applied, credits used, next-step suggestion
+- Include: why candidates match, filters applied, and the next-step suggestion
 
 ---
 

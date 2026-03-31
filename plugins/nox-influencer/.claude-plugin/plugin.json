@@ -1,0 +1,12 @@
+{
+  "name": "nox-influencer",
+  "version": "0.1.0",
+  "description": "NoxInfluencer skill plugin for creator discovery, due-diligence analysis, contact retrieval, and monitoring.",
+  "author": {
+    "name": "NoxInfluencer",
+    "url": "https://www.noxinfluencer.com/"
+  },
+  "homepage": "https://www.noxinfluencer.com/",
+  "repository": "https://github.com/NoxInfluencer/skills",
+  "license": "MIT-0"
+}
