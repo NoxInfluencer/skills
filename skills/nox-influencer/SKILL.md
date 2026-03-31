@@ -1,17 +1,7 @@
 ---
 name: nox-influencer
 description: Discovers creators, performs due-diligence analysis, retrieves contacts, manages account/quota, and tracks video campaigns across YouTube, TikTok, and Instagram via the NoxInfluencer CLI. Use when the user needs to find, evaluate, contact, or monitor creators for influencer marketing.
-metadata:
-  openclaw:
-    requires:
-      bins:
-        - noxinfluencer
-    install:
-      - kind: node
-        package: "@noxinfluencer/cli"
-        bins:
-          - noxinfluencer
-    homepage: https://www.noxinfluencer.com
+metadata: {"openclaw":{"requires":{"bins":["noxinfluencer"]},"install":[{"kind":"node","package":"@noxinfluencer/cli","bins":["noxinfluencer"]}],"homepage":"https://www.noxinfluencer.com"}}
 ---
 
 # NoxInfluencer
@@ -113,7 +103,7 @@ Use `noxinfluencer schema creator.search` to discover available filter parameter
 - Add `--has_email true` when the user's intent is commercial outreach
 - Start with one search, refine if results are too noisy
 
-See [search-filters.md](references/search-filters.md) for filter selection semantics by user intent.
+See `{baseDir}/references/search-filters.md` for filter selection semantics by user intent.
 
 ### Shortlist Presentation
 
@@ -139,7 +129,7 @@ Help the user decide whether a creator is worth pursuing. Lead with a verdict, n
 1. Confirm which creator to analyze (use `creator_id` from prior search or user input).
 2. If user asked about a specific concern, check that dimension first.
 3. If no specific concern, follow default order: profile → audience → content → cooperation (all with `--detail` flag).
-4. Platform-aware skip: TikTok and Instagram often have partial cooperation/pricing data. Skip `creator cooperation --detail` unless the user explicitly asks for pricing or brand-history signals, or the primary platform is YouTube. See [platform-support.md](references/platform-support.md).
+4. Platform-aware skip: TikTok and Instagram often have partial cooperation/pricing data. Skip `creator cooperation --detail` unless the user explicitly asks for pricing or brand-history signals, or the primary platform is YouTube. See `{baseDir}/references/platform-support.md`.
 5. For content analysis in Chinese context, add `--language zh`.
 6. Return verdict first, then supporting evidence.
 
@@ -154,7 +144,7 @@ Always lead with one of these four conclusions:
 3. **Needs manual review before proceeding** — mixed evidence or data incomplete
 4. **Not a priority collaboration candidate** — multiple weak signals
 
-See [verdict-heuristics.md](references/verdict-heuristics.md) for detailed heuristic rules and output structure.
+See `{baseDir}/references/verdict-heuristics.md` for detailed heuristic rules and output structure.
 
 ### Interpretation Rules
 
@@ -256,7 +246,7 @@ For unexpected failures, run `doctor` as a first diagnostic step.
 
 ## References
 
-- [CLI Response Format](references/cli-response-format.md) — response envelope differences and error action handling
-- [Platform Support](references/platform-support.md) — data availability by platform
-- [Search Filter Semantics](references/search-filters.md) — filter selection by user intent
-- [Verdict Heuristics](references/verdict-heuristics.md) — detailed due-diligence rules and output structure
+- `{baseDir}/references/cli-response-format.md` — response envelope differences and error action handling
+- `{baseDir}/references/platform-support.md` — data availability by platform
+- `{baseDir}/references/search-filters.md` — filter selection by user intent
+- `{baseDir}/references/verdict-heuristics.md` — detailed due-diligence rules and output structure
