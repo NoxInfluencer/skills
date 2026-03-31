@@ -1,10 +1,10 @@
 {
-  "skill_name": "nox-influencer",
+  "skill_name": "noxinfluencer",
   "evals": [
     {
       "id": 1,
       "category": "discovery",
-      "prompt": "I need to find cycling influencers for our new product CYPLORE - it's an ebike conversion kit for premium road and gravel bikes. We're launching on Kickstarter on April 21st. Budget is around $3,000 for 5 KOLs. Target markets are US and UK. We need creators with at least 30k followers on both YouTube and Instagram. The product's key selling point is that it's an invisible e-power upgrade - ultra-light, fully modular, aerodynamically integrated. We want cycling-focused influencers, especially road & gravel oriented ones.",
+      "prompt": "I need to find cycling influencers for our new product VELOMESH - it's an ebike conversion kit for premium road and gravel bikes. We're launching on Kickstarter on April 21st. Budget is around $3,000 for 5 KOLs. Target markets are US and UK. We need creators with at least 30k followers on both YouTube and Instagram. The product's key selling point is that it's an invisible e-power upgrade - ultra-light, fully modular, aerodynamically integrated. We want cycling-focused influencers, especially road & gravel oriented ones.",
       "expected_output": "Search both YouTube and Instagram, produce a comparable shortlist, suggest analyzing top candidates next",
       "files": [],
       "expectations": [
@@ -42,7 +42,7 @@
     {
       "id": 4,
       "category": "routing",
-      "prompt": "帮我深入分析一下 Joel Bruner 这个达人靠不靠谱，他的粉丝质量怎么样？有没有争议记录？值不值得花钱合作？",
+      "prompt": "帮我深入分析一下 Avery Cole 这个达人靠不靠谱，他的粉丝质量怎么样？有没有争议记录？值不值得花钱合作？",
       "expected_output": "Directly run analysis commands within the same skill — not search, not handoff to another skill",
       "files": [],
       "expectations": [
@@ -54,7 +54,7 @@
     {
       "id": 5,
       "category": "analysis",
-      "prompt": "I've narrowed down to Joel Bruner (YouTube cycling creator). Can you do a full due diligence? I want to know if he's worth the investment — audience quality, any disputes, how his pricing compares to performance. His creator ID from the search is: kFUbmMsNLYXWT1baS5FSX9ZR--o0PTglBU3921yjjYYXLTQ69rB836o",
+      "prompt": "I've narrowed down to Avery Cole (YouTube cycling creator). Can you do a full due diligence? I want to know if he's worth the investment — audience quality, any disputes, how his pricing compares to performance. His creator ID from the search is: r9VcmNsPLbYWT7caR6HTX2ZR--p1QAthlDV5932yjjZZXLTQ61qC947b",
       "expected_output": "Run profile/audience/content/cooperation detail, produce a verdict (one of the 4 levels), organize evidence by dimension",
       "files": [],
       "expectations": [
@@ -67,7 +67,7 @@
     {
       "id": 6,
       "category": "analysis",
-      "prompt": "我看了搜索结果里有个 Mobilant 频道，标签有 e-bike 和 road bike，粉丝3.8万。但我不确定他的受众是不是真的对公路车感兴趣，帮我查一下受众画像就好，不用做全套分析",
+      "prompt": "我看了搜索结果里有个 VoltBridge 频道，标签有 e-bike 和 road bike，粉丝3.8万。但我不确定他的受众是不是真的对公路车感兴趣，帮我查一下受众画像就好，不用做全套分析",
       "expected_output": "Only check audience dimension (not full due diligence), present as scoped judgment not full verdict",
       "files": [],
       "expectations": [
@@ -79,7 +79,7 @@
     {
       "id": 7,
       "category": "contacts",
-      "prompt": "OK I've decided to go with Joel Bruner. Can you get me his contact info so I can start outreach? His ID is kFUbmMsNLYXWT1baS5FSX9ZR--o0PTglBU3921yjjYYXLTQ69rB836o",
+      "prompt": "OK I've decided to go with Avery Cole. Can you get me his contact info so I can start outreach? His ID is r9VcmNsPLbYWT7caR6HTX2ZR--p1QAthlDV5932yjjZZXLTQ61qC947b",
       "expected_output": "Retrieve contacts, report email and quality level, do not add unsolicited outreach advice",
       "files": [],
       "expectations": [
@@ -91,7 +91,7 @@
     {
       "id": 8,
       "category": "monitoring",
-      "prompt": "We've started the collaboration with Joel Bruner. He just posted a video for us. I want to track its performance over the next 30 days. The video URL is https://www.youtube.com/watch?v=example123. Set up monitoring for me.",
+      "prompt": "We've started the collaboration with Avery Cole. He just posted a video for us. I want to track its performance over the next 30 days. The video URL is https://www.youtube.com/watch?v=example123. Set up monitoring for me.",
       "expected_output": "Create a project (or ask which project), add the video as a monitoring task",
       "files": [],
       "expectations": [
@@ -163,7 +163,7 @@
     {
       "id": 14,
       "category": "analysis",
-      "prompt": "帮我分析一下这个TikTok美妆博主 Jessica Wang，ID是 abc123xyz。我想看看她值不值得合作，做个全面的尽调",
+      "prompt": "帮我分析一下这个TikTok美妆博主 Maya Chen，ID是 abc123xyz。我想看看她值不值得合作，做个全面的尽调",
       "expected_output": "Run profile/audience/content with --detail, but skip cooperation --detail for TikTok unless user explicitly asked for pricing",
       "files": [],
       "expectations": [
@@ -202,7 +202,7 @@
     {
       "id": 18,
       "category": "should-not-trigger",
-      "prompt": "帮我把刚才搜到的这几个达人信息批量导入到我的HubSpot CRM里",
+      "prompt": "帮我把刚才搜到的这几个达人信息批量导入到我的Northstar CRM里",
       "expected_output": "Decline — operating external systems (CRM) is outside skill scope",
       "files": [],
       "expectations": [

@@ -8,7 +8,7 @@ Official website: [https://www.noxinfluencer.com/](https://www.noxinfluencer.com
 
 ```
 skills/
-└── nox-influencer/            # Canonical skill source for ClawHub/OpenClaw/skills.sh
+└── noxinfluencer/             # Canonical skill source for ClawHub/OpenClaw/skills.sh
     ├── SKILL.md
     └── references/
 
@@ -20,17 +20,17 @@ plugins/
     ├── .claude-plugin/
     │   └── plugin.json        # Claude Code plugin manifest
     └── skills/
-        └── nox-influencer -> ../../../skills/nox-influencer
+        └── noxinfluencer -> ../../../skills/noxinfluencer
 
 evals/
-└── nox-influencer/            # Evaluation assets, not part of release artifact
+└── noxinfluencer/             # Evaluation assets, not part of release artifact
 
 refs/                          # Local development references, not part of release artifact
 ```
 
 ## Canonical Source
 
-- `skills/nox-influencer/` is the only skill source of truth.
+- `skills/noxinfluencer/` is the only skill source of truth.
 - ClawHub uploads use that directory directly.
 - OpenClaw loads that directory directly.
 - skills.sh discovers that directory directly.
@@ -38,23 +38,23 @@ refs/                          # Local development references, not part of relea
 
 ## Symlink Note
 
-- `plugins/nox-influencer/skills/nox-influencer` is a Git symlink to the canonical skill directory.
+- `plugins/nox-influencer/skills/noxinfluencer` is a Git symlink to the canonical skill directory.
 - This works for current macOS/Linux development and Claude plugin validation, but some Windows and CI environments need explicit symlink support.
-- If symlinks are unavailable, recreate the link or copy `skills/nox-influencer/` into the plugin package as a build artifact.
-- ClawHub uploads should still use `skills/nox-influencer/` directly; do not upload the Claude wrapper paths.
+- If symlinks are unavailable, recreate the link or copy `skills/noxinfluencer/` into the plugin package as a build artifact.
+- ClawHub uploads should still use `skills/noxinfluencer/` directly; do not upload the Claude wrapper paths.
 
 ## Platform Matrix
 
 | Platform | Packaging entry | Published identity |
 |----------|-----------------|--------------------|
-| ClawHub | `skills/nox-influencer/` | slug `noxinfluencer` |
-| OpenClaw | `skills/nox-influencer/` | skill `nox-influencer` |
-| skills.sh | repo root `skills/` tree | skill `nox-influencer` |
+| ClawHub | `skills/noxinfluencer/` | slug `noxinfluencer` |
+| OpenClaw | `skills/noxinfluencer/` | skill `noxinfluencer` |
+| skills.sh | repo root `skills/` tree | skill `noxinfluencer` |
 | Claude Code Plugin Marketplace | repo root `.claude-plugin/marketplace.json` + `plugins/nox-influencer/` | marketplace `noxinfluencer`, plugin `nox-influencer` |
 
 Identity mapping:
 
-- skill name: `nox-influencer`
+- skill name: `noxinfluencer`
 - ClawHub slug: `noxinfluencer`
 - Claude marketplace name: `noxinfluencer`
 - Claude plugin name: `nox-influencer`
@@ -87,6 +87,6 @@ Claude marketplace checks:
 ## Release Notes
 
 - Official ClawHub org releases should be published from the web UI under `@noxinfluencer`.
-- Continue uploading only `skills/nox-influencer/` to ClawHub; do not upload the repo root there.
+- Continue uploading only `skills/noxinfluencer/` to ClawHub; do not upload the repo root there.
 - Do not use `clawhub publish` as the final org release path because the CLI still cannot select an org publisher.
 - The Claude marketplace wrapper exists for Claude Code compatibility only; it is not the release source for ClawHub or OpenClaw.
