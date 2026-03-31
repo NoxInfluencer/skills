@@ -1,6 +1,17 @@
 ---
 name: nox-influencer
 description: Discovers creators, performs due-diligence analysis, retrieves contacts, manages account/quota, and tracks video campaigns across YouTube, TikTok, and Instagram via the NoxInfluencer CLI. Use when the user needs to find, evaluate, contact, or monitor creators for influencer marketing.
+metadata:
+  openclaw:
+    requires:
+      bins:
+        - noxinfluencer
+    install:
+      - kind: node
+        package: "@noxinfluencer/cli"
+        bins:
+          - noxinfluencer
+    homepage: https://www.noxinfluencer.com
 ---
 
 # NoxInfluencer
