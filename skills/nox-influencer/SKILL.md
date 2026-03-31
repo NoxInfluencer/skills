@@ -1,6 +1,6 @@
 ---
 name: nox-influencer
-description: Influencer marketing agent skill — discovers creators, performs due-diligence analysis, retrieves contacts, manages account/quota, and tracks video campaigns across YouTube, TikTok, and Instagram via the NoxInfluencer CLI. Use when the user needs to find, evaluate, contact, or monitor creators for influencer marketing.
+description: Discovers creators, performs due-diligence analysis, retrieves contacts, manages account/quota, and tracks video campaigns across YouTube, TikTok, and Instagram via the NoxInfluencer CLI. Use when the user needs to find, evaluate, contact, or monitor creators for influencer marketing.
 ---
 
 # NoxInfluencer
@@ -16,6 +16,14 @@ The user interacts through natural language. Execute CLI commands yourself and r
 - User wants to monitor video campaign performance
 - User hits an auth, quota, or CLI error
 
+## What This Skill Does Not Do
+
+- Draft outreach emails, negotiation copy, or partnership messages
+- Send email, update a CRM, or operate external messaging platforms
+- Make final campaign budget allocation or media-plan decisions
+- Generate creative briefs or interpret video content beyond available platform metrics
+- Replace legal or commercial review of contracts, disputes, or brand-safety decisions
+
 ## Core Principles
 
 ### Agent-First
@@ -26,11 +34,33 @@ The user does not operate the CLI. You do. Run commands silently, tell the user 
 
 The CLI is self-describing — use it instead of memorizing parameters:
 
-- **Parameters**: `noxinfluencer schema <cmd>` (e.g., `schema creator.search`)
+- **Parameters**: `noxinfluencer schema <cmd>` (e.g., `schema creator.search`; quoted path form `schema 'creator search'` also works)
 - **Help**: `noxinfluencer <cmd> --help`
 - **Diagnostics**: `noxinfluencer doctor`
 - **Preview**: `--dry-run` (shows request without executing)
 - **Language routing**: `--lang zh` switches all URLs to `cn.noxinfluencer.com`
+
+## Command Quick Reference
+
+| User intent | CLI command |
+|-------------|-------------|
+| Search creators | `noxinfluencer creator search` |
+| Creator overview | `noxinfluencer creator profile <creator_id>` |
+| Audience analysis | `noxinfluencer creator audience <creator_id>` |
+| Content analysis | `noxinfluencer creator content <creator_id>` |
+| Cooperation / pricing signals | `noxinfluencer creator cooperation <creator_id>` |
+| Get contact info | `noxinfluencer creator contacts <creator_id>` |
+| Check quota | `noxinfluencer quota` |
+| Check setup health | `noxinfluencer doctor` |
+| Check action pricing | `noxinfluencer pricing --action 'creator search'` |
+| Inspect exact flags | `noxinfluencer schema <cmd>` |
+| List monitoring projects | `noxinfluencer monitor list` |
+| Create monitoring project | `noxinfluencer monitor create` |
+| Add monitored video | `noxinfluencer monitor add-task` |
+| List monitored videos | `noxinfluencer monitor tasks` |
+| Get project summary | `noxinfluencer monitor summary` |
+
+Add `--detail` for expanded creator analysis when the user needs deeper evidence. Add `--lang zh` for Chinese users. Use `schema <cmd>` when you need exact flags or required fields.
 
 ---
 
@@ -66,7 +96,7 @@ Stop asking once the request is specific enough. If the user provided most filte
 
 ### Search Execution
 
-Use `noxinfluencer schema creator.search` to discover available filter parameters. Key decisions:
+Use `noxinfluencer schema creator.search` to discover available filter parameters. The quoted single-argument form `noxinfluencer schema 'creator search'` is equivalent. Key decisions:
 
 - Multi-platform requests require separate searches per platform
 - Add `--has_email true` when the user's intent is commercial outreach
@@ -98,10 +128,11 @@ Help the user decide whether a creator is worth pursuing. Lead with a verdict, n
 1. Confirm which creator to analyze (use `creator_id` from prior search or user input).
 2. If user asked about a specific concern, check that dimension first.
 3. If no specific concern, follow default order: profile → audience → content → cooperation (all with `--detail` flag).
-4. For content analysis in Chinese context, add `--language zh`.
-5. Return verdict first, then supporting evidence.
+4. Platform-aware skip: TikTok and Instagram often have partial cooperation/pricing data. Skip `creator cooperation --detail` unless the user explicitly asks for pricing or brand-history signals, or the primary platform is YouTube. See [platform-support.md](references/platform-support.md).
+5. For content analysis in Chinese context, add `--language zh`.
+6. Return verdict first, then supporting evidence.
 
-Use `noxinfluencer schema creator.<dimension>` (e.g., `schema creator.profile`) for available options.
+Use `noxinfluencer schema creator.<dimension>` (e.g., `schema creator.profile`). The quoted single-argument form (for example `schema 'creator profile'`) is equivalent.
 
 ### Verdict Framework
 
@@ -214,7 +245,7 @@ For unexpected failures, run `doctor` as a first diagnostic step.
 
 ## References
 
-- [CLI Response Format](references/cli-response-format.md) — response structure and credit costs
+- [CLI Response Format](references/cli-response-format.md) — response envelope differences and error action handling
 - [Platform Support](references/platform-support.md) — data availability by platform
 - [Search Filter Semantics](references/search-filters.md) — filter selection by user intent
 - [Verdict Heuristics](references/verdict-heuristics.md) — detailed due-diligence rules and output structure

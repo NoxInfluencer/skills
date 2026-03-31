@@ -125,6 +125,39 @@
         "Uses cn.noxinfluencer.com domain (user is speaking Chinese)",
         "Does not explain INSUFFICIENT_CREDIT technically"
       ]
+    },
+    {
+      "id": 11,
+      "category": "should-not-trigger",
+      "prompt": "帮我写一封给达人的合作邀约邮件，语气要专业但友好。",
+      "expected_output": "Treat as a writing task, not a NoxInfluencer CLI workflow",
+      "files": [],
+      "expectations": [
+        "Does NOT use the noxinfluencer CLI",
+        "Treats the request as copywriting, not creator discovery or analysis"
+      ]
+    },
+    {
+      "id": 12,
+      "category": "should-not-trigger",
+      "prompt": "分析一下这个 YouTube 频道的 SEO 策略，标题和标签用得好不好？",
+      "expected_output": "Treat as an SEO question, not a creator-analysis workflow",
+      "files": [],
+      "expectations": [
+        "Does NOT invoke creator discovery, due diligence, or contacts workflows",
+        "Treats the request as SEO analysis"
+      ]
+    },
+    {
+      "id": 13,
+      "category": "should-not-trigger",
+      "prompt": "帮我做一份网红营销的 PPT 提案，包含预算和排期。",
+      "expected_output": "Treat as a document/planning task, not a NoxInfluencer CLI workflow",
+      "files": [],
+      "expectations": [
+        "Does NOT use the noxinfluencer CLI",
+        "Treats the request as document creation or planning"
+      ]
     }
   ]
 }

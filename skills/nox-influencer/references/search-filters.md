@@ -1,6 +1,6 @@
 # Search Filter Semantics
 
-For the full parameter list and syntax, run `noxinfluencer schema creator.search`.
+For the full parameter list and syntax, run `noxinfluencer schema creator.search`. The single-argument command-path form `noxinfluencer schema 'creator search'` is equivalent.
 
 This reference covers **when to use which filters** — the decision logic, not the syntax.
 
@@ -21,7 +21,3 @@ This reference covers **when to use which filters** — the decision logic, not 
 Each result includes: `id` (encrypted token), `nickname`, `tags`, `followers`, `country`, `total_videos`, `view_per_followers`, `engagement_rate`, `avg_views`, `language`.
 
 The `id` is an encrypted token — use it directly as the positional `<creator_id>` argument in subsequent commands. Do not try to decode it.
-
-## Cost
-
-Search cost is dynamic: 1 credit per result returned. A search returning 20 results costs 20 credits.
