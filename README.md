@@ -3,6 +3,7 @@
 Agent skill for influencer marketing: creator discovery, due-diligence analysis, contact retrieval, and video monitoring across YouTube, TikTok, and Instagram.
 
 Official website: [https://www.noxinfluencer.com/](https://www.noxinfluencer.com/)
+ClawHub: [https://clawhub.ai/noxinfluencer/noxinfluencer](https://clawhub.ai/noxinfluencer/noxinfluencer)
 
 ## Structure
 
