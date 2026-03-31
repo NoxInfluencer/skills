@@ -28,9 +28,9 @@ Negative examples must be **near-neighbor** queries — requests that sound simi
 
 ```
 evals/
-└── nox-influencer/
+└── noxinfluencer/
     ├── README.md                 # This file
-    ├── evals.json                # All eval cases for the single nox-influencer skill
+    ├── evals.json                # All eval cases for the single noxinfluencer skill
     └── workspace/                # Benchmark artifacts and reviewer feedback
 ```
 
