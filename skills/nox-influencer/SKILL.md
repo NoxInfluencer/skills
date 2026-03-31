@@ -124,7 +124,7 @@ Rules:
 - Make rows easy to compare at a glance
 - If results are noisy, say so and ask for one more narrowing filter
 - State if `--has_email true` was used, but do not imply email was already retrieved
-- Include: why candidates match, filters applied, and the next-step suggestion
+- Include: why candidates match, filters applied, the next-step suggestion, and remaining Skill quota when the response includes it and it changes the user's next decision
 
 ---
 
@@ -184,9 +184,9 @@ Retrieve contact info for a specific creator. Intentionally narrow — gets cont
 |-----------------|---------|
 | `1` | High-quality contact signal |
 | `2` | Normal contact signal |
-| `0` | No verified high-confidence email |
+| `0` | Low-confidence or unverified contact signal |
 
-If email is null or quality is `0`, clearly say no reliable email is currently available.
+If email is null, clearly say no reliable email is currently available. If email exists but quality is `0`, return it with cautionary wording and tell the user it needs manual verification.
 
 Do not add outreach recommendations or restate creator metrics.
 

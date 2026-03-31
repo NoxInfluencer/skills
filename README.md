@@ -36,6 +36,13 @@ refs/                          # Local development references, not part of relea
 - skills.sh discovers that directory directly.
 - Claude Code compatibility is added as a thin wrapper around the same files; it does not own a second copy of the skill.
 
+## Symlink Note
+
+- `plugins/nox-influencer/skills/nox-influencer` is a Git symlink to the canonical skill directory.
+- This works for current macOS/Linux development and Claude plugin validation, but some Windows and CI environments need explicit symlink support.
+- If symlinks are unavailable, recreate the link or copy `skills/nox-influencer/` into the plugin package as a build artifact.
+- ClawHub uploads should still use `skills/nox-influencer/` directly; do not upload the Claude wrapper paths.
+
 ## Platform Matrix
 
 | Platform | Packaging entry | Published identity |

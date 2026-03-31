@@ -5,12 +5,14 @@
     "url": "https://www.noxinfluencer.com/"
   },
   "metadata": {
+    "version": "0.1.0",
     "pluginRoot": "./plugins",
     "description": "NoxInfluencer plugins for creator discovery, analysis, outreach preparation, and monitoring."
   },
   "plugins": [
     {
       "name": "nox-influencer",
+      "version": "0.1.0",
       "source": "./plugins/nox-influencer",
       "description": "NoxInfluencer skill plugin for Claude Code."
     }
