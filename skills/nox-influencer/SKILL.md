@@ -70,7 +70,7 @@ Add `--detail` for expanded creator analysis when the user needs deeper evidence
 Run `noxinfluencer doctor` first to check the current state. Guide through only what's missing:
 
 1. **No CLI installed** → Tell user: "Run `npm install -g @noxinfluencer/cli` in your terminal." (the one step they must do themselves)
-2. **No API key** → Use `doctor` output and CLI hints to tell them they need an API key and point them to the dashboard or signup flow. Once they have a key, configure it yourself.
+2. **No API key** → Use `doctor` output and CLI hints to tell them they need an API key and point them to the dashboard or signup flow. Once they have a key, configure it yourself. Prefer `noxinfluencer auth --key-stdin` so the key does not appear in argv, logs, or echoed output.
 3. **Everything configured** → Run `quota`, tell them their balance. New accounts come with free credits.
 
 ### Quota and Billing

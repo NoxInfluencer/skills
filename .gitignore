@@ -6,3 +6,4 @@ skill/claude/
 refs/
 *-workspace/
 **/evals/workspace/
+evals/**/workspace/
