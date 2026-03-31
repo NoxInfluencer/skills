@@ -11,7 +11,7 @@
         "Searches on both YouTube and Instagram (two separate searches)",
         "Uses appropriate follower and country filters",
         "Presents a visible shortlist (not raw JSON)",
-        "Suggests analyzing top candidates as next step"
+        "Suggests analyzing top candidates as next step (within the same skill)"
       ]
     },
     {
@@ -43,11 +43,12 @@
       "id": 4,
       "category": "routing",
       "prompt": "帮我深入分析一下 Joel Bruner 这个达人靠不靠谱，他的粉丝质量怎么样？有没有争议记录？值不值得花钱合作？",
-      "expected_output": "Proceed to analysis workflow — this is due diligence, not discovery",
+      "expected_output": "Directly run analysis commands within the same skill — not search, not handoff to another skill",
       "files": [],
       "expectations": [
-        "Uses the analysis workflow (profile/audience/content/cooperation)",
-        "Does not attempt a search"
+        "Runs analysis commands (profile, audience, content, or cooperation) — not creator search",
+        "Does NOT reference or hand off to a separate skill",
+        "Treats the request as due-diligence analysis (section 3 workflow)"
       ]
     },
     {
@@ -157,6 +158,69 @@
       "expectations": [
         "Does NOT use the noxinfluencer CLI",
         "Treats the request as document creation or planning"
+      ]
+    },
+    {
+      "id": 14,
+      "category": "analysis",
+      "prompt": "帮我分析一下这个TikTok美妆博主 Jessica Wang，ID是 abc123xyz。我想看看她值不值得合作，做个全面的尽调",
+      "expected_output": "Run profile/audience/content with --detail, but skip cooperation --detail for TikTok unless user explicitly asked for pricing",
+      "files": [],
+      "expectations": [
+        "Runs profile, audience, and content analysis",
+        "Skips or deprioritizes cooperation --detail (TikTok has partial cooperation data)",
+        "Explains why cooperation data may be limited on TikTok",
+        "Still provides a verdict based on available dimensions"
+      ]
+    },
+    {
+      "id": 15,
+      "category": "account",
+      "prompt": "我刚拿到了API Key，是 nox_sk_test_abc123def456，帮我配置一下",
+      "expected_output": "Configure the key using --key-stdin (pipe), not as a command-line argument",
+      "files": [],
+      "expectations": [
+        "Uses auth --key-stdin or equivalent secure input method",
+        "Does NOT pass the key as a visible CLI argument (e.g., --key nox_sk_...)",
+        "Does NOT echo or log the key in plain text",
+        "Confirms successful configuration after setup"
+      ]
+    },
+    {
+      "id": 16,
+      "category": "account",
+      "prompt": "我搜索达人的时候报了个错，说什么 UPSTREAM_40017，这是啥意思？",
+      "expected_output": "Explain the error as a SaaS-side issue, not a Skill quota problem. Use the action field if available.",
+      "files": [],
+      "expectations": [
+        "Distinguishes this from Skill quota exhaustion (INSUFFICIENT_CREDIT)",
+        "Explains that the underlying SaaS service returned an error",
+        "Uses the error response's action field (url/hint) if present",
+        "Does not tell user to 'top up credits' as the fix"
+      ]
+    },
+    {
+      "id": 18,
+      "category": "should-not-trigger",
+      "prompt": "帮我把刚才搜到的这几个达人信息批量导入到我的HubSpot CRM里",
+      "expected_output": "Decline — operating external systems (CRM) is outside skill scope",
+      "files": [],
+      "expectations": [
+        "Does NOT attempt to use the noxinfluencer CLI for CRM operations",
+        "Explains that CRM integration is outside the skill's scope",
+        "May suggest manual export or alternative approach"
+      ]
+    },
+    {
+      "id": 19,
+      "category": "should-not-trigger",
+      "prompt": "这个达人发来了一份合作合同，帮我看看条款有没有坑，价格合不合理",
+      "expected_output": "Decline — legal/commercial review of contracts is outside skill scope",
+      "files": [],
+      "expectations": [
+        "Does NOT invoke creator analysis or cooperation commands as a substitute",
+        "Explains that contract review is outside the skill's scope",
+        "May suggest consulting legal counsel"
       ]
     }
   ]
