@@ -1,7 +1,7 @@
 ---
 name: noxinfluencer
 description: Discovers creators for influencer marketing, creator marketing, and social media marketing campaigns; performs creator due-diligence analysis, retrieves outreach-ready contacts, and tracks campaign videos across YouTube, TikTok, and Instagram via the NoxInfluencer CLI. Use when the user needs creator discovery, creator evaluation, contact retrieval, or campaign monitoring.
-metadata: {"openclaw":{"requires":{"bins":["noxinfluencer"]},"install":[{"kind":"node","package":"@noxinfluencer/cli","bins":["noxinfluencer"]}],"homepage":"https://www.noxinfluencer.com"}}
+metadata: {"openclaw":{"requires":{"bins":["noxinfluencer"]},"install":[{"kind":"node","package":"@noxinfluencer/cli","bins":["noxinfluencer"]}],"homepage":"https://www.noxinfluencer.com/skills"}}
 ---
 
 # NoxInfluencer
