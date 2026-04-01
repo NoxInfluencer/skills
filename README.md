@@ -5,6 +5,12 @@ Agent skill for influencer marketing: creator discovery, due-diligence analysis,
 Official website: [https://www.noxinfluencer.com/](https://www.noxinfluencer.com/)
 ClawHub: [https://clawhub.ai/noxinfluencer/noxinfluencer](https://clawhub.ai/noxinfluencer/noxinfluencer)
 
+## Install
+
+```bash
+npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer
+```
+
 ## Structure
 
 ```
