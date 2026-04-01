@@ -200,6 +200,19 @@
       ]
     },
     {
+      "id": 17,
+      "category": "discovery",
+      "prompt": "继续下一页。刚才那次 YouTube 搜索的条件别变：关键词还是 makeup，美国地区，page_size 还是 2。上一页返回的是 page_num=1，total_page=1714，search_after=[163.97083,\"UCQ-P8lGwkr0Tj4phQB9diDw\"]。给我更多候选人。",
+      "expected_output": "Continue the previous search by requesting page 2 with the preserved filters and prior search_after cursor, then present a new shortlist.",
+      "files": [],
+      "expectations": [
+        "Keeps the prior search filters unchanged",
+        "Uses page_num 2 for the next request",
+        "Forwards the previous response's search_after cursor instead of relying on page_num alone",
+        "Presents the next-page candidates as a shortlist rather than raw JSON"
+      ]
+    },
+    {
       "id": 18,
       "category": "should-not-trigger",
       "prompt": "帮我把刚才搜到的这几个达人信息批量导入到我的Northstar CRM里",
