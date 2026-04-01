@@ -18,6 +18,14 @@ This reference covers **when to use which filters** — the decision logic, not 
 
 ## Search Result Fields
 
-Each result includes: `id` (encrypted token), `nickname`, `tags`, `followers`, `country`, `total_videos`, `view_per_followers`, `engagement_rate`, `avg_views`, `language`.
+Each result item includes: `id` (encrypted token), `nickname`, `tags`, `followers`, `country`, `total_videos`, `view_per_followers`, `engagement_rate`, `avg_views`, `language`.
+
+Search responses also include page metadata under `data`: `page_num`, `page_size`, `total_page`, `total_size`, and `search_after`.
 
 The `id` is an encrypted token — use it directly as the positional `<creator_id>` argument in subsequent commands. Do not try to decode it.
+
+## Pagination Rules
+
+- For a next-page request, keep the previous search filters exactly the same and send both the next `page_num` and the previous response's `data.search_after`.
+- Current CLI and server validation require `page_num > 1` when `search_after` is present, so do not try cursor-only paging.
+- If `data.search_after` is missing or empty, or the current page is already the last page, tell the user there are no more results.
