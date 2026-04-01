@@ -2,98 +2,72 @@
 
 Agent skill for influencer and creator marketing: creator discovery, due-diligence analysis, outreach-ready contact retrieval, and campaign video monitoring across YouTube, TikTok, and Instagram.
 
-Official website: [https://www.noxinfluencer.com/](https://www.noxinfluencer.com/)
-ClawHub: [https://clawhub.ai/noxinfluencer/noxinfluencer](https://clawhub.ai/noxinfluencer/noxinfluencer)
+- Official website: [https://www.noxinfluencer.com/](https://www.noxinfluencer.com/)
+- ClawHub: [https://clawhub.ai/noxinfluencer/noxinfluencer](https://clawhub.ai/noxinfluencer/noxinfluencer)
+
+## What This Skill Helps With
+
+- Discover creators for influencer, creator, and social media marketing campaigns
+- Evaluate creators with audience, content, and cooperation signals
+- Retrieve outreach-ready contact information for selected creators
+- Monitor campaign video performance over time
 
 ## Install
+
+### Skills CLI / skills.sh
+
+Install the skill from GitHub with the open skills ecosystem CLI:
 
 ```bash
 npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer
 ```
 
-## Structure
+### OpenClaw
 
-```
-skills/
-└── noxinfluencer/             # Canonical skill source for ClawHub/OpenClaw/skills.sh
-    ├── SKILL.md
-    └── references/
+Install directly to OpenClaw:
 
-.claude-plugin/
-└── marketplace.json           # Claude Code marketplace wrapper
-
-plugins/
-└── nox-influencer/
-    ├── .claude-plugin/
-    │   └── plugin.json        # Claude Code plugin manifest
-    └── skills/
-        └── noxinfluencer -> ../../../skills/noxinfluencer
-
-evals/
-└── noxinfluencer/             # Evaluation assets, not part of release artifact
-
-refs/                          # Local development references, not part of release artifact
+```bash
+npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer --agent openclaw
 ```
 
-## Canonical Source
+### Claude Code
 
-- `skills/noxinfluencer/` is the only skill source of truth.
-- ClawHub uploads use that directory directly.
-- OpenClaw loads that directory directly.
-- skills.sh discovers that directory directly.
-- Claude Code compatibility is added as a thin wrapper around the same files; it does not own a second copy of the skill.
+Install the skill to Claude Code through the Skills CLI:
 
-## Symlink Note
+```bash
+npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer --agent claude-code
+```
 
-- `plugins/nox-influencer/skills/noxinfluencer` is a Git symlink to the canonical skill directory.
-- This works for current macOS/Linux development and Claude plugin validation, but some Windows and CI environments need explicit symlink support.
-- If symlinks are unavailable, recreate the link or copy `skills/noxinfluencer/` into the plugin package as a build artifact.
-- ClawHub uploads should still use `skills/noxinfluencer/` directly; do not upload the Claude wrapper paths.
+### Other Skills CLI Agents
 
-## Platform Matrix
+Examples for other compatible agents:
 
-| Platform | Packaging entry | Published identity |
-|----------|-----------------|--------------------|
-| ClawHub | `skills/noxinfluencer/` | slug `noxinfluencer` |
-| OpenClaw | `skills/noxinfluencer/` | skill `noxinfluencer` |
-| skills.sh | repo root `skills/` tree | skill `noxinfluencer` |
-| Claude Code Plugin Marketplace | repo root `.claude-plugin/marketplace.json` + `plugins/nox-influencer/` | marketplace `noxinfluencer`, plugin `nox-influencer` |
+```bash
+# Codex
+npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer --agent codex
 
-Identity mapping:
+# Cursor
+npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer --agent cursor
+```
 
-- skill name: `noxinfluencer`
-- ClawHub slug: `noxinfluencer`
-- Claude marketplace name: `noxinfluencer`
-- Claude plugin name: `nox-influencer`
+### Claude Code Plugin Marketplace
 
-## Development
+If you prefer the Claude Code plugin marketplace flow:
 
-See `refs/SKILL_SPEC.md` and `refs/ARCHITECTURE.md` for local development guidance.
+```bash
+claude plugin marketplace add https://github.com/NoxInfluencer/skills
+claude plugin install nox-influencer@noxinfluencer
+```
 
-## Validation
+## Platform Entry Points
 
-Schema and CLI sanity checks:
+- **ClawHub**: best for browsing the public skill page, versions, and release metadata
+- **Skills CLI / skills.sh**: best for installing the skill from GitHub into supported agents
+- **OpenClaw**: use the OpenClaw-targeted install command above
+- **Claude Code**: use either the Skills CLI install or the plugin marketplace install
 
-- `noxinfluencer schema creator.search`
-- `noxinfluencer schema 'creator search'`
-- `noxinfluencer auth --help`
+## Notes
 
-Discovery and runtime checks:
-
-- `npx -y skills add . --list`
-- `npx -y skills add . --list --agent openclaw`
-- `npx -y skills add . --list --agent claude-code`
-- `openclaw skills check`
-- `clawhub inspect noxinfluencer`
-
-Claude marketplace checks:
-
-- `claude plugin validate .claude-plugin/marketplace.json`
-- `claude plugin validate plugins/nox-influencer`
-
-## Release Notes
-
-- Official ClawHub org releases should be published from the web UI under `@noxinfluencer`.
-- Continue uploading only `skills/noxinfluencer/` to ClawHub; do not upload the repo root there.
-- Do not use `clawhub publish` as the final org release path because the CLI still cannot select an org publisher.
-- The Claude marketplace wrapper exists for Claude Code compatibility only; it is not the release source for ClawHub or OpenClaw.
+- This repository publishes the `noxinfluencer` skill.
+- The skill is designed to help an agent operate the NoxInfluencer CLI on the user's behalf.
+- Some workflows may require a NoxInfluencer account, API access, or CLI authentication during setup.
