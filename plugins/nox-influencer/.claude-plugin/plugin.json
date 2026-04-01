@@ -4,9 +4,9 @@
   "description": "NoxInfluencer skill plugin for creator discovery, due-diligence analysis, contact retrieval, and monitoring.",
   "author": {
     "name": "NoxInfluencer",
-    "url": "https://www.noxinfluencer.com/"
+    "url": "https://www.noxinfluencer.com/skills"
   },
-  "homepage": "https://www.noxinfluencer.com/",
+  "homepage": "https://www.noxinfluencer.com/skills",
   "repository": "https://github.com/NoxInfluencer/skills",
   "license": "MIT-0"
 }
