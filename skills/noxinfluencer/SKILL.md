@@ -69,8 +69,13 @@ Add `--detail` for expanded creator analysis when the user needs deeper evidence
 
 Run `noxinfluencer doctor` first to check the current state. Guide through only what's missing:
 
-1. **No CLI installed** → Tell user: "Run `npm install -g @noxinfluencer/cli` in your terminal." (the one step they must do themselves)
-2. **No API key** → Use `doctor` output and CLI hints to tell them they need an API key and point them to the dashboard or signup flow. Once they have a key, configure it yourself. Prefer `noxinfluencer auth --key-stdin` so the key does not appear in argv, logs, or echoed output.
+1. **No CLI installed** → Tell user to run `npm install -g @noxinfluencer/cli` in their terminal. In the same reply, directly provide the browser steps they must do themselves:
+   - English register: `https://www.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard`
+   - English API key: `https://www.noxinfluencer.com/skills/dashboard`
+   - Chinese register: `https://cn.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard`
+   - Chinese API key: `https://cn.noxinfluencer.com/skills/dashboard`
+   Then ask them to send the API key back so you can configure it with `noxinfluencer auth --key-stdin`.
+2. **CLI installed, no API key** → Run `doctor` and prefer CLI-provided hints / URLs. Only fall back to the static register + API key links above if the CLI output is incomplete.
 3. **Everything configured** → Run `quota`, tell them the current Skill quota snapshot and any obvious blocking issues.
 
 ### Quota and Billing
