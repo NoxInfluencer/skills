@@ -1,7 +1,7 @@
 ---
 name: noxinfluencer
 description: Discovers creators for influencer marketing, creator marketing, and social media marketing campaigns; performs creator due-diligence analysis, retrieves outreach-ready contacts, and tracks campaign videos across YouTube, TikTok, and Instagram via the NoxInfluencer CLI. Use when the user needs creator discovery, creator evaluation, contact retrieval, or campaign monitoring.
-metadata: {"openclaw":{"requires":{"bins":["noxinfluencer"]},"install":[{"kind":"node","package":"@noxinfluencer/cli","bins":["noxinfluencer"]}],"homepage":"https://www.noxinfluencer.com/"}}
+metadata: {"openclaw":{"requires":{"env":["NOXINFLUENCER_API_KEY"],"bins":["noxinfluencer"]},"primaryEnv":"NOXINFLUENCER_API_KEY","install":[{"kind":"node","package":"@noxinfluencer/cli","bins":["noxinfluencer"]}],"homepage":"https://www.noxinfluencer.com/skills"}}
 ---
 
 # NoxInfluencer
@@ -74,8 +74,8 @@ Run `noxinfluencer doctor` first to check the current state. Guide through only 
    - English API key: `https://www.noxinfluencer.com/skills/dashboard`
    - Chinese register: `https://cn.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard`
    - Chinese API key: `https://cn.noxinfluencer.com/skills/dashboard`
-   Then ask them to send the API key back so you can configure it with `noxinfluencer auth --key-stdin`.
-2. **CLI installed, no API key** → Run `doctor` and prefer CLI-provided hints / URLs. Only fall back to the static register + API key links above if the CLI output is incomplete.
+   Prefer a host-provided secret first: `skills.entries.noxinfluencer.apiKey` in OpenClaw maps to `NOXINFLUENCER_API_KEY`. If no secret channel is available, ask for a one-time handoff only through the safest available channel, then configure with `noxinfluencer auth --key-stdin` rather than putting the key in argv, logs, or echoed messages.
+2. **CLI installed, no API key** → Check whether `NOXINFLUENCER_API_KEY` / `skills.entries.noxinfluencer.apiKey` is already available before asking for manual input. Run `doctor` and prefer CLI-provided hints / URLs. Only fall back to the static register + API key links above if the CLI output is incomplete.
 3. **Everything configured** → Run `quota`, tell them the current Skill quota snapshot and any obvious blocking issues.
 
 ### Quota and Billing
