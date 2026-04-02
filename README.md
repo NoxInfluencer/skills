@@ -2,9 +2,9 @@
 
 Agent skill for influencer and creator marketing: creator discovery, due-diligence analysis, outreach-ready contact retrieval, and campaign video monitoring across YouTube, TikTok, and Instagram.
 
-- Official website: [https://www.noxinfluencer.com/](https://www.noxinfluencer.com/)
-- Skills dashboard / API key: [https://www.noxinfluencer.com/skills/dashboard](https://www.noxinfluencer.com/skills/dashboard)
-- ClawHub: [https://clawhub.ai/noxinfluencer/noxinfluencer](https://clawhub.ai/noxinfluencer/noxinfluencer)
+- Official website: [NoxInfluencer](https://www.noxinfluencer.com/)
+- Skills dashboard / API key: [NoxInfluencer Skills Dashboard](https://www.noxinfluencer.com/skills/dashboard)
+- ClawHub: [NoxInfluencer on ClawHub](https://clawhub.ai/noxinfluencer/noxinfluencer)
 
 ## What This Skill Helps With
 
@@ -17,10 +17,8 @@ Agent skill for influencer and creator marketing: creator discovery, due-diligen
 
 If you are starting from scratch, create a brand account and get an API key first:
 
-- English signup: `https://www.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard`
-- English API key: `https://www.noxinfluencer.com/skills/dashboard`
-- Chinese signup: `https://cn.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard`
-- Chinese API key: `https://cn.noxinfluencer.com/skills/dashboard`
+- English: [Sign up](https://www.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard) and [open the Skills dashboard](https://www.noxinfluencer.com/skills/dashboard)
+- Chinese: [注册账号](https://cn.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard) and [打开 Skills 控制台](https://cn.noxinfluencer.com/skills/dashboard)
 
 ## Install
 
