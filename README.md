@@ -2,7 +2,8 @@
 
 Agent skill for influencer and creator marketing: creator discovery, due-diligence analysis, outreach-ready contact retrieval, and campaign video monitoring across YouTube, TikTok, and Instagram.
 
-- Official website: [https://www.noxinfluencer.com/skills](https://www.noxinfluencer.com/skills)
+- Official website: [https://www.noxinfluencer.com/](https://www.noxinfluencer.com/)
+- Skills dashboard / API key: [https://www.noxinfluencer.com/skills/dashboard](https://www.noxinfluencer.com/skills/dashboard)
 - ClawHub: [https://clawhub.ai/noxinfluencer/noxinfluencer](https://clawhub.ai/noxinfluencer/noxinfluencer)
 
 ## What This Skill Helps With
@@ -11,6 +12,15 @@ Agent skill for influencer and creator marketing: creator discovery, due-diligen
 - Evaluate creators with audience, content, and cooperation signals
 - Retrieve outreach-ready contact information for selected creators
 - Monitor campaign video performance over time
+
+## Account Setup
+
+If you are starting from scratch, create a brand account and get an API key first:
+
+- English signup: `https://www.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard`
+- English API key: `https://www.noxinfluencer.com/skills/dashboard`
+- Chinese signup: `https://cn.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard`
+- Chinese API key: `https://cn.noxinfluencer.com/skills/dashboard`
 
 ## Install
 
