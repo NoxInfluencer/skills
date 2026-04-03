@@ -4,6 +4,7 @@ Agent skill for influencer and creator marketing: creator discovery, due-diligen
 
 - Official website: [NoxInfluencer](https://www.noxinfluencer.com/)
 - Skills dashboard / API key: [NoxInfluencer Skills Dashboard](https://www.noxinfluencer.com/skills/dashboard)
+- skills.sh: [NoxInfluencer on skills.sh](https://skills.sh/noxinfluencer/skills/noxinfluencer)
 - ClawHub: [NoxInfluencer on ClawHub](https://clawhub.ai/noxinfluencer/noxinfluencer)
 
 ## What This Skill Helps With
@@ -70,7 +71,7 @@ claude plugin install nox-influencer@noxinfluencer
 ## Platform Entry Points
 
 - **ClawHub**: best for browsing the public skill page, versions, and release metadata
-- **Skills CLI / skills.sh**: best for installing the skill from GitHub into supported agents
+- **Skills CLI / skills.sh**: use the CLI install command above, or browse the public listing on [skills.sh](https://skills.sh/noxinfluencer/skills/noxinfluencer)
 - **OpenClaw**: use the OpenClaw-targeted install command above
 - **Claude Code**: use either the Skills CLI install or the plugin marketplace install
 
