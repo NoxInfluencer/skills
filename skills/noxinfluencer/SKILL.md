@@ -46,11 +46,11 @@ The CLI is self-describing — use it instead of memorizing parameters:
 | User intent | CLI command |
 |-------------|-------------|
 | Search creators | `noxinfluencer creator search` |
-| Creator overview | `noxinfluencer creator profile <creator_id>` |
-| Audience analysis | `noxinfluencer creator audience <creator_id>` |
-| Content analysis | `noxinfluencer creator content <creator_id>` |
-| Cooperation / pricing signals | `noxinfluencer creator cooperation <creator_id>` |
-| Get contact info | `noxinfluencer creator contacts <creator_id>` |
+| Creator overview / links | `noxinfluencer creator profile [creator_id]` |
+| Audience analysis | `noxinfluencer creator audience [creator_id]` |
+| Content analysis | `noxinfluencer creator content [creator_id]` |
+| Cooperation / pricing signals | `noxinfluencer creator cooperation [creator_id]` |
+| Get contact info | `noxinfluencer creator contacts [creator_id]` |
 | Check quota | `noxinfluencer quota` |
 | Check setup health | `noxinfluencer doctor` |
 | Check membership plans | `noxinfluencer pricing` |
@@ -61,7 +61,7 @@ The CLI is self-describing — use it instead of memorizing parameters:
 | List monitored videos | `noxinfluencer monitor tasks` |
 | Get project summary | `noxinfluencer monitor summary` |
 
-Add `--detail` for expanded creator analysis when the user needs deeper evidence. Add `--lang zh` for Chinese users. Use `schema <cmd>` when you need exact flags or required fields.
+Add `--detail` for expanded creator analysis when the user needs deeper evidence. Add `--lang zh` for Chinese users. Use `schema <cmd>` when you need exact flags or required fields. If the user does not already have a `creator_id`, the first read call may use `--url` or `--platform --channel-id`; after that, prefer the returned `data.creator_id`.
 
 ---
 
@@ -140,12 +140,13 @@ Help the user decide whether a creator is worth pursuing. Lead with a verdict, n
 
 ### Workflow
 
-1. Confirm which creator to analyze (use `creator_id` from prior search or user input).
+1. Confirm which creator to analyze (prefer `creator_id` from prior search or a prior read response; if absent, the first read call may use `--url` or `--platform --channel-id`).
 2. If user asked about a specific concern, check that dimension first.
-3. If no specific concern, follow default order: profile → audience → content → cooperation (all with `--detail` flag).
-4. Platform-aware skip: TikTok and Instagram often have partial cooperation/pricing data. Skip `creator cooperation --detail` unless the user explicitly asks for pricing or brand-history signals, or the primary platform is YouTube. See `{baseDir}/references/platform-support.md`.
-5. For content analysis in Chinese context, add `--language zh`.
-6. Return verdict first, then supporting evidence.
+3. If the user only needs channel or social links, run `creator profile` first; it may already return `channel_url` and `social_media`.
+4. If no specific concern, follow default order: profile → audience → content → cooperation (all with `--detail` flag).
+5. Platform-aware skip: TikTok and Instagram often have partial cooperation/pricing data. Skip `creator cooperation --detail` unless the user explicitly asks for pricing or brand-history signals, or the primary platform is YouTube. See `{baseDir}/references/platform-support.md`.
+6. For content analysis in Chinese context, add `--language zh`.
+7. Return verdict first, then supporting evidence.
 
 Use `noxinfluencer schema creator.<dimension>` (e.g., `schema creator.profile`). The quoted single-argument form (for example `schema 'creator profile'`) is equivalent.
 
@@ -180,7 +181,7 @@ See `{baseDir}/references/verdict-heuristics.md` for detailed heuristic rules an
 
 Retrieve contact info for a specific creator. Intentionally narrow — gets contact data, nothing more.
 
-1. Confirm which creator (use `creator_id` from prior search or user input).
+1. Confirm which creator (prefer `creator_id` from prior search or a prior read response; if absent, the first read call may use `--url` or `--platform --channel-id`).
 2. Run the contacts command.
 3. Return only the contact info and quality signal.
 
