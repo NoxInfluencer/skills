@@ -235,6 +235,18 @@
         "Explains that contract review is outside the skill's scope",
         "May suggest consulting legal counsel"
       ]
+    },
+    {
+      "id": 20,
+      "category": "analysis",
+      "prompt": "把这个达人当前平台的频道链接和其他社媒链接拉给我看看，ID 是 r9VcmNsPLbYWT7caR6HTX2ZR--p1QAthlDV5932yjjZZXLTQ61qC947b。",
+      "expected_output": "Use creator profile to retrieve and report channel_url and social_media, without running unnecessary deeper analysis.",
+      "files": [],
+      "expectations": [
+        "Runs creator profile for the given creator ID",
+        "Uses channel_url and social_media from the profile response",
+        "Does NOT run audience, content, cooperation, or contact commands unless the user asks for more"
+      ]
     }
   ]
 }
