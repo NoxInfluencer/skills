@@ -59,6 +59,7 @@ The CLI is self-describing — use it instead of memorizing parameters:
 | Create monitoring project | `noxinfluencer monitor create` |
 | Add monitored video | `noxinfluencer monitor add-task` |
 | List monitored videos | `noxinfluencer monitor tasks` |
+| Get task-level history points | `noxinfluencer monitor history` |
 | Get project summary | `noxinfluencer monitor summary` |
 
 Add `--detail` for expanded creator analysis when the user needs deeper evidence. Add `--lang zh` for Chinese users. Use `schema <cmd>` when you need exact flags or required fields. If the user does not already have a `creator_id`, the first read call may use `--url` or `--platform --channel-id`; after that, prefer the returned `data.creator_id`.
@@ -208,7 +209,9 @@ Manage video monitoring projects and tracked videos. Operational only — manage
 1. List projects first when the target project is unclear.
 2. Create a project when user wants a new one.
 3. If user wants to create AND monitor in one request, create first then add task.
-4. For project overview, use summary; for specific videos, use task list.
+4. For project overview, use summary.
+5. For specific videos, use task list.
+6. When the user needs day-by-day or hour-by-hour performance for one monitored video, first use `monitor tasks` to identify the `task_id`, then use `monitor history`.
 
 Use `noxinfluencer schema monitor.<subcommand>` for parameter details. Write operations default to dry-run — use `--force` to execute.
 
@@ -223,6 +226,7 @@ Use `noxinfluencer schema monitor.<subcommand>` for parameter details. Write ope
 - Project lists: name, project_id, platforms, monitor count
 - Summaries: monitor count, total views/likes/comments, avg engagement, platform breakdown
 - Task lists: creator name, video title, views, engagement rate, status
+- Task history: task_id, granularity, latest metrics, and ordered history points from `data.items`
 - Do not turn outputs into performance verdicts
 
 ### Status Codes
