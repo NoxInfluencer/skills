@@ -247,6 +247,30 @@
         "Uses channel_url and social_media from the profile response",
         "Does NOT run audience, content, cooperation, or contact commands unless the user asks for more"
       ]
+    },
+    {
+      "id": 21,
+      "category": "analysis",
+      "prompt": "我手上没有内部 creator_id，只有这个 YouTube 频道链接：https://www.youtube.com/channel/UC4qk9TtGhBKCkoWz5qGJcGg。先帮我拉基础资料，后面我还要继续分析。",
+      "expected_output": "Start directly from the channel URL, return the creator read result, and preserve the returned creator_id for follow-up instead of forcing a search first.",
+      "files": [],
+      "expectations": [
+        "Uses a creator read command with --url instead of requiring creator search first",
+        "Surfaces the returned creator_id as the follow-up handle for later read commands",
+        "Does NOT claim that the user must search first to obtain an internal ID"
+      ]
+    },
+    {
+      "id": 22,
+      "category": "monitoring",
+      "prompt": "我刚加了一个监控视频，帮我看看对应的是哪个达人，把达人名称、creator_id、handle 和频道链接一起告诉我。",
+      "expected_output": "Use monitor task data to report creator identity fields when present, without telling the user to search for the creator again first.",
+      "files": [],
+      "expectations": [
+        "Uses monitor add-task or monitor tasks output as the source of creator identity fields",
+        "Reports creator_name together with creator_id, channel_handle, and channel_url when those fields are present",
+        "Treats nullable monitor identity fields as best-effort metadata rather than a hard failure"
+      ]
     }
   ]
 }

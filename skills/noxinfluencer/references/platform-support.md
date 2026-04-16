@@ -38,8 +38,9 @@ Different platforms have different content types that affect performance metrics
 ## Platform-Specific Notes
 
 - **Null fields**: Some fields may return `null` on certain platforms. This is expected behavior, not a data error. Skills should explain that the value may be unavailable for that platform rather than treating it as a failure.
-- **Profile links**: `creator profile` and `creator profile --detail` may include `channel_url` and `social_media`. Missing links should be treated as unavailable enhancement data, not a hard failure.
+- **Creator identity fields**: All creator read responses include `creator_id`, `creator_name`, `channel_handle`, `channel_url`, and `social_media`. `channel_url` and `social_media` are enhancement data and may still be empty on some creators or platforms.
 - **Audience data**: Instagram audience data may be less granular than YouTube or TikTok.
 - **Cooperation data**: Pricing and communication metrics are most complete on YouTube. TikTok and Instagram may have partial or no pricing data.
 - **Creator IDs**: All creator IDs in search results and creator read responses are encrypted tokens. The same creator always produces the same token. Use the token directly as the positional `<creator_id>` argument in subsequent commands without decryption.
 - **Direct selectors**: The first creator read call may use `--url` or `--platform --channel-id`. Once a response returns `data.creator_id`, switch to that token for follow-up calls.
+- **Monitor task identity**: `monitor add-task` and `monitor tasks` may also expose `creator_id`, `creator_name`, `channel_handle`, and `channel_url`. Treat these as best-effort task metadata; nullable fields are not a hard failure.

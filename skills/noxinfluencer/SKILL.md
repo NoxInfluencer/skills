@@ -46,11 +46,11 @@ The CLI is self-describing — use it instead of memorizing parameters:
 | User intent | CLI command |
 |-------------|-------------|
 | Search creators | `noxinfluencer creator search` |
-| Creator overview / links | `noxinfluencer creator profile [creator_id]` |
-| Audience analysis | `noxinfluencer creator audience [creator_id]` |
-| Content analysis | `noxinfluencer creator content [creator_id]` |
-| Cooperation / pricing signals | `noxinfluencer creator cooperation [creator_id]` |
-| Get contact info | `noxinfluencer creator contacts [creator_id]` |
+| Creator overview / links | `noxinfluencer creator profile [creator_id]` or first-call `--url` / `--platform --channel-id` |
+| Audience analysis | `noxinfluencer creator audience [creator_id]` or first-call `--url` / `--platform --channel-id` |
+| Content analysis | `noxinfluencer creator content [creator_id]` or first-call `--url` / `--platform --channel-id` |
+| Cooperation / pricing signals | `noxinfluencer creator cooperation [creator_id]` or first-call `--url` / `--platform --channel-id` |
+| Get contact info | `noxinfluencer creator contacts [creator_id]` or first-call `--url` / `--platform --channel-id` |
 | Check quota | `noxinfluencer quota` |
 | Check setup health | `noxinfluencer doctor` |
 | Check membership plans | `noxinfluencer pricing` |
@@ -63,6 +63,8 @@ The CLI is self-describing — use it instead of memorizing parameters:
 | Get project summary | `noxinfluencer monitor summary` |
 
 Add `--detail` for expanded creator analysis when the user needs deeper evidence. Add `--lang zh` for Chinese users. Use `schema <cmd>` when you need exact flags or required fields. If the user does not already have a `creator_id`, the first read call may use `--url` or `--platform --channel-id`; after that, prefer the returned `data.creator_id`.
+
+All creator read responses include a unified creator identity block: `creator_id`, `creator_name`, `channel_handle`, `channel_url`, and `social_media`. `monitor add-task` and `monitor tasks` may also expose `creator_id`, `creator_name`, `channel_handle`, and `channel_url` for the monitored creator when the upstream task data includes them.
 
 ---
 
@@ -143,7 +145,7 @@ Help the user decide whether a creator is worth pursuing. Lead with a verdict, n
 
 1. Confirm which creator to analyze (prefer `creator_id` from prior search or a prior read response; if absent, the first read call may use `--url` or `--platform --channel-id`).
 2. If user asked about a specific concern, check that dimension first.
-3. If the user only needs channel or social links, run `creator profile` first; it may already return `channel_url` and `social_media`.
+3. If the user only needs channel or social links, run `creator profile` first; it may already return the unified creator identity block, including `channel_url` and `social_media`.
 4. If no specific concern, follow default order: profile → audience → content → cooperation (all with `--detail` flag).
 5. Platform-aware skip: TikTok and Instagram often have partial cooperation/pricing data. Skip `creator cooperation --detail` unless the user explicitly asks for pricing or brand-history signals, or the primary platform is YouTube. See `{baseDir}/references/platform-support.md`.
 6. For content analysis in Chinese context, add `--language zh`.
@@ -225,9 +227,11 @@ Use `noxinfluencer schema monitor.<subcommand>` for parameter details. Write ope
 
 - Project lists: name, project_id, platforms, monitor count
 - Summaries: monitor count, total views/likes/comments, avg engagement, platform breakdown
-- Task lists: creator name, video title, views, engagement rate, status
+- Task lists: creator name, video title, views, engagement rate, status; include `creator_id`, `channel_handle`, and `channel_url` when present
 - Task history: task_id, granularity, latest metrics, and ordered history points from `data.items`
 - Do not turn outputs into performance verdicts
+
+If `monitor add-task` or `monitor tasks` returns `creator_id`, preserve it for later creator read follow-ups instead of asking the user to search again.
 
 ### Status Codes
 
