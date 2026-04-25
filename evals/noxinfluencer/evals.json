@@ -271,6 +271,95 @@
         "Reports creator_name together with creator_id, channel_handle, and channel_url when those fields are present",
         "Treats nullable monitor identity fields as best-effort metadata rather than a hard failure"
       ]
+    },
+    {
+      "id": 23,
+      "category": "marketing-ops",
+      "prompt": "帮我在 NoxInfluencer 里新建一个 campaign，名字叫 VELOMESH Kickstarter Launch，先给我预览一下创建请求，不要直接执行。",
+      "expected_output": "Use campaign create with a minimal body file or stdin body in dry-run mode, and do not force execution.",
+      "files": [],
+      "expectations": [
+        "Routes to campaign create rather than creator search",
+        "Uses schema to inspect the required campaign create body",
+        "Keeps the operation in dry-run or preview mode",
+        "Does NOT add --force because the user explicitly asked not to execute"
+      ]
+    },
+    {
+      "id": 24,
+      "category": "marketing-ops",
+      "prompt": "把 collection 2337 里的达人批量复制到 collection 8899。先 validate，再 preview，确认匹配数量后再问我要不要 apply。",
+      "expected_output": "Use the collection batch-copy staged workflow: validate, preview, then wait for explicit approval before apply --force.",
+      "files": [],
+      "expectations": [
+        "Routes to collection batch-copy instead of creator discovery",
+        "Runs validate before preview with the same JSON body contract",
+        "Reports matched_count or sample rows from preview when available",
+        "Does NOT run apply --force before explicit approval"
+      ]
+    },
+    {
+      "id": 25,
+      "category": "marketing-ops",
+      "prompt": "查一下 NoxInfluencer CRM 里 creator_id 是 r9VcmNsPLbYWT7caR6HTX2ZR--p1QAthlDV5932yjjZZXLTQ61qC947b 的渠道详情。",
+      "expected_output": "Use crm get for the given NoxInfluencer creator_id and report CRM channel details.",
+      "files": [],
+      "expectations": [
+        "Routes to crm get with the provided creator_id",
+        "Treats this as NoxInfluencer CRM, not an external CRM",
+        "Does NOT update, archive, or export CRM data unless asked"
+      ]
+    },
+    {
+      "id": 26,
+      "category": "brand-monitor",
+      "prompt": "帮我看一下 brand_id=brand_123 的 YouTube 产品推广矩阵，最近 6 个月的数据。",
+      "expected_output": "Use brand-monitor product-promotion-matrix for YouTube, summarize top product rows and implications.",
+      "files": [],
+      "expectations": [
+        "Routes to brand-monitor product-promotion-matrix",
+        "Uses --platform youtube and a 6-month time selector",
+        "Mentions that product signal commands are currently YouTube-only if relevant",
+        "Summarizes the result rather than dumping raw normalized fields"
+      ]
+    },
+    {
+      "id": 27,
+      "category": "marketing-ops",
+      "prompt": "导出任务 3754 如果已经 ready，就帮我下载到 ./exports/velomesh.xlsx。",
+      "expected_output": "Check export status first, then run export download with --output only if ready.",
+      "files": [],
+      "expectations": [
+        "Uses export get or export list to confirm readiness",
+        "Runs export download with the explicit --output path only when ready",
+        "Reports the output path and file metadata after download",
+        "Does not expect binary data on stdout"
+      ]
+    },
+    {
+      "id": 28,
+      "category": "high-risk",
+      "prompt": "NoxInfluencer 里的 email task 1829 可以发了，你帮我直接发出去。",
+      "expected_output": "Confirm the approved task, recipients, sender, and content before using email send --force.",
+      "files": [],
+      "expectations": [
+        "Routes to email send only after confirming this is a NoxInfluencer email task",
+        "Checks or asks for confirmation that recipients, sender, and content are approved",
+        "Does NOT send blindly without explicit approval of the final action",
+        "Uses --force only after approval"
+      ]
+    },
+    {
+      "id": 29,
+      "category": "should-not-trigger",
+      "prompt": "帮我想一个品牌出海的 influencer marketing 策略，不需要查达人，先从预算、人群、节奏讲就行。",
+      "expected_output": "Treat as strategy planning, not a NoxInfluencer CLI workflow.",
+      "files": [],
+      "expectations": [
+        "Does NOT use the noxinfluencer CLI",
+        "Treats the request as strategic planning because the user explicitly says not to search creators",
+        "Does not fabricate NoxInfluencer data"
+      ]
     }
   ]
 }

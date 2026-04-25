@@ -26,6 +26,7 @@ NoxInfluencer skills support three platforms. Each has some data availability di
 | Pricing data | Full | Partial | Limited |
 | Contact/email | Available | Available | Available |
 | Video monitoring | Full | Full | Full |
+| Brand monitor product signals | YouTube only | Not supported | Not supported |
 
 ## Content Type Splits
 
@@ -44,3 +45,4 @@ Different platforms have different content types that affect performance metrics
 - **Creator IDs**: All creator IDs in search results and creator read responses are encrypted tokens. The same creator always produces the same token. Use the token directly as the positional `<creator_id>` argument in subsequent commands without decryption.
 - **Direct selectors**: The first creator read call may use `--url` or `--platform --channel-id`. Once a response returns `data.creator_id`, switch to that token for follow-up calls.
 - **Monitor task identity**: `monitor add-task` and `monitor tasks` may also expose `creator_id`, `creator_name`, `channel_handle`, and `channel_url`. Treat these as best-effort task metadata; nullable fields are not a hard failure.
+- **Brand monitor product signals**: Product publication, category, SOV, TAE, PP, promotion matrix, and promotion distinction commands currently support YouTube only. For TikTok or Instagram brand questions, use non-product brand monitor reads or asset lists when schema permits.

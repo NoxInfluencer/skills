@@ -6,6 +6,13 @@ These commands return the standard API envelope:
 
 - `creator ...`
 - `monitor ...`
+- `campaign ...`
+- `collection ...`
+- `email ...`
+- `message ...`
+- `crm ...`
+- `brand-monitor ...`
+- `export ...`
 - `quota`
 - `pricing`
 
@@ -16,6 +23,10 @@ Notes:
 - Treat `quota` response data as the canonical Skill quota snapshot
 - `pricing` returns membership plans, not per-action cost
 - Some current API envelopes may still include a legacy `credits` field for compatibility; do not treat it as the primary quota model
+- Mutation commands default to dry-run; `--force` executes the write after user approval
+- Non-GET writes automatically use `Idempotency-Key`; `--idempotency-key` can override it for automation
+- JSON-first commands declare `supports_body_file: true` in schema and require `--body-file`
+- `export download` writes binary data to `--output`, not stdout
 
 Error responses include an `action` field with next-step guidance:
 
@@ -42,4 +53,13 @@ These commands have their own response structures — do not assume the API enve
 |---------|----------------|
 | `doctor` | `{ "checks": [...], "ok": boolean }` |
 | `auth` | `{ "success": boolean, "message": string }` |
+| `env` | `{ "success": true, "data": { "environment": string, "server_url": string } }` |
 | `schema` | Command schema JSON (no envelope) |
+| `agent exit-codes` | Stable CLI exit-code catalog |
+
+## Agent Diagnostics
+
+- Use `--trace-json` when a harness or eval needs structured request traces on stderr.
+- Use `schema --all` to verify the installed CLI exposes the expected 0.4+ command tree. Version output alone is not sufficient when a local/global install has stale compiled files. If reinstalling the pinned release artifact still lacks the expected command groups, stop the affected workflow and report a CLI package / command-tree mismatch.
+- Use `noxinfluencer agent exit-codes` to distinguish retryable failures such as rate limits or temporary upstream failures from invalid requests and auth problems.
+- Use `doctor` as the first diagnostic step when the failure cause is unclear.
