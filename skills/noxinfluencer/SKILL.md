@@ -1,28 +1,30 @@
 ---
 name: noxinfluencer
-description: Discovers creators for influencer marketing, creator marketing, and social media marketing campaigns; performs creator due-diligence analysis, retrieves outreach-ready contacts, and tracks campaign videos across YouTube, TikTok, and Instagram via the NoxInfluencer CLI. Use when the user needs creator discovery, creator evaluation, contact retrieval, or campaign monitoring.
-metadata: {"openclaw":{"requires":{"env":["NOXINFLUENCER_API_KEY"],"bins":["noxinfluencer"]},"primaryEnv":"NOXINFLUENCER_API_KEY","install":[{"kind":"node","package":"@noxinfluencer/cli","bins":["noxinfluencer"]}],"homepage":"https://www.noxinfluencer.com/skills"}}
+description: Runs NoxInfluencer creator and marketing-ops workflows via CLI, including creator discovery for influencer marketing, creator marketing, UGC, social media marketing, and affiliate marketing; creator evaluation, contact retrieval, video tracking, campaigns, collections, CRM channels, email/message tasks, brand monitoring, and exports. Use when the user needs NoxInfluencer creator discovery, creator evaluation, outreach operations, campaign/collection operations, brand monitoring, or account setup.
+metadata: {"openclaw":{"requires":{"env":["NOXINFLUENCER_API_KEY"],"bins":["noxinfluencer"]},"primaryEnv":"NOXINFLUENCER_API_KEY","install":[{"kind":"node","package":"https://github.com/NoxInfluencer/skills/releases/download/noxinfluencer-cli-0.4.0-ops.1/noxinfluencer-cli-0.4.0.tgz","bins":["noxinfluencer"]}],"homepage":"https://www.noxinfluencer.com/skills"}}
 ---
 
 # NoxInfluencer
 
-Full-workflow creator marketing skill for influencer discovery, creator due diligence, outreach-ready contact retrieval, and campaign video monitoring across YouTube, TikTok, and Instagram.
+Full-workflow creator and marketing-ops skill for influencer discovery, due diligence, outreach-ready contact retrieval, campaign video monitoring, campaign/collection operations, CRM/email/message operations, brand monitoring, and exports across YouTube, TikTok, and Instagram.
 
 The user interacts through natural language. Execute CLI commands yourself and report results in plain language. Never expose raw commands to the user.
 
 ## When to Use
 
 - User wants to find, evaluate, or contact creators / influencers / KOLs
+- User wants NoxInfluencer campaign, collection, CRM, email/message, export, or brand-monitor operations
 - User needs to set up NoxInfluencer access or check quota
 - User wants to monitor video campaign performance
 - User hits an auth, quota, or CLI error
 
 ## What This Skill Does Not Do
 
-- Draft outreach emails, negotiation copy, or partnership messages
-- Send email, update a CRM, or operate external messaging platforms
-- Make final campaign budget allocation or media-plan decisions
+- Draft outreach emails, negotiation copy, or partnership messages from scratch
+- Send email/message tasks or update CRM records without explicit user approval
+- Make final campaign budget allocation, media-plan, or partnership decisions
 - Generate creative briefs or interpret video content beyond available platform metrics
+- Operate external CRM, email, messaging, spreadsheet, or ad platforms outside NoxInfluencer
 - Replace legal or commercial review of contracts, disputes, or brand-safety decisions
 
 ## Core Principles
@@ -38,6 +40,8 @@ The CLI is self-describing — use it instead of memorizing parameters:
 - **Parameters**: `noxinfluencer schema <cmd>` (e.g., `schema creator.search`; quoted path form `schema 'creator search'` also works)
 - **Help**: `noxinfluencer <cmd> --help`
 - **Diagnostics**: `noxinfluencer doctor`
+- **Command-tree check**: `noxinfluencer schema --all` must include `campaign`, `collection`, `email`, `message`, `crm`, `brand-monitor`, `export`, and `agent`
+- **Exit codes**: `noxinfluencer agent exit-codes`
 - **Preview**: `--dry-run` (shows request without executing)
 - **Language routing**: `--lang zh` switches all URLs to `cn.noxinfluencer.com`
 
@@ -61,18 +65,35 @@ The CLI is self-describing — use it instead of memorizing parameters:
 | List monitored videos | `noxinfluencer monitor tasks` |
 | Get task-level history points | `noxinfluencer monitor history` |
 | Get project summary | `noxinfluencer monitor summary` |
+| Campaign list / detail / dashboard | `noxinfluencer campaign list`, `campaign get`, `campaign dashboard` |
+| Create or update campaign | `noxinfluencer campaign create`, `campaign update` |
+| Collection list / detail / items | `noxinfluencer collection list`, `collection get`, `collection items` |
+| Collection batch operations | `noxinfluencer collection batch-* validate/preview/apply` |
+| Refresh / unlock collection data | `noxinfluencer collection refresh-* validate/preview/apply`, `collection unlock-audience` |
+| Add collection to NoxInfluencer CRM | `noxinfluencer collection add-to-crm validate/preview/apply` |
+| CRM channel operations | `noxinfluencer crm list`, `crm get`, `crm update`, `crm groups ...` |
+| Email task operations | `noxinfluencer email list`, `email get`, `email create`, `email send`, `email schedule` |
+| Message thread operations | `noxinfluencer message list`, `message get`, `message draft`, `message send`, `message schedule` |
+| Brand monitor overview | `noxinfluencer brand-monitor list`, `brand-monitor get` |
+| Brand competition / strategy reads | `noxinfluencer brand-monitor competition-matrix`, `cooperate-matrix`, `influencer-portrait`, `defense-gap` |
+| Brand product signals | `noxinfluencer brand-monitor product-*` |
+| Brand assets / exports | `noxinfluencer brand-monitor influencer-list`, `content-list`, `tag-list`, `product-list`, `*-export` |
+| Export task status / download | `noxinfluencer export list`, `export get`, `export download` |
+| Stable automation exit codes | `noxinfluencer agent exit-codes` |
 
 Add `--detail` for expanded creator analysis when the user needs deeper evidence. Add `--lang zh` for Chinese users. Use `schema <cmd>` when you need exact flags or required fields. If the user does not already have a `creator_id`, the first read call may use `--url` or `--platform --channel-id`; after that, prefer the returned `data.creator_id`.
 
 All creator read responses include a unified creator identity block: `creator_id`, `creator_name`, `channel_handle`, `channel_url`, and `social_media`. `monitor add-task` and `monitor tasks` may also expose `creator_id`, `creator_name`, `channel_handle`, and `channel_url` for the monitored creator when the upstream task data includes them.
 
+For marketing-ops commands, many workflows are JSON-first and use `--body-file`. Mutations default to dry-run; only use `--force` after the user has explicitly approved the target object and the action. See `{baseDir}/references/marketing-ops.md` and `{baseDir}/references/brand-monitor.md`.
+
 ---
 
 ## 1. Getting Started
 
-Run `noxinfluencer doctor` first to check the current state. Guide through only what's missing:
+Run `noxinfluencer doctor` first, then `noxinfluencer schema --all` to verify the current command tree. Guide through only what's missing:
 
-1. **No CLI installed** → Tell user to run `npm install -g @noxinfluencer/cli` in their terminal. In the same reply, directly provide the browser steps they must do themselves:
+1. **No CLI installed or stale command tree** → Tell user to run `npm install -g https://github.com/NoxInfluencer/skills/releases/download/noxinfluencer-cli-0.4.0-ops.1/noxinfluencer-cli-0.4.0.tgz` in their terminal. Treat the install as stale if `schema --all` does not include the 0.4+ command groups: `campaign`, `collection`, `email`, `message`, `crm`, `brand-monitor`, `export`, and `agent`. If reinstalling the release artifact still lacks those command groups, stop marketing-ops workflows and report a CLI package / command-tree mismatch instead of retrying the same command. In the same reply, directly provide the browser steps they must do themselves:
    - English register: `https://www.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard`
    - English API key: `https://www.noxinfluencer.com/skills/dashboard`
    - Chinese register: `https://cn.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard`
@@ -245,6 +266,42 @@ If `monitor add-task` or `monitor tasks` returns `creator_id`, preserve it for l
 
 ---
 
+## 6. Marketing Ops
+
+Operate NoxInfluencer campaign, collection, CRM, email, message, and export workflows. Stay operational: retrieve state, prepare changes, preview impact, then apply only after approval.
+
+### Workflow
+
+1. Identify the target domain: campaign, collection, CRM channel/group, email task, message thread, or export.
+2. Read current state first when the target ID is unclear (`list`, `get`, `dropdown`, `dashboard`, or equivalent).
+3. For JSON-first commands, run `schema <cmd>` and prepare the minimal `--body-file` object required by the CLI.
+4. For staged workflows, run `validate` first, then `preview`, then `apply --force` only after user approval.
+5. For direct mutations such as `create`, `update`, `delete`, `send`, `schedule`, `archive`, or `restore`, rely on dry-run first unless the user has already approved the exact action.
+6. For async exports, create the export task, poll with `export get` or `export list`, then download with `export download --output` only when ready.
+
+Do not draft outreach copy. If the user asks to send or schedule an existing task or message, confirm the task/thread, recipients, sender, scheduled time, and content are already approved.
+
+See `{baseDir}/references/marketing-ops.md` for domain routing, mutation guardrails, and export handling.
+
+---
+
+## 7. Brand Monitoring
+
+Use brand-monitor commands for owned/competitor brand analysis and brand asset exports. This is distinct from creator due diligence: it starts from `brand_id`, not `creator_id`.
+
+### Workflow
+
+1. List or get brand monitors when `brand_id` is unclear.
+2. Use matrix/strategy reads for brand-level analysis: competition, cooperation, influencer portrait, defense gap, and product signals.
+3. Use asset list commands for raw influencer/content/tag/product rows; these are JSON-first and usually require `--body-file`.
+4. Product signal commands currently support YouTube only. Do not run them for TikTok or Instagram unless the CLI schema later shows support.
+5. Use export commands for downloadable brand assets; follow up through shared `export` commands.
+6. Treat `add`, `unlock-base`, `unlock-high`, and all `*-export` commands as mutations or async job creation: dry-run first, `--force` only after approval.
+
+See `{baseDir}/references/brand-monitor.md` for command routing and platform boundaries.
+
+---
+
 ## Workflow Routing
 
 | User intent | Start with |
@@ -253,23 +310,27 @@ If `monitor add-task` or `monitor tasks` returns `creator_id`, preserve it for l
 | Evaluate a specific creator | § 3. Analyzing Creators |
 | Get email or contact details | § 4. Retrieving Contacts |
 | Set up monitoring for a video | § 5. Tracking Performance |
+| Manage campaigns, collections, CRM, email/message tasks, or exports | § 6. Marketing Ops |
+| Analyze or export brand-monitor data | § 7. Brand Monitoring |
 | Setup, quota, billing, errors | § 1. Getting Started |
 
-Natural progression: discover → analyze → contact → monitor. But users can enter at any point.
+Natural progression: discover → analyze → contact → monitor → operate. But users can enter at any point.
 
 ## Error Handling
 
-For API-backed failures (`quota`, `pricing`, `creator`, `monitor`), use the CLI response's `action` field when present:
+For API-backed failures (`quota`, `pricing`, `creator`, `monitor`, `campaign`, `collection`, `email`, `message`, `crm`, `brand-monitor`, `export`), use the CLI response's `action` field when present:
 - `action.url` — where the user should go
 - `action.hint` — what to do
 
-Local commands (`auth`, `doctor`, `schema`) may not include `action`. Read their native output directly instead of assuming the API error envelope.
+Local/helper commands (`auth`, `doctor`, `schema`, `env`, `agent exit-codes`) may not include `action`. Read their native output directly instead of assuming the API error envelope.
 
 For unexpected failures, run `doctor` as a first diagnostic step.
 
 ## References
 
 - `{baseDir}/references/cli-response-format.md` — response envelope differences and error action handling
+- `{baseDir}/references/marketing-ops.md` — campaign, collection, CRM, email/message, export workflows and mutation guardrails
+- `{baseDir}/references/brand-monitor.md` — brand monitor routing, YouTube-only product signals, export boundaries
 - `{baseDir}/references/platform-support.md` — data availability by platform
 - `{baseDir}/references/search-filters.md` — filter selection by user intent
 - `{baseDir}/references/verdict-heuristics.md` — detailed due-diligence rules and output structure

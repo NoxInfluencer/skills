@@ -7,14 +7,14 @@
   "metadata": {
     "version": "0.1.1",
     "pluginRoot": "./plugins",
-    "description": "NoxInfluencer plugins for creator discovery, analysis, outreach preparation, and monitoring."
+    "description": "NoxInfluencer plugins for creator discovery, analysis, outreach preparation, monitoring, marketing operations, brand monitoring, and exports."
   },
   "plugins": [
     {
       "name": "nox-influencer",
       "version": "0.1.1",
       "source": "./plugins/nox-influencer",
-      "description": "NoxInfluencer skill plugin for Claude Code."
+      "description": "NoxInfluencer skill plugin for creator and marketing-ops workflows in Claude Code."
     }
   ]
 }
