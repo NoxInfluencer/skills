@@ -209,6 +209,7 @@
         "Keeps the prior search filters unchanged",
         "Uses page_num 2 for the next request",
         "Forwards the previous response's search_after cursor instead of relying on page_num alone",
+        "Uses a JSON body/body-file or correctly shell-quotes the cursor array",
         "Presents the next-page candidates as a shortlist rather than raw JSON"
       ]
     },
