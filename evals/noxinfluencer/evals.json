@@ -352,6 +352,20 @@
     },
     {
       "id": 29,
+      "category": "high-risk",
+      "prompt": "把刚才选中的前两个达人发第一封邮件。邮箱是 alex@northstarcreator.test 和 maya@printlabcreator.test，开发信内容我已经确认过：Subject: Collaboration idea; Body: Hi, we'd like to discuss a paid creator partnership.",
+      "expected_output": "Use the NoxInfluencer email task workflow rather than message threads, and require final send approval before force sending.",
+      "files": [],
+      "expectations": [
+        "Does NOT claim that first email outreach is impossible just because there is no message thread",
+        "Routes to email create and email recipients add/replace for explicit email addresses",
+        "Uses email content save only with the user-provided approved content",
+        "Reads back or confirms task, recipients, sender, and content before email send --force",
+        "Does NOT use message send without an existing thread_id"
+      ]
+    },
+    {
+      "id": 30,
       "category": "should-not-trigger",
       "prompt": "帮我想一个品牌出海的 influencer marketing 策略，不需要查达人，先从预算、人群、节奏讲就行。",
       "expected_output": "Treat as strategy planning, not a NoxInfluencer CLI workflow.",
