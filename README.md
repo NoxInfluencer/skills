@@ -25,13 +25,13 @@ If you are starting from scratch, create a brand account and get an API key firs
 
 ## Install
 
-The skill expects the NoxInfluencer CLI command tree with `campaign`, `collection`, `email`, `message`, `crm`, `brand-monitor`, `export`, and `agent`. Until the npm package is republished with that command tree, OpenClaw installs the pinned release artifact:
+The skill expects `@noxinfluencer/cli` 0.4.1 or newer, including the command tree with `campaign`, `collection`, `email`, `message`, `crm`, `brand-monitor`, `export`, and `agent`. Install the latest npm package:
 
 ```bash
-npm install -g https://github.com/NoxInfluencer/skills/releases/download/noxinfluencer-cli-0.4.0-ops.1/noxinfluencer-cli-0.4.0.tgz
+npm install -g @noxinfluencer/cli@latest
 ```
 
-After installation, verify with `noxinfluencer schema --all`. Version output alone is not enough because the previously published npm `0.4.0` package has stale compiled files.
+After installation, verify with `noxinfluencer schema --all`. Version output alone is not enough if a local/global install has stale compiled files.
 
 ### Skills CLI / skills.sh
 

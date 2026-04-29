@@ -1,7 +1,7 @@
 ---
 name: noxinfluencer
 description: Runs NoxInfluencer creator and marketing-ops workflows via CLI, including creator discovery for influencer marketing, creator marketing, UGC, social media marketing, and affiliate marketing; creator evaluation, contact retrieval, video tracking, campaigns, collections, CRM channels, email/message tasks, brand monitoring, and exports. Use when the user needs NoxInfluencer creator discovery, creator evaluation, outreach operations, campaign/collection operations, brand monitoring, or account setup.
-metadata: {"openclaw":{"requires":{"env":["NOXINFLUENCER_API_KEY"],"bins":["noxinfluencer"]},"primaryEnv":"NOXINFLUENCER_API_KEY","install":[{"kind":"node","package":"https://github.com/NoxInfluencer/skills/releases/download/noxinfluencer-cli-0.4.0-ops.1/noxinfluencer-cli-0.4.0.tgz","bins":["noxinfluencer"]}],"homepage":"https://www.noxinfluencer.com/skills"}}
+metadata: {"openclaw":{"requires":{"env":["NOXINFLUENCER_API_KEY"],"bins":["noxinfluencer"]},"primaryEnv":"NOXINFLUENCER_API_KEY","install":[{"kind":"node","package":"@noxinfluencer/cli","bins":["noxinfluencer"]}],"homepage":"https://www.noxinfluencer.com/skills"}}
 ---
 
 # NoxInfluencer
@@ -93,7 +93,7 @@ For marketing-ops commands, many workflows are JSON-first and use `--body-file`.
 
 Run `noxinfluencer doctor` first, then `noxinfluencer schema --all` to verify the current command tree. Guide through only what's missing:
 
-1. **No CLI installed or stale command tree** → Tell user to run `npm install -g https://github.com/NoxInfluencer/skills/releases/download/noxinfluencer-cli-0.4.0-ops.1/noxinfluencer-cli-0.4.0.tgz` in their terminal. Treat the install as stale if `schema --all` does not include the 0.4+ command groups: `campaign`, `collection`, `email`, `message`, `crm`, `brand-monitor`, `export`, and `agent`. If reinstalling the release artifact still lacks those command groups, stop marketing-ops workflows and report a CLI package / command-tree mismatch instead of retrying the same command. In the same reply, directly provide the browser steps they must do themselves:
+1. **No CLI installed or stale command tree** → Tell user to run `npm install -g @noxinfluencer/cli@latest` in their terminal. Treat the install as stale if `schema --all` does not include the 0.4+ command groups: `campaign`, `collection`, `email`, `message`, `crm`, `brand-monitor`, `export`, and `agent`. If reinstalling the latest npm package still lacks those command groups, stop marketing-ops workflows and report a CLI package / command-tree mismatch instead of retrying the same command. In the same reply, directly provide the browser steps they must do themselves:
    - English register: `https://www.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard`
    - English API key: `https://www.noxinfluencer.com/skills/dashboard`
    - Chinese register: `https://cn.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard`
