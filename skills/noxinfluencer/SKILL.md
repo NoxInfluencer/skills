@@ -139,7 +139,7 @@ Use `noxinfluencer schema creator.search` to discover available filter parameter
 - Multi-platform requests require separate searches per platform
 - Add `--has_email true` when the user's intent is commercial outreach
 - Start with one search, refine if results are too noisy
-- For "show more", "next page", "继续", or similar follow-ups, rerun the same search with the next `page_num` and the prior response's `data.search_after`; if there is no cursor or the last page was already reached, say there are no more results
+- For "show more", "next page", "继续", or similar follow-ups, rerun the same search with the next `page_num` and the prior response's `data.search_after`; prefer `--body-file -` with a JSON body so the cursor array is passed exactly. If using flags, shell-quote `--search_after` and every bracketed array filter. If there is no cursor or the last page was already reached, say there are no more results
 
 See `{baseDir}/references/search-filters.md` for filter selection semantics by user intent.
 

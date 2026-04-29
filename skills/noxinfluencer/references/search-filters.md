@@ -27,5 +27,7 @@ The `id` is an encrypted token — use it directly as the positional `<creator_i
 ## Pagination Rules
 
 - For a next-page request, keep the previous search filters exactly the same and send both the next `page_num` and the previous response's `data.search_after`.
+- Prefer `--body-file -` for next-page requests and pass one JSON body containing the preserved filters, `page_num`, `page_size`, and `search_after`. This avoids shell globbing/quoting problems with cursor arrays.
+- If using flags instead of `--body-file`, shell-quote every bracketed array argument, especially `--search_after`, for example `--search_after '[163.97083,"UCQ-P8lGwkr0Tj4phQB9diDw"]'`.
 - Current CLI and server validation require `page_num > 1` when `search_after` is present, so do not try cursor-only paging.
 - If `data.search_after` is missing or empty, or the current page is already the last page, tell the user there are no more results.
