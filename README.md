@@ -91,3 +91,7 @@ claude plugin install nox-influencer@noxinfluencer
 - The skill is designed to help an agent operate the NoxInfluencer CLI on the user's behalf.
 - Marketing-ops write actions default to preview/dry-run behavior and require explicit approval before execution.
 - Some workflows may require a NoxInfluencer account, API access, or CLI authentication during setup.
+
+## Download History
+
+[![Download History](https://skill-history.com/chart/noxinfluencer/nox-influencer-marketing.svg)](https://skill-history.com/noxinfluencer/nox-influencer-marketing)
