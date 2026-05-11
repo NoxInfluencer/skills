@@ -49,6 +49,20 @@ Install directly to OpenClaw:
 npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer --agent openclaw
 ```
 
+### Hermes Skills Hub
+
+Hermes can install this skill through its Skills Hub aggregation layer. The skills.sh identifier is the most stable Hermes entry point:
+
+```bash
+hermes skills install skills-sh/noxinfluencer/skills/noxinfluencer
+```
+
+You can also preview it before installing:
+
+```bash
+hermes skills inspect skills-sh/noxinfluencer/skills/noxinfluencer
+```
+
 ### Claude Code
 
 Install the skill to Claude Code through the Skills CLI:
@@ -83,6 +97,7 @@ claude plugin install nox-influencer@noxinfluencer
 - **ClawHub**: best for browsing the public skill page, versions, and release metadata
 - **Skills CLI / skills.sh**: use the CLI install command above, or browse the public listing on [skills.sh](https://skills.sh/noxinfluencer/skills/noxinfluencer)
 - **OpenClaw**: use the OpenClaw-targeted install command above
+- **Hermes Skills Hub**: install through the skills.sh identifier shown above; Hermes can also discover this repository through GitHub taps
 - **Claude Code**: use either the Skills CLI install or the plugin marketplace install
 
 ## Notes
