@@ -375,6 +375,31 @@
         "Treats the request as strategic planning because the user explicitly says not to search creators",
         "Does not fabricate NoxInfluencer data"
       ]
+    },
+    {
+      "id": 31,
+      "category": "marketing-ops",
+      "prompt": "帮我查看 email task 3619 对应的站内消息详情。",
+      "expected_output": "Resolve the email task to a message thread with message list, then call message get using the returned thread_id.",
+      "files": [],
+      "expectations": [
+        "Uses message list with business_kind=email_task and business_id=3619 before message get",
+        "Uses the returned thread_id as the argument to message get",
+        "Does NOT pass the email task ID directly to message get"
+      ]
+    },
+    {
+      "id": 32,
+      "category": "marketing-ops",
+      "prompt": "把刚才搜索结果里的这几个 NoxInfluencer creator_id 加到 CRM，并打上标签 42。先 preview 给我看会新建几个。",
+      "expected_output": "Use crm batch-update preview for the explicit creator_ids, rely on CRM auto-create semantics for label updates, and report create counts.",
+      "files": [],
+      "expectations": [
+        "Routes to crm batch-update preview with explicit selector.creator_ids and labels",
+        "Treats valid search-result creator_id tokens as eligible for CRM auto-create in label/status updates",
+        "Reports will_create_count or created_count when present",
+        "Does NOT reject the task merely because the creators may not already exist in CRM"
+      ]
     }
   ]
 }

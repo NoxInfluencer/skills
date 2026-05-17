@@ -23,8 +23,14 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 ## Outreach Routing
 
 - If the user has reliable creator email addresses from `creator contacts`, use the email-task path. Create or select an email task, add explicit recipients with `email recipients add/replace`, save user-approved content with `email content save`, set sender if needed, read back task and recipients, then ask for final approval before `email send --force` or `email schedule --force`.
-- If the user wants in-platform DM/message, `message send` and `message schedule` require an existing `thread_id`. Without a thread, say that starting a new message thread is not exposed by the CLI and offer the email-task path if email contacts exist.
+- If the user wants in-platform DM/message, `message send` and `message schedule` require an existing `thread_id`. If the user only has an email task ID, use `message list --business_kind email_task --business_id <task_id>` to resolve the thread first. Without a thread, say that starting a new message thread is not exposed by the CLI and offer the email-task path if email contacts exist.
 - `crm add-to-email` is only for adding existing NoxInfluencer CRM channels to an existing email task. Do not treat CRM as required when the user already has explicit email addresses.
+
+## CRM Update Semantics
+
+- `crm update` / `crm batch-update` may auto-create a NoxInfluencer CRM channel for valid platform `creator_id` tokens when updating cooperation status or labels. For label-only updates, the service uses the default cooperation status before applying labels.
+- Owner-only or archive-only updates do not auto-create CRM channels. Treat missing-channel failures as real failures, not successful skips.
+- For batch previews and applies, report `existing_count`, `will_create_count`, and `created_count` when present; do not infer success only from requested IDs.
 
 ## Mutation Rules
 

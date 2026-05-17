@@ -275,7 +275,7 @@ Operate NoxInfluencer campaign, collection, CRM, email, message, and export work
 1. Identify the target domain: campaign, collection, CRM channel/group, email task, message thread, or export.
 2. Read current state first when the target ID is unclear (`list`, `get`, `dropdown`, `dashboard`, or equivalent).
 3. For first email outreach to known creator email addresses, use the email-task path: `email create` → `email recipients add/replace` → `email content save` → `email sender update` if needed → `email send` or `email schedule`. Do not require a message thread or CRM channel for this path.
-4. Use `message send` or `message schedule` only for existing `thread_id` replies. If no thread exists, do not claim email outreach is impossible; offer the email-task path when reliable email addresses are available.
+4. Use `message send` or `message schedule` only for existing `thread_id` replies. If the user gives an email task ID, resolve it with `message list --business_kind email_task --business_id <task_id>` before `message get`. If no thread exists, offer the email-task path when reliable email addresses are available.
 5. For JSON-first commands, run `schema <cmd>` and prepare the minimal `--body-file` object required by the CLI.
 6. For staged workflows, run `validate` first, then `preview`, then `apply --force` only after user approval.
 7. For direct mutations such as `create`, `update`, `delete`, `send`, `schedule`, `archive`, or `restore`, rely on dry-run first unless the user has already approved the exact action.
