@@ -25,13 +25,13 @@ If you are starting from scratch, create a brand account and get an API key firs
 
 ## Install
 
-The skill expects `@noxinfluencer/cli` 0.4.1 or newer, including the command tree with `campaign`, `collection`, `email`, `message`, `crm`, `brand-monitor`, `export`, and `agent`. Install the latest npm package:
+The skill expects `@noxinfluencer/cli` 0.4.6 or newer, including the command tree with `campaign`, `collection`, `email`, `message`, `crm`, `brand-monitor`, `export`, and `agent`. Install the latest npm package:
 
 ```bash
 npm install -g @noxinfluencer/cli@latest
 ```
 
-After installation, verify with `noxinfluencer schema --all`. Version output alone is not enough if a local/global install has stale compiled files.
+After installation, verify with `noxinfluencer schema --all` and confirm the expected command groups are present. Version output alone is not enough if a local/global install has stale compiled files.
 
 ### Skills CLI / skills.sh
 
