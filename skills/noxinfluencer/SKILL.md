@@ -94,10 +94,10 @@ For marketing-ops commands, many workflows are JSON-first and use `--body-file`.
 Run `noxinfluencer doctor` first, then `noxinfluencer schema --all` to verify the current command tree. Guide through only what's missing:
 
 1. **No CLI installed or stale command tree** → Tell user to run `npm install -g @noxinfluencer/cli@latest` in their terminal. Treat the install as stale if `schema --all` does not include the 0.4+ command groups: `campaign`, `collection`, `email`, `message`, `crm`, `brand-monitor`, `export`, and `agent`. If reinstalling the latest npm package still lacks those command groups, stop marketing-ops workflows and report a CLI package / command-tree mismatch instead of retrying the same command. In the same reply, directly provide the browser steps they must do themselves:
-   - English register: `https://www.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard`
-   - English API key: `https://www.noxinfluencer.com/skills/dashboard`
-   - Chinese register: `https://cn.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard`
-   - Chinese API key: `https://cn.noxinfluencer.com/skills/dashboard`
+   - English register: `https://www.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard&utm_source=skill&utm_medium=cli`
+   - English API key: `https://www.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli`
+   - Chinese register: `https://cn.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard&utm_source=skill&utm_medium=cli`
+   - Chinese API key: `https://cn.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli`
    Prefer a host-provided secret first: `skills.entries.noxinfluencer.apiKey` in OpenClaw maps to `NOXINFLUENCER_API_KEY`. If no secret channel is available, ask for a one-time handoff only through the safest available channel, then configure with `noxinfluencer auth --key-stdin` rather than putting the key in argv, logs, or echoed messages.
 2. **CLI installed, no API key** → Check whether `NOXINFLUENCER_API_KEY` / `skills.entries.noxinfluencer.apiKey` is already available before asking for manual input. Run `doctor` and prefer CLI-provided hints / URLs. Only fall back to the static register + API key links above if the CLI output is incomplete.
 3. **Everything configured** → Run `quota`, tell them the current Skill quota snapshot and any obvious blocking issues.
