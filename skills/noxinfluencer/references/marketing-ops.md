@@ -23,7 +23,7 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 ## Outreach Routing
 
 - If the user has reliable creator email addresses from `creator contacts`, use the email-task path. Create or select an email task, add explicit recipients with `email recipients add/replace`, save user-approved content with `email content save`, set sender if needed, read back task and recipients, then ask for final approval before `email send --force` or `email schedule --force`.
-- For email-task reply reporting, use `email report <task_id>` and treat `reply_count` as replied creator count. Do not recompute replies by manually scanning message threads unless the user explicitly asks for raw thread inspection.
+- For email-task reply reporting, use `email report <task_id>`. Treat `reply_count` as email tracking replies, `replied_creator_count` as replied creators, and `inbound_message_count` as inbound reply messages. Do not recompute replies by manually scanning message threads unless the user explicitly asks for raw thread inspection.
 - If the user wants in-platform DM/message, `message send` and `message schedule` require an existing `thread_id`. If the user only has an email task ID, use `message list --business_kind email_task --business_id <task_id>` to resolve the thread first. Without a thread, say that starting a new message thread is not exposed by the CLI and offer the email-task path if email contacts exist.
 - `crm add-to-email` is only for adding existing NoxInfluencer CRM channels to an existing email task. Do not treat CRM as required when the user already has explicit email addresses.
 
