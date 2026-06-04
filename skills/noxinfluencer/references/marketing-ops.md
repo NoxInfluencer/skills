@@ -9,6 +9,8 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 | Find or inspect campaigns | `campaign list`, `campaign get`, `campaign dashboard`, `campaign dropdown` |
 | Create or change campaign skeleton data | `campaign init`, `campaign create`, `campaign update`, `campaign delete` |
 | Find or inspect collections | `collection list`, `collection get`, `collection items`, `collection resources` |
+| Add creators from search/profile results to collections | `collection add-creators` |
+| Import owned creator links into one collection | `collection import-file` |
 | Batch move/copy/delete/label collection members | `collection batch-* validate`, then `preview`, then `apply` |
 | Refresh collection base/email data or unlock audience | `collection refresh* validate`, then `preview`, then `apply` |
 | Add one whole collection and platform slice to CRM | `collection add-to-crm validate`, then `preview`, then `apply` |
@@ -32,6 +34,12 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 - `crm update` / `crm batch-update` may auto-create a NoxInfluencer CRM channel for valid platform `creator_id` tokens when updating cooperation status or labels. For label-only updates, the service uses the default cooperation status before applying labels.
 - Owner-only or archive-only updates do not auto-create CRM channels. Treat missing-channel failures as real failures, not successful skips.
 - For batch previews and applies, report `existing_count`, `will_create_count`, and `created_count` when present; do not infer success only from requested IDs.
+
+## Collection Add and Import
+
+- Use `collection add-creators` when the user wants to save creators returned by `creator search` or creator read commands into one or more collections. The JSON body uses `collection_ids`, `platform`, and `creator_ids`. Use `channel_ids` only when the user already has raw same-platform channel IDs.
+- Use `collection import-file <collection_id> --file <path>` for the user's owned creator links. The spreadsheet's first column should be the YouTube, Instagram, or TikTok creator URL; an optional second column may contain email/contact data. This import is accepted asynchronously, so poll `collection items <collection_id>` by platform to confirm resolved rows.
+- Do not confuse these paths with collection copy/move. `add-creators` adds explicit creators to target collections; `import-file` imports owned creator URLs into one collection.
 
 ## Mutation Rules
 
