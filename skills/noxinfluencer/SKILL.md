@@ -72,7 +72,7 @@ The CLI is self-describing — use it instead of memorizing parameters:
 | Refresh / unlock collection data | `noxinfluencer collection refresh-* validate/preview/apply`, `collection unlock-audience` |
 | Add collection to NoxInfluencer CRM | `noxinfluencer collection add-to-crm validate/preview/apply` |
 | CRM channel operations | `noxinfluencer crm list`, `crm get`, `crm update`, `crm groups ...` |
-| Email task operations | `noxinfluencer email list`, `email get`, `email create`, `email send`, `email schedule` |
+| Email task operations | `noxinfluencer email list`, `email get`, `email create`, `email send`, `email schedule`, `email report`, `email team-summary`, `email team-breakdown` |
 | Message thread operations | `noxinfluencer message list`, `message get`, `message draft`, `message send`, `message schedule` |
 | Brand monitor overview | `noxinfluencer brand-monitor list`, `brand-monitor get` |
 | Brand competition / strategy reads | `noxinfluencer brand-monitor competition-matrix`, `cooperate-matrix`, `influencer-portrait`, `defense-gap` |
