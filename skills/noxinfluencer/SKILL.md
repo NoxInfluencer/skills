@@ -68,6 +68,8 @@ The CLI is self-describing — use it instead of memorizing parameters:
 | Campaign list / detail / dashboard | `noxinfluencer campaign list`, `campaign get`, `campaign dashboard` |
 | Create or update campaign | `noxinfluencer campaign create`, `campaign update` |
 | Collection list / detail / items | `noxinfluencer collection list`, `collection get`, `collection items` |
+| Add creators to collections | `noxinfluencer collection add-creators` |
+| Import owned creator links to a collection | `noxinfluencer collection import-file` |
 | Collection batch operations | `noxinfluencer collection batch-* validate/preview/apply` |
 | Refresh / unlock collection data | `noxinfluencer collection refresh-* validate/preview/apply`, `collection unlock-audience` |
 | Add collection to NoxInfluencer CRM | `noxinfluencer collection add-to-crm validate/preview/apply` |
