@@ -15,6 +15,7 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 | Refresh collection base/email data or unlock audience | `collection refresh* validate`, then `preview`, then `apply` |
 | Add one whole collection and platform slice to CRM | `collection add-to-crm validate`, then `preview`, then `apply` |
 | Query or update NoxInfluencer CRM channels | `crm list`, `crm get`, `crm update`, `crm groups ...` |
+| Manage CRM labels for batch tagging | `crm labels list/create/update/delete` |
 | Send first email outreach to known creator emails | `email create`, then `email recipients add/replace`, `email content save`, optional `email sender update`, then `email send` or `email schedule` |
 | Manage email tasks | `email list`, `email drafts`, `email get`, `email create`, `email update`, `email recipients ...`, `email content ...`, `email sender ...`, `email report`, `email team-summary`, `email team-breakdown` |
 | Send or schedule an existing email task | `email send`, `email schedule`, `email cancel` |
@@ -32,6 +33,7 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 ## CRM Update Semantics
 
 - `crm update` / `crm batch-update` may auto-create a NoxInfluencer CRM channel for valid platform `creator_id` tokens when updating cooperation status or labels. For label-only updates, the service uses the default cooperation status before applying labels.
+- Use `crm labels create` when the user needs a new CRM tag ID. Use the returned `label_id` in `crm batch-update` with `labels.operation=add` or `remove`.
 - Owner-only or archive-only updates do not auto-create CRM channels. Treat missing-channel failures as real failures, not successful skips.
 - For batch previews and applies, report `existing_count`, `will_create_count`, and `created_count` when present; do not infer success only from requested IDs.
 
