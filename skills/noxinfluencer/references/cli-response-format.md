@@ -60,6 +60,6 @@ These commands have their own response structures — do not assume the API enve
 ## Agent Diagnostics
 
 - Use `--trace-json` when a harness or eval needs structured request traces on stderr.
-- Use `schema --all` to verify the installed CLI exposes the expected 0.4+ command tree. Version output alone is not sufficient when a local/global install has stale compiled files. If reinstalling `@noxinfluencer/cli@latest` still lacks the expected command groups, stop the affected workflow and report a CLI package / command-tree mismatch.
+- Use `schema --all` to verify the installed CLI exposes the expected modern command tree, including `campaign`, `collection`, `email`, `message`, `crm`, `product`, `brand-monitor`, `export`, and `agent`. Version output alone is not sufficient when a local/global install has stale compiled files. If reinstalling `@noxinfluencer/cli@latest` still lacks the expected command groups, stop the affected workflow and report a CLI package / command-tree mismatch.
 - Use `noxinfluencer agent exit-codes` to distinguish retryable failures such as rate limits or temporary upstream failures from invalid requests and auth problems.
 - Use `doctor` as the first diagnostic step when the failure cause is unclear.

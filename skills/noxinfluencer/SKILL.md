@@ -1,19 +1,19 @@
 ---
 name: noxinfluencer
-description: Runs NoxInfluencer creator and marketing-ops workflows via CLI, including creator discovery for influencer marketing, creator marketing, UGC, social media marketing, and affiliate marketing; creator evaluation, contact retrieval, video tracking, campaigns, collections, CRM channels, email/message tasks, brand monitoring, and exports. Use when the user needs NoxInfluencer creator discovery, creator evaluation, outreach operations, campaign/collection operations, brand monitoring, or account setup.
+description: Runs NoxInfluencer creator and marketing-ops workflows via CLI, including creator discovery for influencer marketing, creator marketing, UGC, social media marketing, and affiliate marketing; creator evaluation, contact retrieval, video tracking, campaigns, collections, CRM channels, product center, email/message tasks, brand monitoring, and exports. Use when the user needs NoxInfluencer creator discovery, creator evaluation, outreach operations, campaign/collection/CRM/email/product operations, brand monitoring, or account setup.
 metadata: {"openclaw":{"requires":{"env":["NOXINFLUENCER_API_KEY"],"bins":["noxinfluencer"]},"primaryEnv":"NOXINFLUENCER_API_KEY","install":[{"kind":"node","package":"@noxinfluencer/cli","bins":["noxinfluencer"]}],"homepage":"https://www.noxinfluencer.com/skills"}}
 ---
 
 # NoxInfluencer
 
-Full-workflow creator and marketing-ops skill for influencer discovery, due diligence, outreach-ready contact retrieval, campaign video monitoring, campaign/collection operations, CRM/email/message operations, brand monitoring, and exports across YouTube, TikTok, and Instagram.
+Full-workflow creator and marketing-ops skill for influencer discovery, due diligence, outreach-ready contact retrieval, campaign video monitoring, campaign/collection operations, CRM/email/message/product-center operations, brand monitoring, and exports across YouTube, TikTok, and Instagram.
 
 The user interacts through natural language. Execute CLI commands yourself and report results in plain language. Never expose raw commands to the user.
 
 ## When to Use
 
 - User wants to find, evaluate, or contact creators / influencers / KOLs
-- User wants NoxInfluencer campaign, collection, CRM, email/message, export, or brand-monitor operations
+- User wants NoxInfluencer campaign, collection, CRM, email/message, product-center, export, or brand-monitor operations
 - User needs to set up NoxInfluencer access or check quota
 - User wants to monitor video campaign performance
 - User hits an auth, quota, or CLI error
@@ -40,7 +40,7 @@ The CLI is self-describing — use it instead of memorizing parameters:
 - **Parameters**: `noxinfluencer schema <cmd>` (e.g., `schema creator.search`; quoted path form `schema 'creator search'` also works)
 - **Help**: `noxinfluencer <cmd> --help`
 - **Diagnostics**: `noxinfluencer doctor`
-- **Command-tree check**: `noxinfluencer schema --all` must include `campaign`, `collection`, `email`, `message`, `crm`, `brand-monitor`, `export`, and `agent`
+- **Command-tree check**: `noxinfluencer schema --all` must include `campaign`, `collection`, `email`, `message`, `crm`, `product`, `brand-monitor`, `export`, and `agent`
 - **Exit codes**: `noxinfluencer agent exit-codes`
 - **Preview**: `--dry-run` (shows request without executing)
 - **Language routing**: `--lang zh` switches all URLs to `cn.noxinfluencer.com`
@@ -50,6 +50,7 @@ The CLI is self-describing — use it instead of memorizing parameters:
 | User intent | CLI command |
 |-------------|-------------|
 | Search creators | `noxinfluencer creator search` |
+| Hide/deduplicate current search results | `noxinfluencer creator search-filter-options`, then `creator search-filter` |
 | Creator overview / links | `noxinfluencer creator profile [creator_id]` or first-call `--url` / `--platform --channel-id` |
 | Audience analysis | `noxinfluencer creator audience [creator_id]` or first-call `--url` / `--platform --channel-id` |
 | Content analysis | `noxinfluencer creator content [creator_id]` or first-call `--url` / `--platform --channel-id` |
@@ -74,7 +75,9 @@ The CLI is self-describing — use it instead of memorizing parameters:
 | Refresh / unlock collection data | `noxinfluencer collection refresh-* validate/preview/apply`, `collection unlock-audience` |
 | Add collection to NoxInfluencer CRM | `noxinfluencer collection add-to-crm validate/preview/apply` |
 | CRM channel / label operations | `noxinfluencer crm list`, `crm get`, `crm update`, `crm labels ...`, `crm groups ...` |
+| Product center operations | `noxinfluencer product list`, `product get`, `product create/update/delete`, `product tags ...` |
 | Email task operations | `noxinfluencer email list`, `email get`, `email create`, `email send`, `email schedule`, `email report`, `email team-summary`, `email team-breakdown` |
+| Email recipients / filters / collaborators | `noxinfluencer email recipients ...`, `email recipients filter ...`, `email collaborators ...` |
 | Message thread operations | `noxinfluencer message list`, `message get`, `message draft`, `message send`, `message schedule` |
 | Brand monitor overview | `noxinfluencer brand-monitor list`, `brand-monitor get` |
 | Brand competition / strategy reads | `noxinfluencer brand-monitor competition-matrix`, `cooperate-matrix`, `influencer-portrait`, `defense-gap` |
@@ -95,7 +98,7 @@ For marketing-ops commands, many workflows are JSON-first and use `--body-file`.
 
 Run `noxinfluencer doctor` first, then `noxinfluencer schema --all` to verify the current command tree. Guide through only what's missing:
 
-1. **No CLI installed or stale command tree** → Tell user to run `npm install -g @noxinfluencer/cli@latest` in their terminal. Treat the install as stale if `schema --all` does not include the 0.4+ command groups: `campaign`, `collection`, `email`, `message`, `crm`, `brand-monitor`, `export`, and `agent`. If reinstalling the latest npm package still lacks those command groups, stop marketing-ops workflows and report a CLI package / command-tree mismatch instead of retrying the same command. In the same reply, directly provide the browser steps they must do themselves:
+1. **No CLI installed or stale command tree** → Tell user to run `npm install -g @noxinfluencer/cli@latest` in their terminal. Treat the install as stale if `schema --all` does not include the modern command groups: `campaign`, `collection`, `email`, `message`, `crm`, `product`, `brand-monitor`, `export`, and `agent`. If reinstalling the latest npm package still lacks those command groups, stop the affected workflow and report a CLI package / command-tree mismatch instead of retrying the same command. Prefer CLI-provided setup URLs; use these static links only when CLI output is incomplete:
    - English register: `https://www.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard&utm_source=skill&utm_medium=cli`
    - English API key: `https://www.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli`
    - Chinese register: `https://cn.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard&utm_source=skill&utm_medium=cli`
@@ -270,18 +273,19 @@ If `monitor add-task` or `monitor tasks` returns `creator_id`, preserve it for l
 
 ## 6. Marketing Ops
 
-Operate NoxInfluencer campaign, collection, CRM, email, message, and export workflows. Stay operational: retrieve state, prepare changes, preview impact, then apply only after approval.
+Operate NoxInfluencer campaign, collection, CRM, email, message, product-center, and export workflows. Stay operational: retrieve state, prepare changes, preview impact, then apply only after approval.
 
 ### Workflow
 
-1. Identify the target domain: campaign, collection, CRM channel/group, email task, message thread, or export.
+1. Identify the target domain: campaign, collection, CRM channel/group, email task, message thread, product center, or export.
 2. Read current state first when the target ID is unclear (`list`, `get`, `dropdown`, `dashboard`, or equivalent).
 3. For first email outreach to known creator email addresses, use the email-task path: `email create` → `email recipients add/replace` → `email content save` → `email sender update` if needed → `email send` or `email schedule`. Do not require a message thread or CRM channel for this path.
 4. Use `message send` or `message schedule` only for existing `thread_id` replies. If the user gives an email task ID, resolve it with `message list --business_kind email_task --business_id <task_id>` before `message get`. If no thread exists, offer the email-task path when reliable email addresses are available.
 5. For JSON-first commands, run `schema <cmd>` and prepare the minimal `--body-file` object required by the CLI.
 6. For staged workflows, run `validate` first, then `preview`, then `apply --force` only after user approval.
 7. For direct mutations such as `create`, `update`, `delete`, `send`, `schedule`, `archive`, or `restore`, rely on dry-run first unless the user has already approved the exact action.
-8. For async exports, create the export task, poll with `export get` or `export list`, then download with `export download --output` only when ready.
+8. For search-result or email-recipient deduplication, use the matching `... options` command first, then apply only the returned schema/body patch that matches the user's intent.
+9. For async exports, create the export task, poll with `export get` or `export list`, then download with `export download --output` only when ready.
 
 Do not draft outreach copy. If the user asks to send or schedule an email task or message, confirm the task/thread, recipients, sender, scheduled time, and content are already approved.
 
@@ -314,7 +318,7 @@ See `{baseDir}/references/brand-monitor.md` for command routing and platform bou
 | Evaluate a specific creator | § 3. Analyzing Creators |
 | Get email or contact details | § 4. Retrieving Contacts |
 | Set up monitoring for a video | § 5. Tracking Performance |
-| Manage campaigns, collections, CRM, email/message tasks, or exports | § 6. Marketing Ops |
+| Manage campaigns, collections, CRM, email/message tasks, products, or exports | § 6. Marketing Ops |
 | Analyze or export brand-monitor data | § 7. Brand Monitoring |
 | Setup, quota, billing, errors | § 1. Getting Started |
 

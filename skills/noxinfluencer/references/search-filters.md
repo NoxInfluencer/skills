@@ -4,6 +4,8 @@ For the full parameter list and syntax, run `noxinfluencer schema creator.search
 
 This reference covers **when to use which filters** — the decision logic, not the syntax.
 
+For SaaS hide/deduplication after a page is already returned, use `creator search-filter-options` and `creator search-filter` instead of adding more `creator search` filters.
+
 ## Filter Priority by User Intent
 
 | User intent | Key filters to apply | Why |
@@ -23,6 +25,12 @@ Each result item includes: `id` (encrypted token), `nickname`, `tags`, `follower
 Search responses also include page metadata under `data`: `page_num`, `page_size`, `total_page`, `total_size`, and `search_after`.
 
 The `id` is an encrypted token — use it directly as the positional `<creator_id>` argument in subsequent commands. Do not try to decode it.
+
+## Search Result Deduplication
+
+- Run `creator search-filter-options` to list SaaS hide/deduplication choices and their JSON body patches.
+- Run `creator search-filter --body-file` with the current page `data.items[].id` values plus one selected filter condition.
+- This is page-level filtering for already returned candidates; it does not fetch another search page and does not replace the normal `creator search` filters above.
 
 ## Pagination Rules
 

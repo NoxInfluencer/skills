@@ -1,6 +1,6 @@
 # NoxInfluencer Skill
 
-Agent skill for NoxInfluencer creator and marketing operations: creator discovery, due-diligence analysis, outreach-ready contact retrieval, campaign video monitoring, campaign/collection workflows, CRM/email/message operations, brand monitoring, and exports across YouTube, TikTok, and Instagram.
+Agent skill for NoxInfluencer creator and marketing operations: creator discovery, due-diligence analysis, outreach-ready contact retrieval, campaign video monitoring, campaign/collection workflows, CRM/email/message/product operations, brand monitoring, and exports across YouTube, TikTok, and Instagram.
 
 - Official website: [NoxInfluencer](https://www.noxinfluencer.com/)
 - Skills dashboard / API key: [NoxInfluencer Skills Dashboard](https://www.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli)
@@ -13,7 +13,7 @@ Agent skill for NoxInfluencer creator and marketing operations: creator discover
 - Evaluate creators with audience, content, and cooperation signals
 - Retrieve outreach-ready contact information for selected creators
 - Monitor campaign video performance over time
-- Manage NoxInfluencer campaigns, collections, CRM channels, email/message tasks, and export jobs
+- Manage NoxInfluencer campaigns, collections, CRM channels, products, email/message tasks, and export jobs
 - Analyze monitored brands, product signals, influencer/content/tag/product assets, and brand-monitor exports
 
 ## Account Setup
@@ -25,7 +25,7 @@ If you are starting from scratch, create a brand account and get an API key firs
 
 ## Install
 
-The skill expects `@noxinfluencer/cli` 0.4.6 or newer, including the command tree with `campaign`, `collection`, `email`, `message`, `crm`, `brand-monitor`, `export`, and `agent`. Install the latest npm package:
+The skill expects the latest `@noxinfluencer/cli`, including the command tree with `campaign`, `collection`, `email`, `message`, `crm`, `product`, `brand-monitor`, `export`, and `agent`. Install the latest npm package:
 
 ```bash
 npm install -g @noxinfluencer/cli@latest
