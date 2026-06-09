@@ -16,8 +16,11 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 | Add one whole collection and platform slice to CRM | `collection add-to-crm validate`, then `preview`, then `apply` |
 | Query or update NoxInfluencer CRM channels | `crm list`, `crm get`, `crm update`, `crm groups ...` |
 | Manage CRM labels for batch tagging | `crm labels list/create/update/delete` |
+| Manage product-center records and tags | `product list/get/create/update/delete`, `product tags ...` |
 | Send first email outreach to known creator emails | `email create`, then `email recipients add/replace`, `email content save`, optional `email sender update`, then `email send` or `email schedule` |
 | Manage email tasks | `email list`, `email drafts`, `email get`, `email create`, `email update`, `email recipients ...`, `email content ...`, `email sender ...`, `email report`, `email team-summary`, `email team-breakdown` |
+| Manage email recipient deduplication | `email recipients filter options`, then `email recipients filter get/update/tasks` |
+| Manage email task collaborators | `email collaborators list`, then `replace/add/remove` |
 | Send or schedule an existing email task | `email send`, `email schedule`, `email cancel` |
 | Manage message threads | `message list`, `message get`, `message projects`, `message labels`, `message coop ...`, `message draft ...` |
 | Send or schedule an existing message reply | `message send`, `message schedule`, `message cancel` |
@@ -30,6 +33,12 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 - If the user wants in-platform DM/message, `message send` and `message schedule` require an existing `thread_id`. If the user only has an email task ID, use `message list --business_kind email_task --business_id <task_id>` to resolve the thread first. Without a thread, say that starting a new message thread is not exposed by the CLI and offer the email-task path if email contacts exist.
 - `crm add-to-email` is only for adding existing NoxInfluencer CRM channels to an existing email task. Do not treat CRM as required when the user already has explicit email addresses.
 
+## Deduplication and Collaborators
+
+- Search result deduplication is a second step after `creator search`: run `creator search-filter-options`, then call `creator search-filter --body-file` with the current page `data.items[].id` values and the selected filter patch. It filters a returned page; it does not launch a fresh search.
+- Email recipient deduplication is task-scoped: use `email recipients filter options` to find SaaS-aligned choices, `email recipients filter get <task_id>` to inspect saved state/counts, and `email recipients filter update <task_id> --body-file` to change it.
+- Email collaborators use SaaS team `user_uid`. If the user does not know the ID, run `email collaborators list` without `task_id` first; with a `task_id`, it reads that task's current collaborator permissions. Use `add` or `remove` for incremental changes; use `replace` only when the user intends to reset the whole collaborator set.
+
 ## CRM Update Semantics
 
 - `crm update` / `crm batch-update` may auto-create a NoxInfluencer CRM channel for valid platform `creator_id` tokens when updating cooperation status or labels. For label-only updates, the service uses the default cooperation status before applying labels.
@@ -39,7 +48,7 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 
 ## Collection Add and Import
 
-- Use `collection add-creators` when the user wants to save creators returned by `creator search` or creator read commands into one or more collections. The JSON body uses `collection_ids`, `platform`, and `creator_ids`. Use `channel_ids` only when the user already has raw same-platform channel IDs.
+- Use `collection add-creators` when the user wants to save creators returned by `creator search` or creator read commands into one or more collections. The JSON body uses `collection_ids`, `platform`, and `creator_ids`. Use `channel_ids` only when the user already has raw same-platform channel IDs. It is an add-only path, not forced collection-to-collection copy.
 - Use `collection import-file <collection_id> --file <path>` for the user's owned creator links. The spreadsheet's first column should be the YouTube, Instagram, or TikTok creator URL; an optional second column may contain email/contact data. This import is accepted asynchronously, so poll `collection items <collection_id>` by platform to confirm resolved rows.
 - Do not confuse these paths with collection copy/move. `add-creators` adds explicit creators to target collections; `import-file` imports owned creator URLs into one collection.
 
