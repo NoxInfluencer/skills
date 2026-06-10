@@ -78,7 +78,7 @@ The CLI is self-describing — use it instead of memorizing parameters:
 | Product center operations | `noxinfluencer product list`, `product get`, `product create/update/delete`, `product tags ...` |
 | Email task operations | `noxinfluencer email list`, `email get`, `email create`, `email send`, `email schedule`, `email report`, `email team-summary`, `email team-breakdown` |
 | Email recipients / filters / collaborators | `noxinfluencer email recipients ...`, `email recipients filter ...`, `email collaborators ...` |
-| Message thread operations | `noxinfluencer message list`, `message get`, `message draft`, `message send`, `message schedule` |
+| Message thread operations | `noxinfluencer message list`, `message get`, `message draft`, `message attachments`, `message send`, `message schedule` |
 | Brand monitor overview | `noxinfluencer brand-monitor list`, `brand-monitor get` |
 | Brand competition / strategy reads | `noxinfluencer brand-monitor competition-matrix`, `cooperate-matrix`, `influencer-portrait`, `defense-gap` |
 | Brand product signals | `noxinfluencer brand-monitor product-*` |
