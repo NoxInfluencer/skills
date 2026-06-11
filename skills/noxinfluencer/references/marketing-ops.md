@@ -24,6 +24,7 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 | Send or schedule an existing email task | `email send`, `email schedule`, `email cancel` |
 | Manage message threads | `message list`, `message get`, `message projects`, `message labels`, `message coop ...`, `message draft ...`, `message attachments ...` |
 | Send or schedule an existing message reply | `message send`, `message schedule`, `message cancel` |
+| Submit product feedback or a bug report | `feedback submit`, then `feedback inbox` / `feedback get` |
 | Inspect or download async exports | `export list`, `export get`, `export download` |
 
 ## Outreach Routing
@@ -57,6 +58,7 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 
 - Write commands default to dry-run. Treat dry-run output as a preview, not completion.
 - Use `--force` only after the user has approved the exact object and action.
+- Feedback submission is also a write command, but it is free and does not consume Skill quota. Use it for product bugs, confusing behavior, data issues, suggestions, or feature requests. Attach screenshots/logs with `--file` when useful, and check `feedback inbox` for asynchronous follow-up.
 - For staged workflows, always run `validate` before `preview`, and `preview` before `apply --force`.
 - For `send` and `schedule`, confirm the task/thread, recipient scope, sender identity, scheduled time when relevant, and content approval before execution.
 - Do not draft outreach or negotiation copy. If content is missing, ask the user for approved content or hand off to a writing task without invoking NoxInfluencer write commands.

@@ -84,6 +84,7 @@ The CLI is self-describing — use it instead of memorizing parameters:
 | Brand product signals | `noxinfluencer brand-monitor product-*` |
 | Brand assets / exports | `noxinfluencer brand-monitor influencer-list`, `content-list`, `tag-list`, `product-list`, `*-export` |
 | Export task status / download | `noxinfluencer export list`, `export get`, `export download` |
+| Send product feedback / bug report | `noxinfluencer feedback submit`, then `feedback inbox` / `feedback get` |
 | Stable automation exit codes | `noxinfluencer agent exit-codes` |
 
 Add `--detail` for expanded creator analysis when the user needs deeper evidence. Add `--lang zh` for Chinese users. Use `schema <cmd>` when you need exact flags or required fields. If the user does not already have a `creator_id`, the first read call may use `--url` or `--platform --channel-id`; after that, prefer the returned `data.creator_id`.
@@ -91,6 +92,10 @@ Add `--detail` for expanded creator analysis when the user needs deeper evidence
 All creator read responses include a unified creator identity block: `creator_id`, `creator_name`, `channel_handle`, `channel_url`, and `social_media`. `monitor add-task` and `monitor tasks` may also expose `creator_id`, `creator_name`, `channel_handle`, and `channel_url` for the monitored creator when the upstream task data includes them.
 
 For marketing-ops commands, many workflows are JSON-first and use `--body-file`. Mutations default to dry-run; only use `--force` after the user has explicitly approved the target object and the action. See `{baseDir}/references/marketing-ops.md` and `{baseDir}/references/brand-monitor.md`.
+
+### User Feedback
+
+If the user wants to report a bug, confusing behavior, data issue, suggestion, or feature request, offer to submit feedback through `noxinfluencer feedback submit`. Ask for a short confirmation before sending. Attach screenshots or logs with `--file` when available. Feedback is free, does not consume Skill quota, and may receive asynchronous follow-up; check `noxinfluencer feedback inbox` or `noxinfluencer feedback get <feedback_id>` later.
 
 ---
 
