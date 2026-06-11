@@ -40,6 +40,7 @@ The CLI is self-describing — use it instead of memorizing parameters:
 - **Parameters**: `noxinfluencer schema <cmd>` (e.g., `schema creator.search`; quoted path form `schema 'creator search'` also works)
 - **Help**: `noxinfluencer <cmd> --help`
 - **Diagnostics**: `noxinfluencer doctor`
+- **Browser login**: `noxinfluencer login` opens NoxInfluencer, reuses the SaaS login session, and saves/reuses a non-expiring API key locally
 - **Command-tree check**: `noxinfluencer schema --all` must include `campaign`, `collection`, `email`, `message`, `crm`, `product`, `brand-monitor`, `export`, and `agent`
 - **Exit codes**: `noxinfluencer agent exit-codes`
 - **Preview**: `--dry-run` (shows request without executing)
@@ -51,6 +52,7 @@ The CLI is self-describing — use it instead of memorizing parameters:
 |-------------|-------------|
 | Search creators | `noxinfluencer creator search` |
 | Hide/deduplicate current search results | `noxinfluencer creator search-filter-options`, then `creator search-filter` |
+| Find lookalike creators | `noxinfluencer creator lookalikes [source_creator_id]` |
 | Creator overview / links | `noxinfluencer creator profile [creator_id]` or first-call `--url` / `--platform --channel-id` |
 | Audience analysis | `noxinfluencer creator audience [creator_id]` or first-call `--url` / `--platform --channel-id` |
 | Content analysis | `noxinfluencer creator content [creator_id]` or first-call `--url` / `--platform --channel-id` |
@@ -76,7 +78,7 @@ The CLI is self-describing — use it instead of memorizing parameters:
 | Add collection to NoxInfluencer CRM | `noxinfluencer collection add-to-crm validate/preview/apply` |
 | CRM channel / label operations | `noxinfluencer crm list`, `crm get`, `crm update`, `crm labels ...`, `crm groups ...` |
 | Product center operations | `noxinfluencer product list`, `product get`, `product create/update/delete`, `product tags ...` |
-| Email task operations | `noxinfluencer email list`, `email get`, `email create`, `email send`, `email schedule`, `email report`, `email team-summary`, `email team-breakdown` |
+| Email task operations | `noxinfluencer email list`, `email get`, `email create`, `email attachments`, `email send`, `email schedule`, `email report`, `email team-summary`, `email team-breakdown` |
 | Email recipients / filters / collaborators | `noxinfluencer email recipients ...`, `email recipients filter ...`, `email collaborators ...` |
 | Message thread operations | `noxinfluencer message list`, `message get`, `message draft`, `message attachments`, `message send`, `message schedule` |
 | Brand monitor overview | `noxinfluencer brand-monitor list`, `brand-monitor get` |
@@ -103,13 +105,8 @@ If the user wants to report a bug, confusing behavior, data issue, suggestion, o
 
 Run `noxinfluencer doctor` first, then `noxinfluencer schema --all` to verify the current command tree. Guide through only what's missing:
 
-1. **No CLI installed or stale command tree** → Tell user to run `npm install -g @noxinfluencer/cli@latest` in their terminal. Treat the install as stale if `schema --all` does not include the modern command groups: `campaign`, `collection`, `email`, `message`, `crm`, `product`, `brand-monitor`, `export`, and `agent`. If reinstalling the latest npm package still lacks those command groups, stop the affected workflow and report a CLI package / command-tree mismatch instead of retrying the same command. Prefer CLI-provided setup URLs; use these static links only when CLI output is incomplete:
-   - English register: `https://www.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard&utm_source=skill&utm_medium=cli`
-   - English API key: `https://www.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli`
-   - Chinese register: `https://cn.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard&utm_source=skill&utm_medium=cli`
-   - Chinese API key: `https://cn.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli`
-   Prefer a host-provided secret first: `skills.entries.noxinfluencer.apiKey` in OpenClaw maps to `NOXINFLUENCER_API_KEY`. If no secret channel is available, ask for a one-time handoff only through the safest available channel, then configure with `noxinfluencer auth --key-stdin` rather than putting the key in argv, logs, or echoed messages.
-2. **CLI installed, no API key** → Check whether `NOXINFLUENCER_API_KEY` / `skills.entries.noxinfluencer.apiKey` is already available before asking for manual input. Run `doctor` and prefer CLI-provided hints / URLs. Only fall back to the static register + API key links above if the CLI output is incomplete.
+1. **No CLI installed or stale command tree** → Tell user to run `npm install -g @noxinfluencer/cli@latest` in their terminal. Treat the install as stale if `schema --all` does not include the modern command groups: `campaign`, `collection`, `email`, `message`, `crm`, `product`, `brand-monitor`, `export`, and `agent`. If reinstalling the latest npm package still lacks those command groups, stop the affected workflow and report a CLI package / command-tree mismatch instead of retrying the same command.
+2. **CLI installed, no API key** → Check whether `NOXINFLUENCER_API_KEY` / `skills.entries.noxinfluencer.apiKey` is already available before asking for manual input. If no host-provided secret is available, run `noxinfluencer login` yourself. The CLI will open the user's browser; the user signs in or registers in NoxInfluencer, then the CLI saves/reuses a non-expiring API key. Only use manual API-key handoff as fallback: open `https://www.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli` or `https://cn.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli`, ask for a one-time handoff through the safest available channel, and configure with `noxinfluencer auth --key-stdin` rather than putting the key in argv, logs, or echoed messages.
 3. **Everything configured** → Run `quota`, tell them the current Skill quota snapshot and any obvious blocking issues.
 
 ### Quota and Billing
@@ -152,6 +149,10 @@ Use `noxinfluencer schema creator.search` to discover available filter parameter
 - For "show more", "next page", "继续", or similar follow-ups, rerun the same search with the next `page_num` and the prior response's `data.search_after`; prefer `--body-file -` with a JSON body so the cursor array is passed exactly. If using flags, shell-quote `--search_after` and every bracketed array filter. If there is no cursor or the last page was already reached, say there are no more results
 
 See `{baseDir}/references/search-filters.md` for filter selection semantics by user intent.
+
+### Lookalike Discovery
+
+Use `creator lookalikes` when the user provides a source creator, source link, or asks for creators similar to a prior result. It requires `--target-platform`; source can be `[source_creator_id]`, `--url`, or `--source-platform --source-channel-id`. Treat results as recommendations; use `collection add-creators` separately if the user wants to save them.
 
 ### Shortlist Presentation
 
