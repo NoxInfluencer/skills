@@ -3,7 +3,7 @@
 Agent skill for NoxInfluencer creator and marketing operations: creator discovery, due-diligence analysis, outreach-ready contact retrieval, campaign video monitoring, campaign/collection workflows, CRM/email/message/product operations, brand monitoring, and exports across YouTube, TikTok, and Instagram.
 
 - Official website: [NoxInfluencer](https://www.noxinfluencer.com/)
-- Skills dashboard / API key: [NoxInfluencer Skills Dashboard](https://www.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli)
+- Skills dashboard / API key fallback: [NoxInfluencer Skills Dashboard](https://www.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli)
 - skills.sh: [NoxInfluencer on skills.sh](https://skills.sh/noxinfluencer/skills/noxinfluencer)
 - ClawHub: [NoxInfluencer on ClawHub](https://clawhub.ai/noxinfluencer/noxinfluencer)
 
@@ -18,7 +18,15 @@ Agent skill for NoxInfluencer creator and marketing operations: creator discover
 
 ## Account Setup
 
-If you are starting from scratch, create a brand account and get an API key first:
+If you are starting from scratch, install the CLI and run browser login:
+
+```bash
+noxinfluencer login
+```
+
+The CLI opens NoxInfluencer, reuses your SaaS login session, creates or reuses a non-expiring API key, and saves it locally.
+
+Manual fallback:
 
 - English: [Sign up](https://www.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard&utm_source=skill&utm_medium=cli) and [open the Skills dashboard](https://www.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli)
 - Chinese: [注册账号](https://cn.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard&utm_source=skill&utm_medium=cli) and [打开 Skills 控制台](https://cn.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli)
