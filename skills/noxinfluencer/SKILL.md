@@ -1,7 +1,7 @@
 ---
 name: noxinfluencer
 description: Runs NoxInfluencer creator and marketing-ops workflows via CLI, including creator discovery for influencer marketing, creator marketing, UGC, social media marketing, and affiliate marketing; creator evaluation, contact retrieval, video tracking, campaigns, collections, CRM channels, product center, email/message tasks, brand monitoring, and exports. Use when the user needs NoxInfluencer creator discovery, creator evaluation, outreach operations, campaign/collection/CRM/email/product operations, brand monitoring, or account setup.
-metadata: {"openclaw":{"requires":{"env":["NOXINFLUENCER_API_KEY"],"bins":["noxinfluencer"]},"primaryEnv":"NOXINFLUENCER_API_KEY","install":[{"kind":"node","package":"@noxinfluencer/cli","bins":["noxinfluencer"]}],"homepage":"https://www.noxinfluencer.com/skills"}}
+metadata: {"openclaw":{"requires":{"bins":["noxinfluencer"]},"install":[{"kind":"node","package":"@noxinfluencer/cli","bins":["noxinfluencer"]}],"homepage":"https://www.noxinfluencer.com/skills"}}
 ---
 
 # NoxInfluencer
@@ -31,7 +31,7 @@ The user interacts through natural language. Execute CLI commands yourself and r
 
 ### Agent-First
 
-The user does not operate the CLI. You do. Run commands silently, tell the user the result. Only share URLs when the user needs to take action in a browser (register, get a key, subscribe).
+The user does not operate the CLI. You do. Run commands silently, tell the user the result. Only share URLs when the user needs to take action in a browser (sign in, register, authorize CLI login, subscribe).
 
 ### CLI Self-Description
 
