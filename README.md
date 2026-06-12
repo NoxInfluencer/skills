@@ -1,6 +1,6 @@
 # NoxInfluencer Skill
 
-Agent skill for NoxInfluencer creator and marketing operations: creator discovery, due-diligence analysis, outreach-ready contact retrieval, campaign video monitoring, campaign/collection workflows, CRM/email/message/product operations, brand monitoring, and exports across YouTube, TikTok, and Instagram.
+Agent skill for NoxInfluencer creator and marketing operations: creator discovery, due-diligence analysis, platform email outreach, external contact retrieval, campaign video monitoring, campaign/collection workflows, CRM/email/message/product operations, brand monitoring, and exports across YouTube, TikTok, and Instagram.
 
 - Official website: [NoxInfluencer](https://www.noxinfluencer.com/)
 - Skills dashboard / API key fallback: [NoxInfluencer Skills Dashboard](https://www.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli)
@@ -11,7 +11,7 @@ Agent skill for NoxInfluencer creator and marketing operations: creator discover
 
 - Discover creators for influencer, creator, and social media marketing campaigns
 - Evaluate creators with audience, content, and cooperation signals
-- Retrieve outreach-ready contact information for selected creators
+- Retrieve visible/exportable contact information for selected creators when external outreach is needed
 - Monitor campaign video performance over time
 - Manage NoxInfluencer campaigns, collections, CRM channels, products, email/message tasks, and export jobs
 - Analyze monitored brands, product signals, influencer/content/tag/product assets, and brand-monitor exports

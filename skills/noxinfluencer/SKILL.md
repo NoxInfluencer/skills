@@ -1,12 +1,12 @@
 ---
 name: noxinfluencer
-description: Runs NoxInfluencer creator and marketing-ops workflows via CLI, including creator discovery for influencer marketing, creator marketing, UGC, social media marketing, and affiliate marketing; creator evaluation, contact retrieval, video tracking, campaigns, collections, CRM channels, product center, email/message tasks, brand monitoring, and exports. Use when the user needs NoxInfluencer creator discovery, creator evaluation, outreach operations, campaign/collection/CRM/email/product operations, brand monitoring, or account setup.
+description: Runs NoxInfluencer creator and marketing-ops workflows via CLI, including creator discovery for influencer marketing, creator marketing, UGC, social media marketing, and affiliate marketing; creator evaluation, contact retrieval for external use, video tracking, campaigns, collections, CRM channels, product center, email/message tasks, brand monitoring, and exports. Use when the user needs NoxInfluencer creator discovery, creator evaluation, outreach operations, campaign/collection/CRM/email/product operations, brand monitoring, or account setup.
 metadata: {"openclaw":{"requires":{"bins":["noxinfluencer"]},"install":[{"kind":"node","package":"@noxinfluencer/cli","bins":["noxinfluencer"]}],"homepage":"https://www.noxinfluencer.com/skills"}}
 ---
 
 # NoxInfluencer
 
-Full-workflow creator and marketing-ops skill for influencer discovery, due diligence, outreach-ready contact retrieval, campaign video monitoring, campaign/collection operations, CRM/email/message/product-center operations, brand monitoring, and exports across YouTube, TikTok, and Instagram.
+Full-workflow creator and marketing-ops skill for influencer discovery, due diligence, platform email outreach, external contact retrieval, campaign video monitoring, campaign/collection operations, CRM/email/message/product-center operations, brand monitoring, and exports across YouTube, TikTok, and Instagram.
 
 The user interacts through natural language. Execute CLI commands yourself and report results in plain language. Never expose raw commands to the user.
 
@@ -46,54 +46,19 @@ The CLI is self-describing — use it instead of memorizing parameters:
 - **Preview**: `--dry-run` (shows request without executing)
 - **Language routing**: `--lang zh` switches all URLs to `cn.noxinfluencer.com`
 
-## Command Quick Reference
+## Routing Cheat Sheet
 
-| User intent | CLI command |
-|-------------|-------------|
-| Search creators | `noxinfluencer creator search` |
-| Hide/deduplicate current search results | `noxinfluencer creator search-filter-options`, then `creator search-filter` |
-| Find lookalike creators | `noxinfluencer creator lookalikes [source_creator_id]` |
-| Creator overview / links | `noxinfluencer creator profile [creator_id]` or first-call `--url` / `--platform --channel-id` |
-| Audience analysis | `noxinfluencer creator audience [creator_id]` or first-call `--url` / `--platform --channel-id` |
-| Content analysis | `noxinfluencer creator content [creator_id]` or first-call `--url` / `--platform --channel-id` |
-| Cooperation / pricing signals | `noxinfluencer creator cooperation [creator_id]` or first-call `--url` / `--platform --channel-id` |
-| Get contact info | `noxinfluencer creator contacts [creator_id]` or first-call `--url` / `--platform --channel-id` |
-| Check quota | `noxinfluencer quota` |
-| Check setup health | `noxinfluencer doctor` |
-| Check membership plans | `noxinfluencer pricing` |
-| Inspect exact flags | `noxinfluencer schema <cmd>` |
-| List monitoring projects | `noxinfluencer monitor list` |
-| Create monitoring project | `noxinfluencer monitor create` |
-| Add monitored video | `noxinfluencer monitor add-task` |
-| List monitored videos | `noxinfluencer monitor tasks` |
-| Get task-level history points | `noxinfluencer monitor history` |
-| Get project summary | `noxinfluencer monitor summary` |
-| Campaign list / detail / dashboard | `noxinfluencer campaign list`, `campaign get`, `campaign dashboard` |
-| Create or update campaign | `noxinfluencer campaign create`, `campaign update` |
-| Collection list / detail / items | `noxinfluencer collection list`, `collection get`, `collection items` |
-| Add creators to collections | `noxinfluencer collection add-creators` |
-| Import owned creator links to a collection | `noxinfluencer collection import-file` |
-| Collection batch operations | `noxinfluencer collection batch-* validate/preview/apply` |
-| Refresh / unlock collection data | `noxinfluencer collection refresh-* validate/preview/apply`, `collection unlock-audience` |
-| Add collection to NoxInfluencer CRM | `noxinfluencer collection add-to-crm validate/preview/apply` |
-| CRM channel / label operations | `noxinfluencer crm list`, `crm get`, `crm update`, `crm labels ...`, `crm groups ...` |
-| Product center operations | `noxinfluencer product list`, `product get`, `product create/update/delete`, `product tags ...` |
-| Email task operations | `noxinfluencer email list`, `email get`, `email create`, `email attachments`, `email send`, `email schedule`, `email report`, `email team-summary`, `email team-breakdown` |
-| Email recipients / filters / collaborators | `noxinfluencer email recipients ...`, `email recipients filter ...`, `email collaborators ...` |
-| Message thread operations | `noxinfluencer message list`, `message get`, `message draft`, `message attachments`, `message send`, `message schedule` |
-| Brand monitor overview | `noxinfluencer brand-monitor list`, `brand-monitor get` |
-| Brand competition / strategy reads | `noxinfluencer brand-monitor competition-matrix`, `cooperate-matrix`, `influencer-portrait`, `defense-gap` |
-| Brand product signals | `noxinfluencer brand-monitor product-*` |
-| Brand assets / exports | `noxinfluencer brand-monitor influencer-list`, `content-list`, `tag-list`, `product-list`, `*-export` |
-| Export task status / download | `noxinfluencer export list`, `export get`, `export download` |
-| Send product feedback / bug report | `noxinfluencer feedback submit`, then `feedback inbox` / `feedback get` |
-| Stable automation exit codes | `noxinfluencer agent exit-codes` |
+Use `noxinfluencer schema <cmd>` for exact parameters. Prefer broad command families over memorizing flags:
 
-Add `--detail` for expanded creator analysis when the user needs deeper evidence. Add `--lang zh` for Chinese users. Use `schema <cmd>` when you need exact flags or required fields. If the user does not already have a `creator_id`, the first read call may use `--url` or `--platform --channel-id`; after that, prefer the returned `data.creator_id`.
+- Creator sourcing: `creator search`, `creator search-filter*`, `creator lookalikes`
+- Creator reads: `creator profile/audience/content/cooperation`; use `creator contacts` only for visible/exported contacts
+- Monitoring: `monitor list/create/add-task/tasks/history/summary`
+- Operations: `campaign`, `collection`, `crm`, `email`, `message`, `product`, `export`
+- Brand monitoring: `brand-monitor ...`
+- Setup and diagnostics: `login`, `doctor`, `quota`, `pricing`, `agent exit-codes`
+- Feedback: `feedback submit/inbox/get`
 
-All creator read responses include a unified creator identity block: `creator_id`, `creator_name`, `channel_handle`, `channel_url`, and `social_media`. `monitor add-task` and `monitor tasks` may also expose `creator_id`, `creator_name`, `channel_handle`, and `channel_url` for the monitored creator when the upstream task data includes them.
-
-For marketing-ops commands, many workflows are JSON-first and use `--body-file`. Mutations default to dry-run; only use `--force` after the user has explicitly approved the target object and the action. See `{baseDir}/references/marketing-ops.md` and `{baseDir}/references/brand-monitor.md`.
+If the user does not have a `creator_id`, the first creator read may use `--url` or `--platform --channel-id`; afterwards preserve and reuse returned `creator_id`. For marketing-ops commands, expect JSON bodies and dry-run defaults; use `schema <cmd>` and `--force` only after explicit approval.
 
 ### User Feedback
 
@@ -103,23 +68,15 @@ If the user wants to report a bug, confusing behavior, data issue, suggestion, o
 
 ## 1. Getting Started
 
-Run `noxinfluencer doctor` first, then `noxinfluencer schema --all` to verify the current command tree. Guide through only what's missing:
+Run `noxinfluencer doctor`, then fix only what is missing:
 
-1. **No CLI installed or stale command tree** → Tell user to run `npm install -g @noxinfluencer/cli@latest` in their terminal. Treat the install as stale if `schema --all` does not include the modern command groups: `campaign`, `collection`, `email`, `message`, `crm`, `product`, `brand-monitor`, `export`, and `agent`. If reinstalling the latest npm package still lacks those command groups, stop the affected workflow and report a CLI package / command-tree mismatch instead of retrying the same command.
-2. **CLI installed, no API key** → Check whether `NOXINFLUENCER_API_KEY` / `skills.entries.noxinfluencer.apiKey` is already available before asking for manual input. If no host-provided secret is available, run `noxinfluencer login` yourself. The CLI will open the user's browser; the user signs in or registers in NoxInfluencer, then the CLI saves/reuses a non-expiring API key. Only use manual API-key handoff as fallback: open `https://www.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli` or `https://cn.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli`, ask for a one-time handoff through the safest available channel, and configure with `noxinfluencer auth --key-stdin` rather than putting the key in argv, logs, or echoed messages.
-3. **Everything configured** → Run `quota`, tell them the current Skill quota snapshot and any obvious blocking issues.
+1. No CLI or stale command tree → ask the user to install `@noxinfluencer/cli@latest`; verify with `schema --all`.
+2. No API key → prefer `noxinfluencer login`. Manual API-key handoff is fallback only; use `auth --key-stdin`, never argv/logs.
+3. Configured → run `quota` and report blocking quota or entitlement issues.
 
 ### Quota and Billing
 
-Run `quota` yourself and report the current Skill quota snapshot.
-
-Important:
-
-- Any API-backed skill call can consume the account's remaining Skill quota
-- The same call may also depend on underlying SaaS-side quota or entitlement for that capability
-- A request can therefore fail because Skill quota is exhausted, or because the underlying SaaS quota / permission is unavailable
-
-If quota is low or exhausted, the error response's `action` field includes the billing URL. Pass it to the user.
+Run `quota` yourself and report the snapshot. API-backed calls may consume Skill quota and may also depend on SaaS-side capability quota or entitlement. If the response includes `action.url`, pass it to the user.
 
 ---
 
@@ -127,45 +84,17 @@ If quota is low or exhausted, the error response's `action` field includes the b
 
 Turn an open-ended search into a usable shortlist.
 
-### Clarification Strategy
+Ask for only the missing essentials: platform, niche, region, creator size, and whether email signal matters. Search directly once the request is specific enough. Multi-platform sourcing requires separate platform searches.
 
-Do not search immediately if the request is too broad. Ask for 2–3 critical filters at a time:
-
-1. **Platform** — YouTube, TikTok, or Instagram?
-2. **Niche / keywords** — what content area?
-3. **Region** — which countries or markets?
-4. **Creator size** — follower range?
-5. **Contactability** — does email availability matter?
-
-Stop asking once the request is specific enough. If the user provided most filters upfront, search directly.
-
-### Search Execution
-
-Use `noxinfluencer schema creator.search` to discover available filter parameters. The quoted single-argument form `noxinfluencer schema 'creator search'` is equivalent. Key decisions:
-
-- Multi-platform requests require separate searches per platform
-- Add `--has_email true` when the user's intent is commercial outreach
-- Start with one search, refine if results are too noisy
-- For "show more", "next page", "继续", or similar follow-ups, rerun the same search with the next `page_num` and the prior response's `data.search_after`; prefer `--body-file -` with a JSON body so the cursor array is passed exactly. If using flags, shell-quote `--search_after` and every bracketed array filter. If there is no cursor or the last page was already reached, say there are no more results
-
-See `{baseDir}/references/search-filters.md` for filter selection semantics by user intent.
+Use `schema creator.search` for flags. Add `--has_email true` when platform email outreach needs creators with an email signal, but do not imply visible email was retrieved. For pagination, reuse the prior filters and `data.search_after`; prefer a JSON body.
 
 ### Lookalike Discovery
 
-Use `creator lookalikes` when the user provides a source creator, source link, or asks for creators similar to a prior result. It requires `--target-platform`; source can be `[source_creator_id]`, `--url`, or `--source-platform --source-channel-id`. Treat results as recommendations; use `collection add-creators` separately if the user wants to save them.
+Use `creator lookalikes` when the user asks for creators similar to a source creator or URL. Treat results as recommendations; save them separately only after the user chooses targets.
 
 ### Shortlist Presentation
 
-Present results as a visible, comparable shortlist — not a raw JSON dump.
-
-For each candidate: nickname, platform, followers, engagement rate, average views, country, top tags.
-
-Rules:
-- 3–5 candidates first
-- Make rows easy to compare at a glance
-- If results are noisy, say so and ask for one more narrowing filter
-- State if `--has_email true` was used, but do not imply email was already retrieved
-- Include: why candidates match, filters applied, the next-step suggestion, and remaining Skill quota when the response includes it and it changes the user's next decision
+Present 3–5 comparable candidates first: name, platform, size, performance, geography, tags, and why they match. If results are noisy, ask for one narrowing filter. Preserve `creator_id` for follow-up actions.
 
 ---
 
@@ -173,64 +102,21 @@ Rules:
 
 Help the user decide whether a creator is worth pursuing. Lead with a verdict, not a wall of numbers.
 
-### Workflow
-
-1. Confirm which creator to analyze (prefer `creator_id` from prior search or a prior read response; if absent, the first read call may use `--url` or `--platform --channel-id`).
-2. If user asked about a specific concern, check that dimension first.
-3. If the user only needs channel or social links, run `creator profile` first; it may already return the unified creator identity block, including `channel_url` and `social_media`.
-4. If no specific concern, follow default order: profile → audience → content → cooperation (all with `--detail` flag).
-5. Platform-aware skip: TikTok and Instagram often have partial cooperation/pricing data. Skip `creator cooperation --detail` unless the user explicitly asks for pricing or brand-history signals, or the primary platform is YouTube. See `{baseDir}/references/platform-support.md`.
-6. For content analysis in Chinese context, add `--language zh`.
-7. Return verdict first, then supporting evidence.
-
-Use `noxinfluencer schema creator.<dimension>` (e.g., `schema creator.profile`). The quoted single-argument form (for example `schema 'creator profile'`) is equivalent.
+Prefer `creator_id` from prior results. Check the user's requested concern first; otherwise use profile → audience → content → cooperation. Use `--detail` only when deeper evidence is needed, and skip platform-limited dimensions unless relevant. Return verdict first, then evidence.
 
 ### Verdict Framework
 
-Always lead with one of these four conclusions:
-
-1. **High-priority collaboration candidate** — no dispute signal, healthy audience, competitive performance, no pricing friction
-2. **Viable, but with clear risks** — workable overall, 1–2 notable concerns
-3. **Needs manual review before proceeding** — mixed evidence or data incomplete
-4. **Not a priority collaboration candidate** — multiple weak signals
-
-See `{baseDir}/references/verdict-heuristics.md` for detailed heuristic rules and output structure.
-
-### Interpretation Rules
-
-- Dispute history and negative cooperation signals are decision-critical — always surface them.
-- Benchmark position is context, not the sole determinant.
-- Evaluate pricing relative to performance, audience quality, and cooperation signals.
-- When evidence is mixed, prefer "Needs manual review" over false confidence.
-- When only one dimension was checked, present as a scoped judgment, not a full verdict.
-
-### Escalation Rules
-
-- One bad dimension → explain the tradeoff, don't force a hard reject.
-- Multiple weak dimensions → clear cautionary verdict.
-- User asks about one dimension → stay focused, but mention obvious red flags.
+Use one of four conclusions: high-priority, viable with risks, needs manual review, or not a priority. Always surface dispute/negative cooperation signals. See `{baseDir}/references/verdict-heuristics.md` for detailed heuristics.
 
 ---
 
 ## 4. Retrieving Contacts
 
-Retrieve contact info for a specific creator. Intentionally narrow — gets contact data, nothing more.
+Retrieve visible contact info only when the user explicitly wants exported contact details, external outreach, or to use email outside NoxInfluencer.
 
-1. Confirm which creator (prefer `creator_id` from prior search or a prior read response; if absent, the first read call may use `--url` or `--platform --channel-id`).
-2. Run the contacts command.
-3. Return only the contact info and quality signal.
+Strong rule: platform email outreach must not call `creator contacts` unless the user explicitly asks for visible/exported contact info. Use search/profile `creator_id` values in `email recipients add/replace`. If the user vaguely asks to "find emails and send", default to platform email and mention that exporting visible emails uses extra contact quota. Email sending may still consume the email service's own quota.
 
-### Quality Interpretation
-
-| `email_quality` | Meaning |
-|-----------------|---------|
-| `1` | High-quality contact signal |
-| `2` | Normal contact signal |
-| `0` | Low-confidence or unverified contact signal |
-
-If email is null, clearly say no reliable email is currently available. If email exists but quality is `0`, return it with cautionary wording and tell the user it needs manual verification.
-
-Do not add outreach recommendations or restate creator metrics.
+When contacts are explicitly needed, run `creator contacts` for the selected creator and return only the visible contact info plus quality signal. If email is missing or low-confidence, say so plainly. Do not add outreach recommendations or restate creator metrics.
 
 ---
 
@@ -238,42 +124,7 @@ Do not add outreach recommendations or restate creator metrics.
 
 Manage video monitoring projects and tracked videos. Operational only — manages monitoring, not performance judgment.
 
-### Workflow
-
-1. List projects first when the target project is unclear.
-2. Create a project when user wants a new one.
-3. If user wants to create AND monitor in one request, create first then add task.
-4. For project overview, use summary.
-5. For specific videos, use task list.
-6. When the user needs day-by-day or hour-by-hour performance for one monitored video, first use `monitor tasks` to identify the `task_id`, then use `monitor history`.
-
-Use `noxinfluencer schema monitor.<subcommand>` for parameter details. Write operations default to dry-run — use `--force` to execute.
-
-### Project Identification
-
-- Prefer `project_id` over `project_name` after the first lookup.
-- If project names collide, show disambiguation: project_id, name, created time, platforms, monitor count.
-- Once a project is selected, keep using that `project_id` until user switches.
-
-### Output Rules
-
-- Project lists: name, project_id, platforms, monitor count
-- Summaries: monitor count, total views/likes/comments, avg engagement, platform breakdown
-- Task lists: creator name, video title, views, engagement rate, status; include `creator_id`, `channel_handle`, and `channel_url` when present
-- Task history: task_id, granularity, latest metrics, and ordered history points from `data.items`
-- Do not turn outputs into performance verdicts
-
-If `monitor add-task` or `monitor tasks` returns `creator_id`, preserve it for later creator read follow-ups instead of asking the user to search again.
-
-### Status Codes
-
-| Status | Meaning |
-|--------|---------|
-| `loading` | Initializing |
-| `monitoring` | Actively collecting data |
-| `completed` | Monitoring period ended |
-| `video restricted` | Video unavailable |
-| `invalid link` | URL could not be resolved |
+List projects first when unclear. Create a project before adding videos. Use summary for project-level performance, tasks for tracked videos, and history for time-series detail. Prefer stable IDs after lookup and preserve returned `creator_id` for later creator reads. Monitoring manages data collection; do not turn it into a creator verdict.
 
 ---
 
@@ -283,15 +134,14 @@ Operate NoxInfluencer campaign, collection, CRM, email, message, product-center,
 
 ### Workflow
 
-1. Identify the target domain: campaign, collection, CRM channel/group, email task, message thread, product center, or export.
-2. Read current state first when the target ID is unclear (`list`, `get`, `dropdown`, `dashboard`, or equivalent).
-3. For first email outreach to known creator email addresses, use the email-task path: `email create` → `email recipients add/replace` → `email content save` → `email sender update` if needed → `email send` or `email schedule`. Do not require a message thread or CRM channel for this path.
-4. Use `message send` or `message schedule` only for existing `thread_id` replies. If the user gives an email task ID, resolve it with `message list --business_kind email_task --business_id <task_id>` before `message get`. If no thread exists, offer the email-task path when reliable email addresses are available.
-5. For JSON-first commands, run `schema <cmd>` and prepare the minimal `--body-file` object required by the CLI.
-6. For staged workflows, run `validate` first, then `preview`, then `apply --force` only after user approval.
-7. For direct mutations such as `create`, `update`, `delete`, `send`, `schedule`, `archive`, or `restore`, rely on dry-run first unless the user has already approved the exact action.
-8. For search-result or email-recipient deduplication, use the matching `... options` command first, then apply only the returned schema/body patch that matches the user's intent.
-9. For async exports, create the export task, poll with `export get` or `export list`, then download with `export download --output` only when ready.
+1. Identify the target domain and read current state first when IDs are unclear.
+2. For platform email outreach to creators found in NoxInfluencer, use the email-task path and add recipients by `creator_id`; do not retrieve contacts first. See the CLI schema and `{baseDir}/references/marketing-ops.md`.
+3. Use `message send` or `message schedule` only for existing `thread_id` replies. If no thread exists, offer the email-task path for platform creators.
+4. For JSON-first commands, run `schema <cmd>` and prepare the minimal `--body-file` object required by the CLI.
+5. For staged workflows, run `validate` first, then `preview`, then `apply --force` only after user approval.
+6. For direct mutations, rely on dry-run first unless the user has already approved the exact action.
+7. For search-result or email-recipient deduplication, use the matching `... options` command first, then apply only the returned schema/body patch that matches the user's intent.
+8. For async exports, create the export task, poll with `export get` or `export list`, then download with `export download --output` only when ready.
 
 Do not draft outreach copy. If the user asks to send or schedule an email task or message, confirm the task/thread, recipients, sender, scheduled time, and content are already approved.
 
@@ -315,20 +165,6 @@ Use brand-monitor commands for owned/competitor brand analysis and brand asset e
 See `{baseDir}/references/brand-monitor.md` for command routing and platform boundaries.
 
 ---
-
-## Workflow Routing
-
-| User intent | Start with |
-|-------------|-----------|
-| Find creators, broad sourcing | § 2. Discovering Creators |
-| Evaluate a specific creator | § 3. Analyzing Creators |
-| Get email or contact details | § 4. Retrieving Contacts |
-| Set up monitoring for a video | § 5. Tracking Performance |
-| Manage campaigns, collections, CRM, email/message tasks, products, or exports | § 6. Marketing Ops |
-| Analyze or export brand-monitor data | § 7. Brand Monitoring |
-| Setup, quota, billing, errors | § 1. Getting Started |
-
-Natural progression: discover → analyze → contact → monitor → operate. But users can enter at any point.
 
 ## Error Handling
 
