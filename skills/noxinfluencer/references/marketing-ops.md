@@ -18,7 +18,7 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 | Query or update NoxInfluencer CRM channels | `crm list`, `crm get`, `crm update`, `crm groups ...` |
 | Manage CRM labels for batch tagging | `crm labels list/create/update/delete` |
 | Manage product-center records and tags | `product list/get/create/update/delete`, `product tags ...` |
-| Send first email outreach to known creator emails | `email create`, then `email recipients add/replace`, `email content save`, optional `email sender update`, optional `email attachments ...`, then `email send` or `email schedule` |
+| Send platform email outreach to creators | `email create`, then `email recipients add/replace` with creator search/profile IDs, `email content save`, optional `email sender update`, optional `email attachments ...`, then `email send` or `email schedule` |
 | Manage email tasks | `email list`, `email drafts`, `email get`, `email create`, `email update`, `email recipients ...`, `email content ...`, `email sender ...`, `email report`, `email team-summary`, `email team-breakdown` |
 | Manage email recipient deduplication | `email recipients filter options`, then `email recipients filter get/update/tasks` |
 | Manage email task collaborators | `email collaborators list`, then `replace/add/remove` |
@@ -31,12 +31,13 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 
 ## Outreach Routing
 
-- If the user has reliable creator email addresses from `creator contacts`, use the email-task path. Create or select an email task, add explicit recipients with `email recipients add/replace`, save user-approved content with `email content save`, set sender if needed, read back task and recipients, then ask for final approval before `email send --force` or `email schedule --force`.
+- For NoxInfluencer platform email outreach, do not call `creator contacts` first. Create or select an email task, add search/profile result `creator_id` values with `email recipients add/replace`, save user-approved content with `email content save`, set sender if needed, read back task and recipients, then ask for final approval before `email send --force` or `email schedule --force`.
+- Use `creator contacts` only when the user explicitly wants visible/exported contact info or outreach outside NoxInfluencer. If the user vaguely asks to "find emails and send", choose platform email by default and say exported email retrieval uses extra contact quota.
 - Email attachments belong to the email task primary project. Upload approved files with `email attachments upload <task_id> --file <path>` before `email send` or `email schedule`; use `email attachments list/delete` to inspect or remove files. Email tasks support at most 1 attachment, max 10MB. Uploading or deleting an attachment cancels an existing scheduled send, so read back the task and confirm again before scheduling.
 - For one email task's reply reporting, use `email report <task_id>`. For multi-task or team-level reporting, use `email team-summary`; for SaaS team member breakdown, use `email team-breakdown`. Treat `reply_count` as email tracking replies, `replied_creator_count` as replied creators, and `inbound_message_count` as inbound reply messages. Team filters use SaaS team member `uid`, not Gmail or enterprise sender mailbox accounts. Do not recompute replies by manually scanning message threads unless the user explicitly asks for raw thread inspection.
-- If the user wants in-platform DM/message, `message send` and `message schedule` require an existing `thread_id`. If the user only has an email task ID, use `message list --business_kind email_task --business_id <task_id>` to resolve the thread first. Without a thread, say that starting a new message thread is not exposed by the CLI and offer the email-task path if email contacts exist.
+- If the user wants in-platform DM/message, `message send` and `message schedule` require an existing `thread_id`. If the user only has an email task ID, use `message list --business_kind email_task --business_id <task_id>` to resolve the thread first. Without a thread, say that starting a new message thread is not exposed by the CLI and offer the email-task path for platform creators.
 - Message attachments are thread-draft attachments. Upload files with `message attachments upload <thread_id> --file <path>` before `message send` or `message schedule`; use `message attachments list/delete` to inspect or remove draft files. Do not attach files to message templates unless the CLI schema explicitly exposes that path.
-- `crm add-to-email` is only for adding existing NoxInfluencer CRM channels to an existing email task. Do not treat CRM as required when the user already has explicit email addresses.
+- `crm add-to-email` is only for adding existing NoxInfluencer CRM channels to an existing email task. Do not treat CRM as required when the user already has creator IDs or explicit email addresses.
 
 ## Deduplication and Collaborators
 
