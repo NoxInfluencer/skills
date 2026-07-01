@@ -1,19 +1,19 @@
 ---
 name: noxinfluencer
-description: Runs NoxInfluencer creator and marketing-ops workflows via CLI, including creator discovery for influencer marketing, creator marketing, UGC, social media marketing, and affiliate marketing; creator evaluation, contact retrieval for external use, video tracking, campaigns, collections, CRM channels, product center, email/message tasks, brand monitoring, and exports. Use when the user needs NoxInfluencer creator discovery, creator evaluation, outreach operations, campaign/collection/CRM/email/product operations, brand monitoring, or account setup.
+description: Runs NoxInfluencer creator and marketing-ops workflows via CLI, including creator discovery for influencer marketing, creator marketing, UGC, social media marketing, and affiliate marketing; creator evaluation, contact retrieval for external use, video tracking, campaigns, collections, CRM channels, product center, short links, email/message tasks, brand monitoring, and exports. Use when the user needs NoxInfluencer creator discovery, creator evaluation, outreach operations, campaign/collection/CRM/email/product/short-link operations, brand monitoring, or account setup.
 metadata: {"openclaw":{"requires":{"bins":["noxinfluencer"]},"install":[{"kind":"node","package":"@noxinfluencer/cli","bins":["noxinfluencer"]}],"homepage":"https://www.noxinfluencer.com/skills"}}
 ---
 
 # NoxInfluencer
 
-Full-workflow creator and marketing-ops skill for influencer discovery, due diligence, platform email outreach, external contact retrieval, campaign video monitoring, campaign/collection operations, CRM/email/message/product-center operations, brand monitoring, and exports across YouTube, TikTok, and Instagram.
+Full-workflow creator and marketing-ops skill for influencer discovery, due diligence, platform email outreach, external contact retrieval, campaign video monitoring, campaign/collection operations, CRM/email/message/product-center/short-link operations, brand monitoring, and exports across YouTube, TikTok, and Instagram.
 
 The user interacts through natural language. Execute CLI commands yourself and report results in plain language. Never expose raw commands to the user.
 
 ## When to Use
 
 - User wants to find, evaluate, or contact creators / influencers / KOLs
-- User wants NoxInfluencer campaign, collection, CRM, email/message, product-center, export, or brand-monitor operations
+- User wants NoxInfluencer campaign, collection, CRM, email/message, product-center, short-link, export, or brand-monitor operations
 - User needs to set up NoxInfluencer access or check quota
 - User wants to monitor video campaign performance
 - User hits an auth, quota, or CLI error
@@ -41,7 +41,7 @@ The CLI is self-describing — use it instead of memorizing parameters:
 - **Help**: `noxinfluencer <cmd> --help`
 - **Diagnostics**: `noxinfluencer doctor`
 - **Browser login**: `noxinfluencer login` opens NoxInfluencer, reuses the SaaS login session, and saves/reuses a non-expiring API key locally
-- **Command-tree check**: `noxinfluencer schema --all` must include `campaign`, `collection`, `email`, `message`, `crm`, `product`, `brand-monitor`, `export`, and `agent`
+- **Command-tree check**: `noxinfluencer schema --all` must include `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `brand-monitor`, `export`, and `agent`
 - **Exit codes**: `noxinfluencer agent exit-codes`
 - **Preview**: `--dry-run` (shows request without executing)
 - **Language routing**: `--lang zh` switches all URLs to `cn.noxinfluencer.com`
@@ -53,7 +53,7 @@ Use `noxinfluencer schema <cmd>` for exact parameters. Prefer broad command fami
 - Creator sourcing: `creator search`, `creator search-filter*`, `creator lookalikes`
 - Creator reads: `creator profile/audience/content/cooperation`; use `creator contacts` only for visible/exported contacts
 - Monitoring: `monitor list/create/add-task/tasks/history/summary`
-- Operations: `campaign`, `collection`, `crm`, `email`, `message`, `product`, `export`
+- Operations: `campaign`, `collection`, `crm`, `email`, `message`, `product`, `short-link`, `export`
 - Brand monitoring: `brand-monitor ...`
 - Setup and diagnostics: `login`, `doctor`, `quota`, `pricing`, `agent exit-codes`
 - Feedback: `feedback submit/inbox/get`
@@ -130,7 +130,7 @@ List projects first when unclear. Create a project before adding videos. Use sum
 
 ## 6. Marketing Ops
 
-Operate NoxInfluencer campaign, collection, CRM, email, message, product-center, and export workflows. Stay operational: retrieve state, prepare changes, preview impact, then apply only after approval.
+Operate NoxInfluencer campaign, collection, CRM, email, message, product-center, short-link, and export workflows. Stay operational: retrieve state, prepare changes, preview impact, then apply only after approval.
 
 ### Workflow
 
@@ -141,7 +141,8 @@ Operate NoxInfluencer campaign, collection, CRM, email, message, product-center,
 5. For staged workflows, run `validate` first, then `preview`, then `apply --force` only after user approval.
 6. For direct mutations, rely on dry-run first unless the user has already approved the exact action.
 7. For search-result or email-recipient deduplication, use the matching `... options` command first, then apply only the returned schema/body patch that matches the user's intent.
-8. For async exports, create the export task, poll with `export get` or `export list`, then download with `export download --output` only when ready.
+8. Use `short-link` for normal Nox short links only; do not treat it as Shopify affiliate campaign tracking links.
+9. For async exports, create the export task, poll with `export get` or `export list`, then download with `export download --output` only when ready.
 
 Do not draft outreach copy. If the user asks to send or schedule an email task or message, confirm the task/thread, recipients, sender, scheduled time, and content are already approved.
 
@@ -168,7 +169,7 @@ See `{baseDir}/references/brand-monitor.md` for command routing and platform bou
 
 ## Error Handling
 
-For API-backed failures (`quota`, `pricing`, `creator`, `monitor`, `campaign`, `collection`, `email`, `message`, `crm`, `brand-monitor`, `export`), use the CLI response's `action` field when present:
+For API-backed failures (`quota`, `pricing`, `creator`, `monitor`, `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `brand-monitor`, `export`), use the CLI response's `action` field when present:
 - `action.url` — where the user should go
 - `action.hint` — what to do
 
