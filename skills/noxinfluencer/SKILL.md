@@ -13,7 +13,7 @@ The user interacts through natural language. Execute CLI commands yourself and r
 ## When to Use
 
 - User wants to find, evaluate, or contact creators / influencers / KOLs
-- User wants NoxInfluencer campaign, collection, CRM, email/message, product-center, short-link, export, or brand-monitor operations
+- User wants NoxInfluencer campaign, collection, CRM, email/message, product-center, short-link, affiliate, export, or brand-monitor operations
 - User needs to set up NoxInfluencer access or check quota
 - User wants to monitor video campaign performance
 - User hits an auth, quota, or CLI error
@@ -53,7 +53,7 @@ Use `noxinfluencer schema <cmd>` for exact parameters. Prefer broad command fami
 - Creator sourcing: `creator search`, `creator search-filter*`, `creator lookalikes`
 - Creator reads: `creator profile/audience/content/cooperation`; use `creator contacts` only for visible/exported contacts
 - Monitoring: `monitor list/create/add-task/tasks/history/summary`
-- Operations: `campaign`, `collection`, `crm`, `email`, `message`, `product`, `short-link`, `export`
+- Operations: `campaign`, `collection`, `crm`, `email`, `message`, `product`, `short-link`, `affiliation`, `export`
 - Brand monitoring: `brand-monitor ...`
 - Setup and diagnostics: `login`, `doctor`, `quota`, `pricing`, `agent exit-codes`
 - Feedback: `feedback submit/inbox/get`
@@ -141,8 +141,9 @@ Operate NoxInfluencer campaign, collection, CRM, email, message, product-center,
 5. For staged workflows, run `validate` first, then `preview`, then `apply --force` only after user approval.
 6. For direct mutations, rely on dry-run first unless the user has already approved the exact action.
 7. For search-result or email-recipient deduplication, use the matching `... options` command first, then apply only the returned schema/body patch that matches the user's intent.
-8. Use `short-link` for normal Nox short links only; do not treat it as Shopify affiliate campaign tracking links.
-9. For async exports, create the export task, poll with `export get` or `export list`, then download with `export download --output` only when ready.
+8. Use `short-link` for normal Nox short links only; use `affiliation` for Shopify affiliate campaigns, members, tracking links, discount codes, and performance reads.
+9. If Shopify store authorization is missing, send the user to SaaS; do not try to authorize stores inside the Skill.
+10. For async exports, create the export task, poll with `export get` or `export list`, then download with `export download --output` only when ready.
 
 Do not draft outreach copy. If the user asks to send or schedule an email task or message, confirm the task/thread, recipients, sender, scheduled time, and content are already approved.
 

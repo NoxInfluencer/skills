@@ -18,6 +18,7 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 | Query or update NoxInfluencer CRM channels | `crm list`, `crm get`, `crm update`, `crm groups ...` |
 | Manage CRM labels for batch tagging | `crm labels list/create/update/delete` |
 | Manage product-center records and tags | `product list/get/create/update/delete`, `product tags ...` |
+| Manage Shopify affiliate campaigns and members | `affiliation stores list`, then `affiliation campaigns ...` / `affiliation members ...` |
 | Send platform email outreach to creators | `email create`, then `email recipients add/replace` with creator search/profile IDs, `email content save`, optional `email sender update`, optional `email attachments ...`, then `email send` or `email schedule` |
 | Manage email tasks | `email list`, `email drafts`, `email get`, `email create`, `email update`, `email recipients ...`, `email content ...`, `email sender ...`, `email report`, `email team-summary`, `email team-breakdown` |
 | Manage email recipient deduplication | `email recipients filter options`, then `email recipients filter get/update/tasks` |
@@ -40,6 +41,12 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 - For message-center pending work, trust `needs_reply` / `last_message_direction`; `deal` is not the same as `unread`. If one opened task is already replied but SaaS still shows pending, inspect sibling tasks with `message projects <thread_id>`. If the user says a pending message needs no reply, do not send an empty reply or archive the channel; say task-level mark-handled is not exposed yet.
 - Message attachments are thread-draft attachments. Upload files with `message attachments upload <thread_id> --file <path>` before `message send` or `message schedule`; use `message attachments list/delete` to inspect or remove draft files. Do not attach files to message templates unless the CLI schema explicitly exposes that path.
 - `crm add-to-email` is only for adding existing NoxInfluencer CRM channels to an existing email task. Do not treat CRM as required when the user already has creator IDs or explicit email addresses.
+
+## Affiliate Marketing
+
+- Use `affiliation` for Shopify affiliate stores, campaigns, members, tracking links, discount codes, and performance reads. This is separate from normal `short-link`.
+- Start with `affiliation stores list`. If no store is authorized or access is denied, ask the user to authorize/manage the store in SaaS; do not attempt store authorization in the Skill.
+- Add NoxInfluencer creators to affiliate campaigns with search/profile `creator_id`, or use `platform + channel_id` / `custom_id` when the CLI schema calls for it.
 
 ## Deduplication and Collaborators
 
