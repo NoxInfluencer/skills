@@ -28,7 +28,7 @@ The `id` is an encrypted token — use it directly as the positional `<creator_i
 
 ## Page Size and Cost
 
-- `creator search` and `creator lookalikes` share returned-result pricing: currently 0.05 Skill Credit per returned creator.
+- `creator search` and `creator lookalikes` share returned-result pricing; use `pricing tools --action creator_search` or `--action creator_lookalikes` for the current server-side unit price.
 - The default page size is 20 and the maximum page size is 100.
 - Charge impact follows the number of returned items, not the requested `page_size`. Prefer targeted pages while refining filters; use larger pages only when the user asks for broad sourcing or bulk follow-up.
 
