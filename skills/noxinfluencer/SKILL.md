@@ -1,12 +1,12 @@
 ---
 name: noxinfluencer
-description: Runs NoxInfluencer creator and marketing-ops workflows via CLI, including creator discovery for influencer marketing, creator marketing, UGC, social media marketing, and affiliate marketing; creator evaluation, contact retrieval for external use, video tracking, campaigns, collections, CRM channels, product center, short links, email/message tasks, brand monitoring, and exports. Use when the user needs NoxInfluencer creator discovery, creator evaluation, outreach operations, campaign/collection/CRM/email/product/short-link operations, brand monitoring, or account setup.
+description: Runs NoxInfluencer creator and marketing-ops workflows via CLI, including creator discovery for influencer marketing, creator marketing, UGC, social media marketing, and affiliate marketing; creator evaluation, contact retrieval for external use, video tracking, campaigns, collections, CRM channels, product center, short links, Shopify affiliation, email/message tasks, brand monitoring, and exports. Use when the user needs NoxInfluencer creator discovery, creator evaluation, outreach operations, campaign/collection/CRM/email/product/short-link/affiliation operations, brand monitoring, or account setup.
 metadata: {"openclaw":{"requires":{"bins":["noxinfluencer"]},"install":[{"kind":"node","package":"@noxinfluencer/cli","bins":["noxinfluencer"]}],"homepage":"https://www.noxinfluencer.com/skills"}}
 ---
 
 # NoxInfluencer
 
-Full-workflow creator and marketing-ops skill for influencer discovery, due diligence, platform email outreach, external contact retrieval, campaign video monitoring, campaign/collection operations, CRM/email/message/product-center/short-link operations, brand monitoring, and exports across YouTube, TikTok, and Instagram.
+Full-workflow creator and marketing-ops skill for influencer discovery, due diligence, platform email outreach, external contact retrieval, campaign video monitoring, campaign/collection operations, CRM/email/message/product-center/short-link/affiliation operations, brand monitoring, and exports across YouTube, TikTok, and Instagram.
 
 The user interacts through natural language. Execute CLI commands yourself and report results in plain language. Never expose raw commands to the user.
 
@@ -41,7 +41,7 @@ The CLI is self-describing — use it instead of memorizing parameters:
 - **Help**: `noxinfluencer <cmd> --help`
 - **Diagnostics**: `noxinfluencer doctor`
 - **Browser login**: `noxinfluencer login` opens NoxInfluencer, reuses the SaaS login session, and saves/reuses a non-expiring API key locally
-- **Command-tree check**: `noxinfluencer schema --all` must include `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `brand-monitor`, `export`, and `agent`
+- **Command-tree check**: `noxinfluencer schema --all` must include `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `export`, and `agent`
 - **Exit codes**: `noxinfluencer agent exit-codes`
 - **Preview**: `--dry-run` (shows request without executing)
 - **Language routing**: `--lang zh` switches all URLs to `cn.noxinfluencer.com`
@@ -130,7 +130,7 @@ List projects first when unclear. Create a project before adding videos. Use sum
 
 ## 6. Marketing Ops
 
-Operate NoxInfluencer campaign, collection, CRM, email, message, product-center, short-link, and export workflows. Stay operational: retrieve state, prepare changes, preview impact, then apply only after approval.
+Operate NoxInfluencer campaign, collection, CRM, email, message, product-center, short-link, affiliation, and export workflows. Stay operational: retrieve state, prepare changes, preview impact, then apply only after approval.
 
 ### Workflow
 
@@ -170,7 +170,7 @@ See `{baseDir}/references/brand-monitor.md` for command routing and platform bou
 
 ## Error Handling
 
-For API-backed failures (`quota`, `pricing`, `creator`, `monitor`, `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `brand-monitor`, `export`), use the CLI response's `action` field when present:
+For API-backed failures (`quota`, `pricing`, `creator`, `monitor`, `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `export`), use the CLI response's `action` field when present:
 - `action.url` — where the user should go
 - `action.hint` — what to do
 
