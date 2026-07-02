@@ -108,6 +108,19 @@ claude plugin install nox-influencer@noxinfluencer
 - **Hermes Skills Hub**: install through the skills.sh identifier shown above; Hermes can also discover this repository through GitHub taps
 - **Claude Code**: use either the Skills CLI install or the plugin marketplace install
 
+## Optional X/Twitter Companion
+
+For Hermes Agent workflows that need X/Twitter exploration, tweet reads, or
+gated X actions around creator and brand research, install Hermes Tweet:
+
+```bash
+hermes plugins install Xquik-dev/hermes-tweet --enable
+```
+
+Configure `XQUIK_API_KEY` for read and action tools. Set
+`HERMES_TWEET_ENABLE_ACTIONS=true` only when action workflows are intentional.
+Keep NoxInfluencer as the creator, campaign, and brand-monitor operations skill.
+
 ## Notes
 
 - This repository publishes the `noxinfluencer` skill.
