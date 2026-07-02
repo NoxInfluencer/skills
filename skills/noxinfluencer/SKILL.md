@@ -40,6 +40,7 @@ The CLI is self-describing — use it instead of memorizing parameters:
 - **Parameters**: `noxinfluencer schema <cmd>` (e.g., `schema creator.search`; quoted path form `schema 'creator search'` also works)
 - **Help**: `noxinfluencer <cmd> --help`
 - **Diagnostics**: `noxinfluencer doctor`
+- **Cost planning**: `noxinfluencer pricing tools --charged-only` shows current server-side Skill Credit prices; `noxinfluencer quota usage --days 7` reviews recent consumption
 - **Browser login**: `noxinfluencer login` opens NoxInfluencer, reuses the SaaS login session, and saves/reuses a non-expiring API key locally
 - **Command-tree check**: `noxinfluencer schema --all` must include `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `export`, and `agent`
 - **Exit codes**: `noxinfluencer agent exit-codes`
@@ -55,7 +56,7 @@ Use `noxinfluencer schema <cmd>` for exact parameters. Prefer broad command fami
 - Monitoring: `monitor list/create/add-task/tasks/history/summary`
 - Operations: `campaign`, `collection`, `crm`, `email`, `message`, `product`, `short-link`, `affiliation`, `export`
 - Brand monitoring: `brand-monitor ...`
-- Setup and diagnostics: `login`, `doctor`, `quota`, `pricing`, `agent exit-codes`
+- Setup, quota, and pricing: `login`, `doctor`, `quota`, `quota usage`, `pricing`, `pricing tools`, `agent exit-codes`
 - Feedback: `feedback submit/inbox/get`
 
 If the user does not have a `creator_id`, the first creator read may use `--url` or `--platform --channel-id`; afterwards preserve and reuse returned `creator_id`. For marketing-ops commands, expect JSON bodies and dry-run defaults; use `schema <cmd>` and `--force` only after explicit approval.
@@ -76,7 +77,7 @@ Run `noxinfluencer doctor`, then fix only what is missing:
 
 ### Quota and Billing
 
-Run `quota` yourself and report the snapshot. API-backed calls may consume Skill quota and may also depend on SaaS-side capability quota or entitlement. If the response includes `action.url`, pass it to the user.
+Run `quota` yourself and report the snapshot. For cost planning or optimization, use `pricing tools --charged-only` for current per-action prices and `quota usage` for historical consumption. API-backed calls may consume Skill quota and may also depend on SaaS-side capability quota or entitlement. If the response includes `action.url`, pass it to the user.
 
 ---
 
@@ -88,7 +89,7 @@ Ask for only the missing essentials: platform, niche, region, creator size, and 
 
 Use `schema creator.search` for flags. Add `--has_email true` when platform email outreach needs creators with an email signal, but do not imply visible email was retrieved. For pagination, reuse the prior filters and `data.search_after`; prefer a JSON body.
 
-Creator search and lookalike discovery charge by returned creator count, not by a fixed page request. Default to smaller, purposeful pages for exploration; use larger pages only when the user asks for a broad shortlist or bulk follow-up.
+Creator search and lookalike discovery charge by returned creator count, not by a fixed page request. Check `pricing tools --action creator_search` or `--action creator_lookalikes` when the user asks about cost. Default to smaller, purposeful pages for exploration; use larger pages only when the user asks for a broad shortlist or bulk follow-up.
 
 ### Lookalike Discovery
 

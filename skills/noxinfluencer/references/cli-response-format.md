@@ -21,7 +21,8 @@ Successful responses include `success`, `data`, `summary`, and `meta`. Some curr
 Notes:
 
 - Treat `quota` response data as the canonical Skill quota snapshot
-- `pricing` returns membership plans, not per-action cost
+- `pricing` returns membership plans; `pricing tools` returns current server-side per-action Skill Credit prices
+- `quota usage` returns historical calls, credits, trend, and recent activity for cost analysis
 - Some current API envelopes may still include a legacy `credits` field for compatibility; do not treat it as the primary quota model
 - Mutation commands default to dry-run; `--force` executes the write after user approval
 - Non-GET writes automatically use `Idempotency-Key`; `--idempotency-key` can override it for automation

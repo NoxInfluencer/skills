@@ -16,6 +16,7 @@ Agent skill for NoxInfluencer creator and marketing operations: creator discover
 - Monitor campaign video performance over time
 - Manage NoxInfluencer campaigns, collections, CRM channels, products, normal short links, Shopify affiliate campaigns, email/message tasks, and export jobs
 - Analyze monitored brands, product signals, influencer/content/tag/product assets, and brand-monitor exports
+- Check current Skill Credit prices and historical consumption to plan Agent workflows
 
 ## Account Setup
 
