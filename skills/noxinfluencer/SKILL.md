@@ -88,9 +88,11 @@ Ask for only the missing essentials: platform, niche, region, creator size, and 
 
 Use `schema creator.search` for flags. Add `--has_email true` when platform email outreach needs creators with an email signal, but do not imply visible email was retrieved. For pagination, reuse the prior filters and `data.search_after`; prefer a JSON body.
 
+Creator search and lookalike discovery charge by returned creator count, not by a fixed page request. Default to smaller, purposeful pages for exploration; use larger pages only when the user asks for a broad shortlist or bulk follow-up.
+
 ### Lookalike Discovery
 
-Use `creator lookalikes` when the user asks for creators similar to a source creator or URL. Treat results as recommendations; save them separately only after the user chooses targets.
+Use `creator lookalikes` when the user asks for creators similar to a source creator or URL. Treat results as recommendations, use the returned opaque `creator_id` values directly, and save them separately only after the user chooses targets.
 
 ### Shortlist Presentation
 

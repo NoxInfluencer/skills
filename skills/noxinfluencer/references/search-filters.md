@@ -26,6 +26,12 @@ Search responses also include page metadata under `data`: `page_num`, `page_size
 
 The `id` is an encrypted token — use it directly as the positional `<creator_id>` argument in subsequent commands. Do not try to decode it.
 
+## Page Size and Cost
+
+- `creator search` and `creator lookalikes` share returned-result pricing: currently 0.05 Skill Credit per returned creator.
+- The default page size is 20 and the maximum page size is 100.
+- Charge impact follows the number of returned items, not the requested `page_size`. Prefer targeted pages while refining filters; use larger pages only when the user asks for broad sourcing or bulk follow-up.
+
 ## Search Result Deduplication
 
 - Run `creator search-filter-options` to list SaaS hide/deduplication choices and their JSON body patches.
