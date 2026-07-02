@@ -10,6 +10,7 @@ Agent skill for NoxInfluencer creator and marketing operations: creator discover
 ## What This Skill Helps With
 
 - Discover creators for influencer, creator, and social media marketing campaigns
+- Find similar creators with the same opaque creator IDs and returned-result pricing as normal search
 - Evaluate creators with audience, content, and cooperation signals
 - Retrieve visible/exportable contact information for selected creators when external outreach is needed
 - Monitor campaign video performance over time
