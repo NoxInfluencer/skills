@@ -133,7 +133,7 @@ Output limits and side effects:
 - ClawHub install slug: `@noxinfluencer/nox-influencer-marketing`
 - Current ClawHub version observed: `0.1.13`
 - Source snapshot observed while generating this card: `21e51e7`
-- NoxInfluencer CLI version observed locally: `0.4.17`
+- NoxInfluencer CLI version observed locally: `0.4.18`
 - Skill card generated: `2026-07-03`
 
 Release evidence currently available:
