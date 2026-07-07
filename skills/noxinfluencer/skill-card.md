@@ -51,7 +51,7 @@ Credential types:
 Runtime dependencies:
 
 - `noxinfluencer` CLI from the npm package `@noxinfluencer/cli`.
-- A recent CLI command tree with `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `export`, and `agent`.
+- A recent CLI command tree with `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `export`, `feedback`, `quota`, `pricing`, and `agent`.
 - Network access to NoxInfluencer API endpoints and the underlying SaaS account permissions for the requested workflow.
 
 Operational dependencies:
@@ -59,6 +59,7 @@ Operational dependencies:
 - Read exact parameters at runtime with `noxinfluencer schema <cmd>` or `noxinfluencer schema --all`.
 - Check setup and auth state with `noxinfluencer doctor`.
 - Check Skill quota and entitlement blockers with `noxinfluencer quota`.
+- Check current server-side Skill Credit prices with `noxinfluencer pricing tools`.
 
 ## Known Risks and Mitigations
 
@@ -68,7 +69,7 @@ Mitigation: The skill treats write operations as dry-run or preview first, uses 
 
 Risk: Some operations may consume Skill quota, SaaS-side quota, paid entitlement, contact quota, unlock quota, or export capacity.
 
-Mitigation: The skill checks `quota` for account state, uses API error `action.url` and `action.hint` for billing or entitlement guidance, and explains quota-impacting unlock/export/contact operations before execution.
+Mitigation: The skill checks `quota` for account state, uses `pricing tools` for current per-action Skill Credit prices, uses API error `action.url` and `action.hint` for billing or entitlement guidance, and explains quota-impacting unlock/export/contact operations before execution.
 
 Risk: Creator contacts and CRM/email/message data can contain personal or commercially sensitive information.
 
@@ -132,7 +133,7 @@ Output limits and side effects:
 - ClawHub install slug: `@noxinfluencer/nox-influencer-marketing`
 - Current ClawHub version observed: `0.1.13`
 - Source snapshot observed while generating this card: `21e51e7`
-- NoxInfluencer CLI version observed locally: `0.4.16`
+- NoxInfluencer CLI version observed locally: `0.4.17`
 - Skill card generated: `2026-07-03`
 
 Release evidence currently available:
