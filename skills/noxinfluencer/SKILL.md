@@ -42,7 +42,7 @@ The CLI is self-describing — use it instead of memorizing parameters:
 - **Diagnostics**: `noxinfluencer doctor`
 - **Cost planning**: `noxinfluencer pricing tools --charged-only` shows current server-side Skill Credit prices; `noxinfluencer quota usage --days 7` reviews recent consumption
 - **Browser login**: `noxinfluencer login` opens NoxInfluencer, reuses the SaaS login session, and saves/reuses a non-expiring API key locally
-- **Command-tree check**: `noxinfluencer schema --all` must include `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `export`, and `agent`
+- **Command-tree check**: `noxinfluencer schema --all` must include `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `export`, `feedback`, `quota`, `pricing`, and `agent`
 - **Exit codes**: `noxinfluencer agent exit-codes`
 - **Preview**: `--dry-run` (shows request without executing)
 - **Language routing**: `--lang zh` switches all URLs to `cn.noxinfluencer.com`

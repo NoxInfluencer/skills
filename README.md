@@ -35,7 +35,7 @@ Manual fallback:
 
 ## Install
 
-The skill expects the latest `@noxinfluencer/cli`, including the command tree with `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `export`, and `agent`. Install the latest npm package:
+The skill expects the latest `@noxinfluencer/cli`, including the command tree with `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `export`, `feedback`, `quota`, `pricing`, and `agent`. Install the latest npm package:
 
 ```bash
 npm install -g @noxinfluencer/cli@latest
