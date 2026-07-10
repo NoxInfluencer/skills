@@ -10,7 +10,9 @@ For SaaS hide/deduplication after a page is already returned, use `creator searc
 
 | User intent | Key filters to apply | Why |
 |-------------|---------------------|-----|
+| Known creator name or handle | `--creator_name`, `--platform` | Match creator identity instead of treating the name as a topic keyword |
 | Niche sourcing | `--keywords`, `--platform` | Narrow to relevant content creators |
+| Every topic must match | `--keywords`, `--keyword_match all` | Require all supplied topic keywords instead of the default any-keyword union |
 | Regional targeting | `--country`, `--follower_countries` | Match campaign geography |
 | Budget-constrained | `--follower_min`, `--follower_max` | Size correlates with cost |
 | Platform email outreach | `--has_email true` | Only creators with known email signal; platform email can still add results by `creator_id` without retrieving visible email |
@@ -21,6 +23,8 @@ For SaaS hide/deduplication after a page is already returned, use `creator searc
 ## Search Result Fields
 
 Each result item includes: `id` (encrypted token), `nickname`, `tags`, `followers`, `country`, `total_videos`, `view_per_followers`, `engagement_rate`, `avg_views`, `language`.
+
+`creator_name` and `keywords` are mutually exclusive. Name search uses the same result pricing and pagination as topic search.
 
 Search responses also include page metadata under `data`: `page_num`, `page_size`, `total_page`, `total_size`, and `search_after`.
 
