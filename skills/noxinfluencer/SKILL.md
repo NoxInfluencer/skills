@@ -87,7 +87,7 @@ Turn an open-ended search into a usable shortlist.
 
 Ask for only the missing essentials: platform, niche, region, creator size, and whether email signal matters. Search directly once the request is specific enough. Multi-platform sourcing requires separate platform searches.
 
-Use `schema creator.search` for flags. Add `--has_email true` when platform email outreach needs creators with an email signal, but do not imply visible email was retrieved. For pagination, reuse the prior filters and `data.search_after`; prefer a JSON body.
+Use `schema creator.search` for flags. Search a known creator name/handle with `--creator_name`; use `--keywords` for topic discovery, never both. Use `--keyword_match all` only when the user requires every keyword to match. Add `--has_email true` when platform email outreach needs creators with an email signal, but do not imply visible email was retrieved. For pagination, reuse the prior filters and `data.search_after`; prefer a JSON body.
 
 Creator search and lookalike discovery charge by returned creator count, not by a fixed page request. Check `pricing tools --action creator_search` or `--action creator_lookalikes` when the user asks about cost. Default to smaller, purposeful pages for exploration; use larger pages only when the user asks for a broad shortlist or bulk follow-up.
 
