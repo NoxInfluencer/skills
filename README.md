@@ -5,7 +5,7 @@ Agent skill for NoxInfluencer creator and marketing operations: creator discover
 - Official website: [NoxInfluencer](https://www.noxinfluencer.com/)
 - Skills dashboard / API key fallback: [NoxInfluencer Skills Dashboard](https://www.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli)
 - skills.sh: [NoxInfluencer on skills.sh](https://skills.sh/noxinfluencer/skills/noxinfluencer)
-- ClawHub: [NoxInfluencer on ClawHub](https://clawhub.ai/noxinfluencer/noxinfluencer)
+- ClawHub: [NoxInfluencer on ClawHub](https://clawhub.ai/noxinfluencer/skills/nox-influencer-marketing)
 
 ## What This Skill Helps With
 
