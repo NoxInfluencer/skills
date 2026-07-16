@@ -53,7 +53,7 @@ Use `noxinfluencer schema <cmd>` for exact parameters. Prefer broad command fami
 
 - Creator sourcing: `creator search`, `creator search-filter*`, `creator lookalikes`
 - Creator reads: `creator profile/audience/content/cooperation`; use `creator contacts` only for visible/exported contacts
-- Monitoring: `monitor list/create/add-task/tasks/history/summary`
+- Monitoring: `monitor list/create/add-task/tasks/history/summary`; use `monitor auto-track ...` for newly published creator content
 - Operations: `campaign`, `collection`, `crm`, `email`, `message`, `product`, `short-link`, `affiliation`, `export`
 - Brand monitoring: `brand-monitor ...`
 - Setup, quota, and pricing: `login`, `doctor`, `quota`, `quota usage`, `pricing`, `pricing tools`, `agent exit-codes`
@@ -128,6 +128,8 @@ When contacts are explicitly needed, run `creator contacts` for the selected cre
 Manage video monitoring projects and tracked videos. Operational only — manages monitoring, not performance judgment.
 
 List projects first when unclear. Create a project before adding videos. Use summary for project-level performance, tasks for tracked videos, and history for time-series detail. Prefer stable IDs after lookup and preserve returned `creator_id` for later creator reads. Monitoring manages data collection; do not turn it into a creator verdict.
+
+For ongoing creator monitoring, use `monitor auto-track`. Its Excel import validates every row before creating one rule; if it returns `failed_items`, fix the workbook and retry because no partial rule was created.
 
 ---
 
