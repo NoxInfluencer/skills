@@ -41,7 +41,7 @@ The CLI is self-describing — use it instead of memorizing parameters:
 - **Help**: `noxinfluencer <cmd> --help`
 - **Diagnostics**: `noxinfluencer doctor`
 - **Cost planning**: `noxinfluencer pricing tools --charged-only` shows current server-side Skill Credit prices; `noxinfluencer quota usage --days 7` reviews recent consumption
-- **Browser login**: `noxinfluencer login` opens NoxInfluencer, reuses the SaaS login session, and saves/reuses a non-expiring API key locally
+- **Login**: direct terminals can run `noxinfluencer login`; Agents/remote terminals use `login start --json` and `login wait <login_id>` (the CLI returns the user-safe authorization URL and code)
 - **Command-tree check**: `noxinfluencer schema --all` must include `creator`, `monitor`, `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `export`, `file`, `feedback`, `quota`, `pricing`, and `agent`
 - **Exit codes**: `noxinfluencer agent exit-codes`
 - **Preview**: `--dry-run` (shows request without executing)
@@ -72,7 +72,7 @@ If the user wants to report a bug, confusing behavior, data issue, suggestion, o
 Run `noxinfluencer doctor`, then fix only what is missing:
 
 1. No CLI or stale command tree → ask the user to install `@noxinfluencer/cli@latest`; verify with `schema --all`.
-2. No API key → prefer `noxinfluencer login`. Manual API-key handoff is fallback only; use `auth --key-stdin`, never argv/logs.
+2. No API key → use Device Flow. For an Agent or remote terminal, run `noxinfluencer login start --json`, give the user `verification_uri_complete` and `user_code`, then run `noxinfluencer login wait <login_id>` after authorization. On a direct terminal, `noxinfluencer login` does this in one command. `login --browser` is only for a local loopback callback. Manual API-key handoff is fallback only; use `auth --key-stdin`, never argv/logs or expose `device_code`.
 3. Configured → run `quota` and report blocking quota or entitlement issues.
 
 ### Quota and Billing
