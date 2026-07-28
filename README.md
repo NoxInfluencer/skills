@@ -23,13 +23,22 @@ Agent skill for NoxInfluencer creator and marketing operations: creator discover
 
 ## Account Setup
 
-If you are starting from scratch, install the CLI and run browser login:
+If you are starting from scratch, install the CLI and start login:
 
 ```bash
 noxinfluencer login
 ```
 
-The CLI opens NoxInfluencer, reuses your SaaS login session, creates or reuses a non-expiring API key, and saves it locally.
+The CLI prints an authorization URL and opens it when possible. Complete SaaS login/registration and authorization in any browser; the CLI creates or reuses a non-expiring API key and saves it locally.
+
+For an Agent, container, or remote terminal, start and wait separately:
+
+```bash
+noxinfluencer login start --json
+noxinfluencer login wait <login_id>
+```
+
+Give the user only `verification_uri_complete` and `user_code` from `login start`; never expose its secret device code. Use `noxinfluencer login --browser` only when a local loopback callback is available.
 
 Manual fallback:
 
