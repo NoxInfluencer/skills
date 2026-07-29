@@ -1,6 +1,6 @@
 # NoxInfluencer Skill
 
-Agent skill for NoxInfluencer creator and marketing operations: creator discovery and selected-result exports, due-diligence analysis, platform email outreach, external contact retrieval, known-video monitoring and future-content auto-track, spreadsheet workflows, campaign/collection operations, CRM/email/message/product/short-link/affiliation operations, brand monitoring, and exports across YouTube, TikTok, and Instagram.
+Agent skill for NoxInfluencer creator and marketing operations: creator discovery and selected-result exports, due-diligence analysis and dispute reporting, platform email outreach, external contact retrieval, known-video monitoring and future-content auto-track, spreadsheet workflows, campaign/collection operations, CRM/email/message/product/short-link/affiliation operations, brand monitoring, and exports across YouTube, TikTok, and Instagram.
 
 - Official website: [NoxInfluencer](https://www.noxinfluencer.com/)
 - Skills dashboard / API key fallback: [NoxInfluencer Skills Dashboard](https://www.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli)
@@ -13,6 +13,7 @@ Agent skill for NoxInfluencer creator and marketing operations: creator discover
 - Find similar creators with the same opaque creator IDs and returned-result pricing as normal search
 - Preview business quota and export an approved subset of creator search or lookalike results
 - Evaluate creators with audience, content, and cooperation signals
+- Check creator dispute history and submit evidence-backed collaboration dispute reports when explicitly approved
 - Retrieve visible/exportable contact information for selected creators when external outreach is needed
 - Monitor known campaign videos and auto-track matching content that selected creators publish later
 - Use SaaS spreadsheet templates, imports, failure reports, and direct Excel reports for supported workflows
@@ -47,7 +48,7 @@ Manual fallback:
 
 ## Install
 
-The skill expects the latest `@noxinfluencer/cli`, including the command tree with `creator`, `monitor`, `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `export`, `file`, `feedback`, `quota`, `pricing`, and `agent`. Install the latest npm package:
+The skill expects the latest `@noxinfluencer/cli`, including the command tree with `creator`, `monitor`, `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `dispute`, `export`, `file`, `feedback`, `quota`, `pricing`, and `agent`. Install the latest npm package:
 
 ```bash
 npm install -g @noxinfluencer/cli@latest

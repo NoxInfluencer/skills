@@ -1,6 +1,6 @@
 # Marketing Ops Workflows
 
-Use this reference for NoxInfluencer campaign, collection, CRM, email, message, product, short-link, affiliation, file, report, and export operations. Keep command parameters runtime-discovered with `noxinfluencer schema <cmd>`.
+Use this reference for NoxInfluencer campaign, collection, CRM, email, message, product, short-link, affiliation, creator dispute, file, report, and export operations. Keep command parameters runtime-discovered with `noxinfluencer schema <cmd>`.
 
 ## Domain Routing
 
@@ -32,6 +32,7 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 | Download direct Excel reports | `monitor report*`, `short-link export-*`, `affiliation campaigns export` |
 | Send or schedule an existing message reply | `message send`, `message schedule`, `message cancel` |
 | Submit product feedback or a bug report | `feedback submit`, then `feedback inbox` / `feedback get` |
+| Check or report a concrete creator collaboration dispute | `dispute records <creator_id>` first, then `dispute report` only with evidence and approval |
 | Inspect or download shared async exports | `export list`, `export get`, `export download` for creator, collection, CRM, and brand-monitor tasks |
 
 ## Outreach Routing
@@ -100,6 +101,7 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 - Write commands default to dry-run. Treat dry-run output as a preview, not completion.
 - Use `--force` only after the user has approved the exact object and action.
 - Feedback submission is also a write command, but it is free and does not consume Skill quota. Use it for product bugs, confusing behavior, data issues, suggestions, or feature requests. Attach screenshots/logs with `--file` when useful, and check `feedback inbox` for asynchronous follow-up.
+- Creator disputes are separate from product feedback: they require paid membership, consume no Skill Credit, and require concrete evidence. Check existing `dispute records` before an approved `dispute report`; use `dispute options` for current type/status values.
 - For staged workflows, always run `validate` before `preview`, and `preview` before `apply --force`.
 - For `send` and `schedule`, confirm the task/thread, recipient scope, sender identity, scheduled time when relevant, and content approval before execution.
 - Do not draft outreach or negotiation copy. If content is missing, ask the user for approved content or hand off to a writing task without invoking NoxInfluencer write commands.
