@@ -418,13 +418,13 @@
       "id": 34,
       "category": "marketing-ops",
       "prompt": "刚才结果里的这个达人完全不相关，以后搜索都别再显示了。creator_id 是 r9VcmNsPLbYWT7caR6HTX2ZR--p1QAthlDV5932yjjZZXLTQ61qC947b。",
-      "expected_output": "Persistently hide the explicitly selected creator through the reversible not-interested workflow.",
+      "expected_output": "Mark the explicitly selected creator as Not interested through the reversible not-interested workflow.",
       "files": [],
       "expectations": [
         "Routes to creator not-interested add with the encrypted creator_id",
         "Treats the action as an approved mutation and follows the CLI mutation guard",
         "Does NOT convert the creator ID into a keyword exclusion",
-        "Mentions that the creator can be restored with not-interested remove"
+        "Mentions that the Not interested mark can be removed with not-interested remove"
       ]
     }
   ]
