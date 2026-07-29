@@ -42,7 +42,7 @@ The CLI is self-describing — use it instead of memorizing parameters:
 - **Diagnostics**: `noxinfluencer doctor`
 - **Cost planning**: `noxinfluencer pricing tools --charged-only` shows current server-side Skill Credit prices; `noxinfluencer quota usage --days 7` reviews recent consumption
 - **Login**: direct terminals can run `noxinfluencer login`; Agents/remote terminals use `login start --json` and `login wait <login_id>` (the CLI returns the user-safe authorization URL and code)
-- **Command-tree check**: `noxinfluencer schema --all` must include `creator`, `monitor`, `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `export`, `file`, `feedback`, `quota`, `pricing`, and `agent`
+- **Command-tree check**: `noxinfluencer schema --all` must include `creator`, `monitor`, `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `dispute`, `export`, `file`, `feedback`, `quota`, `pricing`, and `agent`
 - **Exit codes**: `noxinfluencer agent exit-codes`
 - **Preview**: `--dry-run` (shows request without executing)
 - **Language routing**: `--lang zh` switches all URLs to `cn.noxinfluencer.com`
@@ -56,6 +56,7 @@ Use `noxinfluencer schema <cmd>` for exact parameters. Prefer broad command fami
 - Monitoring: `monitor list/create/add-task/import-*/tasks/history/summary/report*`; use `monitor auto-track ...` for newly published creator content
 - Operations: `campaign`, `collection`, `crm`, `email`, `message`, `product`, `short-link`, `affiliation`, `export`, `file`
 - Brand monitoring: `brand-monitor ...`
+- Creator dispute due diligence: `dispute records/search/mine/get/report/update/withdraw`
 - Setup, quota, and pricing: `login`, `doctor`, `quota`, `quota usage`, `pricing`, `pricing tools`, `agent exit-codes`
 - Feedback: `feedback submit/inbox/get`
 
@@ -64,6 +65,10 @@ If the user does not have a `creator_id`, the first creator read may use `--url`
 ### User Feedback
 
 If the user wants to report a bug, confusing behavior, data issue, suggestion, or feature request, offer to submit feedback through `noxinfluencer feedback submit`. Ask for a short confirmation before sending. Attach screenshots or logs with `--file` when available. Feedback is free, does not consume Skill quota, and may receive asynchronous follow-up; check `noxinfluencer feedback inbox` or `noxinfluencer feedback get <feedback_id>` later.
+
+### Creator Disputes
+
+Use `feedback` for product, data, or CLI issues. Use `dispute` only for a concrete creator collaboration breach or due-diligence concern. Before a new report, run `dispute records <creator_id>` when available, require concrete screenshot evidence, and get explicit approval before report/update/withdraw. Private reports hide their description and evidence publicly, but not their type/count. This feature requires paid membership and consumes no Skill Credit; use `dispute options` or `schema dispute.report` for the current fields.
 
 ---
 
@@ -183,7 +188,7 @@ See `{baseDir}/references/brand-monitor.md` for command routing and platform bou
 
 ## Error Handling
 
-For API-backed failures (`quota`, `pricing`, `creator`, `monitor`, `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `export`, `file`, `feedback`), use the CLI response's `action` field when present:
+For API-backed failures (`quota`, `pricing`, `creator`, `monitor`, `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `dispute`, `export`, `file`, `feedback`), use the CLI response's `action` field when present:
 - `action.url` — where the user should go
 - `action.hint` — what to do
 
