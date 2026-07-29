@@ -51,7 +51,7 @@ The CLI is self-describing — use it instead of memorizing parameters:
 
 Use `noxinfluencer schema <cmd>` for exact parameters. Prefer broad command families over memorizing flags:
 
-- Creator sourcing: `creator search`, `creator search-filter*`, `creator lookalikes`, `creator export*`, `creator lookalikes-export`
+- Creator sourcing: `creator search`, `creator search-filter*`, `creator not-interested ...`, `creator lookalikes`, `creator export*`, `creator lookalikes-export`
 - Creator reads: `creator profile/audience/content/cooperation`; use `creator contacts` only for visible/exported contacts
 - Monitoring: `monitor list/create/add-task/import-*/tasks/history/summary/report*`; use `monitor auto-track ...` for newly published creator content
 - Operations: `campaign`, `collection`, `crm`, `email`, `message`, `product`, `short-link`, `affiliation`, `export`, `file`
@@ -87,7 +87,9 @@ Turn an open-ended search into a usable shortlist.
 
 Ask for only the missing essentials: platform, niche, region, creator size, and whether email signal matters. Search directly once the request is specific enough. Multi-platform sourcing requires separate platform searches.
 
-Use `schema creator.search` for flags. Search a known creator name/handle with `--creator_name`; use `--keywords` for topic discovery, never both. Use `--keyword_match all` only when the user requires every keyword to match. Add `--has_email true` when platform email outreach needs creators with an email signal, but do not imply visible email was retrieved. For pagination, reuse the prior filters and `data.search_after`; prefer a JSON body.
+Use `schema creator.search` for flags. Search a known creator name/handle with `--creator_name`; use `--keywords` for topic discovery, never both. Put user-specified unwanted topics in `exclude_keywords`, and apply CRM/contact/collection hide rules in the same search. Use standalone `search-filter` only for an already returned page. Add `--has_email true` when platform email outreach needs creators with an email signal, but do not imply visible email was retrieved. For pagination, reuse the prior filters and `data.search_after`; prefer a JSON body.
+
+Only add a creator to `creator not-interested` when the user explicitly wants that result hidden from future searches. Treat it as an approved, reversible mutation; a weak match or noisy result alone is not approval.
 
 Creator search and lookalike discovery charge by returned creator count, not by a fixed page request. Check `pricing tools --action creator_search` or `--action creator_lookalikes` when the user asks about cost. Default to smaller, purposeful pages for exploration; use larger pages only when the user asks for a broad shortlist or bulk follow-up.
 
@@ -149,7 +151,7 @@ Operate NoxInfluencer campaign, collection, CRM, email, message, product-center,
 4. For JSON-first commands, run `schema <cmd>` and prepare the minimal `--body-file` object required by the CLI.
 5. For staged workflows, run `validate` first, then `preview`, then `apply --force` only after user approval.
 6. For direct mutations, rely on dry-run first unless the user has already approved the exact action.
-7. For search-result or email-recipient deduplication, use the matching `... options` command first, then apply only the returned schema/body patch that matches the user's intent.
+7. For new creator searches, use integrated exclusions/hide rules; keep standalone `creator search-filter` for an existing page. Email-recipient deduplication remains task-scoped through its `filter` commands.
 8. Use `short-link` for normal Nox short links only; use `affiliation` for Shopify affiliate campaigns, members, tracking links, discount codes, and performance reads.
 9. If Shopify store authorization is missing, send the user to SaaS; do not try to authorize stores inside the Skill.
 10. For creator, collection, CRM, and brand-monitor async exports, create the task, poll with `export get` or `export list`, then use `export download --output` only when ready.

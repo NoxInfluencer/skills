@@ -4,7 +4,7 @@ For the full parameter list and syntax, run `noxinfluencer schema creator.search
 
 This reference covers **when to use which filters** — the decision logic, not the syntax.
 
-For SaaS hide/deduplication after a page is already returned, use `creator search-filter-options` and `creator search-filter` instead of adding more `creator search` filters.
+For a new search, apply topic exclusions and SaaS hide/deduplication directly through `creator search`. Use standalone `creator search-filter` only when a page has already been returned.
 
 ## Filter Priority by User Intent
 
@@ -38,9 +38,10 @@ The `id` is an encrypted token — use it directly as the positional `<creator_i
 
 ## Search Result Deduplication
 
-- Run `creator search-filter-options` to list SaaS hide/deduplication choices and their JSON body patches.
-- Run `creator search-filter --body-file` with the current page `data.items[].id` values plus one selected filter condition.
-- This is page-level filtering for already returned candidates; it does not fetch another search page and does not replace the normal `creator search` filters above.
+- Use `exclude_keywords` for unwanted topic/tag matches; do not emulate exclusions by dropping rows after billing.
+- Run `creator search-filter-options` to inspect SaaS hide choices. Apply its `search_body_patch` in the same `creator search` request whenever possible.
+- Use its standalone `body_patch` with `creator search-filter` only for already returned `data.items[].id` values.
+- Use `creator not-interested add` only after explicit approval to persistently hide selected results. `list` audits that user-scoped list, and `remove` restores creators to future searches.
 
 ## Pagination Rules
 
