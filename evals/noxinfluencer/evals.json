@@ -400,6 +400,32 @@
         "Reports will_create_count or created_count when present",
         "Does NOT reject the task merely because the creators may not already exist in CRM"
       ]
+    },
+    {
+      "id": 33,
+      "category": "discovery",
+      "prompt": "帮我搜美国的 YouTube 咖啡达人，排除 giveaway 和 crypto 内容，也不要返回团队已经联系过或已经放进 collection 2337 的达人。先给我 10 个。",
+      "expected_output": "Run one creator search with topic exclusions and integrated contacted/collection hide rules, then present only usable results.",
+      "files": [],
+      "expectations": [
+        "Uses exclude_keywords for giveaway and crypto",
+        "Applies contacted and collection hide rules in the creator search request",
+        "Does NOT run a standalone search-filter call after the new search",
+        "Reports the visible shortlist and hidden_count when present"
+      ]
+    },
+    {
+      "id": 34,
+      "category": "marketing-ops",
+      "prompt": "刚才结果里的这个达人完全不相关，以后搜索都别再显示了。creator_id 是 r9VcmNsPLbYWT7caR6HTX2ZR--p1QAthlDV5932yjjZZXLTQ61qC947b。",
+      "expected_output": "Persistently hide the explicitly selected creator through the reversible not-interested workflow.",
+      "files": [],
+      "expectations": [
+        "Routes to creator not-interested add with the encrypted creator_id",
+        "Treats the action as an approved mutation and follows the CLI mutation guard",
+        "Does NOT convert the creator ID into a keyword exclusion",
+        "Mentions that the creator can be restored with not-interested remove"
+      ]
     }
   ]
 }
