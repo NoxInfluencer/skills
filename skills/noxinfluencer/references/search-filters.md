@@ -41,7 +41,7 @@ The `id` is an encrypted token — use it directly as the positional `<creator_i
 - Use `exclude_keywords` for unwanted topic/tag matches; do not emulate exclusions by dropping rows after billing.
 - Run `creator search-filter-options` to inspect SaaS hide choices. Apply its `search_body_patch` in the same `creator search` request whenever possible.
 - Use its standalone `body_patch` with `creator search-filter` only for already returned `data.items[].id` values.
-- Use `creator not-interested add` only after explicit approval to persistently hide selected results. `list` audits that user-scoped list, and `remove` restores creators to future searches.
+- Use `creator not-interested add` only after explicit approval to mark selected creators as Not interested. `list` audits those marks, and `remove` cancels them so the creators can appear in future searches again.
 
 ## Pagination Rules
 

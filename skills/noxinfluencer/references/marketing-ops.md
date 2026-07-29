@@ -60,7 +60,7 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 
 ## Deduplication and Collaborators
 
-- For a new creator search, apply `exclude_keywords` and the selected `search-filter-options` patch in the search itself. Use standalone `creator search-filter` only for an existing page. Persistently hide a selected result only with explicit approval through reversible `creator not-interested add/remove`.
+- For a new creator search, apply `exclude_keywords` and the selected `search-filter-options` patch in the search itself. Use standalone `creator search-filter` only for an existing page. Mark or unmark a creator as Not interested only with explicit approval through `creator not-interested add/remove`.
 - Email recipient deduplication is task-scoped: use `email recipients filter options` to find SaaS-aligned choices, `email recipients filter get <task_id>` to inspect saved state/counts, and `email recipients filter update <task_id> --body-file` to change it.
 - Email collaborators use SaaS team `user_uid`. If the user does not know the ID, run `email collaborators list` without `task_id` first; with a `task_id`, it reads that task's current collaborator permissions. Use `add` or `remove` for incremental changes; use `replace` only when the user intends to reset the whole collaborator set.
 

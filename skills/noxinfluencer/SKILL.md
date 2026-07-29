@@ -87,9 +87,9 @@ Turn an open-ended search into a usable shortlist.
 
 Ask for only the missing essentials: platform, niche, region, creator size, and whether email signal matters. Search directly once the request is specific enough. Multi-platform sourcing requires separate platform searches.
 
-Use `schema creator.search` for flags. Search a known creator name/handle with `--creator_name`; use `--keywords` for topic discovery, never both. Put user-specified unwanted topics in `exclude_keywords`, and apply CRM/contact/collection hide rules in the same search. Use standalone `search-filter` only for an already returned page. Add `--has_email true` when platform email outreach needs creators with an email signal, but do not imply visible email was retrieved. For pagination, reuse the prior filters and `data.search_after`; prefer a JSON body.
+Use `schema creator.search` for flags. Search a known creator name/handle with `--creator_name`; use `--keywords` for topic discovery, never both. Put user-specified unwanted topics in `exclude_keywords`, and apply the SaaS cooperation, CRM communication, contacted-scope, and collection filters in the same search. Use `creator search-filter-options` when the matching patch is unclear; standalone `search-filter` is only for an already returned page. Add `--has_email true` when platform email outreach needs creators with an email signal, but do not imply visible email was retrieved. For pagination, reuse the prior filters and `data.search_after`; prefer a JSON body.
 
-Only add a creator to `creator not-interested` when the user explicitly wants that result hidden from future searches. Treat it as an approved, reversible mutation; a weak match or noisy result alone is not approval.
+Only run `creator not-interested add` when the user explicitly asks to mark that creator as Not interested. Treat it as an approved, reversible mutation; a weak match or noisy result alone is not approval.
 
 Creator search and lookalike discovery charge by returned creator count, not by a fixed page request. Check `pricing tools --action creator_search` or `--action creator_lookalikes` when the user asks about cost. Default to smaller, purposeful pages for exploration; use larger pages only when the user asks for a broad shortlist or bulk follow-up.
 
