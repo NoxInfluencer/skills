@@ -20,7 +20,7 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 | Manage CRM labels for batch tagging | `crm labels list/create/update/delete` |
 | Manage product-center records, images, and tags | `product list/get/create/update/delete`, `product image upload`, `product tags ...` |
 | Manage Shopify affiliate campaigns and members | `affiliation stores list`, then `affiliation campaigns ...` / `affiliation members ...`; use member template/import and campaign export for files |
-| Send platform email outreach to creators | `email create`, then `email recipients add/replace` with creator search/profile IDs, `email content save`, optional `email sender update`, optional `email attachments ...`, then `email send` or `email schedule` |
+| Send platform email outreach to creators | `email create`, then `email recipients add/replace` with creator search/profile IDs, `email content save`, `email sender list [task_id]` before optional `email sender update`, optional `email attachments ...`, then `email send` or `email schedule` |
 | Manage email tasks | `email list`, `email drafts`, `email get`, `email create`, `email update`, `email recipients ...`, `email content ...`, `email sender ...`, `email report`, `email team-summary`, `email team-breakdown` |
 | Import email recipients | `email recipients import-template`, then `email recipients import-file` |
 | Manage email recipient deduplication | `email recipients filter options`, then `email recipients filter get/update/tasks` |
