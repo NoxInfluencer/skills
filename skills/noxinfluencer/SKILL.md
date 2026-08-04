@@ -152,7 +152,7 @@ Operate NoxInfluencer campaign, collection, CRM, email, message, product-center,
 
 1. Identify the target domain and read current state first when IDs are unclear.
 2. For platform email outreach to creators found in NoxInfluencer, use the email-task path and add recipients by `creator_id`; do not retrieve contacts first. Discover bound senders with `email sender list [task_id]`; never ask the user to inspect browser Network for sender IDs. See the CLI schema and `{baseDir}/references/marketing-ops.md`.
-3. Use `message send` or `message schedule` only for existing `thread_id` replies. If no thread exists, offer the email-task path for platform creators.
+3. Use `message send` or `message schedule` only for existing `thread_id` replies. If no thread exists, offer the email-task path for platform creators. For an explicit whole-conversation archive, use `message archive`; never substitute `crm archive`.
 4. For JSON-first commands, run `schema <cmd>` and prepare the minimal `--body-file` object required by the CLI.
 5. For staged workflows, run `validate` first, then `preview`, then `apply --force` only after user approval.
 6. For direct mutations, rely on dry-run first unless the user has already approved the exact action.
