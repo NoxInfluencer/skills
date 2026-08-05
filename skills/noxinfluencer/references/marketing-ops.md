@@ -20,7 +20,7 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 | Manage CRM labels for batch tagging | `crm labels list/create/update/delete` |
 | Manage product-center records, images, and tags | `product list/get/create/update/delete`, `product image upload`, `product tags ...` |
 | Manage Shopify affiliate campaigns and members | `affiliation stores list`, then `affiliation campaigns ...` / `affiliation members ...`; use member template/import and campaign export for files |
-| Send platform email outreach to creators | `email create`, then `email recipients add/replace` with creator search/profile IDs, `email content save`, `email sender list [task_id]` before optional `email sender update`, optional `email attachments ...`, then `email send` or `email schedule` |
+| Send standalone platform email outreach to creators | `email create`, then `email recipients add/replace` with creator search/profile IDs, `email content save`, `email sender list [task_id]` before optional `email sender update`, optional `email attachments ...`, then `email send` or `email schedule` |
 | Manage email tasks | `email list`, `email drafts`, `email get`, `email create`, `email update`, `email recipients ...`, `email content ...`, `email sender ...`, `email report`, `email team-summary`, `email team-breakdown` |
 | Import email recipients | `email recipients import-template`, then `email recipients import-file` |
 | Manage email recipient deduplication | `email recipients filter options`, then `email recipients filter get/update/tasks` |
@@ -37,7 +37,7 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 
 ## Outreach Routing
 
-- For NoxInfluencer platform email outreach, do not call `creator contacts` first. Create or select an email task, add search/profile result `creator_id` values with `email recipients add/replace`, save user-approved content with `email content save`, set sender if needed, read back task and recipients, then ask for final approval before `email send --force` or `email schedule --force`.
+- For standalone NoxInfluencer platform email outreach, do not call `creator contacts` first. Create or select an email task without `campaign_id`, add search/profile result `creator_id` values with `email recipients add/replace`, save user-approved content with `email content save`, set sender if needed, read back task and recipients, then ask for final approval before `email send --force` or `email schedule --force`. Manage intelligent Campaign email in SaaS until Campaign supports multiple email tasks.
 - Use `creator contacts` only when the user explicitly wants visible/exported contact info or outreach outside NoxInfluencer. If the user vaguely asks to "find emails and send", choose platform email by default and say exported email retrieval uses extra contact quota.
 - Email attachments belong to the email task primary project. Upload approved files with `email attachments upload <task_id> --file <path>` before send or schedule; use `email attachments list/download/delete` to inspect, retrieve, or remove files. Email tasks support at most 1 attachment, max 10MB. Uploading or deleting an attachment cancels an existing scheduled send, so read back the task and confirm again before scheduling.
 - If approved recipients come from Excel, download `email recipients import-template` and use `email recipients import-file <task_id>`. Do not invent spreadsheet columns.
