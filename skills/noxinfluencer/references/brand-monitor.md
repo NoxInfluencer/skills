@@ -6,7 +6,9 @@ Use brand-monitor commands for brand-level market intelligence and asset exports
 
 | User intent | Command family |
 |-------------|----------------|
-| List available brand monitors | `brand-monitor list` |
+| Find a known brand by name | `brand-monitor search <keyword>` |
+| Discover brands by category or market | `brand-monitor rank --body-file <path>` |
+| List this account's monitored, unlocked, or sample brands | `brand-monitor list` |
 | Inspect one monitored brand | `brand-monitor get <brand_id>` |
 | Compare brand competition | `brand-monitor competition-matrix <brand_id>` |
 | Analyze cooperation strategy | `brand-monitor cooperate-matrix <brand_id>` |
@@ -17,6 +19,13 @@ Use brand-monitor commands for brand-level market intelligence and asset exports
 | Query brand asset rows | `brand-monitor influencer-list`, `content-list`, `tag-list`, `product-list` |
 | Create brand asset exports | `brand-monitor influencer-export`, `content-export`, `tag-export`, `product-export` |
 | Add or unlock a monitored brand | `brand-monitor add`, `unlock-base`, `unlock-high` |
+
+## Discovery Boundaries
+
+- `search` queries the global brand catalog and returns opaque `brand_id` values; `page_size` defaults to 20 and is capped at 50.
+- `rank` is JSON-first and returns one entitlement-limited result set, not a pageable catalog. Compare `requested_limit`, `effective_limit`, and `returned_count` before describing coverage.
+- `consumer electronic` at category level 1 is a broad 3C category, not an exhaustive smartphone taxonomy.
+- Treat `countries` as ranking query context. Do not infer brand registration country or local market share without separate supporting data.
 
 ## Platform Boundaries
 

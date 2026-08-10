@@ -175,7 +175,7 @@ Use brand-monitor commands for owned/competitor brand analysis and brand asset e
 
 ### Workflow
 
-1. List or get brand monitors when `brand_id` is unclear.
+1. When `brand_id` is unclear, use `search` for a known brand name, `rank` for category/market discovery, and `list` only for this account's monitored, unlocked, or sample brands; use `get` after selecting an ID.
 2. Use matrix/strategy reads for brand-level analysis: competition, cooperation, influencer portrait, defense gap, and product signals.
 3. Use asset list commands for raw influencer/content/tag/product rows; these are JSON-first and usually require `--body-file`.
 4. Product signal commands currently support YouTube only. Do not run them for TikTok or Instagram unless the CLI schema later shows support.

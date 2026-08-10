@@ -18,7 +18,7 @@ Agent skill for NoxInfluencer creator and marketing operations: creator discover
 - Monitor known campaign videos and auto-track matching content that selected creators publish later
 - Use SaaS spreadsheet templates, imports, failure reports, and direct Excel reports for supported workflows
 - Manage NoxInfluencer campaigns, collections, CRM channels, products, normal short links, Shopify affiliate campaigns, email/message tasks, and export jobs
-- Analyze monitored brands, product signals, influencer/content/tag/product assets, and brand-monitor exports
+- Discover global brands by name or category/market, then analyze monitored brands, product signals, influencer/content/tag/product assets, and exports
 - Upload approved public images and download authorized email, message, template, feedback, and export files
 - Check current Skill Credit prices and historical consumption to plan Agent workflows
 
