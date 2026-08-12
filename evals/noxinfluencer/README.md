@@ -1,12 +1,12 @@
 # Evaluation Assets
 
-This directory holds evaluation test cases and benchmark results for NoxInfluencer skills.
+This directory holds stable evaluation cases and validation tools for the NoxInfluencer Skill.
 
 ## Methodology
 
 Following Anthropic's eval-first development approach:
 
-1. **Baseline**: Run representative tasks without the skill, record failure points
+1. **Baseline**: Run representative tasks with the previous Skill, record failure points
 2. **Minimal skill**: Write the smallest instruction set that addresses the failures
 3. **With-skill / baseline comparison**: Run the same tasks with and without the skill
 4. **Benchmark**: Aggregate pass rate, token usage, latency, and tool call counts
@@ -34,6 +34,22 @@ evals/
     └── workspace/                # Benchmark artifacts and reviewer feedback
 ```
 
-## Status
+## Behavior and Structure Checks
 
-Eval scaffolding is planned. Test cases will be added as skills are validated.
+Behavior evaluation and static validation have different roles:
+
+- Behavior evaluation runs the same pressure prompts against the previous and updated Skill, then reviews the actual Agent responses against each case's expectations. RED/GREEN transcripts and reviewer notes belong in the ignored `evals/noxinfluencer/workspace/` directory; they may contain transient model output and are not committed.
+- `validate_evals.py` checks only the JSON document structure, unique eval IDs, non-empty prompts, and non-empty string expectations. Passing it does not prove Agent behavior.
+
+Run the stable static checks from the repository root:
+
+```bash
+python -m json.tool evals/noxinfluencer/evals.json
+python evals/noxinfluencer/validate_evals.py
+```
+
+Run the validator's built-in contract test after changing validation logic:
+
+```bash
+python evals/noxinfluencer/validate_evals.py --self-test
+```
