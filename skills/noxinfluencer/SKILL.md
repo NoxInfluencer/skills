@@ -70,6 +70,12 @@ If the user wants to report a bug, confusing behavior, data issue, suggestion, o
 
 Use `feedback` for product, data, or CLI issues. Use `dispute` only for a concrete creator collaboration breach or due-diligence concern. Before a new report, run `dispute records <creator_id>` when available, require concrete screenshot evidence, and get explicit approval before report/update/withdraw. Private reports hide their description and evidence publicly, but not their type/count. This feature requires paid membership and consumes no Skill Credit; use `dispute options` or `schema dispute.report` for the current fields.
 
+### Email Task Boundary
+
+Standalone `email create` and `email update` operate only type 3 email tasks. Their request bodies must never contain `campaign_id`, and an Agent must not pass `task_type` to turn a standalone task into a Campaign task.
+
+An intelligent Campaign initializes exactly three fixed source tasks: type 0 for manual-add recipients, type 1 for proactive invitation recipients, and type 2 for creator applications. These types describe recipient sources; type 1 does not authorize guessing a `task_id`. The current CLI cannot discover or write these fixed tasks safely. Do not infer a fixed `task_id`, and do not use standalone email mutations or recipient commands to modify one. Route Campaign recipient changes to the SaaS intelligent Campaign page.
+
 ---
 
 ## 1. Getting Started
@@ -151,7 +157,7 @@ Operate NoxInfluencer campaign, collection, CRM, email, message, product-center,
 ### Workflow
 
 1. Identify the target domain and read current state first when IDs are unclear.
-2. For platform email outreach to creators found in NoxInfluencer, use the email-task path and add recipients by `creator_id`; do not retrieve contacts first. Standalone `email create/update` must not include `campaign_id`; manage intelligent Campaign email in SaaS until Campaign supports multiple email tasks. Discover bound senders with `email sender list [task_id]`; never ask the user to inspect browser Network for sender IDs. See the CLI schema and `{baseDir}/references/marketing-ops.md`.
+2. For platform email outreach to creators found in NoxInfluencer, use the standalone email-task path and add recipients by `creator_id`; do not retrieve contacts first. Standalone `email create/update` is type 3 only and must not include `campaign_id` or `task_type`. Manage intelligent Campaign fixed tasks in SaaS because the current CLI cannot discover or write them safely. Discover bound senders with `email sender list [task_id]`; never ask the user to inspect browser Network for sender IDs. See the CLI schema and `{baseDir}/references/marketing-ops.md`.
 3. Use `message send` or `message schedule` only for existing `thread_id` replies. If no thread exists, offer the email-task path for platform creators. For an explicit whole-conversation archive, use `message archive`; never substitute `crm archive`.
 4. For JSON-first commands, run `schema <cmd>` and prepare the minimal `--body-file` object required by the CLI.
 5. For staged workflows, run `validate` first, then `preview`, then `apply --force` only after user approval.
