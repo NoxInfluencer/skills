@@ -1,0 +1,16 @@
+node_modules/
+dist/
+build/
+*.zip
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.log
+coverage/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+.codex-local/

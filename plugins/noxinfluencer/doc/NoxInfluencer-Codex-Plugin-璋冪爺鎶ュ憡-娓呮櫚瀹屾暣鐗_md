@@ -1,0 +1,1125 @@
+# NoxInfluencer Codex Plugin 落地调研报告（清晰完整版）
+
+> 版本：7.0
+> 日期：2026-08-06
+> 面向读者：产品、管理、架构与研发团队
+> 参考产品：ChatCut Codex Plugin
+> 首期业务：智能营销计划
+
+---
+
+# 一、需求与调研结论
+
+## 1. 需求目标
+
+NoxInfluencer 已发布公开 Skill。当前 Skill 主要指导 Agent 调用用户本地的 `@noxinfluencer/cli`，CLI 再通过 HTTP 访问 Nox 线上服务。该方式能够执行业务，但用户需要承担 Node、npm、CLI 版本、安装、配置和 API Key 管理成本。
+
+本项目希望把 NoxInfluencer 已有线上能力以 Codex Plugin 的形式提供给用户。目标体验是：
+
+```text
+用户安装 Nox Plugin
+→ 在 Codex 中用自然语言表达营销需求
+→ Agent 调用 Nox 线上业务能力
+→ Nox 服务端执行真实业务
+→ Codex 返回执行结果或任务状态
+→ Codex 右侧打开真实 NoxInfluencer 页面
+→ 页面持续显示相同业务状态和任务进度
+```
+
+首期建议选择“智能营销计划”作为完整业务闭环：定位 Campaign、读取业务上下文、提交营销计划、查询后台任务、打开 Campaign 页面并观察结果。
+
+## 2. 范围与边界
+
+本次方案包含：
+
+- Codex Plugin 安装包；
+- Nox Skill；
+- Nox OAuth 授权；
+- Nox 远程 MCP；
+- MCP 到现有业务 Server 的调用；
+- 智能营销计划后台任务；
+- Browser Handoff；
+- 真实 NoxInfluencer 页面；
+- 云信变化通知和 HTTP 状态对账；
+- 受控本地文件助手，用于用户明确选择文件的上传与下载；
+- 安全、审计、可观测性、测试和灰度。
+
+本次明确不做：
+
+- 不在 Plugin 中打包或运行 `kol-next`；
+- 不在用户本地运行 Nox 业务 Server；
+- 不让 Agent 点击网页 DOM 执行业务；
+- 不在 MCP 中复制营销规则和数据库；
+- 不继续要求普通用户安装 Node、npm 和 Nox CLI；
+- MVP 不用 MCP App 重建 Nox 工作台；
+- 不把本地助手建设成通用业务执行器；它只处理用户明确选择的本地文件字节和短期传输凭证；
+- 不新建 WebSocket 通知系统；
+- 不由 Agent 或前端模拟长任务进度。
+
+## 3. 最终结论
+
+推荐采用以下架构：
+
+为了避免把业务调用、网页登录和实时回流全部挤在一张图里，整体方案按“组件分层 + 两条关键链路”展示。三张图合起来才是完整架构。
+
+### 整体组件分层
+
+```mermaid
+flowchart TB
+    U["用户"] --> C["Codex 侧<br/>Plugin · Skill · Agent · MCP Client"]
+    C --> L["本地文件助手<br/>读取、校验、上传与下载文件"]
+    C --> A["Nox 接入与身份层<br/>OAuth · 远程 MCP · Web API · Browser Handoff"]
+    L <-->|"短期上传 / 下载会话"| A
+    A --> B["Nox 业务层<br/>Application Service / 业务 Server"]
+    B --> D["数据与异步任务层<br/>业务数据库 · 持久化任务 · Worker · Outbox"]
+    A --> P["页面层<br/>Primary Session 页面 · Companion Session 页面"]
+    D --> R["实时通知层<br/>云信只发送对象变化信号"]
+    R --> P
+    P -. "通过 Web API 查询或提交" .-> A
+```
+
+主干从上到下表示业务请求最终落到哪里；右侧回路只表示页面收到通知后通过 Web API 重新查询，不表示云信直接传输权威业务数据。
+
+### AI 调用与 Browser Handoff（页面登录态交接）
+
+```mermaid
+sequenceDiagram
+    actor User as 用户
+    participant Agent as Codex Agent
+    participant Client as MCP Client
+    participant OAuth as Nox OAuth
+    participant MCP as Nox 远程 MCP
+    participant Server as 业务 Server
+    participant Browser as Codex Browser
+    participant Handoff as Browser Handoff 服务
+
+    User->>Agent: 输入业务需求
+    Agent->>Client: 根据 Skill 选择并调用 Tool
+    Client->>OAuth: 首次使用时登录并授权
+    OAuth-->>Client: Access Token
+    Client->>MCP: Token + Tool 参数
+    MCP->>MCP: 验证 Token 并还原用户身份
+    MCP->>Server: 可信用户上下文 + 业务参数
+    Server-->>MCP: 业务结果 / task ID
+    MCP-->>Agent: 返回结构化结果
+    opt 需要打开完整页面
+        MCP-->>Agent: 返回一次性打开地址
+        Agent->>Browser: 打开地址
+        Browser->>Handoff: 消费一次性 Ticket
+        Handoff-->>Browser: 建立 Companion Session 并跳转目标页面
+    end
+```
+
+### 长任务与页面实时同步
+
+```mermaid
+sequenceDiagram
+    participant Server as 业务 Server
+    participant Task as 持久化任务 / Worker
+    participant DB as 业务数据库
+    participant Outbox as Outbox
+    participant Realtime as 云信
+    participant Page as Primary / Companion 页面
+
+    Server->>Task: 创建长任务并记录发起人
+    Server-->>Server: 立即返回 task ID
+    Task->>DB: 分阶段更新任务和业务状态
+    Task->>Outbox: 同一事务记录对象变化
+    Outbox->>Realtime: 可靠发送变化信号
+    Realtime-->>Page: 通知哪个对象发生变化
+    Page->>Server: 使用各自 Web Session 查询最新状态
+    Server->>DB: 权限校验并读取权威数据
+    DB-->>Server: 当前版本、进度和结果
+    Server-->>Page: 返回最新状态并局部更新页面
+    Note over Server,DB: AI 与人工同时写入时，Server 使用对象版本拒绝旧版本覆盖
+```
+
+上述三张图共同覆盖三条需要分别实现、最终又能闭环的链路：
+
+1. **AI 业务操作链路**：Agent 根据 Skill 选择 Tool，Codex MCP Client 使用 OAuth 调用远程 MCP；MCP 将可信用户身份和参数交给业务 Server，真正的权限判断和业务写入仍由业务 Server 完成。
+2. **Browser Handoff（页面登录态交接）链路**：需要展示完整页面时，Nox 生成只能使用一次的打开地址；Codex Browser 用它建立独立的 Companion Session。它与真实浏览器的 Primary Session 属于同一用户，但不会参与普通浏览器的单设备互踢。
+3. **长任务与页面同步链路**：业务 Server 或 Worker 更新数据时通过 Outbox 可靠地产生变化通知；云信只通知“哪个对象发生了变化”，页面再通过 HTTP API 获取权威状态。AI 与人工同时修改同一对象时，由业务 Server 使用对象版本进行冲突检查，实时通知不能代替这项保护。
+
+本期建设受控本地文件助手，用于上传和下载用户明确选择的文件。它只负责本地文件读取、写入、格式与大小校验、哈希计算以及和对象存储传输字节；OAuth、对象权限、上传/下载授权、业务对象绑定和审计仍由 Nox 线上服务负责。用户不需要另外安装 Node、npm 或 Nox CLI。
+
+核心组件职责已经确定：
+
+| 组件 | 职责 |
+|---|---|
+| Plugin | 将 Skill、远程 MCP 配置和资源安装到 Codex |
+| Skill | 指导 Agent 定位业务对象、读取、确认、调用、等待和恢复 |
+| Codex MCP Client | 连接 MCP、发现 Tool、处理 OAuth 和协议通信 |
+| Nox 远程 MCP | 将 Nox 线上能力转换为 Agent 可调用的 Tool |
+| 本地文件助手 | 使用短期传输会话上传或下载用户明确选择的文件，不执行线上业务 |
+| 业务 Server | 执行权限、规则、额度、事务、任务和审计 |
+| 后台任务 | 保存长任务的真实状态、阶段、结果和错误 |
+| Browser Handoff | 为独立 Codex Browser 建立 Web 会话并打开目标页面 |
+| 云信 | 通知页面哪个业务对象发生变化 |
+| HTTP API | 提供权威业务状态和断线恢复 |
+| 业务前端 | 局部显示任务进度和业务结果 |
+
+当前调研状态是：总体链路和核心选型已经明确；剩余工作是确认这些环节在 Nox 现有系统中的具体落点、复用程度、接口缺口和改造成本。
+
+---
+
+# 二、ChatCut 实现拆解
+
+## 1. 完整运行链路
+
+本章只记录 ChatCut 的公开事实和授权后只读实测结果；对 Nox 的统一映射集中在第三章，避免每节重复推导。ChatCut 的主链路如下：
+
+```text
+用户安装 ChatCut Plugin
+→ Codex 发现 ChatCut Skill 和远程 MCP
+→ 用户首次调用时完成 ChatCut OAuth
+→ Codex MCP Client 保存 MCP 授权状态
+→ Agent 加载当前场景相关 Skill
+→ Agent 获取真实项目 ID 并读取项目状态
+→ Agent 查看远程 MCP 当前 Tool 和 schema
+→ Agent 调用项目、编辑、生成或导出 Tool
+→ ChatCut 线上服务执行真实业务
+→ Tool 返回结构化结果
+→ 长任务返回任务标识并通过状态 Tool 追踪
+→ 需要完整页面时返回 Browser Handoff URL
+→ Codex Browser 打开真实 ChatCut 编辑器
+```
+
+MCP App、本地媒体助手和 Browser Handoff 是独立辅助能力，分别在后续小节说明，不属于普通远程业务调用的必经链路。
+## 2. Plugin、Skill 与 OAuth
+
+### Plugin
+
+ChatCut 公开 Plugin manifest 注册 Skill、远程 MCP、分类、版本和品牌资源。公开包没有完整编辑器前端、业务后端和项目数据库。
+
+安装后的作用是让 Codex 发现 ChatCut Skill 和远程 MCP。Plugin 不在用户本地运行 ChatCut 编辑器，也不作为 Tool 调用的本地中转服务。
+
+由此可以确认：ChatCut Plugin 是能力装配包，不是产品运行时。
+
+### Skill
+
+ChatCut 公开 15 个 Skill，覆盖基础连接、错误恢复、验证、产品帮助、Widget 表单、素材导入、转录、导出、图片、视频、音乐、语音和 Shader 等场景。
+
+基础 Skill 要求 Agent：
+
+1. 确认 MCP 已安装并登录；
+2. 加载当前任务相关 Skill；
+3. 查看运行时 Tool 和 schema；
+4. 获取真实项目 ID，不猜测；
+5. 读取足够的新状态；
+6. 执行最小必要写操作；
+7. 根据结果验证、等待或打开页面。
+
+Skill 保存稳定的业务使用规则、调用顺序、确认条件、等待方式和恢复策略。精确参数以运行时 Tool schema 为准。Skill 不建立 MCP 网络连接，也不直接发送业务 HTTP 请求。
+
+### OAuth
+
+ChatCut 远程 MCP 暴露 OAuth Protected Resource Metadata。实测授权服务器为 ChatCut API，支持 Authorization Code、Refresh Token 和 PKCE S256；scope 包含 `openid`、`profile`、`email` 和 `offline_access`。
+
+Codex 在首次连接受保护的 MCP 时发起 OAuth。用户在 ChatCut 提供的授权页面登录并授权，不是在 Skill 或 Plugin 内输入账号密码。Codex MCP Client使用 OAuth token 调用远程 MCP，Plugin 不保存密码和长期 API Key。
+
+实测请求头 `x-chatcut-mcp-surface: codex` 只表示调用来自 Codex，不是认证凭证。
+
+## 3. 远程 MCP、Tool 与长任务
+
+### 远程 MCP
+
+ChatCut 使用公网 HTTPS 上的 MCP Streamable HTTP 和 JSON-RPC 2.0。实测 `initialize` 返回正常 JSON，协商 MCP `2025-11-25`，ServerInfo 为 `chatcut-external-mcp` / `0.1.0`。
+
+Tools 和 Resources 声明 `listChanged`；Tool 输入使用 JSON Schema draft-07；本次实测目录没有 `outputSchema`；本次连接未签发 `Mcp-Session-Id`。
+
+Codex 自带 MCP Client，负责连接、初始化、Tool 发现和 OAuth。MCP 是应用层协议，远程场景的标准传输仍然是 HTTP，不等于 WebSocket。
+
+ChatCut 的外部 MCP 行为可以确认，但外部协议不能证明其商业 MCP 内部使用 HTTP、SDK、进程内服务、数据库或其他 RPC。
+
+### Tool
+
+实测目录包含 51 个 Tool，可以分为：
+
+| 能力组 | 代表 Tool | 实现特征 |
+|---|---|---|
+| 项目与入口 | `list_projects`、`create_project`、`target_project`、`get_editor_url` | 项目上下文和页面入口独立 |
+| 读取与检查 | `read_project`、`browse_assets`、`inspect_asset`、`read_script` | 大对象分层读取 |
+| 编辑 | `edit_item`、`edit_track`、`edit_project`、`manage_timelines` | 按用户编辑意图组织 |
+| 字幕、脚本、音频 | `manage_transcript`、`apply_script`、`edit_captions` | Tool 与 Skill 共同表达依赖 |
+| 生成与导出 | `submit_video`、`submit_music`、`submit_voice`、`submit_export` | 长任务采用提交模式 |
+| 状态追踪 | `track_progress`、`track_export` | 状态查询与提交分离 |
+| 本地文件 | `import_media`、`register_converted_video` | MCP 管会话，本地助手管字节 |
+| 对话内 UI | `ask_followup_questions` | Tool metadata 关联 MCP App |
+
+Tool 围绕用户业务意图定义，不直接暴露数据库表。读取、写入、长任务提交、状态查询和页面入口具有独立边界。Tool 名称和描述不能证明所有 Tool 使用同一个内部服务或同一种内部协议。
+
+### 长任务
+
+ChatCut 的图片、视频、音乐、语音、Shader、转录和导出普遍采用：
+
+```text
+submit
+→ 返回任务标识和当前状态
+→ 后台执行
+→ track_progress 或 track_export
+```
+
+提交 Tool 不阻塞到最终完成，状态 Tool 查询持久化任务。Agent 只在后续决策依赖结果时查询，不在一个回合中无限轮询。
+
+## 4. Browser Handoff、MCP App 与本地助手
+
+### Browser Handoff
+
+ChatCut Skill 要求优先使用 Tool 返回的准确 Handoff URL；没有 Handoff 时才获取普通编辑器 URL。Agent 必须保留 layout、theme、launch surface 和 editor boot token 等参数，不自行拼接项目地址。
+
+Codex Browser 与用户日常浏览器是独立会话。打开或聚焦真实编辑器后，Agent 不持续轮询 Browser 是否存在。
+
+Browser Handoff 用于打开 ChatCut 真实编辑器。完整项目状态、时间线和结果由真实产品页面展示，Plugin 不复制编辑器。
+
+公开材料没有完整披露 Handoff 启动凭证怎样兑换 Web 登录态，也没有披露凭证的服务端保存方式。
+
+### MCP App
+
+`ask_followup_questions` Tool 通过 metadata 关联 `ui://chatcut/followup-questions-v37`。Resource MIME 为 `text/html;profile=mcp-app`，宿主读取 HTML 后渲染对话内组件。
+
+MCP App 承载问题、选项和确认等局部结构化交互。`ui://` 是 MCP Resource URI，不是普通网页地址。MCP App 与 Browser Handoff 是两套 UI，不能被视为完整编辑器。
+
+### 本地助手
+
+ChatCut 将宿主 CLI、本地文件助手和远程业务 Tool 分开。素材导入时，远程 MCP 先创建短期上传会话，本地助手读取文件、探测格式、必要时转换并上传，服务端登记素材后，后续业务重新回到远程 MCP。
+
+本地助手只处理本地文件字节，不编辑线上项目，也不作为远程 MCP 的备用业务链路。
+
+## 5. 已确认事实与未知边界
+
+| 主题 | ChatCut 已确认 | 不能从 ChatCut 确认 |
+|---|---|---|
+| Plugin | 是 Skill、MCP 和资源装配包 | 商业平台发布和内部运行方式 |
+| Skill | 保存项目定位、读取、确认和恢复规则 | 模型内部如何组合全部提示 |
+| OAuth | 使用 Authorization Code、Refresh Token 和 PKCE | Codex 凭证的内部存储细节 |
+| MCP | 公网、Streamable HTTP、JSON-RPC、Tool 和 Resource | MCP 到商业业务系统的内部协议 |
+| Tool | 按意图分层，提交与追踪分离 | 所有 Tool 是否使用同一内部服务 |
+| Browser | 打开真实编辑器并保留 Handoff 参数 | Handoff 换取 Web session 的完整服务端实现 |
+| MCP App | 是对话内独立 Resource UI | 可以替代完整编辑器 |
+| 页面同步 | Tool 写线上状态，编辑器观察同一状态 | 编辑器使用的具体实时同步协议 |
+| 本地助手 | 只处理本地媒体字节 | 普通业务需要本地 CLI |
+
+ChatCut 可以证明目标产品形态和外部链路可行，但不能替代对 Nox 内部账号、业务服务、后台任务和页面通知的调查。
+
+---
+
+# 三、Nox Plugin 方案推导
+
+## 1. 完整实现链路
+
+Nox Plugin 的推荐运行链路是：
+
+```text
+用户安装 Nox Plugin
+→ Codex 发现 Nox Skill 和远程 MCP
+→ 首次调用时由 Codex 发起 Nox OAuth
+→ Codex MCP Client 保存 MCP 授权状态
+→ Agent 根据 Skill 定位真实 Campaign
+→ Agent 读取远程 MCP 当前 Tool 和 schema
+→ Agent 调用 Nox MCP Tool
+→ 涉及文件时，MCP 创建短期上传/下载会话，本地助手传输文件并回报结果
+→ MCP 验证 token，识别当前用户/子账号、主账号上下文和 scope
+→ 业务 Server 校验主子账号关系及具体 Campaign 对象权限
+→ MCP 将 Tool 映射为现有业务 Server 的 command/query
+→ 业务 Server 执行业务或创建后台任务
+→ MCP 返回结构化结果、任务标识和可选 Handoff
+→ Codex Browser 通过 Handoff 建立独立 Web session
+→ Browser 打开真实 NoxInfluencer Campaign 页面
+→ 业务 Server 通过云信发送对象变化信号
+→ 页面通过 HTTP 获取权威状态
+→ 页面局部显示任务进度和结果
+```
+
+正常短任务直接返回业务结果；智能营销计划等长任务先返回后台任务标识，后续由 Codex 和页面读取同一状态。
+
+## 2. ChatCut 到 Nox 的逐环映射
+
+| 链路环节 | ChatCut 实现 | Nox 现状 | Nox 方案 | 当前确定程度 |
+|---|---|---|---|---|
+| Plugin | 装配 Skill、MCP 和资源 | 已有独立 Skill | 建设轻量 Plugin | 已确定 |
+| 登录 | OAuth + PKCE | 账号体系待进一步调查 | 复用或补齐 OAuth | 方向确定，落点待确认 |
+| MCP 登录态 | Codex 使用 OAuth token | 当前 CLI 使用 API Key | Codex 管理 MCP 授权 | 已确定 |
+| 远程 MCP | 公网 MCP | 当前 CLI 调 HTTP API | 建设 Nox 远程 MCP | 已确定 |
+| Skill | 保存业务规则 | 已有营销语义 | 保留知识，替换 CLI 路径 | 已确定 |
+| Tool | 按业务意图分层 | 现有 API 待映射 | 设计首批营销 Tool | 原则确定，清单待冻结 |
+| 内部业务 | 商业实现未知 | 已有业务 Server | MCP 调 application service | 已确定 |
+| 长任务 | submit/track | 当前任务机制待调查 | 复用或补持久化后台任务 | 模式确定，模型待确认 |
+| 页面 | 真实编辑器 | 已有 `kol-next` | Browser 打开真实页面 | 已确定 |
+| 网页登录 | Handoff 启动上下文 | 现有能力待调查 | 一次性凭证换 Web session | 方案确定，需验证 |
+| 页面同步 | 具体协议未知 | 已有云信 + HTTP | 云信通知、HTTP 对账 | 方向确定，事件待确认 |
+| MCP App | 局部交互 | MVP 无必要 | 首期不做 | 已确定 |
+| 文件助手 | 只处理本地字节 | 本期存在文件上传下载需求 | 建设受控本地助手；通过短期会话直传对象存储，不承载业务逻辑 | 方向确定，打包和接口待冻结 |
+
+## 3. 推荐架构与状态链路
+
+```mermaid
+flowchart LR
+    U["用户"] --> A["Codex Agent"]
+    P["Plugin"] --> S["Skill"] --> A
+    A --> C["Codex MCP Client"]
+    C -->|"OAuth + MCP over HTTPS"| M["Nox 远程 MCP"]
+    M -->|"类型化业务调用"| B["现有业务 Server"]
+    B --> T["业务数据与后台任务"]
+    M -->|"结构化结果 + Handoff"| A
+    A --> R["Codex Browser"] --> W["真实 NoxInfluencer 页面"]
+    B --> N["云信变化信号"] --> W
+    W -->|"HTTP 状态对账"| B
+    W -->|"局部更新"| W
+```
+
+架构遵循四条原则：
+
+- Codex 回执链和页面同步链共享服务端状态，但互不依赖；
+- OAuth token 只用于 MCP，网页通过 Handoff 换取独立 Session，凭证不进入 URL；
+- 业务 Server 与后台任务是事实来源，HTTP API 提供权威状态；
+- 云信只提示对象发生变化，页面收到后通过 HTTP 对账。
+
+---
+
+# 四、Nox Plugin 落地建设
+
+## 1. Plugin 与 Skill
+
+### Plugin 需要建设的内容
+
+Plugin 包包含 manifest、远程 MCP 配置、Skill 和品牌资源。manifest 声明插件标识、版本、展示信息、Skill 路径和 MCP 配置；远程 MCP 配置指向 Nox 线上服务。
+
+Plugin 不包含 `kol-next`、业务 Server、完整业务 SDK、长期 token 和用户业务数据。普通线上业务在没有 Node 和 Nox CLI 的环境中仍然可用。
+
+### Skill 需要建设的内容
+
+基础 Skill 包含：MCP 与登录检查、Campaign 定位、写前读取、最小写入、风险确认、后台任务规则、Browser Handoff、错误恢复和写后验证。
+
+智能营销计划参考文件保存业务语义、必需上下文、允许的执行顺序、需要用户确认的条件、等待规则和完成验证。达人搜索、筛选和邀约在进入后续范围时分别增加领域参考。
+
+Skill 不复制全部 Tool 字段，不猜业务 ID，不发 HTTP，不通过页面点击执行业务，不对后台任务高频轮询，也不模拟进度。
+
+### 完成状态
+
+纯净环境安装后，Codex 能发现 Nox Skill 和远程 MCP；不同自然语言能够定位正确能力；写入前能够读取真实对象并完成必要确认。
+
+## 2. OAuth 与身份
+
+### OAuth 需要建设的内容
+
+Nox 需要提供或补齐适用于远程 MCP 的 OAuth 授权能力，包括授权页面、Authorization Code + PKCE、access token、按策略提供 refresh token、resource/audience、scopes、token 验证和授权撤销。OAuth 不是为了替代 MCP 到业务 Server 的普通 HTTP 调用，而是为 Codex 代表真实 Nox 用户访问业务能力提供可续期、可撤销、可限定 scope 的授权起点。
+
+优先复用现有账号系统中的用户、主子账号关系、角色、密码验证和登录风控，不为 MCP 新建独立账号体系。如果现有系统已经支持 OAuth/OIDC 或第三方应用授权，只需增加 Codex/MCP 所需的客户端、受众和 scopes；如果只有 Cookie 登录，则需要在现有账号系统上补 OAuth 授权层。
+
+### 用户登录流程
+
+用户首次调用 Nox Tool 时，Codex 打开 Nox 授权页面。用户登录并授权后，Codex MCP Client 获得并管理调用 MCP 的 token。Plugin 和 Skill 不接触账号密码和 token。
+
+MCP 每次验证 token 的签名、签发方、受众、有效期和 scope，再映射成 Nox 当前用户/子账号及必要的主账号上下文。业务 Server 对主子账号关系、具体 Campaign、后台任务、套餐和额度再次执行权限与业务规则检查。
+
+### 身份闭环原则
+
+整条链路不要求所有环节共用同一个 token，而要求每一段使用适合自己的凭证，并且都能映射回同一个 Nox 身份和业务上下文：
+
+~~~text
+Codex OAuth access token
+→ MCP 识别当前用户/子账号和授权 scope
+→ MCP 使用服务身份调用业务 Server，并传递经过验证的用户上下文
+→ 业务 Server 校验主子账号关系和 Campaign 对象权限
+→ Handoff 将同一身份和 Campaign 兑换成 Web session
+→ 页面使用 Web session 建立实时连接并订阅有权访问的 Campaign
+~~~
+
+如果一个子账号只归属于一个主账号，主账号可以由业务 Server 根据用户身份推导；如果一个用户可以操作多个主账号，必须由用户明确选择当前主账号，并由 Server 验证关系。Agent 不猜测主账号，也不能通过 Tool 参数提交任意 user_id 或主账号 ID 冒充其他身份。Tool 只接收业务参数，真实操作人始终从认证上下文获得。
+
+MCP 负责确认“谁在通过 Codex 调用、获得了哪些 scope”；业务 Server 负责确认“该用户在当前主账号下能否操作这个 Campaign”。MCP 不复制主子账号和业务对象权限规则。
+
+### 身份持久化
+
+| 层级 | 持久化内容 | 落地原则 |
+|---|---|---|
+| Codex MCP Client | access token、refresh token、MCP 授权状态 | 由宿主凭证存储管理；Plugin、Skill 和项目文件不接触凭证 |
+| Nox 授权服务 | 用户授权记录、client、scope、有效期、续期和撤销状态 | 支持单独撤销 Codex 授权，不影响其他 API 集成 |
+| MCP 请求上下文 | actor_user_id、必要的主账号上下文、scope、client、request/trace ID | 每次由已验证 token 生成，不相信 Tool 输入中的身份字段；通常不作为长期业务数据保存 |
+| 业务记录和后台任务 | 发起人、主账号、Campaign、来源、幂等键、trace 和任务状态 | 服务重启、页面刷新和 MCP 断开后仍可恢复和审计 |
+| Handoff 存储 | 一次性随机凭证的哈希、用户、主账号、Campaign、目标页面、过期和使用状态 | 短期、单次、原子消费；不保存 OAuth token，不把凭证留在最终 URL |
+| Web session | 用户、主账号上下文、登录来源、会话类型、OAuth grant、有效期和撤销状态 | 真实浏览器使用 Primary Session；Codex Browser 使用受限 Companion Session；均使用 HttpOnly、Secure Cookie，不在前端保存 OAuth token/API Key |
+| 实时连接 | connection、Web session、用户、主账号和允许订阅的对象 | 连接和订阅时都校验权限，不能只凭 Campaign ID 加入频道 |
+
+长期后台任务不能依赖原始 access token 一直有效。任务提交时完成权限检查并保存最小执行身份快照；任务查询、取消和结果读取按当前权限重新校验。账号禁用、子账号被移除、Campaign 权限收回或 Codex 授权撤销后，已经接受的任务是否继续、高风险步骤是否中止，需要形成明确业务策略并记录审计。
+
+### 会话模型与单设备约束
+
+三类凭证相互独立，但都映射到同一用户和主账号上下文：
+
+| 凭证 | 用途 | 单设备规则 |
+|---|---|---|
+| OAuth access token | Codex 调用 MCP | 不属于浏览器登录 |
+| Primary Session | 用户日常浏览器登录 | 最多一个，沿用现有互踢 |
+| Companion Session | Codex Browser 展示页面 | 由 OAuth + Handoff 创建，不与 Primary 互踢 |
+
+退出普通网页不自动撤销 Codex OAuth；OAuth 失效也不直接清除 Primary Session。账号禁用、子账号移除、主账号关系变化和 Campaign 撤权在各链路下一次服务端校验时生效。Companion Session 采用较短有效期和最小权限，禁止访问账号安全、绑定、支付等高风险页面。
+
+MVP 如果不能支持 Companion Session，就不能同时满足单设备登录与双浏览器使用，应降级为 Codex 返回结构化结果，并在用户现有浏览器打开页面。禁止复制 Cookie、把 OAuth token/API Key 放入 URL或绕过单设备校验。Handoff 换票、Session 创建/复用和跨对话行为详见“Browser 与页面同步”。
+### 完成状态
+
+用户能够从 Codex 登录、续期或重新授权；错误 token、错误 audience、缺少 scope、主子账号关系不成立、跨主账号访问和撤销授权均被拒绝；Codex、MCP、业务 Server、Web session 和实时连接映射为同一用户及业务上下文；日志中不出现 token。
+
+## 3. 远程 MCP 与 Tool
+
+### MCP 服务需要建设的内容
+
+远程 MCP 提供公网 HTTPS 上的 MCP 协议入口，使用官方 SDK 实现 Streamable HTTP、JSON-RPC、Tool 注册、Resource 支持和 OAuth 保护。
+
+服务独立部署、灰度和扩缩容，但不维护核心业务数据。内部复用 Nox 现有服务发现、服务身份、超时、熔断、trace、日志和监控规范。
+
+协议版本和 SDK 模式通过 MCP Inspector 与真实 Codex 双重测试决定，不根据 ChatCut 单一版本或 SDK 最新版本直接冻结。
+
+### MCP 职责边界
+
+远程 MCP 是 Codex 与 Nox 业务系统之间的 Agent 接入层，不是新的业务 Server，也不是无校验的 HTTP 代理。MCP 负责：
+
+- MCP 协议初始化、能力协商、Tool 列表、JSON Schema、Tool 调用和标准错误；
+- OAuth access token 验证和可信用户上下文建立；
+- Tool 开关、scope、输入校验、限流、幂等入口和风险确认信息；
+- 将面向 Agent 的 Tool 请求映射为 Nox application command/query；
+- 将业务结果、后台任务状态和 Handoff 入口转换为稳定的结构化结果；
+- request/trace、脱敏审计、指标、超时、熔断和受控重试。
+
+MCP 不保存账号密码和长期用户 token，不维护主子账号与 Campaign 权限事实，不直接访问业务数据库，不执行核心业务事务，不运行长任务 worker，不在内存中模拟任务进度，不创建页面 Cookie，不维护 Companion Session，也不负责云信和页面状态。上述能力分别由账号平台、业务 Server、后台任务系统、Web Server 和实时平台负责。
+
+### 认证上下文
+
+MCP 对每次请求完整验证 token 的签名、issuer、audience/resource、有效期、撤销状态、client 和 scope，而不是只解码出 UID。验证成功后建立只在服务端可信链路中使用的请求上下文，例如：
+
+~~~json
+{
+  "actor_user_id": "u_123",
+  "main_account_id": "a_456",
+  "client_id": "codex",
+  "oauth_grant_id": "grant_001",
+  "scopes": ["campaign:read", "campaign:write"],
+  "request_id": "req_001",
+  "trace_id": "trace_001"
+}
+~~~
+
+用户和主账号信息不能作为普通 Tool 参数由 Agent 自报。MCP 调用业务 Server 时同时携带 MCP 服务身份和上述用户上下文：服务身份证明请求来自可信 MCP，用户上下文用于对象授权和审计。业务 Server 必须再次校验主子账号关系、Campaign 权限、套餐、额度和业务规则，不能仅信任一个裸 UID 或外部可伪造的请求头。
+
+### 首期 Tool
+
+首期围绕智能营销计划至少提供：
+
+| 建议 Tool | 作用 | 关键要求 |
+|---|---|---|
+| list_campaigns | 获取用户真实可访问的 Campaign | 支持分页与搜索，不接收 user_id，不猜业务 ID |
+| get_campaign_context | 获取提交任务所需的最新业务上下文 | 返回对象版本，写入前重新读取 |
+| submit_marketing_plan | 创建后台任务并快速返回任务标识 | 携带 Campaign、对象版本和幂等键，不等待最终完成 |
+| get_marketing_task | 获取真实状态、阶段、结果和错误 | 每次按当前用户和对象权限重新校验 |
+| cancel_marketing_task | 在业务允许的阶段取消任务 | 幂等取消，由业务 Server 判断能否取消 |
+| open_campaign | 返回服务端生成的 Campaign Handoff | 只在需要打开页面时调用，不要求 Agent 拼 URL |
+
+每个 Tool 明确使用场景、前置条件、输入输出、scope、对象权限、读写属性、确认条件、幂等要求、错误和下一步动作。
+
+读取 Tool 分页并支持限定字段；写 Tool 带对象 ID、必要版本和幂等信息；提交 Tool 不等待最终完成；页面 Tool 不要求 Agent 拼 URL。只有 open_campaign 或明确的页面入口 Tool 返回 Handoff URL，普通查询、写入和任务状态调用只返回结构化业务结果，不为每次成功请求都创建页面会话。
+
+Tool Schema 必须限制必填字段、字符串长度、枚举、数值范围、分页大小、批量数量、对象 ID、版本和额外字段。MCP 将稳定的 Agent 语义映射到 application API，不直接把数据库表、页面 BFF 或内部 REST 接口原样暴露给 Codex。
+
+### 统一 Tool 调用处理
+
+所有 Tool 使用同一处理流水线：
+
+~~~text
+1. 接收并校验 MCP/JSON-RPC 请求
+2. 验证 OAuth token 并建立可信用户上下文
+3. 检查 MCP、Tool 和灰度开关
+4. 检查当前 Tool 所需 scope
+5. 校验 Tool Schema、字段范围和批量上限
+6. 确认主账号上下文，生成 request_id/trace_id
+7. 执行用户、主账号和 Tool 维度限流
+8. 对写操作处理对象版本、风险确认和幂等键
+9. 使用 MCP 服务身份调用 Nox application API
+10. 由业务 Server 校验主子账号、对象权限、额度和业务规则
+11. 将业务结果、task_id 或 Handoff 转换为稳定 MCP 输出
+12. 转换错误并记录脱敏审计、指标和耗时
+~~~
+
+成功结果以结构化内容为主，文本只提供摘要。错误至少稳定区分：
+
+| 错误类型 | Agent 后续动作 |
+|---|---|
+| authentication_required / token_expired | 续期或重新登录 |
+| insufficient_scope | 提示授权范围不足 |
+| account_forbidden / campaign_forbidden | 停止操作并说明权限不足 |
+| campaign_not_found | 重新定位真实 Campaign |
+| validation_error | 根据字段错误修正输入 |
+| version_conflict | 重新读取最新对象再决定是否写入 |
+| quota_exceeded | 提示额度或套餐不足 |
+| idempotency_conflict | 查询原任务或原结果，不重复提交 |
+| task_not_cancellable | 停止取消尝试 |
+| dependency_unavailable | 按退避策略稍后重试 |
+| internal_error | 返回 trace ID，不暴露内部堆栈 |
+
+读取接口可以在受控条件下重试；写接口只有携带幂等键且业务 Server 支持幂等时才能重试。调用超时后优先按幂等键查询原结果，不能直接再次创建任务、扣费、邀约或发送消息。
+
+### 完成状态
+
+Inspector 和真实 Codex 都能初始化、登录、发现并调用首期 Tool；伪造 UID、错误 audience、缺少 scope、越权 Campaign 和关闭 Tool 均被拒绝；Tool Schema 能阻止非法字段和超限批量；读取与写入使用不同重试策略；相同幂等键不产生重复业务；一次调用可以通过 trace 关联到业务 Server、后台任务和审计记录。
+
+## 4. 业务 Server 与后台任务
+
+### 业务 Server 需要建设的内容
+
+为首期 Tool 提供稳定 application API。业务 Server 继续负责用户和对象权限、业务规则、额度、幂等、版本冲突、事务和审计。
+
+现有接口如果只用于页面拼装、字段不稳定或缺少权限与幂等，应补 application API。MCP 不调用页面 BFF，不直接访问数据库，不自行拼装业务事实。
+
+MCP 通过 Nox 现有标准 HTTP/RPC Client 调用业务 Server。同进程时可以直接调用 application service，已有统一 RPC 时直接复用，不为该项目单独引入新的内部协议。
+
+### 后台任务需要建设的内容
+
+首先调查智能营销计划是否已有任务 ID、持久化状态、阶段、进度、结果、失败、取消、重试和查询能力。如果已有完整任务模型，直接复用并补充 MCP 和页面所需的稳定查询；如果只有请求级 SSE 过程而没有持久化状态，则补充后台任务记录。
+
+### 长任务职责分工
+
+~~~text
+MCP：提交、查询、取消、认证上下文传递和状态/错误映射
+业务 Server：权限、业务校验、幂等、任务记录和事务
+Worker：真正执行智能营销计划并更新任务状态
+云信：发送对象或任务发生变化的轻量通知
+页面：收到通知后通过 HTTP 查询同一任务的权威状态
+~~~
+
+MCP 不运行长任务 worker，不在进程内启动不可恢复的异步线程，不要求 MCP/HTTP 连接一直存在，也不在内存中保存或模拟任务进度。只有业务 Server 已经接受并持久化任务后，提交 Tool 才能返回成功和 task_id。
+
+### 提交、状态与取消
+
+提交 Tool 需要携带 Campaign、必要对象版本和幂等键。业务 Server 校验用户、主账号、Campaign 权限、额度、版本与幂等后创建任务；MCP 立即返回 task_id、初始状态和建议的下一步动作，不等待最终完成。
+
+任务至少表达：
+
+| 状态 | 含义 |
+|---|---|
+| queued | 已持久化，等待执行 |
+| running | Worker 正在执行 |
+| waiting_for_user | 需要用户补充信息或确认 |
+| succeeded | 已完成并有稳定结果 |
+| failed | 已失败并有可解释错误 |
+| cancelled | 已取消，不再继续 |
+
+阶段可以表达 collecting_context、analyzing_campaign、searching_creators、generating_plan、saving_result 等真实业务步骤。只有能从真实步骤准确计算时才返回百分比，否则只返回阶段，不模拟进度。
+
+查询和取消 Tool 每次都根据当前用户、主账号和 Campaign 权限重新校验。取消是否允许由业务 Server 根据任务阶段判断；重复取消具有幂等语义。账号或权限变化后，历史审计继续保留，但无权限用户不能继续查询结果或执行取消。
+
+### 持久化、恢复与轮询
+
+后台任务至少持久化 task_id、campaign_id、主账号 ID、created_by_user_id、created_via=codex_mcp、oauth_client_id、幂等键、trace、状态、阶段、结果和错误。发起人用于审计，主账号和 Campaign 用于数据归属。任务中不保存 OAuth access token；任务运行也不依赖原 token 持续有效。
+
+Codex 通过 get_marketing_task 按需查询，页面通过现有 HTTP API 读取同一任务。刚提交时可短间隔查询，执行中逐渐延长间隔，进入 waiting_for_user 或终态后停止轮询。MCP 和 Skill 均不得高频轮询。服务重启、MCP 断开、页面刷新和实时通知丢失后，都必须能从持久化任务恢复。
+
+相同用户、Campaign 和幂等键只能创建一份业务结果。提交超时或网络断开时，先根据幂等键查询原任务，不能直接重新提交。重复请求不得重复创建任务、扣费、邀约或执行外部动作。
+
+Worker 更新任务和业务状态后，在同一事务中写入 Outbox；云信只通知哪个任务或对象发生变化，页面再用 Companion Session 通过 HTTP 获取权威状态。MCP 不负责主动刷新页面，Codex 和页面也不互相依赖，只共享同一份服务端任务事实。
+
+### 完成状态
+
+Web、CLI 和 MCP 入口使用同一业务规则；MCP 断开或重启不影响已接受任务；重复提交和超时重试不产生重复任务、扣费或外部动作；任务状态可恢复、可取消、可审计；Codex 与页面读取同一状态，通知丢失后仍能通过 HTTP 收敛。
+
+## 5. Browser 与页面同步
+
+### Browser Handoff
+
+业务 Server 在确认用户有权访问 Campaign 后，生成绑定用户/子账号、主账号上下文、OAuth grant、Campaign、目标页面、有效期和随机标识的短时一次性凭证。服务端只保存随机凭证的哈希与使用状态，凭证一次性、短期有效并防重放。
+
+页面 URL 不是每个 Server 请求成功后的通用返回值。只有 open_campaign 等页面入口 Tool 才调用 Handoff API。MCP 不自行拼接页面 URL、不创建 Cookie、不保存或复用 Ticket，只把业务 Server 返回的短期 Handoff URL、过期时间和目标对象结构化返回给 Codex。
+
+Codex Browser 打开 Handoff URL。Web Server 原子地将凭证标记为已使用，建立或复用受限的 Codex Companion Session，再跳转到真实 Campaign 页面。Companion Session 不参与普通 Primary Session 的单设备互踢，但受 OAuth grant、账号状态、主子账号关系和 Campaign 权限约束。最终地址不保留凭证，也不接受任意外部重定向地址。
+
+### Session 获取时序
+
+页面不是从 MCP 响应中直接获得 Session，也不使用 OAuth token 登录网页。Session 在 Web Server 消费 Handoff Ticket 时创建或复用：
+
+~~~text
+Codex 调用 open_campaign
+→ MCP 验证 OAuth token 并请求 Nox Handoff API
+→ 业务 Server 校验用户、主账号和 Campaign 权限
+→ 返回短时一次性 Handoff URL
+→ Codex Browser 打开 URL
+→ Web Server 校验并原子消费 Ticket
+→ 创建或复用 Companion Session
+→ 通过 Set-Cookie 写入 HttpOnly、Secure Cookie
+→ 302 跳转到不含 Ticket 的真实 Campaign 页面
+~~~
+
+Handoff 记录至少绑定 Ticket 哈希、用户/子账号、主账号、OAuth grant、client=codex、surface=codex_browser、Campaign、目标页面、有效期和使用状态。Ticket 只证明本次准备打开的目标页面，不作为长期 Session，也不能出现在最终 URL、页面脚本、浏览器存储、Referer 或日志。
+
+### Primary 与 Companion 的区分
+
+真实浏览器账号密码登录创建 session_type=primary；Codex Handoff 创建 session_type=codex_companion。Cookie 只保存随机 session ID，Session 类型、用户、主账号、OAuth grant、来源、有效期和撤销状态保存在服务端。不能依赖 User-Agent 或长期 URL 参数判断会话类型。
+
+单设备互踢必须按 Session 类型执行：
+
+~~~text
+创建 Primary Session：
+只淘汰同一用户旧的 Primary Session
+不影响 Companion Session
+
+创建 Companion Session：
+不淘汰 Primary Session
+只清理同一 OAuth grant 下过期或超过数量限制的 Companion Session
+~~~
+
+真实浏览器和 Codex Browser 通常拥有独立 Cookie Jar，即使使用同一 Cookie 名也不会互相覆盖；但服务端设计不能依赖这一假设，仍须以 Session 记录中的 session_type 执行权限和互踢规则。认证中间件读取随机 session ID 后查询服务端 Session，并统一生成页面请求身份上下文。
+
+推荐 Companion Session 绑定用户、主账号、OAuth grant 和 Codex 客户端，而不是永久绑定单个 Campaign；Handoff Ticket 绑定本次目标 Campaign。每次页面 HTTP 请求和实时订阅继续校验当前 Campaign 权限。这样同一个伴随会话可以安全打开多个有权 Campaign，同时避免多个页面相互覆盖 Session。
+
+### 不同 Codex 对话的 Session 复用
+
+不同 Codex 对话是否共享 Cookie Jar 属于宿主运行时行为，当前不能直接假设，必须用真实 Codex 验证。Nox 服务端应同时支持两种情况：
+
+- 如果不同对话共享 Cookie，Handoff 发现现有 Companion Session 与 Ticket 的用户、主账号和 OAuth grant 一致时复用该 Session；
+- 如果不同对话 Cookie 隔离，则分别创建 Companion Session，但都归属于同一 OAuth grant，不影响 Primary Session，并受伴随会话数量和撤销策略约束。
+
+不把 Codex conversation ID 作为核心认证边界或 Session 主键。推荐复用键为 user_id、main_account_id、oauth_grant_id、client_id=codex，加可选的 browser/host instance。对话 ID 只可作为审计或页面关联信息，并且只有在宿主稳定提供时才使用。
+
+Handoff 消费算法为：校验 Ticket 未过期且未使用；原子消费；读取 Ticket 身份与目标；检查当前 Cookie 是否对应身份一致的有效 Companion Session；一致则复用，不一致则新建；再次校验 Campaign 当前权限；设置或刷新 Cookie；跳转到白名单页面。当前 Cookie 属于其他用户时不能原地改写旧 Session，必须替换 Cookie 并按策略处理旧伴随会话。
+
+Session 可以共享，页面状态不能共享。不同对话或标签页分别维护当前 Campaign、task、路由、筛选、版本和实时订阅；页面 A 只订阅 Campaign A，页面 B 只订阅 Campaign B。云信连接和每次订阅都必须做对象权限校验，不能因 Session 相同就把全部事件无差别推送到所有页面。
+
+Skill 只在首次进入、目标对象变化或页面关闭时打开或聚焦 Browser。同一 Campaign 内复用页面，Agent 不点击页面执行业务。
+
+### 页面变化通知
+
+业务事务成功后在同一事务中记录业务变化事件或 Outbox，再由可靠投递程序通过现有云信发送轻量信号，避免“数据已更新但通知丢失”。通知包含事件 ID、主账号、业务对象、后台任务、版本和 trace 等定位信息，不携带完整敏感快照或认证凭证。
+
+### 业务事件覆盖原则
+
+后续每个会修改持久化业务状态的能力，在设计和开发时都要评估是否产生业务事件。判断依据不是“该接口是否给 Codex 使用”，而是变化是否需要被其他页面、Codex Companion 页面、其他客户端或异步流程及时感知。满足以下任一条件通常需要事件：
+
+- 操作来自 MCP，但真实浏览器需要看到变化，或反过来；
+- 同一 Campaign、任务或列表可能同时在多个页面打开；
+- 当前请求结束后，后台任务或外部回调仍会继续改变状态；
+- 变化影响列表、详情、进度、结果、额度或多人共享对象；
+- 用户需要在不整页刷新的情况下看到持久化结果。
+
+普通查询、健康检查、未落库的临时计算、校验失败和 Handoff 本身通常不产生业务变化事件。是否产生事件按业务状态变化判断，不按 HTTP 接口数量判断。
+
+| 业务操作 | 是否需要事件 | 建议事件 |
+|---|---:|---|
+| 查询 Campaign 或任务 | 否 | 无 |
+| 修改 Campaign | 是 | campaign.updated |
+| 创建营销计划任务 | 是 | marketing_plan.task_created |
+| Worker 更新任务阶段 | 是 | marketing_plan.task_changed |
+| 营销计划完成或失败 | 是 | marketing_plan.completed / failed |
+| 达人候选列表变化 | 是 | creator_list.changed |
+| 邀约状态变化 | 是 | invitation.status_changed |
+| 打开页面或创建 Handoff | 通常否 | 只记录审计 |
+
+事件必须编排在 Application Service、领域事务或 Worker 状态提交点，而不是分别写在 Web Controller、CLI 入口和 MCP Handler 中：
+
+~~~text
+Web ─┐
+CLI ─┼→ 同一个 Application Service → 业务事务 + Outbox → 云信
+MCP ─┘
+~~~
+
+这样同一业务变化无论来自 Web、CLI 还是 MCP，都只产生一次相同事件。MCP 不直接发云信，因为它不能代表业务事务最终是否提交成功。
+
+### Server 与前端的编排边界
+
+Server 编排“什么业务状态变化产生什么事件”，不编排“前端打开什么页面、刷新哪个组件或执行什么操作”。事件只描述业务事实和定位信息，例如 event_id、event_type、main_account_id、campaign_id、task_id、version、trace_id 和 occurred_at。
+
+前端通过统一 RealtimeEventDispatcher 编排“收到事件后如何同步和展示”：
+
+| 事件 | 前端安全处理 |
+|---|---|
+| campaign.updated | 过滤当前 Campaign，使详情查询失效并重新获取 |
+| marketing_plan.task_changed | 查询 task_id 最新状态并更新进度 |
+| marketing_plan.completed | 查询任务结果和最新营销计划 |
+| creator_list.changed | 使当前 Campaign 达人列表缓存失效 |
+| invitation.status_changed | 查询对应邀约的最新状态 |
+
+通知只允许触发对象过滤、缓存失效、HTTP 查询、Store 更新、局部渲染和轻量提示，不能触发自动提交、邀约、扣费、强制跳转、自动弹窗、清空输入或覆盖未保存编辑。云信负责提示“数据可能变了”，HTTP API 负责返回“数据现在是什么”。
+
+Codex Companion 页面和真实浏览器如果都有权限并订阅同一 Campaign，都应同步真实业务数据，不能为了突出 Codex 而阻止 Primary 页面更新。页面从服务端 Session Context 识别 surface=codex_browser 或 web，只用于紧凑布局、提示方式和当前 task 聚焦等展示差异，不能作为权限依据。每个页面仍按自身 Campaign、task 和 version 过滤事件，避免不同对话和普通浏览器互相干扰。
+
+### 业务事件开发 Definition of Done
+
+每个写业务在技术设计、接口评审和验收时至少检查：
+
+- [ ] 是否产生其他客户端可感知的持久化变化；
+- [ ] 是否已有可复用的领域事件，避免按入口重复发事件；
+- [ ] 事件是否与业务数据在同一事务写入 Outbox；
+- [ ] 是否包含稳定 event type、对象 ID、版本、事件 ID 和 trace；
+- [ ] Web、CLI、MCP 是否复用同一 Application Service 和同一事件；
+- [ ] 是否存在前端权威 HTTP 查询接口；
+- [ ] 前端是否实现对象过滤、缓存失效、局部更新和未保存内容保护；
+- [ ] 是否验证重复、乱序、漏事件、断线、重连和版本缺口；
+- [ ] 通知是否不包含敏感快照或前端组件、路由、自动业务动作指令。
+
+页面的实时连接首先使用 Web session 完成身份认证，订阅 Campaign 时再次校验当前用户、主账号和对象权限。页面收到通知后校验 Campaign、任务和版本，按事件 ID 去重并处理乱序。简单变化可以局部更新缓存，复杂变化只重新查询受影响模块。
+
+页面进入、重新激活、云信重连或发现版本缺口时，通过 HTTP 获取最新权威状态。通知失败不回滚已经成功的业务事务。
+
+现有 SSE 继续服务单次 AI 请求的连续内容输出，不与云信双发同一全局业务事件。页面不整页刷新，保留滚动位置、筛选条件、展开状态和未提交输入。
+
+### 完成状态
+
+独立 Codex Browser 能自动建立 Companion Session 并打开授权 Campaign，且不会挤掉真实浏览器的 Primary Session；真实浏览器重新登录也不会挤掉有效 Companion Session；Handoff 过期、重放、跨用户、跨主账号和跨对象失败；无权用户不能订阅目标 Campaign；MCP 修改业务后页面自动局部更新；通知重复、乱序、丢失和断线后最终收敛到 Server 状态。
+
+## 6. 本地文件助手与上传下载
+
+### 为什么本期需要本地助手
+
+远程 MCP 运行在 Nox 服务器上，不能直接读取用户电脑中的文件，也不能把下载结果安全地写入用户指定目录。本期既然包含文件上传和下载，就需要一个运行在 Codex 本地环境中的受控助手负责文件字节传输。
+
+本地助手不是本地业务 Server，也不是远程 MCP 的替代品。它不判断用户能否访问某个 Campaign，不保存 OAuth token 或长期 API Key，不调用内部数据库，也不执行营销业务规则。
+
+### 上传链路
+
+```mermaid
+sequenceDiagram
+    actor User as 用户
+    participant Agent as Codex Agent
+    participant MCP as Nox 远程 MCP
+    participant Server as 业务 Server
+    participant Helper as 本地文件助手
+    participant Storage as 对象存储
+
+    User->>Agent: 明确选择要上传的本地文件
+    Agent->>MCP: 创建上传会话（业务对象、文件名、大小、类型）
+    MCP->>Server: 校验用户、主账号和对象权限
+    Server-->>MCP: 短期且限定用途的上传会话
+    MCP-->>Agent: upload_id 与传输参数
+    Agent->>Helper: 文件路径 + 短期传输参数
+    Helper->>Helper: 校验路径、大小、类型并计算哈希
+    Helper->>Storage: 直接上传文件字节
+    Helper->>MCP: 完成上传（upload_id、大小、哈希）
+    MCP->>Server: 校验对象存储结果并登记业务文件
+    Server-->>Agent: file_id 和业务绑定结果
+```
+
+文件字节不经过 MCP JSON 请求转发。MCP 和业务 Server 只处理身份、授权、上传会话和文件元数据，避免大文件占用 MCP 连接和内存。
+
+### 下载链路
+
+下载时，MCP 先校验用户和业务对象权限，再签发短时、最小权限的下载会话。本地助手在用户确认目标目录后先写入临时文件，校验大小和哈希成功后再原子改名；失败或取消时清理临时文件，不覆盖已有文件。
+
+### 安全与工程要求
+
+- 上传或下载会话短时有效、限定单个文件和操作方向，并绑定用户、主账号、业务对象、文件大小、类型和 trace；不向本地助手下发 OAuth token、Cookie 或长期对象存储密钥。
+- 本地助手只允许访问用户明确选择的源文件或目标目录；处理路径规范化、目录穿越、符号链接、同名覆盖、磁盘空间和恶意文件名。
+- 服务端不能信任客户端上报的 MIME、大小和哈希；上传完成后必须根据对象存储中的真实结果再次校验，并按需要执行病毒扫描和内容安全检查。
+- 支持进度、取消、超时和可控重试。上传完成接口使用 upload_id 保证幂等，过期会话不能续用。
+- 安装包按 Codex 支持的平台提供可验证签名的运行文件或宿主支持的脚本运行方式，普通用户不需要安装 Node、npm、FFmpeg 或 Nox CLI；如果某类文件确实需要转码，再单独打包最小必要的受控二进制。
+- 审计记录真实用户、主账号、业务对象、文件名、大小、哈希、操作方向、结果和 trace，但不记录文件内容、短期凭证和本地绝对路径。
+
+### 完成状态
+
+在不安装 Node、npm 和 Nox CLI 的纯净环境中，用户能够选择文件并完成上传，也能确认目标目录后完成下载；无权对象、过期或重放会话、超限文件、哈希不一致、路径越界和取消操作均安全失败，失败不会产生错误的业务文件绑定或残留的最终文件。
+
+## 7. 测试、灰度与运维
+
+### 测试范围
+
+| 测试层 | 必须覆盖 |
+|---|---|
+| MCP 协议 | initialize、Tool/Schema/Resource、标准错误和兼容版本 |
+| 本地文件助手 | 用户选定路径、目录穿越、符号链接、类型/大小限制、哈希、断点与重试、上传下载过期、取消、磁盘空间和多平台打包 |
+| OAuth 与身份 | 登录、续期、撤销、audience、scope、账号禁用、主子账号和对象越权 |
+| Handoff | 过期、重放、跨用户/主账号/对象、原子消费和开放重定向 |
+| Session | Primary/Companion 并存、不互踢、创建/复用、数量、到期和撤权 |
+| Codex 宿主 | 同/多对话、关闭重开、Codex 重启、工作区和账号切换的 Cookie/Session 行为 |
+| 长任务 | 状态机、幂等、超时恢复、取消、权限变化和服务重启 |
+| 业务事件 | Web/CLI/MCP 同一变化只产生一次；回滚不投递；Outbox、重复、乱序和漏事件 |
+| 实时页面 | 对象订阅权限、多页面隔离、断线重连、HTTP 对账和未保存内容保护 |
+
+端到端链路至少验证：Codex 登录并识别正确账号上下文，定位 Campaign，提交营销任务并持久化发起人，返回 task ID，通过 Handoff 建立 Companion Session 且不挤掉真实浏览器，页面显示同一任务状态，最终结果与 Codex 查询一致。
+
+跨对话实测记录 Cookie/Session ID、关闭重开和 Codex 重启后的保留情况、不同 Campaign 的页面与订阅隔离、Nox 账号切换和 OAuth 撤销后的失效时间。无论宿主共享还是隔离 Cookie，服务端都必须安全工作。
+
+### 灰度
+
+按内部账号、测试主账号、白名单客户、小比例生产和全量逐步开放。只读 Tool 先于写 Tool，低风险写入先于批量和付费能力。
+
+服务端提供 MCP 总开关、Tool 开关、用户/主账号白名单、Handoff 开关、本地文件传输开关和页面实时更新开关。
+
+### 回滚
+
+问题 Tool 可以单独关闭；MCP 写能力可以关闭并保留只读；Handoff 关闭时仍返回业务结果；本地文件助手关闭时禁用文件上传下载 Tool，但不影响普通线上业务；实时事件关闭时页面回退到进入、激活和有限轮询时的 HTTP 查询；MCP 整体关闭后，现有 Web 和 CLI 仍然可用。
+
+回滚不撤销已经提交的业务事务和后台任务。
+
+### 可观测性
+
+每次调用关联真实操作人、主账号、调用来源、Tool、Campaign、后台任务、事件和 trace。监控 OAuth 结果、Tool 成功率和耗时、文件上传下载成功率、吞吐量与失败原因、业务错误、依赖延迟、任务积压、事件积压、Handoff 兑换和页面对账。
+
+日志不记录 token、API Key、Handoff 凭证、Cookie、完整用户输入和个人敏感数据。按用户、主账号和 Tool 限流，防止 Agent 循环调用。审计需要能够从一次 Codex 操作追踪到 MCP 请求、业务事务、后台任务、Handoff、页面 session、实时事件和最终页面状态。
+
+---
+
+# 五、待确认事项与下一步
+
+## 1. 上线前必须确认的问题
+
+下面的调查不是为了补充术语，而是为了回答“现有能力能否复用、缺什么、由谁改、改完如何验收”。每项都应形成可评审的结论，不能只回复“支持”或“不支持”。
+
+### 身份与网页会话
+
+| 调查事项 | 为什么必须确认 | 具体确认什么 | 负责人和最终结论 |
+|---|---|---|---|
+| OAuth/OIDC 能力 | Codex 需要代表真实 Nox 用户调用 MCP；如果现有账号系统不能签发和撤销这类授权，就无法建立身份闭环 | 当前是否支持 Authorization Code + PKCE；如何注册 Codex 客户端；token 给谁使用、包含哪些 scope、多久过期、如何续期和撤销 | 账号平台；输出可复用能力、缺口和 OAuth 改造方案 |
+| 主子账号和 Campaign 权限 | 只确认 UID 不够，还要防止子账号操作无权访问的主账号或 Campaign | 一个用户能否属于多个主账号；当前主账号如何选择；Campaign 权限在哪一层判断；账号关系或权限被移除后多久生效 | 账号平台与业务后端；输出身份映射和对象权限规则 |
+| Companion Session | Nox 当前是单设备登录；如果 Codex Browser 创建普通 Session，会把用户真实浏览器挤下线 | Primary 与 Companion 如何区分；创建哪类 Session 时淘汰谁；有效期和数量；OAuth 撤销、账号禁用和退出所有设备时如何失效 | 账号平台与 Web 前端；输出 Session 数据模型、互踢与撤销规则 |
+| Handoff 换取网页登录 | Codex 已完成 OAuth，但右侧 Browser 仍没有 Nox 网页登录状态，需要安全建立 Companion Session | 一次性 Ticket 保存什么、多久过期、如何原子消费和防重放；如何创建或复用 Companion Session；如何阻止跨用户、跨主账号、跨 Campaign 和任意重定向 | 账号平台与 Web 前端；输出完整换票时序、接口和失败处理 |
+| Codex Browser 会话行为 | 不同 Codex 对话可能共享 Cookie，也可能相互隔离；服务端设计不能靠猜测 | 同一对话、多对话、关闭重开、Codex 重启、不同工作区和 Nox 账号切换时，Cookie 和 Session 是否共享、保留或替换 | MCP、账号平台与 QA；输出真实 Codex 实测矩阵和兼容策略 |
+
+### MCP 与业务 Server
+
+| 调查事项 | 为什么必须确认 | 具体确认什么 | 负责人和最终结论 |
+|---|---|---|---|
+| CLI 到业务 Server 调用链 | 首期 Tool 应复用现有业务能力；如果不知道 CLI 最终调用哪个服务，会重复实现规则或绕过权限 | 每条首期 CLI 命令调用哪个 API、Application Service 和下游服务；在哪一层做权限、额度、事务和审计；哪些接口稳定可复用 | CLI 与业务后端；输出“命令—API—服务—权限”映射和接口缺口 |
+| MCP 服务身份与用户上下文 | 业务 Server 既要确认请求来自官方 MCP，也要知道真实操作人；只传裸 UID 可以被伪造 | MCP 如何向业务 Server 证明自身身份；如何传递经过验证的 user、主账号、scope 和 trace；业务 Server 如何拒绝外部伪造身份字段 | MCP 与业务后端；输出服务鉴权和可信用户上下文方案 |
+| 首期 Tool 契约 | Tool 定义不清会让 Agent 选错能力、传错参数或重复执行写操作 | 每个 Tool 的用途、输入输出、scope、对象权限、版本、幂等键、确认条件、application API 映射、错误码和是否允许重试 | MCP 与业务后端；输出可评审的 Tool catalog 和契约 |
+| MCP 协议兼容 | 代码符合 SDK 不代表真实 Codex 能正常登录、发现和调用 | 真实 Codex 与 Inspector 是否能完成 initialize、OAuth、Tool 发现/调用、Schema 校验和标准错误处理；使用哪个协议版本 | MCP 负责人；输出实测记录、兼容版本和剩余限制 |
+| 智能营销计划后台任务 | MCP 请求不能一直等待营销计划完成；没有持久化任务就无法查询、恢复和让页面显示同一进度 | 当前是否已有 task ID 和持久化记录；状态机、阶段、结果和错误如何表示；如何幂等提交、取消、恢复；权限被收回后任务与结果如何处理 | 营销业务后端；输出任务模型、接口、状态机和撤权策略 |
+
+### 本地文件上传下载
+
+| 调查事项 | 为什么必须确认 | 具体确认什么 | 负责人和最终结论 |
+|---|---|---|---|
+| 本地助手运行与分发 | 用户不能被要求自行安装 Node 或 Nox CLI；如果 Codex 各平台的运行方式不明确，本地助手无法可靠交付 | Codex 支持哪些本地脚本或可执行文件；Windows、macOS 的架构和签名要求；Plugin 如何安装、升级和卸载；失败时如何诊断 | Plugin 与客户端负责人；输出多平台打包、签名、升级和兼容方案 |
+| 上传下载会话 | 本地助手不能持有 OAuth token 或长期对象存储密钥，必须通过受控短期凭证传输 | 现有对象存储是否支持预签名上传下载；会话如何绑定用户、主账号、业务对象、文件、方向和有效期；如何防重放、撤销和限制大小/类型 | MCP、业务后端与存储平台；输出上传下载会话接口和权限模型 |
+| 文件安全与业务登记 | 本地助手上报的文件名、类型、大小和哈希都不能直接信任，否则可能形成越权绑定或恶意文件入口 | 路径和覆盖规则；服务端真实大小、类型和哈希校验；病毒与内容安全扫描；上传完成如何幂等登记 file_id 并绑定业务对象；失败如何清理 | 安全、业务后端与客户端；输出文件安全规则、扫描链路和失败补偿方案 |
+| 大文件可靠传输 | 网络中断、Codex 重启或磁盘不足不能产生半个文件或错误业务状态 | 分片或断点能力、进度、取消、超时、重试、临时文件、原子改名、磁盘空间检查、并发和限速策略 | 客户端、存储平台与 QA；输出传输状态机、错误码和测试矩阵 |
+
+### 页面入口与实时同步
+
+| 调查事项 | 为什么必须确认 | 具体确认什么 | 负责人和最终结论 |
+|---|---|---|---|
+| 页面入口与意图映射 | Agent 只能知道用户想看“营销计划”或“达人列表”，不应该知道和拼接前端真实 URL | 哪些用户意图需要打开页面；业务 Tool 与页面 Tool 如何组合；支持哪些 view；每个 view 对应哪个业务对象和真实路由；前端改路由后由谁维护映射 | 产品、MCP 与 Web 前端；输出页面打开规则、view 枚举和 PageDestinationResolver 方案 |
+| 业务事件目录 | Codex、Web 和 CLI 修改同一业务后，其他页面必须知道数据已经变化；如果各入口分别发通知，会重复或漏发 | 哪些持久化变化需要事件；事件在哪个 Application Service 或 Worker 事务点产生；包含哪些对象 ID、版本和 trace；页面应查询哪个权威 API | 各业务后端与前端；输出“写业务—事件—对象—查询接口”目录 |
+| 前端事件处理器 | Server 只说明什么数据变了，前端仍需要明确怎样安全更新页面 | 每种 event type 影响哪个 Campaign/task；如何过滤对象、去重和处理乱序；使哪些缓存失效、查询哪个 API、更新哪个 Store；Primary 与 Companion 仅在哪些展示上不同 | 各业务前端与实时平台；输出 RealtimeEventDispatcher 映射 |
+| 云信与页面链路 | 有业务事件不代表页面一定能安全收到并最终显示正确状态 | Web Session 如何鉴权实时连接；订阅 Campaign 时如何做对象权限检查；Outbox 如何投递和重试；断线、漏事件和版本缺口如何通过 HTTP 恢复；多页面如何隔离订阅 | 实时平台与前端；输出事件投递、订阅、对账和恢复时序 |
+
+### 验证与上线
+
+| 调查事项 | 为什么必须确认 | 具体确认什么 | 负责人和最终结论 |
+|---|---|---|---|
+| 性能与容量基线 | 功能可用不代表用户体验和生产容量可接受，长任务与事件积压也可能拖垮链路 | OAuth 登录、Tool 调用、任务提交、状态查询、Handoff、事件到达和页面对账的延迟；并发、限流、任务与 Outbox 积压阈值 | QA 与运维；输出基线数据、告警阈值和容量结论 |
+## 2. 下一步实施顺序
+
+第一步调查 Nox 现状，不先写大量正式功能：确认 OAuth、主子账号与 Campaign 权限、CLI/API、后台任务、单设备登录实现、Primary/Companion Session、Handoff、云信鉴权链路，以及现有文件存储、上传下载接口和安全限制。
+
+第二步冻结首期设计：确定身份上下文、主账号选择规则、Primary/Companion Session 边界、Session 创建与复用算法、跨对话兼容策略、MCP 职责边界、首期 Tool 输入输出与错误契约、application API 映射、智能营销计划状态机、幂等与重试策略、scopes、撤权策略、本地助手打包方式、上传下载会话契约和文件安全规则、页面是否打开的决策规则、open_campaign 的 view 枚举、PageDestinationResolver 路由映射、Handoff 时序、首期业务事件目录和前端 RealtimeEventDispatcher 映射。
+
+第三步验证五条最小链路：
+
+```text
+OAuth + 只读 Tool：
+Codex 登录 Nox → 识别正确用户/子账号和主账号上下文 → 只返回有权访问的 Campaign
+
+写 Tool + 后台任务：
+Codex 提交营销计划 → 任务持久化真实发起人和主账号 → 返回任务 ID → 按当前权限查询真实状态
+
+Browser Handoff：
+用户明确要求打开营销计划 → Agent 根据 Skill 选择 open_campaign(view=marketing_plan) → Server 将 view 映射为真实路由 → 生成 Handoff → 独立 Browser 建立 Companion Session → 不挤掉 Primary Session → 打开正确页面
+
+页面实时同步：
+Web/CLI/MCP 修改业务 → 同一 Application Service 写 Domain Event/Outbox → 云信通知有权且订阅该对象的连接 → Primary/Companion 页面分别过滤 Campaign/task → 使用各自 Web session HTTP 对账 → 更新 Store 并局部展示
+
+本地文件上传下载：
+Agent 调用文件 Tool → MCP 校验用户和业务对象权限并创建短期传输会话 → 本地助手读取或写入用户确认的路径 → 直传对象存储并校验哈希 → Server 完成文件登记或下载审计 → 短期凭证失效
+```
+
+每项验证记录环境、步骤、实际结果、延迟、失败原因、剩余风险和是否通过。
+
+第四步根据真实结果更新工作量和排期，再决定完整 MVP 立项。
+
+## 3. 最终结论
+
+Nox Codex Plugin 的整体实现链路已经清晰，核心架构和主要技术选型已经有 ChatCut、官方 Plugin/MCP 能力以及 Nox 现有系统作为支撑。
+
+当前不需要重新设计整条链路。下一阶段需要将 OAuth、Tool、本地文件助手、业务 Server、后台任务、Handoff 和页面事件逐一映射到 Nox 现有系统，确认哪些能力可以直接复用、哪些需要补建，并用真实 Codex 测试性能与兼容性。
+
+在这些实施落点确认前，可以通过架构方向评审并启动现状调查与最小链路验证，但不应冻结完整接口、数据库模型和上线工期。
+
+---
+
+# 附录 A：ChatCut 远程 MCP 实测数据
+
+| 项目 | 实测结果 |
+|---|---|
+| Protected Resource Metadata | `/.well-known/oauth-protected-resource/api/external-mcp/mcp` |
+| Authorization Server | `https://api.chatcut.io` |
+| 授权端点 | `/auth/mcp/authorize` |
+| Token 端点 | `/auth/mcp/token` |
+| 动态注册端点 | `/auth/mcp/register` |
+| Grant | Authorization Code、Refresh Token |
+| PKCE | S256 |
+| Scope | `openid`、`profile`、`email`、`offline_access` |
+| 宿主请求头 | `x-chatcut-mcp-surface: codex` |
+| 传输 | HTTPS Streamable HTTP |
+| 消息 | JSON-RPC 2.0 |
+| 协议协商 | `2025-11-25` |
+| ServerInfo | `chatcut-external-mcp` / `0.1.0` |
+| Tool 数量 | 51 |
+| Tool input schema | JSON Schema draft-07 |
+| Resources | 支持并声明 `listChanged` |
+| `Mcp-Session-Id` | 本次实测未签发 |
+| 只读调用 | `list_projects` 成功进入 handler 并返回空列表 |
+
+MCP App 实测：
+
+| 项目 | 实测结果 |
+|---|---|
+| 关联 Tool | `ask_followup_questions` |
+| Resource URI | `ui://chatcut/followup-questions-v37` |
+| MIME | `text/html;profile=mcp-app` |
+| HTML 大小 | 43,437 字节 |
+| SHA-256 | `a36ce84f6f2d13cfba8baa5dfd7930d2aeea2fedefd1237be4da5ba510563bdf` |
+| 宿主桥线索 | `window.openai`、`tools/call`、`postMessage` |
+
+本次记录是授权后的只读应用层 HTTP/MCP 行为，不包含访问令牌，不能观察商业 MCP 进程内部。
+
+---
+
+# 附录 B：ChatCut 51 个 Tool
+
+```text
+ask_followup_questions, read_project, browse_assets, inspect_asset,
+browse_library, find_transcript, manage_transcript, manage_design_style,
+manage_template, edit_item, split_item, detach_audio, smooth_audio,
+edit_track, edit_asset, create_motion_graphic_from_code, edit_project,
+manage_media_pool, manage_timelines, clean_script, read_captions,
+edit_captions, track_progress, manage_markers, read_script, apply_script,
+request_asset_download, isolate_voice, search_stock_media, web_browser,
+view_timeline_frames, report_user_friction, convert_motion_graphic_to_video,
+export_motion_graphic_prores, register_converted_video, search_fonts,
+submit_export, submit_music, submit_shader, submit_sound, submit_video,
+submit_voice, track_export, create_project, delete_project,
+duplicate_project, list_projects, restore_project, target_project,
+get_editor_url, import_media
+```
+
+---
+
+# 附录 C：Nox 当前代码证据
+
+| 代码位置 | 已确认内容 | 对方案的意义 |
+|---|---|---|
+| `plugins/nim.js` | 登录后建立全局云信连接并向 Vuex 分发业务通知 | 可以复用持续通知基础 |
+| `commonSearch.vue` | 收到当前 Campaign 相关通知后重新查询筛选和搜索结果 | 已存在“通知后定向查询”模式 |
+| `inviteTab.vue` | 收到邀约通知后查询邀约状态和邮件内容 | 页面状态可以由 HTTP 校准 |
+| `aiMissionDialog.vue` | 页面主动发起营销方案 SSE并读取单次请求内容 | 现有 SSE 是请求级流，不是全局任务订阅 |
+
+后续需要补充每个文件的当前版本、真实事件名称、业务 API、store 模块和服务端发送方。
+
+---
+
+# 附录 D：参考资料
+
+- [NoxInfluencer Skill](https://github.com/NoxInfluencer/skills/blob/main/skills/noxinfluencer/SKILL.md)
+- [NoxInfluencer 营销能力参考](https://github.com/NoxInfluencer/skills/blob/main/skills/noxinfluencer/references/marketing-ops.md)
+- [ChatCut agent-plugin](https://github.com/ChatCut-Inc/agent-plugin/tree/8226e825a6108a2b8d9d106b7f7bb367a04f20ce)
+- [OpenAI Plugins 示例仓库](https://github.com/openai/plugins)
+- [OpenAI Role-Specific Plugins](https://github.com/openai/role-specific-plugins)
+- [OpenAI Developers](https://developers.openai.com/)
+- [MCP Architecture](https://modelcontextprotocol.io/specification/2025-06-18/architecture)
+- [MCP Streamable HTTP](https://modelcontextprotocol.io/specification/2025-11-25/basic/transports)
+- [MCP Authorization](https://modelcontextprotocol.io/specification/2025-11-25/basic/authorization)
+- [MCP TypeScript SDK](https://github.com/modelcontextprotocol/typescript-sdk)
+- [MCP Inspector](https://github.com/modelcontextprotocol/inspector)
+- [OpenChatCut](https://github.com/0xsline/OpenChatCut)
+# 附录 E：部署解耦与环境配置（最终约定）
+
+## 1. Plugin、MCP Server 与 kol-next 的解耦部署
+
+本报告最终采用“Plugin、远端 MCP Server、kol-next 分别部署”的方案。三者通过稳定协议和服务端配置连接，不通过代码仓绑定或固定部署关系耦合。
+
+```mermaid
+flowchart LR
+    Plugin["Codex Plugin<br/>Skill · MCP 配置"] -->|"MCP URL"| MCP["远端 MCP Server<br/>Tool · OAuth Challenge · Resource Metadata"]
+    MCP -->|"OAuth Access Token<br/>+ MCP Service Secret"| KOL["kol-next<br/>OAuth Server · 公共 MCP BFF · Handoff"]
+    KOL --> Java["Java 业务服务"]
+    MCP -. "authorization_servers" .-> KOL
+```
+
+职责边界：
+
+| 组件 | 负责内容 | 不负责内容 |
+|---|---|---|
+| Codex Plugin / Skill | 安装 Skill、声明 MCP Server、指导 Agent 使用 Tool | 不保存 Token、uid、Service Secret；不直连 kol-next BFF 或 Java |
+| 远端 MCP Server | MCP 协议、Tool、Schema、OAuth 保护、Protected Resource Metadata、调用 kol-next BFF | 不维护 Nox 业务事实；不直接访问 Java 数据库；不创建网页 Cookie |
+| kol-next OAuth Server | 登录授权、Authorization Code + PKCE、Access/Refresh Token、撤销和 OAuth Metadata | 不主动调用 MCP Server；不需要配置 MCP Server URL |
+| kol-next 公共 MCP BFF | 验证 MCP Server 服务身份和用户 Access Token，建立 `req.mcpPrincipal`，向具体业务 BFF 提供可信 uid | 不负责 MCP 协议；不把 uid 作为独立身份接口返回给模型 |
+| 业务 BFF / Application Service | 参数、对象权限、套餐、额度、事务、幂等和业务错误 | 不信任 Tool 自报 uid；不绕过业务 Server |
+
+MCP Server 可以自行选择连接哪个 kol-next 环境。例如本地、测试和生产 MCP Server 分别连接对应的 kol-next；kol-next 不需要知道 MCP Server 的 URL，只需通过 Service Secret、mTLS 或等价服务身份判断调用方是否可信。
+
+## 2. 三类地址与环境配置
+
+必须区分以下三个地址：
+
+| 地址 | 作用 | 由谁配置 |
+|---|---|---|
+| `KOL_NEXT_BASE_URL` / OAuth issuer | 登录、授权、Token、Handoff 和 BFF 所在的 kol-next 地址 | kol-next 和 MCP Server |
+| `MCP_SERVER_URL` | Codex Plugin 连接的 MCP 协议地址 | Plugin / MCP Server 部署 |
+| `MCP_RESOURCE` | OAuth Token 的 audience/resource；必须是 MCP Server 受保护资源 | Plugin、MCP Server、kol-next |
+
+三者不能混用。Plugin 连接的是 MCP Server，不是 kol-next BFF；MCP Server 再调用 kol-next 的 `/api/v2/mcp/*`。
+
+环境配置建议如下：
+
+| 环境 | kol-next OAuth issuer / Handoff | MCP Server / Resource | MCP Server 调用的 kol-next BFF |
+|---|---|---|---|
+| 本地 | `http://www.noxinfluencer.com:3322` | 本地 MCP Server，例如 `http://127.0.0.1:23000/mcp` | `http://www.noxinfluencer.com:3322/api/v2/mcp` |
+| 测试 | `https://www--yf.noxinfluencer.com` | 测试 MCP Server 的正式地址 | `https://www--yf.noxinfluencer.com/api/v2/mcp` |
+| 生产 | `https://www.noxinfluencer.com` | `https://api.noxinfluencer.com/mcp` | `https://www.noxinfluencer.com/api/v2/mcp` |
+
+正式发布的 Plugin 固定指向生产 MCP Server；本地和测试使用独立开发包或构建时选择的 `.mcp.json`，不让 Agent 在运行时自行切换环境。
+
+生产环境至少要保证以下值一致：
+
+```text
+Plugin .mcp.json 的 oauth_resource
+MCP Server Protected Resource Metadata 的 resource
+kol-next MCP_OAUTH.publicResource
+Access Token 的 aud
+```
+
+例如生产统一使用：
+
+```text
+MCP Resource: https://api.noxinfluencer.com/mcp
+OAuth issuer: https://www.noxinfluencer.com
+```
+
+其中 `MCP_RESOURCE` 是受保护资源标识，不代表 kol-next 需要主动访问该 MCP Server。若一个 kol-next 环境同时服务多个 MCP Server，应将 `publicResource` 扩展为受控 Resource 白名单，并按 MCP Server 使用不同的 Service Secret；不能通过放宽 audience 校验解决环境混用问题。
+
+## 3. MCP BFF 的公共鉴权层
+
+所有 MCP 业务请求先进入公共 MCP BFF 鉴权层，再进入具体业务 BFF。公共层统一校验：
+
+```http
+Authorization: Bearer <用户 OAuth Access Token>
+X-Nox-MCP-Authorization: Bearer <MCP Service Secret>
+```
+
+校验成功后只在服务端请求上下文中生成：
+
+```json
+{
+  "uid": "真实用户 uid",
+  "parentUid": "主账号 uid",
+  "clientId": "OAuth client",
+  "grantId": "OAuth grant",
+  "resource": "MCP resource",
+  "scope": ["noxinfluencer.user"]
+}
+```
+
+具体业务 BFF 使用 `req.mcpPrincipal.uid` 调用 Java，并在内部 Header 注入可信 uid。MCP Tool 请求、Query、Body 和 Plugin 配置都不得提供或覆盖 uid。
+
+业务错误（例如配额不足）由业务 BFF 保留稳定业务错误类型，不能误报为 OAuth 失败；Token 失效、Resource 不匹配和 scope 不足则分别按 401/403 处理。
+
+## 4. 配额不足时的完整错误链路
+
+以“创建智能营销计划”为例：Codex MCP Client 携带用户 Access Token 调用 MCP Tool；MCP Server 校验协议和参数后，将用户 Token 与自身 Service Secret 转发给 kol-next 公共 MCP BFF；公共层验证服务身份、Token、Resource 和 scope，并生成可信的 `req.mcpPrincipal`；具体 Campaign BFF 使用其中的 uid 调用 Java 业务服务。
+
+如果 Java 判断用户套餐或配额不足，应返回稳定的业务错误码；Campaign BFF 保留该业务语义并映射为明确的 HTTP 状态和 JSON 错误；MCP Server 再将其转换成 Tool 可识别的结构化业务错误；Codex 最终向用户说明配额不足及可执行的下一步。此时不得返回 OAuth 401，也不得触发重复授权，因为用户身份仍然有效。

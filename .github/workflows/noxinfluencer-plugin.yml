@@ -1,0 +1,50 @@
+name: NoxInfluencer Codex Plugin
+
+on:
+  pull_request:
+    paths:
+      - "skills/noxinfluencer/**"
+      - "plugins/noxinfluencer/**"
+      - ".github/workflows/noxinfluencer-plugin.yml"
+  push:
+    branches:
+      - mcp
+    paths:
+      - "skills/noxinfluencer/**"
+      - "plugins/noxinfluencer/**"
+      - ".github/workflows/noxinfluencer-plugin.yml"
+
+concurrency:
+  group: noxinfluencer-plugin-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify-and-package:
+    name: Verify Skill sync and package Plugin
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: plugins/noxinfluencer
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: plugins/noxinfluencer/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify generated Skill copy
+        run: npm run plugin:verify-sync
+
+      - name: Build production Plugin package
+        run: npm run package

@@ -1,0 +1,34 @@
+{
+  "name": "noxinfluencer",
+  "version": "0.1.0",
+  "description": "NoxInfluencer Codex plugin for intelligent marketing workflows.",
+  "author": {
+    "name": "NoxInfluencer"
+  },
+  "homepage": "https://www.noxinfluencer.com/",
+  "license": "UNLICENSED",
+  "keywords": [
+    "noxinfluencer",
+    "influencer-marketing",
+    "marketing-plan",
+    "codex",
+    "mcp"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "NoxInfluencer",
+    "shortDescription": "Use NoxInfluencer marketing workflows in Codex.",
+    "longDescription": "NoxInfluencer capabilities for discovering and operating intelligent influencer-marketing workflows from Codex. The initial demo focuses on viewing intelligent marketing-plan task lists.",
+    "developerName": "NoxInfluencer",
+    "category": "Marketing",
+    "capabilities": ["Read"],
+    "websiteURL": "https://www.noxinfluencer.com/",
+    "defaultPrompt": [
+      "Show my intelligent marketing-plan tasks.",
+      "Show the next page of my intelligent marketing-plan tasks.",
+      "Open my intelligent marketing-plan tasks in NoxInfluencer."
+    ],
+    "brandColor": "#FF5A36"
+  }
+}
