@@ -1,6 +1,6 @@
 ---
 name: noxinfluencer
-description: Runs NoxInfluencer creator and marketing-ops workflows via CLI for influencer marketing, creator marketing, UGC, social media marketing, and affiliate marketing, including creator discovery and result exports; evaluation; external contacts; known-video and future-content monitoring; spreadsheet imports/reports; campaigns, collections, CRM, product center, short links, Shopify affiliation, email/message tasks, files, brand monitoring, and exports. Use for NoxInfluencer creator research, outreach operations, campaign/CRM/email/product/affiliate workflows, monitoring, files, or account setup.
+description: Runs NoxInfluencer creator and marketing-ops workflows through the NoxInfluencer CLI for normal standalone Skill users, and through the connected NoxInfluencer MCP provider only when bundled inside the NoxInfluencer Codex Plugin. Covers creator discovery and exports; evaluation; contacts; monitoring; spreadsheet workflows; campaigns, collections, CRM, product center, short links, Shopify affiliation, email/message tasks, files, brand monitoring, and exports. Use for NoxInfluencer creator research, outreach operations, campaign/CRM/email/product/affiliate workflows, monitoring, files, account setup, intelligent marketing-plan tasks, or opening supported NoxInfluencer pages from Codex.
 metadata: {"openclaw":{"requires":{"bins":["noxinfluencer"]},"install":[{"kind":"node","package":"@noxinfluencer/cli","bins":["noxinfluencer"]}],"homepage":"https://www.noxinfluencer.com/skills"}}
 ---
 
@@ -8,7 +8,17 @@ metadata: {"openclaw":{"requires":{"bins":["noxinfluencer"]},"install":[{"kind":
 
 Full-workflow creator and marketing-ops skill for discovery, due diligence, platform email outreach, external contacts, known-video and future-content monitoring, spreadsheet/file workflows, operations, brand monitoring, and exports across YouTube, TikTok, and Instagram.
 
-The user interacts through natural language. Execute CLI commands yourself and report results in plain language. Never expose raw commands to the user.
+The user interacts through natural language. Select one execution backend, perform the workflow yourself, and report results in plain language. Never expose raw commands, credentials, or internal transport details to the user.
+
+## Execution Backend — Decide First
+
+Read `{baseDir}/references/runtime-routing.md` before any NoxInfluencer operation and select the backend once for the current workflow.
+
+- If `{baseDir}/references/codex-plugin-runtime.md` exists, this Skill came from the Codex Plugin package; use MCP exclusively.
+- If that package marker does not exist, use the original CLI workflow even if an MCP provider happens to be configured separately.
+- In Codex Plugin mode, an OAuth challenge, missing Tool, or MCP error is not permission to fall back to the CLI.
+
+This routing rule has priority over every command-looking instruction below. In MCP mode, treat later CLI command names as names of business capabilities and use the matching runtime MCP Tool instead of executing the CLI. Read `{baseDir}/references/mcp-runtime.md` for MCP-specific execution, OAuth, error, and Browser Handoff rules. Keep all workflow sequencing, approval, mutation, quota, and reporting rules in this Skill unchanged across both backends.
 
 ## When to Use
 
@@ -31,9 +41,9 @@ The user interacts through natural language. Execute CLI commands yourself and r
 
 ### Agent-First
 
-The user does not operate the CLI. You do. Run commands silently, tell the user the result. Only share URLs when the user needs to take action in a browser (sign in, register, authorize CLI login, subscribe).
+The user does not operate the execution backend. In MCP mode, call the selected tools yourself. In CLI mode, run commands silently. Tell the user the business result, and only share URLs when the user needs to take action in a browser.
 
-### CLI Self-Description
+### CLI Self-Description (CLI Backend Only)
 
 The CLI is self-describing — use it instead of memorizing parameters:
 
@@ -73,6 +83,8 @@ Use `feedback` for product, data, or CLI issues. Use `dispute` only for a concre
 ---
 
 ## 1. Getting Started
+
+In MCP mode, skip CLI installation, `doctor`, API-key setup, and Device Flow. Start with the requested MCP business Tool and let the Codex MCP Client handle OAuth. Use the following setup flow only in CLI mode.
 
 Run `noxinfluencer doctor`, then fix only what is missing:
 
@@ -188,6 +200,8 @@ See `{baseDir}/references/brand-monitor.md` for command routing and platform bou
 
 ## Error Handling
 
+In MCP mode, follow `{baseDir}/references/mcp-runtime.md`; never run CLI diagnostics or switch backends for an MCP authentication, authorization, business, or dependency error.
+
 For API-backed failures (`quota`, `pricing`, `creator`, `monitor`, `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `dispute`, `export`, `file`, `feedback`), use the CLI response's `action` field when present:
 - `action.url` — where the user should go
 - `action.hint` — what to do
@@ -198,6 +212,8 @@ For unexpected failures, run `doctor` as a first diagnostic step.
 
 ## References
 
+- `{baseDir}/references/runtime-routing.md` — mandatory MCP/CLI backend selection and no-fallback rules
+- `{baseDir}/references/mcp-runtime.md` — MCP Tool execution, OAuth, error handling, and Browser Handoff
 - `{baseDir}/references/cli-response-format.md` — response envelope differences and error action handling
 - `{baseDir}/references/marketing-ops.md` — campaign, spreadsheet, file, email/message, report/export workflows and mutation guardrails
 - `{baseDir}/references/brand-monitor.md` — brand monitor routing, YouTube-only product signals, export boundaries

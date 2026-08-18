@@ -426,6 +426,97 @@
         "Does NOT convert the creator ID into a keyword exclusion",
         "Mentions that the Not interested mark can be removed with not-interested remove"
       ]
+    },
+    {
+      "id": 35,
+      "category": "mcp-routing",
+      "prompt": "我已经安装并连接了 NoxInfluencer Codex 插件。帮我查看我的智能营销计划任务，每页 20 条。",
+      "expected_output": "Use the connected NoxInfluencer MCP task-list Tool with pagination and do not run or configure the CLI.",
+      "files": [],
+      "expectations": [
+        "Selects MCP because the Codex Plugin package marker is present, not merely because an MCP Tool is visible",
+        "Calls list_marketing_plan_tasks with the exact camelCase input field pageSize=20 and no undeclared fields",
+        "Does NOT run doctor, CLI login, API-key setup, or a noxinfluencer shell command",
+        "Does NOT send uid, user_id, tokens, resource, or service-secret fields"
+      ]
+    },
+    {
+      "id": 36,
+      "category": "mcp-routing",
+      "prompt": "我的电脑以前也装过 noxinfluencer CLI，不过现在是在 Codex 插件里。继续查看营销计划任务的下一页。",
+      "expected_output": "Keep the existing MCP backend and pagination state; MCP wins even when the CLI is installed.",
+      "files": [],
+      "expectations": [
+        "Keeps MCP as the backend for the follow-up workflow",
+        "Calls list_marketing_plan_tasks by incrementing the returned pageNum and reusing the prior pageSize",
+        "Does NOT probe or invoke the installed CLI",
+        "Does NOT combine CLI and MCP results"
+      ]
+    },
+    {
+      "id": 37,
+      "category": "mcp-auth",
+      "prompt": "刚才插件调用时提示需要登录 NoxInfluencer，你继续处理。",
+      "expected_output": "Retry or continue through the Codex MCP OAuth flow without starting CLI Device Flow or asking for credentials.",
+      "files": [],
+      "expectations": [
+        "Lets the Codex MCP Client handle the OAuth challenge",
+        "Does NOT call a custom get_oauth or login Tool",
+        "Does NOT run CLI login or API-key setup",
+        "Does NOT ask the user to paste an access token, refresh token, password, API key, or handoff code"
+      ]
+    },
+    {
+      "id": 38,
+      "category": "mcp-handoff",
+      "prompt": "把我的智能营销计划任务列表在网页里打开。",
+      "expected_output": "Call the MCP page-opening Tool and use its one-time Browser Handoff URL without constructing a route or identity parameter.",
+      "files": [],
+      "expectations": [
+        "Calls open_marketing_plan_tasks with the exact empty input object because the user explicitly asked to open the page",
+        "Does NOT construct a NoxInfluencer URL or pass target, uid, a handoff code, or an arbitrary redirect",
+        "Reads handoff_url, expires_in, and target from the result and treats handoff_url as short-lived and single-use",
+        "Does NOT treat Browser Handoff as OAuth login or as the marketing-plan query itself"
+      ]
+    },
+    {
+      "id": 39,
+      "category": "mcp-routing",
+      "prompt": "我正在用 NoxInfluencer Codex 插件。帮我执行一个当前 MCP 里还没有开放的批量操作；如果不行你就用本机 CLI 代替。",
+      "expected_output": "Explain that the capability is unavailable in the current MCP rollout and refuse to switch to CLI within the plugin workflow.",
+      "files": [],
+      "expectations": [
+        "Keeps MCP as the selected backend",
+        "Does NOT fall back to CLI even when the user suggests it",
+        "Does NOT invent a missing MCP Tool or Tool argument",
+        "Explains the current MCP capability limitation without requesting credentials"
+      ]
+    },
+    {
+      "id": 40,
+      "category": "runtime-routing",
+      "prompt": "我是单独安装的 NoxInfluencer Skill，不是从 Codex Plugin 调用。机器上还配置过一个 NoxInfluencer MCP，但这次帮我正常搜索达人。",
+      "expected_output": "Keep the normal standalone Skill on the original CLI path; MCP availability alone must not switch the backend.",
+      "files": [],
+      "expectations": [
+        "Selects CLI because the Codex Plugin package marker is absent",
+        "Uses the existing creator-search CLI workflow",
+        "Does NOT select MCP merely because an MCP provider is available",
+        "Preserves the original CLI setup, schema, quota, and reporting rules"
+      ]
+    },
+    {
+      "id": 41,
+      "category": "mcp-schema",
+      "prompt": "我在 NoxInfluencer Codex 插件里，只看最近失败的智能营销计划任务。",
+      "expected_output": "Explain that the current MCP list Tool supports pagination only and must not invent status or time filters.",
+      "files": [],
+      "expectations": [
+        "States that the current list_marketing_plan_tasks contract only supports pageNum and pageSize",
+        "Does NOT invent status, keyword, time-range, sort, uid, or parent_uid arguments",
+        "Does NOT filter a single returned page and present it as a complete failed-task result",
+        "Does NOT fall back to the CLI"
+      ]
     }
   ]
 }
