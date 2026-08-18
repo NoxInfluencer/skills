@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "noxinfluencer": {
+      "oauth_resource": "https://skillhuidu.noxinfluencer.com/codex-plugin/mcp",
+      "url": "https://skillhuidu.noxinfluencer.com/codex-plugin/mcp"
+    }
+  }
+}

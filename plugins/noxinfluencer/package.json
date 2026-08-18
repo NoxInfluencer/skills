@@ -1,0 +1,26 @@
+{
+  "name": "@noxinfluencer/codex-plugin",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Build tooling for the NoxInfluencer Codex Plugin.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "plugin:sync-skill": "node scripts/sync-plugin-skill.mjs",
+    "plugin:verify-sync": "node scripts/sync-plugin-skill.mjs --check",
+    "skill:sync": "npm run plugin:sync-skill",
+    "skill:verify": "npm run plugin:verify-sync",
+    "package": "node scripts/package-plugin.mjs",
+    "package:dev": "node scripts/package-plugin.mjs --dev",
+    "plugin:local:deps": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-local-plugin-deps.ps1",
+    "plugin:local:bootstrap": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local-plugin.ps1 -Action bootstrap",
+    "plugin:local:install": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local-plugin.ps1 -Action install",
+    "plugin:local:update": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local-plugin.ps1 -Action update",
+    "plugin:local:status": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local-plugin.ps1 -Action status"
+  },
+  "devDependencies": {
+    "yazl": "3.3.1"
+  }
+}
