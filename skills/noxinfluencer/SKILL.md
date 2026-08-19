@@ -26,6 +26,8 @@ The user interacts through natural language. Execute CLI commands yourself and r
 - Generate creative briefs or interpret video content beyond available platform metrics
 - Operate external CRM, email, messaging, spreadsheet, or ad platforms outside NoxInfluencer
 - Replace legal or commercial review of contracts, disputes, or brand-safety decisions
+- Provide native X/Twitter exploration or action tooling. In Hermes Agent, use
+  Hermes Tweet for X/Twitter context, tweet reads, and confirmed gated actions.
 
 ## Core Principles
 
