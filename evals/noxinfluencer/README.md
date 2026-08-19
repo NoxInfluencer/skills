@@ -19,6 +19,8 @@ This skill should have 3-5 eval queries per major workflow category covering:
 - **Should-trigger**: Clear use cases that match the skill's description
 - **Should-not-trigger**: Near-miss queries that belong to a different skill
 - **Boundary**: Ambiguous queries where correct behavior matters most
+- **Runtime routing**: Plugin-marker versus standalone execution, including strict CLI isolation
+- **MCP auth recovery**: one-attempt Codex Host OAuth bootstrap, refresh/retry behavior, and safe failure branches
 
 ### Negative Example Quality
 
@@ -34,6 +36,10 @@ evals/
     └── workspace/                # Benchmark artifacts and reviewer feedback
 ```
 
+## MCP OAuth Coverage
+
+The eval set covers missing MCP Tools, `AuthRequired`, successful login with and without dynamic Tool refresh, `403`/`insufficient_scope`, cancellation, unavailable Host commands, credential non-disclosure, prohibition on hand-built authorization URLs, and the standalone marker-absent CLI path. Plugin cases distinguish the allowed `codex mcp login noxinfluencer` Host bootstrap from the forbidden `noxinfluencer login` and NoxInfluencer CLI business fallback.
+
 ## Status
 
-Eval scaffolding is planned. Test cases will be added as skills are validated.
+The eval set includes standalone CLI workflows plus Codex Plugin routing, Tool-schema, Browser Handoff, and OAuth-bootstrap cases.
