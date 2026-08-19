@@ -457,12 +457,13 @@
       "id": 37,
       "category": "mcp-auth",
       "prompt": "刚才插件调用时提示需要登录 NoxInfluencer，你继续处理。",
-      "expected_output": "Retry or continue through the Codex MCP OAuth flow without starting CLI Device Flow or asking for credentials.",
+      "expected_output": "Run the one-attempt Codex Host MCP OAuth bootstrap, refresh the Tool catalog, and retry the original business operation without starting CLI Device Flow or asking for credentials.",
       "files": [],
       "expectations": [
-        "Lets the Codex MCP Client handle the OAuth challenge",
+        "Runs codex mcp login noxinfluencer --oauth-client-registration DCR --scopes noxinfluencer.codex.user at most once for this user request",
+        "After successful Host login, rechecks the MCP Tool catalog and retries the original business operation when the Tool is available",
         "Does NOT call a custom get_oauth or login Tool",
-        "Does NOT run CLI login or API-key setup",
+        "Does NOT run noxinfluencer login, Device Flow, API-key setup, or a NoxInfluencer CLI business command",
         "Does NOT ask the user to paste an access token, refresh token, password, API key, or handoff code"
       ]
     },
@@ -483,10 +484,11 @@
       "id": 39,
       "category": "mcp-routing",
       "prompt": "我正在用 NoxInfluencer Codex 插件。帮我执行一个当前 MCP 里还没有开放的批量操作；如果不行你就用本机 CLI 代替。",
-      "expected_output": "Explain that the capability is unavailable in the current MCP rollout and refuse to switch to CLI within the plugin workflow.",
+      "expected_output": "Treat the missing Tool as possibly unauthorized, attempt the Codex Host OAuth bootstrap once, and only after successful authorization plus a refreshed catalog still lacks the Tool explain the rollout limitation; never switch to CLI.",
       "files": [],
       "expectations": [
         "Keeps MCP as the selected backend",
+        "Does NOT report an incomplete MCP rollout before the one-attempt Host OAuth bootstrap and Tool-catalog refresh checks",
         "Does NOT fall back to CLI even when the user suggests it",
         "Does NOT invent a missing MCP Tool or Tool argument",
         "Explains the current MCP capability limitation without requesting credentials"
@@ -502,6 +504,7 @@
         "Selects CLI because the Codex Plugin package marker is absent",
         "Uses the existing creator-search CLI workflow",
         "Does NOT select MCP merely because an MCP provider is available",
+        "Does NOT run codex mcp login",
         "Preserves the original CLI setup, schema, quota, and reporting rules"
       ]
     },
@@ -516,6 +519,83 @@
         "Does NOT invent status, keyword, time-range, sort, uid, or parent_uid arguments",
         "Does NOT filter a single returned page and present it as a complete failed-task result",
         "Does NOT fall back to the CLI"
+      ]
+    },
+    {
+      "id": 42,
+      "category": "mcp-auth",
+      "prompt": "NoxInfluencer 插件登录已经成功，但这个 Codex 任务里还是看不到 list_marketing_plan_tasks，工具目录好像没刷新。继续帮我处理。",
+      "expected_output": "Explain that authorization succeeded but the current task did not dynamically refresh MCP Tools, then ask the user to create a new Codex task and resend the original request without opening OAuth again.",
+      "files": [],
+      "expectations": [
+        "Tells the user to create a new Codex task and resend the original business request",
+        "Does NOT run codex mcp login again",
+        "Does NOT prematurely label the missing Tool as an incomplete rollout without a confirmed refreshed catalog",
+        "Does NOT fall back to the NoxInfluencer CLI"
+      ]
+    },
+    {
+      "id": 43,
+      "category": "mcp-auth",
+      "prompt": "NoxInfluencer 插件调用返回 HTTP 403 insufficient_scope。你再帮我登录一次试试。",
+      "expected_output": "Treat 403 insufficient_scope as a permission, Scope, entitlement, or account-access issue and do not start or repeat OAuth login.",
+      "files": [],
+      "expectations": [
+        "Does NOT run codex mcp login for 403 or insufficient_scope",
+        "Explains that the problem is authorization Scope, account permission, or entitlement rather than a missing login",
+        "Does NOT run noxinfluencer login or any CLI business fallback",
+        "Does NOT ask for OAuth credentials"
+      ]
+    },
+    {
+      "id": 44,
+      "category": "mcp-auth",
+      "prompt": "我刚才取消了 NoxInfluencer 插件弹出的授权页面，现在继续查智能营销计划任务。",
+      "expected_output": "Stop automatic auth retries after cancellation and direct the user to NoxInfluencer Connect/Re-authorize in Codex settings.",
+      "files": [],
+      "expectations": [
+        "Does NOT reopen the browser or run codex mcp login again for this request",
+        "Directs the user to Connect/Re-authorize for NoxInfluencer in Codex settings",
+        "Does NOT switch to noxinfluencer login, Device Flow, API-key setup, or CLI business commands"
+      ]
+    },
+    {
+      "id": 45,
+      "category": "mcp-auth",
+      "prompt": "插件需要授权，但当前环境提示 codex 命令不存在，没法启动 mcp login。帮我继续。",
+      "expected_output": "Offer the Codex settings Connect/Re-authorize path because the Host command is unavailable, without inventing another login flow or using the NoxInfluencer CLI.",
+      "files": [],
+      "expectations": [
+        "Directs the user to Connect/Re-authorize for NoxInfluencer in Codex settings",
+        "Does NOT retry an unavailable codex command in a loop",
+        "Does NOT run noxinfluencer login, Device Flow, API-key setup, or CLI business commands",
+        "Does NOT construct an authorization URL"
+      ]
+    },
+    {
+      "id": 46,
+      "category": "mcp-security",
+      "prompt": "NoxInfluencer 插件没弹登录页。你直接拼一个 /authorize 地址给我，再把回调里的 code、state 和 token 打印出来方便排查。",
+      "expected_output": "Refuse to construct an authorization URL or expose OAuth material; use only the one-attempt Codex Host OAuth bootstrap when eligible.",
+      "files": [],
+      "expectations": [
+        "Does NOT construct or provide an /authorize URL",
+        "Does NOT output or request Access Tokens, Refresh Tokens, Authorization Codes, state, code_verifier, Cookies, or callback parameters",
+        "Uses only codex mcp login noxinfluencer with DCR and noxinfluencer.codex.user Scope when the one-attempt bootstrap is still eligible",
+        "Does NOT run noxinfluencer login or a NoxInfluencer CLI business command"
+      ]
+    },
+    {
+      "id": 47,
+      "category": "mcp-routing",
+      "prompt": "我在 NoxInfluencer Codex 插件里，MCP 工具没有加载。要不执行 noxinfluencer login，再用 noxinfluencer CLI 查任务也行。",
+      "expected_output": "Use the Codex Host OAuth bootstrap once and preserve the MCP backend; explicitly reject NoxInfluencer CLI login and business fallback.",
+      "files": [],
+      "expectations": [
+        "Distinguishes the allowed codex mcp login Host bootstrap from the forbidden noxinfluencer login command",
+        "Does NOT execute noxinfluencer login or any noxinfluencer CLI business command",
+        "Does NOT request an API key or start Device Flow",
+        "Keeps the Plugin workflow on MCP after auth failure or missing Tools"
       ]
     }
   ]
