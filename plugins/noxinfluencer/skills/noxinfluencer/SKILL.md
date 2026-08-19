@@ -16,7 +16,7 @@ Read `{baseDir}/references/runtime-routing.md` before any NoxInfluencer operatio
 
 - If `{baseDir}/references/codex-plugin-runtime.md` exists, this Skill came from the Codex Plugin package; use MCP exclusively.
 - If that package marker does not exist, use the original CLI workflow even if an MCP provider happens to be configured separately.
-- In Codex Plugin mode, a missing required Tool or `AuthRequired` is a possible unconnected OAuth state. Attempt the one-time Codex Host OAuth bootstrap in `mcp-runtime.md` before deciding that the MCP rollout is incomplete.
+- In Codex Plugin mode, a missing required Tool or `AuthRequired` is a possible unconnected OAuth state. Follow the one-attempt, host-owned OAuth bootstrap in `mcp-runtime.md` before deciding that the MCP rollout is incomplete. On Windows, use the packaged Skill helper so the conversation can select an executable Codex control CLI instead of an inaccessible `WindowsApps` alias.
 - An OAuth challenge, missing Tool, or MCP error is never permission to fall back to the NoxInfluencer CLI.
 
 This routing rule has priority over every command-looking instruction below. In MCP mode, treat later CLI command names as names of business capabilities and use the matching runtime MCP Tool instead of executing the CLI. Read `{baseDir}/references/mcp-runtime.md` for MCP-specific execution, OAuth, error, and Browser Handoff rules. Keep all workflow sequencing, approval, mutation, quota, and reporting rules in this Skill unchanged across both backends.
@@ -85,11 +85,12 @@ Use `feedback` for product, data, or CLI issues. Use `dispute` only for a concre
 
 ## 1. Getting Started
 
-In MCP mode, skip NoxInfluencer CLI installation, `doctor`, API-key setup, and Device Flow. Start with the requested MCP business Tool when it is available. If the required Tool is not loaded or the connection returns `AuthRequired`, run the Codex Host OAuth bootstrap at most once for that user request:
+In MCP mode, skip NoxInfluencer CLI installation, `doctor`, API-key setup, and Device Flow. Start with the requested MCP business Tool when it is available. If the required Tool is not loaded or the connection returns `AuthRequired`, mark authorization as attempted for this user request and actively start the Codex Host OAuth flow exactly once:
 
-`codex mcp login noxinfluencer --oauth-client-registration DCR --scopes noxinfluencer.codex.user`
+- Windows: run `powershell -NoProfile -ExecutionPolicy Bypass -File "{baseDir}/scripts/start-codex-oauth.ps1"`.
+- macOS/Linux: run `codex mcp login noxinfluencer --oauth-client-registration dcr --scopes noxinfluencer.codex.user` when `codex` is independently executable. The registration value is case-sensitive.
 
-This command invokes the Codex Host's MCP OAuth flow; it is not a NoxInfluencer CLI backend or business-command fallback. The host owns DCR, PKCE, state, loopback callback, browser launch, and Token storage. Never construct an `/authorize` URL or handle OAuth credentials in the Skill. After successful login, recheck the MCP Tool catalog and retry the original business operation when the Tool is available. If the current task cannot refresh its Tool catalog, tell the user to create a new Codex task and resend the original request. Only report an incomplete MCP rollout after authorization succeeds, the connection refreshes, and the required Tool is still absent. Follow `{baseDir}/references/mcp-runtime.md` for cancellation, `403`, command failure, and retry rules.
+The helper and CLI command invoke Codex Host MCP OAuth; neither is a NoxInfluencer CLI backend or business-command fallback. The host owns DCR, PKCE, state, loopback callback, external-browser launch, and Token storage. Never construct an `/authorize` URL or handle OAuth credentials in the Skill. If the one automatic attempt cannot start, fall back to NoxInfluencer **Connect/Re-authorize** in Codex settings without trying to reproduce OAuth yourself. After authorization, recheck the MCP Tool catalog and retry the original business operation when the Tool is available. If the current task cannot refresh its Tool catalog, tell the user to create a new Codex task and resend the original request. Only report an incomplete MCP rollout after authorization succeeds, the connection refreshes, and the required Tool is still absent. Follow `{baseDir}/references/mcp-runtime.md` for cancellation, `403`, command failure, and retry rules.
 
 The setup flow below is only for CLI mode. When the Plugin marker exists, do not run `noxinfluencer login`, any `noxinfluencer` business command, Device Flow, or API-key setup.
 

@@ -49,8 +49,26 @@ if ([string]::IsNullOrWhiteSpace($PythonPath)) {
     'python'
   }
 }
+$pluginAppServerCodexPath = Join-Path $userProfilePath '.codex\plugins\.plugin-appserver\codex.exe'
 if ([string]::IsNullOrWhiteSpace($CodexPath)) {
-  $CodexPath = 'codex'
+  $CodexPath = if (Test-Path -LiteralPath $pluginAppServerCodexPath -PathType Leaf) {
+    $pluginAppServerCodexPath
+  } else {
+    'codex'
+  }
+}
+if (
+  (Test-Path -LiteralPath $pluginAppServerCodexPath -PathType Leaf) -and
+  ([System.IO.Path]::GetFullPath($CodexPath) -eq [System.IO.Path]::GetFullPath($pluginAppServerCodexPath)) -and
+  [string]::IsNullOrWhiteSpace(
+    [Environment]::GetEnvironmentVariable('CODEX_HOME', 'Process')
+  )
+) {
+  [Environment]::SetEnvironmentVariable(
+    'CODEX_HOME',
+    (Join-Path $userProfilePath '.codex'),
+    'Process'
+  )
 }
 
 if (Test-Path -LiteralPath $localPythonPackages -PathType Container) {

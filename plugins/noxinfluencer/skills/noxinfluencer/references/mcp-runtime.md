@@ -6,7 +6,7 @@ Use this reference only after `{baseDir}/references/runtime-routing.md` selects 
 
 - Call only NoxInfluencer tools exposed by the connected `noxinfluencer` MCP provider.
 - Inspect the runtime Tool description and input schema before the first call to a capability. The runtime schema is authoritative for exact names, fields, enums, and limits.
-- Reuse the Skill's business sequencing and safety rules. Translate CLI command names into MCP capabilities; never invoke the NoxInfluencer CLI in MCP mode. The one allowed shell-side auth action is the Codex Host command defined in OAuth Bootstrap; it is not a business backend.
+- Reuse the Skill's business sequencing and safety rules. Translate CLI command names into MCP capabilities; never invoke the NoxInfluencer CLI in MCP mode. The shell-side Codex Host auth action defined below is allowed in Plugin mode; it is not a business backend.
 - Do not send `uid`, `user_id`, `parent_uid`, `tenant_id`, OAuth tokens, cookies, resources, service secrets, or arbitrary redirect URLs unless a future trusted Tool schema explicitly introduces a non-identity field with the same spelling. User identity must come from OAuth on the server.
 - Do not call kol-next BFF endpoints or Java APIs directly. The remote MCP Server owns that integration.
 - Do not invent a Tool or parameter when a capability is absent. Complete the one-attempt OAuth bootstrap and Tool-catalog refresh checks before reporting a current MCP limitation; never switch backends.
@@ -51,12 +51,11 @@ All other NoxInfluencer business capabilities are unavailable in the initial Cod
 Use this state flow only in Plugin mode and only when the user's request needs a NoxInfluencer MCP Tool:
 
 1. Start with the requested business Tool when it is loaded. There is no custom `get_oauth`, login, or Token Tool.
-2. If the required Tool is missing, or its MCP connection returns `AuthRequired` or `401`, mark the OAuth bootstrap as attempted for this user request and run exactly once:
-
-   `codex mcp login noxinfluencer --oauth-client-registration DCR --scopes noxinfluencer.codex.user`
-
+2. If the required Tool is missing, or its MCP connection returns `AuthRequired` or `401`, mark the bootstrap as attempted for this user request and actively start the Host OAuth flow exactly once:
+   - Windows desktop or CLI conversation: run `powershell -NoProfile -ExecutionPolicy Bypass -File "{baseDir}/scripts/start-codex-oauth.ps1"`. The helper prefers the executable Plugin App Server CLI under the current `CODEX_HOME`, then falls back to a non-`WindowsApps` `codex` command.
+   - macOS/Linux conversation: run `codex mcp login noxinfluencer --oauth-client-registration dcr --scopes noxinfluencer.codex.user` only when `codex` is independently executable. Pass the case-sensitive registration value exactly as lowercase `dcr`.
 3. Let the Codex Host perform DCR, PKCE, state handling, loopback callback, external-browser authorization, and Token storage. Never construct or open an `/authorize` URL yourself.
-4. When Host login succeeds, recheck the connected provider's Tool catalog. If the required Tool is available, immediately retry the user's original business operation.
+4. When Host authorization succeeds, recheck the connected provider's Tool catalog. If the required Tool is available, immediately retry the user's original business operation.
 5. If this Codex task does not dynamically refresh MCP Tools, tell the user authorization succeeded but they must create a new Codex task and resend the original request.
 6. Only when authorization succeeded, the connection and Tool catalog refreshed, and the required Tool remains absent, report that the current MCP rollout does not expose the capability.
 
@@ -65,7 +64,7 @@ The one-attempt limit applies across both missing-Tool and `AuthRequired` branch
 ### OAuth Failure Branches
 
 - User cancels authorization: stop all auth retries and direct the user to NoxInfluencer Connect/Re-authorize in Codex settings.
-- `codex` is unavailable or Host login cannot start: do not substitute another executable or flow; direct the user to Connect/Re-authorize in Codex settings.
+- OAuth helper or Host login cannot start: do not repeat the automatic attempt, elevate, copy an executable, or construct another OAuth flow. Direct the user to Connect/Re-authorize in Codex settings and include only the helper's non-secret failure summary.
 - `403` or `insufficient_scope`: treat it as a permission, Scope, account-entitlement, or account-access problem. Explain the boundary and do not trigger or repeat login.
 - Login succeeds but the Tool catalog does not refresh in the current task: ask the user to create a new Codex task and resend the request; do not call login again.
 - Login succeeds and a refreshed catalog still lacks the required Tool: report an incomplete MCP rollout; do not call login again and do not fall back to CLI.
@@ -74,7 +73,9 @@ Never output, log, request, copy, or persist an Access Token, Refresh Token, Aut
 
 ### Command Boundary
 
-- Allowed in Plugin mode: `codex mcp login noxinfluencer ...`, only as the one-time Codex Host OAuth bootstrap above.
+- Allowed in Plugin mode: the packaged Windows OAuth helper or an independently executable `codex mcp login noxinfluencer ...`, exactly once per user request.
+- The Windows helper may invoke `{CODEX_HOME}/plugins/.plugin-appserver/codex.exe` because it is a Codex Host control CLI already installed by the desktop app. It must not invoke a `WindowsApps` alias, copy an executable, construct an authorization URL, or read OAuth credentials.
+- Fallback when automatic startup is unavailable: NoxInfluencer Connect/Re-authorize in Codex settings.
 - Forbidden in Plugin mode: `noxinfluencer login`, all NoxInfluencer CLI business commands, Device Flow, API-key setup, and CLI business fallback.
 - Required without the Plugin marker: preserve the standalone `noxinfluencer` CLI workflow and never run `codex mcp login`.
 
