@@ -15,7 +15,7 @@ For a new search, apply topic exclusions and SaaS hide/deduplication directly th
 | Every topic must match | `--keywords`, `--keyword_match all` | Require all supplied topic keywords instead of the default any-keyword union |
 | Regional targeting | `--country`, `--follower_countries` | Match campaign geography |
 | Budget-constrained | `--follower_min`, `--follower_max` | Size correlates with cost |
-| Platform email outreach | `--has_email true` | Only creators with known email signal; platform email can still add results by `creator_id` without retrieving visible email |
+| Platform email outreach | `--has_email true` | Only creators with known email signal; platform email can add search `data.items[].id` values as recipient `creator_id` without retrieving visible email |
 | Audience fit | `--follower_ages`, `--follower_female_pct_min`, `--follower_language` | Match audience demographics |
 | Active creators | `--published_within_days` | Exclude dormant channels |
 | Performance floor | `--engagement_rate_min`, `--avg_view_min` | Filter out low-engagement creators |
