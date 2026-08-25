@@ -11,6 +11,9 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 | Find or inspect collections | `collection list`, `collection get`, `collection items`, `collection resources` |
 | Add creators from search/profile results to collections | `collection add-creators` |
 | Import owned creator links into one collection | `collection import-template`, then `collection import-file` |
+| Import TikTok creators by handle | `collection import-template`, then `collection import-file`; username and `@username` are valid without inventing profile URLs |
+| Refresh missing or all collection emails | `collection refresh-email validate/preview/apply`; discover `refresh_mode` through schema |
+| Delete collection or CRM groups in bulk | `collection groups batch-delete` / `crm groups batch-delete` |
 | Find creators similar to a source creator | `creator lookalikes` |
 | Export selected creator search/lookalike results | deep `creator export-preview`, then `creator export` / `creator lookalikes-export` |
 | Batch move/copy/delete/label collection members | `collection batch-* validate`, then `preview`, then `apply` |
@@ -27,11 +30,16 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 | Manage email recipient deduplication | `email recipients filter options`, then `email recipients filter get/update/tasks` |
 | Manage email task collaborators | `email collaborators list`, then `replace/add/remove` |
 | Manage email task attachments | `email attachments list/upload/download/delete` |
-| Send or schedule an existing email task | `email send`, `email schedule`, `email cancel` |
+| Send or schedule an existing email task | `email send`, `email schedule`; `email cancel` only cancels scheduling |
+| Recall unsent email recipients | `email recall`, then `email recipients report`; delivered mail cannot be recalled |
 | Manage message threads and files | `message list/get/projects/archive`, `message draft ...`, `message attachments ...`, `message templates attachments ...` |
 | Upload a public rich-text image | `file image upload`, then embed returned `file_url` in approved `html_body` |
 | Download direct Excel reports | `monitor report*`, `short-link export-*`, `affiliation campaigns export` |
 | Send or schedule an existing message reply | `message send`, `message schedule`, `message cancel` |
+| Check message send/unlock cost | `message send-check` / `message schedule-check`, then preserve confirmed costs and attachment IDs |
+| Assign or block message identities | `message assignment get/save`; `message unresolved`; `message blacklist list/add/remove` with typed IDs |
+| Reply/archive/assign multiple message threads | `message batch-reply options/check/start/progress/cancel`; `message batch-archive validate/preview/apply`; `message batch-assignment preview/collaborators/apply` |
+| Remove a team member | `account members list`, one approved `account member unbind`, then `account unbind-status` |
 | Submit product feedback or a bug report | `feedback submit`, then `feedback inbox` / `feedback get` |
 | Check or report a concrete creator collaboration dispute | `dispute records <creator_id>` first, then `dispute report` only with evidence and approval |
 | Inspect or download shared async exports | `export list`, `export get`, `export download` for creator, collection, CRM, and brand-monitor tasks |
@@ -43,6 +51,7 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 - Use `creator contacts` only when the user explicitly wants visible/exported contact info or outreach outside NoxInfluencer. If the user vaguely asks to "find emails and send", choose platform email by default and say exported email retrieval uses extra contact quota.
 - Email attachments belong to the email task primary project. Upload approved files with `email attachments upload <task_id> --file <path>` before send or schedule; use `email attachments list/download/delete` to inspect, retrieve, or remove files. Email tasks support at most 1 attachment, max 10MB. Uploading or deleting an attachment cancels an existing scheduled send, so read back the task and confirm again before scheduling.
 - If approved recipients come from Excel, download `email recipients import-template` and use `email recipients import-file <task_id>`. Do not invent spreadsheet columns.
+- `email cancel` and `email recall` are different: cancel stops a scheduled send; recall marks only not-yet-sent recipients as recalled and cannot retract delivered mail.
 - Email recipient import is only available before the task enters its active send flow.
 - For one email task's reply reporting, use `email report <task_id>`. For multi-task or team-level reporting, use `email team-summary`; for SaaS team member breakdown, use `email team-breakdown`. Treat `reply_count` as email tracking replies, `replied_creator_count` as replied creators, and `inbound_message_count` as inbound reply messages. Team filters use SaaS team member `uid`, not Gmail or enterprise sender mailbox accounts. Do not recompute replies by manually scanning message threads unless the user explicitly asks for raw thread inspection.
 - If the user wants in-platform DM/message, `message send` and `message schedule` require an existing `thread_id`. If the user only has an email task ID, use `message list --business_kind email_task --business_id <task_id>` to resolve the thread first. Without a thread, say that starting a new message thread is not exposed by the CLI and offer the email-task path for platform creators.
@@ -78,7 +87,7 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 
 - Use `creator lookalikes` when the user asks for similar creators based on a source creator or URL. It is read-only and requires `target_platform`; save returned creator IDs with `collection add-creators` only after the user chooses targets.
 - Use `collection add-creators` when the user wants to save creators returned by `creator search` or creator read commands into one or more collections. The JSON body uses `collection_ids`, `platform`, and `creator_ids`. Use `channel_ids` only when the user already has raw same-platform channel IDs. It is an add-only path, not forced collection-to-collection copy.
-- Download `collection import-template` before using `collection import-file <collection_id> --file <path>` for the user's owned creator links. The spreadsheet's first column should be the YouTube, Instagram, or TikTok creator URL; an optional second column may contain email/contact data. This import is accepted asynchronously, so poll `collection items <collection_id>` by platform to confirm resolved rows.
+- Download `collection import-template` before using `collection import-file <collection_id> --file <path>` for owned creators. YouTube/Instagram accept creator URLs; TikTok also accepts username or `@username` without a fabricated URL. This import is accepted asynchronously, so poll `collection items <collection_id>` by platform to confirm resolved rows.
 - Do not confuse these paths with collection copy/move. `add-creators` adds explicit creators to target collections; `import-file` imports owned creator URLs into one collection.
 
 ## Spreadsheet Imports and Reports
@@ -106,6 +115,7 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 - Creator disputes are separate from product feedback: they require paid membership, consume no Skill Credit, and require concrete evidence. Check existing `dispute records` before an approved `dispute report`; use `dispute options` for current type/status values.
 - For staged workflows, always run `validate` before `preview`, and `preview` before `apply --force`.
 - For `send` and `schedule`, confirm the task/thread, recipient scope, sender identity, scheduled time when relevant, and content approval before execution.
+- For account unbind, confirm the exact `user_uid`, submit once, and report/poll the async task. Active states are background processing, not permission to resubmit.
 - Do not draft outreach or negotiation copy. If content is missing, ask the user for approved content or hand off to a writing task without invoking NoxInfluencer write commands.
 - Do not operate external CRM, email, messaging, or spreadsheet platforms. These commands only affect NoxInfluencer-owned objects.
 
