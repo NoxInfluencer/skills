@@ -42,7 +42,7 @@ The CLI is self-describing — use it instead of memorizing parameters:
 - **Diagnostics**: `noxinfluencer doctor`
 - **Cost planning**: `noxinfluencer pricing tools --charged-only` shows current server-side Skill Credit prices; `noxinfluencer quota usage --days 7` reviews recent consumption
 - **Login**: direct terminals can run `noxinfluencer login`; Agents/remote terminals use `login start --json` and `login wait <login_id>` (the CLI returns the user-safe authorization URL and code)
-- **Command-tree check**: `noxinfluencer schema --all` must include `creator`, `monitor`, `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `dispute`, `export`, `file`, `feedback`, `quota`, `pricing`, and `agent`
+- **Command-tree check**: `noxinfluencer schema --all` must include `account`, `creator`, `monitor`, `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `dispute`, `export`, `file`, `feedback`, `quota`, `pricing`, and `agent`
 - **Exit codes**: `noxinfluencer agent exit-codes`
 - **Preview**: `--dry-run` (shows request without executing)
 - **Language routing**: `--lang zh` switches all URLs to `cn.noxinfluencer.com`
@@ -54,7 +54,7 @@ Use `noxinfluencer schema <cmd>` for exact parameters. Prefer broad command fami
 - Creator sourcing: `creator search`, `creator search-filter*`, `creator not-interested ...`, `creator lookalikes`, `creator export*`, `creator lookalikes-export`
 - Creator reads: `creator profile/audience/content/cooperation`; use `creator contacts` only for visible/exported contacts
 - Monitoring: `monitor list/create/add-task/import-*/tasks/history/summary/report*`; use `monitor auto-track ...` for newly published creator content
-- Operations: `campaign`, `collection`, `crm`, `email`, `message`, `product`, `short-link`, `affiliation`, `export`, `file`
+- Operations: `account`, `campaign`, `collection`, `crm`, `email`, `message`, `product`, `short-link`, `affiliation`, `export`, `file`
 - Brand monitoring: `brand-monitor ...`
 - Creator dispute due diligence: `dispute records/search/mine/get/report/update/withdraw`
 - Setup, quota, and pricing: `login`, `doctor`, `quota`, `quota usage`, `pricing`, `pricing tools`, `agent exit-codes`
@@ -75,6 +75,12 @@ Use `feedback` for product, data, or CLI issues. Use `dispute` only for a concre
 Standalone `email create` and `email update` operate only type 3 email tasks. Their request bodies must never contain `campaign_id`, and an Agent must not pass `task_type` to turn a standalone task into a Campaign task.
 
 An intelligent Campaign initializes exactly three fixed source tasks: type 0 for manual-add recipients, type 1 for proactive invitation recipients, and type 2 for creator applications. These types describe recipient sources; type 1 does not authorize guessing a `task_id`. The current CLI cannot discover or write these fixed tasks safely. Do not infer a fixed `task_id`, and do not use standalone email mutations or recipient commands to modify one. Route Campaign recipient changes to the SaaS intelligent Campaign page.
+
+For standalone tasks, `email cancel` only cancels a scheduled send. `email recall` changes recipients that have not yet been sent to recalled; it cannot retract delivered mail. Require approval for the exact task before recall. Use `email recipients report` for recalled/bounced delivery facts; keep `email recipients list` for editable recipient state.
+
+### Account Unbind Boundary
+
+Administrator member removal is an asynchronous, non-cancellable transfer. Resolve the exact member with `account members list`, obtain explicit approval for that `user_uid`, and submit `account member unbind` once. Report the returned `task_no`, then query `account unbind-status`; `pending`, `running`, and `retry_wait` mean background processing, not a stuck request. Do not resubmit or wait indefinitely. Report `stage`, `progress`, and `next_poll_seconds`.
 
 ---
 
@@ -158,7 +164,7 @@ Operate NoxInfluencer campaign, collection, CRM, email, message, product-center,
 
 1. Identify the target domain and read current state first when IDs are unclear.
 2. For platform email outreach to creators found in NoxInfluencer, use the standalone email-task path and add recipients with search `data.items[].id` or creator read `data.creator_id` in the recipient `creator_id` field; do not retrieve contacts first. Use `platform + channel_id` only when the user already has that canonical raw platform identity. Standalone `email create/update` is type 3 only and must not include `campaign_id` or `task_type`. Manage intelligent Campaign fixed tasks in SaaS because the current CLI cannot discover or write them safely. Discover bound senders with `email sender list [task_id]`; never ask the user to inspect browser Network for sender IDs. See the CLI schema and `{baseDir}/references/marketing-ops.md`.
-3. Use `message send` or `message schedule` only for existing `thread_id` replies. If no thread exists, offer the email-task path for platform creators. For an explicit whole-conversation archive, use `message archive`; never substitute `crm archive`.
+3. Use `message send-check` / `schedule-check` before a confirmed reply and preserve the returned costs plus the complete attachment ID snapshot. Gmail/enterprise senders may require mailbox unlock confirmation. Use `message send` or `message schedule` only for existing `thread_id` replies. For multiple threads, use persistent `message batch-reply options/check/start/progress/cancel`; use `message batch-archive` and `message batch-assignment` rather than looping single writes. If no thread exists, offer the email-task path for platform creators. For an explicit whole-conversation archive, use `message archive`; never substitute `crm archive`. Block identities only with typed IDs: add uses `message_identity_id`, remove uses `blacklist_entry_id`; never request raw email/channel identity.
 4. For JSON-first commands, run `schema <cmd>` and prepare the minimal `--body-file` object required by the CLI.
 5. For staged workflows, run `validate` first, then `preview`, then `apply --force` only after user approval.
 6. For direct mutations, rely on dry-run first unless the user has already approved the exact action.
@@ -194,7 +200,7 @@ See `{baseDir}/references/brand-monitor.md` for command routing and platform bou
 
 ## Error Handling
 
-For API-backed failures (`quota`, `pricing`, `creator`, `monitor`, `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `dispute`, `export`, `file`, `feedback`), use the CLI response's `action` field when present:
+For API-backed failures (`account`, `quota`, `pricing`, `creator`, `monitor`, `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `dispute`, `export`, `file`, `feedback`), use the CLI response's `action` field when present:
 - `action.url` — where the user should go
 - `action.hint` — what to do
 

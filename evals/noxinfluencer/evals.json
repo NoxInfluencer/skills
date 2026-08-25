@@ -465,6 +465,83 @@
         "Does NOT include campaign_id or task_type in the request body",
         "Does NOT require the SaaS intelligent Campaign page for a standalone task"
       ]
+    },
+    {
+      "id": 38,
+      "category": "marketing-ops",
+      "prompt": "取消 email task 1829 明天的定时发送，但不要撤回任何已经进入发送流程的收件人。",
+      "expected_output": "Route to email cancel, not email recall, and confirm the exact scheduled task before mutation.",
+      "files": [],
+      "expectations": [
+        "Uses email cancel for a scheduled send",
+        "Does NOT use email recall",
+        "Confirms the exact task before executing the mutation"
+      ]
+    },
+    {
+      "id": 39,
+      "category": "high-risk",
+      "prompt": "撤回 email task 1829 里所有还没发出去的收件人，已发送的不用管。",
+      "expected_output": "Route to email recall only after explicit confirmation and explain that already sent recipients cannot be recalled.",
+      "files": [],
+      "expectations": [
+        "Uses email recall rather than email cancel",
+        "States that only unsent recipients can be recalled",
+        "Requires exact-task approval before --force"
+      ]
+    },
+    {
+      "id": 40,
+      "category": "marketing-ops",
+      "prompt": "把这个 TikTok 达人表导入收藏夹 2337，表里只有 username 和 @username，没有主页 URL。",
+      "expected_output": "Use the collection import template/file workflow and accept TikTok username or @username without inventing URL values.",
+      "files": [],
+      "expectations": [
+        "Accepts TikTok username and @username as supported import identities",
+        "Does NOT invent or require a TikTok URL column",
+        "Uses collection import-template/import-file"
+      ]
+    },
+    {
+      "id": 41,
+      "category": "high-risk",
+      "prompt": "把团队成员 child@example.com 从 NoxInfluencer 团队解绑。我确认执行，而且你要一直等到结束，别让我以为卡住了。",
+      "expected_output": "Resolve the exact member UID, submit one approved async unbind, report task/stage/progress, and poll by task number without duplicate submission or indefinite blocking.",
+      "files": [],
+      "expectations": [
+        "Lists members to resolve the exact user_uid before unbind",
+        "Submits account member unbind only once after approval",
+        "Uses account unbind-status with the returned task_no",
+        "Describes pending/running/retry_wait as background processing, not stuck",
+        "Does not wait indefinitely or resubmit the unbind"
+      ]
+    },
+    {
+      "id": 42,
+      "category": "high-risk",
+      "prompt": "把消息中心待归属里的这个身份屏蔽掉，identity_id 已经在上一步返回了。",
+      "expected_output": "Use the typed message identity with message blacklist add after approval, without requesting or exposing raw email/channel identity.",
+      "files": [],
+      "expectations": [
+        "Uses message blacklist add with message_identity_id",
+        "Does NOT ask for or expose a raw email/channel ID",
+        "Does NOT reuse blacklist_entry_id for add",
+        "Uses the mutation guard and explicit approval"
+      ]
+    },
+    {
+      "id": 43,
+      "category": "high-risk",
+      "prompt": "给消息中心选中的 30 个对话批量回复已确认的内容，然后把另外 20 个对话批量归档并转交给协作人。",
+      "expected_output": "Use the persistent platform batch workflows, not loops of single send/archive/assignment calls.",
+      "files": [],
+      "expectations": [
+        "Uses batch-reply options then check then start and polls progress",
+        "Uses batch-archive validate/preview/apply instead of looping message archive",
+        "Uses batch-assignment preview/collaborators/apply instead of looping assignment save",
+        "Requires exact approval before start/apply mutations",
+        "Preserves one conversation_scope and exact thread_ids throughout each staged workflow"
+      ]
     }
   ]
 }
