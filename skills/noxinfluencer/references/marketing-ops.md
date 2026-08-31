@@ -21,6 +21,7 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 | Manage product-center records, images, and tags | `product list/get/create/update/delete`, `product image upload`, `product tags ...` |
 | Manage Shopify affiliate campaigns and members | `affiliation stores list`, then `affiliation campaigns ...` / `affiliation members ...`; use member template/import and campaign export for files |
 | Send standalone platform email outreach to creators | `email create`, then `email recipients add/replace` with creator search/profile IDs, `email content save`, `email sender list [task_id]` before optional `email sender update`, optional `email attachments ...`, then `email send` or `email schedule` |
+| Add recipients to an intelligent Campaign fixed task | Use the SaaS intelligent Campaign page; the current CLI cannot discover or write fixed tasks safely |
 | Manage email tasks | `email list`, `email drafts`, `email get`, `email create`, `email update`, `email recipients ...`, `email content ...`, `email sender ...`, `email report`, `email team-summary`, `email team-breakdown` |
 | Import email recipients | `email recipients import-template`, then `email recipients import-file` |
 | Manage email recipient deduplication | `email recipients filter options`, then `email recipients filter get/update/tasks` |
@@ -37,7 +38,8 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 
 ## Outreach Routing
 
-- For standalone NoxInfluencer platform email outreach, do not call `creator contacts` first. Create or select an email task without `campaign_id`, add search/profile result `creator_id` values with `email recipients add/replace`, save user-approved content with `email content save`, set sender if needed, read back task and recipients, then ask for final approval before `email send --force` or `email schedule --force`. Manage intelligent Campaign email in SaaS until Campaign supports multiple email tasks.
+- Standalone NoxInfluencer platform email outreach uses type 3 tasks only. Do not call `creator contacts` first. Create or select a standalone email task without `campaign_id` or `task_type`, add search/profile result `creator_id` values with `email recipients add/replace`, save user-approved content with `email content save`, set sender if needed, read back task and recipients, then ask for final approval before `email send --force` or `email schedule --force`.
+- An intelligent Campaign initializes exactly three fixed tasks by recipient source: type 0 manual-add, type 1 proactive invitation, and type 2 creator application. Type 1 is a source responsibility, not permission to infer a fixed task ID. The current CLI cannot discover or write these fixed tasks safely, so use the SaaS intelligent Campaign page. Never guess a fixed `task_id`, pass `task_type`, inject `campaign_id` into a standalone mutation, or use standalone recipient commands against a fixed task.
 - Use `creator contacts` only when the user explicitly wants visible/exported contact info or outreach outside NoxInfluencer. If the user vaguely asks to "find emails and send", choose platform email by default and say exported email retrieval uses extra contact quota.
 - Email attachments belong to the email task primary project. Upload approved files with `email attachments upload <task_id> --file <path>` before send or schedule; use `email attachments list/download/delete` to inspect, retrieve, or remove files. Email tasks support at most 1 attachment, max 10MB. Uploading or deleting an attachment cancels an existing scheduled send, so read back the task and confirm again before scheduling.
 - If approved recipients come from Excel, download `email recipients import-template` and use `email recipients import-file <task_id>`. Do not invent spreadsheet columns.
@@ -114,7 +116,7 @@ Many marketing-ops commands intentionally keep complex selectors in JSON bodies.
 1. Run `noxinfluencer schema <cmd>` to inspect required fields and usage notes.
 2. Prepare the minimal JSON body needed for the user's request.
 3. Prefer the CLI's validate/preview stages when available.
-4. Preserve stable opaque IDs from responses (`campaign_id`, `collection_id`, `creator_id`, `thread_id`, `task_id`, `export_id`) for follow-up calls.
+4. Preserve stable opaque IDs from legitimate CLI responses (`campaign_id`, `collection_id`, `creator_id`, `thread_id`, `task_id`, `export_id`) for follow-up calls within the same supported workflow. This does not permit injecting a Campaign ID into a standalone mutation or treating a returned type value as a fixed task ID.
 
 ## Export Handling
 
