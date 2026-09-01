@@ -1,28 +1,30 @@
 ---
 name: noxinfluencer
-description: Runs NoxInfluencer creator and marketing-ops workflows via CLI for influencer marketing, creator marketing, UGC, social media marketing, and affiliate marketing, including creator discovery and result exports; evaluation; external contacts; known-video and future-content monitoring; spreadsheet imports/reports; campaigns, collections, CRM, product center, short links, Shopify affiliation, email/message tasks, files, brand monitoring, and exports. Use for NoxInfluencer creator research, outreach operations, campaign/CRM/email/product/affiliate workflows, monitoring, files, or account setup.
+description: Execute bounded NoxInfluencer CLI workflows for creator data and marketing operations, including search, analysis, contacts, monitoring, exports, campaigns, CRM, email, messages, products, short links, affiliation, brand monitoring, account setup, quota, and errors. Use when the user explicitly needs NoxInfluencer or a defined system operation. For marketing goals, creator-fit strategy, outreach copy, negotiation, lifecycle planning, or ongoing optimization, use influencer-marketing-manager.
 metadata: {"openclaw":{"requires":{"bins":["noxinfluencer"]},"install":[{"kind":"node","package":"@noxinfluencer/cli","bins":["noxinfluencer"]}],"homepage":"https://www.noxinfluencer.com/skills"}}
 ---
 
 # NoxInfluencer
 
-Full-workflow creator and marketing-ops skill for discovery, due diligence, platform email outreach, external contacts, known-video and future-content monitoring, spreadsheet/file workflows, operations, brand monitoring, and exports across YouTube, TikTok, and Instagram.
+Tool-layer skill for NoxInfluencer creator data and marketing operations across YouTube, TikTok, and Instagram. It turns a defined business action into correct CLI execution and readback; it does not own the broader marketing plan.
 
 The user interacts through natural language. Execute CLI commands yourself and report results in plain language. Never expose raw commands to the user.
 
 ## When to Use
 
-- User wants to find, evaluate, or contact creators / influencers / KOLs
-- User wants NoxInfluencer campaign, collection, CRM, email/message, product-center, short-link, affiliate, export, or brand-monitor operations
+- User explicitly asks to use NoxInfluencer or provides a defined NoxInfluencer record, result, or operation
+- User wants a bounded creator search, analysis, contact retrieval, monitor, export, campaign, collection, CRM, email/message, product-center, short-link, affiliate, or brand-monitor operation
 - User needs to set up NoxInfluencer access or check quota
-- User wants to monitor video campaign performance
 - User hits an auth, quota, or CLI error
+
+If the request starts from a marketing goal, requires creator-fit judgment, asks for outreach or negotiation, spans lifecycle stages, or needs an evolving plan, use `influencer-marketing-manager` as the business entry point. That manager may call this skill for the NoxInfluencer portion; do not make the user coordinate the two layers.
 
 ## What This Skill Does Not Do
 
-- Draft outreach emails, negotiation copy, or partnership messages from scratch
+- Own the user's marketing objective, strategy, lifecycle plan, or next business action
+- Draft outreach emails, negotiation copy, or partnership messages from scratch; route those requests to `influencer-marketing-manager`
 - Send email/message tasks or update CRM records without explicit user approval
-- Make final campaign budget allocation, media-plan, or partnership decisions
+- Make final campaign budget allocation, media-plan, or partnership decisions; the manager owns the recommendation and confirmation boundary
 - Generate creative briefs or interpret video content beyond available platform metrics
 - Operate external CRM, email, messaging, spreadsheet, or ad platforms outside NoxInfluencer
 - Replace legal or commercial review of contracts, disputes, or brand-safety decisions

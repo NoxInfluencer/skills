@@ -1,13 +1,20 @@
-# NoxInfluencer Skill
+# NoxInfluencer Skills
 
-Agent skill for NoxInfluencer creator and marketing operations: creator discovery and selected-result exports, due-diligence analysis and dispute reporting, platform email outreach, external contact retrieval, known-video monitoring and future-content auto-track, spreadsheet workflows, campaign/collection operations, CRM/email/message/product/short-link/affiliation operations, brand monitoring, and exports across YouTube, TikTok, and Instagram.
+This repository publishes two complementary Agent Skills for influencer marketing:
+
+| Skill | Role | Use it for |
+|---|---|---|
+| `influencer-marketing-manager` | Business manager | Goals, strategy, creator fit, outreach, negotiation, lifecycle execution, and adjustment |
+| `noxinfluencer` | NoxInfluencer tool operator | CLI schemas, creator data, system operations, quota, previews, mutations, errors, and readback |
+
+The manager owns why, what, and what happens next. It can use `noxinfluencer` for correct tool execution, so users do not need to coordinate the two layers manually.
 
 - Official website: [NoxInfluencer](https://www.noxinfluencer.com/)
 - Skills dashboard / API key fallback: [NoxInfluencer Skills Dashboard](https://www.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli)
 - skills.sh: [NoxInfluencer on skills.sh](https://skills.sh/noxinfluencer/skills/noxinfluencer)
 - ClawHub: [NoxInfluencer on ClawHub](https://clawhub.ai/noxinfluencer/skills/nox-influencer-marketing)
 
-## What This Skill Helps With
+## NoxInfluencer Tool Capabilities
 
 - Discover creators with topic exclusions and SaaS result filters, and mark or unmark creators as Not interested
 - Find similar creators with the same opaque creator IDs and returned-result pricing as normal search
@@ -22,7 +29,7 @@ Agent skill for NoxInfluencer creator and marketing operations: creator discover
 - Upload approved public images and download authorized email, message, template, feedback, and export files
 - Check current Skill Credit prices and historical consumption to plan Agent workflows
 
-## Account Setup
+## NoxInfluencer Account Setup
 
 If you are starting from scratch, install the CLI and start login:
 
@@ -46,7 +53,21 @@ Manual fallback:
 - English: [Sign up](https://www.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard&utm_source=skill&utm_medium=cli) and [open the Skills dashboard](https://www.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli)
 - Chinese: [注册账号](https://cn.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard&utm_source=skill&utm_medium=cli) and [打开 Skills 控制台](https://cn.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli)
 
-## Install
+## Install Skills
+
+Install the business manager:
+
+```bash
+npx skills add https://github.com/NoxInfluencer/skills --skill influencer-marketing-manager
+```
+
+Install the NoxInfluencer tool skill when the Agent should operate NoxInfluencer:
+
+```bash
+npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer
+```
+
+### NoxInfluencer CLI
 
 The skill expects the latest `@noxinfluencer/cli`, including the command tree with `creator`, `monitor`, `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `dispute`, `export`, `file`, `feedback`, `quota`, `pricing`, and `agent`. Install the latest npm package:
 
@@ -56,13 +77,9 @@ npm install -g @noxinfluencer/cli@latest
 
 After installation, verify with `noxinfluencer schema --all` and confirm the expected command groups are present. Version output alone is not enough if a local/global install has stale compiled files.
 
-### Skills CLI / skills.sh
+### skills.sh
 
-Install the skill from GitHub with the open skills ecosystem CLI:
-
-```bash
-npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer
-```
+The GitHub install commands above are the canonical Skills CLI path. The current public skills.sh listing is for the `noxinfluencer` tool skill; the repository is the source of truth for both Skill directories.
 
 ### OpenClaw
 
@@ -125,8 +142,8 @@ claude plugin install nox-influencer@noxinfluencer
 
 ## Notes
 
-- This repository publishes the `noxinfluencer` skill.
-- The skill is designed to help an agent operate the NoxInfluencer CLI on the user's behalf.
+- This repository publishes `influencer-marketing-manager` and `noxinfluencer`.
+- The manager is tool-agnostic; the tool skill helps an Agent operate the NoxInfluencer CLI on the user's behalf.
 - Marketing-ops write actions default to preview/dry-run behavior and require explicit approval before execution.
 - Creator, collection, CRM, and brand-monitor exports use shared async export tasks; monitor, short-link, and affiliation Excel reports download directly.
 - Public rich-text/product image URLs are separate from private email/message attachments.
