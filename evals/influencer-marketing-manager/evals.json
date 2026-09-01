@@ -1,0 +1,109 @@
+{
+  "skill_name": "influencer-marketing-manager",
+  "evals": [
+    {
+      "id": 1,
+      "category": "goal-and-plan",
+      "prompt": "我们是一个刚起步的护肤品牌，想找红人做营销，但团队还没想清楚该做曝光还是卖货。预算也没有完全定。请你接手推进。",
+      "expected_output": "Form a provisional objective and begin with only the questions or reversible exploration that can materially improve the next decision.",
+      "files": [],
+      "expectations": [
+        "Identifies the unresolved business outcome and material constraints instead of immediately turning the request into follower filters",
+        "Asks only questions that materially affect the next action, or states reasonable assumptions before a low-cost reversible exploration",
+        "Proposes an observable next step rather than requiring a complete intake form",
+        "Treats the initial objective and plan as revisable"
+      ]
+    },
+    {
+      "id": 2,
+      "category": "discovery",
+      "prompt": "We are launching a $180 portable solar charger in the US in six weeks. We have a $15,000 creator budget and want qualified email signups, with product education as a secondary goal. Find a first shortlist of YouTube and Instagram outdoor creators and move the work forward.",
+      "expected_output": "Derive a creator-fit hypothesis, use appropriate discovery tools, and interpret a small portfolio against the stated goal.",
+      "files": [],
+      "expectations": [
+        "Translates the signup and education goals into relevant creator and audience evidence before or alongside searching",
+        "Uses available creator-discovery tools for both requested platforms rather than inventing candidates",
+        "Returns an interpreted shortlist or portfolio with evidence, uncertainty, and next qualification action instead of raw results",
+        "Does not equate follower count or a universal score with business fit"
+      ]
+    },
+    {
+      "id": 3,
+      "category": "outreach",
+      "prompt": "We have selected 12 creators for our running-shoe launch. The offer is a free pair plus a paid integration, and the product differentiator is a wide toe box for long-distance comfort. Write the outreach and start managing the follow-up process.",
+      "expected_output": "Own the value proposition, copy, and cadence as the manager, then establish the external-action boundary and use an operational tool when appropriate.",
+      "files": [],
+      "expectations": [
+        "Creates or proposes outreach around a credible value exchange, meaningful personalization, and one clear next step",
+        "Does not reject copywriting or hand the business decision to the noxinfluencer tool skill",
+        "Establishes recipients, channel or sender, cadence, and authorization before the first consequential external send",
+        "After approval, treats rule-compliant follow-ups as autonomous work rather than requesting approval for every creator"
+      ]
+    },
+    {
+      "id": 4,
+      "category": "negotiation",
+      "prompt": "A creator we like quoted $4,500 for one YouTube integration. They want payment upfront, allow only 30 days of organic reposting, include one revision, and ask for six months of category exclusivity. Our working budget was $3,000 per creator. You handle it and tell me what to reply.",
+      "expected_output": "Evaluate the complete commercial package, recommend a negotiating position, and pause before making an important external commitment.",
+      "files": [],
+      "expectations": [
+        "Evaluates deliverables, payment, rights, revision, exclusivity, timing, and alternatives rather than price alone",
+        "Explains a target, material limits, and reasoned trades or concessions",
+        "Does not invent a market benchmark when comparable evidence is absent",
+        "Requests confirmation before sending an acceptance or creating a materially changed commercial commitment"
+      ]
+    },
+    {
+      "id": 5,
+      "category": "dynamic-adjustment",
+      "prompt": "We sent 80 creator invitations from our approved list. Only four were opened, one replied asking what the brand is, and nobody discussed a deal. We still need ten partners, so should we just send another 500?",
+      "expected_output": "Diagnose the weak signal and propose a bounded learning step before increasing volume.",
+      "files": [],
+      "expectations": [
+        "Distinguishes message delivery or sends from replies, partnerships, and final marketing outcomes",
+        "Considers deliverability, list fit, sender credibility, proposition, clarity, personalization, timing, and channel as plausible causes",
+        "Uses the observed response to revise the plan rather than mechanically recommending more volume",
+        "Proposes a small observable test or next action and explains what result would change the decision"
+      ]
+    },
+    {
+      "id": 6,
+      "category": "autonomy-and-confirmation",
+      "prompt": "For this campaign, automatically follow up after three and six days, stop after two follow-ups, and drop anyone who declines. If a creator comes back with a fee below $2,000, just keep things moving.",
+      "expected_output": "Execute the approved follow-up rule autonomously while keeping final commercial acceptance at a key confirmation point.",
+      "files": [],
+      "expectations": [
+        "Treats the specified follow-up cadence and decline handling as an approved operating rule",
+        "Does not ask for approval before every rule-compliant follow-up",
+        "Does not treat price alone as the complete deal or automatically accept undefined deliverables and rights",
+        "Summarizes material terms and requests confirmation before creating the important commercial commitment"
+      ]
+    },
+    {
+      "id": 7,
+      "category": "campaign-optional",
+      "prompt": "This is a one-off product-seeding decision, not a campaign. Compare these creators and tell me whom to approach first: A is a large general lifestyle account with occasional product posts; B is a mid-size category specialist with strong comment discussions but no public email; C is a small adjacent-niche creator with excellent production quality and a history of gifted reviews.",
+      "expected_output": "Complete the scoped comparison without forcing Campaign creation or a full lifecycle setup.",
+      "files": [],
+      "expectations": [
+        "Uses the supplied profile evidence and the product-seeding objective to compare fit",
+        "States relevant uncertainty and the next qualification action",
+        "Does not require creating a Campaign or duplicate long-lived business state",
+        "Does not expand the one-off request into unrelated execution"
+      ]
+    },
+    {
+      "id": 8,
+      "category": "tool-routing",
+      "prompt": "In NoxInfluencer, export these already-selected creator result IDs with the audience-country and contact fields: id_a, id_b, id_c. I only need the file and quota preview; do not reassess the strategy.",
+      "expected_output": "Route the bounded NoxInfluencer operation to the tool skill and preserve the user's narrow scope.",
+      "files": [],
+      "expectations": [
+        "Uses the noxinfluencer tool workflow for previewing and exporting the selected result IDs",
+        "Checks the relevant quota or export preview and follows the tool skill's mutation contract",
+        "Does not add unsolicited creator strategy, outreach, or lifecycle planning",
+        "Reports the actual export or blocking state rather than claiming success from a request preview"
+      ]
+    }
+  ]
+}
