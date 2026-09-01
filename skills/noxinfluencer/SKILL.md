@@ -1,33 +1,29 @@
 ---
 name: noxinfluencer
-description: Execute bounded NoxInfluencer CLI workflows for creator data and marketing operations, including search, analysis, contacts, monitoring, exports, campaigns, CRM, email, messages, products, short links, affiliation, brand monitoring, account setup, quota, and errors. Use when the user explicitly needs NoxInfluencer or a defined system operation. For marketing goals, creator-fit strategy, outreach copy, negotiation, lifecycle planning, or ongoing optimization, use influencer-marketing-manager.
+description: Operate NoxInfluencer creator intelligence and marketing systems through the CLI, including search, analysis, contacts, monitoring, campaigns, CRM, outreach operations, products, affiliation, brand intelligence, exports, account setup, quota, and troubleshooting. Use when a task calls for NoxInfluencer data, records, or execution capabilities.
 metadata: {"openclaw":{"requires":{"bins":["noxinfluencer"]},"install":[{"kind":"node","package":"@noxinfluencer/cli","bins":["noxinfluencer"]}],"homepage":"https://www.noxinfluencer.com/skills"}}
 ---
 
 # NoxInfluencer
 
-Tool-layer skill for NoxInfluencer creator data and marketing operations across YouTube, TikTok, and Instagram. It turns a defined business action into correct CLI execution and readback; it does not own the broader marketing plan.
+NoxInfluencer execution skill for creator intelligence and marketing operations across YouTube, TikTok, and Instagram. Turn business intent into valid CLI operations, verified system state, and evidence the wider marketing workflow can use for its next decision.
 
 The user interacts through natural language. Execute CLI commands yourself and report results in plain language. Never expose raw commands to the user.
 
 ## When to Use
 
-- User explicitly asks to use NoxInfluencer or provides a defined NoxInfluencer record, result, or operation
-- User wants a bounded creator search, analysis, contact retrieval, monitor, export, campaign, collection, CRM, email/message, product-center, short-link, affiliate, or brand-monitor operation
+- User wants NoxInfluencer creator intelligence, records, or execution capabilities
+- User wants creator search, analysis, contact retrieval, monitoring, exports, campaign, collection, CRM, email/message, product-center, short-link, affiliate, or brand-monitor operations through NoxInfluencer
 - User needs to set up NoxInfluencer access or check quota
 - User hits an auth, quota, or CLI error
 
-If the request starts from a marketing goal, requires creator-fit judgment, asks for outreach or negotiation, spans lifecycle stages, or needs an evolving plan, use `influencer-marketing-manager` as the business entry point. That manager may call this skill for the NoxInfluencer portion; do not make the user coordinate the two layers.
+## Business Collaboration
 
-## What This Skill Does Not Do
+Contribute NoxInfluencer-backed creator evidence and operations to the user's wider marketing workflow. Begin from the current objective, business decision, and approved operating rule; return results in business language with the verified IDs and system state needed for the next step.
 
-- Own the user's marketing objective, strategy, lifecycle plan, or next business action
-- Draft outreach emails, negotiation copy, or partnership messages from scratch; route those requests to `influencer-marketing-manager`
-- Send email/message tasks or update CRM records without explicit user approval
-- Make final campaign budget allocation, media-plan, or partnership decisions; the manager owns the recommendation and confirmation boundary
-- Generate creative briefs or interpret video content beyond available platform metrics
-- Operate external CRM, email, messaging, spreadsheet, or ad platforms outside NoxInfluencer
-- Replace legal or commercial review of contracts, disputes, or brand-safety decisions
+Use the appropriate business-management or writing capability to shape strategy, creator-fit judgment, outreach copy, negotiation positions, creative briefs, and lifecycle decisions. This Skill then supplies the NoxInfluencer data and execution those decisions require. Carry an active manager or Campaign's goals, stage definitions, and decision rights through every operation so both layers reinforce the same business logic.
+
+External writes follow the user's approved action or operating rule. Important commercial commitments are presented with their material terms for the user's or qualified reviewer's decision.
 
 ## Core Principles
 
