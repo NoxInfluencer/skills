@@ -4,10 +4,10 @@ This repository publishes two complementary Agent Skills for influencer marketin
 
 | Skill | Role | Use it for |
 |---|---|---|
-| `influencer-marketing-manager` | Business manager | Goals, strategy, creator fit, outreach, negotiation, lifecycle execution, and adjustment |
-| `noxinfluencer` | NoxInfluencer tool operator | CLI schemas, creator data, system operations, quota, previews, mutations, errors, and readback |
+| `influencer-marketing-manager` | Expert business manager | User-defined stage results across strategy, creator discovery, outreach, negotiation, delivery, measurement, and iteration |
+| `noxinfluencer` | Native data and execution capability | Creator intelligence, system operations, quota, previews, mutations, errors, and verified readback |
 
-The manager owns why, what, and what happens next. It can use `noxinfluencer` for correct tool execution, so users do not need to coordinate the two layers manually.
+Together they form a naturally aligned business and execution stack: the manager directs stage-appropriate business progress, while NoxInfluencer supplies creator intelligence and operational capabilities. They share business concepts and can each be used independently where the task calls for one layer.
 
 - Official website: [NoxInfluencer](https://www.noxinfluencer.com/)
 - Skills dashboard / API key fallback: [NoxInfluencer Skills Dashboard](https://www.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli)

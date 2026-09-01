@@ -5,12 +5,12 @@
       "id": 1,
       "category": "goal-and-plan",
       "prompt": "我们是一个刚起步的护肤品牌，想找红人做营销，但团队还没想清楚该做曝光还是卖货。预算也没有完全定。请你接手推进。",
-      "expected_output": "Form a provisional objective and begin with only the questions or reversible exploration that can materially improve the next decision.",
+      "expected_output": "Define the useful stage result, form a provisional objective, and begin with questions or reversible exploration that materially improve the next decision.",
       "files": [],
       "expectations": [
-        "Identifies the unresolved business outcome and material constraints instead of immediately turning the request into follower filters",
+        "Defines the business result that would create useful progress at this stage before choosing creator criteria",
         "Asks only questions that materially affect the next action, or states reasonable assumptions before a low-cost reversible exploration",
-        "Proposes an observable next step rather than requiring a complete intake form",
+        "Uses an intake proportional to the decision and proposes an observable next step",
         "Treats the initial objective and plan as revisable"
       ]
     },
@@ -22,87 +22,87 @@
       "files": [],
       "expectations": [
         "Translates the signup and education goals into relevant creator and audience evidence before or alongside searching",
-        "Uses available creator-discovery tools for both requested platforms rather than inventing candidates",
-        "Returns an interpreted shortlist or portfolio with evidence, uncertainty, and next qualification action instead of raw results",
-        "Does not equate follower count or a universal score with business fit"
+        "Uses real results from available creator-discovery tools as candidate evidence for both requested platforms",
+        "Returns an interpreted shortlist or portfolio with evidence, uncertainty, and a next qualification action",
+        "Uses goal-specific fit evidence, with follower scale serving only the role it has in this portfolio"
       ]
     },
     {
       "id": 3,
       "category": "outreach",
       "prompt": "We have selected 12 creators for our running-shoe launch. The offer is a free pair plus a paid integration, and the product differentiator is a wide toe box for long-distance comfort. Write the outreach and start managing the follow-up process.",
-      "expected_output": "Own the value proposition, copy, and cadence as the manager, then establish the external-action boundary and use an operational tool when appropriate.",
+      "expected_output": "Own the value proposition, copy, and cadence as the manager, establish the operating authority for external action, and use the appropriate execution capability.",
       "files": [],
       "expectations": [
         "Creates or proposes outreach around a credible value exchange, meaningful personalization, and one clear next step",
-        "Does not reject copywriting or hand the business decision to the noxinfluencer tool skill",
+        "Owns the value proposition and outreach judgment while using the appropriate execution capability",
         "Establishes recipients, channel or sender, cadence, and authorization before the first consequential external send",
-        "After approval, treats rule-compliant follow-ups as autonomous work rather than requesting approval for every creator"
+        "After approval, executes rule-compliant follow-ups autonomously across eligible creators"
       ]
     },
     {
       "id": 4,
       "category": "negotiation",
       "prompt": "A creator we like quoted $4,500 for one YouTube integration. They want payment upfront, allow only 30 days of organic reposting, include one revision, and ask for six months of category exclusivity. Our working budget was $3,000 per creator. You handle it and tell me what to reply.",
-      "expected_output": "Evaluate the complete commercial package, recommend a negotiating position, and pause before making an important external commitment.",
+      "expected_output": "Evaluate the complete commercial package, recommend a negotiating position, and bring the important external commitment to the user as a clear decision.",
       "files": [],
       "expectations": [
-        "Evaluates deliverables, payment, rights, revision, exclusivity, timing, and alternatives rather than price alone",
+        "Evaluates price as one component of a complete package covering deliverables, payment, rights, revision, exclusivity, timing, and alternatives",
         "Explains a target, material limits, and reasoned trades or concessions",
-        "Does not invent a market benchmark when comparable evidence is absent",
-        "Requests confirmation before sending an acceptance or creating a materially changed commercial commitment"
+        "Grounds market guidance in comparable evidence and states uncertainty when that evidence is unavailable",
+        "Presents the proposed commitment, material terms, reasoning, and alternatives for the user's decision"
       ]
     },
     {
       "id": 5,
       "category": "dynamic-adjustment",
       "prompt": "We sent 80 creator invitations from our approved list. Only four were opened, one replied asking what the brand is, and nobody discussed a deal. We still need ten partners, so should we just send another 500?",
-      "expected_output": "Diagnose the weak signal and propose a bounded learning step before increasing volume.",
+      "expected_output": "Diagnose the weak signal and use a bounded learning step to determine the next scale decision.",
       "files": [],
       "expectations": [
         "Distinguishes message delivery or sends from replies, partnerships, and final marketing outcomes",
         "Considers deliverability, list fit, sender credibility, proposition, clarity, personalization, timing, and channel as plausible causes",
-        "Uses the observed response to revise the plan rather than mechanically recommending more volume",
+        "Uses the observed response to revise the plan and determine whether, where, and how to scale",
         "Proposes a small observable test or next action and explains what result would change the decision"
       ]
     },
     {
       "id": 6,
-      "category": "autonomy-and-confirmation",
+      "category": "autonomy-and-decision-rights",
       "prompt": "For this campaign, automatically follow up after three and six days, stop after two follow-ups, and drop anyone who declines. If a creator comes back with a fee below $2,000, just keep things moving.",
-      "expected_output": "Execute the approved follow-up rule autonomously while keeping final commercial acceptance at a key confirmation point.",
+      "expected_output": "Execute the approved follow-up rule autonomously and present a complete commercial package for the user's commitment decision.",
       "files": [],
       "expectations": [
         "Treats the specified follow-up cadence and decline handling as an approved operating rule",
-        "Does not ask for approval before every rule-compliant follow-up",
-        "Does not treat price alone as the complete deal or automatically accept undefined deliverables and rights",
-        "Summarizes material terms and requests confirmation before creating the important commercial commitment"
+        "Executes each rule-compliant follow-up under the approved operating authority",
+        "Builds a complete deal view that includes deliverables, rights, timing, payment, and other material terms alongside price",
+        "Summarizes material terms and presents the important commercial commitment for the user's decision"
       ]
     },
     {
       "id": 7,
-      "category": "campaign-optional",
-      "prompt": "This is a one-off product-seeding decision, not a campaign. Compare these creators and tell me whom to approach first: A is a large general lifestyle account with occasional product posts; B is a mid-size category specialist with strong comment discussions but no public email; C is a small adjacent-niche creator with excellent production quality and a history of gifted reviews.",
-      "expected_output": "Complete the scoped comparison without forcing Campaign creation or a full lifecycle setup.",
+      "category": "working-context",
+      "prompt": "This is a one-off product-seeding decision, so use a lightweight working context. Compare these creators and tell me whom to approach first: A is a large general lifestyle account with occasional product posts; B is a mid-size category specialist with strong comment discussions and a contact channel that still needs verification; C is a small adjacent-niche creator with excellent production quality and a history of gifted reviews.",
+      "expected_output": "Complete the scoped comparison in a lightweight one-off context.",
       "files": [],
       "expectations": [
         "Uses the supplied profile evidence and the product-seeding objective to compare fit",
         "States relevant uncertainty and the next qualification action",
-        "Does not require creating a Campaign or duplicate long-lived business state",
-        "Does not expand the one-off request into unrelated execution"
+        "Uses a lightweight one-off working context suited to the decision",
+        "Keeps execution focused on the requested comparison and next qualification action"
       ]
     },
     {
       "id": 8,
-      "category": "tool-routing",
-      "prompt": "In NoxInfluencer, export these already-selected creator result IDs with the audience-country and contact fields: id_a, id_b, id_c. I only need the file and quota preview; do not reassess the strategy.",
-      "expected_output": "Route the bounded NoxInfluencer operation to the tool skill and preserve the user's narrow scope.",
+      "category": "execution-capability",
+      "prompt": "In NoxInfluencer, export these already-selected creator result IDs with the audience-country and contact fields: id_a, id_b, id_c. The strategy is already approved; keep this task focused on the file and quota preview.",
+      "expected_output": "Complete the bounded operation through NoxInfluencer's native execution capability and return verified system state.",
       "files": [],
       "expectations": [
         "Uses the noxinfluencer tool workflow for previewing and exporting the selected result IDs",
         "Checks the relevant quota or export preview and follows the tool skill's mutation contract",
-        "Does not add unsolicited creator strategy, outreach, or lifecycle planning",
-        "Reports the actual export or blocking state rather than claiming success from a request preview"
+        "Preserves the requested operational scope and makes the result usable as business evidence",
+        "Reports the actual export or blocking state and labels a request preview accurately"
       ]
     }
   ]
