@@ -7,10 +7,8 @@ Use this reference as a practical starting prior when a project has not supplied
 - [How to apply the baseline](#how-to-apply-the-baseline)
 - [Creator discovery defaults](#creator-discovery-defaults)
 - [Example creator lanes](#example-creator-lanes)
-- [Contact readiness](#contact-readiness)
-- [Outreach defaults](#outreach-defaults)
-- [Reply and commercial defaults](#reply-and-commercial-defaults)
-- [Fulfillment and measurement defaults](#fulfillment-and-measurement-defaults)
+- [Contact and outreach defaults](#contact-and-outreach-defaults)
+- [Commercial, fulfillment, and measurement defaults](#commercial-fulfillment-and-measurement-defaults)
 - [Promoted experience patterns](#promoted-experience-patterns)
 
 ## How to apply the baseline
@@ -24,7 +22,7 @@ user objective and constraints
 → general industry practice
 ```
 
-When important project inputs are missing, choose a small reversible test, state the baseline assumption, and define the observation that will confirm or revise it. A baseline is a useful prior, not a substitute for current evidence.
+When important project inputs are missing, choose a small reversible test, state the baseline assumption, and define the observation that will confirm or revise it. Let the objective, platform, market, and observed supply determine batch size and lane mix; until those inputs are known, use a small illustrative sample rather than a fixed matrix. A baseline is a useful prior, not a substitute for current evidence.
 
 ## Creator discovery defaults
 
@@ -56,55 +54,22 @@ These lanes provide vocabulary for a first hypothesis. The active project may re
 
 Travel, photography, Apple, desk setup, and similar terms can be secondary scene labels. Choose the lane that best describes the creator's recent main narrative so the message follows the creator's actual context.
 
-## Contact readiness
+## Contact and outreach defaults
 
-Maintain two related results for every qualified creator:
+Keep **fit** and **readiness** as separate results. For a qualified creator without a ready contact, check the channel's public contact area, linked website or media kit, and clearly associated public profiles in that order. Verify ownership and record the source; a missing address creates a contact task, not a reason to discard the fit.
 
-| Result | Meaning | Next action |
-| --- | --- | --- |
-| **Fit** | The creator can plausibly advance the current business objective | Select, hold, or qualify with the evidence available |
-| **Readiness** | The next step has a verified channel and required information | Send, request missing data, or find a public business contact |
+The first contact should give a truthful selection reason, a real product/use scene, mutual value, a proposed format, and one easy question. Personalize the cooperation story using the creator's primary lane and recent work. Leave price, rights, exclusivity, and delivery promises for the approved commercial conversation. A useful starting cadence is a follow-up after **3–5 business days**, another after **5–7 business days**, and a short close-the-loop note. Before sending, verify the recipient, sender, content, and attachments; after sending, read back the actual state. A substantive human reply starts a tailored-response checkpoint.
 
-For public contact discovery, start with the channel's About/contact area, then the linked website or media kit, then clearly associated public social profiles or link-in-bio. Verify that the contact belongs to the channel or business entity and record the verification source. A missing address creates a contact task; it does not erase a strong fit judgment.
+## Commercial, fulfillment, and measurement defaults
 
-## Outreach defaults
-
-- The first contact seeks a clear, low-friction reply. It introduces a truthful selection reason, a product/use connection, mutual value, a proposed format, and one easy question.
-- Personalization changes the cooperation story: use the creator's primary lane and a real recent scene, not only a name token.
-- Keep the initial message concrete enough to judge interest while leaving detailed price, rights, exclusivity, and delivery commitments for an approved commercial conversation.
-- A useful default cadence is a first follow-up after **3–5 business days**, a second after another **5–7 business days**, and a short close-the-loop note. Timing can follow the launch window and creator relationship.
-- Before sending, verify the recipient, sender, subject, body, attachments or links, and any copied recipients. After sending, read back the resulting task or message state.
-- A substantive creator reply starts a tailored-response checkpoint: summarize the message, re-check fit and terms, and obtain confirmation before sending the next response unless an approved rule already covers that reply class.
-
-## Reply and commercial defaults
-
-Treat each human reply as new evidence. Preserve the original text and classify the response as interested, conditional, information-seeking, price/terms requested, later timing, declined, automatic, bounced, or another useful state.
-
-Extract the items that change a decision:
-
-- deliverables, platform, format, length, placement, and quantity;
-- price, currency, taxes, expenses, incentives, payment timing, and deposit;
-- usage, paid media, whitelisting, ownership, territory, and duration;
-- exclusivity category, geography, and duration;
-- schedule, revisions, approval, cancellation, make-good, shipping, and reporting;
-- the user's or client's unresolved choice.
-
-Re-check creator fit, recent performance, authenticity, and risk before presenting a reply as ready for client submission. A positive tone or a quoted price is evidence of a conversation, not evidence that the complete cooperation is approved.
-
-Compare the complete package:
+Treat every human reply as new evidence and re-check fit, performance, authenticity, and risk before presenting it as ready for a commercial decision. Compare the complete package rather than fee alone:
 
 ```text
 complete cost = fee + rights + exclusivity + tax + logistics + production support + payment cost
 estimated CPV = complete cost / expected effective views
 ```
 
-Use recent comparable content for conservative, base, and optimistic view scenarios. Trade variables deliberately—scope, rights, exclusivity, timing, revisions, or bundle size—so every concession has a reason.
-
-## Fulfillment and measurement defaults
-
-Turn an agreed package into an observable checklist: owners, inputs, product or access, milestones, review, publication window, disclosure, tracking, payment conditions, and evidence of completion. Verify the public asset and agreed links after publication.
-
-Measure the objective that was chosen: delivery, audience response, traffic, conversion, content reuse, commercial efficiency, or relationship value. Label attribution confidence and data limitations. At review, compare the result with the goal, identify which assumptions held, select what to repeat or change, and record the next test.
+Use recent comparable content for conservative, base, and optimistic scenarios, and trade scope, rights, exclusivity, timing, revisions, or bundle size deliberately. Turn agreed terms into a checklist with owners, inputs, milestones, publication, disclosure, tracking, payment conditions, and completion evidence. Measure the chosen objective, label attribution limits, and record the next test.
 
 ## Promoted experience patterns
 
