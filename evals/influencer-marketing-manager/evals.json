@@ -17,13 +17,14 @@
     {
       "id": 2,
       "category": "discovery",
-      "prompt": "We are launching a $180 portable solar charger in the US in six weeks. We have a $15,000 creator budget and want qualified email signups, with product education as a secondary goal. Find a first shortlist of YouTube and Instagram outdoor creators and move the work forward.",
-      "expected_output": "Derive a creator-fit hypothesis, use appropriate discovery tools, and interpret a small portfolio against the stated goal.",
+      "prompt": "We are launching a $180 portable solar charger in the US in six weeks. We have a $15,000 creator budget and want qualified email signups, with product education as a secondary goal. Find a first shortlist of YouTube and Instagram outdoor creators and move the work forward. Start with a broad structured search, then deep-review a smaller set using richer creator or channel evidence before recommending whom to approach.",
+      "expected_output": "Derive a creator-fit hypothesis, separate coarse screening from fine selection, use appropriate discovery tools and channel evidence, and interpret a small portfolio against the stated goal.",
       "files": [],
       "expectations": [
         "Translates the signup and education goals into relevant creator and audience evidence before or alongside searching",
-        "Uses real results from available creator-discovery tools as candidate evidence for both requested platforms",
-        "Returns an interpreted shortlist or portfolio with evidence, uncertainty, and a next qualification action",
+        "Uses real results from available creator-discovery tools as coarse candidate evidence for both requested platforms",
+        "Selects a smaller fine-review set and uses richer creator or channel evidence, including recent representative content, before final prioritization",
+        "Returns an interpreted shortlist or portfolio with evidence, uncertainty, contact readiness, and a next qualification action",
         "Uses goal-specific fit evidence, with follower scale serving only the role it has in this portfolio"
       ]
     },
@@ -103,6 +104,34 @@
         "Checks the relevant quota or export preview and follows the tool skill's mutation contract",
         "Preserves the requested operational scope and makes the result usable as business evidence",
         "Reports the actual export or blocking state and labels a request preview accurately"
+      ]
+    },
+    {
+      "id": 9,
+      "category": "two-pass-discovery",
+      "prompt": "We need eight US outdoor creators for a portable power product. A structured search export shows: A has 250k followers, high aggregate views, 80% Shorts, and no long-form upload for 120 days; B has 45k followers and four recent long-form camping videos with 12k, 9k, 11k, and 10k views but no public business email; C has 30k followers, three recent long-form gear reviews with 15k, 14k, and 2k views, and a public contact; D has 80k followers, mostly family/lifestyle vlogs, one camping video, and a public contact. Use the search data for coarse screening, then identify which channels deserve detailed page or browser review before choosing whom to approach first.",
+      "expected_output": "Use structured data to build a coarse queue, spend deeper review on purposeful finalists, and keep fit separate from contact readiness.",
+      "files": [],
+      "expectations": [
+        "Labels the structured export as a coarse-screen input rather than a final ranking",
+        "Uses format mix, recency, recent long-form evidence, and the representative view pattern to choose a smaller fine-review set",
+        "Names the channel or page evidence that should be checked in detail and states when that evidence is unavailable",
+        "Keeps a strong content fit with missing contact information as contact-pending rather than discarding it",
+        "Returns a priority decision with confidence, uncertainty, and the next qualification action"
+      ]
+    },
+    {
+      "id": 10,
+      "category": "experience-baseline",
+      "prompt": "We are starting a creator program for a consumer-electronics product in the US and UK, but there is no approved creator rubric, recent-content threshold, or category mix yet. Propose the first discovery batch and explain the defaults you would use until the team supplies project rules.",
+      "expected_output": "Apply a modest experienced baseline, label it as provisional, and create a small test that can replace it with project evidence.",
+      "files": [],
+      "expectations": [
+        "Uses a recent-activity window, format separation, and three-to-five representative content checks as provisional discovery defaults",
+        "Suggests a small coarse search followed by fine review instead of inventing a large fixed scorecard",
+        "States that project objectives, active rules, and current evidence override the baseline",
+        "Defines an observable signal and a review point that can confirm or revise the defaults",
+        "Asks only for missing inputs that materially affect the first batch"
       ]
     }
   ]

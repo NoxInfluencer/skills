@@ -1,6 +1,6 @@
 # Influencer Marketing Manager Evaluations
 
-These assets make the first draft reviewable by separating structural confidence, Agent behavior, and real marketing quality.
+These assets make the Skill reviewable by separating structural confidence, Agent behavior, and real marketing quality.
 
 ## What the Cases Observe
 
@@ -9,6 +9,7 @@ The cases focus on decisions that should be visible in an Agent response or acti
 - business-manager and operational-capability selection;
 - proportional questions and useful working assumptions;
 - goal-specific creator judgment and interpreted discovery results;
+- a two-pass discovery flow that separates broad structured screening from richer fine selection;
 - outreach and negotiation ownership;
 - autonomous execution under approved operating authority and clear user decisions for important commitments;
 - adjustment when real results contradict the plan;
@@ -16,6 +17,21 @@ The cases focus on decisions that should be visible in an Agent response or acti
 - accurate reporting of execution, stage, and overall results.
 
 Expectations are semantic. Grade the business decisions, actions, and observed state changes represented in the response or trace.
+
+## Observable manager contract
+
+Every meaningful case should make the following signals visible, either in the response or in the action trace:
+
+- the current stage result and the business question it serves;
+- evidence, source/freshness, and the distinction between fact and interpretation;
+- the decision or working hypothesis and its confidence;
+- the next action and the signal that would show progress;
+- the authority used, requested, or still needed;
+- the observed system or relationship state after an action.
+
+For creator discovery, review the passes separately. The coarse pass should show broad structured retrieval, project-appropriate filters, identity deduplication, and a queue for deeper review. The fine pass should show richer creator or channel evidence, recent representative content, fit reasoning, and a distinct contact-readiness result. A final recommendation without this evidence trail is incomplete even when the selected names look plausible.
+
+Score each expectation as pass, partial, or fail with a short evidence note. Keep the rubric qualitative until enough real cases exist to justify an aggregate score; the first loop is for exposing bad decisions and missing evidence, not for creating false precision.
 
 ## Staged Validation Loop
 
@@ -26,6 +42,26 @@ Expectations are semantic. Grade the business decisions, actions, and observed s
 
 Stage 1 establishes structural confidence. Actual Agent runs in Stage 2 and business work in Stage 3 establish behavioral and operating confidence.
 
+The discovery pilot should compare coarse-pool yield, fine-review evidence coverage, contact-readiness accuracy, and qualified-shortlist usefulness. The outreach pilot should compare meaningful replies and qualified conversations rather than send volume alone. The negotiation and fulfillment pilots should compare complete-term capture and verified state transitions. These are directional operating signals; keep the sample small and revise the method when an experienced operator can point to a concrete failure.
+
+## Minimal trace record
+
+Store one compact record per case and variant in the ignored `workspace/` directory:
+
+```text
+case_id / variant / date
+prompt and available context
+stage result
+actions and tools used
+evidence with source and freshness
+decision and uncertainty
+next action and authority
+observed result or blocker
+reviewer verdict and correction
+```
+
+This record supports baseline-versus-Skill comparison without copying live Campaign state into the eval corpus.
+
 ## Stable Checks
 
 Run from the repository root:
@@ -35,6 +71,7 @@ python /Users/yangyang/.codex/skills/.system/skill-creator/scripts/quick_validat
 python -m json.tool evals/influencer-marketing-manager/evals.json
 python evals/influencer-marketing-manager/validate_evals.py
 python evals/influencer-marketing-manager/validate_evals.py --self-test
+! rg -n -i 'iniu' skills/influencer-marketing-manager
 ```
 
 Behavior transcripts and reviewer notes belong under `evals/influencer-marketing-manager/workspace/`, which is intentionally ignored.
