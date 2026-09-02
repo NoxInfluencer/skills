@@ -16,7 +16,11 @@ The cases focus on decisions that should be visible in an Agent response or acti
 - stage-appropriate working context, including lightweight and Campaign-backed work; and
 - accurate reporting of execution, stage, and overall results.
 
-Expectations are semantic. Grade the business decisions, actions, and observed state changes represented in the response or trace.
+Expectations are semantic. Grade the business decisions, actions, and observed state changes represented in the response or trace. Each case also declares a trigger class:
+
+- `should-trigger` — load the Manager for business judgment or an evolving creator relationship;
+- `should-not-trigger` — route a bounded tool or writing operation to the capability that owns it;
+- `boundary` — load only the relevant Manager context and resolve the overlap explicitly.
 
 ## Observable manager contract
 
@@ -42,6 +46,15 @@ Score each expectation as pass, partial, or fail with a short evidence note. Kee
 
 Stage 1 establishes structural confidence. Actual Agent runs in Stage 2 and business work in Stage 3 establish behavioral and operating confidence.
 
+When Claude is unavailable, run the behavior comparison with the local Codex CLI. Keep the prompt and available artifacts identical between variants, use a read-only ephemeral run, and do not connect the test to a live marketing system:
+
+```bash
+codex exec --sandbox read-only --ephemeral -C /path/to/fixture \
+  "Use the skill at /path/to/skills/influencer-marketing-manager to handle the case."
+```
+
+Save the response and any action trace in the ignored `workspace/` directory, then review the observable contract above rather than matching exact wording.
+
 The discovery pilot should compare coarse-pool yield, fine-review evidence coverage, contact-readiness accuracy, and qualified-shortlist usefulness. The outreach pilot should compare meaningful replies and qualified conversations rather than send volume alone. The negotiation and fulfillment pilots should compare complete-term capture and verified state transitions. These are directional operating signals; keep the sample small and revise the method when an experienced operator can point to a concrete failure.
 
 ## Minimal trace record
@@ -50,6 +63,7 @@ Store one compact record per case and variant in the ignored `workspace/` direct
 
 ```text
 case_id / variant / date
+trigger class
 prompt and available context
 stage result
 actions and tools used
@@ -67,7 +81,7 @@ This record supports baseline-versus-Skill comparison without copying live Campa
 Run from the repository root:
 
 ```bash
-python /Users/yangyang/.codex/skills/.system/skill-creator/scripts/quick_validate.py skills/influencer-marketing-manager
+python "${CODEX_HOME:-$HOME/.codex}/skills/.system/skill-creator/scripts/quick_validate.py" skills/influencer-marketing-manager
 python -m json.tool evals/influencer-marketing-manager/evals.json
 python evals/influencer-marketing-manager/validate_evals.py
 python evals/influencer-marketing-manager/validate_evals.py --self-test

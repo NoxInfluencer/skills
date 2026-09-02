@@ -4,6 +4,7 @@
     {
       "id": 1,
       "category": "goal-and-plan",
+      "trigger": "should-trigger",
       "prompt": "我们是一个刚起步的护肤品牌，想找红人做营销，但团队还没想清楚该做曝光还是卖货。预算也没有完全定。请你接手推进。",
       "expected_output": "Define the useful stage result, form a provisional objective, and begin with questions or reversible exploration that materially improve the next decision.",
       "files": [],
@@ -17,6 +18,7 @@
     {
       "id": 2,
       "category": "discovery",
+      "trigger": "should-trigger",
       "prompt": "We are launching a $180 portable solar charger in the US in six weeks. We have a $15,000 creator budget and want qualified email signups, with product education as a secondary goal. Find a first shortlist of YouTube and Instagram outdoor creators and move the work forward. Start with a broad structured search, then deep-review a smaller set using richer creator or channel evidence before recommending whom to approach.",
       "expected_output": "Derive a creator-fit hypothesis, separate coarse screening from fine selection, use appropriate discovery tools and channel evidence, and interpret a small portfolio against the stated goal.",
       "files": [],
@@ -31,6 +33,7 @@
     {
       "id": 3,
       "category": "outreach",
+      "trigger": "should-trigger",
       "prompt": "We have selected 12 creators for our running-shoe launch. The offer is a free pair plus a paid integration, and the product differentiator is a wide toe box for long-distance comfort. Write the outreach and start managing the follow-up process.",
       "expected_output": "Own the value proposition, copy, and cadence as the manager, establish the operating authority for external action, and use the appropriate execution capability.",
       "files": [],
@@ -44,6 +47,7 @@
     {
       "id": 4,
       "category": "negotiation",
+      "trigger": "should-trigger",
       "prompt": "A creator we like quoted $4,500 for one YouTube integration. They want payment upfront, allow only 30 days of organic reposting, include one revision, and ask for six months of category exclusivity. Our working budget was $3,000 per creator. You handle it and tell me what to reply.",
       "expected_output": "Evaluate the complete commercial package, recommend a negotiating position, and bring the important external commitment to the user as a clear decision.",
       "files": [],
@@ -57,6 +61,7 @@
     {
       "id": 5,
       "category": "dynamic-adjustment",
+      "trigger": "should-trigger",
       "prompt": "We sent 80 creator invitations from our approved list. Only four were opened, one replied asking what the brand is, and nobody discussed a deal. We still need ten partners, so should we just send another 500?",
       "expected_output": "Diagnose the weak signal and use a bounded learning step to determine the next scale decision.",
       "files": [],
@@ -70,6 +75,7 @@
     {
       "id": 6,
       "category": "autonomy-and-decision-rights",
+      "trigger": "should-trigger",
       "prompt": "For this campaign, automatically follow up after three and six days, stop after two follow-ups, and drop anyone who declines. If a creator comes back with a fee below $2,000, just keep things moving.",
       "expected_output": "Execute the approved follow-up rule autonomously and present a complete commercial package for the user's commitment decision.",
       "files": [],
@@ -83,6 +89,7 @@
     {
       "id": 7,
       "category": "working-context",
+      "trigger": "should-trigger",
       "prompt": "This is a one-off product-seeding decision, so use a lightweight working context. Compare these creators and tell me whom to approach first: A is a large general lifestyle account with occasional product posts; B is a mid-size category specialist with strong comment discussions and a contact channel that still needs verification; C is a small adjacent-niche creator with excellent production quality and a history of gifted reviews.",
       "expected_output": "Complete the scoped comparison in a lightweight one-off context.",
       "files": [],
@@ -96,6 +103,7 @@
     {
       "id": 8,
       "category": "execution-capability",
+      "trigger": "should-not-trigger",
       "prompt": "In NoxInfluencer, export these already-selected creator result IDs with the audience-country and contact fields: id_a, id_b, id_c. The strategy is already approved; keep this task focused on the file and quota preview.",
       "expected_output": "Complete the bounded operation through NoxInfluencer's native execution capability and return verified system state.",
       "files": [],
@@ -109,6 +117,7 @@
     {
       "id": 9,
       "category": "two-pass-discovery",
+      "trigger": "should-trigger",
       "prompt": "We need eight US outdoor creators for a portable power product. A structured search export shows: A has 250k followers, high aggregate views, 80% Shorts, and no long-form upload for 120 days; B has 45k followers and four recent long-form camping videos with 12k, 9k, 11k, and 10k views but no public business email; C has 30k followers, three recent long-form gear reviews with 15k, 14k, and 2k views, and a public contact; D has 80k followers, mostly family/lifestyle vlogs, one camping video, and a public contact. Use the search data for coarse screening, then identify which channels deserve detailed page or browser review before choosing whom to approach first.",
       "expected_output": "Use structured data to build a coarse queue, spend deeper review on purposeful finalists, and keep fit separate from contact readiness.",
       "files": [],
@@ -123,6 +132,7 @@
     {
       "id": 10,
       "category": "experience-baseline",
+      "trigger": "should-trigger",
       "prompt": "We are starting a creator program for a consumer-electronics product in the US and UK, but there is no approved creator rubric, recent-content threshold, or category mix yet. Propose the first discovery batch and explain the defaults you would use until the team supplies project rules.",
       "expected_output": "Apply a modest experienced baseline, label it as provisional, and create a small test that can replace it with project evidence.",
       "files": [],
@@ -132,6 +142,48 @@
         "States that project objectives, active rules, and current evidence override the baseline",
         "Defines an observable signal and a review point that can confirm or revise the defaults",
         "Asks only for missing inputs that materially affect the first batch"
+      ]
+    },
+    {
+      "id": 11,
+      "category": "routing-near-neighbor",
+      "trigger": "should-not-trigger",
+      "prompt": "The creator list, fields, and strategy are already approved. In NoxInfluencer, check the current quota and the runtime schema for exporting these IDs, then prepare a dry-run export: id_a, id_b, id_c. Do not revisit creator selection or campaign strategy.",
+      "expected_output": "Route the bounded operation to the NoxInfluencer execution capability and report its verified preview or blocker without expanding into marketing planning.",
+      "files": [],
+      "expectations": [
+        "Keeps the task focused on quota, schema, and export preparation",
+        "Uses the execution capability's current self-description instead of inventing fields",
+        "Does not add creator-fit, campaign, or outreach recommendations",
+        "Labels a dry-run or blocked request accurately and states the next operational step"
+      ]
+    },
+    {
+      "id": 12,
+      "category": "routing-near-neighbor",
+      "trigger": "should-not-trigger",
+      "prompt": "Translate this already-approved influencer outreach email from English to Chinese and explain two wording choices. Keep the offer, recipients, and workflow unchanged; no creator research or campaign decision is needed.",
+      "expected_output": "Handle the bounded translation and explanation as a writing task without loading the influencer-marketing lifecycle.",
+      "files": [],
+      "expectations": [
+        "Preserves the approved meaning, offer, and recipient scope",
+        "Does not invent creator research, qualification, or outreach actions",
+        "Provides the requested translation and concise language rationale"
+      ]
+    },
+    {
+      "id": 13,
+      "category": "workspace-conflict",
+      "trigger": "boundary",
+      "prompt": "In the project workspace, my latest instruction says the target market for this round is the UK. The current CRM record and active project brief still say US, while a dated report from last month says UK. Reconcile these sources and prepare the next creator-discovery action; do not send outreach or change records yet.",
+      "expected_output": "Use the latest explicit objective for this round, distinguish it from current system state, rules, and historical evidence, surface the conflict, and propose a safe next action.",
+      "files": [],
+      "expectations": [
+        "Separates the user's current objective from CRM state, active rules, and the dated report",
+        "Uses the latest explicit objective for the proposed discovery work while preserving other sources with their dates and roles",
+        "Does not treat the old report as current truth or silently rewrite the CRM/brief",
+        "States the material uncertainty and whether the project sources should be updated before external action",
+        "Records a bounded next action with the relevant authority and evidence to read back"
       ]
     }
   ]

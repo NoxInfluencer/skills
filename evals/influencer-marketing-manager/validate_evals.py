@@ -7,6 +7,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+ALLOWED_TRIGGERS = {"should-trigger", "should-not-trigger", "boundary"}
+
 
 def validate_document(document: Any) -> list[str]:
     """Validate required structure, non-empty text, and unique IDs."""
@@ -44,6 +46,11 @@ def validate_document(document: Any) -> list[str]:
             if not isinstance(value, str) or not value.strip():
                 errors.append(f"{location}.{field} must be a non-empty string")
 
+        trigger = eval_case.get("trigger")
+        if not isinstance(trigger, str) or trigger not in ALLOWED_TRIGGERS:
+            allowed = ", ".join(sorted(ALLOWED_TRIGGERS))
+            errors.append(f"{location}.trigger must be one of: {allowed}")
+
         expectations = eval_case.get("expectations")
         if not isinstance(expectations, list) or not expectations:
             errors.append(f"{location}.expectations must be a non-empty list")
@@ -58,6 +65,7 @@ def run_self_test() -> None:
     valid_case = {
         "id": 1,
         "category": "routing",
+        "trigger": "should-trigger",
         "prompt": "Plan this creator partnership.",
         "expected_output": "Own the business decision.",
         "expectations": ["Chooses an observable next action"],
@@ -85,6 +93,18 @@ def run_self_test() -> None:
         {
             "skill_name": "influencer-marketing-manager",
             "evals": [{**valid_case, "expectations": [" "]}],
+        },
+        {
+            "skill_name": "influencer-marketing-manager",
+            "evals": [{**valid_case, "trigger": "maybe"}],
+        },
+        {
+            "skill_name": "influencer-marketing-manager",
+            "evals": [{key: value for key, value in valid_case.items() if key != "trigger"}],
+        },
+        {
+            "skill_name": "influencer-marketing-manager",
+            "evals": [{**valid_case, "trigger": ["should-trigger"]}],
         },
     ]
     for malformed in malformed_documents:

@@ -54,6 +54,10 @@ Use search results and structured fields to form a broad candidate pool. Apply t
 
 Deduplicate by a stable creator or channel ID; retain the source URL and query snapshot for every candidate. Prepare a pool large enough to absorb normal qualification attrition, then stop expanding when additional results are less useful than deeper review. Quality and supply determine the final size.
 
+As a starting heuristic, a coarse pool of roughly **3–5 times** the desired final count often gives fine review enough choice. Adjust that range to the observed pass rate and supply; it is a planning aid, not a quota.
+
+When the desired final count is not known, use only enough candidates to compare the leading hypotheses and confirm the target before expanding.
+
 Each coarse candidate card contains:
 
 ```text
@@ -92,6 +96,8 @@ Answer the business questions:
 6. What specific cooperation idea would make the selection credible?
 
 Record the supporting links, observation time, interpretation, confidence, and the largest unresolved risk. When a browser or detail source is unavailable, label the decision provisional and name the smallest follow-up that would increase confidence.
+
+Treat a candidate as fine-qualified only when the record covers recent representative content, scene and audience fit, recent comparable performance, identity or safety context, and a concrete cooperation angle. A missing element keeps the decision provisional rather than inviting a low-evidence ranking.
 
 ### 2.4 Separate fit from readiness
 
