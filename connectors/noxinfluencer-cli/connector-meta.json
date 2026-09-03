@@ -7,7 +7,7 @@
   "description_en": "Use NoxInfluencer creator intelligence, analysis, and marketing operations through natural language.",
   "source": "noxinfluencer-cli",
   "type": "cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "examples_zh": [
     "找一批适合美国户外品类的 YouTube 红人，先做粗筛再精选",
     "分析这个红人的近期内容、受众和合作信号",
