@@ -67,6 +67,18 @@ Install the NoxInfluencer tool skill when the Agent should operate NoxInfluencer
 npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer
 ```
 
+### WorkBuddy Connector
+
+The WorkBuddy CLI Connector source lives at [`connectors/noxinfluencer-cli`](connectors/noxinfluencer-cli). Its embedded `noxinfluencer` Skill is generated from [`skills/noxinfluencer`](skills/noxinfluencer); edit the latter, then synchronize and verify the package:
+
+```bash
+python3 scripts/sync_connector.py sync
+python3 scripts/sync_connector.py check
+python3 scripts/sync_connector.py package
+```
+
+The Connector pins `@noxinfluencer/cli@0.5.5` and uses the CLI's device-login flow. The generated zip under `dist/` is a local release artifact for WorkBuddy review; it is not submitted to the marketplace automatically.
+
 ### NoxInfluencer CLI
 
 The skill expects the latest `@noxinfluencer/cli`, including the command tree with `creator`, `monitor`, `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `dispute`, `export`, `file`, `feedback`, `quota`, `pricing`, and `agent`. Install the latest npm package:
