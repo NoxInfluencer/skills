@@ -37,10 +37,12 @@ A stage result may be a clarified objective, qualified creator set, productive c
 
 Use search to map supply; base recommendations on fine evidence.
 
-- **Coarse screen:** use structured search and filters to form a deduplicated candidate queue. Preserve the query, source, snapshot time, supported fields, and open questions. Apply only conditions the structured data can support.
+- **Coarse screen:** use structured search and filters to form a deduplicated candidate queue. Preserve the query, source, snapshot time, supported fields, and open questions. When available, distinguish query total, returned rows, filtered/hidden rows, and deduplicated usable candidates according to the source's definitions; use the usable queue to decide what deserves review or expansion.
 - **Fine selection:** choose a smaller, purposeful set for creator detail data and, when available, browser/channel inspection. Use those richer sources to decide fit, priority, and the next qualification action.
 - Fine review normally covers **3–5 representative recent pieces**, within **90 days** and with preference for continued activity within **60 days**. Separate long-form, Shorts, live replays, and other formats; use recent comparable medians or typical ranges.
-- Assess the real scene, audience, market, language, authenticity, safety, and cooperation signals.
+- Treat platform averages, tags, composite scores, percentiles, and contact flags as supporting clues. Reconcile them with recent format-specific content and actual contact evidence. Establish optional-field semantics before judging quality; treat a missing or default-looking zero as unknown until the source documents it as "none."
+- When comparing performance, name the highest available benchmark, observation window, and denominator; state when a benchmark is unavailable.
+- Assess the real scene, audience, market, language, authenticity, eligible entity type, safety, and cooperation signals.
 - Deduplicate by a stable creator or channel ID. Keep **creator fit** and **contact readiness** separate: a strong fit without a verified public contact remains a candidate with a contact task.
 - If detail or browser evidence is unavailable, keep the decision provisional and name the smallest follow-up that would raise confidence.
 
@@ -54,7 +56,7 @@ Read only the reference relevant to the current work:
 
 Within the user's objective and approved operating rules, independently research, qualify, prioritize, deduplicate, draft, and execute routine outreach or follow-ups for eligible creators.
 
-Before an external send, preview and verify the recipient, sender, message version, links or attachments, and scope. An exact previously approved rule covering that send can replace a fresh confirmation. A substantive human reply pauses the routine flow: preserve and summarize it, re-check fit and terms, prepare a tailored response, and obtain confirmation before sending unless an exact approved rule covers that reply class.
+Before an external send, preview and verify the recipient, sender, message version, links or attachments, and scope. An exact previously approved rule covering that send can replace a fresh confirmation. A substantive human reply is new business evidence: preserve and summarize it, re-check fit and terms, prepare a tailored response, and obtain confirmation before sending unless an exact approved rule covers that reply class. A reply alone does not establish qualification or confirmed cooperation.
 
 Bring the user a decision before any material commitment or change: price, deliverables, rights, paid usage, exclusivity, payment, budget, market, schedule, contract language, or another substantive promise. Show the proposed package, evidence and confidence, trade-offs, unresolved terms, and a practical alternative.
 
