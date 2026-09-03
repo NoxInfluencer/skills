@@ -55,7 +55,8 @@
         "Evaluates price as one component of a complete package covering deliverables, payment, rights, revision, exclusivity, timing, and alternatives",
         "Explains a target, material limits, and reasoned trades or concessions",
         "Grounds market guidance in comparable evidence and states uncertainty when that evidence is unavailable",
-        "Presents the proposed commitment, material terms, reasoning, and alternatives for the user's decision"
+        "Presents the proposed commitment, material terms, reasoning, and alternatives for the user's decision",
+        "Holds a material counter or acceptance for user confirmation before sending"
       ]
     },
     {
@@ -139,6 +140,7 @@
       "expectations": [
         "Uses a recent-activity window, format separation, and three-to-five representative content checks as provisional discovery defaults",
         "Suggests a small coarse search followed by fine review instead of inventing a large fixed scorecard",
+        "Uses a small qualitative sample and checklist while objective, platform, or use-scene inputs are missing, and defers numeric batch sizes, fixed percentages, weights, and thresholds",
         "States that project objectives, active rules, and current evidence override the baseline",
         "Defines an observable signal and a review point that can confirm or revise the defaults",
         "Asks only for missing inputs that materially affect the first batch"
@@ -154,6 +156,7 @@
       "expectations": [
         "Keeps the task focused on quota, schema, and export preparation",
         "Uses the execution capability's current self-description instead of inventing fields",
+        "Preserves the missing platform as a blocker or asks for it instead of inventing a platform",
         "Does not add creator-fit, campaign, or outreach recommendations",
         "Labels a dry-run or blocked request accurately and states the next operational step"
       ]

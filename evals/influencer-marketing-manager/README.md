@@ -44,13 +44,13 @@ Score each expectation as pass, partial, or fail with a short evidence note. Kee
 3. **Operator trial:** use a small number of real, appropriately authorized internal tasks. Record where an experienced operator would change the goal interpretation, next action, decision rights, or adjustment.
 4. **Narrow revision:** improve the smallest positive instruction or example supported by the failure, then rerun the affected cases. Consider a focused hard restriction after repeated real failures show that positive guidance and context are insufficient.
 
-Stage 1 establishes structural confidence. Actual Agent runs in Stage 2 and business work in Stage 3 establish behavioral and operating confidence.
-
-When Claude is unavailable, run the behavior comparison with the local Codex CLI. Keep the prompt and available artifacts identical between variants, use a read-only ephemeral run, and do not connect the test to a live marketing system:
+Run behavior comparisons with the local Codex CLI. Keep the prompt and available artifacts identical between variants, use an isolated read-only ephemeral fixture, and do not connect the test to a live marketing system. From the repository root:
 
 ```bash
-codex exec --sandbox read-only --ephemeral -C /path/to/fixture \
-  "Use the skill at /path/to/skills/influencer-marketing-manager to handle the case."
+repo_root="$(pwd)"
+fixture_dir="$(mktemp -d)"
+codex exec --disable memories --sandbox read-only --ephemeral -C "$fixture_dir" \
+  "Use the skill at $repo_root/skills/influencer-marketing-manager to handle the case."
 ```
 
 Save the response and any action trace in the ignored `workspace/` directory, then review the observable contract above rather than matching exact wording.
@@ -85,7 +85,6 @@ python "${CODEX_HOME:-$HOME/.codex}/skills/.system/skill-creator/scripts/quick_v
 python -m json.tool evals/influencer-marketing-manager/evals.json
 python evals/influencer-marketing-manager/validate_evals.py
 python evals/influencer-marketing-manager/validate_evals.py --self-test
-! rg -n -i 'iniu' skills/influencer-marketing-manager
 ```
 
 Behavior transcripts and reviewer notes belong under `evals/influencer-marketing-manager/workspace/`, which is intentionally ignored.
