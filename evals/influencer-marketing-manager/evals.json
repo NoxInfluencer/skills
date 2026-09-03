@@ -188,6 +188,22 @@
         "States the material uncertainty and whether the project sources should be updated before external action",
         "Records a bounded next action with the relevant authority and evidence to read back"
       ]
+    },
+    {
+      "id": 14,
+      "category": "evidence-calibration-and-monitoring",
+      "trigger": "should-trigger",
+      "prompt": "Use only this synthetic evidence; do not call an external system. A creator search reports total_size=1,208, returned_rows=9, hidden_count=11, and 6 candidates remain after stable-ID deduplication. Creator P's profile reports average_views=867,278, median_views=23,664, 9 of 10 recent items are Shorts, and the single long-form item averages 1,244 views; composite, cooperation, and dispute fields are 0 or empty. Creator Q reports average_views=45,154, median_views=8,093, with 7 long-form and 3 Shorts. A recipient readback has 10 of 11 records with has_email=true, but only 6 contain an actual email_address. Task counters show 8 unique replying creators, 14 inbound messages, and 2 bounces; a newly created task has no prior successful baseline. One previously validated creator is available as a seed for lookalike discovery. Explain what you would record, verify, and do next before recommending or sending.",
+      "expected_output": "Calibrate heterogeneous evidence, preserve identity and measurement integrity, and choose a small next action before any recommendation or send.",
+      "files": [],
+      "expectations": [
+        "Separates total search potential, returned rows, hidden or filtered rows, and deduplicated usable candidates according to source semantics, without treating the counts as additive or interchangeable, and uses the usable queue to plan review or expansion",
+        "Treats average views, median views, format mix, available trend, and machine scores as distinct evidence, requests recent same-format or richer review when they conflict, and interprets missing or default-looking zero fields by their documented semantics before using them as quality verdicts",
+        "Uses the validated creator only to form a scene, audience, and format hypothesis for lookalikes, then fine-reviews every new result independently",
+        "Separates creator fit from contact readiness and checks an actual address, ownership, business purpose, identity deduplication, and send history before sending",
+        "Separates unique replying creators, inbound messages, bounces, and qualified human intent, establishes a baseline for the new task, and reads message bodies only after aggregate change",
+        "Chooses a dated observation window, denominator, and benchmark source for the next comparison instead of treating one batch as an industry benchmark"
+      ]
     }
   ]
 }

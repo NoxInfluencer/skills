@@ -54,6 +54,8 @@ Use structured results to form a broad candidate queue. Apply active project mus
 
 Deduplicate by a stable creator or channel ID. Retain the source URL, query, source system, and observation time. When the target count is unknown, use enough candidates to compare the leading hypotheses and let observed supply set the size.
 
+Record query-level supply as separate counts when the source exposes them: **total potential results**, **returned rows**, **filtered or hidden rows**, and **deduplicated usable candidates**. Preserve each count's source definition and derive combined values only when the source documents their relationship. Use the usable queue to decide how much to review or where to expand; total size describes potential coverage, not a recommendation list.
+
 Each coarse candidate card contains:
 
 ```text
@@ -81,6 +83,8 @@ Use creator detail data and, when available, browser inspection of the channel, 
 
 Review **3–5 representative recent pieces**, normally within **90 days** and with preference for continued activity within **60 days**. Separate long-form, Shorts, live replays, and other formats. Record a comparable recent view range or median, explain breakouts, and compare commercial and non-commercial content when useful.
 
+Use machine output to triage rather than conclude: reconcile average views with the median or typical range, format mix, recency, and trend. Composite scores, percentiles, semantic tags, reply likelihood, cooperation or dispute fields, and contact flags are supporting signals. Establish optional-field semantics first; treat a missing or default-looking zero as unknown until the source documents it as "none." Conflicting signals earn detail or browser review of the underlying content.
+
 Answer the decision questions:
 
 1. Does the creator repeatedly operate in a scene where the product can be used truthfully?
@@ -91,6 +95,8 @@ Answer the decision questions:
 6. What concrete cooperation idea makes the selection credible?
 
 Record supporting links, observation time, interpretation, confidence, and the largest unresolved risk. If detail or browser evidence is unavailable, keep the decision provisional and name the smallest follow-up that would raise confidence.
+
+Apply a simple scene test to the primary lane: tech should show repeated testing, explanation, or real use; outdoor should show a real activity and visible function; shopping or gifting should show purchase or selection intent; student should show a credible campus or study context. Use one primary lane and treat other labels as supporting context.
 
 Call a candidate fine-qualified when recent representative content, scene and audience fit, comparable performance, identity or safety context, and a concrete cooperation angle are covered. Until then, mark the decision provisional.
 
@@ -103,7 +109,7 @@ Return two related judgments:
 | Creator fit | confirmed, provisional, weak | likelihood of advancing the current objective |
 | Contact readiness | ready, contact pending, identity unverified | ability to take the next communication action |
 
-Use public, verifiable business contacts and record how ownership was confirmed. Keep a qualified creator with contact pending in the portfolio; keep a contact-ready creator with weak fit low priority.
+Use public, verifiable business contacts and record how ownership was confirmed. Treat a contact flag such as `has_email=true` as a lead; send readiness starts after retrieving the actual address, verifying its ownership and business purpose, and checking identity and send history. Keep a qualified creator with contact pending in the portfolio. If an alternate address appears after a bounce, repeat identity, consent, deduplication, and send-history checks before retrying.
 
 ### 2.4 Decide when to search again
 
@@ -115,7 +121,7 @@ Use fine-selection findings to diagnose the supply problem:
 - broadly weak recent performance → revisit the threshold, market, format, or objective with the user;
 - high duplicate rate → improve identity matching and source coverage before adding volume.
 
-Scale only when a bounded sample shows that the hypothesis and qualification evidence are working. A smaller, well-supported shortlist is a valid stage result.
+If the project supplies a cumulative mix, use its current gaps to steer the next query, market, or lane; let evidence determine batch size rather than forcing a per-batch quota. A validated creator can seed a lookalike search through its scene, audience, and format, while every new result receives an independent fine review. Scale only when a bounded sample shows that the hypothesis and qualification evidence are working. A smaller, well-supported shortlist is a valid stage result.
 
 ## 3. Build a useful shortlist
 
@@ -146,10 +152,11 @@ The first contact seeks a clear reply. Include:
 6. a clear sender identity and response route.
 
 Let the primary lane choose the story. Keep price, rights, exclusivity, and delivery promises within the approved brief.
+Anchor each message to one concrete, recent scene rather than a generic list of possible uses. Preserve the lane or message variant in the record so later reply quality can be compared.
 
 ### 4.2 Prepare and send
 
-For a qualified creator without a ready contact, check the channel's public contact area, linked website or media kit, then clearly associated public profiles. Verify ownership and preserve a contact-pending record when the fit evidence remains useful.
+For a qualified creator without a ready contact, check the channel's public contact area, linked website or media kit, then clearly associated public profiles. Verify ownership and preserve a contact-pending record when the fit evidence remains useful. Read back the actual address and rendered To/Cc recipients before sending; a flag, typed value, or successful request alone does not establish sendability or delivery.
 
 Before an external send, verify the approved message version, recipient identity, sender, subject, body, links or attachments, copied recipients, and applicable consent or suppression state. After sending, read back the task or message and record the actual result.
 
@@ -160,6 +167,8 @@ Choose timing from the launch window, channel norms, creator value, and prior in
 ## 5. Turn replies into decisions
 
 Treat an inbound message as new business evidence:
+
+For recurring monitoring, read task-level aggregate counters first and compare them with the last successful baseline. Keep **unique replying creators**, **inbound message count**, **bounces**, and **qualified human intent** as separate measures; a new task's first successful check establishes its baseline. Read message bodies only after an aggregate count increases, then deduplicate on a stable message ID.
 
 1. Detect new messages and deduplicate on a stable message ID.
 2. Preserve the complete original text and message time.
@@ -177,7 +186,7 @@ Extract at least:
 - product, schedule, revisions, approval, cancellation, make-good, shipping, and reporting;
 - the user's or client's unresolved decision.
 
-An interested reply is a productive conversation result. A confirmed cooperation requires a complete, approved package.
+An interested reply is a productive conversation result. Re-check fit and evidence before client submission; a reply does not itself establish qualification, submission eligibility, or confirmed cooperation. A confirmed cooperation requires a complete, approved package.
 
 ## 6. Negotiate the complete cooperation
 
@@ -187,6 +196,8 @@ Evaluate the whole package:
 complete cost = base fee + rights + exclusivity + tax + logistics + production support + payment cost
 estimated CPV (when views are relevant) = complete cost / expected effective views
 ```
+
+Include an explicit contingency for uncertain costs or delivery risks; use any percentage only when the active project or a tested assumption supports it.
 
 Before replying, define the desired package, acceptable limits, best alternative, unresolved facts, and why each concession creates value. Trade scope, format, rights, exclusivity, timing, revisions, bundle size, or payment structure deliberately so a price movement has a corresponding change in value or risk.
 
@@ -210,6 +221,8 @@ Choose metrics from the primary objective:
 - sales: orders, revenue, CVR, CPA, ROAS, and attribution window;
 - content asset: usable files, rights duration, reuse value;
 - relationship: response quality, on-time delivery, repeatability, and cost trend.
+
+Set the observation window and denominator before comparing a batch. Use the highest available benchmark in this order: **same-project, same-type history → the creator's recent same-format content → a dated industry reference**. Define minimum acceptable, target, and stretch outcomes when a decision needs a threshold. For response rates, record the sent denominator, human-reply definition, and window; a single batch is a learning signal, not an industry benchmark.
 
 Separate delivery, audience response, traffic/conversion, commercial outcome, and longer-term learning. Label attribution confidence and data limitations. Compare results with the original hypothesis, identify supported and contradicted assumptions, and choose the next support, reuse, renegotiation, pause, or test decision.
 

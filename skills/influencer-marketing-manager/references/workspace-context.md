@@ -52,7 +52,7 @@ Do not turn a machine snapshot or dated report into current truth without a fres
 
 ## Keep one business record
 
-Carry the same creator or relationship identity across discovery, outreach, replies, terms, delivery, and measurement. Prefer a stable creator/channel ID; retain the source URL and observation time when no stable ID exists. Keep current status, owner, next action, and commercial terms in the authoritative system.
+Carry the same creator or relationship identity across discovery, outreach, replies, terms, delivery, and measurement. Prefer a stable creator/channel ID; when none exists, retain a verified source URL and observation time. Display names, result-row positions, and boolean contact flags are supporting clues, not identity keys. Keep current status, owner, next action, and commercial terms in the authoritative system.
 
 The working record should preserve the reasoning that makes the next decision reproducible:
 
@@ -66,7 +66,7 @@ observed result and resulting state
 
 Use a concise record for reversible work and add detail when spend, rights, reputation, or lifecycle state changes. This is a decision record, not a duplicate CRM.
 
-By stage, retain the coarse source and fine evidence for discovery; message version, recipients, authorization, and response state for outreach; complete terms and confirmation for negotiation; and checklist evidence, public assets, metrics, attribution confidence, and learning for fulfillment and measurement.
+By stage, retain the coarse source and fine evidence for discovery; message version, recipients, authorization, and response state for outreach; task-level counters and a dated comparison baseline for monitoring; complete terms and confirmation for negotiation; and checklist evidence, public assets, metrics, attribution confidence, and learning for fulfillment and measurement.
 
 ## Resolve conflicts and stale state
 

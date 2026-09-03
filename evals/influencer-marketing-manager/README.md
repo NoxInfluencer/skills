@@ -10,6 +10,7 @@ The cases focus on decisions that should be visible in an Agent response or acti
 - proportional questions and useful working assumptions;
 - goal-specific creator judgment and interpreted discovery results;
 - a two-pass discovery flow that separates broad structured screening from richer fine selection;
+- evidence calibration across search supply, format-specific performance, machine fields, and contact readiness;
 - outreach and negotiation ownership;
 - autonomous execution under approved operating authority and clear user decisions for important commitments;
 - adjustment when real results contradict the plan;
@@ -33,7 +34,9 @@ Every meaningful case should make the following signals visible, either in the r
 - the authority used, requested, or still needed;
 - the observed system or relationship state after an action.
 
-For creator discovery, review the passes separately. The coarse pass should show broad structured retrieval, project-appropriate filters, identity deduplication, and a queue for deeper review. The fine pass should show richer creator or channel evidence, recent representative content, fit reasoning, and a distinct contact-readiness result. A final recommendation without this evidence trail is incomplete even when the selected names look plausible.
+For creator discovery, review the passes separately. The coarse pass should show broad structured retrieval, query-level total/returned/filtered/usable supply, project-appropriate filters, identity deduplication, and a queue for deeper review. The fine pass should show richer creator or channel evidence, recent representative content, format-aware fit reasoning, and a distinct contact-readiness result based on an actual verified contact route. A final recommendation without this evidence trail is incomplete even when the selected names look plausible.
+
+For outreach monitoring and measurement, check that the trace separates unique creators from message counts and bounces, establishes a dated baseline and observation window, and identifies the benchmark source and denominator used for comparison.
 
 Score each expectation as pass, partial, or fail with a short evidence note. Keep the rubric qualitative until enough real cases exist to justify an aggregate score; the first loop is for exposing bad decisions and missing evidence, not for creating false precision.
 
