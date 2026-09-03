@@ -79,6 +79,18 @@ python3 scripts/sync_connector.py package
 
 The Connector pins `@noxinfluencer/cli@0.5.5` and uses the CLI's device-login flow. The generated zip under `dist/` is a local release artifact for WorkBuddy review; it is not submitted to the marketplace automatically.
 
+### WorkBuddy Expert (draft)
+
+The WorkBuddy Expert draft at [`experts/influencer-marketing-manager`](experts/influencer-marketing-manager) combines the business Manager Skill with the NoxInfluencer Connector. Its bundled Skill is generated from [`skills/influencer-marketing-manager`](skills/influencer-marketing-manager); synchronize and validate it before packaging:
+
+```bash
+python3 scripts/sync_expert.py sync
+python3 scripts/sync_expert.py check
+python3 scripts/sync_expert.py package
+```
+
+The Expert depends on the WorkBuddy Connector submission identified as `oc_e701b8b6011f3b3e`. Keep it as a draft until that Connector is approved and passes an installation and read-only smoke test in WorkBuddy.
+
 ### NoxInfluencer CLI
 
 The skill expects the latest `@noxinfluencer/cli`, including the command tree with `creator`, `monitor`, `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `dispute`, `export`, `file`, `feedback`, `quota`, `pricing`, and `agent`. Install the latest npm package:

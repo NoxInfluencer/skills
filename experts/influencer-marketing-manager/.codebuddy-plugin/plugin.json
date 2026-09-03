@@ -1,0 +1,69 @@
+{
+  "name": "influencer-marketing-manager",
+  "version": "0.1.0",
+  "description": "Guides and advances influencer partnerships from business goals through creator selection, outreach, negotiation, fulfillment, measurement, and iteration.",
+  "author": {
+    "name": "NoxInfluencer",
+    "email": "enterprise@noxinfluencer.com"
+  },
+  "agents": ["./agents/influencer-marketing-manager.md"],
+  "skills": ["./skills/influencer-marketing-manager"],
+  "dependencies": {
+    "connectors": ["oc_e701b8b6011f3b3e"]
+  },
+  "expertType": "agent",
+  "agentName": "influencer-marketing-manager",
+  "displayName": {
+    "en": "Influencer Marketing Manager",
+    "zh": "红人营销经理"
+  },
+  "profession": {
+    "en": "Influencer Marketing Operations Manager",
+    "zh": "红人营销运营经理"
+  },
+  "displayDescription": {
+    "en": "Turns business goals into evidence-led creator decisions and keeps outreach, negotiation, fulfillment, and learning moving forward with the connected NoxInfluencer capability.",
+    "zh": "从目标拆解、达人发现与建联，到谈判、履约和复盘，持续推进符合业务目标的红人合作。"
+  },
+  "avatar": "avatars/expert.png",
+  "categoryId": "05-MarketingGrowth",
+  "defaultInitPrompt": {
+    "zh": "帮我制定并推进一项红人营销合作",
+    "en": "Plan and move forward an influencer marketing partnership"
+  },
+  "plugin": "influencer-marketing-manager",
+  "tags": [
+    {
+      "en": "Influencer Marketing",
+      "zh": "红人营销"
+    },
+    {
+      "en": "Creator Discovery",
+      "zh": "达人发现"
+    },
+    {
+      "en": "Outreach & Negotiation",
+      "zh": "建联谈判"
+    }
+  ],
+  "quickPrompts": [
+    {
+      "en": "Plan and move forward an influencer marketing partnership",
+      "zh": "帮我制定并推进一项红人营销合作"
+    },
+    {
+      "en": "Find and shortlist creators for this product",
+      "zh": "为这个产品寻找并精选合适的达人"
+    },
+    {
+      "en": "Analyze this creator reply and prepare the next negotiation step",
+      "zh": "分析这个达人回复并准备下一步谈判"
+    }
+  ],
+  "keywords": [
+    "influencer marketing",
+    "creator partnerships",
+    "红人营销",
+    "达人合作"
+  ]
+}
