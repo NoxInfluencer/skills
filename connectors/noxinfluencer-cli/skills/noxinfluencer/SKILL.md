@@ -38,6 +38,7 @@ The CLI is self-describing — use it instead of memorizing parameters:
 - **Parameters**: `noxinfluencer schema <cmd>` (e.g., `schema creator.search`; quoted path form `schema 'creator search'` also works)
 - **Help**: `noxinfluencer <cmd> --help`
 - **Diagnostics**: `noxinfluencer doctor`
+- **Local auth state**: `noxinfluencer auth status` reads persisted or environment-provided credentials without a network call; `noxinfluencer auth logout` clears locally persisted credentials and pending device logins
 - **Cost planning**: `noxinfluencer pricing tools --charged-only` shows current server-side Skill Credit prices; `noxinfluencer quota usage --days 7` reviews recent consumption
 - **Login**: direct terminals can run `noxinfluencer login`; Agents/remote terminals use `login start --json` and `login wait <login_id>` (the CLI returns the user-safe authorization URL and code)
 - **Command-tree check**: `noxinfluencer schema --all` must include `creator`, `monitor`, `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `dispute`, `export`, `file`, `feedback`, `quota`, `pricing`, and `agent`
