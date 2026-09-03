@@ -14,7 +14,8 @@
       "linux": "noxinfluencer --version",
       "win32": "noxinfluencer.cmd --version"
     },
-    "minVersion": "0.5.5"
+    "minVersion": "0.5.5",
+    "versionPattern": "(\\d+\\.\\d+\\.\\d+)"
   },
   "auth": {
     "darwin": "noxinfluencer login --no-browser --timeout 300",

@@ -173,6 +173,8 @@ def validate_cli_config() -> dict:
     if not isinstance(version_check, dict) or version_check.get("minVersion") != next(iter(package_versions)):
         raise ValidationError("versionCheck.minVersion must match the pinned CLI version")
     platform_commands(version_check.get("command"), "versionCheck.command")
+    if version_check.get("versionPattern") != r"(\d+\.\d+\.\d+)":
+        raise ValidationError("versionCheck.versionPattern must capture a semantic CLI version")
 
     for platform, command in auth.items():
         if "login" not in command or "--no-browser" not in command:
