@@ -17,7 +17,25 @@ When an important input is missing, choose a small reversible test, state the as
 
 When the objective, platform, or product-use scene is still unknown, begin with a small qualitative sample and checklist. Defer numeric batch sizes, lane percentages, weights, and thresholds until the missing inputs or a bounded sample and operator review support them.
 
+If a provisional range helps plan a supplied budget or capacity, label it as a planning assumption, connect it to a bounded test, and revise it from observed results.
+
 Use [workspace-context.md](workspace-context.md) for current-state source roles and conflicts.
+
+## Strategy baseline
+
+Start with one primary business outcome and, when useful, one or two supporting outcomes. Express the operating hypothesis by connecting the target audience, creator role, real content scene, product value, desired behavior, and the evidence that makes the connection plausible.
+
+Build the initial plan around the decisions that change execution:
+
+- market, language, audience, platform, and content format;
+- creator roles and portfolio logic rather than a follower-size list;
+- value exchange and cooperation model;
+- complete budget, timing, capacity, and material constraints;
+- target behavior, observation window, attribution method, and success signal.
+
+Use complete cooperation cost for portfolio choices: creator fee, rights, exclusivity, product and logistics, tax and payment, production or localization, measurement, and a project-supported risk allowance. Allocate early work to learning as well as delivery when the project has no reliable history.
+
+When the user asks for industry experience or reference data, retrieve a current credible source when possible and state its publication date, covered market or platform, population, metric definition, and important limits. Use industry data to frame hypotheses and plausible ranges. Let same-project history, recent comparable creator evidence, and a bounded current test establish operating thresholds.
 
 ## Evidence calibration
 

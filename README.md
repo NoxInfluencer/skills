@@ -4,10 +4,10 @@ This repository publishes two complementary Agent Skills for influencer marketin
 
 | Skill | Role | Use it for |
 |---|---|---|
-| `influencer-marketing-manager` | Expert business manager | User-defined stage results across strategy, two-pass creator discovery, outreach, negotiation, delivery, measurement, and iteration |
-| `noxinfluencer` | Native data and execution capability | Creator intelligence, system operations, quota, previews, mutations, errors, and verified readback |
+| `influencer-marketing-manager` | Expert strategy and operations manager | Marketing strategy, full-lifecycle execution, operator experience, SOPs, automation, measurement, and continuous improvement |
+| `noxinfluencer` | NoxInfluencer capability specialist | Nox data and interpretation, product-native workflows, system operations, quota, previews, mutations, errors, and verified readback |
 
-Together they form a naturally aligned business and execution stack: the manager directs stage-appropriate business progress, while NoxInfluencer supplies creator intelligence and operational capabilities. They share business concepts and can each be used independently where the task calls for one layer.
+The manager owns business results and the operating method: it plans, runs, systematizes, and improves influencer marketing. NoxInfluencer owns correct use of its product capabilities and can also serve experienced users directly when their objective and method are already clear. In a combined workflow, the manager sets the business action and acceptance criteria while NoxInfluencer returns verified evidence and system state.
 
 - Official website: [NoxInfluencer](https://www.noxinfluencer.com/)
 - Skills dashboard / API key fallback: [NoxInfluencer Skills Dashboard](https://www.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli)
@@ -167,7 +167,7 @@ claude plugin install nox-influencer@noxinfluencer
 ## Notes
 
 - This repository publishes `influencer-marketing-manager` and `noxinfluencer`.
-- The manager is tool-agnostic; the tool skill helps an Agent operate the NoxInfluencer CLI on the user's behalf.
+- The manager is tool-agnostic and can implement business SOPs and automation across available systems; the NoxInfluencer Skill supplies product-native data, workflow guidance, and execution.
 - Marketing-ops write actions default to preview/dry-run behavior and require explicit approval before execution.
 - Creator, collection, CRM, and brand-monitor exports use shared async export tasks; monitor, short-link, and affiliation Excel reports download directly.
 - Public rich-text/product image URLs are separate from private email/message attachments.

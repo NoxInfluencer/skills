@@ -1,29 +1,34 @@
 ---
 name: noxinfluencer
-description: Operate NoxInfluencer creator intelligence and marketing systems through the CLI, including search, analysis, contacts, monitoring, campaigns, CRM, outreach operations, products, affiliation, brand intelligence, exports, account setup, quota, and troubleshooting. Use when a task calls for NoxInfluencer data, records, or execution capabilities.
+description: Operates NoxInfluencer creator intelligence and marketing systems through the CLI. Use when work needs NoxInfluencer data, creator analysis, a Nox-native workflow, campaigns, CRM, outreach operations, monitoring, exports, account setup, quota, or troubleshooting; returns verified evidence and system state for standalone expert use or a wider marketing plan.
 metadata: {"openclaw":{"requires":{"bins":["noxinfluencer"]},"install":[{"kind":"node","package":"@noxinfluencer/cli","bins":["noxinfluencer"]}],"homepage":"https://www.noxinfluencer.com/skills"}}
 ---
 
 # NoxInfluencer
 
-NoxInfluencer execution skill for creator intelligence and marketing operations across YouTube, TikTok, and Instagram. Turn business intent into valid CLI operations, verified system state, and evidence the wider marketing workflow can use for its next decision.
+Act as the NoxInfluencer product-capability specialist for creator intelligence and marketing operations across YouTube, TikTok, and Instagram. Turn a defined task into an efficient Nox-native workflow, valid CLI operations, a tool-scoped interpretation, and verified system state.
 
 The user interacts through natural language. Execute CLI commands yourself and report results in plain language. Never expose raw commands to the user.
 
 ## When to Use
 
 - User wants NoxInfluencer creator intelligence, records, or execution capabilities
+- User wants to design or explain an efficient workflow using NoxInfluencer capabilities
 - User wants creator search, analysis, contact retrieval, monitoring, exports, campaign, collection, CRM, email/message, product-center, short-link, affiliate, or brand-monitor operations through NoxInfluencer
 - User needs to set up NoxInfluencer access or check quota
 - User hits an auth, quota, or CLI error
 
 ## Business Collaboration
 
-Contribute NoxInfluencer-backed creator evidence and operations to the user's wider marketing workflow. Begin from the current objective, business decision, and approved operating rule; return results in business language with the verified IDs and system state needed for the next step.
+This Skill owns correct and efficient use of NoxInfluencer: current capabilities, product-native operation sequences, data semantics, stable identifiers, permissions, quota, previews, mutations, errors, and authoritative readback.
 
-Use the appropriate business-management or writing capability to shape strategy, creator-fit judgment, outreach copy, negotiation positions, creative briefs, and lifecycle decisions. This Skill then supplies the NoxInfluencer data and execution those decisions require. Carry an active manager or Campaign's goals, stage definitions, and decision rights through every operation so both layers reinforce the same business logic.
+It can be used independently by a user who already knows the business objective and operating method. Interpret NoxInfluencer evidence, compare options, and recommend the next Nox-native step without forcing a separate manager workflow.
 
-External writes follow the user's approved action or operating rule. Important commercial commitments are presented with their material terms for the user's or qualified reviewer's decision.
+When the task also needs goal selection, marketing strategy, cross-source creator qualification, negotiation judgment, a business SOP, or cross-tool automation, use the `influencer-marketing-manager` Skill when available; otherwise keep those business decisions explicit with the user. Carry the agreed objective, criteria, authority, expected evidence, and stop condition through the NoxInfluencer operation, then return the verified data and system state needed for the next decision.
+
+For a broader request, contribute the Nox-supported slice—operations, inputs, identifiers, readback, and capability gaps—while the Manager or user owns the company-wide method and activation decision.
+
+Keep recommendations within the evidence actually checked. A NoxInfluencer result can support a business decision without by itself settling the whole strategy or relationship. External writes follow the user's approved action or operating rule; important commercial commitments remain explicit decisions.
 
 ## Core Principles
 
@@ -93,9 +98,9 @@ Run `quota` yourself and report the snapshot. For cost planning or optimization,
 
 ## 2. Discovering Creators
 
-Turn an open-ended search into a usable shortlist.
+Map a defined sourcing intent to structured search and a usable candidate set.
 
-Ask for only the missing essentials: platform, niche, region, creator size, and whether email signal matters. Search directly once the request is specific enough. Multi-platform sourcing requires separate platform searches.
+Ask for only the missing tool essentials: platform, niche, region, creator size, and whether email signal matters. Search directly once the request is specific enough. If the user needs help deciding the underlying audience, creator role, portfolio, budget, or success criteria, use the `influencer-marketing-manager` Skill when available; otherwise keep those choices explicit and ask for the inputs that determine the Nox search. Multi-platform sourcing requires separate platform searches.
 
 Use `schema creator.search` for flags. Search a known creator name/handle with `--creator_name`; use `--keywords` for topic discovery, never both. Put user-specified unwanted topics in `exclude_keywords`, and apply the SaaS cooperation, CRM communication, contacted-scope, and collection filters in the same search. Use `creator search-filter-options` when the matching patch is unclear; standalone `search-filter` is only for an already returned page. Add `--has_email true` when platform email outreach needs creators with an email signal, but do not imply visible email was retrieved. For pagination, reuse the prior filters and `data.search_after`; prefer a JSON body.
 
@@ -105,27 +110,27 @@ Creator search and lookalike discovery charge by returned creator count, not by 
 
 ### Lookalike Discovery
 
-Use `creator lookalikes` when the user asks for creators similar to a source creator or URL. Treat results as recommendations, use the returned opaque `creator_id` values directly, and save them separately only after the user chooses targets.
+Use `creator lookalikes` when the user asks for creators similar to a source creator or URL. Treat results as candidate hypotheses that still need review against the user's criteria, use the returned opaque `creator_id` values directly, and save them separately only after the user chooses targets.
 
 ### Selected Result Exports
 
 Use `creator export` or `creator lookalikes-export` only after the user selects 1-100 returned `data.items[].id` values. Base mode uses standard SaaS columns; deep mode requires supported `field_keys`. Preserve lookalike `data.export_context` unchanged. Run deep `creator export-preview` first to estimate business quota without creating a task or consuming Skill Credit. Contact fields can consume contact quota. Poll approved export tasks through shared `export` commands.
 
-### Shortlist Presentation
+### Candidate Presentation
 
-Present 3–5 comparable candidates first: name, platform, size, performance, geography, tags, and why they match. If results are noisy, ask for one narrowing filter. Preserve `creator_id` for follow-up actions.
+For a standalone NoxInfluencer request, present a small comparable set first: name, platform, size, performance, geography, tags, and which supplied criteria each result appears to satisfy. Label search rows as coarse candidate evidence unless richer creator or channel evidence was checked. If results are noisy, suggest one useful filter or deeper read. Preserve `creator_id` for follow-up actions.
 
 ---
 
 ## 3. Analyzing Creators
 
-Help the user decide whether a creator is worth pursuing. Lead with a verdict, not a wall of numbers.
+Interpret the requested NoxInfluencer evidence and make the result useful for a decision. Lead with a scoped conclusion, not a wall of numbers.
 
-Prefer `creator_id` from prior results. Check the user's requested concern first; otherwise use profile → audience → content → cooperation. Use `--detail` only when deeper evidence is needed, and skip platform-limited dimensions unless relevant. Return verdict first, then evidence.
+Prefer `creator_id` from prior results. Check the user's requested concern first; otherwise use profile → audience → content → cooperation. Use `--detail` only when deeper evidence is needed, and skip platform-limited dimensions unless relevant. When the user supplies a business objective or criteria, relate the evidence to them. State which parts of creator fit, commercial value, or risk remain unresolved by the checked data.
 
 ### Verdict Framework
 
-Use one of four conclusions: high-priority, viable with risks, needs manual review, or not a priority. Always surface dispute/negative cooperation signals. See `@references/verdict-heuristics.md` for detailed heuristics.
+Use one of four scoped conclusions: strong within the checked scope, workable with risks, insufficient evidence, or weak within the checked scope. Always surface dispute or negative cooperation signals. See `@references/verdict-heuristics.md` for evidence interpretation and output guidance.
 
 ---
 
@@ -141,7 +146,7 @@ When contacts are explicitly needed, run `creator contacts` for the selected cre
 
 ## 5. Tracking Performance
 
-Manage video monitoring projects and tracked content. Operational only — manages monitoring, not performance judgment.
+Manage video monitoring projects and tracked content. Report monitoring state and performance evidence; broader performance strategy remains tied to the supplied objective and the business manager.
 
 List projects first when unclear. For known published URLs, use `monitor add-task` or the SaaS template/import path. Use summary for project-level performance, tasks for tracked videos, and history for time-series detail. Preserve stable IDs and returned `creator_id` values. Use monitor report commands for direct SaaS Excel downloads, not shared async export polling.
 
@@ -208,4 +213,4 @@ For unexpected failures, run `doctor` as a first diagnostic step.
 - `@references/brand-monitor.md` — brand monitor routing, YouTube-only product signals, export boundaries
 - `@references/platform-support.md` — data availability by platform
 - `@references/search-filters.md` — filter selection by user intent
-- `@references/verdict-heuristics.md` — detailed due-diligence rules and output structure
+- `@references/verdict-heuristics.md` — scoped creator-evidence interpretation and output guidance

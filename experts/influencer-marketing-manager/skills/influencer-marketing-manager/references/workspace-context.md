@@ -8,6 +8,9 @@ Use this reference when a project directory, Campaign workspace, CRM export, or 
 - [Resolve source roles](#resolve-source-roles)
 - [Classify what was read](#classify-what-was-read)
 - [Keep one business record](#keep-one-business-record)
+- [Develop the operating method](#develop-the-operating-method)
+- [Implement automation](#implement-automation)
+- [Promote useful experience](#promote-useful-experience)
 - [Resolve conflicts and stale state](#resolve-conflicts-and-stale-state)
 
 ## Load the smallest useful context
@@ -67,6 +70,53 @@ observed result and resulting state
 Use a concise record for reversible work and add detail when spend, rights, reputation, or lifecycle state changes. This is a decision record, not a duplicate CRM.
 
 By stage, retain the coarse source and fine evidence for discovery; message version, recipients, authorization, and response state for outreach; task-level counters and a dated comparison baseline for monitoring; complete terms and confirmation for negotiation; and checklist evidence, public assets, metrics, attribution confidence, and learning for fulfillment and measurement.
+
+## Develop the operating method
+
+An SOP is a working method for producing a repeatable result. Build or refine it from the real workflow rather than from an idealized template:
+
+1. Observe the current inputs, decisions, systems, handoffs, outputs, and recurring failures.
+2. Identify which judgments require expertise and which actions can follow a stable rule.
+3. Define the minimum sequence, owners, evidence, confirmation points, completion test, and recovery path.
+4. Use the SOP on a bounded real case and record where the operator changes it.
+5. Revise the method from the observed result and keep one current project version.
+
+Keep the document proportional to the work. A short checklist may be enough for one repeated task; a cross-stage process may need states, role handoffs, templates, and measurement definitions. The SOP should help someone make the next correct decision, not preserve every historical action.
+
+## Implement automation
+
+Automation is the executable form of an approved operating method. Separate stable business logic from the runtime binding so the same intent can be implemented through Campaign settings, an Agent scheduler, a workspace state file, scripts, or another available system.
+
+Define only the contract needed to run and verify it:
+
+```text
+business result and success signal
+trigger, eligibility, scope, and schedule
+required inputs, stable identities, and authoritative sources
+decision rules, actions, owners, and confirmation points
+state, deduplication, readback, retry, stop, and escalation
+```
+
+Then implement the smallest end-to-end path, run it on a bounded scope, and verify both the action and the resulting business state. Preserve the last verified state when a retryable dependency fails; re-read current state before retrying so the automation does not duplicate work.
+
+When implementation cannot continue, return a capability gap rather than a speculative substitute:
+
+```text
+missing capability or access
+business step it blocks and evidence used to diagnose it
+exact account, permission, connection, API, input, or runtime the user must provide
+verification to run after it is available
+```
+
+Ask the user for that concrete requirement. Do not label a workflow operational until the required capability exists and the bounded readback succeeds.
+
+## Promote useful experience
+
+During authorized project work, update the project SOP or method when observed evidence changes how the next similar task should be performed. Keep current project rules, live business state, historical cases, and reusable method in their respective authoritative locations.
+
+Treat a single result as an observation or hypothesis. Promote it into the published general Skill or a shared baseline only when its conditions are understood and either repeated evidence supports it or an experienced operator validates it. Promotion to the general Skill requires review by the responsible influencer-marketing operations owner.
+
+When promoting a pattern, retain the situation, evidence, action, reasoning, observed result, applicability, and review date. Prefer revising one positive decision rule over adding a new exception list.
 
 ## Resolve conflicts and stale state
 

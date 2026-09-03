@@ -5,25 +5,26 @@
       "id": 1,
       "category": "discovery",
       "prompt": "I need to find cycling influencers for our new product VELOMESH - it's an ebike conversion kit for premium road and gravel bikes. We're launching on Kickstarter on April 21st. Budget is around $3,000 for 5 KOLs. Target markets are US and UK. We need creators with at least 30k followers on both YouTube and Instagram. The product's key selling point is that it's an invisible e-power upgrade - ultra-light, fully modular, aerodynamically integrated. We want cycling-focused influencers, especially road & gravel oriented ones.",
-      "expected_output": "Search both YouTube and Instagram, produce a comparable shortlist, suggest analyzing top candidates next",
+      "expected_output": "When used standalone, map the supplied criteria to separate YouTube and Instagram searches, return comparable coarse candidate evidence, and suggest the next Nox-native review.",
       "files": [],
       "expectations": [
         "Searches on both YouTube and Instagram (two separate searches)",
         "Uses appropriate follower and country filters",
-        "Presents a visible shortlist (not raw JSON)",
-        "Suggests analyzing top candidates as next step (within the same skill)"
+        "Presents a visible candidate set rather than raw JSON and labels search rows as coarse evidence",
+        "Suggests analyzing top candidates as the next Nox-native step without inventing a broader campaign strategy"
       ]
     },
     {
       "id": 2,
       "category": "discovery",
       "prompt": "We have a new ebike conversion kit and need some influencers to promote it. Budget is about 3k USD. Can you help find some good ones?",
-      "expected_output": "Should ask clarifying questions before searching — request is underspecified",
+      "expected_output": "Ask only for the missing sourcing inputs needed to use NoxInfluencer, and distinguish those inputs from broader strategy work.",
       "files": [],
       "expectations": [
         "Asks about platform(s)",
         "Asks about region or creator size",
-        "Does NOT execute a search before getting clarification"
+        "Does NOT execute a search before getting clarification",
+        "Does not invent the target audience, creator role, campaign strategy, or success criteria"
       ]
     },
     {
@@ -36,32 +37,34 @@
         "Infers YouTube and Instagram as platforms",
         "Extracts ~30k follower minimum",
         "Extracts US and UK as target countries",
-        "Uses cycling-related keywords"
+        "Uses cycling-related keywords",
+        "Treats returned search rows as candidates for further review rather than final business recommendations"
       ]
     },
     {
       "id": 4,
       "category": "routing",
       "prompt": "帮我深入分析一下 Avery Cole 这个达人靠不靠谱，他的粉丝质量怎么样？有没有争议记录？值不值得花钱合作？",
-      "expected_output": "Directly run analysis commands within the same skill — not search, not handoff to another skill",
+      "expected_output": "Resolve the creator identity, retrieve the relevant NoxInfluencer evidence, and return a scoped conclusion while identifying any business decision the data cannot settle.",
       "files": [],
       "expectations": [
-        "Runs analysis commands (profile, audience, content, or cooperation) — not creator search",
-        "Does NOT reference or hand off to a separate skill",
-        "Treats the request as due-diligence analysis (section 3 workflow)"
+        "Resolves the named creator to a stable creator_id before detail calls instead of guessing an identifier",
+        "Checks the requested audience quality and dispute or cooperation evidence, plus recent content or performance when needed",
+        "Returns a conclusion scoped to the NoxInfluencer evidence and states its freshness and important limits",
+        "Identifies the campaign objective, complete package economics, or other business context still needed for a final spend decision"
       ]
     },
     {
       "id": 5,
       "category": "analysis",
       "prompt": "I've narrowed down to Avery Cole (YouTube cycling creator). Can you do a full due diligence? I want to know if he's worth the investment — audience quality, any disputes, how his pricing compares to performance. His creator ID from the search is: r9VcmNsPLbYWT7caR6HTX2ZR--p1QAthlDV5932yjjZZXLTQ61qC947b",
-      "expected_output": "Run profile/audience/content/cooperation detail, produce a verdict (one of the 4 levels), organize evidence by dimension",
+      "expected_output": "Run the relevant NoxInfluencer detail reads, provide one of the four scoped evidence conclusions, and organize the decision-relevant evidence and limits.",
       "files": [],
       "expectations": [
         "Runs multiple detail commands (profile, audience, content, cooperation with --detail)",
-        "Leads with a clear verdict (one of the 4 framework levels)",
+        "Leads with a clear scoped conclusion (strong within scope, workable with risks, insufficient evidence, or weak within scope)",
         "Organizes evidence by dimension (data performance, audience quality, cooperation risk, commercial reasonableness)",
-        "Does not just dump raw numbers — interprets them"
+        "Does not just dump raw numbers — interprets them against supplied criteria and states what remains outside the checked evidence"
       ]
     },
     {
@@ -368,11 +371,11 @@
       "id": 30,
       "category": "should-not-trigger",
       "prompt": "帮我想一个品牌出海的 influencer marketing 策略，不需要查达人，先从预算、人群、节奏讲就行。",
-      "expected_output": "Treat as strategy planning, not a NoxInfluencer CLI workflow.",
+      "expected_output": "Route the business strategy request to the influencer-marketing manager rather than manufacturing a NoxInfluencer operation.",
       "files": [],
       "expectations": [
         "Does NOT use the noxinfluencer CLI",
-        "Treats the request as strategic planning because the user explicitly says not to search creators",
+        "Treats the request as strategic planning because it needs audience, budget, portfolio, and cadence judgment",
         "Does not fabricate NoxInfluencer data"
       ]
     },
@@ -464,6 +467,34 @@
         "Treats the created task as type 3",
         "Does NOT include campaign_id or task_type in the request body",
         "Does NOT require the SaaS intelligent Campaign page for a standalone task"
+      ]
+    },
+    {
+      "id": 38,
+      "category": "nox-native-workflow",
+      "prompt": "Our strategy, creator criteria, outreach copy, and approval rules are already final. Design the most efficient NoxInfluencer workflow from structured search through creator detail review, collection, standalone email task preparation, CRM updates, and video monitoring. Include quota checks, previews, stable IDs, and readback, but do not execute anything or revisit the strategy.",
+      "expected_output": "Independently design a current Nox-native operating sequence for the settled business task without expanding into campaign strategy.",
+      "files": [],
+      "expectations": [
+        "Keeps the approved business criteria and scope unchanged",
+        "Maps each stage to the appropriate current NoxInfluencer command family and uses runtime schema for exact parameters",
+        "Carries stable creator and business-record identifiers through the workflow",
+        "Includes relevant quota, preview or dry-run, authorization, and authoritative readback points",
+        "Explains NoxInfluencer-specific alternatives or limitations while leaving broader strategy and SOP ownership unchanged"
+      ]
+    },
+    {
+      "id": 39,
+      "category": "manager-coexistence",
+      "prompt": "Build our company-wide influencer-marketing SOP and a fully autonomous workflow across NoxInfluencer, HubSpot, Gmail, a scheduler, and our project knowledge base. We have not decided the campaign objective, approval policy, or source of truth yet. Start by designing the complete business process and make it operational.",
+      "expected_output": "Recognize that the request needs influencer-marketing management and cross-tool operating design, while contributing a scoped inventory of the NoxInfluencer capabilities that can support it.",
+      "files": [],
+      "expectations": [
+        "Does not treat a sequence of NoxInfluencer commands as the complete company SOP or automation",
+        "Routes goal, approval, source-of-truth, cross-tool state, and business acceptance decisions to the influencer-marketing manager",
+        "Identifies the NoxInfluencer data and operations that can support the wider workflow without inventing HubSpot, Gmail, or scheduler capabilities",
+        "States which concrete connections, permissions, or runtime capabilities must be supplied before the end-to-end workflow can operate",
+        "Does not claim that the requested automation was implemented or verified"
       ]
     }
   ]

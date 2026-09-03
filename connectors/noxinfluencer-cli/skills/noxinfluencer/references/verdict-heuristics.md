@@ -1,90 +1,68 @@
-# Verdict Heuristics Reference
+# NoxInfluencer Evidence Interpretation
 
-Detailed heuristic rules and output structure for creator due-diligence verdicts.
+Use this reference to turn NoxInfluencer creator data into a concise, tool-scoped conclusion. It supports an experienced user's own decision and supplies evidence to a wider influencer-marketing workflow.
 
-## Verdict Levels
+## Scope the question
 
-### 1. High-priority collaboration candidate
+Start with the user's stated concern or criteria. A complete creator recommendation normally depends on the business objective, audience, content scene, cooperation model, recent content, complete cost, and execution context. Judge only the dimensions that the checked NoxInfluencer data and supplied context can support.
 
-All of the following hold:
+Use one of four conclusions:
 
-- No meaningful dispute signal
-- Audience quality is healthy (authenticity status is positive, no suspicious audience dominance)
-- Performance is competitive for the niche (benchmark rank is above median)
-- Pricing and cooperation signals do not show obvious friction (reasonable response time, acceptable pricing range)
+1. **Strong within the checked scope:** the checked evidence supports the supplied criteria and shows no material unresolved conflict.
+2. **Workable with risks:** the evidence is broadly useful, with one or more named concerns that can be evaluated or managed.
+3. **Insufficient evidence:** a decision-critical dimension is missing, stale, platform-limited, or internally inconsistent.
+4. **Weak within the checked scope:** the checked evidence materially conflicts with the supplied criteria or shows a serious risk.
 
-### 2. Viable, but with clear risks
+These conclusions describe the evidence reviewed. They do not turn a search result, composite score, or one platform metric into a universal partnership verdict.
 
-Overall profile is workable, but one or two notable concerns exist:
+## Evidence dimensions
 
-- Weak cooperation signals (low cooperation score, few brand partnerships)
-- Performance volatility (high wave value, inconsistent engagement)
-- Questionable pricing efficiency (large gap between first and final price)
-- Audience demographic mismatch for the stated campaign goal
+Inspect only the dimensions needed for the question:
 
-### 3. Needs manual review before proceeding
+### Identity and freshness
 
-The evidence is mixed and a firm recommendation would be misleading:
+- Confirm the creator, platform, stable `creator_id`, and observation time.
+- Distinguish current content and audience evidence from older profile or cooperation history.
+- State when a field is unavailable for the platform or its semantics are unclear.
 
-- Commercial reasonableness cannot be judged confidently from available data
-- One critical dimension is unclear or data is incomplete
-- Conflicting signals across dimensions (strong performance but poor audience quality, or vice versa)
+### Content and performance
 
-### 4. Not a priority collaboration candidate
+- Compare recent, representative, same-format content when available.
+- Keep long-form, Shorts, reels, posts, live replays, and other formats separate.
+- Read averages, medians or typical ranges, trend, volatility, and peer benchmarks as different signals.
+- Treat an outlier or composite performance level as a reason to inspect underlying content, not a complete conclusion.
 
-Multiple weak signals appear:
+### Audience
 
-- Disputes or negative cooperation history
-- Poor audience quality (low authenticity, suspicious audience types)
-- Below-benchmark performance across multiple metrics
-- Creator is clearly a poor fit for the stated collaboration goal
+- Relate geography, language, age, gender, interests, authenticity, and audience types to the supplied target.
+- Surface suspicious or inactive audience signals and material missing coverage.
+- Describe available evidence without inventing precision for platform-limited fields.
 
-## Due-Diligence Output Structure
+### Cooperation and commercial signals
 
-After the verdict, organize evidence into these sections:
+- Surface dispute history and meaningful negative cooperation signals prominently.
+- Compare estimated price, response behavior, prior brand work, cooperation duration, and promotional-content performance when available.
+- Treat pricing as one input. A business decision may also need rights, exclusivity, tax, logistics, production support, payment terms, and expected contribution.
 
-### 1. Data Performance
+## Interpretation rules
 
-- Average views and engagement rate
-- Stability: wave value and views change ratio
-- Benchmark position: rank and percentile vs. peers
-- Content-type splits if relevant (normal vs. shorts/reels)
-- Level indicators (1-5 scale): avg_views_level, wave_level, engagement_rate_level
+- Use search, tags, percentiles, composite scores, cooperation scores, contact flags, and lookalike ranking as triage signals.
+- Establish field semantics before interpreting missing, empty, or default-looking zero values.
+- Explain the benchmark population and window when available; otherwise state that the comparison base is unknown.
+- Keep creator fit and contact readiness separate. A contact signal does not prove an actual verified address.
+- When checked signals conflict, prefer `insufficient evidence` and name the smallest useful NoxInfluencer read or external review.
+- Keep recommendations tied to supplied criteria. If the criteria themselves require strategy work, return the evidence and identify that open business decision.
 
-### 2. Audience Quality
+## Output
 
-- Audience authenticity (value, status, ratio range)
-- Audience type distribution (real, suspicious, inactive)
-- Demographic fit: region, language, age, gender distributions
-- Marketing indicators: positive_audience_pct, promo_interested_audience_pct, promo_attractiveness, promo_professionalism
+Return:
 
-### 3. Cooperation Risk
+```text
+scoped conclusion and question answered
+supporting NoxInfluencer evidence with freshness
+material risks, missing dimensions, and data limits
+next Nox-native read or operation, when useful
+business decision that remains open, if any
+```
 
-- Dispute types (if any)
-- Cooperation score and tendency
-- Cooperation pros and cons lists
-- Ad video ratio and frequency
-
-### 4. Commercial Reasonableness
-
-- Estimated price range (avg, min, max)
-- First price vs. final price gap
-- Response speed (avg_response_hours)
-- Collaboration efficiency (avg_contact_days, avg_contact_chats, avg_collaboration_days)
-- Active period and communication patterns
-- Existing brand partnerships (brand names, video counts, engagement rates)
-
-### 5. Final Recommendation
-
-- Whether to continue toward outreach
-- What should be double-checked manually
-- Whether the next step should be contact retrieval or shortlist replacement
-
-## Interpretation Principles
-
-- Dispute history and negative cooperation signals are decision-critical — always surface them prominently.
-- Benchmark position provides context but is not the sole determinant.
-- Pricing reasonableness should be evaluated relative to performance, audience quality, and cooperation signals, not in isolation.
-- When evidence is mixed, prefer "Needs manual review" over false confidence.
-- When two or more critical dimensions are missing or platform-limited, do not force a confident verdict.
-- When only one dimension was checked, present the answer as a scoped judgment, not a full verdict.
+Lead with the conclusion and the most decision-relevant evidence. Do not dump every normalized field.

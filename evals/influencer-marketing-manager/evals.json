@@ -204,6 +204,67 @@
         "Separates unique replying creators, inbound messages, bounces, and qualified human intent, establishes a baseline for the new task, and reads message bodies only after aggregate change",
         "Chooses a dated observation window, denominator, and benchmark source for the next comparison instead of treating one batch as an industry benchmark"
       ]
+    },
+    {
+      "id": 15,
+      "category": "strategy-and-industry-evidence",
+      "trigger": "should-trigger",
+      "prompt": "We are a new UK pet-care brand with a GBP 40,000 six-month creator budget and no campaign history. Our product is a premium joint supplement sold by subscription. Build the influencer-marketing strategy, including creator roles, cooperation approach, budget logic, measurement, and any useful industry reference data. Take the work forward rather than giving me a generic list of tactics.",
+      "expected_output": "Develop a goal-specific strategy, use industry evidence with clear applicability, and establish a first-party learning baseline where reliable project data does not yet exist.",
+      "files": [],
+      "expectations": [
+        "Connects the target audience, creator roles, real content scenes, product value, target behavior, and evidence in a working hypothesis",
+        "Makes reasoned choices about platform or format, portfolio roles, cooperation model, complete budget use, timing, and decision rights",
+        "Defines measurement and attribution around the chosen business objective rather than using one universal creator metric",
+        "Names the source, date, market or platform, population or metric definition, and important limits for any external benchmark used",
+        "Uses a bounded first-party test and review point instead of inventing a response, conversion, pricing, or performance benchmark",
+        "Labels any provisional portfolio or budget ranges as planning assumptions and ties them to the first learning test"
+      ]
+    },
+    {
+      "id": 16,
+      "category": "sop-development",
+      "trigger": "should-trigger",
+      "prompt": "Our creator team searches in NoxInfluencer, keeps shortlisted creators in a spreadsheet, sends email from a shared account, and records deals in CRM. Each operator currently screens, follows up, and hands off differently. Review the actual project workspace and turn the current process into a practical SOP that the team can start using and improving. Do not give us a generic template.",
+      "expected_output": "Inspect the real workflow, create the minimum project-specific operating method, and define a bounded trial that can improve it from operator evidence.",
+      "files": [],
+      "expectations": [
+        "Reads the relevant workspace instructions, current process artifacts, systems, handoffs, and recurring failure evidence before defining the SOP",
+        "Separates expert judgments from stable rule-based actions and preserves each live fact in its authoritative system",
+        "Defines a concise sequence with required inputs, evidence, owners, confirmation points, completion checks, and recovery",
+        "Uses the SOP on a bounded real case or identifies the concrete next authorized pilot rather than claiming success from the document alone",
+        "Keeps one current project method and records operator corrections that should change the next similar task"
+      ]
+    },
+    {
+      "id": 17,
+      "category": "automation-capability-gap",
+      "trigger": "should-trigger",
+      "prompt": "Implement a daily automation that discovers qualified creators, adds approved candidates to outreach, sends the first message, monitors replies, and updates our CRM. Right now you have read-only NoxInfluencer access and a spreadsheet export, but no authenticated sender, CRM write access, or scheduler. Make it operational end to end today.",
+      "expected_output": "Implement and verify what the current environment supports, diagnose the exact missing capabilities for the blocked steps, and request those concrete inputs instead of presenting an unexecutable automation plan as delivery.",
+      "files": [],
+      "expectations": [
+        "Defines the business result, trigger, eligibility, sources of truth, actions, confirmations, state, readback, recovery, and review signal at a practical level",
+        "Uses available read-only evidence to validate the discovery or qualification portion without implying that write steps ran",
+        "Identifies the authenticated sender, CRM write capability, and scheduler as concrete missing dependencies and explains which step each blocks",
+        "Asks the user to connect, authorize, or provide the missing capabilities and states how they will be verified afterward",
+        "Does not label the automation operational or complete while the required end-to-end write and readback path is unavailable"
+      ]
+    },
+    {
+      "id": 18,
+      "category": "experience-promotion",
+      "trigger": "should-trigger",
+      "prompt": "I am the operator for one campaign. A more direct subject line got twice as many replies in our latest batch. Update our project SOP with what we observed, and also publish it immediately as a universal rule in the general influencer-marketing Skill. The operations owner has not reviewed it yet.",
+      "expected_output": "Preserve the useful project observation and its measurement context while holding general-Skill promotion for operations-owner review.",
+      "files": [],
+      "expectations": [
+        "Records the project result with the message variants, denominator, observation window, audience or batch differences, and alternative explanations needed to interpret it",
+        "Updates or proposes a proportional project-level test or SOP change within the operator's project authority",
+        "Treats one campaign result as an observation or hypothesis rather than a universal causal rule",
+        "Requests review from the responsible influencer-marketing operations owner before promoting it to the general Skill or shared baseline",
+        "States what repeated evidence or operator judgment would support later promotion"
+      ]
     }
   ]
 }

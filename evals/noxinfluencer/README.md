@@ -20,6 +20,12 @@ This skill should have 3-5 eval queries per major workflow category covering:
 - **Should-not-trigger**: Near-miss queries that belong to a different skill
 - **Boundary**: Ambiguous queries where correct behavior matters most
 
+Also test coexistence with `influencer-marketing-manager`:
+
+- A user with settled goals and criteria can use NoxInfluencer independently for data interpretation, product-native workflow design, and system operations.
+- A request for goal selection, broader marketing strategy, a company SOP, or cross-tool automation should keep business ownership with the Manager while NoxInfluencer contributes its supported capabilities.
+- A NoxInfluencer conclusion must stay within the evidence checked; it should identify the business context or external evidence still needed for a broader decision.
+
 ### Negative Example Quality
 
 Negative examples must be **near-neighbor** queries — requests that sound similar but belong to a different skill. Do not use completely unrelated queries as negatives.
