@@ -129,17 +129,46 @@ def create_tests(config: dict[str, Any] | None = None) -> list[dict[str, Any]]:
                 ],
             }
         )
+
+        if case_id == 19:
+            tests.append(
+                {
+                    "description": f"[{case_id}-natural] {case['category']}",
+                    "vars": {"request": case["prompt"]},
+                    "metadata": {
+                        "case_id": case_id,
+                        "category": case["category"],
+                        "trigger": case["trigger"],
+                        "evaluation_mode": "natural-routing",
+                        "expected_output": case["expected_output"],
+                        "expectations": case["expectations"],
+                    },
+                    "assert": [
+                        {
+                            "type": "skill-used",
+                            "value": SKILL_NAME,
+                            "metric": "routing-evidence",
+                            "weight": 1,
+                        }
+                    ],
+                }
+            )
     return tests
 
 
 def run_self_test() -> None:
     tests = create_tests({"case_ids": list(DEFAULT_CASE_IDS)})
-    assert [test["metadata"]["case_id"] for test in tests] == list(DEFAULT_CASE_IDS)
-    assert all(test["assert"][0]["weight"] > test["assert"][1]["weight"] for test in tests)
+    assert [test["metadata"]["case_id"] for test in tests] == [10, 12, 19, 19]
+    content_tests = [test for test in tests if len(test["assert"]) == 2]
+    assert all(test["assert"][0]["weight"] > test["assert"][1]["weight"] for test in content_tests)
     assert tests[0]["vars"]["request"].startswith("Use the influencer-marketing-manager skill")
     assert not tests[1]["vars"]["request"].startswith("Use the influencer-marketing-manager skill")
     assert tests[1]["assert"][1]["type"] == "not-skill-used"
     assert tests[0]["assert"][1]["type"] == "skill-used"
+    assert tests[2]["vars"]["request"].startswith("Use the influencer-marketing-manager skill")
+    assert tests[3]["vars"]["request"] == _load_cases()[19]["prompt"]
+    assert tests[3]["metadata"]["evaluation_mode"] == "natural-routing"
+    assert [assertion["type"] for assertion in tests[3]["assert"]] == ["skill-used"]
 
     for invalid in ([], [999], [1]):
         try:

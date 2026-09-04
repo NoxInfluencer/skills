@@ -67,12 +67,13 @@ This setup follows the [OpenAI migration guide](https://developers.openai.com/co
 The first executable Promptfoo slice intentionally uses three existing cases rather than duplicating the full qualitative rubric:
 
 - case 19 checks whether the operational-tool addition changes the user-visible result;
+- a second, unprefixed case 19 row checks natural positive routing without conflating it with the content result;
 - case 10 protects the existing discovery baseline from regression; and
 - case 12 keeps a natural, unprefixed neighboring task to check routing boundaries.
 
-The two positive cases explicitly name the Manager in the test prompt so their old/new comparison measures Skill content rather than a stochastic auto-routing decision. Case 12 intentionally does not name it; its routing signal is a separate boundary check.
+The two positive content rows explicitly name the Manager in the test prompt so their old/new comparison measures Skill content rather than a stochastic auto-routing decision. The extra case 19 row and case 12 do not name it, giving one natural positive and one natural negative routing check.
 
-The adapter reads prompts and expectations from `evals.json`. Deterministic JavaScript assertions score the observable task result at weight 4; `skill-used` or `not-skill-used` is supporting routing evidence at weight 1. A green aggregate is not enough to choose a Skill version: inspect the old/new output for each case and retain concrete failure evidence.
+The adapter reads prompts and expectations from `evals.json`. Deterministic JavaScript assertions score the observable task result at weight 4; `skill-used` or `not-skill-used` is supporting routing evidence at weight 1. The natural case 19 row is routing-only because its explicit companion already tests the content. A green aggregate is not enough to choose a Skill version: inspect the old/new output for each case and retain concrete failure evidence.
 
 Promptfoo requires Node.js 22.22.0 or newer. Install the pinned project dependency without changing the system Node runtime:
 
