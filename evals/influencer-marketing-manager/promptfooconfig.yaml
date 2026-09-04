@@ -1,0 +1,49 @@
+description: Compare influencer-marketing-manager Skill versions
+
+prompts:
+  - '{{request}}'
+
+x-codex-config: &codexConfig
+  model: '{{ env.INFLUENCER_EVAL_MODEL | default("gpt-5.6-terra") }}'
+  model_reasoning_effort: medium
+  skip_git_repo_check: true
+  sandbox_mode: read-only
+  approval_policy: never
+  network_access_enabled: false
+  web_search_mode: disabled
+  enable_streaming: true
+  cli_env:
+    CODEX_HOME: '{{ env.PWD }}/evals/influencer-marketing-manager/workspace/promptfoo/codex-home'
+  cli_config:
+    features:
+      memories: false
+      multi_agent: false
+      plugins: false
+      apps: false
+      skill_mcp_dependency_install: false
+
+providers:
+  - id: openai:codex-sdk
+    label: manager-baseline
+    config:
+      <<: *codexConfig
+      working_dir: ./workspace/promptfoo/fixtures/baseline
+  - id: openai:codex-sdk
+    label: manager-candidate
+    config:
+      <<: *codexConfig
+      working_dir: ./workspace/promptfoo/fixtures/candidate
+
+defaultTest:
+  options:
+    disableVarExpansion: true
+
+evaluateOptions:
+  maxConcurrency: 1
+  timeoutMs: 300000
+  maxEvalTimeMs: 1200000
+
+tests:
+  path: file://./promptfoo_cases.py:create_tests
+  config:
+    case_ids: [10, 12, 19]
