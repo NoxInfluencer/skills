@@ -60,6 +60,39 @@ Score each expectation as pass, partial, or fail with a short evidence note. Kee
 3. **Operator trial:** use a small number of real, appropriately authorized internal tasks. Record where an experienced operator would change the strategy, next action, SOP, automation behavior, decision rights, or adjustment.
 4. **Narrow revision:** improve the smallest positive instruction or example supported by the failure, then rerun the affected cases. Consider a focused hard restriction after repeated real failures show that positive guidance and context are insufficient.
 
+## Promptfoo old/new slice
+
+This setup follows the [OpenAI migration guide](https://developers.openai.com/cookbook/examples/evaluation/moving-from-openai-evals-to-promptfoo), the [Codex eval workflow](https://learn.chatgpt.com/use-cases/ai-app-evals), Promptfoo's [Agent Skill comparison guide](https://www.promptfoo.dev/docs/guides/test-agent-skills/), and its [Codex SDK provider reference](https://www.promptfoo.dev/docs/providers/openai-codex-sdk/).
+
+The first executable Promptfoo slice intentionally uses three existing cases rather than duplicating the full qualitative rubric:
+
+- case 19 checks whether the operational-tool addition changes the user-visible result;
+- case 10 protects the existing discovery baseline from regression; and
+- case 12 keeps a natural, unprefixed neighboring task to check routing boundaries.
+
+The two positive cases explicitly name the Manager in the test prompt so their old/new comparison measures Skill content rather than a stochastic auto-routing decision. Case 12 intentionally does not name it; its routing signal is a separate boundary check.
+
+The adapter reads prompts and expectations from `evals.json`. Deterministic JavaScript assertions score the observable task result at weight 4; `skill-used` or `not-skill-used` is supporting routing evidence at weight 1. A green aggregate is not enough to choose a Skill version: inspect the old/new output for each case and retain concrete failure evidence.
+
+Promptfoo requires Node.js 22.22.0 or newer. Install the pinned project dependency without changing the system Node runtime:
+
+```bash
+npm ci
+```
+
+Prepare fixtures by naming the old Git revision explicitly. The candidate defaults to the current worktree, which is useful while editing a Skill; pass `--candidate-ref` to compare two committed revisions. Both fixtures receive the same neighboring Skills, model, permissions, and runtime settings, and only the Manager directory may vary. The preparation step also creates an ignored, isolated `CODEX_HOME` so personal Skills and settings cannot affect the run. Use `--reuse-codex-login` to link only the host login state; omit it when an API key is available.
+
+```bash
+npm run eval:manager:prepare -- --baseline-ref <old-ref> --reuse-codex-login
+npm run eval:manager:validate
+npm run eval:manager -- --no-cache \
+  -o evals/influencer-marketing-manager/workspace/promptfoo/results.json
+```
+
+The default model is `gpt-5.6-terra` at medium reasoning. Set `INFLUENCER_EVAL_MODEL` to pin another Codex model for the whole comparison. Runs are read-only, non-interactive, memory-disabled, plugin-disabled, single-agent, serialized, and have agent network/search access disabled. Each row has a five-minute timeout and the suite has a twenty-minute ceiling. The isolated home may reuse only the current Codex login and connection routing; CI can supply `OPENAI_API_KEY` or `CODEX_API_KEY` instead.
+
+Before a release decision, rerun important cases with `--repeat 3`, review individual failures, and add demonstrated failures to the protected set. Do not infer that all 19 cases improved from this three-case slice.
+
 Run behavior comparisons with the local Codex CLI. Keep the prompt and available artifacts identical between variants, use an isolated read-only ephemeral fixture, and do not connect the test to a live marketing system. From the repository root:
 
 ```bash
@@ -101,6 +134,8 @@ python "${CODEX_HOME:-$HOME/.codex}/skills/.system/skill-creator/scripts/quick_v
 python -m json.tool evals/influencer-marketing-manager/evals.json
 python evals/influencer-marketing-manager/validate_evals.py
 python evals/influencer-marketing-manager/validate_evals.py --self-test
+python evals/influencer-marketing-manager/promptfoo_cases.py --self-test
+npm run eval:manager:validate
 ```
 
 Behavior transcripts and reviewer notes belong under `evals/influencer-marketing-manager/workspace/`, which is intentionally ignored.
