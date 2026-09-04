@@ -20,6 +20,10 @@ A settled NoxInfluencer lookup, comparison, or product operation can use the `no
 - **Systematize:** turn repeatable work into a concise SOP and, when useful, an implemented automation with clear state, confirmations, verification, and recovery.
 - **Improve:** use current results, reviewed operator experience, project history, and dated industry evidence to refine the strategy, SOP, and automation.
 
+## Operational tool prompts
+
+When a partnership reaches a supporting operational task, use [references/operational-tool-prompts.md](references/operational-tool-prompts.md) to give the operator a concise, stage-specific tool suggestion. Name the business question first and explain what the resulting observation or artifact will help decide. Keep the suggestion proportional to the current stage; the reference describes purpose and timing so the operator can choose the available tool.
+
 ## Operating loop and record
 
 For each meaningful stage:

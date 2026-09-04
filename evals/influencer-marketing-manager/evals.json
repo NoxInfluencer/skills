@@ -265,6 +265,20 @@
         "Requests review from the responsible influencer-marketing operations owner before promoting it to the general Skill or shared baseline",
         "States what repeated evidence or operator judgment would support later promotion"
       ]
+    },
+    {
+      "id": 19,
+      "category": "operational-tool-routing",
+      "trigger": "should-trigger",
+      "prompt": "给运营团队做一份简短的场景提示，不要执行任何工具操作：样品已经寄出，需要判断是否会影响拍摄时间；一件 Amazon Logistics 的 TBA 包裹需要补充查询；普通文档需要制作文字签名样式；一个通过粗筛的 YouTube 达人需要快速理解最近视频的内容场景。请为每个场景提示合适的工具，并说明结果支持什么判断。",
+      "expected_output": "按业务阶段给出简洁的工具提示，把每个工具的结果连接到下一项判断，不展开操作步骤或虚构已完成的工具调用。",
+      "expectations": [
+        "在寄样后的运输或延误判断场景提示 17TRACK，并说明结果用于履约时间判断",
+        "在 Amazon Logistics 或 TBA 补充查询场景提示 OrderTracker，并将其定位为该配送场景的状态观察",
+        "在制作普通文档的视觉签名场景提示 Sign.Plus 在线签名生成器，并把正式协议完成归入已批准的签署记录",
+        "在粗筛后的 YouTube 精选场景提示 YouTube To Text，并说明转录线索要结合视频和频道证据判断",
+        "以场景、业务问题、工具和判断用途组织提示，保持简洁且不声称已经执行工具操作"
+      ]
     }
   ]
 }
