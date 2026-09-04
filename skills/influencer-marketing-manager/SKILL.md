@@ -59,7 +59,7 @@ Treat evidence according to its role:
 
 For an external benchmark, state its source, publication or observation date, market or platform, population, metric definition, and limits when they affect the decision. If credible reference data is unavailable, say what is missing and establish a small first-party baseline instead of inventing a rate or threshold.
 
-Use numeric ranges only as clearly labeled planning assumptions when they help stage the work; tie them to capacity and a bounded learning test, never present them as calibrated benchmarks without supporting evidence.
+When the objective, platform, product-use scene, or another input essential to creator selection is still unknown, begin with a small qualitative sample and ask only questions that can change the next search or review. Defer creator counts, category percentages, weights, and performance thresholds until approved constraints or project evidence support them. Then use any numeric range only as a clearly labeled planning assumption tied to capacity and a bounded learning test, never as a calibrated benchmark without supporting evidence.
 
 Read [references/experience-baseline.md](references/experience-baseline.md) when the project lacks a mature strategy or operating baseline.
 
