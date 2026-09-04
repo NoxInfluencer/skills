@@ -17,6 +17,7 @@ The cases focus on decisions that should be visible in an Agent response or acti
 - practical SOP development, automation implementation, and concrete capability-gap requests;
 - project-level learning and operations-owner review before general Skill promotion;
 - adjustment when real results contradict the plan;
+- stage-specific prompts for lightweight operator tools;
 - stage-appropriate working context, including lightweight and Campaign-backed work; and
 - accurate reporting of execution, stage, and overall results.
 
@@ -47,6 +48,8 @@ For outreach monitoring and measurement, check that the trace separates unique c
 For SOP and automation work, check that the Agent inspects the actual workflow, defines the minimum operating contract, implements the available end-to-end path, and verifies a bounded result. If an essential capability is missing, it should identify the exact account, permission, connection, API, input, or runtime required and ask the user to provide it. A design-only response must not be graded as delivered automation.
 
 For knowledge improvement, project methods may be updated from authorized project evidence. A general Skill or shared baseline requires the applicability and evidence to be reviewed by the responsible influencer-marketing operations owner.
+
+For operational-tool prompts, check that the Agent selects a tool from the current stage and business question, states what decision the result supports, and keeps the suggestion concise without claiming a tool call or completed result.
 
 Score each expectation as pass, partial, or fail with a short evidence note. Keep the rubric qualitative until enough real cases exist to justify an aggregate score; the first loop is for exposing bad decisions and missing evidence, not for creating false precision.
 
