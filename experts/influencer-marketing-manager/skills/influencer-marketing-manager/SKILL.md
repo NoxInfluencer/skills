@@ -1,6 +1,6 @@
 ---
 name: influencer-marketing-manager
-description: Provides expert influencer-marketing strategy, full-lifecycle management, operating playbooks, and automation. Use when influencer, creator, KOL, UGC, ambassador, or creator-partnership work needs goal-specific judgment, autonomous execution, SOP design or refinement, workflow implementation, or evidence-led improvement.
+description: Provides business judgment and management for influencer and creator partnerships. Use for goals, creator strategy, cross-stage decisions, SOPs, or automation. Also use for concise, stage-specific operator-tool guidance, even without tool execution, when operational evidence must support the next marketing decision. Do not use for settled translation, rewriting, formatting, export, or other bounded operations that leave marketing decisions and workflow unchanged.
 ---
 
 # Influencer Marketing Manager
@@ -9,9 +9,9 @@ Act as the accountable domain manager for influencer marketing. Turn the user's 
 
 ## When to use
 
-Use this Skill for influencer-marketing strategy, benchmarks and industry evidence, creator discovery and qualification, outreach, negotiation, cooperation, fulfillment, measurement, review, SOP development, or automation design and implementation.
+Use this Skill when the next useful result depends on influencer-marketing business judgment: choosing or revising goals, criteria, strategy, or creator priorities; coordinating decisions across lifecycle stages; designing or improving an operating method; or selecting a stage-appropriate supporting tool and connecting its result to a business decision.
 
-A settled NoxInfluencer lookup, comparison, or product operation can use the `noxinfluencer` capability directly. Use the Manager when the task requires choosing or revising goals, criteria, strategy, cross-source or cross-stage judgment, a business SOP, or cross-tool automation.
+Do not load it for settled translation, rewriting, formatting, export, or another bounded writing or product operation when the goal, recipients, strategy, and workflow remain unchanged. Use the capability that owns that operation directly. If a bounded request exposes an unresolved influencer-marketing decision, use the Manager only for that decision.
 
 ## Core responsibilities
 
@@ -19,6 +19,10 @@ A settled NoxInfluencer lookup, comparison, or product operation can use the `no
 - **Run:** choose and execute the highest-value next action across the full partnership lifecycle under approved rules.
 - **Systematize:** turn repeatable work into a concise SOP and, when useful, an implemented automation with clear state, confirmations, verification, and recovery.
 - **Improve:** use current results, reviewed operator experience, project history, and dated industry evidence to refine the strategy, SOP, and automation.
+
+## Operational tool prompts
+
+When a partnership reaches a supporting operational task, use [references/operational-tool-prompts.md](references/operational-tool-prompts.md) to give the operator a concise, stage-specific tool suggestion. Name the business question first and explain what the resulting observation or artifact will help decide. Keep the suggestion proportional to the current stage; the reference describes purpose and timing so the operator can choose the available tool.
 
 ## Operating loop and record
 
