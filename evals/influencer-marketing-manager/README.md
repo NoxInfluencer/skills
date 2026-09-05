@@ -2,6 +2,8 @@
 
 Use these evaluations to answer: did the user task improve, where did it fail, what should change next, and did the revision regress? Packaging checks alone do not establish task quality.
 
+The [2026-09-06 iteration review](review-2026-09-06.md) records a rejected behavior revision, unchanged graders, original-answer findings and the rollback decision.
+
 ## Organization
 
 - `evals.json` owns the 20 canonical prompts and qualitative expectations. IDs remain stable.
@@ -90,4 +92,8 @@ Replays change only output grading, not the historical routing or source-read ev
 
 ## References
 
-This small, evidence-led loop follows [OpenAI's Skill eval guide](https://developers.openai.com/blog/eval-skills), [Promptfoo's Agent Skill comparison guide](https://www.promptfoo.dev/docs/guides/test-agent-skills/), and the [Codex SDK provider reference](https://www.promptfoo.dev/docs/providers/openai-codex-sdk/). Add model-assisted grading only when repeated review shows that a specific semantic judgment warrants it; do not automate the entire qualitative rubric by default.
+- Primary method: [OpenAI's Agent Improvement Loop](https://developers.openai.com/cookbook/examples/agents_sdk/agent_improvement_loop) (2026-05-12) connects traces, reviewer feedback, reusable evals, prioritized changes, and reruns. Distinguish a missing rule, an existing rule not reliably followed, and an implementation or observability defect before choosing a fix. We use this loop without adding its optional HALO automation.
+- Tool direction: [Moving from OpenAI Evals to Promptfoo](https://developers.openai.com/cookbook/examples/evaluation/moving-from-openai-evals-to-promptfoo) (2026-06-03) states that OpenAI is winding down its Evals product and recommends Promptfoo. Recreated graders still need validation; scores across grading systems are not automatically comparable.
+- Foundation and implementation: [OpenAI's Skill eval guide](https://developers.openai.com/blog/eval-skills) (2026-01-22), [Promptfoo's Agent Skill comparison guide](https://www.promptfoo.dev/docs/guides/test-agent-skills/), and the [Codex SDK provider reference](https://www.promptfoo.dev/docs/providers/openai-codex-sdk/).
+
+Add model-assisted grading only when repeated review shows that a specific semantic judgment warrants it; do not automate the entire qualitative rubric by default.
