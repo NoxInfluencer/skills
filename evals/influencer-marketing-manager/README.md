@@ -4,26 +4,30 @@ Use these evaluations to answer: did the user task improve, where did it fail, w
 
 The [2026-09-06 iteration review](review-2026-09-06.md) records a rejected behavior revision, unchanged graders, original-answer findings and the rollback decision.
 
+The later [client-decision review](review-2026-09-06-client-decisions.md) adds business judgment coverage and a [sample for user review](business-review-sample-2026-09-06.md). Its attempted Skill changes were also rolled back; the retained work is a provisional review baseline and executable cases, not a demonstrated behavior improvement.
+
 ## Organization
 
-- `evals.json` owns the 20 canonical prompts and qualitative expectations. IDs remain stable.
+- `evals.json` owns the 21 canonical prompts and qualitative expectations. IDs remain stable.
 - `fixtures/` contains only synthetic task evidence, never expected answers or grading rules. A case's optional `files` list is relative to this directory.
 - `promptfoo_cases.py` selects executable cases and adds focused assertions. Expectations stay in test metadata for review; they are not sent to the model.
 - `prepare_promptfoo_fixtures.py` copies the Skills and declared files into isolated baseline/candidate workspaces. Only the Manager Skill may differ.
 - `review_results.py` reports saved results by metric and separates runtime errors. It can replay updated outcome graders without another model call.
 - `workspace/` holds ignored run traces and review notes. Do not put live customer data, credentials, or commercial records in the case corpus.
 
-Cases use `should-trigger`, `should-not-trigger`, or `boundary`. These describe the intended routing, not whether the case is executable. Cases that require live discovery, sends, scheduling, or an actual SOP workspace still need a separately authorized environment and its inputs. An empty `files` list does not supply those capabilities. Do not call all 20 cases behavior-tested after validating their JSON.
+Cases use `should-trigger`, `should-not-trigger`, or `boundary`. These describe the intended routing, not whether the case is executable. Cases that require live discovery, sends, scheduling, or an actual SOP workspace still need a separately authorized environment and its inputs. An empty `files` list does not supply those capabilities. Do not call all 21 cases behavior-tested after validating their JSON.
 
 ## Small executable set
 
 | Case | What it measures | Evidence and limits |
 | --- | --- | --- |
+| 9 | Evidence-based creator priority | Supplied coarse data; preserve strong fits with contact pending and choose purposeful fine review. Business outcome is manually reviewed. |
 | 10 | Cold-start discovery discipline | An incomplete brief; provisional method and unsupported numeric rules. Wording-sensitive smoke checks still require output review. |
 | 12 | Missing-source handling and scope | The original email is deliberately absent. Ask for it without inventing a translation or loading Manager. This is not translation-quality coverage. |
 | 13 | Conflicting project sources | Read a synthetic CRM, active-brief and historical-report snapshot. Successful command output must contain all three source records. Reconcile current UK intent with unchanged US system state. |
 | 19 | Operator-tool guidance | Explicit invocation; tool, scenario and supported decision. No external tool execution. |
 | 20 | INIU discovery/outreach setup | Supplied YouTube brief; coarse/fine evidence, fit versus contact readiness, and pre-send evidence/authority. No live creator records or outreach. |
+| 21 | First invitation and preliminary client review | Fictional brief, four channels and reply snapshots; distinguish qualified human interest, contact-pending discovery, failed qualification and auto-reply. Business outcome and draft usefulness are manually reviewed. |
 | 19-natural | Natural positive routing | The original case 19 prompt without naming the Skill. This is reported separately from content. |
 
 Positive content cases, including the business decision in case 13, explicitly invoke Manager. Their `skill-used` assertion verifies the test precondition; a failure means the loaded-Skill comparison is not established. Case 12 stays unprefixed and retains `not-skill-used` as a scope guard.
@@ -32,7 +36,9 @@ Natural case 19 remains a diagnostic for content-only iteration, not a hidden pa
 
 ## Grading and release decisions
 
-Inspect `task-outcome`, `routing-evidence`, and (case 13) `fixture-evidence` separately. Every assertion in a selected row must pass; changing weights does not make a failing assertion non-blocking. Do not use the combined Promptfoo score as an overall business-quality measure.
+Use the provisional [business review criteria](business-review.md) for cases 9 and 21. Their `response-evidence`, `routing-evidence` and (case 21) `fixture-evidence` assertions establish test evidence only; they deliberately have no automated `task-outcome` grade. The report calls out the missing manual outcome even when Promptfoo shows a green row. Read the complete answer, record usable / needs material revision / unusable with one decision-relevant reason, and keep agent review separate from the user's judgment. No fixed answer template or new model judge is required.
+
+For smoke-graded cases, inspect `task-outcome`, `routing-evidence`, and (case 13) `fixture-evidence` separately. Every assertion in a selected row must pass; changing weights does not make a failing assertion non-blocking. Do not use the combined Promptfoo score as an overall business-quality measure.
 
 Deterministic checks are smoke checks, not semantic proofs. Case 20 protects integration format, exploration directions, recent long-form/use-scene evidence, exclusions/deduplication, coarse/fine next steps, contact-pending handling, pre-send verification/authority, and obvious fabricated-execution claims. A mention alone does not establish sound reasoning. Review each canonical expectation as pass, partial, or fail with a short supporting excerpt. Also inspect the trace when a claim depends on an action.
 

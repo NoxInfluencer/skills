@@ -124,6 +124,23 @@ class ReportTests(unittest.TestCase):
     def test_missing_grades_are_not_passes(self):
         self.assertEqual(inspect_result({"response": {"output": "ungraded"}})["metrics"], {})
 
+    def test_manual_case_evidence_is_not_a_task_pass(self):
+        row = {"testCase": {"metadata": {"case_id": 21, "outcome_review": "manual"}}, "response": {"output": "Review me"}, "gradingResult": {"componentResults": [
+            {"assertion": {"metric": "response-evidence"}, "pass": True},
+            {"assertion": {"metric": "routing-evidence"}, "pass": True},
+            {"assertion": {"metric": "fixture-evidence"}, "pass": True},
+        ]}}
+        with patch("review_results._run_javascript_assertion") as grader:
+            result = inspect_result(row, regrade=True)
+            grader.assert_not_called()
+        self.assertTrue(result["manual_review_required"])
+        self.assertNotIn("task-outcome", result["metrics"])
+
+    def test_manual_case_timeout_has_no_successful_evidence(self):
+        result = inspect_result({"testCase": {"metadata": {"case_id": 21, "outcome_review": "manual"}}, "failureReason": 2, "error": "timeout"})
+        self.assertTrue(result["runtime_error"])
+        self.assertEqual(result["metrics"], {})
+
     def test_replay_changes_only_outcome_without_overwriting_saved_grade(self):
         row = {"testCase": {"metadata": {"case_id": 12}}, "response": {"output": "saved output"}, "gradingResult": {"componentResults": [
             {"assertion": {"metric": "task-outcome"}, "pass": True},

@@ -1,0 +1,86 @@
+{
+  "record_id": "BRIEF-21",
+  "evidence_type": "synthetic_snapshot",
+  "observed_at": "2026-09-06",
+  "notice": "All brands, creators, messages, prices, links and project rules here are fictional test evidence, not live business records or general benchmarks.",
+  "project": {
+    "brand": "DemoCharge",
+    "product": "P1 compact power bank for everyday devices and camping",
+    "market_language": "US, English",
+    "platform_format": "YouTube long-form video integration, not Shorts",
+    "qualification": "A real device-use or camping scene; activity within 90 days; representative recent long-form views of at least 2,500 for this synthetic project; no material authenticity or identity concerns.",
+    "current_decision": "Ask the client which qualified opportunities with genuine human replies are worth further discussion; no cooperation is confirmed.",
+    "authority": "Prepare recommendations and drafts only. Budget, free product, shipping, usage rights and commercial commitments have not been approved. No external messages or record changes."
+  },
+  "creators": [
+    {
+      "record_id": "CREATOR-21-A",
+      "name": "Desk Lab A",
+      "channel_url": "https://creators.example/desk-lab-a",
+      "market_language_evidence": "US-based, English videos; supplied audience snapshot is predominantly US",
+      "recent_content": [
+        {"date": "2026-08-30", "format": "long-form", "views": 4200, "scene": "Tests charging a phone and tablet in a compact desk setup"},
+        {"date": "2026-08-19", "format": "long-form", "views": 3800, "scene": "Compares travel charging kits with actual device tests"},
+        {"date": "2026-08-07", "format": "long-form", "views": 4100, "scene": "Reviews cable and battery portability in a commute"}
+      ],
+      "identity_risk_snapshot": "Channel and business correspondent matched; no material issue in supplied checks",
+      "contact_history": "First invitation sent; one human reply; no acceptance sent",
+      "messages": [{
+        "record_id": "MESSAGE-21-A",
+        "received_at": "2026-09-05T15:00:00Z",
+        "body": "Thanks, I'm interested in featuring P1 in my October travel-tech video. My fee is USD 1,400 for one 60-90 second YouTube integration. Could you send the brief so I can see whether it fits? We haven't discussed usage rights or payment terms yet."
+      }]
+    },
+    {
+      "record_id": "CREATOR-21-B",
+      "name": "Trail Kit B",
+      "channel_url": "https://creators.example/trail-kit-b",
+      "market_language_evidence": "US-based, English videos; supplied audience snapshot is predominantly US",
+      "recent_content": [
+        {"date": "2026-09-01", "format": "long-form", "views": 3500, "scene": "Shows charging a phone and headlamp on a two-night camping trip"},
+        {"date": "2026-08-22", "format": "long-form", "views": 4200, "scene": "Compares charging-kit weight while packing for a hike"},
+        {"date": "2026-08-10", "format": "long-form", "views": 3900, "scene": "Uses a power bank during a campsite gear test"}
+      ],
+      "identity_risk_snapshot": "Stable channel identity; no material issue in supplied checks",
+      "contact_history": "No previous outreach or duplicate creator record in supplied history; no verified public business contact route yet",
+      "messages": []
+    },
+    {
+      "record_id": "CREATOR-21-C",
+      "name": "Shorts Lab C",
+      "channel_url": "https://creators.example/shorts-lab-c",
+      "market_language_evidence": "US-based, English content",
+      "recent_content": [
+        {"date": "2026-09-02", "format": "Shorts", "views": 90000, "scene": "Quick gadget montage"},
+        {"date": "2026-08-26", "format": "Shorts", "views": 80000, "scene": "Quick unboxing"},
+        {"date": "2026-05-01", "format": "long-form", "views": 1100, "scene": "Older desk gadget overview"}
+      ],
+      "identity_risk_snapshot": "Identity matched; no other risk evidence supplied",
+      "contact_history": "Previously contacted; human reply received; no agreement",
+      "messages": [{
+        "record_id": "MESSAGE-21-C",
+        "received_at": "2026-09-05T17:00:00Z",
+        "body": "I'm interested. I can offer a YouTube integration for USD 600. Let me know."
+      }]
+    },
+    {
+      "record_id": "CREATOR-21-D",
+      "name": "Daily Tech D",
+      "channel_url": "https://creators.example/daily-tech-d",
+      "market_language_evidence": "US-based, English videos; supplied audience snapshot is predominantly US",
+      "recent_content": [
+        {"date": "2026-08-29", "format": "long-form", "views": 6000, "scene": "Compares compact chargers using actual devices"},
+        {"date": "2026-08-17", "format": "long-form", "views": 5200, "scene": "Phone accessory tests"},
+        {"date": "2026-08-03", "format": "long-form", "views": 5800, "scene": "Desk charging setup"}
+      ],
+      "identity_risk_snapshot": "Channel and business route matched; no material issue in supplied checks",
+      "contact_history": "First invitation sent; no human response or agreed follow-up instruction in this snapshot",
+      "messages": [{
+        "record_id": "MESSAGE-21-D",
+        "received_at": "2026-09-05T12:00:00Z",
+        "headers": {"Auto-Submitted": "auto-replied"},
+        "body": "Automatic acknowledgement: your email has reached our inbox. This is not a response from the creator."
+      }]
+    }
+  ]
+}
