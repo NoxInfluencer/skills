@@ -8,9 +8,10 @@ from pathlib import Path
 from typing import Any
 
 ALLOWED_TRIGGERS = {"should-trigger", "should-not-trigger", "boundary"}
+FIXTURE_ROOT = Path(__file__).with_name("fixtures")
 
 
-def validate_document(document: Any) -> list[str]:
+def validate_document(document: Any, fixture_root: Path = FIXTURE_ROOT) -> list[str]:
     """Validate required structure, non-empty text, and unique IDs."""
     errors: list[str] = []
 
@@ -56,6 +57,21 @@ def validate_document(document: Any) -> list[str]:
             errors.append(f"{location}.expectations must be a non-empty list")
         elif any(not isinstance(item, str) or not item.strip() for item in expectations):
             errors.append(f"{location}.expectations must contain non-empty strings")
+
+        files = eval_case.get("files", [])
+        if not isinstance(files, list):
+            errors.append(f"{location}.files must be a list")
+            continue
+        for name in files:
+            if not isinstance(name, str) or not name.strip():
+                errors.append(f"{location}.files must contain non-empty paths")
+                continue
+            path = Path(name)
+            resolved = (fixture_root / path).resolve()
+            if path.is_absolute() or ".." in path.parts or not resolved.is_relative_to(fixture_root.resolve()):
+                errors.append(f"{location}.files path escapes fixture directory: {name}")
+            elif not resolved.is_file():
+                errors.append(f"{location}.files missing fixture: {name}")
 
     return errors
 
@@ -106,6 +122,10 @@ def run_self_test() -> None:
             "skill_name": "influencer-marketing-manager",
             "evals": [{**valid_case, "trigger": ["should-trigger"]}],
         },
+        *[
+            {"skill_name": "influencer-marketing-manager", "evals": [{**valid_case, "files": files}]}
+            for files in ("wrong", [None], [""], ["/etc/passwd"], ["../evals.json"], ["missing.txt"])
+        ],
     ]
     for malformed in malformed_documents:
         assert validate_document(malformed), malformed
