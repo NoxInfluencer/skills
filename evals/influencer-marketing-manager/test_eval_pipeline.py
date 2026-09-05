@@ -7,6 +7,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 import prepare_promptfoo_fixtures as fixtures
+from promptfoo_cases import SOURCE_READ_ASSERTIONS, _run_javascript, create_tests
 from review_results import inspect_result
 
 
@@ -99,6 +100,36 @@ class FixtureTests(unittest.TestCase):
         fixtures.prepare("old", "candidate-commit")
         (fixtures.SKILLS_DIR / fixtures.MANAGER_SKILL / "SKILL.md").write_text("unrelated local revision")
         fixtures.check_prepared()
+
+
+class ClientBatchTests(unittest.TestCase):
+    def test_batch_and_shortfall_share_request_but_not_evidence(self):
+        tests = create_tests({"case_ids": [22, 23]})
+        self.assertEqual(tests[0]["vars"]["request"].split("Supplied read-only files:")[0],
+                         tests[1]["vars"]["request"].split("Supplied read-only files:")[0])
+        self.assertNotEqual(tests[0]["metadata"]["files"], tests[1]["metadata"]["files"])
+        for test in tests:
+            self.assertEqual(test["metadata"]["outcome_review"], "manual")
+            self.assertNotIn("task-outcome", [item["metric"] for item in test["assert"]])
+            self.assertNotIn(test["metadata"]["expected_output"], test["vars"]["request"])
+
+    def test_batch_source_check_requires_every_supplied_record(self):
+        source = json.loads((Path(__file__).parent / "fixtures/inputs/case22-client-batch.json").read_text())
+        ids = [source["record_id"]]
+        for creator in source["creators"]:
+            ids.append(creator["record_id"])
+            ids.extend(message["record_id"] for message in creator["messages"])
+        self.assertEqual(len(ids), len(set(ids)))
+
+        def grade(record_ids):
+            item = {"type": "command_execution", "exit_code": 0, "aggregated_output": " ".join(record_ids)}
+            return _run_javascript(SOURCE_READ_ASSERTIONS[22], "", {"providerResponse": {"raw": {"items": [item]}}})["pass"]
+
+        self.assertTrue(grade(ids))
+        for missing in ids:
+            with self.subTest(missing=missing):
+                self.assertFalse(grade([record_id for record_id in ids if record_id != missing]))
+        self.assertEqual(SOURCE_READ_ASSERTIONS[23], SOURCE_READ_ASSERTIONS[21])
 
 
 class ReportTests(unittest.TestCase):

@@ -313,6 +313,38 @@
         "Distinguishes information needed for preliminary client direction from later commitment details; does not block all useful review on a full contract checklist or private shipping address",
         "Gives a concise recommendation, important uncertainty, and concrete client decision or next action without claiming agreement, sending, or CRM changes"
       ]
+    },
+    {
+      "id": 22,
+      "category": "client-batch-comparison",
+      "trigger": "should-trigger",
+      "prompt": "请读取合成快照，整理一批值得继续讨论的达人给客户初审，不是确认合作。这次希望给客户 5 位，方便一次比较，不要只给一个首选。按客户关心的维度组织，推荐判断与事实证据分开，不要在每位达人后重复相同的‘下一步’。只使用所给材料；不访问外部系统、不发送消息、不修改记录。",
+      "expected_output": "A readable five-creator client comparison grounded in qualification and genuine reply evidence, with distinct decision dimensions and no repeated per-row action checklist.",
+      "files": ["inputs/case22-client-batch.json"],
+      "expectations": [
+        "Reads the brief, eight creators and seven messages; presents A, E, F, G and H as the five qualified human-interest options, without prescribing a unique ranking",
+        "Makes recommendations and supporting facts separately scannable through user-relevant dimensions; comparable prose or cards are acceptable and exact table headers are not required",
+        "Preserves representative recent long-form evidence, concrete product scenes and traceable creator sources rather than substituting follower counts or generic match labels",
+        "Retains quoted fees, currency, quantities, placement and duration, September or October availability, and differentiating terms such as excluded paid usage or one script revision; does not turn proposals into agreement",
+        "Summarizes shared conditions or actions once instead of repeating a next-step checklist per creator; retains creator-specific material uncertainties",
+        "Does not count B as a replied opportunity, C as qualified, or D's auto-reply as human interest; does not treat missing later-stage contract details as grounds to block all five from preliminary review",
+        "Does not invent candidates, evidence, metrics, commitments, external verification or completed sends"
+      ]
+    },
+    {
+      "id": 23,
+      "category": "client-batch-shortfall",
+      "trigger": "should-trigger",
+      "prompt": "请读取合成快照，整理一批值得继续讨论的达人给客户初审，不是确认合作。这次希望给客户 5 位，方便一次比较，不要只给一个首选。按客户关心的维度组织，推荐判断与事实证据分开，不要在每位达人后重复相同的‘下一步’。只使用所给材料；不访问外部系统、不发送消息、不修改记录。",
+      "expected_output": "An honest incomplete batch: retain the one supported replied opportunity, explain the four-person shortfall, and do not pad it with unsupported or ineligible creators.",
+      "files": ["inputs/case21-opportunities.json"],
+      "expectations": [
+        "Reads the supplied evidence and states that only A currently satisfies the project's qualified-human-reply requirement, leaving four of the requested five places unfilled; does not claim the batch is complete",
+        "Preserves A's dated long-form evidence, real human intent, USD 1,400 quote, one 60-90 second integration and October availability, with unagreed terms identified",
+        "Keeps B as a strong-fit contact-pending candidate, excludes C's old underperforming long video from recent qualification, and does not count D's automatic acknowledgement as human intent",
+        "Separates recommendation from factual evidence and summarizes the shared batch shortfall or follow-up once; no fixed headers or repeated per-creator next actions are required",
+        "Does not fabricate additional creators or replies, waive qualification, block a useful partial result on a full contract checklist, or claim external discovery, sending or record changes"
+      ]
     }
   ]
 }
