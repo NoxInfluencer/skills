@@ -33,6 +33,7 @@ def inspect_result(row: dict[str, Any], regrade: bool = False) -> dict[str, Any]
         "mode": metadata.get("evaluation_mode", "content"),
         "variant": row.get("provider", {}).get("label", "unknown"),
         "runtime_error": runtime_error,
+        "manual_review_required": metadata.get("outcome_review") == "manual",
         "error": (row.get("error") or response.get("error")) if runtime_error else None,
         "metrics": metrics,
     }
@@ -60,6 +61,7 @@ def main() -> int:
         counts = defaultdict(Counter)
         errors = Counter()
         ungraded = Counter()
+        manual = Counter()
         for row in rows:
             result = inspect_result(row, args.regrade)
             key = (result["case_id"], result["mode"], result["variant"])
@@ -69,13 +71,17 @@ def main() -> int:
                 continue
             if not result["metrics"]:
                 ungraded[key] += 1
+            if result["manual_review_required"]:
+                manual[key] += 1
+                print(f"  {key}: task outcome requires manual review; evidence checks are not task passes")
             for name, grade in result["metrics"].items():
                 counts[(*key, name)]["pass" if grade["pass"] is True else "fail"] += 1
                 if grade["pass"] is not True:
                     print(f"  {key} / {name}: {grade['reason']}")
         for key, count in sorted(counts.items(), key=lambda item: str(item[0])):
             print(f"  {key}: {count['pass']} pass / {count['fail']} fail")
-        print(f"Runtime errors: {sum(errors.values())}; ungraded rows: {sum(ungraded.values())}")
+        print(f"Runtime errors: {sum(errors.values())}; rows without assertion results: {sum(ungraded.values())}")
+        print(f"Manual task outcomes not graded in this export: {sum(manual.values())}")
     return 0  # This is a read-only report, not a release gate.
 
 

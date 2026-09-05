@@ -46,4 +46,4 @@ evaluateOptions:
 tests:
   path: file://./promptfoo_cases.py:create_tests
   config:
-    case_ids: [10, 12, 13, 19, 20]
+    case_ids: [9, 10, 12, 13, 19, 20, 21]

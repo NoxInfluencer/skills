@@ -13,7 +13,8 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
-DEFAULT_CASE_IDS = (10, 12, 13, 19, 20)
+DEFAULT_CASE_IDS = (9, 10, 12, 13, 19, 20, 21)
+MANUAL_REVIEW_CASE_IDS = {9, 21}
 SKILL_NAME = "influencer-marketing-manager"
 
 
@@ -121,13 +122,31 @@ return {
 }
 
 # Inspect successful tool output, not the model's claim that it read the files.
-SOURCE_READ_ASSERTION = r"""
+def source_read_assertion(record_ids: list[str]) -> str:
+    if not record_ids:
+        raise ValueError("source-read checks require record IDs")
+    return r"""
 const raw = context.providerResponse?.raw;
 let turn;
 try { turn = typeof raw === 'string' ? JSON.parse(raw) : raw; } catch { turn = null; }
 const observations = (turn?.items || []).filter(item => item.type === 'command_execution' && item.exit_code === 0).map(item => item.aggregated_output || '').join('\n');
-const missing = ['CRM-13', 'BRIEF-13', 'REPORT-13'].filter(id => !observations.includes(id));
-return {pass: !missing.length, score: (3 - missing.length) / 3, reason: `successful source read evidence; missing: ${missing.join(', ') || 'none'}`};
+const expected = __RECORD_IDS__;
+const missing = expected.filter(id => !observations.includes(id));
+return {pass: !missing.length, score: (expected.length - missing.length) / expected.length, reason: `successful source read evidence; missing: ${missing.join(', ') || 'none'}`};
+""".strip().replace("__RECORD_IDS__", json.dumps(record_ids))
+
+
+SOURCE_READ_ASSERTION = source_read_assertion(["CRM-13", "BRIEF-13", "REPORT-13"])
+SOURCE_READ_ASSERTIONS = {
+    13: SOURCE_READ_ASSERTION,
+    21: source_read_assertion([
+        "BRIEF-21", "CREATOR-21-A", "CREATOR-21-B", "CREATOR-21-C", "CREATOR-21-D",
+        "MESSAGE-21-A", "MESSAGE-21-C", "MESSAGE-21-D",
+    ]),
+}
+RESPONSE_EVIDENCE_ASSERTION = """
+const available = typeof output === 'string' && output.trim().length > 0;
+return {pass: available, score: Number(available), reason: 'Response availability only; business outcome requires manual review'};
 """.strip()
 
 
@@ -181,8 +200,9 @@ def create_tests(config: dict[str, Any] | None = None) -> list[dict[str, Any]]:
     for case_id in requested_ids:
         if case_id not in cases:
             raise ValueError(f"unknown eval case id: {case_id}")
-        if case_id not in OUTCOME_ASSERTIONS:
-            raise ValueError(f"case {case_id} has no deterministic outcome assertion")
+        manual_review = case_id in MANUAL_REVIEW_CASE_IDS
+        if case_id not in OUTCOME_ASSERTIONS and not manual_review:
+            raise ValueError(f"case {case_id} has no configured outcome review")
 
         case = cases[case_id]
         routing_type = "not-skill-used" if case["trigger"] == "should-not-trigger" else "skill-used"
@@ -202,6 +222,7 @@ def create_tests(config: dict[str, Any] | None = None) -> list[dict[str, Any]]:
                     "category": case["category"],
                     "trigger": case["trigger"],
                     "evaluation_mode": "content",
+                    "outcome_review": "manual" if manual_review else "smoke",
                     "files": case.get("files", []),
                     "fixture_snapshot": fixture_snapshot,
                     "expected_output": case["expected_output"],
@@ -210,8 +231,8 @@ def create_tests(config: dict[str, Any] | None = None) -> list[dict[str, Any]]:
                 "assert": [
                     {
                         "type": "javascript",
-                        "value": OUTCOME_ASSERTIONS[case_id],
-                        "metric": "task-outcome",
+                        "value": RESPONSE_EVIDENCE_ASSERTION if manual_review else OUTCOME_ASSERTIONS[case_id],
+                        "metric": "response-evidence" if manual_review else "task-outcome",
                     },
                     {
                         "type": routing_type,
@@ -222,8 +243,8 @@ def create_tests(config: dict[str, Any] | None = None) -> list[dict[str, Any]]:
             }
         )
 
-        if case_id == 13:
-            tests[-1]["assert"].append({"type": "javascript", "value": SOURCE_READ_ASSERTION, "metric": "fixture-evidence"})
+        if case_id in SOURCE_READ_ASSERTIONS:
+            tests[-1]["assert"].append({"type": "javascript", "value": SOURCE_READ_ASSERTIONS[case_id], "metric": "fixture-evidence"})
 
         if case_id == 19:
             tests.append(
@@ -259,7 +280,15 @@ def run_self_test() -> None:
     assert brief["nested"][0]["digest"] == "sha256-prefix-16:" + "c" * 16
     assert full["digest"] == "a" * 64
     tests = create_tests({"case_ids": list(DEFAULT_CASE_IDS)})
-    assert [test["metadata"]["case_id"] for test in tests] == [10, 12, 13, 19, 19, 20]
+    assert [test["metadata"]["case_id"] for test in tests] == [9, 10, 12, 13, 19, 19, 20, 21]
+    manual_tests = [test for test in tests if test["metadata"].get("outcome_review") == "manual"]
+    assert [test["metadata"]["case_id"] for test in manual_tests] == [9, 21]
+    assert all(test["assert"][0]["metric"] == "response-evidence" for test in manual_tests)
+    assert all(all(item["metric"] != "task-outcome" for item in test["assert"]) for test in manual_tests)
+    assert not _run_javascript(RESPONSE_EVIDENCE_ASSERTION, "  ")["pass"]
+    assert _run_javascript(RESPONSE_EVIDENCE_ASSERTION, "An answer still needing business review.")["pass"]
+    # Keep the original content/routing contract checks independent of new manual cases.
+    tests = [test for test in tests if test["metadata"]["case_id"] not in MANUAL_REVIEW_CASE_IDS]
     content_tests = [test for test in tests if test["metadata"]["evaluation_mode"] == "content"]
     assert all(test["assert"][0]["metric"] == "task-outcome" for test in content_tests)
     assert tests[0]["vars"]["request"].startswith("Use the influencer-marketing-manager skill")
@@ -356,6 +385,12 @@ def run_self_test() -> None:
     assert _run_javascript(SOURCE_READ_ASSERTION, good_sources, {"providerResponse": {"raw": json.dumps({"items": [item]})}})["pass"]
     for items in ([], [{**item, "exit_code": 1}], [{**item, "type": "agent_message"}], [{**item, "aggregated_output": "CRM-13"}]):
         assert not _run_javascript(SOURCE_READ_ASSERTION, good_sources, {"providerResponse": {"raw": json.dumps({"items": items})}})["pass"]
+
+    handoff_item = {**item, "aggregated_output": "BRIEF-21 CREATOR-21-A CREATOR-21-B CREATOR-21-C CREATOR-21-D MESSAGE-21-A MESSAGE-21-C MESSAGE-21-D"}
+    assert _run_javascript(SOURCE_READ_ASSERTIONS[21], "", {"providerResponse": {"raw": {"items": [handoff_item]}}})["pass"]
+    missing_reply = {**handoff_item, "aggregated_output": handoff_item["aggregated_output"].replace("MESSAGE-21-D", "")}
+    for bad_item in (missing_reply, {**handoff_item, "exit_code": 1}, {**handoff_item, "type": "agent_message"}):
+        assert not _run_javascript(SOURCE_READ_ASSERTIONS[21], "", {"providerResponse": {"raw": {"items": [bad_item]}}})["pass"]
 
     for invalid in ([], [999], [1]):
         try:

@@ -296,6 +296,23 @@
         "Defines coarse and fine discovery outputs plus the evidence and authorization needed before the first outreach",
         "Does not claim to have searched, contacted, or sent anything without records and authorization"
       ]
+    },
+    {
+      "id": 21,
+      "category": "first-outreach-and-client-review",
+      "trigger": "should-trigger",
+      "prompt": "这是一个虚构的移动电源项目。请读取提供的项目、频道和沟通快照，做一版简短的工作结果：哪些机会值得交客户决定，哪些应继续补证据或停止推进；为尚未联系且值得推进的达人准备一封首邀草稿。客户现在只决定是否值得继续讨论，不是在确认合作。没有固定汇报模板，请按当前决定需要组织内容。只用所给合成材料，不访问外部系统、不发送消息、不修改记录。",
+      "expected_output": "Use the supplied evidence to separate preliminary client opportunities from research and non-opportunities, and draft a scene-specific first invitation without inventing facts or commitments.",
+      "files": ["inputs/case21-opportunities.json"],
+      "expectations": [
+        "Reads the supplied brief, four creator records, and message evidence; preserves source dates and does not claim live verification",
+        "Recommends Desk Lab A for preliminary client consideration using its recent long-form scene evidence and human reply, retaining the quoted USD 1,400, one 60-90 second integration, October availability, and the unknown payment and usage terms without treating them as agreed",
+        "Keeps Trail Kit B as a strong discovery candidate with contact research pending, not a replied opportunity or a poor fit; drafts a first invitation grounded in its actual camping charging scene with a clear next question and no invented budget or product promises",
+        "Does not submit Shorts Lab C as qualified despite its human reply and attractive quote because its recent long-form evidence fails the supplied project rules",
+        "Does not count Daily Tech D's automatic acknowledgement as human interest or a client-ready replied opportunity",
+        "Distinguishes information needed for preliminary client direction from later commitment details; does not block all useful review on a full contract checklist or private shipping address",
+        "Gives a concise recommendation, important uncertainty, and concrete client decision or next action without claiming agreement, sending, or CRM changes"
+      ]
     }
   ]
 }
