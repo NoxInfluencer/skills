@@ -1,143 +1,93 @@
-# Influencer Marketing Manager Evaluations
+# Influencer Marketing Manager evaluations
 
-These assets make the Skill reviewable by separating structural confidence, Agent behavior, and real marketing quality.
+Use these evaluations to answer: did the user task improve, where did it fail, what should change next, and did the revision regress? Packaging checks alone do not establish task quality.
 
-## What the Cases Observe
+## Organization
 
-The cases focus on decisions that should be visible in an Agent response or action trace:
+- `evals.json` owns the 20 canonical prompts and qualitative expectations. IDs remain stable.
+- `fixtures/` contains only synthetic task evidence, never expected answers or grading rules. A case's optional `files` list is relative to this directory.
+- `promptfoo_cases.py` selects executable cases and adds focused assertions. Expectations stay in test metadata for review; they are not sent to the model.
+- `prepare_promptfoo_fixtures.py` copies the Skills and declared files into isolated baseline/candidate workspaces. Only the Manager Skill may differ.
+- `review_results.py` reports saved results by metric and separates runtime errors. It can replay updated outcome graders without another model call.
+- `workspace/` holds ignored run traces and review notes. Do not put live customer data, credentials, or commercial records in the case corpus.
 
-- business-manager and operational-capability selection;
-- goal-specific strategy, portfolio, budget, measurement, and dated industry evidence;
-- proportional questions and useful working assumptions;
-- goal-specific creator judgment and interpreted discovery results;
-- a two-pass discovery flow that separates broad structured screening from richer fine selection;
-- evidence calibration across search supply, format-specific performance, machine fields, and contact readiness;
-- outreach and negotiation ownership;
-- autonomous execution under approved operating authority and clear user decisions for important commitments;
-- practical SOP development, automation implementation, and concrete capability-gap requests;
-- project-level learning and operations-owner review before general Skill promotion;
-- adjustment when real results contradict the plan;
-- stage-specific prompts for lightweight operator tools;
-- stage-appropriate working context, including lightweight and Campaign-backed work; and
-- accurate reporting of execution, stage, and overall results.
+Cases use `should-trigger`, `should-not-trigger`, or `boundary`. These describe the intended routing, not whether the case is executable. Cases that require live discovery, sends, scheduling, or an actual SOP workspace still need a separately authorized environment and its inputs. An empty `files` list does not supply those capabilities. Do not call all 20 cases behavior-tested after validating their JSON.
 
-Expectations are semantic. Grade the business decisions, actions, and observed state changes represented in the response or trace. Each case also declares a trigger class:
+## Small executable set
 
-- `should-trigger` — load the Manager for business judgment or an evolving creator relationship;
-- `should-not-trigger` — route a bounded tool or writing operation to the capability that owns it;
-- `boundary` — load only the relevant Manager context and resolve the overlap explicitly.
+| Case | What it measures | Evidence and limits |
+| --- | --- | --- |
+| 10 | Cold-start discovery discipline | An incomplete brief; provisional method and unsupported numeric rules. Wording-sensitive smoke checks still require output review. |
+| 12 | Missing-source handling and scope | The original email is deliberately absent. Ask for it without inventing a translation or loading Manager. This is not translation-quality coverage. |
+| 13 | Conflicting project sources | Read a synthetic CRM, active-brief and historical-report snapshot. Successful command output must contain all three source records. Reconcile current UK intent with unchanged US system state. |
+| 19 | Operator-tool guidance | Explicit invocation; tool, scenario and supported decision. No external tool execution. |
+| 20 | INIU discovery/outreach setup | Supplied YouTube brief; coarse/fine evidence, fit versus contact readiness, and pre-send evidence/authority. No live creator records or outreach. |
+| 19-natural | Natural positive routing | The original case 19 prompt without naming the Skill. This is reported separately from content. |
 
-## Observable manager contract
+Positive content cases, including the business decision in case 13, explicitly invoke Manager. Their `skill-used` assertion verifies the test precondition; a failure means the loaded-Skill comparison is not established. Case 12 stays unprefixed and retains `not-skill-used` as a scope guard.
 
-Every meaningful case should make the following signals visible, either in the response or in the action trace:
+Natural case 19 remains a diagnostic for content-only iteration, not a hidden pass or a discarded failure. Its separate command returns a nonzero exit code on failure. A content pass does not establish reliable automatic invocation; routing must be reviewed before claiming that capability works.
 
-- the current stage result and the business question it serves;
-- evidence, source/freshness, and the distinction between fact and interpretation;
-- the decision or working hypothesis and its confidence;
-- the next action and the signal that would show progress;
-- the authority used, requested, or still needed;
-- the observed system or relationship state after an action.
+## Grading and release decisions
 
-For strategy work, check that the trace connects audience, creator role, real content scene, value proposition, target behavior, portfolio, complete cost, and measurement. External benchmarks should include enough source, date, scope, and metric context to judge applicability; missing reference data should lead to a first-party baseline rather than an invented number.
-Any portfolio or budget ranges offered before project calibration should be labeled as planning assumptions and tied to a bounded learning test.
+Inspect `task-outcome`, `routing-evidence`, and (case 13) `fixture-evidence` separately. Every assertion in a selected row must pass; changing weights does not make a failing assertion non-blocking. Do not use the combined Promptfoo score as an overall business-quality measure.
 
-For creator discovery, review the passes separately. The coarse pass should show broad structured retrieval, query-level total/returned/filtered/usable supply, project-appropriate filters, identity deduplication, and a queue for deeper review. The fine pass should show richer creator or channel evidence, recent representative content, format-aware fit reasoning, and a distinct contact-readiness result based on an actual verified contact route. A final recommendation without this evidence trail is incomplete even when the selected names look plausible.
+Deterministic checks are smoke checks, not semantic proofs. Case 20 protects integration format, exploration directions, recent long-form/use-scene evidence, exclusions/deduplication, coarse/fine next steps, contact-pending handling, pre-send verification/authority, and obvious fabricated-execution claims. A mention alone does not establish sound reasoning. Review each canonical expectation as pass, partial, or fail with a short supporting excerpt. Also inspect the trace when a claim depends on an action.
 
-For outreach monitoring and measurement, check that the trace separates unique creators from message counts and bounces, establishes a dated baseline and observation window, and identifies the benchmark source and denominator used for comparison.
+Test the graders before tuning the Skill: preserve known-good outputs and change one relevant decision at a time. Missing authority, conflated fit/contact state, omitted evidence, and invented completion should fail; equivalent formatting should not. Mutation tests are included in the local checks.
 
-For SOP and automation work, check that the Agent inspects the actual workflow, defines the minimum operating contract, implements the available end-to-end path, and verifies a bounded result. If an essential capability is missing, it should identify the exact account, permission, connection, API, input, or runtime required and ask the user to provide it. A design-only response must not be graded as delivered automation.
+When a grader changes, replay it on the same saved baseline/candidate outputs first. Old and new pass rates from different graders are not comparable. A repeated prompt is a stability probe, not a new independent business case; three runs can expose variation but do not prove a statistically reliable improvement or regression. Retain failures and explain uncertainty rather than tuning repeatedly until one run is green.
 
-For knowledge improvement, project methods may be updated from authorized project evidence. A general Skill or shared baseline requires the applicability and evidence to be reviewed by the responsible influencer-marketing operations owner.
+Separate provider aborts/timeouts from assertion failures. Neither a runtime error nor missing grades count as a task pass. Keep a compact review record:
 
-For operational-tool prompts, check that the Agent selects a tool from the current stage and business question, states what decision the result supports, and keeps the suggestion concise without claiming a tool call or completed result.
-
-Score each expectation as pass, partial, or fail with a short evidence note. Keep the rubric qualitative until enough real cases exist to justify an aggregate score; the first loop is for exposing bad decisions and missing evidence, not for creating false precision.
-
-## Staged Validation Loop
-
-1. **Structure:** validate the Skill frontmatter and eval JSON. This establishes packaging and evaluation-document confidence.
-2. **Behavior:** run the same realistic prompts in baseline and Skill-enabled conditions, retain action/response transcripts in the ignored `workspace/` directory, and review each observable expectation.
-3. **Operator trial:** use a small number of real, appropriately authorized internal tasks. Record where an experienced operator would change the strategy, next action, SOP, automation behavior, decision rights, or adjustment.
-4. **Narrow revision:** improve the smallest positive instruction or example supported by the failure, then rerun the affected cases. Consider a focused hard restriction after repeated real failures show that positive guidance and context are insufficient.
-
-## Promptfoo old/new slice
-
-This setup follows the [OpenAI migration guide](https://developers.openai.com/cookbook/examples/evaluation/moving-from-openai-evals-to-promptfoo), the [Codex eval workflow](https://learn.chatgpt.com/use-cases/ai-app-evals), Promptfoo's [Agent Skill comparison guide](https://www.promptfoo.dev/docs/guides/test-agent-skills/), and its [Codex SDK provider reference](https://www.promptfoo.dev/docs/providers/openai-codex-sdk/).
-
-The first executable Promptfoo slice uses four focused cases rather than duplicating the full qualitative rubric:
-
-- case 19 checks whether the operational-tool addition changes the user-visible result;
-- a second, unprefixed case 19 row checks natural positive routing without conflating it with the content result;
-- case 10 protects the existing discovery baseline from regression;
-- case 12 keeps a natural, unprefixed neighboring task to check routing boundaries; and
-- case 20 checks a business-critical INIU discovery and first-outreach setup from a supplied brief.
-
-The two positive content rows explicitly name the Manager in the test prompt so their old/new comparison measures Skill content rather than a stochastic auto-routing decision. The extra case 19 row and case 12 do not name it, giving one natural positive and one natural negative routing check.
-
-The adapter reads prompts and expectations from `evals.json`. Deterministic JavaScript assertions score the observable task result at weight 4; `skill-used` or `not-skill-used` is supporting routing evidence at weight 1. The natural case 19 row is routing-only because its explicit companion already tests the content. Case 20 checks the supplied INIU brief without connecting to live marketing systems. A green aggregate is not enough to choose a Skill version: inspect the old/new output for each case and retain concrete failure evidence.
-
-Promptfoo requires Node.js 22.22.0 or newer. Install the pinned project dependency without changing the system Node runtime:
-
-```bash
-npm ci
+```text
+case / variant / date / model and reasoning setting
+Skill revision or digest / eval contract digest / supplied evidence
+task outcome / routing / source-read evidence / runtime error
+failed expectation and excerpt / reviewer correction / next bounded test
 ```
 
-Prepare fixtures by naming the old Git revision explicitly. The candidate defaults to the current worktree, which is useful while editing a Skill; pass `--candidate-ref` to compare two committed revisions. Both fixtures receive the same neighboring Skills, model, permissions, and runtime settings, and only the Manager directory may vary. The preparation step also creates an ignored, isolated `CODEX_HOME` so personal Skills and settings cannot affect the run. Use `--reuse-codex-login` to link only the host login state; omit it when an API key is available.
+Each new result embeds the prepared fixture identity in test metadata. Full SHA-256 values remain in the local manifest; exported metadata uses labeled 16-character prefixes because Promptfoo redacts the full values. These identify the Skill, shared Skills, prompts, graders, configuration and synthetic inputs. Model settings are retained in Promptfoo's result config. Keep the raw trace alongside the review so a conclusion can be checked later.
+
+## Run and verify
+
+Use the pinned project dependency with an existing compatible Node runtime (22.22.0+); do not change system Node. Install with `npm ci` if needed.
+
+Run local checks first; these make no model or marketing-system calls:
+
+```bash
+npm run check:manager-evals
+npm run eval:manager:validate
+python3 scripts/sync_expert.py check
+git diff --check
+```
+
+Prepare with an explicit old revision. Candidate defaults to the worktree; use `--candidate-ref` for a committed candidate. `--reuse-codex-login` links only host login and connection routing; omit it when using an API key. Preparation replaces only disposable fixtures and the isolated home: never prepare during an active eval run; saved result JSON files are retained.
 
 ```bash
 npm run eval:manager:prepare -- --baseline-ref <old-ref> --reuse-codex-login
-npm run eval:manager:validate
 npm run eval:manager -- --no-cache \
-  -o evals/influencer-marketing-manager/workspace/promptfoo/results.json
+  -o evals/influencer-marketing-manager/workspace/promptfoo/content.json
+npm run eval:manager:routing -- --no-cache \
+  -o evals/influencer-marketing-manager/workspace/promptfoo/routing.json
+npm run eval:manager:report -- \
+  evals/influencer-marketing-manager/workspace/promptfoo/content.json \
+  evals/influencer-marketing-manager/workspace/promptfoo/routing.json
 ```
 
-The default model is `gpt-5.6-terra` at medium reasoning. Set `INFLUENCER_EVAL_MODEL` to pin another Codex model for the whole comparison. Runs are read-only, non-interactive, memory-disabled, plugin-disabled, single-agent, serialized, and have agent network/search access disabled. Each row has a five-minute timeout and the suite has a twenty-minute ceiling. The isolated home may reuse only the current Codex login and connection routing; CI can supply `OPENAI_API_KEY` or `CODEX_API_KEY` instead.
+Both run commands reject stale copied Skills, inputs or graders before calling the model. Prepare again after a source change. For a narrow loop, use `--filter-pattern '^\[13\]'` and `--filter-providers manager-candidate`; repeat important cases with `--repeat 3` after local checks and one smoke run. Avoid repeatedly rerunning unaffected baselines.
 
-Before a release decision, rerun important cases with `--repeat 3`, review individual failures, and add demonstrated failures to the protected set. Do not infer that all 19 cases improved from this three-case slice.
+The default is `gpt-5.6-terra` at medium reasoning; set `INFLUENCER_EVAL_MODEL` to pin another model for a comparison. Runs are read-only, non-interactive, serialized, and disable memory, plugins, multiple agents, web search and agent network access. Each row has a five-minute timeout and the suite a twenty-minute ceiling. Split larger repeated sets into bounded runs instead of silently losing rows to the suite deadline.
 
-Run behavior comparisons with the local Codex CLI. Keep the prompt and available artifacts identical between variants, use an isolated read-only ephemeral fixture, and do not connect the test to a live marketing system. From the repository root:
+Replay current outcome graders without changing the saved results or calling a model:
 
 ```bash
-repo_root="$(pwd)"
-fixture_dir="$(mktemp -d)"
-codex exec --disable memories --sandbox read-only --ephemeral -C "$fixture_dir" \
-  "Use the skill at $repo_root/skills/influencer-marketing-manager to handle the case."
+npm run eval:manager:report -- --regrade \
+  evals/influencer-marketing-manager/workspace/promptfoo/content.json
 ```
 
-Save the response and any action trace in the ignored `workspace/` directory, then review the observable contract above rather than matching exact wording.
+Replays change only output grading, not the historical routing or source-read evidence; they cannot test changed prompts or missing inputs. Finish a Skill revision with affected-case regression, operator review where real business judgment matters, and then structural/snapshot checks. An authorized live pilot should measure qualified-shortlist usefulness, meaningful replies or complete-term handoff—not merely send volume or a polished plan.
 
-The discovery pilot should compare coarse-pool yield, fine-review evidence coverage, contact-readiness accuracy, and qualified-shortlist usefulness. The outreach pilot should compare meaningful replies and qualified conversations rather than send volume alone. The negotiation and fulfillment pilots should compare complete-term capture and verified state transitions. These are directional operating signals; keep the sample small and revise the method when an experienced operator can point to a concrete failure.
+## References
 
-## Minimal trace record
-
-Store one compact record per case and variant in the ignored `workspace/` directory:
-
-```text
-case_id / variant / date
-trigger class
-prompt and available context
-stage result
-actions and tools used
-evidence with source and freshness
-decision and uncertainty
-next action and authority
-observed result or blocker
-reviewer verdict and correction
-```
-
-This record supports baseline-versus-Skill comparison without copying live Campaign state into the eval corpus.
-
-## Stable Checks
-
-Run from the repository root:
-
-```bash
-python "${CODEX_HOME:-$HOME/.codex}/skills/.system/skill-creator/scripts/quick_validate.py" skills/influencer-marketing-manager
-python -m json.tool evals/influencer-marketing-manager/evals.json
-python evals/influencer-marketing-manager/validate_evals.py
-python evals/influencer-marketing-manager/validate_evals.py --self-test
-python evals/influencer-marketing-manager/promptfoo_cases.py --self-test
-npm run eval:manager:validate
-```
-
-Behavior transcripts and reviewer notes belong under `evals/influencer-marketing-manager/workspace/`, which is intentionally ignored.
+This small, evidence-led loop follows [OpenAI's Skill eval guide](https://developers.openai.com/blog/eval-skills), [Promptfoo's Agent Skill comparison guide](https://www.promptfoo.dev/docs/guides/test-agent-skills/), and the [Codex SDK provider reference](https://www.promptfoo.dev/docs/providers/openai-codex-sdk/). Add model-assisted grading only when repeated review shows that a specific semantic judgment warrants it; do not automate the entire qualitative rubric by default.

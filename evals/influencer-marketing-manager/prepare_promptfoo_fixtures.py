@@ -10,6 +10,8 @@ import shutil
 import subprocess
 from pathlib import Path
 
+from validate_evals import FIXTURE_ROOT, validate_document
+
 try:
     import tomllib
 except ModuleNotFoundError:  # pragma: no cover - Python 3.10 fallback
@@ -22,6 +24,26 @@ SKILLS_DIR = REPO_ROOT / "skills"
 WORKSPACE_DIR = EVAL_DIR / "workspace" / "promptfoo"
 FIXTURES_DIR = WORKSPACE_DIR / "fixtures"
 CODEX_HOME_DIR = WORKSPACE_DIR / "codex-home"
+MANIFEST_PATH = WORKSPACE_DIR / "fixture-manifest.json"
+
+
+def case_files() -> list[str]:
+    document = json.loads((EVAL_DIR / "evals.json").read_text(encoding="utf-8"))
+    errors = validate_document(document)
+    if errors:
+        raise ValueError("; ".join(errors))
+    return sorted({name for case in document["evals"] for name in case.get("files", [])})
+
+
+def contract_digest() -> str:
+    """Fingerprint the prompts, graders, config and synthetic inputs together."""
+    digest = hashlib.sha256()
+    paths = [EVAL_DIR / name for name in ("evals.json", "promptfoo_cases.py", "promptfooconfig.yaml")]
+    paths += [FIXTURE_ROOT / name for name in case_files()]
+    for path in paths:
+        digest.update(path.relative_to(EVAL_DIR).as_posix().encode())
+        digest.update(b"\0" + path.read_bytes() + b"\0")
+    return digest.hexdigest()
 
 
 def _git(*args: str, text: bool = True) -> str | bytes:
@@ -115,6 +137,7 @@ def prepare(
 ) -> dict[str, object]:
     baseline_commit = _resolve_commit(baseline_ref)
     candidate_commit = _resolve_commit(candidate_ref) if candidate_ref else None
+    input_files = case_files()
 
     if FIXTURES_DIR.exists():
         shutil.rmtree(FIXTURES_DIR)
@@ -124,6 +147,12 @@ def prepare(
     candidate_skills = FIXTURES_DIR / "candidate" / ".agents" / "skills"
     baseline_skills.mkdir(parents=True)
     candidate_skills.mkdir(parents=True)
+
+    for variant in ("baseline", "candidate"):
+        for name in input_files:
+            destination = FIXTURES_DIR / variant / name
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(FIXTURE_ROOT / name, destination)
 
     shared_skills: list[str] = []
     for source in sorted(item for item in SKILLS_DIR.iterdir() if item.is_dir()):
@@ -164,6 +193,9 @@ def prepare(
             "digest": _directory_digest(candidate_skills / MANAGER_SKILL),
         },
         "shared_skills": shared_skills,
+        "shared_skill_digests": shared_digests,
+        "case_files": input_files,
+        "eval_contract_digest": contract_digest(),
         "only_manager_varies": not mismatches,
         "codex_home": {
             "isolated": True,
@@ -171,11 +203,37 @@ def prepare(
         },
     }
     WORKSPACE_DIR.mkdir(parents=True, exist_ok=True)
-    (WORKSPACE_DIR / "fixture-manifest.json").write_text(
+    MANIFEST_PATH.write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
     return manifest
+
+
+def check_prepared() -> None:
+    """Fail before a paid run if the copied inputs no longer match the source."""
+    if not MANIFEST_PATH.is_file():
+        raise ValueError("Fixtures are not prepared; run eval:manager:prepare first")
+    manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+    if manifest.get("eval_contract_digest") != contract_digest():
+        raise ValueError("Eval contract changed; prepare fresh fixtures before running")
+    if not CODEX_HOME_DIR.is_dir():
+        raise ValueError("Isolated Codex home is missing; prepare fixtures again")
+    for variant in ("baseline", "candidate"):
+        variant_root = FIXTURES_DIR / variant
+        manager = manifest[variant]
+        if _directory_digest(variant_root / ".agents" / "skills" / MANAGER_SKILL) != manager["digest"]:
+            raise ValueError(f"{variant} Manager fixture changed; prepare again")
+        if manager["manager_source"] == "worktree" and _directory_digest(SKILLS_DIR / MANAGER_SKILL) != manager["digest"]:
+            raise ValueError("Worktree Manager changed; prepare fresh fixtures before running")
+        for skill in manifest["shared_skills"]:
+            expected = manifest["shared_skill_digests"][skill][variant]
+            if _directory_digest(SKILLS_DIR / skill) != expected or _directory_digest(variant_root / ".agents" / "skills" / skill) != expected:
+                raise ValueError(f"Shared Skill {skill} changed; prepare again")
+        for name in case_files():
+            path = variant_root / name
+            if not path.is_file() or path.read_bytes() != (FIXTURE_ROOT / name).read_bytes():
+                raise ValueError(f"{variant} case fixture differs: {name}")
 
 
 def main() -> int:
@@ -184,7 +242,6 @@ def main() -> int:
     )
     parser.add_argument(
         "--baseline-ref",
-        required=True,
         help="Git ref containing the old Manager Skill.",
     )
     parser.add_argument(
@@ -196,7 +253,15 @@ def main() -> int:
         action="store_true",
         help="Link only the host auth.json into the ignored isolated Codex home.",
     )
+    parser.add_argument("--check", action="store_true", help="Verify the prepared snapshot without changing files.")
     args = parser.parse_args()
+
+    if args.check:
+        check_prepared()
+        print("Prepared Skill and case fixtures match their sources")
+        return 0
+    if not args.baseline_ref:
+        parser.error("--baseline-ref is required when preparing fixtures")
 
     manifest = prepare(args.baseline_ref, args.candidate_ref, args.reuse_codex_login)
     print(json.dumps(manifest, ensure_ascii=False, indent=2))
