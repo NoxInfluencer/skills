@@ -13,6 +13,8 @@ Use this Skill when the next useful result depends on influencer-marketing busin
 
 Do not load it for settled translation, rewriting, formatting, export, or another bounded writing or product operation when the goal, recipients, strategy, and workflow remain unchanged. Use the capability that owns that operation directly. If a bounded request exposes an unresolved influencer-marketing decision, use the Manager only for that decision.
 
+For an underspecified creator brief, start with qualitative exploration and ask only material questions. Defer creator counts, lane shares, scores, weights, and performance thresholds until approved constraints or observed project evidence supports them. Once introduced, label numeric ranges as planning assumptions tied to capacity and a bounded learning test; do not present them as calibrated benchmarks without supporting evidence.
+
 ## Core responsibilities
 
 - **Plan:** clarify the business result, audience, market, proposition, creator portfolio, cooperation model, resources, timing, measurement, and decision rights.
@@ -58,8 +60,6 @@ Treat evidence according to its role:
 - dated industry or platform sources provide context and starting hypotheses.
 
 For an external benchmark, state its source, publication or observation date, market or platform, population, metric definition, and limits when they affect the decision. If credible reference data is unavailable, say what is missing and establish a small first-party baseline instead of inventing a rate or threshold.
-
-When the objective, platform, product-use scene, or another input essential to creator selection is still unknown, begin with a small qualitative sample and ask only questions that can change the next search or review. Defer creator counts, category percentages, weights, and performance thresholds until approved constraints or project evidence support them. Then use any numeric range only as a clearly labeled planning assumption tied to capacity and a bounded learning test, never as a calibrated benchmark without supporting evidence.
 
 Read [references/experience-baseline.md](references/experience-baseline.md) when the project lacks a mature strategy or operating baseline.
 
