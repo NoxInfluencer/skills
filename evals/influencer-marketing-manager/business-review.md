@@ -1,6 +1,6 @@
 # Business review — initial working criteria
 
-Status: provisional, 2026-09-06. The requesting user is the first business reviewer. No recent operator rework was reported; the new cases are coverage probes, not invented customer incidents.
+Status: working criteria updated from user review, 2026-09-06. The requesting user is the first business reviewer. No recent operator rework was reported; the cases are synthetic probes, not invented customer incidents.
 
 ## Purpose and source boundary
 
@@ -13,7 +13,15 @@ This starting point uses common sense and the user-designated `kol_operation` re
 - `INIU/influencer-marketing/templates.md`, section 7: evidence, reply intent, qualification review, risk, and the client's next decision.
 - `INIU/influencer-marketing/project-iniu-youtube.md`: project-specific rules outrank historical snapshots; a reply does not waive qualification.
 
-The source is read-only project guidance, not evidence of current system state or validated general effectiveness. Do not transfer its weighted scorecard, commercial terms, exclusion names, contact details, or project-only authority into the general Skill. Case 21 uses invented data throughout.
+The source is read-only project guidance, not evidence of current system state or validated general effectiveness. Do not transfer its weighted scorecard, commercial terms, exclusion names, contact details, or project-only authority into the general Skill. All case fixtures use invented data.
+
+## User feedback on the first sample
+
+The user judged the [first case 21 sample](business-review-sample-2026-09-06.md) as **needs material revision**: one creator gives the client too little to compare; a batch of five is suitable for this workflow; repeated per-creator next actions add little; recommendations and evidence should be separate, readable decision dimensions.
+
+Five is this user's working batch target, not a universal Skill default. The original snapshot only supports one qualified creator with human interest. This is an input/coverage shortfall, not permission to promote an unqualified creator or an auto-reply. Case 22 supplies a full batch; case 23 explicitly tests a five-person request against the limited case 21 snapshot. The original case 21 and its answer remain unchanged.
+
+The prior Agent-only usable rating did not capture the user's comparison needs. Preserve that historical rating and this user correction separately; the old sample is not an approved client deliverable. Apply the revised comparison criteria to both baseline and candidate in this round. The user has not yet approved the revised sample.
 
 ## What is useful enough?
 
@@ -21,9 +29,9 @@ The source is read-only project guidance, not evidence of current system state o
 | --- | --- |
 | Creator selection | Identifies promising and unsuitable candidates from recent same-format evidence and the real product scene; preserves strong fits with contact pending; states the evidence still needed. |
 | First invitation | Gives a truthful, specific selection reason, natural product connection, proposed format and one clear next question; does not invent a budget, product promise, contact route or completed send. |
-| Preliminary client review | Gives creator identity/source, fit evidence, actual human intent, known material terms and important unknowns, plus the recommended decision or next step; does not require a complete contract before an exploratory decision or present preliminary interest as agreement. |
+| Preliminary client review | Provides the agreed batch for comparison, with recommendations separate from source-backed content evidence, human intent, known terms and important unknowns. Summarizes common conditions or actions once; only creator-specific differences belong in each row. Does not require a complete contract before an exploratory decision or present interest as agreement. |
 
-These are decision criteria, not a mandatory form. Adapt detail to the user's request and evidence. A missing fact blocks progress only when it materially affects the current decision or authority; required commercial terms still need confirmation before commitment.
+These are decision criteria, not fixed column names or a mandatory form. Adapt detail to the user's request and evidence. A missing fact blocks progress only when it materially affects the current decision or authority; required commercial terms still need confirmation before commitment. If the evidence supports fewer eligible creators than requested, show the supported subset, state the shortfall and keep the batch incomplete. Do not invent candidates, waive qualification or claim additional discovery merely to fill it.
 
 ## Review form
 
@@ -45,7 +53,7 @@ Agent review is preliminary; never label it as user approval. If the user change
 
 ## Coverage and automation
 
-- Cases 9 and 21 require this review. Their automated checks only establish response availability, Skill loading, and case 21 source-read evidence. Green Promptfoo rows do not grade their business outcome.
+- Cases 9, 21, 22 and 23 require this review. Their automated checks only establish response availability, Skill loading, and supplied source-read evidence. Green Promptfoo rows do not grade their business outcome or readability.
 - Other executable cases retain their existing smoke checks. Known wording errors and missed requirements still need explicit manual correction; see the [rejected revision review](review-2026-09-06.md).
 - Keep current graders unchanged during the Skill comparison. There is no new model judge, scoring platform, or universal performance benchmark.
 - A synthetic case can test interpretation and draft quality, not real discovery, message delivery, customer acceptance, reply rates or marketing ROI.
