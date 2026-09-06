@@ -2,6 +2,8 @@
 
 Use these evaluations to answer: did the user task improve, where did it fail, what should change next, and did the revision regress? Packaging checks alone do not establish task quality.
 
+The latest [information-quality review](review-2026-09-06-information-quality.md) retains a small Skill revision for stage-appropriate information, factual precision and comparison. Ten fixed-contract executions include baseline comparison and repeated candidate checks; the [raw samples](business-review-sample-2026-09-06-information-quality.md) still await user review. The user's scope is information selection and expression, not building or maintaining a dashboard. Canonical cases and automated graders remain unchanged.
+
 The [2026-09-06 iteration review](review-2026-09-06.md) records a rejected behavior revision, unchanged graders, original-answer findings and the rollback decision.
 
 The later [client-decision review](review-2026-09-06-client-decisions.md) adds business judgment coverage and a [sample for user review](business-review-sample-2026-09-06.md). Its attempted Skill changes were also rolled back; the retained work is a provisional review baseline and executable cases, not a demonstrated behavior improvement.

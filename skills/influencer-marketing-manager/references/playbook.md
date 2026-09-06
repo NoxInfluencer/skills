@@ -127,14 +127,7 @@ If the project supplies a cumulative mix, use its current gaps to steer the next
 
 Give each shortlisted creator a role in the portfolio—proven category voice, adjacent audience, dependable producer, conversion-oriented specialist, or controlled experiment—and explain how the role serves the objective.
 
-Each entry should include:
-
-- identity, platform, market, language, and primary lane;
-- concrete cooperation scene;
-- recent representative evidence and freshness;
-- fit decision and confidence;
-- contact readiness and next qualification action;
-- principal risk, trade-off, and alternative.
+Select entry details using [decision-relevant information](workspace-context.md#choose-decision-relevant-information). Keep fit assessments separate from supporting content evidence. Internal research needs contact readiness and next qualification checks; a client comparison needs the eligible options, known cooperation conditions and material differences. Include creator-specific actions only when they differ and help the current decision.
 
 Use follower scale for reach planning. Use recent comparable content, audience relevance, scene credibility, complete cost, and execution likelihood for priority. If the requested number cannot be supported at the required quality, report the gap and propose the next hypothesis.
 
@@ -177,7 +170,7 @@ For recurring monitoring, read task-level aggregate counters first and compare t
 5. Re-check creator fit, recent content, data credibility, and risk before client submission or negotiation.
 6. Choose the next action and authority; ask for confirmation when it changes a material promise.
 
-Extract at least:
+Capture the terms actually stated across the following dimensions, retaining material gaps or conflicts for the current decision. Use the full package for negotiation and commitment; do not turn a preliminary review into a mandatory complete-contract checklist:
 
 - platform, format, deliverables, quantity, placement, and duration;
 - fee, currency, tax, expenses, incentives, deposit, and payment timing;
