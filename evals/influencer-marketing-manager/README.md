@@ -8,13 +8,15 @@ The later [client-decision review](review-2026-09-06-client-decisions.md) adds b
 
 The user's correction is recorded in the [business review criteria](business-review.md): this workflow needs a five-person comparison, separate recommendations and evidence, and no repeated next-action column. The [revised sample](business-review-sample-2026-09-06-v2.md) is an edited illustration, not a raw model answer or an eval pass. Cases 22/23 preserve both the full-batch and evidence-shortfall requirements. Attempted Skill wording changes were rolled back after the full-batch output still failed business review; see the [batch iteration review](review-2026-09-06-client-batch.md).
 
+The subsequent [single-selection review](review-2026-09-06-single-selection.md) tests a small local table renderer against those failures. Case 22 improved in the final trial, but case 23 still promoted an unqualified creator; the Skill integration was rejected and rolled back. Its [trial sample](business-review-sample-2026-09-06-rendered.md) preserves actual model output, separate from the earlier edited illustration. The retained prototype and trace observations are not a shipped Skill improvement, user approval or a reliability estimate.
+
 ## Organization
 
 - `evals.json` owns the 23 canonical prompts and qualitative expectations. IDs remain stable.
 - `fixtures/` contains only synthetic task evidence, never expected answers or grading rules. A case's optional `files` list is relative to this directory.
 - `promptfoo_cases.py` selects executable cases and adds focused assertions. Expectations stay in test metadata for review; they are not sent to the model.
 - `prepare_promptfoo_fixtures.py` copies the Skills and declared files into isolated baseline/candidate workspaces. Only the Manager Skill may differ.
-- `review_results.py` reports saved results by metric and separates runtime errors. It can replay updated outcome graders without another model call.
+- `review_results.py` reports saved results by metric and separates runtime errors. It can replay updated outcome graders without another model call, and report observed shortlist-renderer output and whether its table reached the final answer unchanged.
 - `workspace/` holds ignored run traces and review notes. Do not put live customer data, credentials, or commercial records in the case corpus.
 
 Cases use `should-trigger`, `should-not-trigger`, or `boundary`. These describe the intended routing, not whether the case is executable. Cases that require live discovery, sends, scheduling, or an actual SOP workspace still need a separately authorized environment and its inputs. An empty `files` list does not supply those capabilities. Do not call all 23 cases behavior-tested after validating their JSON.
@@ -41,6 +43,8 @@ Natural case 19 remains a diagnostic for content-only iteration, not a hidden pa
 ## Grading and release decisions
 
 Use the [business review criteria](business-review.md), including the user's correction of the first sample, for cases 9, 21, 22 and 23. Their `response-evidence`, `routing-evidence` and supplied `fixture-evidence` assertions establish test evidence only; they deliberately have no automated `task-outcome` grade. The report calls out the missing manual outcome even when Promptfoo shows a green row. Read the complete answer, record usable / needs material revision / unusable with one decision-relevant reason, and keep agent review separate from the user's judgment. No fixed answer template or new model judge is required.
+
+`tools/render_shortlist.py` is a tested local prototype, not part of the shipped Skill. It takes assessed records and selected IDs through JSON stdin, then outputs one comparison table with count and known-quote checks. `test_shortlist_renderer.py` supplies example inputs and tests that mechanical contract independently of model runs. It does not qualify creators or validate reply evidence against the source. In trial runs, inspect the helper input against the snapshot, the returned selection and minima, and the final answer. `table_in_final=true` establishes table propagation only, not correct business judgment or freedom from contradictory prose. No observed helper output means the trace has not established successful execution; merely reading or naming the script is insufficient. Older baselines do not fail for lacking the new helper.
 
 For smoke-graded cases, inspect `task-outcome`, `routing-evidence`, and (case 13) `fixture-evidence` separately. Every assertion in a selected row must pass; changing weights does not make a failing assertion non-blocking. Do not use the combined Promptfoo score as an overall business-quality measure.
 
@@ -89,7 +93,7 @@ npm run eval:manager:report -- \
 
 Both run commands reject stale copied Skills, inputs or graders before calling the model. Prepare again after a source change. For a narrow loop, use `--filter-pattern '^\[13\]'` and `--filter-providers manager-candidate`; repeat important cases with `--repeat 3` after local checks and one smoke run. Avoid repeatedly rerunning unaffected baselines.
 
-The default is `gpt-5.6-terra` at medium reasoning; set `INFLUENCER_EVAL_MODEL` to pin another model for a comparison. Runs are read-only, non-interactive, serialized, and disable memory, plugins, multiple agents, web search and agent network access. Each row has a five-minute timeout and the suite a twenty-minute ceiling. Split larger repeated sets into bounded runs instead of silently losing rows to the suite deadline.
+The default is `gpt-5.6-terra` at medium reasoning; set `INFLUENCER_EVAL_MODEL` to pin another model for a comparison. Runs are read-only, non-interactive, serialized, and disable memory, plugins, multiple agents, web search and agent network access. Each row has a ten-minute timeout and the suite retains its twenty-minute ceiling. The row limit was raised after a source-reading run exhausted five minutes before producing an answer; timeout changes do not turn incomplete runs into passes. Split larger or repeated sets into bounded runs instead of silently losing rows to the suite deadline.
 
 Replay current outcome graders without changing the saved results or calling a model:
 

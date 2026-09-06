@@ -8,7 +8,7 @@ from unittest.mock import patch
 
 import prepare_promptfoo_fixtures as fixtures
 from promptfoo_cases import SOURCE_READ_ASSERTIONS, _run_javascript, create_tests
-from review_results import inspect_result
+from review_results import inspect_result, inspect_shortlist_render
 
 
 class FixtureTests(unittest.TestCase):
@@ -133,6 +133,26 @@ class ClientBatchTests(unittest.TestCase):
 
 
 class ReportTests(unittest.TestCase):
+    def test_renderer_observation_does_not_create_an_outcome_grade(self):
+        rendered = {"markdown": "| Name |\n| --- |\n| Alpha |", "selected_ids": ["alpha"], "selected_count": 1, "shortfall": 4}
+        item = {"type": "command_execution", "exit_code": 0, "command": "python3 skill/scripts/render_shortlist.py", "aggregated_output": json.dumps(rendered)}
+        response = {"raw": json.dumps({"items": [item]}), "output": "Partial batch\n" + rendered["markdown"]}
+        result = inspect_result({"response": response})
+        self.assertTrue(result["shortlist_render"]["table_in_final"])
+        self.assertEqual(result["shortlist_render"]["shortfall"], 4)
+        self.assertEqual(result["metrics"], {})
+        response["output"] = rendered["markdown"].replace("Alpha", "Beta")
+        self.assertFalse(inspect_shortlist_render(response)["table_in_final"])
+
+    def test_renderer_claim_or_failed_command_is_not_execution_evidence(self):
+        item = {"type": "command_execution", "exit_code": 0, "command": "python3 skill/scripts/render_shortlist.py", "aggregated_output": json.dumps({"markdown": "a table"})}
+        for patch_values in ({"exit_code": 1}, {"type": "agent_message"}, {"command": "read source"}, {"aggregated_output": "not JSON"}):
+            with self.subTest(patch_values=patch_values):
+                self.assertIsNone(inspect_shortlist_render({"raw": {"items": [{**item, **patch_values}]}, "output": "I ran the renderer"}))
+        self.assertIsNone(inspect_shortlist_render({"raw": "invalid", "output": "I ran the renderer"}))
+        for raw in (None, [], {"items": None}, {"items": [None]}):
+            self.assertIsNone(inspect_shortlist_render({"raw": raw}))
+
     def test_failed_assertion_is_not_runtime_error(self):
         row = {"failureReason": 1, "error": "assertion failed", "gradingResult": {"componentResults": [
             {"assertion": {"metric": "task-outcome"}, "pass": True},

@@ -40,7 +40,7 @@ defaultTest:
 
 evaluateOptions:
   maxConcurrency: 1
-  timeoutMs: 300000
+  timeoutMs: 600000
   maxEvalTimeMs: 1200000
 
 tests:
