@@ -10,16 +10,18 @@ The user's correction is recorded in the [business review criteria](business-rev
 
 The subsequent [single-selection review](review-2026-09-06-single-selection.md) tests a small local table renderer against those failures. Case 22 improved in the final trial, but case 23 still promoted an unqualified creator; the Skill integration was rejected and rolled back. Its [trial sample](business-review-sample-2026-09-06-rendered.md) preserves actual model output, separate from the earlier edited illustration. The retained prototype and trace observations are not a shipped Skill improvement, user approval or a reliability estimate.
 
+The [operator follow-up review](review-2026-09-06-operator-followups.md) adds case 24 without changing the Skill. One run preserved the main relationship states but still needed evidence and approval-scope corrections; its [raw handoff sample](business-review-sample-2026-09-06-operator-followups.md) awaits user review. This extends coverage, not proof of a version improvement or a fix for case 23.
+
 ## Organization
 
-- `evals.json` owns the 23 canonical prompts and qualitative expectations. IDs remain stable.
+- `evals.json` owns the 24 canonical prompts and qualitative expectations. IDs remain stable.
 - `fixtures/` contains only synthetic task evidence, never expected answers or grading rules. A case's optional `files` list is relative to this directory.
 - `promptfoo_cases.py` selects executable cases and adds focused assertions. Expectations stay in test metadata for review; they are not sent to the model.
 - `prepare_promptfoo_fixtures.py` copies the Skills and declared files into isolated baseline/candidate workspaces. Only the Manager Skill may differ.
 - `review_results.py` reports saved results by metric and separates runtime errors. It can replay updated outcome graders without another model call, and report observed shortlist-renderer output and whether its table reached the final answer unchanged.
 - `workspace/` holds ignored run traces and review notes. Do not put live customer data, credentials, or commercial records in the case corpus.
 
-Cases use `should-trigger`, `should-not-trigger`, or `boundary`. These describe the intended routing, not whether the case is executable. Cases that require live discovery, sends, scheduling, or an actual SOP workspace still need a separately authorized environment and its inputs. An empty `files` list does not supply those capabilities. Do not call all 23 cases behavior-tested after validating their JSON.
+Cases use `should-trigger`, `should-not-trigger`, or `boundary`. These describe the intended routing, not whether the case is executable. Cases that require live discovery, sends, scheduling, or an actual SOP workspace still need a separately authorized environment and its inputs. An empty `files` list does not supply those capabilities. Do not call all 24 cases behavior-tested after validating their JSON.
 
 ## Small executable set
 
@@ -34,6 +36,7 @@ Cases use `should-trigger`, `should-not-trigger`, or `boundary`. These describe 
 | 21 | First invitation and preliminary client review | Fictional brief, four channels and reply snapshots; distinguish qualified human interest, contact-pending discovery, failed qualification and auto-reply. Business outcome and draft usefulness are manually reviewed. |
 | 22 | Client batch comparison | User feedback asks for five options, separate judgment/evidence dimensions and no repeated next actions. Eight fictional channels supply five eligible human-interest options. Business outcome and readability are manually reviewed. |
 | 23 | Client batch shortfall | Same request as 22, using the limited case 21 snapshot. Show the supported one of five and the shortfall, without padding or claiming a complete batch. Manually reviewed. |
+| 24 | Operator follow-up summary | Five fictional relationships across follow-up history, CRM and inbound messages. Distinguish actions from state, retain closed/excluded boundaries, resolve handoff responsibility and preserve missing evidence. Manually reviewed; no live system or real dashboard schema. |
 | 19-natural | Natural positive routing | The original case 19 prompt without naming the Skill. This is reported separately from content. |
 
 Positive content cases, including the business decision in case 13, explicitly invoke Manager. Their `skill-used` assertion verifies the test precondition; a failure means the loaded-Skill comparison is not established. Case 12 stays unprefixed and retains `not-skill-used` as a scope guard.
@@ -42,7 +45,7 @@ Natural case 19 remains a diagnostic for content-only iteration, not a hidden pa
 
 ## Grading and release decisions
 
-Use the [business review criteria](business-review.md), including the user's correction of the first sample, for cases 9, 21, 22 and 23. Their `response-evidence`, `routing-evidence` and supplied `fixture-evidence` assertions establish test evidence only; they deliberately have no automated `task-outcome` grade. The report calls out the missing manual outcome even when Promptfoo shows a green row. Read the complete answer, record usable / needs material revision / unusable with one decision-relevant reason, and keep agent review separate from the user's judgment. No fixed answer template or new model judge is required.
+Use the [business review criteria](business-review.md), including the user's correction of the first sample and the separate operator-summary criteria, for cases 9, 21, 22, 23 and 24. Their `response-evidence`, `routing-evidence` and supplied `fixture-evidence` assertions establish test evidence only; they deliberately have no automated `task-outcome` grade. The report calls out the missing manual outcome even when Promptfoo shows a green row. Read the complete answer, record usable / needs material revision / unusable with one decision-relevant reason, and keep agent review separate from the user's judgment. No fixed answer template or new model judge is required.
 
 `tools/render_shortlist.py` is a tested local prototype, not part of the shipped Skill. It takes assessed records and selected IDs through JSON stdin, then outputs one comparison table with count and known-quote checks. `test_shortlist_renderer.py` supplies example inputs and tests that mechanical contract independently of model runs. It does not qualify creators or validate reply evidence against the source. In trial runs, inspect the helper input against the snapshot, the returned selection and minima, and the final answer. `table_in_final=true` establishes table propagation only, not correct business judgment or freedom from contradictory prose. No observed helper output means the trace has not established successful execution; merely reading or naming the script is insufficient. Older baselines do not fail for lacking the new helper.
 

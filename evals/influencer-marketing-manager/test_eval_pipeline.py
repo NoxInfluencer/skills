@@ -132,6 +132,70 @@ class ClientBatchTests(unittest.TestCase):
         self.assertEqual(SOURCE_READ_ASSERTIONS[23], SOURCE_READ_ASSERTIONS[21])
 
 
+class OperatorFollowupTests(unittest.TestCase):
+    def setUp(self):
+        self.source = json.loads((Path(__file__).parent / "fixtures/inputs/case24-operator-followups.json").read_text())
+
+    def test_operator_case_requires_manual_review_without_rubric_leakage(self):
+        test, = create_tests({"case_ids": [24]})
+        self.assertEqual(test["metadata"]["outcome_review"], "manual")
+        self.assertEqual([item["metric"] for item in test["assert"]],
+                         ["response-evidence", "routing-evidence", "fixture-evidence"])
+        for criterion in [test["metadata"]["expected_output"], *test["metadata"]["expectations"]]:
+            self.assertNotIn(criterion, test["vars"]["request"])
+        self.assertEqual(test["metadata"]["files"], ["inputs/case24-operator-followups.json"])
+
+    def test_source_check_requires_every_supplied_record(self):
+        ids = [self.source[key]["record_id"] for key in ("project", "followup_log", "crm_snapshot", "mail_snapshot")]
+        ids.extend(self.source["followup_log"]["user_confirmed_followups"])
+        ids.extend(message["record_id"] for message in self.source["mail_snapshot"]["messages"])
+        self.assertEqual(len(ids), 13)
+        self.assertEqual(len(ids), len(set(ids)))
+
+        def grade(record_ids):
+            item = {"type": "command_execution", "exit_code": 0, "aggregated_output": " ".join(record_ids)}
+            return _run_javascript(SOURCE_READ_ASSERTIONS[24], "", {"providerResponse": {"raw": {"items": [item]}}})["pass"]
+
+        self.assertTrue(grade(ids))
+        for missing in ids:
+            with self.subTest(missing=missing):
+                self.assertFalse(grade([record_id for record_id in ids if record_id != missing]))
+
+    def test_claims_and_failed_commands_are_not_source_read_evidence(self):
+        contents = json.dumps(self.source)
+        item = {"type": "command_execution", "exit_code": 0, "aggregated_output": contents}
+        for change in ({"exit_code": 1}, {"type": "agent_message"}, {"aggregated_output": ""}):
+            with self.subTest(change=change):
+                result = _run_javascript(SOURCE_READ_ASSERTIONS[24], contents,
+                                         {"providerResponse": {"raw": {"items": [{**item, **change}]}}})
+                self.assertFalse(result["pass"])
+        self.assertFalse(_run_javascript(SOURCE_READ_ASSERTIONS[24], contents)["pass"])
+
+    def test_fixture_preserves_state_conflicts_and_missing_evidence(self):
+        log = self.source["followup_log"]["user_confirmed_followups"]
+        crm = {row["record_id"]: row for row in self.source["crm_snapshot"]["records"]}
+        messages = {row["relationship_id"]: row for row in self.source["mail_snapshot"]["messages"]}
+        self.assertEqual(set(log), {f"REL-24-{letter}" for letter in "ABCDE"})
+        self.assertEqual(set(crm), {f"REL-24-{letter}" for letter in "ABCD"})
+        self.assertEqual(len(self.source["crm_snapshot"]["records"]), 4)
+        self.assertEqual(set(messages), set(crm))
+        self.assertEqual(len(self.source["mail_snapshot"]["messages"]), 4)
+        self.assertEqual(set(log["REL-24-E"]), {"creator_name", "sent_at"})
+        for record_id in crm:
+            self.assertEqual(log[record_id]["creator_name"], crm[record_id]["creator_name"])
+            self.assertIsNone(crm[record_id]["cooperation_approval"])
+        self.assertEqual(messages["REL-24-A"]["headers"]["Auto-Submitted"], "auto-replied")
+        self.assertIsNone(crm["REL-24-A"]["quoted_fee"])
+        for record_id, status in (("REL-24-B", "closed"), ("REL-24-D", "excluded")):
+            with self.subTest(record_id=record_id):
+                self.assertEqual(crm[record_id]["status"], status)
+                self.assertLess(log[record_id]["sent_at"], crm[record_id]["updated_at"])
+                self.assertLess(crm[record_id]["updated_at"], messages[record_id]["received_at"])
+        self.assertEqual(crm["REL-24-C"]["owner"], "Mina")
+        self.assertEqual(crm["REL-24-C"]["status"], "client_review")
+        self.assertLess(log["REL-24-C"]["sent_at"], crm["REL-24-C"]["updated_at"])
+
+
 class ReportTests(unittest.TestCase):
     def test_renderer_observation_does_not_create_an_outcome_grade(self):
         rendered = {"markdown": "| Name |\n| --- |\n| Alpha |", "selected_ids": ["alpha"], "selected_count": 1, "shortfall": 4}
