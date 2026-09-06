@@ -30,8 +30,25 @@ The prior Agent-only usable rating did not capture the user's comparison needs. 
 | Creator selection | Identifies promising and unsuitable candidates from recent same-format evidence and the real product scene; preserves strong fits with contact pending; states the evidence still needed. |
 | First invitation | Gives a truthful, specific selection reason, natural product connection, proposed format and one clear next question; does not invent a budget, product promise, contact route or completed send. |
 | Preliminary client review | Provides the agreed batch for comparison, with recommendations separate from source-backed content evidence, human intent, known terms and important unknowns. Summarizes common conditions or actions once; only creator-specific differences belong in each row. Does not require a complete contract before an exploratory decision or present interest as agreement. |
+| Operator follow-up summary | Covers the requested relationships, including stopped records when in scope. Distinguishes dated evidence from current-state interpretation, names material blockers and known owners, and separates proposed actions from decisions requiring approval. Missing evidence stays unknown. |
 
 These are decision criteria, not fixed column names or a mandatory form. Adapt detail to the user's request and evidence. A missing fact blocks progress only when it materially affects the current decision or authority; required commercial terms still need confirmation before commitment. If the evidence supports fewer eligible creators than requested, show the supported subset, state the shortfall and keep the batch incomplete. Do not invent candidates, waive qualification or claim additional discovery merely to fill it.
+
+## Operator follow-up evidence
+
+The operator view answers a different question from a client shortlist: what needs attention across the relationships already being followed? Appearing in this view does not establish client-submission eligibility. Relationship-specific blockers and actions are useful here even when a client comparison has one shared next step.
+
+The same reference project's `campaign-operations.md` and `project-iniu-youtube.md` distinguish dated changes, the authoritative CRM, ownership and stop conditions. Its `.codex/iniu-youtube-state.json` stores dashboard configuration and historical follow-up events, not the full page schema. The available snapshot contains 73 follow-up entries, 46 with `followup_type`; these record actions, not current cooperation states. The original HTML is unavailable. Do not infer its columns or convert its seven project display groups into a universal Skill state machine.
+
+Case 24 uses an invented export with fictional people and terms to test these distinctions:
+
+- A sent follow-up or automatic acknowledgement is not a human reply or a quote.
+- A newer offer is evidence to surface alongside the CRM state, not approval to reopen a closed or excluded relationship.
+- An operator handoff changes responsibility, not whether cooperation or commercial terms have been approved.
+- Missing CRM or message data does not prove no reply, closure or an assigned owner; identify the smallest lookup without blocking supported work.
+- Proposed actions need the applicable authority. Do not turn a summary into a claim of live readback, sending, record changes or commercial acceptance.
+
+Assess source, observation time and coverage where they affect the decision. This is a synthetic interpretation test, not validation of a real dashboard integration.
 
 ## Review form
 
@@ -53,7 +70,7 @@ Agent review is preliminary; never label it as user approval. If the user change
 
 ## Coverage and automation
 
-- Cases 9, 21, 22 and 23 require this review. Their automated checks only establish response availability, Skill loading, and supplied source-read evidence. Green Promptfoo rows do not grade their business outcome or readability.
+- Cases 9, 21, 22, 23 and 24 require this review. Their automated checks only establish response availability, Skill loading, and supplied source-read evidence. Green Promptfoo rows do not grade their business outcome or readability.
 - Other executable cases retain their existing smoke checks. Known wording errors and missed requirements still need explicit manual correction; see the [rejected revision review](review-2026-09-06.md).
 - Keep current graders unchanged during the Skill comparison. There is no new model judge, scoring platform, or universal performance benchmark.
 - A synthetic case can test interpretation and draft quality, not real discovery, message delivery, customer acceptance, reply rates or marketing ROI.

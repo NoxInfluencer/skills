@@ -345,6 +345,23 @@
         "Separates recommendation from factual evidence and summarizes the shared batch shortfall or follow-up once; no fixed headers or repeated per-creator next actions are required",
         "Does not fabricate additional creators or replies, waive qualification, block a useful partial result on a full contract checklist, or claim external discovery, sending or record changes"
       ]
+    },
+    {
+      "id": 24,
+      "category": "operator-followup-summary",
+      "trigger": "should-trigger",
+      "prompt": "请根据所给项目记录，整理一份给运营同事接手的达人跟进摘要。让我看清每条记录现在是什么情况、依据是什么、卡在哪里、由谁处理及建议动作，并指出需要我决定的事项。只使用所给材料，不访问外部系统、不发送消息、不修改记录；不需要制作 HTML。",
+      "expected_output": "An actionable internal operations summary grounded in dated CRM and message evidence, distinguishing historical actions, current state, qualification and decision authority without inventing missing facts.",
+      "files": ["inputs/case24-operator-followups.json"],
+      "expectations": [
+        "Reads the project, follow-up log, CRM and message exports; accounts for all five relationships without presenting them as five qualified client recommendations or claiming a live readback",
+        "Keeps A with Lin awaiting a human response and quote: the rate-request event and automatic acknowledgement do not establish a quote or genuine interest",
+        "Preserves B's closed state despite the historical negotiation label and newer USD 900 proposal replacing the previous USD 1,100 ask; records the change without accepting it, automatically reopening, or recommending outreach before explicit reopening approval",
+        "Identifies Mina as C's handoff owner and preserves client review rather than confirmed cooperation; retains USD 1,400, one 60-90 second October integration, one revision, excluded paid usage and unresolved payment/date terms; surfaces the client's paid-usage and package-negotiation decisions",
+        "Keeps D excluded despite the fresh human interest and USD 600 quote, using the old underperforming long-form evidence and project rule; D may appear in an internal closure section but not as an active negotiation or client recommendation",
+        "For E, reports only the known historical send and missing evidence; does not infer current state, intent, quote or an assigned owner from an absent followup_type or missing CRM/message data; proposes a scoped lookup or owner assignment without blocking the rest of the summary",
+        "Separates material facts from recommendations, makes creator-specific blockers and next responsibilities usable without a mandatory table layout, and does not invent approvals, completed sends, record updates, shipping or dashboard fields"
+      ]
     }
   ]
 }

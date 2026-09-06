@@ -13,8 +13,8 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
-DEFAULT_CASE_IDS = (9, 10, 12, 13, 19, 20, 21, 22, 23)
-MANUAL_REVIEW_CASE_IDS = {9, 21, 22, 23}
+DEFAULT_CASE_IDS = (9, 10, 12, 13, 19, 20, 21, 22, 23, 24)
+MANUAL_REVIEW_CASE_IDS = {9, 21, 22, 23, 24}
 SKILL_NAME = "influencer-marketing-manager"
 
 
@@ -147,6 +147,11 @@ SOURCE_READ_ASSERTIONS = {
         "BRIEF-22",
         *[f"CREATOR-22-{letter}" for letter in "ABCDEFGH"],
         *[f"MESSAGE-22-{letter}" for letter in "ACDEFGH"],
+    ]),
+    24: source_read_assertion([
+        "BRIEF-24", "FOLLOWUPS-24", "CRM-24", "MAIL-24",
+        *[f"REL-24-{letter}" for letter in "ABCDE"],
+        *[f"MESSAGE-24-{letter}" for letter in "ABCD"],
     ]),
 }
 SOURCE_READ_ASSERTIONS[23] = SOURCE_READ_ASSERTIONS[21]
@@ -286,9 +291,9 @@ def run_self_test() -> None:
     assert brief["nested"][0]["digest"] == "sha256-prefix-16:" + "c" * 16
     assert full["digest"] == "a" * 64
     tests = create_tests({"case_ids": list(DEFAULT_CASE_IDS)})
-    assert [test["metadata"]["case_id"] for test in tests] == [9, 10, 12, 13, 19, 19, 20, 21, 22, 23]
+    assert [test["metadata"]["case_id"] for test in tests] == [9, 10, 12, 13, 19, 19, 20, 21, 22, 23, 24]
     manual_tests = [test for test in tests if test["metadata"].get("outcome_review") == "manual"]
-    assert [test["metadata"]["case_id"] for test in manual_tests] == [9, 21, 22, 23]
+    assert [test["metadata"]["case_id"] for test in manual_tests] == [9, 21, 22, 23, 24]
     assert all(test["assert"][0]["metric"] == "response-evidence" for test in manual_tests)
     assert all(all(item["metric"] != "task-outcome" for item in test["assert"]) for test in manual_tests)
     assert not _run_javascript(RESPONSE_EVIDENCE_ASSERTION, "  ")["pass"]
