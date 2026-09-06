@@ -12,6 +12,38 @@ from typing import Any
 from promptfoo_cases import OUTCOME_ASSERTIONS, _run_javascript_assertion
 
 
+def inspect_shortlist_render(response: dict[str, Any]) -> dict[str, Any] | None:
+    """Report observed helper output and propagation, never a business-quality grade."""
+    raw = response.get("raw")
+    try:
+        turn = json.loads(raw) if isinstance(raw, str) else raw
+    except (ValueError, TypeError):
+        return None
+    if not isinstance(turn, dict):
+        return None
+    items = turn.get("items")
+    if not isinstance(items, list):
+        return None
+    for item in reversed(items):
+        if (not isinstance(item, dict) or item.get("type") != "command_execution" or item.get("exit_code") != 0
+                or "render_shortlist.py" not in str(item.get("command", ""))):
+            continue
+        try:
+            rendered = json.loads(item.get("aggregated_output", ""))
+        except (ValueError, TypeError):
+            continue
+        if not isinstance(rendered, dict) or not isinstance(rendered.get("markdown"), str) or not rendered["markdown"].strip():
+            continue
+        return {
+            "selected_ids": rendered.get("selected_ids"),
+            "selected_count": rendered.get("selected_count"),
+            "shortfall": rendered.get("shortfall"),
+            "known_quoted_minima_by_currency": rendered.get("known_quoted_minima_by_currency"),
+            "table_in_final": isinstance(response.get("output"), str) and rendered["markdown"].strip() in response["output"],
+        }
+    return None
+
+
 def inspect_result(row: dict[str, Any], regrade: bool = False) -> dict[str, Any]:
     metadata = row.get("testCase", {}).get("metadata", {})
     response = row.get("response") or {}
@@ -36,6 +68,7 @@ def inspect_result(row: dict[str, Any], regrade: bool = False) -> dict[str, Any]
         "manual_review_required": metadata.get("outcome_review") == "manual",
         "error": (row.get("error") or response.get("error")) if runtime_error else None,
         "metrics": metrics,
+        "shortlist_render": inspect_shortlist_render(response) if not runtime_error else None,
     }
 
 
@@ -74,6 +107,8 @@ def main() -> int:
             if result["manual_review_required"]:
                 manual[key] += 1
                 print(f"  {key}: task outcome requires manual review; evidence checks are not task passes")
+            if result["shortlist_render"] is not None:
+                print(f"  {key}: observed shortlist render (not business approval): {json.dumps(result['shortlist_render'], ensure_ascii=False)}")
             for name, grade in result["metrics"].items():
                 counts[(*key, name)]["pass" if grade["pass"] is True else "fail"] += 1
                 if grade["pass"] is not True:
