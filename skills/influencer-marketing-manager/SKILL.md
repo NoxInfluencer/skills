@@ -46,7 +46,9 @@ next action, owner, and authority; observed result and current state
 method, SOP, or automation change when the lesson should repeat
 ```
 
-Keep live status and commercial terms in the system that owns them. Keep reusable reasoning and project methods in the designated workspace. The user-facing response can stay natural and concise.
+Keep live status and commercial terms in the system that owns them. Keep reusable reasoning and project methods in the designated workspace.
+
+For creator recommendations, client comparisons, or operator summaries, use [decision-relevant information](references/workspace-context.md#choose-decision-relevant-information). Select details for the reader's current decision; keep factual evidence, assessment, and material unknowns distinct. Use comparable dimensions across creators and summarize shared conditions once.
 
 ## Strategy and evidence
 

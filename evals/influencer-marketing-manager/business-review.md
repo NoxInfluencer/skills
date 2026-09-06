@@ -34,6 +34,19 @@ The prior Agent-only usable rating did not capture the user's comparison needs. 
 
 These are decision criteria, not fixed column names or a mandatory form. Adapt detail to the user's request and evidence. A missing fact blocks progress only when it materially affects the current decision or authority; required commercial terms still need confirmation before commitment. If the evidence supports fewer eligible creators than requested, show the supported subset, state the shortfall and keep the batch incomplete. Do not invent candidates, waive qualification or claim additional discovery merely to fill it.
 
+## Information selection and expression
+
+The user's latest clarification is to learn which information operators care about, not to build or maintain their dashboard. Evaluate answer content and business usefulness; no new view, artifact schema, persistent update workflow or continuous-monitoring test is required.
+
+Apply these checks to both baseline and candidate before judging the overall result:
+
+- **Relevance:** includes what affects this reader's current decision; does not require a full contract or fulfillment checklist for preliminary review.
+- **Fidelity:** preserves known values, associated deliverables, sources and material unknowns; reports a specific qualification failure without expanding it into an unsupported broader claim.
+- **Separation:** factual evidence, assessment and unresolved questions are easy to distinguish. A fixed set of headings or columns is not required.
+- **Comparison and economy:** uses consistent relevant dimensions across creators, retains decision-relevant differences and summarizes shared conditions once. Brevity must not hide known terms, risks or required decisions.
+
+Cases 22/23 cover client comparison and a qualification shortfall; case 24 covers operational progress, commercial conditions, responsibility and decision boundaries. Judge actual information, not whether the model mentions these dimensions. Keep stage-specific execution-detail coverage limited to the supplied evidence; these cases do not prove fulfillment performance.
+
 ## Operator follow-up evidence
 
 The operator view answers a different question from a client shortlist: what needs attention across the relationships already being followed? Appearing in this view does not establish client-submission eligibility. Relationship-specific blockers and actions are useful here even when a client comparison has one shared next step.

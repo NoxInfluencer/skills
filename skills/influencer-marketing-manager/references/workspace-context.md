@@ -8,6 +8,7 @@ Use this reference when a project directory, Campaign workspace, CRM export, or 
 - [Resolve source roles](#resolve-source-roles)
 - [Classify what was read](#classify-what-was-read)
 - [Keep one business record](#keep-one-business-record)
+- [Choose decision-relevant information](#choose-decision-relevant-information)
 - [Develop the operating method](#develop-the-operating-method)
 - [Implement automation](#implement-automation)
 - [Promote useful experience](#promote-useful-experience)
@@ -70,6 +71,25 @@ observed result and resulting state
 Use a concise record for reversible work and add detail when spend, rights, reputation, or lifecycle state changes. This is a decision record, not a duplicate CRM.
 
 By stage, retain the coarse source and fine evidence for discovery; message version, recipients, authorization, and response state for outreach; task-level counters and a dated comparison baseline for monitoring; complete terms and confirmation for negotiation; and checklist evidence, public assets, metrics, attribution confidence, and learning for fulfillment and measurement.
+
+## Choose decision-relevant information
+
+Start with the reader and the decision they need to make now. Select from these dimensions; they are not fixed columns or a checklist for every stage.
+
+| Dimension | Decision-relevant information |
+| --- | --- |
+| Identity and fit | Creator/channel identity or source link; fit assessment supported by recent comparable content, audience/use scene, performance and material risks. |
+| Reply and intent | What the creator actually said, when and where; distinguish a human reply, an automatic acknowledgement, interest and agreement. |
+| Proposed cooperation | Fee and currency together with the associated deliverables, quantity, format/placement, duration, timing and rights. Keep material conditions attached to the quote. |
+| Current progress | Latest supported state, distinct from historical actions; who is responsible or being waited on when that affects the handoff. |
+| Decision gaps | Missing or conflicting facts, material trade-offs and the specific choice requiring the user or client. Separate preparation from actions requiring approval. |
+| Execution readiness | Product, content plan, sample/logistics, publication and payment information when the stage or current decision makes it relevant. |
+
+For internal research, emphasize qualification evidence and useful next checks. For preliminary client review, make eligible options comparable through fit, reply intent, known terms and decision-relevant unknowns; distinguish an incomplete batch from a complete recommendation. For operator handoff, cover the requested relationships, including stopped or uncertain ones, with their different blockers and responsibilities. A relationship's presence in an operational summary is not a recommendation to proceed.
+
+Keep assessments separate from the facts supporting them and make important unknowns visible. State the specific failed criterion rather than a broader unsupported conclusion. Retain source links or record IDs and dates needed to check material claims; brevity should not remove the known terms needed for a decision. Use the same relevant dimensions across comparable creators, summarize common conditions or actions once, and expand only meaningful differences.
+
+An exploratory choice does not require every contract or fulfillment field. Mark a relevant missing term as unknown; require its resolution before the action or commitment it affects, not before unrelated research or drafting. Follow the user's requested format without creating a new reporting or maintenance workflow merely to present these details.
 
 ## Develop the operating method
 
