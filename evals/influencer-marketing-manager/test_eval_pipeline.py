@@ -1,8 +1,10 @@
 """Local contract tests; no model calls, real login, or live marketing systems."""
 
 import json
+import re
 import tempfile
 import unittest
+from datetime import datetime
 from pathlib import Path
 from unittest.mock import patch
 
@@ -210,6 +212,106 @@ class OperatorFollowupTests(unittest.TestCase):
         self.assertEqual(crm["REL-24-C"]["owner"], "Mina")
         self.assertEqual(crm["REL-24-C"]["status"], "client_review")
         self.assertLess(log["REL-24-C"]["sent_at"], crm["REL-24-C"]["updated_at"])
+
+
+class ConversationEvidenceTests(unittest.TestCase):
+    def setUp(self):
+        self.tests = create_tests({"case_ids": [26, 27, 28, 29, 30]})
+        self.sources = {
+            test["metadata"]["case_id"]: json.loads(
+                (Path(__file__).parent / "fixtures" / test["metadata"]["files"][0]).read_text()
+            ) for test in self.tests
+        }
+
+    def test_manual_review_and_no_rubric_in_request_or_evidence(self):
+        def keys(value):
+            if isinstance(value, dict):
+                for key, item in value.items():
+                    yield key
+                    yield from keys(item)
+            elif isinstance(value, list):
+                for item in value:
+                    yield from keys(item)
+
+        for test in self.tests:
+            with self.subTest(case_id=test["metadata"]["case_id"]):
+                self.assertEqual(test["metadata"]["outcome_review"], "manual")
+                self.assertEqual([item["metric"] for item in test["assert"]],
+                                 ["response-evidence", "routing-evidence", "fixture-evidence"])
+                evidence = self.sources[test["metadata"]["case_id"]]
+                for criterion in [test["metadata"]["expected_output"], *test["metadata"]["expectations"]]:
+                    self.assertNotIn(criterion, test["vars"]["request"])
+                    self.assertNotIn(criterion, json.dumps(evidence))
+                self.assertFalse(set(keys(evidence)) & {
+                    "expected_output", "expectations", "current_quote", "intent", "cooperation_status", "recommended_action",
+                })
+
+    def test_source_checks_require_all_records_and_successful_reads(self):
+        for case_id, source in self.sources.items():
+            ids = [source["record_id"], source["project"]["record_id"]]
+            ids.extend(message["record_id"] for message in source["messages"])
+            self.assertEqual(len(ids), len(set(ids)))
+
+            def grade(record_ids, **changes):
+                item = {"type": "command_execution", "exit_code": 0,
+                        "aggregated_output": " ".join(record_ids), **changes}
+                return _run_javascript(SOURCE_READ_ASSERTIONS[case_id], "I read the source",
+                                       {"providerResponse": {"raw": {"items": [item]}}})["pass"]
+
+            with self.subTest(case_id=case_id):
+                self.assertTrue(grade(ids))
+                for missing in ids:
+                    self.assertFalse(grade([record_id for record_id in ids if record_id != missing]))
+                self.assertFalse(grade(ids, exit_code=1))
+                self.assertFalse(grade(ids, type="agent_message"))
+
+    def test_messages_are_ordered_and_do_not_cross_snapshot_cutoff(self):
+        for case_id, source in self.sources.items():
+            with self.subTest(case_id=case_id):
+                cutoff = datetime.fromisoformat(source["snapshot_at"])
+                times = [datetime.fromisoformat(message["sent_at"]) for message in source["messages"]]
+                self.assertEqual(times, sorted(times))
+                self.assertTrue(all(time <= cutoff for time in times))
+
+    def test_terms_checkpoints_have_identical_request_and_strict_prefix_evidence(self):
+        before, after = self.sources[27], self.sources[28]
+        before_test, after_test = self.tests[1:3]
+        self.assertEqual(before_test["vars"]["request"].split("Supplied read-only files:")[0],
+                         after_test["vars"]["request"].split("Supplied read-only files:")[0])
+        self.assertNotEqual(before_test["metadata"]["files"], after_test["metadata"]["files"])
+        self.assertEqual(len(before["messages"]), 7)
+        self.assertEqual(len(after["messages"]), 13)
+        self.assertEqual(before["messages"], after["messages"][:len(before["messages"])])
+        self.assertEqual({key: value for key, value in before.items() if key not in {"messages", "snapshot_at"}},
+                         {key: value for key, value in after.items() if key not in {"messages", "snapshot_at"}})
+        for message in after["messages"][len(before["messages"]):]:
+            self.assertGreater(datetime.fromisoformat(message["sent_at"]), datetime.fromisoformat(before["snapshot_at"]))
+            self.assertNotIn(message["record_id"], json.dumps(before))
+            self.assertNotIn(message["body"], json.dumps(before))
+
+    def test_transport_ambiguity_and_attachment_limits_remain_in_inputs(self):
+        mixed = self.sources[26]
+        self.assertEqual(mixed["messages"][-1]["from_type"], 2)
+        self.assertNotEqual(mixed["messages"][-1]["from"], mixed["messages"][1]["from"])
+        first_reply, repeated_reply = mixed["messages"][1:3]
+        self.assertEqual(first_reply["body"], repeated_reply["body"])
+        self.assertEqual(first_reply["attachments"], repeated_reply["attachments"])
+        self.assertNotEqual(first_reply["record_id"], repeated_reply["record_id"])
+        self.assertEqual(set(first_reply["attachments"][0]), {"name", "size_bytes"})
+        latest = self.sources[30]["messages"][-1]
+        self.assertEqual(latest["send_name"], "Mira")
+        self.assertTrue(latest["body"].endswith("Best, Nora"))
+
+    def test_adaptations_use_reserved_contact_domains(self):
+        for case_id, source in self.sources.items():
+            with self.subTest(case_id=case_id):
+                self.assertEqual(source["fixture_kind"], "adapted-evaluation-example")
+                self.assertIn("invented", source["export_notes"]["adaptation"])
+                text = json.dumps(source)
+                addresses = re.findall(r"[\w.+-]+@([\w.-]+)", text)
+                self.assertTrue(addresses)
+                self.assertTrue(all(domain.endswith(".example") for domain in addresses))
+                self.assertNotRegex(text, r"https?://")
 
 
 class ReportTests(unittest.TestCase):

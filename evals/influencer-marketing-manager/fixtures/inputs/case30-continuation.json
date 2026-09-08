@@ -1,0 +1,89 @@
+{
+  "record_id": "MAIL-30",
+  "fixture_kind": "adapted-evaluation-example",
+  "snapshot_at": "2026-07-17T18:00:00Z",
+  "project": {
+    "record_id": "BRIEF-30",
+    "brand": "VOLTLEAF (fictional)",
+    "product": "portable power banks and charging accessories",
+    "platform": "YouTube",
+    "requested_format": "one long-form video integration or pre/mid-roll",
+    "timing": "flexible"
+  },
+  "export_notes": {
+    "adaptation": "Rewritten evaluation example; identities and dates are invented.",
+    "from_type": {"1": "outbound from the connected mailbox", "2": "inbound to the connected mailbox"},
+    "send_status": "Status code supplied in this example; its definition is not supplied."
+  },
+  "messages": [
+    {
+      "record_id": "MESSAGE-30-01",
+      "sent_at": "2026-07-02T08:00:00Z",
+      "from_type": 1,
+      "send_status": 0,
+      "from": "partnerships@agency.example",
+      "send_name": "Mira",
+      "to": ["noel@representation.example"],
+      "body": "Hi Noel, I work with VOLTLEAF and would like to explore a YouTube integration with Frame Studio. The portable chargers could fit a camera-bag or location-shoot workflow. We are flexible on timing. Best, Mira"
+    },
+    {
+      "record_id": "MESSAGE-30-02",
+      "sent_at": "2026-07-11T08:00:00Z",
+      "from_type": 1,
+      "send_status": 0,
+      "from": "partnerships@agency.example",
+      "send_name": "Mira",
+      "to": ["noel@representation.example"],
+      "body": "Hi Noel, following up on VOLTLEAF for Frame Studio. Portable charging while working on location could be a useful angle. If helpful, we can discuss a sample to try before deciding on a paid collaboration. Best, Mira"
+    },
+    {
+      "record_id": "MESSAGE-30-03",
+      "sent_at": "2026-07-13T10:00:00Z",
+      "from_type": 2,
+      "from": "noel@representation.example",
+      "to": ["partnerships@agency.example"],
+      "body": "Hi Mira, I represent Frame Studio. We are interested in this opportunity. What are the next steps? Best, Noel"
+    },
+    {
+      "record_id": "MESSAGE-30-04",
+      "sent_at": "2026-07-14T08:00:00Z",
+      "from_type": 1,
+      "send_status": 0,
+      "from": "partnerships@agency.example",
+      "send_name": "Mira",
+      "to": ["noel@representation.example"],
+      "body": "Thanks, Noel. Could you share Frame Studio's rate for one YouTube integration? I will discuss it with the client and prepare a more tailored brief. Best, Mira"
+    },
+    {
+      "record_id": "MESSAGE-30-05",
+      "sent_at": "2026-07-14T15:00:00Z",
+      "from_type": 1,
+      "send_status": 0,
+      "from": "partnerships@agency.example",
+      "send_name": "Mira",
+      "to": ["noel@representation.example"],
+      "cc": ["nora@agency.example"],
+      "body": "One more question: what content angle would feel natural for Frame Studio? If a sample trial would help, you can also share a shipping address. Copying my colleague Nora here. Best, Mira"
+    },
+    {
+      "record_id": "MESSAGE-30-06",
+      "sent_at": "2026-07-16T10:00:00Z",
+      "from_type": 2,
+      "from": "noel@representation.example",
+      "to": ["partnerships@agency.example"],
+      "cc": ["nora@agency.example"],
+      "body": "Please confirm receipt. Thanks, Noel"
+    },
+    {
+      "record_id": "MESSAGE-30-07",
+      "sent_at": "2026-07-17T08:00:00Z",
+      "from_type": 1,
+      "send_status": 0,
+      "from": "partnerships@agency.example",
+      "send_name": "Mira",
+      "to": ["noel@representation.example"],
+      "cc": ["nora@agency.example"],
+      "body": "Hi Noel, confirming receipt, thank you. Could you share the rate for one 80–110 second YouTube integration and any content ideas? If a product trial would help, a sample shipping address is optional at this stage. Best, Nora"
+    }
+  ]
+}

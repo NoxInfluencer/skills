@@ -379,6 +379,85 @@
         "Selects information for the client decision rather than reproducing all historical actions, owner transfers and operator assignments; important known terms, risks and sources remain visible without fixed headers or a word-count requirement",
         "Preserves the supplied snapshot's date and evidence limits; does not invent additional candidates, approvals, external sends, record updates or dashboard work"
       ]
+    },
+    {
+      "id": 26,
+      "category": "conversation-project-attribution",
+      "trigger": "should-trigger",
+      "prompt": "请根据这份邮件导出，给接手运营的同事简要说明 VOLTLEAF 与这位达人的沟通进展、目前合作条件、待处理事项和对接人。只使用所给材料，不访问外部系统、不发送消息、不修改记录。",
+      "expected_output": "A scoped VOLTLEAF handoff that reconstructs the relevant proposal and participants from the conversation rather than assigning the latest inbound message to the creator or project automatically.",
+      "files": ["inputs/case26-mixed-thread.json"],
+      "expectations": [
+        "Reads the complete dated export; identifies Field Paws' genuine initial interest without counting the near-identical kit replies as a second substantive negotiation step",
+        "Retains VOLTLEAF's proposed three YouTube integrations for GBP 1,800 total, GBP 600 each, with separate payments after each publication; no supplied creator reply accepts that proposal",
+        "Identifies the latest inbound message as colleague Leon's LENSNEST offer, not Field Paws' counteroffer or acceptance of VOLTLEAF; does not transfer its short-form deliverable, usage term or affiliate commission into VOLTLEAF",
+        "Keeps Mira as the evidenced VOLTLEAF contact and Leon with the separate camera opportunity, using the explicit introduction rather than thread subject or mailbox direction",
+        "States that the attached kit's contents are unavailable in this export; does not invent its rates or conclude that the creator never supplied rates because the body omits them",
+        "Makes a useful next decision from supported history without treating unknown send_status values as confirmed delivery or failure; does not invent current CRM ownership, qualification, approvals or external actions"
+      ]
+    },
+    {
+      "id": 27,
+      "category": "terms-before-acceptance",
+      "trigger": "should-trigger",
+      "prompt": "请根据所给邮件，整理一份简短的运营交接：截至快照时点，这项合作谈到哪里了、目前价格和合作条件是什么、依据是什么、接下来主要卡在哪里。只使用所给材料，不访问外部系统、不发送消息、不修改记录。",
+      "expected_output": "A point-in-time negotiation summary that distinguishes a client-side counteroffer from the creator's earlier pricing and does not invent acceptance or later fulfillment.",
+      "files": ["inputs/case27-terms-checkpoint.json"],
+      "expectations": [
+        "Reads the supplied seven-message snapshot and retains Circuit Notes' genuine interest expressed by representative Avery",
+        "Reconstructs the pricing sequence: USD 42 CPM on verified 28-day views, then the creator's USD 4,200 fixed quote, then Mira's EUR 2,800 counteroffer for one 75-105 second YouTube mid-roll with post-publication payment",
+        "States that the current counteroffer awaits the creator's response; Mira reports client approval but that is not mutual agreement or an independently retrieved client approval record",
+        "Keeps currencies and scope attached to each proposal, does not use the historical CPM as current agreed pricing, and does not calculate a cross-currency discount without an exchange-rate basis",
+        "Preserves relevant unknowns such as exact publication date and usage rights without blocking a useful negotiation handoff on a complete contract; does not invent acceptance, product choice, shipment, receipt, execution authority or later messages"
+      ]
+    },
+    {
+      "id": 28,
+      "category": "terms-after-acceptance",
+      "trigger": "should-trigger",
+      "prompt": "请根据所给邮件，整理一份简短的运营交接：截至快照时点，这项合作谈到哪里了、目前价格和合作条件是什么、依据是什么、接下来主要卡在哪里。只使用所给材料，不访问外部系统、不发送消息、不修改记录。",
+      "expected_output": "A later point-in-time handoff that preserves the explicitly accepted terms, distinguishes them from unresolved terms, and locates the present logistics blocker without overstating fulfillment.",
+      "files": ["inputs/case28-terms-checkpoint.json"],
+      "expectations": [
+        "Reads the complete thirteen-message snapshot and identifies Avery's explicit acceptance on July 12 of EUR 2,800 for one 75-105 second YouTube mid-roll and payment after publication",
+        "Treats the CPM and USD fixed-price quotes as history, not current accepted pricing; preserves currency and scope without an unsupported cross-currency discount calculation",
+        "Does not downgrade the accepted fee, format and payment timing back to mere interest or an unanswered counteroffer just because the exact publication date, usage rights and other terms are not established",
+        "Retains the creator's permission for the client to choose a suitable product without inventing a selected model; attributes shipment arranged to Mira's July 20 update, with no tracking number or confirmed receipt",
+        "Makes tracking and product arrival the immediate operational follow-up, alongside decision-relevant unresolved terms; does not present awaiting arrival as receipt, a carrier readback or completed fulfillment",
+        "Separates the exact scope of agreement from overall cooperation completeness and new execution authority; does not claim independent CRM or client-approval readback, external messages or record updates"
+      ]
+    },
+    {
+      "id": 29,
+      "category": "conversation-distributed-conditions",
+      "trigger": "should-trigger",
+      "prompt": "运营要接手安排这次合作，请根据邮件整理当前谈好的内容，以及安排时必须注意的条件和仍需确认的问题。简洁清楚即可。只使用所给材料，不访问外部系统、不发送消息、不修改记录。",
+      "expected_output": "A concise handoff that preserves the complete known package across messages, including exclusions and timing constraints, while separating agreement from missing fulfillment evidence.",
+      "files": ["inputs/case29-distributed-conditions.json"],
+      "expectations": [
+        "Reads all eleven messages and preserves EUR 320 for one YouTube integrated segment up to 100 seconds; more videos were an inquiry, while Kai explicitly prefers one first",
+        "Retains the description link, discount code, hashtags, brand tag and pinned comment, plus the explicit exclusions of a product picture in the video cover and brand name in the video title",
+        "Connects PayPal without an invoice and approximately five business days after publication to Mira's clarification and Kai's subsequent acceptance; does not generalize these project terms into a universal payment rule or a new spending authorization",
+        "Retains the Travel Brick T8 product and Kai's absence until July 29 as a shipping constraint, not a confirmed publication date; tracking and shipment completion remain unsupported",
+        "Preserves the agreement actually supported across the thread while marking missing publication date and usage rights as unknown; does not require all later terms before producing a useful handoff or label the exchange mere interest",
+        "Keeps facts and practical recommendations distinguishable; does not invent additional videos, rights, arrival, delivery, payment completion or external execution"
+      ]
+    },
+    {
+      "id": 30,
+      "category": "conversation-useful-continuation",
+      "trigger": "should-trigger",
+      "prompt": "请看这段邮件往来，帮运营判断目前进展，并准备下一封英文跟进草稿。不要逐封复述，邮件要自然、简短，能推动对方给出有用回复。只使用所给材料，不访问外部系统、不发送消息、不修改记录。",
+      "expected_output": "A conversation-aware status assessment and useful continuation draft that retains prior genuine interest, addresses the unanswered commercial question, and avoids restarting or overcommitting the opportunity.",
+      "files": ["inputs/case30-continuation.json"],
+      "expectations": [
+        "Reads all seven messages and retains Noel's explicit interest as Frame Studio's representative; the later receipt request neither erases that interest nor answers the pricing question",
+        "Recognizes that the visible July 17 acknowledgement is signed Nora despite the Mira send_name snapshot; CC and signature show participation but do not prove a formal current-owner transfer",
+        "Identifies the outstanding rate and associated scope for one 80-110 second YouTube integration without inventing a quote, agreement, confirmed publication date or sample shipment",
+        "Drafts a concise English continuation acknowledging the existing exchange and focusing on the material unanswered rate/package question, optionally inviting a natural content angle; does not restart by asking whether they are interested",
+        "Keeps a sample trial optional and distinct from confirmed paid cooperation; does not demand private shipping information or a complete contract as a prerequisite to a preliminary reply",
+        "Uses an observed participant or a placeholder for the draft signature without asserting unverified formal ownership; does not treat send_status=0 as proof of delivery or failure and does not claim the draft was sent"
+      ]
     }
   ]
 }

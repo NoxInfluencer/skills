@@ -1,6 +1,6 @@
 # Business review — initial working criteria
 
-Status: user criteria clarified on 2026-09-06; same-evidence audience coverage added on 2026-09-08. The requesting user is the first business reviewer. No recent operator rework was reported; the cases are synthetic probes, not invented customer incidents.
+Status: user criteria clarified on 2026-09-06; audience and adapted-conversation coverage added on 2026-09-08. The requesting user is the first business reviewer. No recent operator rework was reported. Cases 26–30 are rewritten evaluation examples; earlier cases are synthetic probes. These cases do not establish an actual Agent failure in production.
 
 ## Purpose and source boundary
 
@@ -13,7 +13,7 @@ These criteria combine reviewer feedback with general lessons from operator work
 - Client review needs evidence, reply intent, qualification, risk, and the next decision.
 - Active project rules outrank historical snapshots; a reply does not waive qualification.
 
-The source is read-only project guidance, not evidence of current system state or validated general effectiveness. Do not transfer its weighted scorecard, commercial terms, exclusion names, contact details, or project-only authority into the general Skill. All case fixtures use invented data.
+Operator experience is guidance, not evidence of current system state or validated general effectiveness. Do not transfer project-specific scorecards, commercial terms, exclusion names, contact details, or authority into the general Skill. Published fixtures use invented identities and values; the rewritten evaluation examples below test decision relationships.
 
 ## User feedback on the first sample
 
@@ -65,6 +65,25 @@ Case 24 uses an invented export with fictional people and terms to test these di
 
 Assess source, observation time and coverage where they affect the decision. This is a synthetic interpretation test, not validation of a real dashboard integration.
 
+## Conversation interpretation and continuation
+
+Cases 26–30 are rewritten evaluation examples covering four conversation decision patterns. Names, brands, contacts, dates, fees and record IDs are invented; addresses and private links are omitted. Inputs retain email bodies, participants, times and relevant transport/attachment metadata, not precomputed intent, current terms or recommended actions. Historical operator actions are evidence to evaluate, not a gold-standard policy.
+
+Use these criteria, fixed before the first run:
+
+| Cases | Decision to test | Material failure |
+| --- | --- | --- |
+| 26 | Attribute each message to its actual participant, represented creator and opportunity before interpreting progress. | Treating a colleague's other-brand offer as the creator's acceptance; switching project owner from mailbox direction or thread subject; inventing unread attachment rates. |
+| 27 / 28 | Reconstruct terms at two points in the same negotiation. | Calling a counteroffer accepted before the reply; erasing the exact later agreement because other terms remain unresolved; treating a shipment update as receipt. |
+| 29 | Preserve the actionable package across a longer thread. | Dropping exclusions, included placements or payment conditions; turning a multiple-video inquiry into an order; confusing return-home timing with publication. |
+| 30 | Continue a conversation after an uninformative recent reply without losing earlier intent. | Re-asking whether interested, inventing a quote or formal owner transfer, or making a sample address/full contract a gate to preliminary discussion. |
+
+Cases 27 and 28 have the same request and a strict common-prefix history in separate input files. The earlier file physically stops before the acceptance. Review traces as well as final answers: accessing an undeclared later snapshot invalidates the earlier checkpoint, even if the answer looks correct. Seven earlier messages plus six later ones remain one conversation family, not two independent business examples.
+
+For all five, retain who proposed or accepted which scope and when. State exact agreement alongside unresolved terms; partial agreement is neither mere interest nor proof of completed cooperation. Distinguish mailbox metadata, a participant's report and authoritative system readback. Missing attachment content is unknown, not evidence of absence; undefined transport codes prove neither delivery nor failure. These are general interpretation criteria, not additional universal contract fields or a request to maintain a dashboard.
+
+Evaluate usefulness for the requested handoff or draft, not exhaustiveness. A supported participant can sign a draft without becoming the formal relationship owner. Known missing terms should be resolved before the action they affect, not used to block all preliminary work. This slice tests conversation interpretation, not current creator fit, live delivery, real payment or marketing effectiveness.
+
 ## Review form
 
 Read the original answer and, when an action is claimed, its trace. For each case, use:
@@ -85,7 +104,7 @@ Agent review is preliminary; never label it as user approval. If the user change
 
 ## Coverage and automation
 
-- Cases 9, 21, 22, 23, 24 and 25 require this review. Their automated checks only establish response availability, Skill loading, and supplied source-read evidence. Green Promptfoo rows do not grade their business outcome or readability.
+- Cases 9 and 21–30 require this review. Their automated checks only establish response availability, Skill loading, and supplied source-read evidence. Green Promptfoo rows do not grade their business outcome or readability.
 - Other executable cases retain their existing smoke checks. Known wording errors and missed requirements still need explicit manual correction; see the [rejected revision review](review-2026-09-06.md).
 - Keep current graders unchanged during the Skill comparison. There is no new model judge, scoring platform, or universal performance benchmark.
 - A synthetic case can test interpretation and draft quality, not real discovery, message delivery, customer acceptance, reply rates or marketing ROI.
