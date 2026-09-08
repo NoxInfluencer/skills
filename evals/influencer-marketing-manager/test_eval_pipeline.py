@@ -136,6 +136,22 @@ class OperatorFollowupTests(unittest.TestCase):
     def setUp(self):
         self.source = json.loads((Path(__file__).parent / "fixtures/inputs/case24-operator-followups.json").read_text())
 
+    def test_client_and_operator_requests_share_evidence_not_rubrics(self):
+        operator, client = create_tests({"case_ids": [24, 25]})
+        self.assertEqual(operator["metadata"]["files"], client["metadata"]["files"])
+        self.assertNotEqual(operator["vars"]["request"], client["vars"]["request"])
+        self.assertNotEqual(operator["metadata"]["expected_output"], client["metadata"]["expected_output"])
+        self.assertNotEqual(operator["metadata"]["expectations"], client["metadata"]["expectations"])
+        self.assertEqual(SOURCE_READ_ASSERTIONS[25], SOURCE_READ_ASSERTIONS[24])
+        self.assertEqual(operator["assert"], client["assert"])
+        for test in (operator, client):
+            self.assertEqual(test["metadata"]["outcome_review"], "manual")
+            self.assertNotIn("task-outcome", [item["metric"] for item in test["assert"]])
+            for criterion in [test["metadata"]["expected_output"], *test["metadata"]["expectations"]]:
+                self.assertNotIn(criterion, test["vars"]["request"])
+            for record in self.source["crm_snapshot"]["records"]:
+                self.assertNotIn(record["creator_name"], test["vars"]["request"])
+
     def test_operator_case_requires_manual_review_without_rubric_leakage(self):
         test, = create_tests({"case_ids": [24]})
         self.assertEqual(test["metadata"]["outcome_review"], "manual")

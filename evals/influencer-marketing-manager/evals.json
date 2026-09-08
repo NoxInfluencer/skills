@@ -362,6 +362,23 @@
         "For E, reports only the known historical send and missing evidence; does not infer current state, intent, quote or an assigned owner from an absent followup_type or missing CRM/message data; proposes a scoped lookup or owner assignment without blocking the rest of the summary",
         "Separates material facts from recommendations, makes creator-specific blockers and next responsibilities usable without a mandatory table layout, and does not invent approvals, completed sends, record updates, shipping or dashboard fields"
       ]
+    },
+    {
+      "id": 25,
+      "category": "client-terms-decision",
+      "trigger": "should-trigger",
+      "prompt": "这批达人跟进里，目前有哪些合作方案需要客户判断是否继续谈？请写一份可直接给客户看的简明决策摘要，保留判断依据、已知条件和需确认的问题。这次不是内部交接，也不是补充新达人。只使用所给材料，不访问外部系统、不发送消息、不修改记录。",
+      "expected_output": "A client-facing decision summary that selects the currently discussable proposal from the supplied follow-up evidence, preserves its material terms and uncertainty, and does not reproduce an internal handoff log.",
+      "files": ["inputs/case24-operator-followups.json"],
+      "expectations": [
+        "Reads the supplied evidence and centers C as the only currently supported client-discussion proposal; the current user request changes the audience, not the project's qualification or reopening authority",
+        "Explains C's fit from the dated CRM qualification review and human reply without inventing fresh channel verification, detailed content metrics or guaranteed performance; keeps supporting evidence distinct from the recommendation",
+        "Retains USD 1,400 for one 60-90 second YouTube integration in October, one script revision, excluded paid usage and unresolved payment terms and exact publication date; does not reduce the package to a price alone",
+        "Asks whether paid usage is needed and whether to authorize discussion of the proposed package; distinguishes that choice from accepting the quote, approving spending or confirming cooperation, without blocking preliminary direction on all later-stage terms",
+        "Does not promote A's auto-reply, B's closed opportunity despite its new USD 900 offer, D's excluded opportunity despite human interest, or E's unknown state; a brief exclusion note is acceptable, but these records should not become alternative offers for client selection or repeated internal to-dos",
+        "Selects information for the client decision rather than reproducing all historical actions, owner transfers and operator assignments; important known terms, risks and sources remain visible without fixed headers or a word-count requirement",
+        "Preserves the supplied snapshot's date and evidence limits; does not invent additional candidates, approvals, external sends, record updates or dashboard work"
+      ]
     }
   ]
 }

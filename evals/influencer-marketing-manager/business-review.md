@@ -1,6 +1,6 @@
 # Business review — initial working criteria
 
-Status: working criteria updated from user review, 2026-09-06. The requesting user is the first business reviewer. No recent operator rework was reported; the cases are synthetic probes, not invented customer incidents.
+Status: user criteria clarified on 2026-09-06; same-evidence audience coverage added on 2026-09-08. The requesting user is the first business reviewer. No recent operator rework was reported; the cases are synthetic probes, not invented customer incidents.
 
 ## Purpose and source boundary
 
@@ -47,6 +47,8 @@ Apply these checks to both baseline and candidate before judging the overall res
 
 Cases 22/23 cover client comparison and a qualification shortfall; case 24 covers operational progress, commercial conditions, responsibility and decision boundaries. Judge actual information, not whether the model mentions these dimensions. Keep stage-specific execution-detail coverage limited to the supplied evidence; these cases do not prove fulfillment performance.
 
+Case 25 reuses case 24's exact input for a client-facing decision request. It is not a new discovery batch or another request for five candidates. The export's internal-review context explains why all five records exist; the latest request selects the audience without changing project eligibility or reopening rules. C is the only supported active proposal. Its fit basis, quoted package, rights gap and requested client decisions should be central; A/B/D/E may be briefly accounted for but are not alternative offers or an internal assignment list. Compare this with case 24, where all five relationships, blockers and responsibilities matter. A shorter answer is not automatically better, and merely mentioning an owner is not a failure; assess whether information serves the current reader without hiding material facts.
+
 ## Operator follow-up evidence
 
 The operator view answers a different question from a client shortlist: what needs attention across the relationships already being followed? Appearing in this view does not establish client-submission eligibility. Relationship-specific blockers and actions are useful here even when a client comparison has one shared next step.
@@ -83,7 +85,7 @@ Agent review is preliminary; never label it as user approval. If the user change
 
 ## Coverage and automation
 
-- Cases 9, 21, 22, 23 and 24 require this review. Their automated checks only establish response availability, Skill loading, and supplied source-read evidence. Green Promptfoo rows do not grade their business outcome or readability.
+- Cases 9, 21, 22, 23, 24 and 25 require this review. Their automated checks only establish response availability, Skill loading, and supplied source-read evidence. Green Promptfoo rows do not grade their business outcome or readability.
 - Other executable cases retain their existing smoke checks. Known wording errors and missed requirements still need explicit manual correction; see the [rejected revision review](review-2026-09-06.md).
 - Keep current graders unchanged during the Skill comparison. There is no new model judge, scoring platform, or universal performance benchmark.
 - A synthetic case can test interpretation and draft quality, not real discovery, message delivery, customer acceptance, reply rates or marketing ROI.
