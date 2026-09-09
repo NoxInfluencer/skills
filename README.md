@@ -173,3 +173,7 @@ claude plugin install nox-influencer@noxinfluencer
 - Public rich-text/product image URLs are separate from private email/message attachments.
 - ChatGPT is not a supported Skill runtime; OpenAI users should run this Skill with OpenAI Codex.
 - Some workflows may require a NoxInfluencer account, API access, or CLI authentication during setup.
+
+## License
+
+This repository is licensed under [MIT No Attribution (MIT-0)](LICENSE).

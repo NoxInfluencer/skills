@@ -2,6 +2,8 @@
 
 This directory holds stable evaluation cases and validation tools for the NoxInfluencer Skill.
 
+Record identifiers in the cases are example ordinals, such as `creator_001`, collection `1` and email task `2`. Channel and video placeholders retain their usual string shape. These values are not live-record targets; execution tests must supply isolated test records.
+
 ## Methodology
 
 Following Anthropic's eval-first development approach:
