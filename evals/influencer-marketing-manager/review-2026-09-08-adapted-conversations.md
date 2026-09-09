@@ -19,7 +19,7 @@
 
 ## 固定条件与实际结果
 
-两轮均使用 `ef31c21399c2ca4286a54bd24a8df87e4860105d` 的 Manager，显式固定 `gpt-6-astra` / medium；串行、只读、隔离、不复用 Promptfoo 结果缓存，Agent 无网络和营销系统访问。首轮执行 26–30；随后执行 24、25、27、28、29。期间没有改请求、输入、Skill、grader 或业务评审标准。
+两轮均使用 `1e397156abbab2e96fa13f4c5a6e0a6100d57e1d` 的 Manager，显式固定 `gpt-6-astra` / medium；串行、只读、隔离、不复用 Promptfoo 结果缓存，Agent 无网络和营销系统访问。首轮执行 26–30；随后执行 24、25、27、28、29。期间没有改请求、输入、Skill、grader 或业务评审标准。
 
 | Case / 执行次数 | Agent 预评 | 依据及当前可支持的决定 |
 | --- | --- | --- |
@@ -55,7 +55,7 @@
 npm run check:manager-evals
 npm run eval:manager:validate
 python3 scripts/sync_expert.py check
-npm run eval:manager:prepare -- --baseline-ref ef31c21 --reuse-codex-login
+npm run eval:manager:prepare -- --baseline-ref 1e39715 --reuse-codex-login
 INFLUENCER_EVAL_MODEL=gpt-6-astra npm run eval:manager -- --no-cache --no-table \
   --filter-pattern '^\[(26|27|28|29|30)\]' --filter-providers manager-baseline \
   -o evals/influencer-marketing-manager/workspace/promptfoo/results-adapted-conversations-baseline-20260908.json

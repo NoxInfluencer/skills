@@ -4,7 +4,7 @@
 
 保留简单、可调整的[业务评审草案](business-review.md)、新业务 case 和[待用户评审样例](business-review-sample-2026-09-06.md)。不发布本轮尝试的 Manager 文案改动：基线与最终候选在 case 21 上都只有 1/3 完整满足暂定判据，未证明候选更好。
 
-Manager 与 Expert 副本已恢复至 `12eeaa9`；NoxInfluencer Skill 未变。本轮改善的是业务测试覆盖和报告可信度，不是已经证实的 Skill 行为提升。
+Manager 与 Expert 副本已恢复至 `a466828`；NoxInfluencer Skill 未变。本轮改善的是业务测试覆盖和报告可信度，不是已经证实的 Skill 行为提升。
 
 ## 来源与约束
 
@@ -51,9 +51,9 @@ Manager 与 Expert 副本已恢复至 `12eeaa9`；NoxInfluencer Skill 未变。�
 
 指纹前缀：基线 Manager `5b8df464ad9c33e6`；v1 `a114251d56028ecf`；v2 `7414e6ee0d0d8b10`；共同 eval contract `303ea48f40a814d3`；业务评审草案 `1f660c8fb8925464`。原始运行 JSON 未随 Git 发布，已提交样例仅清理行尾空格，内容与其中基线回答原文一致。
 
-本地校验覆盖 21 个 case 定义、grader/adapter 自测、14 个 pipeline 测试、Promptfoo 配置、官方 Skill 校验、Expert 同步与空白检查。原 20 个 case 内容未改，五个旧 outcome grader 的 AST 与 `12eeaa9` 一致；对上轮保存输出重新评分仍为冷启动 1/3、case 20 拓展设计 2/3，没有修改旧分数。
+本地校验覆盖 21 个 case 定义、grader/adapter 自测、14 个 pipeline 测试、Promptfoo 配置、官方 Skill 校验、Expert 同步与空白检查。原 20 个 case 内容未改，五个旧 outcome grader 的 AST 与 `a466828` 一致；对上轮保存输出重新评分仍为冷启动 1/3、case 20 拓展设计 2/3，没有修改旧分数。
 
-回退后 `git diff --exit-code 12eeaa9 -- skills experts` 无差异，重新准备的基线与候选 Manager 指纹相同。本轮没有发布行为变化，因此未再执行无关业务 case 的模型回归；自然触发、无 Manager 对照、真实邀约和客户效果也未新增验证。
+回退后 `git diff --exit-code a466828 -- skills experts` 无差异，重新准备的基线与候选 Manager 指纹相同。本轮没有发布行为变化，因此未再执行无关业务 case 的模型回归；自然触发、无 Manager 对照、真实邀约和客户效果也未新增验证。
 
 ## 下一步
 

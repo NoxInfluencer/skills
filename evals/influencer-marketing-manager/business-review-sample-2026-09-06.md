@@ -3,7 +3,7 @@
 这是首次评审前的归档样例，不是固定模板或标准答案。用户后续判断为需要修改：应提供约 5 位供比较、拆开判断与证据、去掉重复的逐人“下一步”。反馈已记入 [business-review.md](business-review.md)，下面的历史回答未改写。
 
 - 输入为[完全虚构的 case 21](fixtures/inputs/case21-opportunities.json)，品牌、达人、报价和项目门槛均为合成数据。
-- 以下保留 `12eeaa9` 基线 Skill 的首轮测试回答，仅清理行尾空格；不是对候选改动有效性的证明，也没有真实邀约或客户反馈。
+- 以下保留 `a466828` 基线 Skill 的首轮测试回答，仅清理行尾空格；不是对候选改动有效性的证明，也没有真实邀约或客户反馈。
 - 运行：`results-client-review-comparison-20260906.json`，`manager-baseline / case 21`；原始 trace 保存在本地忽略目录 `workspace/promptfoo/`。
 - 判断口径见 [business-review.md](business-review.md)。你可以直接回答：**可直接用 / 需要关键修改 / 不可用**，再指出最重要的一处原因；我会据此调整，避免先设复杂标准。
 

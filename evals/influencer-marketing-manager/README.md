@@ -2,7 +2,7 @@
 
 Use these evaluations to answer: did the user task improve, where did it fail, what should change next, and did the revision regress? Packaging checks alone do not establish task quality.
 
-Case 20 uses the fictional names ExamplePower and ExamplePack P1. Prepare fresh fixtures when case labels or assertions change. Historical scores apply to their recorded inputs; regrading older answers against renamed assertions requires explicit label normalization.
+Case 20 uses the fictional names ExamplePower and ExamplePack P1. Prepare fresh fixtures when case labels or assertions change. Commit references follow the published history; recorded scores and fixture fingerprints retain their original run values. Regrading older answers against renamed assertions requires explicit label normalization.
 
 The latest [adapted-conversation review](review-2026-09-08-adapted-conversations.md) adds cases 26–30 covering four conversation decision patterns. Ten executions cover the new slice, focused repeats and cases 24/25. Project attribution and negotiation timing held, but case 29 twice omitted an expected usage-rights unknown. That unresolved finding and the [raw answers](business-review-sample-2026-09-08-adapted-conversations.md) await user review; the Skill remains unchanged. This is evidence-backed coverage, not a version-improvement or all-business-outcomes-pass claim. The original 25 cases, inputs and five outcome graders are unchanged.
 

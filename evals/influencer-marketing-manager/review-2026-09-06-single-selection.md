@@ -1,6 +1,6 @@
 # 客户提报：单一名单生成与输出核对
 
-**结论：本轮不采用 Skill 接入。** 五人比较有所改善，但最终缺口回归仍将不合格的 C 放进推荐表。已将 `skills/` 与 `experts/` 恢复到 `89605f5`；本次仅保留本地工具原型、测试、执行观测和复盘，不宣称业务流程已改善到可发布。
+**结论：本轮不采用 Skill 接入。** 五人比较有所改善，但最终缺口回归仍将不合格的 C 放进推荐表。已将 `skills/` 与 `experts/` 恢复到 `083e942`；本次仅保留本地工具原型、测试、执行观测和复盘，不宣称业务流程已改善到可发布。
 
 ## 本轮目标与改动
 
@@ -35,7 +35,7 @@ case 22 在十分钟上限下各运行一次旧版本与最终候选。两者自
 
 | 版本 | Agent 预评 | 主要依据 |
 | --- | --- | --- |
-| 基线 `89605f5` | 需要关键修改 | 仍将 D 的自动回执纳入五人表、漏掉 E，并漏掉已知档期。原文一边写“值得纳入比较”，一边承认 D“不是达人本人回复”。 |
+| 基线 `083e942` | 需要关键修改 | 仍将 D 的自动回执纳入五人表、漏掉 E，并漏掉已知档期。原文一边写“值得纳入比较”，一边承认 D“不是达人本人回复”。 |
 | 最终候选 | 可用于初审，仍待用户评审 | A/E/F/G/H 五行与入选 IDs 一致；生成表原样进入回答。内容日期、播放范围／中位数、真人意向、费用、时长、九／十月意向和差异条款均与快照相符；B/C/D 仅在未入选说明中出现。 |
 
 最终候选工具输出为 `selected_count=5`、`shortfall=0`、最低已知报价 E / USD 800、`table_in_final=true`。H 的播放中位数最高、E 的金额较小均有数据支持；回答没有把这些事实当作性价比或投放效果保证。工具的资格／回复声明另经 Agent 对照原始材料核对，并非脚本自行证明。
@@ -62,6 +62,6 @@ case 23 的关键矛盾可直接复核：开头写“按符合项目要求 + 有
 
 本地忽略目录 `workspace/promptfoo/` 保留本轮六份 `results-single-selection-*-20260906.json`（smoke、retry、confirm、final、shortfall、regression）及对应 manifest。未采用的两版 Skill 快照保存在 `manager-single-selection-v1-20260906/` 和 `manager-single-selection-final-20260906/`；heredoc 与最终缺口 trace 分别另存为 `trace-single-selection-heredoc-20260906.jsonl`、`trace-single-selection-shortfall-20260906.jsonl`。结果身份仍指向运行时的候选，回退不改写历史。
 
-指纹前缀：基线 `5b8df464ad9c33e6`（`89605f5`）；首版候选 `1526f1ce5c0c82e0`；最终候选 `19bb45ec681e7593`；五分钟 eval contract `6dd2f1a6e1729357`，十分钟版本 `38c4f2f053d9fd1e`；业务评审标准始终为 `0b024a7d44b4e841`。
+指纹前缀：基线 `5b8df464ad9c33e6`（`083e942`）；首版候选 `1526f1ce5c0c82e0`；最终候选 `19bb45ec681e7593`；五分钟 eval contract `6dd2f1a6e1729357`，十分钟版本 `38c4f2f053d9fd1e`；业务评审标准始终为 `0b024a7d44b4e841`。
 
 方法沿用 [OpenAI Agent Improvement Loop](https://developers.openai.com/cookbook/examples/agents_sdk/agent_improvement_loop)：区分判断、机械实现和执行证据，检查实际交付，再做有界修改。不把人工编辑样例或一次绿色运行当成效果提升。

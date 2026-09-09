@@ -12,7 +12,7 @@
 
 ## 固定条件与结果
 
-Skill 为 `5c3f4b003047eb4057395aaac177252d752af933`，模型固定 `gpt-6-astra` / medium。两次运行均关闭结果缓存、串行、隔离、只读，无网络或营销系统访问；共执行 case 24 一次、case 25 两次。业务标准在首轮运行前确定，复测没有改提示词、输入、Skill 或评分。材料是截至 **2026-09-06 09:00 UTC** 的合成快照，不是 9 月 8 日的实时状态。
+Skill 为 `1c94b75e873557227ea5763d68e0f1eb3a012dcd`，模型固定 `gpt-6-astra` / medium。两次运行均关闭结果缓存、串行、隔离、只读，无网络或营销系统访问；共执行 case 24 一次、case 25 两次。业务标准在首轮运行前确定，复测没有改提示词、输入、Skill 或评分。材料是截至 **2026-09-06 09:00 UTC** 的合成快照，不是 9 月 8 日的实时状态。
 
 | Case / 次数 | Agent 预评 | 决策相关证据与限制 |
 | --- | --- | --- |
@@ -33,7 +33,7 @@ Skill 为 `5c3f4b003047eb4057395aaac177252d752af933`，模型固定 `gpt-6-astra
 ## 复现与证据
 
 ```bash
-npm run eval:manager:prepare -- --baseline-ref 5c3f4b0 --reuse-codex-login
+npm run eval:manager:prepare -- --baseline-ref 1c94b75 --reuse-codex-login
 INFLUENCER_EVAL_MODEL=gpt-6-astra npm run eval:manager -- --no-cache --no-table \
   --filter-pattern '^\[(24|25)\]' --filter-providers manager-baseline \
   -o evals/influencer-marketing-manager/workspace/promptfoo/results-audience-selection-baseline-20260908.json

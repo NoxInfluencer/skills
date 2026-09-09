@@ -1,6 +1,6 @@
 # 运营跟进摘要：模型原文待评审
 
-Case 24，2026-09-06。使用未修改的 Manager Skill（`d8ab921`，指纹前缀 `5b8df464ad9c33e6`），请求模型为 `gpt-6-astra` / medium，仅运行一次。
+Case 24，2026-09-06。使用未修改的 Manager Skill（`12f6544`，指纹前缀 `5b8df464ad9c33e6`），请求模型为 `gpt-6-astra` / medium，仅运行一次。
 
 人物、品牌、邮件和条款均为虚构。输入见 [合成项目记录](fixtures/inputs/case24-operator-followups.json)，不代表真实运营看板的数据结构。下方回答逐字保留，未人工润色；自动证据检查通过不代表业务可用或用户认可。
 
