@@ -283,13 +283,13 @@
     },
     {
       "id": 20,
-      "category": "examplepower-discovery-and-outreach-setup",
+      "category": "power-bank-discovery-and-outreach-setup",
       "trigger": "should-trigger",
-      "prompt": "品牌是 ExamplePower，当前主推 ExamplePack P1 或其他合适的充电配件。平台只做 YouTube，合作形式是一条视频植入或 pre/mid-roll，档期灵活。达人方向包括 3C/Apple/桌搭、户外、节促好物、学生，以及 Shop with me、haul、折扣购物。筛选要求是近 90 天活跃、近期长视频表现达标、有真实使用或购买场景，排除纯 Shorts、刷量、官号、长期停更和重复达人。当前目标是先完成达人拓展和首轮邀约，筛出匹配且有明确回复的达人交客户决定。请基于这份 brief 设计第一轮拓展和首轮邀约的工作输出；不要执行外部搜索或发送消息，因为目前没有达人记录或授权。",
-      "expected_output": "Turn the supplied ExamplePower brief into a YouTube-first discovery and outreach setup with explicit evidence fields, fit and contact decisions, and a safe next step without claiming external execution.",
+      "prompt": "这是一个虚构项目：品牌是 DemoCharge，当前主推 P1 移动电源或其他合适的充电配件。平台只做 YouTube，合作形式是一条视频植入或 pre/mid-roll，档期灵活。达人方向包括 3C/Apple/桌搭、户外、节促好物、学生，以及 Shop with me、haul、折扣购物。筛选要求是近 90 天活跃、近期长视频表现达标、有真实使用或购买场景，排除纯 Shorts、刷量、官号、长期停更和重复达人。当前目标是先完成达人拓展和首轮邀约，筛出匹配且有明确回复的达人交客户决定。请基于这份 brief 设计第一轮拓展和首轮邀约的工作输出；不要执行外部搜索或发送消息，因为目前没有达人记录或授权。",
+      "expected_output": "Turn the fictional DemoCharge P1 brief into a YouTube-first discovery and outreach setup with explicit evidence fields, fit and contact decisions, and a safe next step without claiming external execution.",
       "files": [],
       "expectations": [
-        "Anchors the work to ExamplePower or ExamplePack P1, YouTube, and the approved integration format",
+        "Anchors the work to DemoCharge or P1, YouTube, and the approved integration format",
         "Translates the supplied creator directions into a small set of searchable scene hypotheses without forcing an arbitrary category allocation",
         "Carries the 90-day activity, recent long-form, real-use or purchase-scene requirements into qualification evidence",
         "Excludes pure Shorts, suspicious or official accounts, stale creators, and duplicates while keeping creator fit separate from contact readiness",

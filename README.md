@@ -166,6 +166,8 @@ claude plugin install nox-influencer@noxinfluencer
 
 ## Notes
 
+This is a public repository. Keep customer identities and briefs, production record IDs, private correspondence, credentials, machine-specific home paths and personal session metadata out of committed examples. Use fictional fixtures and reserved `.example` or `.test` contact domains. Store local handoffs, source indexes and raw evaluation traces in ignored `evals/<skill>/workspace/` directories. Run `npm run check:public` before publishing changes; the automated checks supplement manual review of business data and provenance.
+
 - This repository publishes `influencer-marketing-manager` and `noxinfluencer`.
 - The manager is tool-agnostic and can implement business SOPs and automation across available systems; the NoxInfluencer Skill supplies product-native data, workflow guidance, and execution.
 - Marketing-ops write actions default to preview/dry-run behavior and require explicit approval before execution.

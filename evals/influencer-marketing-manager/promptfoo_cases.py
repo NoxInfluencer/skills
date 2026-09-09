@@ -100,7 +100,7 @@ const laneHits = [
   /学生|校园|student|campus/i.test(text),
 ];
 const checks = {
-  'brand-platform-format': /ExamplePower|ExamplePack\s*P1/i.test(text) && /YouTube/i.test(text) && /植入|pre[ /-]|mid[ /-]|integration/i.test(text),
+  'brand-platform-format': /DemoCharge|\bP1\b/i.test(text) && /YouTube/i.test(text) && /植入|pre[ /-]|mid[ /-]|integration/i.test(text),
   'scene-hypotheses': laneHits.filter(Boolean).length >= 3,
   'recent-long-form': /90\s*(?:天|days?)/i.test(text) && /长视频|long[ -]?form/i.test(text) && /使用|购买|use.scene|purchase/i.test(text),
   'exclusions-and-dedup': /Shorts/i.test(text) && /排除|剔除|exclude|reject/i.test(text) && /去重|重复|dedup|duplicat/i.test(text),
@@ -116,7 +116,7 @@ const failed = Object.keys(checks).filter(key => !checks[key]);
 return {
   pass: !failed.length,
   score: (Object.keys(checks).length - failed.length) / Object.keys(checks).length,
-  reason: `ExamplePower setup smoke checks; missing: ${failed.join(', ') || 'none'}`,
+  reason: `Power-bank setup smoke checks; missing: ${failed.join(', ') || 'none'}`,
 };
 """.strip(),
 }
@@ -363,7 +363,7 @@ def run_self_test() -> None:
     assert not _run_javascript_assertion(19, bad_tools)["pass"]
 
     good_setup = (
-        "ExamplePower / ExamplePack P1：YouTube 视频植入。\n"
+        "DemoCharge / P1：YouTube 视频植入。\n"
         "Apple 桌搭、户外、学生、haul 的真实使用和购买场景是探索假设。\n"
         "粗筛检查近 90 天活跃、长视频；排除纯 Shorts、官号、刷量、停更，按频道 ID 去重。\n"
         "精筛记录证据；下一步提供达人数据。\n"
@@ -383,7 +383,7 @@ def run_self_test() -> None:
     for bad_setup in mutations:
         assert not _run_javascript_assertion(20, bad_setup)["pass"], bad_setup
     good_english = (
-        "ExamplePower YouTube integration: tech, outdoor and student purchase scenes. "
+        "DemoCharge YouTube integration: tech, outdoor and student purchase scenes. "
         "Coarse search checks activity within 90 days and long-form content. "
         "Exclude pure Shorts, official accounts and deduplicate identities. "
         "Fine review gathers evidence for the next action. Qualified creators remain contact-pending "
