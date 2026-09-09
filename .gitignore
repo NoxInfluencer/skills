@@ -9,13 +9,3 @@ refs/
 *-workspace/
 **/evals/workspace/
 evals/**/workspace/
-
-# Local credentials and agent state
-.env
-.env.*
-!.env.example
-.codex/
-.agents/
-.claude/
-auth.json
-.netrc

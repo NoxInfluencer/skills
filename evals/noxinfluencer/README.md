@@ -2,8 +2,6 @@
 
 This directory holds stable evaluation cases and validation tools for the NoxInfluencer Skill.
 
-Business identities, campaign details, contacts and record IDs in public cases are fictional examples, not operational targets. The 2026-09-09 publication cleanup replaced legacy creator/channel IDs and campaign labels with explicit examples; earlier results retain their original input contract. Use an isolated test environment and substitute authorized test records only when running an execution case. Raw exports, credentials and local source indexes belong in ignored `workspace/` directories.
-
 ## Methodology
 
 Following Anthropic's eval-first development approach:

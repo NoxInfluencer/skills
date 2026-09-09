@@ -4,7 +4,7 @@
     {
       "id": 1,
       "category": "discovery",
-      "prompt": "This is a fictional sourcing exercise for DemoCycle, a modular ebike conversion kit for road and gravel bikes. The example launch is planned for October 15 with a USD 4,000 budget for four creators. Target markets are the US and UK. Search YouTube and Instagram separately, using at least 25,000 followers as the example minimum. The product adds electric assistance without replacing the bike. Find cycling-focused creators, especially road and gravel channels.",
+      "prompt": "I need to find cycling influencers for our new product VELOMESH - it's an ebike conversion kit for premium road and gravel bikes. We're launching on Kickstarter on April 21st. Budget is around $3,000 for 5 KOLs. Target markets are US and UK. We need creators with at least 30k followers on both YouTube and Instagram. The product's key selling point is that it's an invisible e-power upgrade - ultra-light, fully modular, aerodynamically integrated. We want cycling-focused influencers, especially road & gravel oriented ones.",
       "expected_output": "When used standalone, map the supplied criteria to separate YouTube and Instagram searches, return comparable coarse candidate evidence, and suggest the next Nox-native review.",
       "files": [],
       "expectations": [
@@ -57,7 +57,7 @@
     {
       "id": 5,
       "category": "analysis",
-      "prompt": "I've narrowed down to Avery Cole (YouTube cycling creator). Can you do a full due diligence? I want to know if he's worth the investment — audience quality, any disputes, how his pricing compares to performance. His creator ID from the search is: creator_example_001",
+      "prompt": "I've narrowed down to Avery Cole (YouTube cycling creator). Can you do a full due diligence? I want to know if he's worth the investment — audience quality, any disputes, how his pricing compares to performance. His creator ID from the search is: creator_001",
       "expected_output": "Run the relevant NoxInfluencer detail reads, provide one of the four scoped evidence conclusions, and organize the decision-relevant evidence and limits.",
       "files": [],
       "expectations": [
@@ -82,7 +82,7 @@
     {
       "id": 7,
       "category": "contacts",
-      "prompt": "OK I've decided to go with Avery Cole. Can you get me his contact info so I can start outreach? His ID is creator_example_001",
+      "prompt": "OK I've decided to go with Avery Cole. Can you get me his contact info so I can start outreach? His ID is creator_001",
       "expected_output": "Retrieve contacts, report email and quality level, do not add unsolicited outreach advice",
       "files": [],
       "expectations": [
@@ -205,7 +205,7 @@
     {
       "id": 17,
       "category": "discovery",
-      "prompt": "继续下一页。刚才那次 YouTube 搜索的条件别变：关键词还是 makeup，美国地区，page_size 还是 2。上一页返回的是 page_num=1，total_page=8，search_after=[42.5,\"UC_EXAMPLE_CURSOR_01\"]。给我更多候选人。",
+      "prompt": "继续下一页。刚才那次 YouTube 搜索的条件别变：关键词还是 makeup，美国地区，page_size 还是 2。上一页返回的是 page_num=1，total_page=1714，search_after=[1.0,\"UC0000000000000000000001\"]。给我更多候选人。",
       "expected_output": "Continue the previous search by requesting page 2 with the preserved filters and prior search_after cursor, then present a new shortlist.",
       "files": [],
       "expectations": [
@@ -243,7 +243,7 @@
     {
       "id": 20,
       "category": "analysis",
-      "prompt": "把这个达人当前平台的频道链接和其他社媒链接拉给我看看，ID 是 creator_example_001。",
+      "prompt": "把这个达人当前平台的频道链接和其他社媒链接拉给我看看，ID 是 creator_001。",
       "expected_output": "Use creator profile to retrieve and report channel_url and social_media, without running unnecessary deeper analysis.",
       "files": [],
       "expectations": [
@@ -255,7 +255,7 @@
     {
       "id": 21,
       "category": "analysis",
-      "prompt": "我手上没有内部 creator_id，只有这个 YouTube 频道链接：https://www.youtube.com/channel/UC_EXAMPLE_CHANNEL_01。先帮我拉基础资料，后面我还要继续分析。",
+      "prompt": "我手上没有内部 creator_id，只有这个 YouTube 频道链接：https://www.youtube.com/channel/UC0000000000000000000001。先帮我拉基础资料，后面我还要继续分析。",
       "expected_output": "Start directly from the channel URL, return the creator read result, and preserve the returned creator_id for follow-up instead of forcing a search first.",
       "files": [],
       "expectations": [
@@ -279,7 +279,7 @@
     {
       "id": 23,
       "category": "marketing-ops",
-      "prompt": "帮我在 NoxInfluencer 里新建一个 campaign，名字叫 DemoCycle Example Launch，先给我预览一下创建请求，不要直接执行。",
+      "prompt": "帮我在 NoxInfluencer 里新建一个 campaign，名字叫 VELOMESH Kickstarter Launch，先给我预览一下创建请求，不要直接执行。",
       "expected_output": "Use campaign create with a minimal body file or stdin body in dry-run mode, and do not force execution.",
       "files": [],
       "expectations": [
@@ -292,7 +292,7 @@
     {
       "id": 24,
       "category": "marketing-ops",
-      "prompt": "把 collection 900001 里的达人批量复制到 collection 900002。先 validate，再 preview，确认匹配数量后再问我要不要 apply。",
+      "prompt": "把 collection 1 里的达人批量复制到 collection 2。先 validate，再 preview，确认匹配数量后再问我要不要 apply。",
       "expected_output": "Use the collection batch-copy staged workflow: validate, preview, then wait for explicit approval before apply --force.",
       "files": [],
       "expectations": [
@@ -305,7 +305,7 @@
     {
       "id": 25,
       "category": "marketing-ops",
-      "prompt": "查一下 NoxInfluencer CRM 里 creator_id 是 creator_example_001 的渠道详情。",
+      "prompt": "查一下 NoxInfluencer CRM 里 creator_id 是 creator_001 的渠道详情。",
       "expected_output": "Use crm get for the given NoxInfluencer creator_id and report CRM channel details.",
       "files": [],
       "expectations": [
@@ -330,7 +330,7 @@
     {
       "id": 27,
       "category": "marketing-ops",
-      "prompt": "导出任务 900101 如果已经 ready，就帮我下载到 ./exports/demo-cycle.xlsx。",
+      "prompt": "导出任务 1 如果已经 ready，就帮我下载到 ./exports/velomesh.xlsx。",
       "expected_output": "Check export status first, then run export download with --output only if ready.",
       "files": [],
       "expectations": [
@@ -343,7 +343,7 @@
     {
       "id": 28,
       "category": "high-risk",
-      "prompt": "NoxInfluencer 里的 email task 900201 可以发了，你帮我直接发出去。",
+      "prompt": "NoxInfluencer 里的 email task 1 可以发了，你帮我直接发出去。",
       "expected_output": "Confirm the approved task, recipients, sender, and content before using email send --force.",
       "files": [],
       "expectations": [
@@ -382,11 +382,11 @@
     {
       "id": 31,
       "category": "marketing-ops",
-      "prompt": "帮我查看 email task 900202 对应的站内消息详情。",
+      "prompt": "帮我查看 email task 2 对应的站内消息详情。",
       "expected_output": "Resolve the email task to a message thread with message list, then call message get using the returned thread_id.",
       "files": [],
       "expectations": [
-        "Uses message list with business_kind=email_task and business_id=900202 before message get",
+        "Uses message list with business_kind=email_task and business_id=2 before message get",
         "Uses the returned thread_id as the argument to message get",
         "Does NOT pass the email task ID directly to message get"
       ]
@@ -394,7 +394,7 @@
     {
       "id": 32,
       "category": "marketing-ops",
-      "prompt": "把刚才搜索结果里的这几个 NoxInfluencer creator_id 加到 CRM，并打上标签 900301。先 preview 给我看会新建几个。",
+      "prompt": "把刚才搜索结果里的这几个 NoxInfluencer creator_id 加到 CRM，并打上标签 1。先 preview 给我看会新建几个。",
       "expected_output": "Use crm batch-update preview for the explicit creator_ids, rely on CRM auto-create semantics for label updates, and report create counts.",
       "files": [],
       "expectations": [
@@ -407,7 +407,7 @@
     {
       "id": 33,
       "category": "discovery",
-      "prompt": "帮我搜美国的 YouTube 咖啡达人，排除 giveaway 和 crypto 内容，也不要返回团队已经联系过或已经放进 collection 900001 的达人。先给我 10 个。",
+      "prompt": "帮我搜美国的 YouTube 咖啡达人，排除 giveaway 和 crypto 内容，也不要返回团队已经联系过或已经放进 collection 1 的达人。先给我 10 个。",
       "expected_output": "Run one creator search with topic exclusions and integrated contacted/collection hide rules, then present only usable results.",
       "files": [],
       "expectations": [
@@ -420,7 +420,7 @@
     {
       "id": 34,
       "category": "marketing-ops",
-      "prompt": "刚才结果里的这个达人完全不相关，以后搜索都别再显示了。creator_id 是 creator_example_001。",
+      "prompt": "刚才结果里的这个达人完全不相关，以后搜索都别再显示了。creator_id 是 creator_001。",
       "expected_output": "Mark the explicitly selected creator as Not interested through the reversible not-interested workflow.",
       "files": [],
       "expectations": [
