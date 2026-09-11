@@ -45,7 +45,7 @@ Use machine output to decide what to inspect, then ground the decision in curren
 - Platform averages, tags, percentiles, composite or cooperation scores, reply likelihood, and contact/dispute flags are supporting clues. Establish optional-field semantics first; treat a missing or default-looking zero as unknown until the source documents it as "none." Reconcile the field with recent same-format content, a median or typical range, trend, and the real scene.
 - Calibration examples from one reviewed snapshot (not thresholds): a ten-item profile averaged about **867K** views but had a **24K** median because nine items were Shorts and its only long-form item averaged about **1.2K**; another averaged about **45K** with an **8K** median. Headline averages therefore need format-specific review.
 - When a historical note gives a send count and an informal "effective reply" count without fixed definitions, preserve it as a qualitative observation. Set the sent denominator, human-reply and qualification definitions, and observation window before calculating a rate.
-- A contact flag is a discovery signal. Send readiness requires a verified route that can receive the intended message (an actual address for email), confirmed ownership and business purpose, and a fresh identity/send-history check. Display names or result-row positions cannot prove creator-level deduplication.
+- A contact flag is a discovery signal. Establish send readiness through the playbook's delivery-route and identity checks; platform-managed email need not expose an address. Display names or result-row positions cannot prove creator-level deduplication.
 - Use the highest available benchmark in this order: same-project, same-type history → the creator's recent same-format content → a dated industry reference. External reports (for example, the [IAB 2025 Creator Economy Ad Spend & Strategy Report](https://www.iab.com/insights/2025-creator-economy-ad-spend-strategy-report/)) help frame funnel and measurement hypotheses; they do not set rates, thresholds, or response benchmarks.
 
 ## Discovery defaults
@@ -77,7 +77,7 @@ Use a simple scene test: tech needs repeated testing, explanation, or real use; 
 
 ## Outreach and lifecycle defaults
 
-- For a qualified creator without a ready contact, check the channel's public contact area, linked website or media kit, then clearly associated public profiles. Verify ownership and record the source.
+- If platform delivery is unavailable or external contact is needed, check the channel's public contact area, linked website or media kit, then clearly associated public profiles. Verify ownership and record the source.
 - Personalize the first contact to the creator's primary lane and **one concrete recent scene**; use the playbook's message checklist and leave detailed price, rights, exclusivity, and delivery promises for the approved commercial conversation.
 - A practical starting cadence is a follow-up after **3–5 business days**, another after **5–7 business days**, and a short close-the-loop note. Verify the send and read back the actual state afterward.
 - Treat a substantive human reply as new evidence: summarize it, re-check fit and terms, and apply the confirmation rule in the playbook before sending a changed response.

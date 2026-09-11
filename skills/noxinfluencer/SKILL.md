@@ -14,27 +14,25 @@ The user interacts through natural language. Execute CLI commands yourself and r
 
 - User wants NoxInfluencer creator intelligence, records, or execution capabilities
 - User wants to design or explain an efficient workflow using NoxInfluencer capabilities
-- User wants creator search, analysis, contact retrieval, monitoring, exports, campaign, collection, CRM, email/message, product-center, short-link, affiliate, or brand-monitor operations through NoxInfluencer
+- User wants creator search, analysis, contact retrieval, monitoring, exports, campaign, collection, CRM, email/message, product-center, short-link, TikTok Shop, affiliate, or brand-monitor operations through NoxInfluencer
 - User needs to set up NoxInfluencer access or check quota
 - User hits an auth, quota, or CLI error
 
 ## Business Collaboration
 
-This Skill owns correct and efficient use of NoxInfluencer: current capabilities, product-native operation sequences, data semantics, stable identifiers, permissions, quota, previews, mutations, errors, and authoritative readback.
+Own NoxInfluencer capabilities, workflow design, data interpretation, identifiers, permissions, quota, previews, mutations, errors, and authoritative readback. Serve settled product tasks independently; keep conclusions within the evidence checked.
 
-It can be used independently by a user who already knows the business objective and operating method. Interpret NoxInfluencer evidence, compare options, and recommend the next Nox-native step without forcing a separate manager workflow.
-
-When the task also needs goal selection, marketing strategy, cross-source creator qualification, negotiation judgment, a business SOP, or cross-tool automation, use the `influencer-marketing-manager` Skill when available; otherwise keep those business decisions explicit with the user. Carry the agreed objective, criteria, authority, expected evidence, and stop condition through the NoxInfluencer operation, then return the verified data and system state needed for the next decision.
-
-For a broader request, contribute the Nox-supported slice—operations, inputs, identifiers, readback, and capability gaps—while the Manager or user owns the company-wide method and activation decision.
-
-Keep recommendations within the evidence actually checked. A NoxInfluencer result can support a business decision without by itself settling the whole strategy or relationship. External writes follow the user's approved action or operating rule; important commercial commitments remain explicit decisions.
+For goal selection, marketing strategy, cross-source qualification, negotiation, business SOPs, or cross-tool automation, use `influencer-marketing-manager` when available; otherwise keep those decisions with the user. Carry the agreed objective, criteria, authority, expected evidence, and stop condition into operations, then return verified data, state, and capability gaps. External writes follow the approved action or operating rule; material commercial commitments remain explicit decisions.
 
 ## Core Principles
 
-### Agent-First
+### Execution Route
 
-The user does not operate the CLI. You do. Run commands silently, tell the user the result. Only share URLs when the user needs to take action in a browser (sign in, register, authorize CLI login, subscribe).
+Use the CLI or its connected CLI Connector for NoxInfluencer business data and operations. Before declaring a capability unavailable, check the installed version and relevant runtime schema/help; this Skill's routing list is not exhaustive. Missing commands or fields and authentication, permission, quota, or network failures need different recovery steps.
+
+If blocked, explain the specific gap, pause dependent steps, and continue independent supported work. Combine supported CLI commands only when they preserve the requested objects, outcome, and authority. A gap, error, SaaS link, or help hint saying "use SaaS" does not authorize switching to browser automation or changing the workflow.
+
+Browser inspection of original creator/channel/video pages for visual or content evidence is valid. NoxInfluencer SaaS business reads or writes require the user's explicit request or approval for that route. Prefer external Chrome; use another external browser if necessary, or request access. Do not use an embedded browser for NoxInfluencer SaaS, as it can displace the user's signed-in session. Sign-in, authorization, and billing are user-completed web steps: share the required URL and resume CLI work after verification.
 
 ### CLI Self-Description
 
@@ -45,8 +43,7 @@ The CLI is self-describing — use it instead of memorizing parameters:
 - **Diagnostics**: `noxinfluencer doctor`
 - **Local auth state**: `noxinfluencer auth status` reads persisted or environment-provided credentials without a network call; `noxinfluencer auth logout` clears locally persisted credentials and pending device logins
 - **Cost planning**: `noxinfluencer pricing tools --charged-only` shows current server-side Skill Credit prices; `noxinfluencer quota usage --days 7` reviews recent consumption
-- **Login**: direct terminals can run `noxinfluencer login`; Agents/remote terminals use `login start --json` and `login wait <login_id>` (the CLI returns the user-safe authorization URL and code)
-- **Command-tree check**: `noxinfluencer schema --all` must include `creator`, `monitor`, `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `dispute`, `export`, `file`, `feedback`, `quota`, `pricing`, and `agent`
+- **Command-tree check**: `noxinfluencer schema --all` lists the installed capabilities, including `tiktok-shop` from CLI 0.5.5; check the exact operation, not just its command group
 - **Exit codes**: `noxinfluencer agent exit-codes`
 - **Preview**: `--dry-run` (shows request without executing)
 - **Language routing**: `--lang zh` switches all URLs to `cn.noxinfluencer.com`
@@ -59,6 +56,7 @@ Use `noxinfluencer schema <cmd>` for exact parameters. Prefer broad command fami
 - Creator reads: `creator profile/audience/content/cooperation`; use `creator contacts` only for visible/exported contacts
 - Monitoring: `monitor list/create/add-task/import-*/tasks/history/summary/report*`; use `monitor auto-track ...` for newly published creator content
 - Operations: `campaign`, `collection`, `crm`, `email`, `message`, `product`, `short-link`, `affiliation`, `export`, `file`
+- TikTok Shop: `tiktok-shop bindings list`, then `creator-search` or `projects`; distinct from general TikTok creator search and Shopify `affiliation`
 - Brand monitoring: `brand-monitor ...`
 - Creator dispute due diligence: `dispute records/search/mine/get/report/update/withdraw`
 - Setup, quota, and pricing: `login`, `doctor`, `quota`, `quota usage`, `pricing`, `pricing tools`, `agent exit-codes`
@@ -76,9 +74,7 @@ Use `feedback` for product, data, or CLI issues. Use `dispute` only for a concre
 
 ### Email Task Boundary
 
-Standalone `email create` and `email update` operate only type 3 email tasks. Their request bodies must never contain `campaign_id`, and an Agent must not pass `task_type` to turn a standalone task into a Campaign task.
-
-An intelligent Campaign initializes exactly three fixed source tasks: type 0 for manual-add recipients, type 1 for proactive invitation recipients, and type 2 for creator applications. These types describe recipient sources; type 1 does not authorize guessing a `task_id`. The current CLI cannot discover or write these fixed tasks safely. Do not infer a fixed `task_id`, and do not use standalone email mutations or recipient commands to modify one. Route Campaign recipient changes to the SaaS intelligent Campaign page.
+Standalone `email create/update` manages type 3 tasks: never inject `campaign_id` or `task_type`, or use standalone mutations on Campaign fixed tasks. Campaign recipient execution is under development; until runtime schema exposes dedicated support, report that step as temporarily unavailable. Preserve the Campaign objective and continue supported preparation. See `{baseDir}/references/marketing-ops.md` for the fixed source types.
 
 ---
 
@@ -148,7 +144,7 @@ When contacts are explicitly needed, run `creator contacts` for the selected cre
 
 Manage video monitoring projects and tracked content. Report monitoring state and performance evidence; broader performance strategy remains tied to the supplied objective and the business manager.
 
-List projects first when unclear. For known published URLs, use `monitor add-task` or the SaaS template/import path. Use summary for project-level performance, tasks for tracked videos, and history for time-series detail. Preserve stable IDs and returned `creator_id` values. Use monitor report commands for direct SaaS Excel downloads, not shared async export polling.
+List projects first when unclear. For known published URLs, use `monitor add-task`, or `monitor import-template` and `monitor import-file` for spreadsheets. Use summary for project-level performance, tasks for tracked videos, and history for time-series detail. Preserve stable IDs and returned `creator_id` values. Monitor report commands download Excel directly; do not use shared async export polling.
 
 For ongoing creator monitoring, use `monitor auto-track`. Its Excel import validates every row before creating one rule; if it returns `failed_items`, fix the workbook and retry because no partial rule was created.
 
@@ -156,19 +152,19 @@ For ongoing creator monitoring, use `monitor auto-track`. Its Excel import valid
 
 ## 6. Marketing Ops
 
-Operate NoxInfluencer campaign, collection, CRM, email, message, product-center, short-link, affiliation, and export workflows. Stay operational: retrieve state, prepare changes, preview impact, then apply only after approval.
+Operate NoxInfluencer campaign, collection, CRM, email, message, product-center, short-link, TikTok Shop, affiliation, and export workflows. Retrieve state, prepare changes, preview impact, then apply within the user's approved scope.
 
 ### Workflow
 
 1. Identify the target domain and read current state first when IDs are unclear.
-2. For platform email outreach to creators found in NoxInfluencer, use the standalone email-task path and add recipients with search `data.items[].id` or creator read `data.creator_id` in the recipient `creator_id` field; do not retrieve contacts first. Use `platform + channel_id` only when the user already has that canonical raw platform identity. Standalone `email create/update` is type 3 only and must not include `campaign_id` or `task_type`. Manage intelligent Campaign fixed tasks in SaaS because the current CLI cannot discover or write them safely. Discover bound senders with `email sender list [task_id]`; never ask the user to inspect browser Network for sender IDs. See the CLI schema and `{baseDir}/references/marketing-ops.md`.
-3. Use `message send` or `message schedule` only for existing `thread_id` replies. If no thread exists, offer the email-task path for platform creators. For an explicit whole-conversation archive, use `message archive`; never substitute `crm archive`.
+2. For platform email, follow the contact and email-task boundaries above. Discover bound senders with `email sender list [task_id]`; never ask the user to inspect browser Network for sender IDs. Follow `{baseDir}/references/marketing-ops.md` for task preparation and readback.
+3. Use `message send` or `message schedule` for existing `thread_id` replies; resolve missing threads through supported reads. TikTok Shop private messaging uses its own command family. For an explicit whole-conversation archive, use `message archive`; never substitute `crm archive`.
 4. For JSON-first commands, run `schema <cmd>` and prepare the minimal `--body-file` object required by the CLI.
 5. For staged workflows, run `validate` first, then `preview`, then `apply --force` only after user approval.
 6. For direct mutations, rely on dry-run first unless the user has already approved the exact action.
 7. For new creator searches, use integrated exclusions/hide rules; keep standalone `creator search-filter` for an existing page. Email-recipient deduplication remains task-scoped through its `filter` commands.
-8. Use `short-link` for normal Nox short links only; use `affiliation` for Shopify affiliate campaigns, members, tracking links, discount codes, and performance reads.
-9. If Shopify store authorization is missing, send the user to SaaS; do not try to authorize stores inside the Skill.
+8. Use `short-link` for normal Nox short links, `affiliation` for Shopify affiliate operations, and `tiktok-shop` for Creator Marketplace and private-message projects.
+9. Check connected stores or sender accounts through the appropriate CLI. Missing store/mailbox authorization is a user-completed web step under the Execution Route above.
 10. For creator, collection, CRM, and brand-monitor async exports, create the task, poll with `export get` or `export list`, then use `export download --output` only when ready.
 11. Monitor, short-link, and affiliation Excel reports download directly to `--output`; do not poll them through shared export tasks.
 12. Keep SaaS spreadsheet templates, import `failed_items`, public image URLs, and private attachments distinct. Use `file image upload` for public rich-text images and attachment commands for authorized private files.
@@ -198,9 +194,7 @@ See `{baseDir}/references/brand-monitor.md` for command routing and platform bou
 
 ## Error Handling
 
-For API-backed failures (`quota`, `pricing`, `creator`, `monitor`, `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `dispute`, `export`, `file`, `feedback`), use the CLI response's `action` field when present:
-- `action.url` — where the user should go
-- `action.hint` — what to do
+For API-backed failures, interpret the response's `action.type`, `action.hint`, and optional `action.url` as recovery guidance under the Execution Route above. A redirect is a user action, not permission for the Agent to operate SaaS.
 
 Local/helper commands (`auth`, `doctor`, `schema`, `env`, `agent exit-codes`) may not include `action`. Read their native output directly instead of assuming the API error envelope.
 

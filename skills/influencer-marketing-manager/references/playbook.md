@@ -79,7 +79,7 @@ Spend detail and browser-review effort on a smaller, purposeful subset:
 - candidates whose structured metrics conflict with the content signal;
 - supply that is strategically important to the market or scene.
 
-Use creator detail data and, when available, browser inspection of the channel, About page, recent videos, titles, thumbnails, descriptions, comments, and visible cooperation context. This evidence tests whether the partnership will feel natural to the audience, not merely whether a row passes a filter.
+Use creator detail data and, when available, browser inspection of original channel/video pages: About, recent videos, titles, thumbnails, descriptions, comments, and visible cooperation context. This evidence tests whether the partnership will feel natural to the audience, not merely whether a row passes a filter.
 
 Review **3–5 representative recent pieces**, normally within **90 days** and with preference for continued activity within **60 days**. Separate long-form, Shorts, live replays, and other formats. Record a comparable recent view range or median, explain breakouts, and compare commercial and non-commercial content when useful.
 
@@ -109,7 +109,7 @@ Return two related judgments:
 | Creator fit | confirmed, provisional, weak | likelihood of advancing the current objective |
 | Contact readiness | ready, contact pending, identity unverified | ability to take the next communication action |
 
-Use public, verifiable business contacts and record how ownership was confirmed. Treat a contact flag such as `has_email=true` as a lead; send readiness starts after retrieving the actual address, verifying its ownership and business purpose, and checking identity and send history. Keep a qualified creator with contact pending in the portfolio. If an alternate address appears after a bounce, repeat identity, consent, deduplication, and send-history checks before retrying.
+Verify the delivery route appropriate to the execution capability, creator identity, and send history. For platform-managed email, resolved creator IDs and authoritative recipient readiness can establish the route without exporting an address; a search contact flag alone cannot. For external email, retrieve the actual business address and verify ownership. Keep a qualified creator with contact pending in the portfolio. If the route changes after a bounce, repeat identity, consent, deduplication, and send-history checks before retrying.
 
 ### 2.4 Decide when to search again
 
@@ -149,7 +149,7 @@ Anchor each message to one concrete, recent scene rather than a generic list of 
 
 ### 4.2 Prepare and send
 
-For a qualified creator without a ready contact, check the channel's public contact area, linked website or media kit, then clearly associated public profiles. Verify ownership and preserve a contact-pending record when the fit evidence remains useful. Read back the actual address and rendered To/Cc recipients before sending; a flag, typed value, or successful request alone does not establish sendability or delivery.
+Apply the [delivery-route checks](#23-fit-and-contact-readiness); for external email, also read back the actual address and rendered To/Cc recipients. When contact research is needed, check the channel's public contact area, linked website or media kit, then clearly associated public profiles. Verify ownership and preserve a contact-pending record when the fit evidence remains useful. A successful request alone does not establish sendability or delivery.
 
 Before an external send, verify the approved message version, recipient identity, sender, subject, body, links or attachments, copied recipients, and applicable consent or suppression state. After sending, read back the task or message and record the actual result.
 

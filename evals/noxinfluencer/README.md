@@ -49,6 +49,10 @@ Behavior evaluation and static validation have different roles:
 - Behavior evaluation runs the same pressure prompts against the previous and updated Skill, then reviews the actual Agent responses against each case's expectations. RED/GREEN transcripts and reviewer notes belong in the ignored `evals/noxinfluencer/workspace/` directory; they may contain transient model output and are not committed.
 - `validate_evals.py` checks only the JSON document structure, unique eval IDs, non-empty prompts, and non-empty string expectations. Passing it does not prove Agent behavior.
 
+For routing cases 35–36 and 40–46, review tool traces by **purpose, destination, and browser type**. Original channel/video inspection is valid; a CLI gap or failure must not silently become NoxInfluencer SaaS operation. Explicitly requested SaaS reads should use external Chrome when available and must not use an embedded browser. Check that independent supported steps continue and that any alternative preserves the requested business object and outcome. Use case 37 as the supported standalone-email control, and exercise the routing cases both with NoxInfluencer alone and with Manager coordinating it.
+
+Use isolated records and browser fixtures for execution tests. For case 44, supply both an older command tree without TikTok Shop and a current tree with it, including the `projects snapshots` operation omitted from the Skill's short list. For cases 42–43, browser availability in the test environment must match the prompt. A response that says which browser it would choose establishes a routing proposal only; claims of actual reads, writes, partial completion, or absence of SaaS access require the corresponding complete tool trace.
+
 Run the stable static checks from the repository root:
 
 ```bash

@@ -200,7 +200,8 @@
         "Separates total search potential, returned rows, hidden or filtered rows, and deduplicated usable candidates according to source semantics, without treating the counts as additive or interchangeable, and uses the usable queue to plan review or expansion",
         "Treats average views, median views, format mix, available trend, and machine scores as distinct evidence, requests recent same-format or richer review when they conflict, and interprets missing or default-looking zero fields by their documented semantics before using them as quality verdicts",
         "Uses the validated creator only to form a scene, audience, and format hypothesis for lookalikes, then fine-reviews every new result independently",
-        "Separates creator fit from contact readiness and checks an actual address, ownership, business purpose, identity deduplication, and send history before sending",
+        "Separates creator fit from contact readiness and verifies the intended delivery route, business purpose, identity deduplication, and send history; requires an actual address and ownership for external email, while platform email can use resolved creator IDs and authoritative recipient readiness without exporting an address",
+        "Does not treat the six visible addresses as a universal limit on platform sendability or the ten has_email flags as proof of delivery",
         "Separates unique replying creators, inbound messages, bounces, and qualified human intent, establishes a baseline for the new task, and reads message bodies only after aggregate change",
         "Chooses a dated observation window, denominator, and benchmark source for the next comparison instead of treating one batch as an industry benchmark"
       ]

@@ -25,6 +25,7 @@ The manager owns business results and the operating method: it plans, runs, syst
 - Monitor known campaign videos and auto-track matching content that selected creators publish later
 - Use SaaS spreadsheet templates, imports, failure reports, and direct Excel reports for supported workflows
 - Manage NoxInfluencer campaigns, collections, CRM channels, products, normal short links, Shopify affiliate campaigns, email/message tasks, and export jobs
+- Search TikTok Shop Creator Marketplace and manage private-message projects through a connected store (CLI 0.5.5+)
 - Discover global brands by name or category/market, then analyze monitored brands, product signals, influencer/content/tag/product assets, and exports
 - Upload approved public images and download authorized email, message, template, feedback, and export files
 - Check current Skill Credit prices and historical consumption to plan Agent workflows
@@ -93,13 +94,13 @@ The Expert depends on the WorkBuddy Connector submission identified as `oc_e701b
 
 ### NoxInfluencer CLI
 
-The skill expects the latest `@noxinfluencer/cli`, including the command tree with `creator`, `monitor`, `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `dispute`, `export`, `file`, `feedback`, `quota`, `pricing`, and `agent`. Install the latest npm package:
+The skill uses the current `@noxinfluencer/cli` command tree; TikTok Shop requires 0.5.5+. Install the latest npm package:
 
 ```bash
 npm install -g @noxinfluencer/cli@latest
 ```
 
-After installation, verify with `noxinfluencer schema --all` and confirm the expected command groups are present. Version output alone is not enough if a local/global install has stale compiled files.
+After installation, verify the needed operations with `noxinfluencer schema --all` and command-specific schema/help. Version output alone is not enough if a local/global install has stale compiled files.
 
 ### skills.sh
 
@@ -168,6 +169,8 @@ claude plugin install nox-influencer@noxinfluencer
 
 - This repository publishes `influencer-marketing-manager` and `noxinfluencer`.
 - The manager is tool-agnostic and can implement business SOPs and automation across available systems; the NoxInfluencer Skill supplies product-native data, workflow guidance, and execution.
+- NoxInfluencer business work defaults to CLI. Capability gaps pause dependent steps while independent work continues; they do not authorize an automatic SaaS fallback. Campaign recipient execution is under development and follows current runtime support.
+- Original creator/channel pages remain available for visual review. Explicitly requested or approved NoxInfluencer SaaS work prefers external Chrome and must not use an embedded browser, which can disrupt the user's session. Sign-in, authorization, and billing remain user-completed web steps.
 - Marketing-ops write actions default to preview/dry-run behavior and require explicit approval before execution.
 - Creator, collection, CRM, and brand-monitor exports use shared async export tasks; monitor, short-link, and affiliation Excel reports download directly.
 - Public rich-text/product image URLs are separate from private email/message attachments.
