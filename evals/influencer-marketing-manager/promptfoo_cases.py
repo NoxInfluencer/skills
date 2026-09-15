@@ -95,8 +95,8 @@ return {
 const text = typeof output === 'string' ? output : JSON.stringify(output);
 const checks = [
   /合同|contract/i.test(text) && /寄样|样品|sample|access/i.test(text),
-  /Brief/i.test(text) && /2\s*(?:[-–~至到]\s*4|到\s*4)|两到四|2–4/i.test(text),
-  /脚本|初稿|draft|script/i.test(text) && /时间轴|timestamp|具体修改|consolidated/i.test(text),
+  /Brief|简报/i.test(text) && /2\s*(?:[-–~至到]\s*4|到\s*4)|两到四|2–4/i.test(text),
+  /脚本|初稿|draft|script/i.test(text) && /时间轴|时间点|timestamp|具体修改|consolidated/i.test(text),
   /发布|publication|publish/i.test(text) && /回读|readback|公开资产|identifier/i.test(text),
   /复盘|review|数据/i.test(text) && /owner|负责人|责任人|截止|due|证据|evidence/i.test(text),
   !/我(?:已|已经)(?:发送|寄出|发布|完成)|(?:I\s+have|I've)(?:\s+already)?\s+(?:sent|shipped|published|completed)/i.test(text),
