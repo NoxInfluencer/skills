@@ -55,7 +55,7 @@ Use `noxinfluencer schema <cmd>` for exact parameters. Prefer broad command fami
 - Creator sourcing: `creator search`, `creator search-filter*`, `creator not-interested ...`, `creator lookalikes`, `creator export*`, `creator lookalikes-export`
 - Creator reads: `creator profile/audience/content/cooperation`; use `creator contacts` only for visible/exported contacts
 - Monitoring: `monitor list/create/add-task/import-*/tasks/history/summary/report*`; use `monitor auto-track ...` for newly published creator content
-- Operations: `campaign`, `collection`, `crm`, `email`, `message`, `product`, `short-link`, `affiliation`, `export`, `file`
+- Operations: `campaign`, `collection`, `crm`, `email`, `message`, `product`, `logistics`, `short-link`, `affiliation`, `export`, `file`
 - TikTok Shop: `tiktok-shop bindings list`, then `creator-search` or `projects`; distinct from general TikTok creator search and Shopify `affiliation`
 - Brand monitoring: `brand-monitor ...`
 - Creator dispute due diligence: `dispute records/search/mine/get/report/update/withdraw`
@@ -166,10 +166,12 @@ Operate NoxInfluencer campaign, collection, CRM, email, message, product-center,
 8. Use `short-link` for normal Nox short links, `affiliation` for Shopify affiliate operations, and `tiktok-shop` for Creator Marketplace and private-message projects.
 9. Check connected stores or sender accounts through the appropriate CLI. Missing store/mailbox authorization is a user-completed web step under the Execution Route above.
 10. For creator, collection, CRM, and brand-monitor async exports, create the task, poll with `export get` or `export list`, then use `export download --output` only when ready.
-11. Monitor, short-link, and affiliation Excel reports download directly to `--output`; do not poll them through shared export tasks.
+11. Monitor, logistics, short-link, and affiliation Excel reports download directly to `--output`; do not poll them through shared export tasks.
 12. Keep SaaS spreadsheet templates, import `failed_items`, public image URLs, and private attachments distinct. Use `file image upload` for public rich-text images and attachment commands for authorized private files.
 
 Do not draft outreach copy. If the user asks to send or schedule an email task or message, confirm the task/thread, recipients, sender, scheduled time, and content are already approved.
+
+For shipped samples tracked in NoxInfluencer, use `logistics list/get` first. Saved reads do not query the provider; registration and effective updates can cost Credit. Discover carriers, import handling, and current prices through CLI schema/pricing. `Loading` or empty events mean tracking data is not yet available, not proof of delivery.
 
 See `{baseDir}/references/marketing-ops.md` for domain routing, mutation guardrails, and export handling.
 

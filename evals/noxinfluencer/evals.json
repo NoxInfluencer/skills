@@ -587,6 +587,19 @@
         "Does not operate SaaS or make a purchase merely because the error includes a redirect",
         "Keeps quota-dependent work pending and verifies restored quota before resuming it"
       ]
+    },
+    {
+      "id": 47,
+      "category": "native-logistics-read-and-partial-import",
+      "prompt": "我们在聚星登记了寄给达人的样品，帮我看看是否延误。另有一份新运单 Excel，我想知道批量导入怎么收费；之前有一次返回成功 8 条、失败 2 条和 report_url，我还没有批准重新导入。",
+      "expected_output": "Inspect native saved shipment evidence, explain cost discovery, and prepare only the failed-row recovery without an unapproved write.",
+      "files": [],
+      "expectations": [
+        "Checks installed logistics schema and uses native list/get for saved tracking instead of immediately moving to an external tracker",
+        "Does not infer delay or delivery from Loading or an empty event list alone",
+        "Consults server pricing for registration, updates, and per-successful-shipment import rather than treating all reads as provider queries",
+        "Preserves 8 successful records and uses report_url to review the 2 failed rows; does not reimport all 10 or perform an unapproved write"
+      ]
     }
   ]
 }

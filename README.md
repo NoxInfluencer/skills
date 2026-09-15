@@ -24,6 +24,7 @@ The manager helps users build and improve automated influencer-marketing workflo
 - Retrieve visible/exportable contact information for selected creators when external outreach is needed
 - Monitor known campaign videos and auto-track matching content that selected creators publish later
 - Use SaaS spreadsheet templates, imports, failure reports, and direct Excel reports for supported workflows
+- Track shipped samples with native `logistics`, including carrier discovery, batch imports, and saved tracking exports; check installed CLI support and current pricing
 - Manage NoxInfluencer campaigns, collections, CRM channels, products, normal short links, Shopify affiliate campaigns, email/message tasks, and export jobs
 - Search TikTok Shop Creator Marketplace and manage private-message projects through a connected store (CLI 0.5.5+)
 - Discover global brands by name or category/market, then analyze monitored brands, product signals, influencer/content/tag/product assets, and exports
