@@ -592,6 +592,37 @@
         "Proposes a bounded use of the USD 12,000 budget with attribution, complete acquisition cost and renewal measurements; labels proposed targets or allocations as trial assumptions rather than panel facts or guaranteed outcomes",
         "Uses the supplied evidence instead of replacing the requested decision with generic advice, invented industry statistics, live-system claims or mandatory account setup"
       ]
+    },
+    {
+      "id": 37,
+      "category": "cooperation-lifecycle-checkpoints",
+      "trigger": "should-trigger",
+      "prompt": "我们已经选定一位达人，初步谈妥一次 YouTube 植入，准备推进合作。请给运营一份简短的下一步清单，覆盖合同、寄样、Brief、脚本或初稿审核、发布和复盘，并说明每个交接点如何确认完成。",
+      "expected_output": "Turn the partnership lifecycle into a concise, observable handoff checklist without presenting unapproved commercial terms as settled.",
+      "files": [],
+      "expectations": [
+        "Covers the sequence from terms and contract through sample or access, Brief, script or draft review, publication, data readback and review",
+        "Attaches an owner, due point, evidence or readback, and blocker to each material handoff",
+        "Keeps product shipment, content requirements, rights, payment and publication conditions tied to the approved contract or Brief",
+        "Uses a concise Brief with brand context, two-to-four talking points, production requirements and publishing details",
+        "Requires consolidated timestamped edits before publication and preserves creator voice when agreed requirements are met",
+        "Distinguishes a proposed checklist from completed execution and does not claim a send, shipment or publication"
+      ]
+    },
+    {
+      "id": 38,
+      "category": "measurement-anomaly-review",
+      "trigger": "should-trigger",
+      "prompt": "一批合作发布后，报告显示曝光和点击都上涨，但订单没有同步增加；另一份表里 PV、UV、IP 口径也对不上，还有几笔退款。请判断下一步怎么查、记录和决定是否继续放量。",
+      "expected_output": "Diagnose an apparent performance anomaly by checking definitions and attribution before changing the plan, then specify a bounded decision loop.",
+      "files": [],
+      "expectations": [
+        "Separates exposure, clicks, unique visitors, orders and refunds instead of treating them as one conversion result",
+        "Checks denominator, observation window, format, attribution path, PV/UV/IP definitions and source readback",
+        "Labels the likely issue as delivery, tracking, attribution or data quality until evidence supports a conclusion",
+        "Records the affected source, scope and uncertainty and avoids inventing a conversion rate or industry benchmark",
+        "Pauses or limits expansion and proposes a bounded recheck with an explicit observation and decision rule"
+      ]
     }
   ]
 }

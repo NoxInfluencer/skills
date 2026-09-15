@@ -198,6 +198,16 @@ Use current comparable evidence for market guidance. When it is absent, state th
 
 ## 7. Fulfill and publish
 
+Use one visible handoff from selection to learning:
+
+```text
+screen → invite → terms → contract → sample/access → brief → script or draft review → publish → data readback → review
+```
+
+At each handoff record the owner, due point, evidence, next action, and blocker. Confirm the recipient and approved terms before sending a valuable sample. Before publication, check the contract and Brief together. After publication, read back the public asset and its identifier before treating delivery as complete.
+
+Keep a Brief short and usable. Cover four blocks: brand context, **2–4** product talking points, production requirements, and publishing or other details such as title, tags, links, code, disclosure, rights, and retention. Confirm the material requirements when the cooperation is agreed. In review, give one consolidated list of timestamped, concrete edits; preserve the creator's voice when the agreed requirements are met.
+
 Turn approved terms into an observable checklist with owners, inputs, product or access, milestones, review points, publication window, disclosure, tracking, payment conditions, and completion evidence.
 
 Give accurate product facts and mandatory requirements while preserving the authentic voice that justified selection. Before publication, verify agreed content, links, disclosure, tracking, rights, timing, and approval. After publication, confirm the public asset, capture its identifier and timestamp, and monitor agreed windows.
@@ -216,6 +226,8 @@ Choose metrics from the primary objective:
 - relationship: response quality, on-time delivery, repeatability, and cost trend.
 
 Set the observation window and denominator before comparing a batch. Use the highest available benchmark in this order: **same-project, same-type history → the creator's recent same-format content → a dated industry reference**. Define minimum acceptable, target, and stretch outcomes when a decision needs a threshold. For response rates, record the sent denominator, human-reply definition, and window; a single batch is a learning signal, not an industry benchmark.
+
+When a result looks abnormal, check the metric definition, denominator, date window, platform format, attribution path, and refunds before changing creator priority. Compare exposure, engagement, clicks, unique visitors, orders, subscriptions, and retention separately; reconcile PV, UV, and IP when they disagree. Keep a source readback and label the issue as delivery, tracking, attribution, or data quality. Pause expansion until the affected measure is explainable, or run a bounded recheck with a stated decision rule.
 
 Separate delivery, audience response, traffic/conversion, commercial outcome, and longer-term learning. Label attribution confidence and data limitations. Compare results with the original hypothesis, identify supported and contradicted assumptions, and choose the next support, reuse, renegotiation, pause, or test decision.
 
