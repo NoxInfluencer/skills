@@ -58,6 +58,18 @@ def validate_document(document: Any, fixture_root: Path = FIXTURE_ROOT) -> list[
         elif any(not isinstance(item, str) or not item.strip() for item in expectations):
             errors.append(f"{location}.expectations must contain non-empty strings")
 
+        followups = eval_case.get("followups", [])
+        if not isinstance(followups, list):
+            errors.append(f"{location}.followups must be a list")
+        else:
+            for turn in followups:
+                if not isinstance(turn, dict) or not isinstance(turn.get("prompt"), str) or not turn["prompt"].strip():
+                    errors.append(f"{location}.followups require a non-empty prompt")
+                    continue
+                checks = turn.get("expectations")
+                if not isinstance(checks, list) or not checks or any(not isinstance(item, str) or not item.strip() for item in checks):
+                    errors.append(f"{location}.followups require non-empty expectations")
+
         files = eval_case.get("files", [])
         if not isinstance(files, list):
             errors.append(f"{location}.files must be a list")

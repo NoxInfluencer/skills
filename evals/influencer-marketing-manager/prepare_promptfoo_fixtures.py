@@ -38,7 +38,7 @@ def case_files() -> list[str]:
 def contract_digest() -> str:
     """Fingerprint the prompts, graders, config and synthetic inputs together."""
     digest = hashlib.sha256()
-    paths = [EVAL_DIR / name for name in ("evals.json", "promptfoo_cases.py", "promptfooconfig.yaml")]
+    paths = [EVAL_DIR / name for name in ("evals.json", "promptfoo_cases.py", "promptfooconfig.yaml", "run_conversations.mjs")]
     paths += [FIXTURE_ROOT / name for name in case_files()]
     for path in paths:
         digest.update(path.relative_to(EVAL_DIR).as_posix().encode())

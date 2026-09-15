@@ -222,6 +222,8 @@ def create_tests(config: dict[str, Any] | None = None) -> list[dict[str, Any]]:
             raise ValueError(f"case {case_id} has no configured outcome review")
 
         case = cases[case_id]
+        if case.get("followups"):
+            raise ValueError(f"case {case_id} requires run_conversations.mjs; do not discard later turns")
         routing_type = "not-skill-used" if case["trigger"] == "should-not-trigger" else "skill-used"
         tests.append(
             {

@@ -11,6 +11,23 @@ from unittest.mock import patch
 import prepare_promptfoo_fixtures as fixtures
 from promptfoo_cases import SOURCE_READ_ASSERTIONS, _run_javascript, create_tests
 from review_results import inspect_result, inspect_shortlist_render
+from validate_evals import validate_document
+
+
+class ConversationContractTests(unittest.TestCase):
+    def test_followup_contract_rejects_missing_user_input_or_review(self):
+        document = json.loads((Path(__file__).parent / "evals.json").read_text())
+        case = next(item for item in document["evals"] if item["id"] == 31)
+        for followups in ("not a list", [None], [{"prompt": ""}], [{"prompt": "Continue"}],
+                          [{"prompt": "Continue", "expectations": [""]}]):
+            invalid = {**document, "evals": [{**case, "followups": followups}]}
+            self.assertTrue(validate_document(invalid))
+
+    def test_single_turn_adapter_cannot_discard_followups(self):
+        import promptfoo_cases
+        with patch.object(promptfoo_cases, "MANUAL_REVIEW_CASE_IDS", {31}):
+            with self.assertRaisesRegex(ValueError, "requires run_conversations"):
+                create_tests({"case_ids": [31]})
 
 
 class FixtureTests(unittest.TestCase):
@@ -40,7 +57,7 @@ class FixtureTests(unittest.TestCase):
             "expectations": ["Uses source evidence"], "files": ["inputs/source.json"],
         }]}
         (fixtures.EVAL_DIR / "evals.json").write_text(json.dumps(document))
-        for name in ("promptfoo_cases.py", "promptfooconfig.yaml"):
+        for name in ("promptfoo_cases.py", "promptfooconfig.yaml", "run_conversations.mjs"):
             (fixtures.EVAL_DIR / name).write_text("test contract")
         for name in (fixtures.MANAGER_SKILL, "neighbor"):
             folder = fixtures.SKILLS_DIR / name

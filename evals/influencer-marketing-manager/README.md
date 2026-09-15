@@ -22,14 +22,31 @@ The [operator follow-up review](review-2026-09-06-operator-followups.md) adds ca
 
 ## Organization
 
-- `evals.json` owns the 30 canonical prompts and qualitative expectations. IDs remain stable.
+- `evals.json` owns the 34 canonical prompts and qualitative expectations. IDs remain stable. Optional `followups` contain later user prompts and separate review expectations.
 - `fixtures/` contains synthetic evidence and rewritten evaluation examples, without expected answers or grading rules. A case's optional `files` list is relative to this directory.
 - `promptfoo_cases.py` selects executable cases and adds focused assertions. Expectations stay in test metadata for review; they are not sent to the model.
 - `prepare_promptfoo_fixtures.py` copies the Skills and declared files into isolated baseline/candidate workspaces. Only the Manager Skill may differ.
 - `review_results.py` reports saved results by metric and separates runtime errors. It can replay updated outcome graders without another model call, and report observed shortlist-renderer output and whether its table reached the final answer unchanged.
 - `workspace/` holds ignored run traces and review notes. Do not put live customer data, credentials, or commercial records in the case corpus.
 
-Cases use `should-trigger`, `should-not-trigger`, or `boundary`. These describe the intended routing, not whether the case is executable. Cases that require live discovery, sends, scheduling, or an actual SOP workspace still need a separately authorized environment and its inputs. An empty `files` list does not supply those capabilities. Do not call all 30 cases behavior-tested after validating their JSON.
+Cases use `should-trigger`, `should-not-trigger`, or `boundary`. These describe the intended routing, not whether the case is executable. Cases that require live discovery, sends, scheduling, or an actual SOP workspace still need a separately authorized environment and its inputs. An empty `files` list does not supply those capabilities. Do not call all 34 cases behavior-tested after validating their JSON.
+
+## Conversation probes
+
+Cases 31–34 cover open entry into an existing workflow, SOP delivery followed by an automation request, industry-practice consultation, and diagnosis of a duplicate-task automation. Their business outcome requires review of the actual answers and tool events against each turn's expectations. Do not grade the presence of a menu, prescribed phrasing or a fixed question count.
+
+`run_conversations.mjs` reuses the prepared baseline/candidate Skills, isolated login, model and sandbox settings from the existing config. It uses the [Codex SDK](https://learn.chatgpt.com/docs/codex-sdk) to continue the same thread within each case; each case and variant starts fresh. Only the current user prompt and declared source paths go to the model. Later prompts and all review criteria remain outside its context. These are fixed multi-turn probes, not an adaptive user simulator or proof of natural Skill discovery.
+
+After preparation, run:
+
+```bash
+npm run eval:manager:conversations -- --cases 31,32,33,34 \
+  --output evals/influencer-marketing-manager/workspace/promptfoo/conversations.json
+```
+
+Use `--variants candidate` for an affected-case rerun. The runner also accepts existing single-turn cases for qualitative regression. It saves requests, raw events, responses, usage, errors and fixture fingerprints after each event, refuses to overwrite results, and stops dependent turns on failure. A zero exit code means complete response evidence only; it is never a business-quality pass. Review source reads, scope, usefulness, unnecessary questions, unsupported execution claims, and adaptation to new user information before retaining a Skill change. Keep raw runtime paths and thread IDs in the ignored workspace; publish only reviewed synthetic examples and findings.
+
+The Promptfoo adapter rejects multi-turn cases rather than silently evaluating only the opener. Existing Promptfoo outcome graders remain unchanged. The file-based probes do not establish a deployed scheduler, live marketing integration or successful external action.
 
 ## Small executable set
 

@@ -180,7 +180,9 @@
       "trigger": "boundary",
       "prompt": "For this round, my latest instruction is to target the UK. Read the supplied project-source snapshots and reconcile them before proposing the next creator-discovery action. Identify what is current system state, what is the active brief, and what is historical evidence. Use only the supplied synthetic files; do not access external systems, send outreach, or change records.",
       "expected_output": "Use the latest explicit objective for this round, distinguish it from current system state, rules, and historical evidence, surface the conflict, and propose a safe next action.",
-      "files": ["inputs/case13-sources.json"],
+      "files": [
+        "inputs/case13-sources.json"
+      ],
       "expectations": [
         "Reads the supplied snapshot and identifies CRM and active brief as US, with an older UK report, retaining their source dates",
         "Uses the latest explicit objective for the proposed discovery work while preserving other sources with their dates and roles",
@@ -304,7 +306,9 @@
       "trigger": "should-trigger",
       "prompt": "这是一个虚构的移动电源项目。请读取提供的项目、频道和沟通快照，做一版简短的工作结果：哪些机会值得交客户决定，哪些应继续补证据或停止推进；为尚未联系且值得推进的达人准备一封首邀草稿。客户现在只决定是否值得继续讨论，不是在确认合作。没有固定汇报模板，请按当前决定需要组织内容。只用所给合成材料，不访问外部系统、不发送消息、不修改记录。",
       "expected_output": "Use the supplied evidence to separate preliminary client opportunities from research and non-opportunities, and draft a scene-specific first invitation without inventing facts or commitments.",
-      "files": ["inputs/case21-opportunities.json"],
+      "files": [
+        "inputs/case21-opportunities.json"
+      ],
       "expectations": [
         "Reads the supplied brief, four creator records, and message evidence; preserves source dates and does not claim live verification",
         "Recommends Desk Lab A for preliminary client consideration using its recent long-form scene evidence and human reply, retaining the quoted USD 1,400, one 60-90 second integration, October availability, and the unknown payment and usage terms without treating them as agreed",
@@ -321,7 +325,9 @@
       "trigger": "should-trigger",
       "prompt": "请读取合成快照，整理一批值得继续讨论的达人给客户初审，不是确认合作。这次希望给客户 5 位，方便一次比较，不要只给一个首选。按客户关心的维度组织，推荐判断与事实证据分开，不要在每位达人后重复相同的‘下一步’。只使用所给材料；不访问外部系统、不发送消息、不修改记录。",
       "expected_output": "A readable five-creator client comparison grounded in qualification and genuine reply evidence, with distinct decision dimensions and no repeated per-row action checklist.",
-      "files": ["inputs/case22-client-batch.json"],
+      "files": [
+        "inputs/case22-client-batch.json"
+      ],
       "expectations": [
         "Reads the brief, eight creators and seven messages; presents A, E, F, G and H as the five qualified human-interest options, without prescribing a unique ranking",
         "Makes recommendations and supporting facts separately scannable through user-relevant dimensions; comparable prose or cards are acceptable and exact table headers are not required",
@@ -338,7 +344,9 @@
       "trigger": "should-trigger",
       "prompt": "请读取合成快照，整理一批值得继续讨论的达人给客户初审，不是确认合作。这次希望给客户 5 位，方便一次比较，不要只给一个首选。按客户关心的维度组织，推荐判断与事实证据分开，不要在每位达人后重复相同的‘下一步’。只使用所给材料；不访问外部系统、不发送消息、不修改记录。",
       "expected_output": "An honest incomplete batch: retain the one supported replied opportunity, explain the four-person shortfall, and do not pad it with unsupported or ineligible creators.",
-      "files": ["inputs/case21-opportunities.json"],
+      "files": [
+        "inputs/case21-opportunities.json"
+      ],
       "expectations": [
         "Reads the supplied evidence and states that only A currently satisfies the project's qualified-human-reply requirement, leaving four of the requested five places unfilled; does not claim the batch is complete",
         "Preserves A's dated long-form evidence, real human intent, USD 1,400 quote, one 60-90 second integration and October availability, with unagreed terms identified",
@@ -353,7 +361,9 @@
       "trigger": "should-trigger",
       "prompt": "请根据所给项目记录，整理一份给运营同事接手的达人跟进摘要。让我看清每条记录现在是什么情况、依据是什么、卡在哪里、由谁处理及建议动作，并指出需要我决定的事项。只使用所给材料，不访问外部系统、不发送消息、不修改记录；不需要制作 HTML。",
       "expected_output": "An actionable internal operations summary grounded in dated CRM and message evidence, distinguishing historical actions, current state, qualification and decision authority without inventing missing facts.",
-      "files": ["inputs/case24-operator-followups.json"],
+      "files": [
+        "inputs/case24-operator-followups.json"
+      ],
       "expectations": [
         "Reads the project, follow-up log, CRM and message exports; accounts for all five relationships without presenting them as five qualified client recommendations or claiming a live readback",
         "Keeps A with Lin awaiting a human response and quote: the rate-request event and automatic acknowledgement do not establish a quote or genuine interest",
@@ -370,7 +380,9 @@
       "trigger": "should-trigger",
       "prompt": "这批达人跟进里，目前有哪些合作方案需要客户判断是否继续谈？请写一份可直接给客户看的简明决策摘要，保留判断依据、已知条件和需确认的问题。这次不是内部交接，也不是补充新达人。只使用所给材料，不访问外部系统、不发送消息、不修改记录。",
       "expected_output": "A client-facing decision summary that selects the currently discussable proposal from the supplied follow-up evidence, preserves its material terms and uncertainty, and does not reproduce an internal handoff log.",
-      "files": ["inputs/case24-operator-followups.json"],
+      "files": [
+        "inputs/case24-operator-followups.json"
+      ],
       "expectations": [
         "Reads the supplied evidence and centers C as the only currently supported client-discussion proposal; the current user request changes the audience, not the project's qualification or reopening authority",
         "Explains C's fit from the dated CRM qualification review and human reply without inventing fresh channel verification, detailed content metrics or guaranteed performance; keeps supporting evidence distinct from the recommendation",
@@ -387,7 +399,9 @@
       "trigger": "should-trigger",
       "prompt": "请根据这份邮件导出，给接手运营的同事简要说明 VOLTLEAF 与这位达人的沟通进展、目前合作条件、待处理事项和对接人。只使用所给材料，不访问外部系统、不发送消息、不修改记录。",
       "expected_output": "A scoped VOLTLEAF handoff that reconstructs the relevant proposal and participants from the conversation rather than assigning the latest inbound message to the creator or project automatically.",
-      "files": ["inputs/case26-mixed-thread.json"],
+      "files": [
+        "inputs/case26-mixed-thread.json"
+      ],
       "expectations": [
         "Reads the complete dated export; identifies Field Paws' genuine initial interest without counting the near-identical kit replies as a second substantive negotiation step",
         "Retains VOLTLEAF's proposed three YouTube integrations for GBP 1,800 total, GBP 600 each, with separate payments after each publication; no supplied creator reply accepts that proposal",
@@ -403,7 +417,9 @@
       "trigger": "should-trigger",
       "prompt": "请根据所给邮件，整理一份简短的运营交接：截至快照时点，这项合作谈到哪里了、目前价格和合作条件是什么、依据是什么、接下来主要卡在哪里。只使用所给材料，不访问外部系统、不发送消息、不修改记录。",
       "expected_output": "A point-in-time negotiation summary that distinguishes a client-side counteroffer from the creator's earlier pricing and does not invent acceptance or later fulfillment.",
-      "files": ["inputs/case27-terms-checkpoint.json"],
+      "files": [
+        "inputs/case27-terms-checkpoint.json"
+      ],
       "expectations": [
         "Reads the supplied seven-message snapshot and retains Circuit Notes' genuine interest expressed by representative Avery",
         "Reconstructs the pricing sequence: USD 42 CPM on verified 28-day views, then the creator's USD 4,200 fixed quote, then Mira's EUR 2,800 counteroffer for one 75-105 second YouTube mid-roll with post-publication payment",
@@ -418,7 +434,9 @@
       "trigger": "should-trigger",
       "prompt": "请根据所给邮件，整理一份简短的运营交接：截至快照时点，这项合作谈到哪里了、目前价格和合作条件是什么、依据是什么、接下来主要卡在哪里。只使用所给材料，不访问外部系统、不发送消息、不修改记录。",
       "expected_output": "A later point-in-time handoff that preserves the explicitly accepted terms, distinguishes them from unresolved terms, and locates the present logistics blocker without overstating fulfillment.",
-      "files": ["inputs/case28-terms-checkpoint.json"],
+      "files": [
+        "inputs/case28-terms-checkpoint.json"
+      ],
       "expectations": [
         "Reads the complete thirteen-message snapshot and identifies Avery's explicit acceptance on July 12 of EUR 2,800 for one 75-105 second YouTube mid-roll and payment after publication",
         "Treats the CPM and USD fixed-price quotes as history, not current accepted pricing; preserves currency and scope without an unsupported cross-currency discount calculation",
@@ -434,7 +452,9 @@
       "trigger": "should-trigger",
       "prompt": "运营要接手安排这次合作，请根据邮件整理当前谈好的内容，以及安排时必须注意的条件和仍需确认的问题。简洁清楚即可。只使用所给材料，不访问外部系统、不发送消息、不修改记录。",
       "expected_output": "A concise handoff that preserves the complete known package across messages, including exclusions and timing constraints, while separating agreement from missing fulfillment evidence.",
-      "files": ["inputs/case29-distributed-conditions.json"],
+      "files": [
+        "inputs/case29-distributed-conditions.json"
+      ],
       "expectations": [
         "Reads all eleven messages and preserves EUR 320 for one YouTube integrated segment up to 100 seconds; more videos were an inquiry, while Kai explicitly prefers one first",
         "Retains the description link, discount code, hashtags, brand tag and pinned comment, plus the explicit exclusions of a product picture in the video cover and brand name in the video title",
@@ -450,7 +470,9 @@
       "trigger": "should-trigger",
       "prompt": "请看这段邮件往来，帮运营判断目前进展，并准备下一封英文跟进草稿。不要逐封复述，邮件要自然、简短，能推动对方给出有用回复。只使用所给材料，不访问外部系统、不发送消息、不修改记录。",
       "expected_output": "A conversation-aware status assessment and useful continuation draft that retains prior genuine interest, addresses the unanswered commercial question, and avoids restarting or overcommitting the opportunity.",
-      "files": ["inputs/case30-continuation.json"],
+      "files": [
+        "inputs/case30-continuation.json"
+      ],
       "expectations": [
         "Reads all seven messages and retains Noel's explicit interest as Frame Studio's representative; the later receipt request neither erases that interest nor answers the pricing question",
         "Recognizes that the visible July 17 acknowledgement is signed Nora despite the Mira send_name snapshot; CC and signature show participation but do not prove a formal current-owner transfer",
@@ -458,6 +480,83 @@
         "Drafts a concise English continuation acknowledging the existing exchange and focusing on the material unanswered rate/package question, optionally inviting a natural content angle; does not restart by asking whether they are interested",
         "Keeps a sample trial optional and distinct from confirmed paid cooperation; does not demand private shipping information or a complete contract as a prerequisite to a preliminary reply",
         "Uses an observed participant or a placeholder for the draft signature without asserting unverified formal ownership; does not treat send_status=0 as proof of delivery or failure and does not claim the draft was sent"
+      ]
+    },
+    {
+      "id": 31,
+      "category": "open-entry-to-automation",
+      "trigger": "should-trigger",
+      "prompt": "我刚装好这个红人营销经理，想试试看，应该从哪里开始？",
+      "expected_output": "Discover the current intent without presuming a new campaign, then follow the user into improving their existing workflow.",
+      "files": [],
+      "expectations": [
+        "Invites the user to describe a goal or problem; optional examples cover different kinds of help without making a fixed menu mandatory",
+        "Does not assume first installation means a new campaign or an inexperienced marketer",
+        "Keeps the opening proportionate and defers campaign-specific intake and tool setup until needed"
+      ],
+      "followups": [
+        {
+          "prompt": "我们团队已经做了两年红人营销，有自己的 SOP。现在最费时间的是每天翻表格和邮箱，整理谁该跟进、谁回复了。想把这段自动化，选人和谈判还是我们自己做。",
+          "expectations": [
+            "Adapts to an experienced team and the named follow-up workflow rather than restarting a campaign brief",
+            "Starts with the existing SOP and sources, preserves selection and negotiation with the team, and proposes a small useful automation scope",
+            "Requests only the next necessary workflow or access details and does not claim anything is running"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "category": "sop-then-automation-scope",
+      "trigger": "should-trigger",
+      "prompt": "我们三个人跟达人，各自记进度，经常交接漏事。请读这份现有做法，先整理成一份简短、能用的 SOP 给团队讨论。",
+      "expected_output": "Deliver a practical SOP based on the supplied process, then distinguish a later automation proposal from deployment.",
+      "files": [
+        "inputs/case32-workflow.md"
+      ],
+      "expectations": [
+        "Reads the actual workflow and produces a usable SOP, including ownership, update timing, handoff and exceptions",
+        "Preserves the current shared sheet and mailbox, distinguishes proposed fixes from already approved rules",
+        "Finishes the requested document without making automation deployment or authentication a prerequisite"
+      ],
+      "followups": [
+        {
+          "prompt": "可以，接下来想自动生成每天的待办，暂时由我们自己发邮件。我们能提供每天导出的表格和邮件 CSV，还没有邮箱接口和定时运行环境。先说清楚怎么试跑、怎么看结果正确。",
+          "expectations": [
+            "Uses the established SOP and scopes automation to a daily internal queue, with no external sends",
+            "Offers a bounded file-based pilot and compares expected versus produced tasks; checks duplicate/replied/declined cases",
+            "Separates a manual pilot using exports from unattended daily operation and identifies the missing scheduler or input feed without blocking the proposal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "category": "industry-practice-consultation",
+      "trigger": "should-trigger",
+      "prompt": "我想先了解行业通常怎么做：YouTube 付费合作里，报价、内容使用权和独家条款一般怎么一起谈？现在没有具体项目。",
+      "expected_output": "Answer the practical industry-method question as a complete consultation, with context and evidence limits.",
+      "files": [],
+      "expectations": [
+        "Explains the relationship between fee, deliverables, usage rights and exclusivity in practical terms",
+        "Distinguishes common approaches from universal standards and avoids invented current price benchmarks",
+        "Does not require a campaign brief, brand login or automation implementation to answer this consultation"
+      ]
+    },
+    {
+      "id": 34,
+      "category": "existing-automation-diagnosis",
+      "trigger": "should-trigger",
+      "prompt": "我们的自动跟进流程会重复生成待办。请根据这段运行记录找出问题，并给出最小修正和验证办法。",
+      "expected_output": "Diagnose the supplied workflow failure, preserving its scope and proposing a verifiable minimal correction.",
+      "files": [
+        "inputs/case34-automation.json"
+      ],
+      "expectations": [
+        "Connects duplicate tasks to stale state after a successful task creation and failed checkpoint, rather than assuming duplicate creators or recommending more outreach",
+        "Uses current reply state before retrying; creator 2 must stop follow-up after replying",
+        "Proposes a stable task key and readback/reconciliation on retry, with tests for the shown failure and no duplicate task creation",
+        "Distinguishes a proposed fix from implemented or deployed automation"
       ]
     }
   ]
