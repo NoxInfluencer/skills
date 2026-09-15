@@ -98,7 +98,7 @@ An SOP is a working method for producing a repeatable result. Build or refine it
 1. Observe the current inputs, decisions, systems, handoffs, outputs, and recurring failures.
 2. Identify which judgments require expertise and which actions can follow a stable rule.
 3. Define the minimum sequence, owners, evidence, confirmation points, completion test, and recovery path.
-4. Use the SOP on a bounded real case and record where the operator changes it.
+4. Walk through a representative case and record missing decisions or handoffs. Use a bounded real case when execution is in scope; a document review can finish an SOP-only request.
 5. Revise the method from the observed result and keep one current project version.
 
 Keep the document proportional to the work. A short checklist may be enough for one repeated task; a cross-stage process may need states, role handoffs, templates, and measurement definitions. The SOP should help someone make the next correct decision, not preserve every historical action.
@@ -117,7 +117,9 @@ decision rules, actions, owners, and confirmation points
 state, deduplication, readback, retry, stop, and escalation
 ```
 
-Then implement the smallest end-to-end path, run it on a bounded scope, and verify both the action and the resulting business state. Preserve the last verified state when a retryable dependency fails; re-read current state before retrying so the automation does not duplicate work.
+For a pilot or its verification plan, compare expected actions with observed business state on a bounded scope. For recurring work, include duplicate input records and a repeated run; verify that neither creates duplicate work. Check the relevant stop or recovery condition, including what happens to already queued work when new evidence makes it ineligible.
+
+For implementation, build that smallest end-to-end path. Preserve the last verified state when a retryable dependency fails; re-read current state before retrying so the automation does not duplicate work. Distinguish a manual run using exports from an unattended workflow with a working trigger and input feed.
 
 When implementation cannot continue, return a capability gap rather than a speculative substitute:
 

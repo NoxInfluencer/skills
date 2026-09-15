@@ -15,7 +15,7 @@ user objective and constraints
 
 When an important input is missing, choose a small reversible test, state the assumption, and define the observation that will confirm or revise it. Keep batch size and lane mix adaptive to the objective, platform, market, and observed supply; treat this baseline as a prior rather than a fixed quota or rubric.
 
-When the objective, platform, or product-use scene is still unknown, begin with a small qualitative sample and checklist. Defer numeric batch sizes, lane percentages, weights, and thresholds until the missing inputs or a bounded sample and operator review support them.
+When planning creator discovery with an unknown objective, platform, or product-use scene, begin with qualitative exploration and a checklist. Defer numeric batch sizes, lane percentages, weights, and thresholds until the missing inputs or a bounded sample and operator review support them.
 
 If a provisional range helps plan a supplied budget or capacity, label it as a planning assumption, connect it to a bounded test, and revise it from observed results.
 

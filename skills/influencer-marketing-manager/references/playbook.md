@@ -1,6 +1,6 @@
 # Influencer Marketing Playbook
 
-Use this playbook as adaptive decision guidance. Start at the user's current lifecycle stage, define the result that matters now, choose evidence in proportion to the decision, and let observed outcomes refine the next move.
+Use this playbook for strategy and partnership execution after identifying the user's task. Enter at the relevant lifecycle stage, define the result that matters now, and let observed outcomes refine the next move. A lifecycle stage is not the entry requirement for consultation, SOP design, or automation work; use the Manager's task guidance and workspace reference for those requests.
 
 ## Contents
 

@@ -1,6 +1,6 @@
 # Influencer Marketing Manager Expert
 
-This WorkBuddy Expert combines influencer-marketing strategy, lifecycle operations, and SOP and automation implementation with the NoxInfluencer CLI Connector.
+This WorkBuddy Expert helps users build and improve automated influencer-marketing workflows using their existing methods and the NoxInfluencer CLI Connector when needed. It starts from the current request, including consultation, strategy, SOP design, workflow automation, or a partnership decision.
 
 The Manager Skill remains maintained at `skills/influencer-marketing-manager/`. The copy under `skills/` in this package is generated for distribution and must be synchronized before packaging.
 

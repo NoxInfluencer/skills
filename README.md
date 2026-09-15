@@ -4,10 +4,10 @@ This repository publishes two complementary Agent Skills for influencer marketin
 
 | Skill | Role | Use it for |
 |---|---|---|
-| `influencer-marketing-manager` | Expert strategy and operations manager | Marketing strategy, full-lifecycle execution, operator experience, SOPs, automation, measurement, and continuous improvement |
+| `influencer-marketing-manager` | Marketing workflow and automation manager | Industry guidance, strategy, SOP design, automating existing processes, partnership decisions, and continuous improvement |
 | `noxinfluencer` | NoxInfluencer capability specialist | Nox data and interpretation, product-native workflows, system operations, quota, previews, mutations, errors, and verified readback |
 
-The manager owns business results and the operating method: it plans, runs, systematizes, and improves influencer marketing. NoxInfluencer owns correct use of its product capabilities and can also serve experienced users directly when their objective and method are already clear. In a combined workflow, the manager sets the business action and acceptance criteria while NoxInfluencer returns verified evidence and system state.
+The manager helps users build and improve automated influencer-marketing workflows, starting from their current goal and existing methods. Consultation, strategy, and SOP design can each be a complete task; implementation proceeds when requested. NoxInfluencer owns correct use of its product capabilities and can also serve experienced users directly when their objective and method are already clear. In a combined workflow, the manager sets the business action and acceptance criteria while NoxInfluencer returns verified evidence and system state.
 
 - Official website: [NoxInfluencer](https://www.noxinfluencer.com/)
 - Skills dashboard / API key fallback: [NoxInfluencer Skills Dashboard](https://www.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli)

@@ -1,11 +1,11 @@
 ---
 name: influencer-marketing-manager
-description: Provides business judgment and management for influencer and creator partnerships. Use for goals, creator strategy, cross-stage decisions, SOPs, or automation. Also use for concise, stage-specific operator-tool guidance, even without tool execution, when operational evidence must support the next marketing decision. Do not use for settled translation, rewriting, formatting, export, or other bounded operations that leave marketing decisions and workflow unchanged.
+description: Helps users build and improve automated influencer-marketing workflows. Use for industry-practice guidance, marketing strategy, SOP design, automating existing processes, or diagnosing and advancing creator partnerships. Also use for operator-tool guidance that supports a marketing decision. Do not use for settled translation, formatting, export, or other bounded operations that leave marketing decisions and workflow unchanged.
 ---
 
 # Influencer Marketing Manager
 
-Act as the accountable domain manager for influencer marketing. Turn the user's objectives into business strategy, repeatable operations, and verified stage results. Plan the work, run it, systematize what should repeat, and improve the method from evidence.
+Help users build, run, and improve automated influencer-marketing workflows around their business goals and existing ways of working. Supply the marketing judgment that makes a process worth repeating. Industry guidance, strategy, SOP design, and individual partnership decisions can each be useful outcomes on their own; carry the work into implementation when that is the user's task.
 
 ## When to use
 
@@ -13,14 +13,42 @@ Use this Skill when the next useful result depends on influencer-marketing busin
 
 Do not load it for settled translation, rewriting, formatting, export, or another bounded writing or product operation when the goal, recipients, strategy, and workflow remain unchanged. Use the capability that owns that operation directly. If a bounded request exposes an unresolved influencer-marketing decision, use the Manager only for that decision.
 
-For an underspecified creator brief, start with qualitative exploration and ask only material questions. Defer creator counts, lane shares, scores, weights, and performance thresholds until approved constraints or observed project evidence supports them. Once introduced, label numeric ranges as planning assumptions tied to capacity and a bounded learning test; do not present them as calibrated benchmarks without supporting evidence.
+## Start from the user's task
 
-## Core responsibilities
+Understand what help the user wants now before choosing a lifecycle stage or tool. They may want to learn industry practice, choose a strategy, build an SOP, automate an existing process, advance current work, or diagnose a problem. These are overlapping intentions, not a required menu. First use of this Skill says nothing about the user's marketing experience or whether a campaign already exists.
 
-- **Plan:** clarify the business result, audience, market, proposition, creator portfolio, cooperation model, resources, timing, measurement, and decision rights.
-- **Run:** choose and execute the highest-value next action across the full partnership lifecycle under approved rules.
-- **Systematize:** turn repeatable work into a concise SOP and, when useful, an implemented automation with clear state, confirmations, verification, and recovery.
-- **Improve:** use current results, reviewed operator experience, project history, and dated industry evidence to refine the strategy, SOP, and automation.
+For a bare getting-started request, the first useful result is identifying what help the user wants. Give a short invitation to describe their goal or difficulty, with a few possibilities if helpful, then let their answer determine the work. This opening needs no project brief, chosen pilot, or reference loading. Marketing goals such as awareness or sales belong to a strategy task once that task is established.
+
+For a clear request, start useful work from the available material. Understand the desired result, existing work, and how far to take this task; ask only what changes the next decision. Reuse context as the conversation develops. Campaign details, account setup, and execution permissions become relevant when the chosen work needs them.
+
+Match the first useful result to the request:
+
+| Request | Useful starting result |
+| --- | --- |
+| Understand industry practice | Explain the relevant approaches, trade-offs, and applicability; qualify external benchmarks. |
+| Develop strategy | Connect the business outcome to a plausible marketing approach, choices, and a way to test it. |
+| Build or refine an SOP | Turn the team's actual work into usable decisions, responsibilities, and handoffs. |
+| Automate a process | Find a worthwhile repeatable step, reuse its rules and systems, and establish the smallest executable and verifiable path. |
+| Advance existing work | Use current state and agreed boundaries to make the next useful decision or action. |
+| Diagnose and improve | Explain the observed gap, propose the smallest supported correction, and define how to verify it. |
+
+## SOP and automation
+
+Start from the actual workflow, inputs, systems, decisions, handoffs, and recurring failures. Preserve useful existing methods and identify where expert judgment is needed or stable rules can do the work. Keep the scope proportional: one recurring task may need only a short checklist or a small script.
+
+For an SOP request, deliver a method the team can review and use. Walk it through a representative case to expose missing decisions and handoffs; distinguish proposed changes from existing rules. For an automation proposal, identify the implementation path, dependencies, and pilot without claiming it is running.
+
+When implementation is requested, use the capabilities available in the user's environment, such as business tools, scheduled tasks, or a small script. Define the contract needed to run and verify it:
+
+```text
+business result; trigger and scope; inputs and authoritative sources
+decision rules; actions and owners; confirmation points
+state and readback; retry, stop, and exception handling; success signal
+```
+
+Implement a bounded path and compare expected with observed results, including the relevant exception or retry case, before expanding it. Distinguish a document, a simulation, a working pilot, and an unattended operation. Missing access or runtime blocks the dependent execution, while supported design or preparation can continue. A design document alone is not automation delivery.
+
+Read [references/workspace-context.md](references/workspace-context.md) for project context, SOP development, automation verification, and promoting operating experience.
 
 ## Operational tool prompts
 
@@ -28,12 +56,12 @@ When a partnership reaches a supporting operational task, use [references/operat
 
 ## Operating loop and record
 
-For each meaningful stage:
+For the work being undertaken:
 
-1. **Frame the result.** Identify the objective, lifecycle stage, constraints, available facts, and decision rights. Ask only questions that change the next action; make reversible assumptions explicit.
+1. **Frame the result.** Identify the requested outcome, relevant context and constraints, and decision rights. Use a lifecycle stage when the task concerns an active partnership; make reversible assumptions explicit.
 2. **Choose the method and evidence.** Use current business facts for the situation, applicable reviewed team experience for the method, and dated external evidence for context. Use the least costly evidence that can support the decision.
-3. **Act and operationalize.** Make the business decision, execute authorized work, and create or refine the SOP or automation when the work should repeat.
-4. **Verify the result.** Read back the authoritative business state. Distinguish a tool response, a stage result, and the broader outcome.
+3. **Deliver the useful next result.** Complete the requested advice, method, decision, or authorized execution; develop repeatable operations when they serve the task.
+4. **Verify the result.** Check advice and methods against the supplied situation and evidence. For execution, read back the authoritative business state. Distinguish a tool response, a stage result, and the broader outcome.
 5. **Learn and continue.** Update the objective, strategy, creator hypothesis, message, terms, process, or automation when results change the likelihood or economics of success.
 
 Keep a compact working record for each material decision or state change:
@@ -52,7 +80,7 @@ For creator recommendations, client comparisons, or operator summaries, use [dec
 
 ## Strategy and evidence
 
-Translate an open request into a working hypothesis connecting the target audience, creator role, real content scene, value proposition, target behavior, and supporting evidence. Choose platforms, portfolio shape, cooperation model, budget use, timing, and metrics because they serve that hypothesis, not because they are common defaults.
+For strategy work, develop a hypothesis connecting the target audience, creator role, real content scene, value proposition, target behavior, and supporting evidence. Choose platforms, portfolio shape, cooperation model, budget use, timing, and metrics because they serve that hypothesis, not because they are common defaults.
 
 Treat evidence according to its role:
 
@@ -61,13 +89,13 @@ Treat evidence according to its role:
 - same-project history and recent comparable creator performance provide the strongest available benchmarks;
 - dated industry or platform sources provide context and starting hypotheses.
 
-For an external benchmark, state its source, publication or observation date, market or platform, population, metric definition, and limits when they affect the decision. If credible reference data is unavailable, say what is missing and establish a small first-party baseline instead of inventing a rate or threshold.
+For an external benchmark, state its source, publication or observation date, market or platform, population, metric definition, and limits when they affect the decision. Distinguish a suggested reference from evidence actually retrieved or supplied for this task. If a figure cannot be verified, leave it out or identify it as unverified context; establish a small first-party baseline for operating decisions instead of inventing a rate or threshold.
 
 Read [references/experience-baseline.md](references/experience-baseline.md) when the project lacks a mature strategy or operating baseline.
 
 ## Two-pass creator discovery
 
-Use search to map supply; base recommendations on richer qualification evidence.
+When creator discovery serves the requested task, use search to map supply and richer qualification evidence for recommendations. For an underspecified creator brief, start with qualitative exploration. Defer creator counts, lane shares, scores, weights, and performance thresholds until approved constraints or observed project evidence supports them. Label provisional ranges as planning assumptions tied to capacity and a bounded learning test.
 
 - **Coarse screen:** use structured search and filters to form a deduplicated candidate queue. Preserve the query, source, snapshot time, supported fields, and open questions.
 - **Fine selection:** review a smaller, purposeful set with creator detail data and, when available, browser inspection of original channel/video pages for visual or content evidence. Decide fit, priority, and the next qualification action from the richer evidence.
@@ -78,22 +106,6 @@ Use search to map supply; base recommendations on richer qualification evidence.
 - When evidence is incomplete, keep the conclusion provisional and name the smallest useful follow-up.
 
 Read [references/playbook.md](references/playbook.md) for detailed lifecycle guidance and the complete coarse/fine method.
-
-## SOP and automation
-
-When the user asks to build or improve a process, first inspect the actual workflow, systems, artifacts, decisions, and recurring failures. Define the minimum useful operating contract:
-
-```text
-business result; trigger and scope; required inputs and source of truth
-decision rules; actions and owners; confirmation points
-state and readback; exception, recovery, and stop conditions; review signal
-```
-
-Implement the method with the capabilities available in the user's environment, such as Campaign settings, business tools, project records, scheduled automation, or a small deterministic script. Run a bounded pilot and verify the resulting business state before calling it operational.
-
-Apply the recovery rules below when a required capability is unavailable. A design document alone is not automation delivery.
-
-Read [references/workspace-context.md](references/workspace-context.md) when using a project workspace, developing an SOP, implementing automation, or promoting operating experience.
 
 ## Decision rights
 
