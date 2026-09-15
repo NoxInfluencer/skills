@@ -19,6 +19,7 @@ Use this reference for NoxInfluencer marketing operations. Discover parameters w
 | Query, import, or update NoxInfluencer CRM channels | `crm list/get/update`, `crm import-template/import-file/import-report`, `crm groups ...` |
 | Manage CRM labels for batch tagging | `crm labels list/create/update/delete` |
 | Manage product-center records, images, and tags | `product list/get/create/update/delete`, `product image upload`, `product tags ...` |
+| Track shipped creator samples or import shipment spreadsheets | `logistics list/get/carriers/options`, then `create/update/delete` or `import-template/import-file/import-report`; `export` downloads saved tracking |
 | Manage Shopify affiliate campaigns and members | `affiliation stores list`, then `affiliation campaigns ...` / `affiliation members ...`; use member template/import and campaign export for files |
 | Search TikTok Shop Creator Marketplace or manage private-message projects | `tiktok-shop bindings list`, then `creator-search ...` / `projects ...` |
 | Send standalone platform email outreach to creators | `email create`, then `email recipients add/replace` with search `data.items[].id` or creator read `data.creator_id` in the recipient `creator_id` field, `email content save`, `email sender list [task_id]` before optional `email sender update`, optional `email attachments ...`, then `email send` or `email schedule` |
@@ -51,6 +52,10 @@ Use this reference for NoxInfluencer marketing operations. Discover parameters w
 - Message draft/history attachments and message-template attachments are separate. Use `message attachments list/upload/download/delete` for thread files and `message templates attachments list/upload/download/delete` for reusable template files. Never reuse IDs across the two paths. One template supports at most 2 private attachments, max 10MB each.
 - Use `file image upload` for public inline images in approved email/message `html_body`. The returned `file_url` is public and is not a private email, message, or template attachment.
 - `crm add-to-email` is only for adding existing NoxInfluencer CRM channels to an existing email task. Do not treat CRM as required when the user already has creator IDs or explicit email addresses.
+
+## Sample Logistics
+
+Use native `logistics` for SaaS sample tracking; it does not purchase shipping labels or dispatch parcels. Single registration requires a resolved creator and also adds that creator to CRM. Check current `pricing tools` before paid registration, effective updates, or imports; SaaS logistics entitlement/quota remains separate. Imports may partially succeed: preserve success/failure counts and use the returned `report_url` with `logistics import-report` to fix only failed rows. Exports and reports download directly, without shared export polling.
 
 ## Affiliate Marketing
 
