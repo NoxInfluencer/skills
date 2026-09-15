@@ -2,6 +2,8 @@
 
 Use these evaluations to answer: did the user task improve, where did it fail, what should change next, and did the revision regress? Packaging checks alone do not establish task quality.
 
+The [2026-09-15 native subagent review](review-2026-09-15-native-forward.md) adds three independent conversations with six user turns and an implemented local follow-up pilot. The parent separately verified its generated CLI through repeated runs, changed reply state, a later follow-up and conflicting-input recovery. The exact requests and synthetic inputs are retained for repetition. These writable native probes supplement the 34 canonical cases; they are not a score comparison with the earlier SDK runtime, and the Skill is unchanged.
+
 The [2026-09-15 workflow-entry review](review-2026-09-15-workflow-entry.md) retains the Manager's open entry and workflow-automation positioning after isolated conversation comparison and focused regression. Cases 31–34 add two multi-turn probes plus consultation and automation diagnosis. It records the repaired input-isolation defect, raw-answer excerpts and the still-unresolved benchmark-evidence issue in case 15; it does not claim every business outcome passed.
 
 Case 20 uses the fictional names ExamplePower and ExamplePack P1. Prepare fresh fixtures when case labels or assertions change. Commit references follow the published history; recorded scores and fixture fingerprints retain their original run values. Regrading older answers against renamed assertions requires explicit label normalization.
