@@ -558,6 +558,40 @@
         "Proposes a stable task key and readback/reconciliation on retry, with tests for the shown failure and no duplicate task creation",
         "Distinguishes a proposed fix from implemented or deployed automation"
       ]
+    },
+    {
+      "id": 35,
+      "category": "strategy-with-supplied-industry-evidence",
+      "trigger": "should-trigger",
+      "prompt": "We are a new UK pet-care brand with a GBP 40,000 six-month creator budget and no campaign history. Our product is a premium joint supplement sold by subscription. Build the influencer-marketing strategy, including creator roles, cooperation approach, budget logic, measurement, and any useful industry reference data. Take the work forward rather than giving me a generic list of tactics.",
+      "expected_output": "Build a useful strategy using the supplied report accurately and proportionately, with a project learning baseline for decisions the report cannot support.",
+      "files": [
+        "inputs/case35-pet-report.md"
+      ],
+      "expectations": [
+        "Reads the supplied report and uses its decision-relevant observations, identifying the fictional panel, publication date, UK sample and observation period; adding unsupported external figures does not count as evidence use",
+        "Keeps the observed 2.2% session-to-first-order rate separate from the 3.1% planning scenario; explains that the mixed volunteer pet-care sample is a starting comparison for the subscription supplement, not a promised project outcome",
+        "If using retention, preserves 42 of the 60 subscriptions eligible for a 90-day decision, rather than dividing by all 80 first subscriptions or asserting observed lifetime value",
+        "Connects the available evidence and gaps to a bounded strategy, complete budget logic and measurement of acquisition and retention; does not manufacture creator prices, CAC, incremental lift or profit from missing cost and margin data",
+        "Delivers the strategy without withholding all numeric evidence or treating the synthetic excerpt as an independently verified real-world industry report; distinguishes scenario assumptions from observations"
+      ]
+    },
+    {
+      "id": 36,
+      "category": "industry-evidence-transfer",
+      "trigger": "should-trigger",
+      "prompt": "我们做美国健身订阅 App，首月每个付费用户的贡献毛利是 18 美元，准备拿 12,000 美元试红人合作。请读这段报告，判断它能支持哪些投放假设，并给出预算试跑和验收办法。",
+      "expected_output": "Transfer source-grounded reasoning to another market and funnel, using observed unit economics and keeping forecasts, full costs and retention uncertainty distinct.",
+      "files": [
+        "inputs/case36-app-report.md"
+      ],
+      "expectations": [
+        "Reads the supplied fictional US app panel and identifies its publication date, sample and observation period when applying the findings",
+        "Uses 450 first paid subscriptions divided by 7,500 attributed installs as the observed 6.0% rate; keeps the 8.0% scenario distinct from observed performance and does not substitute visits or video views for installs",
+        "Derives USD 60 in creator fees per first paid subscription from USD 27,000 divided by 450, preserving excluded costs; compares that fee-only cost with the supplied USD 18 first-month contribution without claiming known lifetime profitability",
+        "Proposes a bounded use of the USD 12,000 budget with attribution, complete acquisition cost and renewal measurements; labels proposed targets or allocations as trial assumptions rather than panel facts or guaranteed outcomes",
+        "Uses the supplied evidence instead of replacing the requested decision with generic advice, invented industry statistics, live-system claims or mandatory account setup"
+      ]
     }
   ]
 }
