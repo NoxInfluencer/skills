@@ -27,13 +27,16 @@ Start with one primary business outcome and, when useful, one or two supporting 
 
 Build the initial plan around the decisions that change execution:
 
-- market, language, audience, platform, and content format;
-- creator roles and portfolio logic rather than a follower-size list;
+- market and audience, using product research and comparable competitor activity to form hypotheses;
+- platform and format, matching the explanation needed, audience habits, content lifetime, and path to the desired action;
+- creator roles: product feedback, launch discovery, repeated exposure, or deeper purchase guidance, according to the current stage;
 - value exchange and cooperation model;
 - complete budget, timing, capacity, and material constraints;
 - target behavior, observation window, attribution method, and success signal.
 
 Use complete cooperation cost for portfolio choices: creator fee, rights, exclusivity, product and logistics, tax and payment, production or localization, measurement, and a project-supported risk allowance. Allocate early work to learning as well as delivery when the project has no reliable history.
+
+For a product that needs demonstration, test a review or tutorial; for an immediately visible benefit, test a short demonstration or natural routine integration. A timely promotion may use a short-lived placement, while a searchable explanation can serve later buyers. Check current platform support, creator evidence, and the landing or purchase experience. Compare a bounded set of viable options and concentrate effort where the observed outcome supports it. Coordinate useful brand-account replies and content reuse within the agreed rights.
 
 When the user asks for industry experience or reference data, retrieve a current credible source when possible and state its publication date, covered market or platform, population, metric definition, and important limits. Use industry data to frame hypotheses and plausible ranges. Let same-project history, recent comparable creator evidence, and a bounded current test establish operating thresholds.
 

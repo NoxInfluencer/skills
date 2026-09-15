@@ -14,7 +14,7 @@ from pathlib import Path
 from typing import Any
 
 DEFAULT_CASE_IDS = (9, 10, 12, 13, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 37, 38)
-MANUAL_REVIEW_CASE_IDS = {9, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30}
+MANUAL_REVIEW_CASE_IDS = {9, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 37, 38, 39, 40, 41, 42, 43}
 SKILL_NAME = "influencer-marketing-manager"
 
 
@@ -90,30 +90,6 @@ return {
   score: hits / checks.length,
   reason: `operational tool decisions: ${hits}/${checks.length}`,
 };
-""".strip(),
-    37: r"""
-const text = typeof output === 'string' ? output : JSON.stringify(output);
-const checks = [
-  /合同|contract/i.test(text) && /寄样|样品|sample|access/i.test(text),
-  /Brief|简报/i.test(text) && /2\s*(?:[-–~至到]\s*4|到\s*4)|两到四|2–4/i.test(text),
-  /脚本|初稿|draft|script/i.test(text) && /时间轴|时间点|timestamp|具体修改|consolidated/i.test(text),
-  /发布|publication|publish/i.test(text) && /回读|readback|公开资产|identifier/i.test(text),
-  /复盘|review|数据/i.test(text) && /owner|负责人|责任人|截止|due|证据|evidence/i.test(text),
-  !/我(?:已|已经)(?:发送|寄出|发布|完成)|(?:I\s+have|I've)(?:\s+already)?\s+(?:sent|shipped|published|completed)/i.test(text),
-];
-return {pass: checks.every(Boolean), score: checks.filter(Boolean).length / checks.length, reason: `lifecycle checks: ${checks.filter(Boolean).length}/${checks.length}`};
-""".strip(),
-    38: r"""
-const text = typeof output === 'string' ? output : JSON.stringify(output);
-const checks = [
-  /曝光|播放|reach|impression/i.test(text) && /点击|click/i.test(text) && /订单|order/i.test(text),
-  /PV/i.test(text) && /UV/i.test(text) && /IP/i.test(text),
-  /分母|denominator/i.test(text) && /时间窗口|观察窗口|observation window|date window/i.test(text),
-  /归因|attribution|退款|refund/i.test(text) && /核对|检查|reconcile|readback/i.test(text),
-  /暂停|限制|bounded|小范围|重查|recheck/i.test(text),
-  !/行业(?:标准|基准).{0,20}\d|industry benchmark.{0,20}\d/i.test(text),
-];
-return {pass: checks.every(Boolean), score: checks.filter(Boolean).length / checks.length, reason: `anomaly checks: ${checks.filter(Boolean).length}/${checks.length}`};
 """.strip(),
     20: r"""
 const text = (typeof output === 'string' ? output : JSON.stringify(output)).replace(/[*_`]/g, '');
@@ -325,7 +301,7 @@ def run_self_test() -> None:
     tests = create_tests({"case_ids": list(DEFAULT_CASE_IDS)})
     assert [test["metadata"]["case_id"] for test in tests] == [9, 10, 12, 13, 19, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 37, 38]
     manual_tests = [test for test in tests if test["metadata"].get("outcome_review") == "manual"]
-    assert [test["metadata"]["case_id"] for test in manual_tests] == [9, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+    assert [test["metadata"]["case_id"] for test in manual_tests] == [9, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 37, 38]
     assert all(test["assert"][0]["metric"] == "response-evidence" for test in manual_tests)
     assert all(all(item["metric"] != "task-outcome" for item in test["assert"]) for test in manual_tests)
     assert not _run_javascript(RESPONSE_EVIDENCE_ASSERTION, "  ")["pass"]
@@ -353,17 +329,6 @@ def run_self_test() -> None:
         "There is no fixed creator count, no weighted score, and no performance threshold yet."
     )
     assert _run_javascript_assertion(10, good_cold_start)["pass"]
-    good_lifecycle = (
-        "合同和寄样由负责人核对，Brief 包含品牌、2-4 个卖点、制作与发布要求。"
-        "脚本初稿在发布时间前按时间轴给一次性修改意见，发布后回读公开资产 identifier 并复盘数据。"
-        "每个交接记录 owner、due、证据和 blocker，当前没有发送或发布。"
-    )
-    assert _run_javascript_assertion(37, good_lifecycle)["pass"]
-    good_anomaly = (
-        "分别检查曝光、点击、订单和退款，核对 PV UV IP 定义、分母、观察窗口、格式和归因路径。"
-        "先做源系统 readback，把问题标为 tracking 或 attribution，暂停放量，做一次 bounded recheck。"
-    )
-    assert _run_javascript_assertion(38, good_anomaly)["pass"]
     assert not _run_javascript_assertion(
         10,
         good_cold_start + "\nQueue 20-30 creators in the first batch.",

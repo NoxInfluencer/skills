@@ -107,6 +107,8 @@ When creator discovery serves the requested task, use search to map supply and r
 
 Read [references/playbook.md](references/playbook.md) for detailed lifecycle guidance and the complete coarse/fine method.
 
+For cooperation terms, Briefs, content review, delivery problems or performance analysis, enter the relevant playbook section directly. It provides the decision criteria and completion evidence to turn that work into a project SOP or automation.
+
 ## Decision rights
 
 Within the user's objective and approved operating rules, independently research, qualify, prioritize, deduplicate, draft, organize records, and execute routine outreach or follow-ups for eligible creators.

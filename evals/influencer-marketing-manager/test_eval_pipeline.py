@@ -29,6 +29,17 @@ class ConversationContractTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "requires run_conversations"):
                 create_tests({"case_ids": [31]})
 
+    def test_handbook_cases_keep_decisions_for_review(self):
+        for case_id in (37, 38, 39, 40, 42, 43):
+            with self.subTest(case_id=case_id):
+                case, = create_tests({"case_ids": [case_id]})
+                self.assertEqual(case["metadata"]["outcome_review"], "manual")
+                self.assertNotIn("task-outcome", [item["metric"] for item in case["assert"]])
+                for criterion in case["metadata"]["expectations"]:
+                    self.assertNotIn(criterion, case["vars"]["request"])
+        with self.assertRaisesRegex(ValueError, "requires run_conversations"):
+            create_tests({"case_ids": [41]})
+
 
 class FixtureTests(unittest.TestCase):
     def setUp(self):

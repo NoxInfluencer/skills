@@ -48,7 +48,9 @@ Turn the hypothesis into structured dimensions:
 - rough reach or performance range;
 - contact or cooperation signals when available.
 
-Use the available creator-intelligence capability at runtime for current syntax, fields, quotas, and identifiers. Run a few complementary queries when one narrow query could hide adjacent supply, and keep each query's purpose visible.
+Build queries from precise product, audience, and scene terms, then expand through the problem solved, adjacent interests, and comparable products. Competitor collaborations can reveal useful creator types and vocabulary. Video search can find an actual use scene before channel search does; check recency and deduplicate the resulting channels. Verify keyword-combination semantics with the execution capability.
+
+Use the available creator-intelligence capability at runtime for current syntax, fields, quotas, and identifiers. Keep each query's purpose visible so weak results can change the hypothesis.
 
 Use structured results to form a broad candidate queue. Apply active project must-haves and use the experienced baseline to fill gaps left by project rules. Check platform, market/language, apparent scene, basic activity, rough format mix, and obvious identity or duplicate signals—the fields the source can actually support.
 
@@ -82,6 +84,8 @@ Spend detail and browser-review effort on a smaller, purposeful subset:
 Use creator detail data and, when available, browser inspection of original channel/video pages: About, recent videos, titles, thumbnails, descriptions, comments, and visible cooperation context. This evidence tests whether the partnership will feel natural to the audience, not merely whether a row passes a filter.
 
 Review **3–5 representative recent pieces**, normally within **90 days** and with preference for continued activity within **60 days**. Separate long-form, Shorts, live replays, and other formats. Record a comparable recent view range or median, explain breakouts, and compare commercial and non-commercial content when useful.
+
+Check whether the requested creative work fits the creator's demonstrated format: a successful silent demonstration gives little evidence of skill at a spoken tutorial. Compare sponsored-content frequency and performance with ordinary content of the same format and age. Sparse uploads, abrupt growth, repetitive comments, or missing past partnerships call for context and verification; assess their cause before changing priority.
 
 Use machine output to triage rather than conclude: reconcile average views with the median or typical range, format mix, recency, and trend. Composite scores, percentiles, semantic tags, reply likelihood, cooperation or dispute fields, and contact flags are supporting signals. Establish optional-field semantics first; treat a missing or default-looking zero as unknown until the source documents it as "none." Conflicting signals earn detail or browser review of the underlying content.
 
@@ -135,17 +139,16 @@ Use follower scale for reach planning. Use recent comparable content, audience r
 
 ### 4.1 Write a credible first contact
 
-The first contact seeks a clear reply. Include:
+The first contact should make the offer easy to understand and answer. Adapt this compact outline:
 
-1. a truthful, specific reason the creator was selected;
-2. the product and the creator's real content scene;
-3. a value exchange meaningful to both parties;
-4. a proposed collaboration format at the right level of detail;
-5. one low-friction question or next step;
-6. a clear sender identity and response route.
+```text
+subject: collaboration purpose + brand + product category
+body: sender + one relevant recent scene + product link and core value
+offer: value exchange + platform/format + target window
+reply: the next needed decision, such as availability or a rate for that scope
+```
 
-Let the primary lane choose the story. Keep price, rights, exclusivity, and delivery promises within the approved brief.
-Anchor each message to one concrete, recent scene rather than a generic list of possible uses. Preserve the lane or message variant in the record so later reply quality can be compared.
+Keep promises within the approved brief. Localize to the creator's working language and plan sends around their time zone and the sender's delivery limits. Preserve the message variant for later comparison. Treat open tracking as a supporting signal; use delivery and reply state for the approved follow-up rule.
 
 ### 4.2 Prepare and send
 
@@ -170,13 +173,16 @@ For recurring monitoring, read task-level aggregate counters first and compare t
 5. Re-check creator fit, recent content, data credibility, and risk before client submission or negotiation.
 6. Choose the next action and authority; ask for confirmation when it changes a material promise.
 
+Continue the question the reply leaves open: interest needs scope, rate or availability; a generic media kit needs confirmation of this offer; a timing mismatch may yield a later window. With an agency, establish which creator and channel it represents and whether the creator has reviewed the material requirements. Use a mutually accepted secondary channel when useful, and retain important agreements in the authoritative record.
+
 Capture the terms actually stated across the following dimensions, retaining material gaps or conflicts for the current decision. Use the full package for negotiation and commitment; do not turn a preliminary review into a mandatory complete-contract checklist:
 
-- platform, format, deliverables, quantity, placement, and duration;
-- fee, currency, tax, expenses, incentives, deposit, and payment timing;
-- usage, ownership, paid media, whitelisting, territory, and duration;
-- category exclusivity and duration;
-- product, schedule, revisions, approval, cancellation, make-good, shipping, and reporting;
+- platform and exact channel, product/model, format, deliverables, quantity, placement, and duration;
+- fee, currency, tax, fees borne by each party, incentives, deposit, payment method, payee, and payment milestones;
+- ownership, organic reuse, editing, paid media/whitelisting, territory, and each permission's duration;
+- exclusivity category, channels or territory, and duration;
+- links and their placement/lifetime, codes, pinned comments, cross-posts, and content retention;
+- concept, draft and publication dates; revisions, approval, cancellation, make-good, sample terms, and reporting;
 - the user's or client's unresolved decision.
 
 An interested reply is a productive conversation result. Re-check fit and evidence before client submission; a reply does not itself establish qualification, submission eligibility, or confirmed cooperation. A confirmed cooperation requires a complete, approved package.
@@ -186,11 +192,15 @@ An interested reply is a productive conversation result. Re-check fit and eviden
 Evaluate the whole package:
 
 ```text
-complete cost = base fee + rights + exclusivity + tax + logistics + production support + payment cost
+complete cost = creator fee + commission + rights + exclusivity + product/logistics + tax/payment + production/measurement
 estimated CPV (when views are relevant) = complete cost / expected effective views
 ```
 
 Include an explicit contingency for uncertain costs or delivery risks; use any percentage only when the active project or a tested assumption supports it.
+
+Choose the exchange that fits the work: a fixed fee buys agreed deliverables; commission links compensation to attributed results; a hybrid shares production and performance risk. For commission, agree the eligible revenue or action, attribution window, refunds, and settlement. Gifting alone carries no posting obligation; product-for-content exchange requires explicit deliverables.
+
+Bind each quote to its scope, currency, date and any validity period. When it changes, compare the old and new scope, amount, currency and payment together; check elapsed time, added work, rights and product changes before proposing a trade. Offer bundles or future work only within real authority. Confirm that the contracting party and payee fit the user's payment process; choose deposit and balance milestones for the actual delivery risk and both parties' needs.
 
 Before replying, define the desired package, acceptable limits, best alternative, unresolved facts, and why each concession creates value. Trade scope, format, rights, exclusivity, timing, revisions, bundle size, or payment structure deliberately so a price movement has a corresponding change in value or risk.
 
@@ -198,21 +208,47 @@ Use current comparable evidence for market guidance. When it is absent, state th
 
 ## 7. Fulfill and publish
 
-Use one visible handoff from selection to learning:
+### 7.1 Agree the work and prepare delivery
 
-```text
-screen → invite → terms → contract → sample/access → brief → script or draft review → publish → data readback → review
-```
+Turn the accepted package into a short handoff checklist: owner, due point, required input, completion evidence, and next action or blocker. Share workload-changing Brief requirements before agreement; prepare the full Brief before production. Schedule sample/access, concept, draft review, publication, payment and reporting by their actual dependencies.
 
-At each handoff record the owner, due point, evidence, next action, and blocker. Confirm the recipient and approved terms before sending a valuable sample. Before publication, check the contract and Brief together. After publication, read back the public asset and its identifier before treating delivery as complete.
+For samples, confirm the recipient, product, delivery window, gift/loan/return terms and shipping lead time. Use contract and Brief confirmation before a high-value shipment when the project requires that protection. Track dispatch, receipt and working condition separately. Digital products may need access and onboarding instead. Allow time for brand review and replacement delivery when planning the launch.
 
-Keep a Brief short and usable. Cover four blocks: brand context, **2–4** product talking points, production requirements, and publishing or other details such as title, tags, links, code, disclosure, rights, and retention. Confirm the material requirements when the cooperation is agreed. In review, give one consolidated list of timestamped, concrete edits; preserve the creator's voice when the agreed requirements are met.
+### 7.2 Brief and creative direction
 
-Turn approved terms into an observable checklist with owners, inputs, product or access, milestones, review points, publication window, disclosure, tracking, payment conditions, and completion evidence.
+Use four compact blocks, adapting them to the agreed scope:
 
-Give accurate product facts and mandatory requirements while preserving the authentic voice that justified selection. Before publication, verify agreed content, links, disclosure, tracking, rights, timing, and approval. After publication, confirm the public asset, capture its identifier and timestamp, and monitor agreed windows.
+| Block | Useful content |
+| --- | --- |
+| Brand | Name, website and the context the audience needs. |
+| Product | Exact model and link; a few distinct, supported talking points, typically 2–4, each tied to a useful demonstration. |
+| Production | Intended audience action, creative angle, required scenes, format, language, and review milestones. |
+| Publication | Agreed title/thumbnail, description, links, codes, tags, sponsorship disclosure, timing, retention and rights. |
 
-When delivery changes, assess its effect on the objective, economics, rights, and schedule; update the plan and obtain the authority required for a changed commitment.
+Choose a review, tutorial, routine integration, challenge, timely theme or channel-specific idea from the creator's actual work. Let demonstrated capability determine the support needed. If a full script is unnecessary or impractical, agree a concept, placement, transition, core claims and CTA, or supply an outline the creator can adapt. Confirm the review arrangement before filming.
+
+### 7.3 Review and publication
+
+Review the draft and publication copy together against the approved Brief and contract. Check product use and claims, understandable visuals/audio, required demonstrations, CTA, working links, current discount details and sponsorship disclosure. Preserve truthful experience and the creator's style. Product criticism can reveal a defect or expectation gap that needs resolution.
+
+Return one consolidated set of edits within the agreed review window. For each required correction, give the timestamp or passage, the agreed requirement, and a specific change; separate new requests that affect scope or revision allowance. Prefer a targeted insert, corrected caption or clearer demonstration when it solves the problem. An unsupported claim may require removing or reshooting the claim itself.
+
+Before release, confirm the approved version, publication copy and time zone, audience timing, tracking, disclosure and permissions. After release, read the public URL/ID, timestamp and agreed placements; release payments only at their agreed milestones and authorized scope. Continue the agreed performance and retention checks.
+
+### 7.4 Recover from delivery problems
+
+Confirm the cause and affected obligation, then choose a proportionate recovery with an owner and next check:
+
+| Observation | Decision and next evidence |
+| --- | --- |
+| Late reply or missed milestone | Check the last agreement and accepted contact route; seek a revised date and assess the launch impact. |
+| Sample late, faulty or disappointing | Check shipment, actual use and expectations; arrange support, replacement or return and agree the resulting schedule. Feed product findings back to the team. |
+| Script or edit disputed | Compare the request with the agreed scope; offer a concept or targeted correction and confirm any added work. |
+| Content performs poorly | Check measurement and the agreed deliverables; discuss pinning, cross-posting or an extra asset. Paid promotion needs usage permission and budget authority; compensation depends on an agreed guarantee or a new agreement. |
+| Content disappears | Confirm public availability, retention terms and any platform notice; distinguish removal, expiry and creator deletion before agreeing correction, appeal, repost or replacement. |
+| Cooperation stops | Record confirmed costs and obligations, agree cancellation/return/refund steps and stop dependent tasks. |
+
+A recovery that changes cost, rights, deliverables or timing follows the Manager's commitment rules. Record the verified outcome and revise the project method when the cause can recur.
 
 ## 8. Measure and learn
 
@@ -227,9 +263,16 @@ Choose metrics from the primary objective:
 
 Set the observation window and denominator before comparing a batch. Use the highest available benchmark in this order: **same-project, same-type history → the creator's recent same-format content → a dated industry reference**. Define minimum acceptable, target, and stretch outcomes when a decision needs a threshold. For response rates, record the sent denominator, human-reply definition, and window; a single batch is a learning signal, not an industry benchmark.
 
-When a result looks abnormal, check the metric definition, denominator, date window, platform format, attribution path, and refunds before changing creator priority. Compare exposure, engagement, clicks, unique visitors, orders, subscriptions, and retention separately; reconcile PV, UV, and IP when they disagree. Keep a source readback and label the issue as delivery, tracking, attribution, or data quality. If conversion is delayed, separate order cohorts, gross orders, refunds, and net orders by event time; if tracking is suspected, check event deduplication and link or code attribution. Pause expansion until the affected measure is explainable, or run a bounded recheck with a stated decision rule.
+Keep exposure, engagement, clicks, visitors, orders and repeat purchase distinct. Record each metric's source, window, denominator and cost scope. Request creator-side analytics for needed private metrics. Reach counts people while views count plays; CPM is cost per thousand impressions, and a view-based cost needs that label. Revenue-based ROAS differs from profit-based ROI.
 
-Separate delivery, audience response, traffic/conversion, commercial outcome, and longer-term learning. Label attribution confidence and data limitations. Compare results with the original hypothesis, identify supported and contradicted assumptions, and choose the next support, reuse, renegotiation, pause, or test decision.
+For an apparent anomaly, work through the smallest relevant checks:
+
+1. Reconcile source definitions, windows, format and organic/paid traffic. PV counts page views, UV follows the tool's visitor identity, and IP counts network addresses; shared networks and repeat visits can produce different totals. Views can exceed followers through recommendation and repeat viewing.
+2. Check link/code routing, event deduplication and attribution delay. Separate order cohorts, refunds, net orders and net revenue; keep refunds of older orders with their original cohort when measuring acquisition results.
+3. If traffic is valid but conversion is weak, inspect audience intent, landing-page continuity, product usability, offer accuracy, checkout and shipping costs. Distinguish a content problem from a purchase-path problem.
+4. Keep unsupported measures provisional. Limit the affected expansion, assign the recheck and define what observed result would justify resuming it.
+
+Review the original goal against delivery, audience response and commercial results, by comparable creator/format and for the project overall. Explain attribution limits, the strongest supported causes and execution friction. End with the next selection, creative, offer, process or budget change, its owner and the observation that will test it. Convert repeated review problems into earlier project Brief or SOP checks.
 
 ## 9. Maintain a verifiable record
 

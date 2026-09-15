@@ -601,10 +601,10 @@
       "expected_output": "Turn the partnership lifecycle into a concise, observable handoff checklist without presenting unapproved commercial terms as settled.",
       "files": [],
       "expectations": [
-        "Covers the sequence from terms and contract through sample or access, Brief, script or draft review, publication, data readback and review",
+        "Covers terms, contract, sample or access, Brief, content review, publication and measurement through actual dependencies; material requirements are reviewed before agreement and the full Brief is ready before production",
         "Attaches an owner, due point, evidence or readback, and blocker to each material handoff",
         "Keeps product shipment, content requirements, rights, payment and publication conditions tied to the approved contract or Brief",
-        "Uses a concise Brief with brand context, two-to-four talking points, production requirements and publishing details",
+        "Produces a short Brief outline with supported product points, production requirements and agreed publication details; the number of talking points fits the task",
         "Requires consolidated timestamped edits before publication and preserves creator voice when agreed requirements are met",
         "Distinguishes a proposed checklist from completed execution and does not claim a send, shipment or publication"
       ]
@@ -619,9 +619,103 @@
       "expectations": [
         "Separates exposure, clicks, unique visitors, orders and refunds instead of treating them as one conversion result",
         "Checks denominator, observation window, format, attribution path, PV/UV/IP definitions and source readback",
-        "Labels the likely issue as delivery, tracking, attribution or data quality until evidence supports a conclusion",
+        "Investigates delivery, tracking, attribution and purchase-path causes without attributing poor sales to creator fraud from mismatched aggregate counts alone",
         "Records the affected source, scope and uncertainty and avoids inventing a conversion rate or industry benchmark",
-        "Pauses or limits expansion and proposes a bounded recheck with an explicit observation and decision rule"
+        "Pauses or limits expansion and proposes a bounded recheck with an explicit observation and decision rule",
+        "Interprets PV, UV and IP by their source definitions rather than requiring equal counts, and keeps refunds and delayed conversions with the appropriate cohort"
+      ]
+    },
+    {
+      "id": 39,
+      "category": "product-to-discovery-hypothesis",
+      "trigger": "should-trigger",
+      "prompt": "请读这份新品计划和候选线索，给我首轮平台与内容方向、下一批怎么搜，以及先深入看谁。简洁说明取舍。只使用所给材料，不联网、不发送消息、不修改业务记录。",
+      "expected_output": "Connect the product learning task to format and search hypotheses, then prioritize richer review from the supplied evidence.",
+      "files": [
+        "inputs/case39-discovery.md"
+      ],
+      "expectations": [
+        "Uses the UK renter, assembly and small-space storage needs to choose plausible formats and audience scenes without universal platform rankings or invented CPM/conversion figures",
+        "Builds complementary queries from precise product/use terms, the problem solved, adjacent interests and competitor-content clues, with current search semantics left to runtime verification",
+        "Prioritizes B for deeper review using comparable recent tutorials and sponsored evidence; keeps contact pending separate from fit and deduplicates the two B video rows",
+        "Recognizes A as a possible silent-demo option needing evidence for the proposed work; views above follower count alone are not fraud or a disqualifier, and C needs current relevant content",
+        "Proposes a bounded trial measuring qualified bookings with complete cost and a review decision; any allocation is a planning proposal, with no fabricated source inspection"
+      ]
+    },
+    {
+      "id": 40,
+      "category": "changed-package-before-shipment",
+      "trigger": "should-trigger",
+      "prompt": "运营说这位达人临时涨价了，想今天签约寄样，避免错过档期。请根据往来判断，并准备一封简短的英文回复草稿。只使用所给材料，不联网、不发送消息、不修改业务记录。",
+      "expected_output": "Reconstruct both packages, identify changed scope and authority gaps, and continue negotiation without premature commitment or shipment.",
+      "files": [
+        "inputs/case40-packages.md"
+      ],
+      "expectations": [
+        "Keeps USD 900 with the earlier single-channel, one-revision, organic-reuse and post-publication-payment scope, and EUR 1,100 with the expanded scope and upfront request",
+        "Explains scope and currency differences before calling the change a price increase; does not compute a discount or uplift without an exchange-rate basis",
+        "Separates agency reservation from creator acceptance, verifies exact channels, material Brief requirements and dates, and respects the project shipment prerequisites",
+        "Surfaces decision-relevant payment entity, tax/fees, rights and exclusivity gaps without treating drafting as blocked on every contract field",
+        "Drafts a natural English continuation seeking confirmation of the actual package and a feasible next step; does not promise payment, shipment, future work or acceptance"
+      ]
+    },
+    {
+      "id": 41,
+      "category": "brief-to-specific-content-review",
+      "trigger": "should-trigger",
+      "prompt": "请读资料，为达人准备一份精简 Brief，并判断现在如何推进到拍摄。只使用所给材料，不联网、不发送消息、不修改业务记录。",
+      "expected_output": "Use approved product facts and terms to prepare a practical Brief and creative checkpoint, then adapt review to a later draft.",
+      "files": [
+        "inputs/case41-brief.md"
+      ],
+      "expectations": [
+        "Uses the exact product facts and agreed deliverables, link/code, disclosure, retention, review window and payment scope to create a usable short Brief",
+        "Treats the old template as unapproved material: unsupported eye-health claims, removing ad labels and the excluded branded thumbnail do not become requirements",
+        "Works with the accepted concept, placement and transition instead of demanding a word-for-word script; preserves the creator style and requests a sample function check before filming"
+      ],
+      "followups": [
+        {
+          "prompt": "初稿回来了：00:08–00:18 说“完全防止眼疲劳”；00:24–00:34 演示桌夹时滑落，达人说在自己的桌面上夹不牢；00:48–00:55 说折扣 20%，描述区也写 20%；画面有广告披露，片长 80 秒。营销同事想趁这轮修改再加品牌封面和一个免费短视频，并让达人把滑落都删掉。请给运营一次性审核意见和下一步，保持简洁，不发送。",
+          "expectations": [
+            "Gives timestamped, concrete corrections for the unsupported health claim and 20% versus agreed 10% discount, and checks the description with the video",
+            "Investigates clamp installation, compatibility or defect with the product team before release instead of merely deleting truthful criticism or requiring false endorsement",
+            "Separates the excluded thumbnail and extra short video as new scope requiring agreement, preserves the single consolidated correction round and existing disclosure",
+            "Proposes the smallest working correction and review checkpoint; no premature publication, payment or fabricated completed testing"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "category": "cohort-economics-and-anomaly",
+      "trigger": "should-trigger",
+      "prompt": "同事怀疑达人刷量，财务写的是 20 个净订单。请读数据，判断结果和是否追加预算，给出下一步。只使用所给材料，不联网、不发送消息、不修改业务记录。",
+      "expected_output": "Reconcile attribution and order cohorts, calculate supported economics and diagnose conversion friction before a scale decision.",
+      "files": [
+        "inputs/case42-results.md"
+      ],
+      "expectations": [
+        "Reconciles 30 current-cohort orders minus six matching refunds as 24 net orders; the four older-campaign refunds do not reduce this cohort",
+        "If calculating current net revenue, uses GBP 720; uses at least GBP 700 in known total campaign cost and distinguishes fee-only from total-cost economics and unknown profitability",
+        "Uses the supplied visitor/IP definitions and recommendation reach to reject equality or follower-count fraud rules; requests corroborating evidence only where it would change the decision",
+        "Checks the discount and shipping-cost purchase friction, attribution delay and missing margin, with an owner or authoritative source and a bounded check before expanding",
+        "Keeps any visitor-to-order rate tied to the 1,000 attributed visitors and the ten-day cohort, without invented industry thresholds, mature LTV or causal lift"
+      ]
+    },
+    {
+      "id": 43,
+      "category": "delivery-recovery-by-cause",
+      "trigger": "should-trigger",
+      "prompt": "请看三条合作异常，告诉运营分别怎么处理，以及什么证据到位后才能继续。不要写一套大流程。只使用所给材料，不联网、不发送消息、不修改业务记录。",
+      "expected_output": "Choose distinct, evidence-based recovery actions for product failure, platform removal and weak performance, within the agreed obligations.",
+      "files": [
+        "inputs/case43-recovery.md"
+      ],
+      "expectations": [
+        "For A, confirms the defect and replacement feasibility before resetting the schedule or proposing cancellation/return/refund; paid deposit and a deadline do not justify a misleading demonstration",
+        "For B, uses the platform notice and brand-supplied claim to pursue supported correction, appeal or reposting under retention terms, rather than blacklisting the creator for voluntary deletion",
+        "For C, separates completed deliverables from hoped-for reach; proposes negotiated support while preserving the absence of a free make-good guarantee, paid-use permission or budget authority",
+        "Gives each incident a concrete owner/next check and evidence for resumption, distinguishes proposals from completed actions, and keeps the response proportionate"
       ]
     }
   ]

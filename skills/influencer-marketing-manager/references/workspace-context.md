@@ -70,7 +70,7 @@ observed result and resulting state
 
 Use a concise record for reversible work and add detail when spend, rights, reputation, or lifecycle state changes. This is a decision record, not a duplicate CRM.
 
-By stage, retain the coarse source and fine evidence for discovery; message version, recipients, authorization, and response state for outreach; task-level counters and a dated comparison baseline for monitoring; complete terms and confirmation for negotiation; and checklist evidence, public assets, metrics, attribution confidence, and learning for fulfillment and measurement.
+By stage, retain coarse/fine discovery evidence; outreach version, recipients, authority and response state; monitoring counters and dated baseline; the quoted and accepted packages with their source messages; and the approved Brief/version, edits, milestones, public asset and metric definitions for delivery and learning. Link these to the owning records. A changed term should show who accepted it and which downstream work it affects.
 
 ## Choose decision-relevant information
 
