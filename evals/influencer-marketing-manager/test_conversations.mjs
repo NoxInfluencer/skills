@@ -1,9 +1,34 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { requestsFor, runConversation } from './run_conversations.mjs';
+import { mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { tmpdir } from 'node:os';
+import { copyCaseWorkspace, requestsFor, runConversation } from './run_conversations.mjs';
 
 const testCase = { id: 31, trigger: 'should-trigger', prompt: 'FIRST', expectations: ['HIDDEN RUBRIC'],
   files: ['inputs/source.md'], followups: [{ prompt: 'LATER', expectations: ['HIDDEN FOLLOWUP RUBRIC'] }] };
+
+test('each case sees only its declared sources and an independent Skill copy', () => {
+  const prepared = mkdtempSync(resolve(tmpdir(), 'conversation-test-'));
+  const roots = [prepared];
+  try {
+    mkdirSync(resolve(prepared, '.agents/skills'), { recursive: true });
+    mkdirSync(resolve(prepared, 'inputs'));
+    writeFileSync(resolve(prepared, '.agents/skills/skill.md'), 'original');
+    writeFileSync(resolve(prepared, 'inputs/source.md'), 'declared');
+    writeFileSync(resolve(prepared, 'inputs/other-case.md'), 'future facts');
+    const populated = copyCaseWorkspace(prepared, testCase);
+    const empty = copyCaseWorkspace(prepared, { files: [] });
+    roots.push(populated, empty);
+    assert.deepEqual(readdirSync(resolve(populated, 'inputs')), ['source.md']);
+    assert.deepEqual(readdirSync(empty), ['.agents']);
+    writeFileSync(resolve(populated, '.agents/skills/skill.md'), 'changed');
+    assert.equal(readFileSync(resolve(empty, '.agents/skills/skill.md'), 'utf8'), 'original');
+    assert.equal(readFileSync(resolve(prepared, '.agents/skills/skill.md'), 'utf8'), 'original');
+  } finally {
+    for (const root of roots) rmSync(root, { recursive: true, force: true });
+  }
+});
 
 test('only user input and source paths cross into each turn', () => {
   const requests = requestsFor(testCase);

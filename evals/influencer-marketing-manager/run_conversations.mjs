@@ -1,7 +1,8 @@
 /** Sequential behavioral probes; reuse prepared Skills and keep review outside the model. */
-import { readFileSync, writeFileSync } from 'node:fs';
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { dirname, resolve } from 'node:path';
+import { tmpdir } from 'node:os';
 import { execFileSync } from 'node:child_process';
 import { parseArgs } from 'node:util';
 import { Codex } from '@openai/codex-sdk';
@@ -9,6 +10,22 @@ import { parse } from 'yaml';
 
 const evalDir = dirname(fileURLToPath(import.meta.url));
 const workspace = resolve(evalDir, 'workspace/promptfoo');
+
+export function copyCaseWorkspace(preparedRoot, testCase) {
+  const directory = mkdtempSync(resolve(tmpdir(), 'manager-conversation-'));
+  try {
+    cpSync(resolve(preparedRoot, '.agents'), resolve(directory, '.agents'), { recursive: true });
+    for (const name of testCase.files || []) {
+      const destination = resolve(directory, name);
+      mkdirSync(dirname(destination), { recursive: true });
+      cpSync(resolve(preparedRoot, name), destination);
+    }
+    return directory;
+  } catch (error) {
+    rmSync(directory, { recursive: true, force: true });
+    throw error;
+  }
+}
 
 export function requestsFor(testCase) {
   const invocation = testCase.trigger === 'should-not-trigger' ? ''
@@ -109,12 +126,17 @@ async function main() {
   for (const testCase of selected) {
     for (const variant of variants) {
       const index = report.conversations.length;
-      const thread = codex.startThread({ ...options, workingDirectory: resolve(workspace, 'fixtures', variant) });
-      const result = await runConversation(thread, testCase, value => {
-        report.conversations[index] = { variant, ...value };
-        save();
-      }, config.evaluateOptions.timeoutMs);
-      console.log(`${variant} case ${testCase.id}: ${result.completed ? 'recorded; review required' : 'runtime error'}`);
+      const directory = copyCaseWorkspace(resolve(workspace, 'fixtures', variant), testCase);
+      try {
+        const thread = codex.startThread({ ...options, workingDirectory: directory });
+        const result = await runConversation(thread, testCase, value => {
+          report.conversations[index] = { variant, ...value };
+          save();
+        }, config.evaluateOptions.timeoutMs);
+        console.log(`${variant} case ${testCase.id}: ${result.completed ? 'recorded; review required' : 'runtime error'}`);
+      } finally {
+        rmSync(directory, { recursive: true, force: true });
+      }
     }
   }
   execFileSync('python3', [resolve(evalDir, 'prepare_promptfoo_fixtures.py'), '--check'], { stdio: 'pipe' });

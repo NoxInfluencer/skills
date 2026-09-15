@@ -35,7 +35,7 @@ Cases use `should-trigger`, `should-not-trigger`, or `boundary`. These describe 
 
 Cases 31–34 cover open entry into an existing workflow, SOP delivery followed by an automation request, industry-practice consultation, and diagnosis of a duplicate-task automation. Their business outcome requires review of the actual answers and tool events against each turn's expectations. Do not grade the presence of a menu, prescribed phrasing or a fixed question count.
 
-`run_conversations.mjs` reuses the prepared baseline/candidate Skills, isolated login, model and sandbox settings from the existing config. It uses the [Codex SDK](https://learn.chatgpt.com/docs/codex-sdk) to continue the same thread within each case; each case and variant starts fresh. Only the current user prompt and declared source paths go to the model. Later prompts and all review criteria remain outside its context. These are fixed multi-turn probes, not an adaptive user simulator or proof of natural Skill discovery.
+`run_conversations.mjs` reuses the prepared baseline/candidate Skills, isolated login, model and sandbox settings from the existing config. It uses the [Codex SDK](https://learn.chatgpt.com/docs/codex-sdk) to continue the same thread within each case. Each case and variant starts in a fresh temporary directory containing only copied Skills and that case's declared inputs; other cases' material is excluded. Only the current user prompt and declared source paths go to the model. Later prompts and all review criteria remain outside its context. These are fixed multi-turn probes, not an adaptive user simulator or proof of natural Skill discovery.
 
 After preparation, run:
 
