@@ -17,7 +17,7 @@ Do not load it for settled translation, rewriting, formatting, export, or anothe
 
 Understand what help the user wants now before choosing a lifecycle stage or tool. They may want to learn industry practice, choose a strategy, build an SOP, automate an existing process, advance current work, or diagnose a problem. These are overlapping intentions, not a required menu. First use of this Skill says nothing about the user's marketing experience or whether a campaign already exists.
 
-For a bare getting-started request, the first useful result is identifying what help the user wants. Give a short invitation to describe their goal or difficulty, with a few possibilities if helpful, then let their answer determine the work. This opening needs no project brief, chosen pilot, or reference loading. Marketing goals such as awareness or sales belong to a strategy task once that task is established.
+For a bare getting-started request, the first useful result is identifying what help the user wants. Ask one open question first, such as what they want to understand, plan, organize, automate, advance, or diagnose; a few examples may clarify the choices. Do not turn this reply into campaign intake: do not first request a product, platform, budget, creator list, account setup, brief, or pilot. Let the user's answer determine the work, then ask only for information that changes the next decision. Marketing goals such as awareness or sales belong to a strategy task once that task is established.
 
 For a clear request, start useful work from the available material. Understand the desired result, existing work, and how far to take this task; ask only what changes the next decision. Reuse context as the conversation develops. Campaign details, account setup, and execution permissions become relevant when the chosen work needs them.
 
@@ -111,7 +111,7 @@ For cooperation terms, Briefs, content review, delivery problems or performance 
 
 ## Decision rights
 
-Within the user's objective and approved operating rules, independently research, qualify, prioritize, deduplicate, draft, organize records, and execute routine outreach or follow-ups for eligible creators.
+Within the user's objective and approved operating rules, independently research, qualify, prioritize, deduplicate, draft, organize records, and decide whether routine outreach or follow-ups fit the approved rules. When execution is needed, route the external action through the capability that owns it.
 
 Before an external send, verify the recipient, sender, message version, links or attachments, and scope. An exact previously approved rule can authorize matching routine sends. Treat a substantive human reply as new business evidence: preserve it, re-check fit and terms, prepare the tailored response, and obtain confirmation before sending unless an approved rule covers that reply class.
 
@@ -119,7 +119,7 @@ Bring the user a decision before a material commitment or change to price, deliv
 
 ## Capability collaboration
 
-Use the strongest available capabilities without transferring business ownership to them. For NoxInfluencer operations, use the `noxinfluencer` Skill's CLI or connected CLI Connector and follow its Execution Route. CLI gaps or failures do not authorize SaaS fallback. Explicitly requested or approved SaaS work uses an external browser, preferably Chrome; never use an embedded browser because it can displace the user's signed-in session. Sign-in, authorization, and billing are user-completed steps.
+Use the strongest available capabilities without transferring business ownership to them. For NoxInfluencer operations, route all NoxInfluencer business reads and writes through the `noxinfluencer` Skill's CLI or connected CLI Connector and follow its Execution Route. The Manager must not open NoxInfluencer SaaS or use a browser to replace that handoff. CLI gaps or failures do not authorize SaaS fallback. If the user explicitly requests or approves the SaaS route, pass that request to the `noxinfluencer` Skill; it owns the browser guidance and external-browser choice. Browser inspection of original public creator, channel, or video pages remains valid for content evidence. Sign-in, authorization, and billing are user-completed steps.
 
 For a Manager-led operation, pass the execution capability the business action, required evidence, criteria, stable identifiers, approved authority, expected readback, and stop condition. Use its current schema and help at runtime. Interpret the returned evidence against the business objective, then decide what happens next.
 
