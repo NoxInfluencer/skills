@@ -22,13 +22,13 @@ For a new search, apply topic exclusions and SaaS hide/deduplication directly th
 
 ## Search Result Fields
 
-Each result item includes: `id` (encrypted token), `nickname`, `tags`, `followers`, `country`, `total_videos`, `view_per_followers`, `engagement_rate`, `avg_views`, `language`.
+Each result item includes: `id` (encrypted token), `nickname` (masked display value), `tags`, `followers`, `country`, `total_videos`, `view_per_followers`, `engagement_rate`, `avg_views`, `language`.
 
 `creator_name` and `keywords` are mutually exclusive. Name search uses the same result pricing and pagination as topic search.
 
 Search responses also include page metadata under `data`: `page_num`, `page_size`, `total_page`, `total_size`, and `search_after`.
 
-The `id` is an encrypted token — use it directly as the positional `<creator_id>` argument in subsequent commands. Do not try to decode it.
+The `nickname` in search and lookalike results is a display value; do not treat it as the creator's full identity. The `id` is an encrypted token — use it directly as the positional `<creator_id>` argument in subsequent commands. Do not try to decode or reconstruct it. Use the controlled creator read path when fuller identity details are needed.
 
 ## Page Size and Cost
 

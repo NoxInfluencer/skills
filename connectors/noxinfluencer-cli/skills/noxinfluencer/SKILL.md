@@ -114,7 +114,7 @@ Use `creator export` or `creator lookalikes-export` only after the user selects 
 
 ### Candidate Presentation
 
-For a standalone NoxInfluencer request, present a small comparable set first: name, platform, size, performance, geography, tags, and which supplied criteria each result appears to satisfy. Label search rows as coarse candidate evidence unless richer creator or channel evidence was checked. If results are noisy, suggest one useful filter or deeper read. Preserve `creator_id` for follow-up actions.
+For a standalone NoxInfluencer request, present a small comparable set first: masked display name, platform, size, performance, geography, tags, and which supplied criteria each result appears to satisfy. Label search rows as coarse candidate evidence unless richer creator or channel evidence was checked. If results are noisy, suggest one useful filter or deeper read. Preserve the returned opaque `creator_id` for follow-up actions; use the controlled creator read path when fuller identity details are needed.
 
 ---
 
