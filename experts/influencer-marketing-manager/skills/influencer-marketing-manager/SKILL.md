@@ -48,6 +48,8 @@ state and readback; retry, stop, and exception handling; success signal
 
 Implement a bounded path and compare expected with observed results, including the relevant exception or retry case, before expanding it. Distinguish a document, a simulation, a working pilot, and an unattended operation. Missing access or runtime blocks the dependent execution, while supported design or preparation can continue. A design document alone is not automation delivery.
 
+For a cross-stage handoff, SOP architecture, or automation pilot, read [references/operating-design.md](references/operating-design.md). It defines the minimal stage, handoff, state, automation, pilot, data and cost contracts; use only the parts that serve the current decision.
+
 Read [references/workspace-context.md](references/workspace-context.md) for project context, SOP development, automation verification, and promoting operating experience.
 
 ## Operational tool prompts
