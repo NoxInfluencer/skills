@@ -2,7 +2,6 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
   bundledSkillDirectory,
-  canonicalSkillSourceDirectory,
   pluginRuntimeMarkerRelativePath,
   projectRoot,
   verifyBundledSkillSync,
@@ -10,6 +9,7 @@ import {
 
 const expectedPluginName = "noxinfluencer";
 const legacyMcpResource = "https://api.noxinfluencer.com/mcp";
+const canonicalMcpResource = "https://skilltest.noxinfluencer.com/mcp";
 
 function fail(message) {
   throw new Error(message);
@@ -102,6 +102,10 @@ export function validateMcpConfig(config) {
     fail('.mcp.json must declare mcpServers.noxinfluencer.');
   }
 
+  if (provider.type !== "http") {
+    fail('NoxInfluencer MCP type must be "http".');
+  }
+
   const url = String(provider.url ?? "").trim();
   const oauthResource = String(provider.oauth_resource ?? "").trim();
   if (!url || !oauthResource) {
@@ -112,6 +116,9 @@ export function validateMcpConfig(config) {
   }
   if (url === legacyMcpResource) {
     fail(`Legacy MCP Resource is not allowed in the Codex Plugin package: ${url}`);
+  }
+  if (url !== canonicalMcpResource) {
+    fail(`NoxInfluencer MCP Resource must be the canonical test environment resource: ${canonicalMcpResource}`);
   }
 
   let parsed;
@@ -148,9 +155,7 @@ export function validateMcpConfig(config) {
   }
 }
 
-export function validatePluginSource({
-  sourceDirectory = canonicalSkillSourceDirectory,
-} = {}) {
+export function validatePluginSource() {
   const manifest = readJson(
     join(projectRoot, ".codex-plugin", "plugin.json"),
     "plugin.json",
@@ -159,16 +164,15 @@ export function validatePluginSource({
 
   validatePluginManifest(manifest);
   validateMcpConfig(mcpConfig);
-  validateSkillManifest(sourceDirectory, "Canonical");
-  validateSkillManifest(bundledSkillDirectory, "Bundled");
-  verifyBundledSkillSync({ sourceDirectory });
+  validateSkillManifest(bundledSkillDirectory, "Plugin-local");
+  verifyBundledSkillSync();
 
   const runtimeMarker = join(
     bundledSkillDirectory,
     ...pluginRuntimeMarkerRelativePath.split("/"),
   );
   if (!existsSync(runtimeMarker)) {
-    fail("Bundled Skill is missing references/codex-plugin-runtime.md.");
+    fail("Plugin-local Skill is missing references/codex-plugin-runtime.md.");
   }
 
   return { manifest, mcpConfig };

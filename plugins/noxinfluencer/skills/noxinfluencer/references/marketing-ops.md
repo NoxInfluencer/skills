@@ -1,6 +1,6 @@
 # Marketing Ops Workflows
 
-Use this reference for NoxInfluencer campaign, collection, CRM, email, message, product, short-link, affiliation, creator dispute, file, report, and export operations. Keep command parameters runtime-discovered with `noxinfluencer schema <cmd>`.
+Use this reference for NoxInfluencer campaign, collection, CRM, email, message, product, short-link, affiliation, creator dispute, file, report, and export operations. Keep Tool parameters runtime-discovered from the connected provider's live schemas.
 
 ## Domain Routing
 
@@ -43,8 +43,8 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 - If approved recipients come from Excel, download `email recipients import-template` and use `email recipients import-file <task_id>`. Do not invent spreadsheet columns.
 - Email recipient import is only available before the task enters its active send flow.
 - For one email task's reply reporting, use `email report <task_id>`. For multi-task or team-level reporting, use `email team-summary`; for SaaS team member breakdown, use `email team-breakdown`. Treat `reply_count` as email tracking replies, `replied_creator_count` as replied creators, and `inbound_message_count` as inbound reply messages. Team filters use SaaS team member `uid`, not Gmail or enterprise sender mailbox accounts. Do not recompute replies by manually scanning message threads unless the user explicitly asks for raw thread inspection.
-- If the user wants in-platform DM/message, `message send` and `message schedule` require an existing `thread_id`. If the user only has an email task ID, use `message list --business_kind email_task --business_id <task_id>` to resolve the thread first. Without a thread, say that starting a new message thread is not exposed by the CLI and offer the email-task path for platform creators.
-- For message-center filtering by task creator or team member, first run `message creator-filters`, then use returned `user_uid` values with `message list --creator_uids` or `message project-filters --creator_uids`.
+- If the user wants in-platform DM/message, message-send and message-schedule require an existing `thread_id`. If the user only has an email task ID, use the provider's message-list capability with the email-task business filter to resolve the thread first. Without a thread, say that starting a new message thread is not exposed by the current provider and offer the email-task path for platform creators.
+- For message-center filtering by task creator or team member, first use the provider's creator/project filter capabilities, then pass returned `user_uid` values to message-list inputs.
 - For message-center pending work, trust `needs_reply` / `last_message_direction`; `deal` is not the same as `unread`. If one opened task is already replied but SaaS still shows pending, inspect siblings with `message projects <thread_id>`. Use `message archive` only when the user explicitly wants the creator's entire conversation archived; it includes sibling task threads and is separate from `crm archive`. If only one task needs no reply, do not send an empty reply or archive the conversation; task-level mark-handled is not exposed yet.
 - Message draft/history attachments and message-template attachments are separate. Use `message attachments list/upload/download/delete` for thread files and `message templates attachments list/upload/download/delete` for reusable template files. Never reuse IDs across the two paths. One template supports at most 2 private attachments, max 10MB each.
 - Use `file image upload` for public inline images in approved email/message `html_body`. The returned `file_url` is public and is not a private email, message, or template attachment.
@@ -54,7 +54,7 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 
 - Use `affiliation` for Shopify affiliate stores, campaigns, members, tracking links, discount codes, and performance reads. This is separate from normal `short-link`.
 - Start with `affiliation stores list`. If no store is authorized or access is denied, ask the user to authorize/manage the store in SaaS; do not attempt store authorization in the Skill.
-- Add NoxInfluencer creators to affiliate campaigns with search/profile `creator_id`, or use `platform + channel_id` / `custom_id` when the CLI schema calls for it.
+- Add NoxInfluencer creators to affiliate campaigns with search/profile `creator_id`, or use `platform + channel_id` / `custom_id` when the live Tool schema calls for it.
 - For owned creator links, download `affiliation members import-template` and submit `.xls` or `.xlsx` with `affiliation members import-file <campaign_id>`; max file size is 10MB.
 - Executing affiliation member import writes members immediately and reads back the pending-member count; it is not validation-only.
 - `affiliation campaigns export` downloads campaign-performance Excel directly to `--output`; it is not a shared async export task.
@@ -107,13 +107,13 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 - Do not draft outreach or negotiation copy. If content is missing, ask the user for approved content or hand off to a writing task without invoking NoxInfluencer write commands.
 - Do not operate external CRM, email, messaging, or spreadsheet platforms. These commands only affect NoxInfluencer-owned objects.
 
-## JSON-First Commands
+## Structured Tool Inputs
 
-Many marketing-ops commands intentionally keep complex selectors in JSON bodies. When a schema requires `--body-file`:
+Many marketing-ops Tools intentionally keep complex selectors in structured inputs. When a Tool requires a nested body:
 
-1. Run `noxinfluencer schema <cmd>` to inspect required fields and usage notes.
+1. Inspect the live Tool input schema to identify required fields and usage notes.
 2. Prepare the minimal JSON body needed for the user's request.
-3. Prefer the CLI's validate/preview stages when available.
+3. Prefer the provider's validate/preview stages when available.
 4. Preserve stable opaque IDs from responses (`campaign_id`, `collection_id`, `creator_id`, `thread_id`, `task_id`, `export_id`) for follow-up calls.
 
 ## Export Handling

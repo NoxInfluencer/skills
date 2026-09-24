@@ -115,6 +115,17 @@ claude plugin marketplace add https://github.com/NoxInfluencer/skills
 claude plugin install nox-influencer@noxinfluencer
 ```
 
+### Codex Plugin Marketplace
+
+Install the MCP-backed Codex Plugin directly from this GitHub repository:
+
+```bash
+codex plugin marketplace add NoxInfluencer/skills
+codex plugin add noxinfluencer@noxinfluencer-codex
+```
+
+Start a new Codex conversation after installation. This Plugin uses the NoxInfluencer MCP provider and is independent from the standalone CLI Skill above.
+
 ## Platform Entry Points
 
 - **ClawHub**: best for browsing the public skill page, versions, and release metadata
@@ -122,6 +133,7 @@ claude plugin install nox-influencer@noxinfluencer
 - **OpenClaw**: use the OpenClaw-targeted install command above
 - **Hermes Skills Hub**: install through the skills.sh identifier shown above; Hermes can also discover this repository through GitHub taps
 - **Claude Code**: use either the Skills CLI install or the plugin marketplace install
+- **Codex Plugin Marketplace**: install the MCP-backed Plugin directly from this GitHub repository
 
 ## Notes
 

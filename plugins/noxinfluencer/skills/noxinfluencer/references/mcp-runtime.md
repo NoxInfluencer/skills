@@ -6,14 +6,14 @@ Use this reference only after `{baseDir}/references/runtime-routing.md` selects 
 
 - Call only NoxInfluencer tools exposed by the connected `noxinfluencer` MCP provider.
 - Inspect the runtime Tool description and input schema before the first call to a capability. The runtime schema is authoritative for exact names, fields, enums, and limits.
-- Reuse the Skill's business sequencing and safety rules. Translate CLI command names into MCP capabilities; never invoke the NoxInfluencer CLI in MCP mode. The shell-side Codex Host auth action defined below is allowed in Plugin mode; it is not a business backend.
+- Reuse the Skill's business sequencing and safety rules. Translate business capabilities into MCP Tool calls; never invoke a local NoxInfluencer CLI. The shell-side Codex Host auth action defined below is allowed; it is not a business backend.
 - Do not send `uid`, `user_id`, `parent_uid`, `tenant_id`, OAuth tokens, cookies, resources, service secrets, or arbitrary redirect URLs unless a future trusted Tool schema explicitly introduces a non-identity field with the same spelling. User identity must come from OAuth on the server.
 - Do not call kol-next BFF endpoints or Java APIs directly. The remote MCP Server owns that integration.
-- Do not invent a Tool or parameter when a capability is absent. Complete the one-attempt OAuth bootstrap and Tool-catalog refresh checks before reporting a current MCP limitation; never switch backends.
+- Do not invent a Tool or parameter when a capability is absent. When the explicitly invoked Plugin has loaded no `noxinfluencer` Tools at all and no transport failure is known, treat that provider-wide absence as a first-connection bootstrap signal. A single missing Tool while any other `noxinfluencer` Tool is loaded, or an explicit connection refusal, timeout, or server error, must not start OAuth. An explicit `AuthRequired` result or HTTP `401` may also start the one-attempt OAuth bootstrap; never switch backends.
 
 ## Initial Codex Plugin Capabilities
 
-The first plugin slice exposes exactly two business Tools. Use the exact names and contracts below. If either required Tool is absent, first follow OAuth Bootstrap below. Only after successful authorization and a confirmed Tool-catalog refresh may its continued absence be reported as an incomplete rollout. Do not guess a replacement Tool or fall back to CLI.
+The Campaign slice exposes exactly two business Tools. Use the exact names and contracts below. If either required Tool is absent while another `noxinfluencer` Tool is loaded, or remains absent from an otherwise successfully initialized and refreshed Tool catalog, report an incomplete rollout. If the entire provider has loaded zero Tools, follow the first-connection bootstrap below. Do not guess a replacement Tool or fall back to CLI.
 
 ### List intelligent marketing-plan tasks
 
@@ -51,15 +51,15 @@ All other NoxInfluencer business capabilities are unavailable in the initial Cod
 Use this state flow only in Plugin mode and only when the user's request needs a NoxInfluencer MCP Tool:
 
 1. Start with the requested business Tool when it is loaded. There is no custom `get_oauth`, login, or Token Tool.
-2. If the required Tool is missing, or its MCP connection returns `AuthRequired` or `401`, mark the bootstrap as attempted for this user request and actively start the Host OAuth flow exactly once:
-   - Windows desktop or CLI conversation: run `powershell -NoProfile -ExecutionPolicy Bypass -File "{baseDir}/scripts/start-codex-oauth.ps1"`. The helper prefers the executable Plugin App Server CLI under the current `CODEX_HOME`, then falls back to a non-`WindowsApps` `codex` command.
+2. Mark the bootstrap as attempted for this user request and actively start the Host OAuth flow exactly once in either of these cases: the explicitly invoked Plugin has loaded no `noxinfluencer` Tools at all and no explicit transport/server failure is known; or the MCP connection or Tool call explicitly returns `AuthRequired` or HTTP `401`.
+   - Windows desktop or Codex CLI-hosted conversation: run `powershell -NoProfile -ExecutionPolicy Bypass -File "{baseDir}/scripts/start-codex-oauth.ps1"`. The helper prefers the executable Plugin App Server control CLI under the current `CODEX_HOME`, then falls back to a non-`WindowsApps` `codex` command.
    - macOS/Linux conversation: run `codex mcp login noxinfluencer --oauth-client-registration dcr --scopes noxinfluencer.codex.user` only when `codex` is independently executable. Pass the case-sensitive registration value exactly as lowercase `dcr`.
 3. Let the Codex Host perform DCR, PKCE, state handling, loopback callback, external-browser authorization, and Token storage. Never construct or open an `/authorize` URL yourself.
 4. When Host authorization succeeds, recheck the connected provider's Tool catalog. If the required Tool is available, immediately retry the user's original business operation.
 5. If this Codex task does not dynamically refresh MCP Tools, tell the user authorization succeeded but they must create a new Codex task and resend the original request.
-6. Only when authorization succeeded, the connection and Tool catalog refreshed, and the required Tool remains absent, report that the current MCP rollout does not expose the capability.
+6. When the connection initializes and the Tool catalog refreshes successfully but the required Tool is absent, report that the current MCP rollout does not expose the capability. Do not reopen OAuth.
 
-The one-attempt limit applies across both missing-Tool and `AuthRequired` branches for the same user request. Never loop, recursively retry login, or reopen the browser after one bootstrap attempt.
+A single missing business Tool while any `noxinfluencer` Tool is loaded and explicit transport failures never enter this OAuth flow. Provider-wide zero-Tool bootstrap, `AuthRequired`, and `401` share one attempt limit for the same user request. Never loop, recursively retry login, or reopen the browser after one bootstrap attempt.
 
 ### OAuth Failure Branches
 
@@ -68,6 +68,7 @@ The one-attempt limit applies across both missing-Tool and `AuthRequired` branch
 - `403` or `insufficient_scope`: treat it as a permission, Scope, account-entitlement, or account-access problem. Explain the boundary and do not trigger or repeat login.
 - Login succeeds but the Tool catalog does not refresh in the current task: ask the user to create a new Codex task and resend the request; do not call login again.
 - Login succeeds and a refreshed catalog still lacks the required Tool: report an incomplete MCP rollout; do not call login again and do not fall back to CLI.
+- MCP initialization fails, the server is unreachable, or the request times out without an explicit `401`/`AuthRequired`: report the connectivity or availability failure and do not start OAuth.
 
 Never output, log, request, copy, or persist an Access Token, Refresh Token, Authorization Code, `state`, `code_verifier`, Cookie, or callback parameter. A password, API key, or Browser Handoff code is not an OAuth-bootstrap substitute.
 
@@ -76,8 +77,7 @@ Never output, log, request, copy, or persist an Access Token, Refresh Token, Aut
 - Allowed in Plugin mode: the packaged Windows OAuth helper or an independently executable `codex mcp login noxinfluencer ...`, exactly once per user request.
 - The Windows helper may invoke `{CODEX_HOME}/plugins/.plugin-appserver/codex.exe` because it is a Codex Host control CLI already installed by the desktop app. It must not invoke a `WindowsApps` alias, copy an executable, construct an authorization URL, or read OAuth credentials.
 - Fallback when automatic startup is unavailable: NoxInfluencer Connect/Re-authorize in Codex settings.
-- Forbidden in Plugin mode: `noxinfluencer login`, all NoxInfluencer CLI business commands, Device Flow, API-key setup, and CLI business fallback.
-- Required without the Plugin marker: preserve the standalone `noxinfluencer` CLI workflow and never run `codex mcp login`.
+- Forbidden: `noxinfluencer login`, all local NoxInfluencer CLI business commands, Device Flow, API-key setup, and CLI business fallback.
 
 ## Errors and Retries
 

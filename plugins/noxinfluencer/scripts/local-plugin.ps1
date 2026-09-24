@@ -9,6 +9,8 @@ $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 
 $projectRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
+$repositoryRoot = [System.IO.Path]::GetFullPath((Join-Path $projectRoot '..\..'))
+$marketplacePath = Join-Path $repositoryRoot '.agents\plugins\marketplace.json'
 $sourceManifestPath = Join-Path $projectRoot '.codex-plugin\plugin.json'
 $sourceManifest = Get-Content -Raw -Encoding UTF8 -LiteralPath $sourceManifestPath |
   ConvertFrom-Json
@@ -25,17 +27,8 @@ if ([string]::IsNullOrWhiteSpace($userProfilePath)) {
 if ([string]::IsNullOrWhiteSpace($userProfilePath)) {
   throw 'Unable to resolve the current Windows user profile directory.'
 }
-$personalPluginsRoot = [System.IO.Path]::GetFullPath(
-  (Join-Path $userProfilePath 'plugins')
-)
-$localPluginPath = [System.IO.Path]::GetFullPath(
-  (Join-Path $personalPluginsRoot $pluginName)
-)
-$marketplacePath = [System.IO.Path]::GetFullPath(
-  (Join-Path $userProfilePath '.agents\plugins\marketplace.json')
-)
+
 $pluginCreatorRoot = Join-Path $userProfilePath '.codex\skills\.system\plugin-creator'
-$createPluginScript = Join-Path $pluginCreatorRoot 'scripts\create_basic_plugin.py'
 $cachebusterScript = Join-Path $pluginCreatorRoot 'scripts\update_plugin_cachebuster.py'
 $readMarketplaceNameScript = Join-Path $pluginCreatorRoot 'scripts\read_marketplace_name.py'
 $validatePluginScript = Join-Path $pluginCreatorRoot 'scripts\validate_plugin.py'
@@ -49,6 +42,7 @@ if ([string]::IsNullOrWhiteSpace($PythonPath)) {
     'python'
   }
 }
+
 $pluginAppServerCodexPath = Join-Path $userProfilePath '.codex\plugins\.plugin-appserver\codex.exe'
 if ([string]::IsNullOrWhiteSpace($CodexPath)) {
   $CodexPath = if (Test-Path -LiteralPath $pluginAppServerCodexPath -PathType Leaf) {
@@ -94,77 +88,6 @@ function Invoke-CheckedCommand {
   }
 }
 
-function Assert-LocalPluginTarget {
-  $pluginsRootWithSeparator = $personalPluginsRoot.TrimEnd(
-    [System.IO.Path]::DirectorySeparatorChar,
-    [System.IO.Path]::AltDirectorySeparatorChar
-  ) + [System.IO.Path]::DirectorySeparatorChar
-
-  if (
-    !$localPluginPath.StartsWith(
-      $pluginsRootWithSeparator,
-      [System.StringComparison]::OrdinalIgnoreCase
-    ) -or
-    [System.IO.Path]::GetFileName($localPluginPath) -ne $pluginName
-  ) {
-    throw "Refusing to replace an unsafe local plugin target: $localPluginPath"
-  }
-}
-
-function Get-MarketplaceEntry {
-  if (!(Test-Path -LiteralPath $marketplacePath -PathType Leaf)) {
-    return $null
-  }
-  $marketplace = Get-Content -Raw -Encoding UTF8 -LiteralPath $marketplacePath |
-    ConvertFrom-Json
-  return @($marketplace.plugins) |
-    Where-Object { $_.name -eq $pluginName } |
-    Select-Object -First 1
-}
-
-function Assert-MarketplaceEntry {
-  $entry = Get-MarketplaceEntry
-  if ($null -eq $entry) {
-    throw "Personal marketplace entry '$pluginName' is missing. Run npm run plugin:local:bootstrap first."
-  }
-
-  $expectedSourcePath = "./plugins/$pluginName"
-  if (
-    $entry.source.source -ne 'local' -or
-    $entry.source.path -ne $expectedSourcePath
-  ) {
-    throw "Marketplace entry '$pluginName' must point to local source '$expectedSourcePath'."
-  }
-  if (
-    $entry.policy.installation -ne 'AVAILABLE' -or
-    $entry.policy.authentication -ne 'ON_INSTALL'
-  ) {
-    throw "Marketplace entry '$pluginName' must use AVAILABLE and ON_INSTALL policies."
-  }
-}
-
-function Initialize-PersonalMarketplace {
-  if ($null -ne (Get-MarketplaceEntry)) {
-    return
-  }
-  if (Test-Path -LiteralPath $localPluginPath) {
-    throw "Local plugin source exists without a matching marketplace entry: $localPluginPath"
-  }
-  foreach ($requiredScript in @($createPluginScript, $readMarketplaceNameScript)) {
-    if (!(Test-Path -LiteralPath $requiredScript -PathType Leaf)) {
-      throw "plugin-creator helper is missing: $requiredScript"
-    }
-  }
-
-  Invoke-CheckedCommand -Command $PythonPath -Arguments @(
-    $createPluginScript,
-    $pluginName,
-    '--with-marketplace',
-    '--category',
-    'Marketing'
-  )
-}
-
 function Assert-PythonReady {
   & $PythonPath -c 'import yaml'
   if ($LASTEXITCODE -ne 0) {
@@ -172,113 +95,81 @@ function Assert-PythonReady {
   }
 }
 
-function Get-LocalStatus {
-  $marketplaceEntry = Get-MarketplaceEntry
-  $installedManifestPath = Join-Path $localPluginPath '.codex-plugin\plugin.json'
-  $installedVersion = '(not prepared)'
-  if (Test-Path -LiteralPath $installedManifestPath -PathType Leaf) {
-    $installedManifest = Get-Content -Raw -Encoding UTF8 -LiteralPath $installedManifestPath |
-      ConvertFrom-Json
-    $installedVersion = [string]$installedManifest.version
+function Assert-RequiredFiles {
+  foreach ($requiredPath in @(
+    $marketplacePath,
+    $sourceManifestPath,
+    $cachebusterScript,
+    $readMarketplaceNameScript,
+    $validatePluginScript
+  )) {
+    if (!(Test-Path -LiteralPath $requiredPath -PathType Leaf)) {
+      throw "Required file is missing: $requiredPath"
+    }
   }
-
-  Write-Output "Plugin: $pluginName"
-  Write-Output "Source: $projectRoot"
-  Write-Output "Source version: $($sourceManifest.version)"
-  Write-Output "Personal marketplace: $marketplacePath"
-  Write-Output "Marketplace entry: $(if ($null -eq $marketplaceEntry) { 'missing' } else { 'ready' })"
-  Write-Output "Local install source: $localPluginPath"
-  Write-Output "Prepared version: $installedVersion"
 }
 
-function Build-LocalPluginSnapshot {
-  Assert-LocalPluginTarget
-  Assert-MarketplaceEntry
+function Get-RepositoryMarketplaceName {
+  $name = & $PythonPath $readMarketplaceNameScript --marketplace-path $marketplacePath
+  if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($name)) {
+    throw "Unable to read the repository marketplace name from $marketplacePath."
+  }
+  return $name.Trim()
+}
 
+function Assert-PluginSource {
   Invoke-CheckedCommand -Command 'node' -Arguments @(
-    (Join-Path $projectRoot 'scripts\package-plugin.mjs'),
-    '--dev'
+    (Join-Path $projectRoot 'scripts\sync-plugin-skill.mjs'),
+    '--check'
   )
-
-  $artifact = Get-ChildItem -LiteralPath (Join-Path $projectRoot 'dist') -File |
-    Where-Object { $_.Name -like "$pluginName-*.zip" } |
-    Sort-Object LastWriteTimeUtc -Descending |
-    Select-Object -First 1
-  if ($null -eq $artifact) {
-    throw 'Development package was not generated.'
-  }
-
-  $operationId = [Guid]::NewGuid().ToString('N')
-  $incomingPath = Join-Path $personalPluginsRoot ".$pluginName.incoming-$operationId"
-  $backupPath = Join-Path $personalPluginsRoot ".$pluginName.backup-$operationId"
-  mkdir $personalPluginsRoot -Force | Out-Null
-
-  try {
-    Expand-Archive -LiteralPath $artifact.FullName -DestinationPath $incomingPath
-
-    $incomingManifestPath = Join-Path $incomingPath '.codex-plugin\plugin.json'
-    $runtimeMarkerPath = Join-Path $incomingPath 'skills\noxinfluencer\references\codex-plugin-runtime.md'
-    if (!(Test-Path -LiteralPath $incomingManifestPath -PathType Leaf)) {
-      throw 'Prepared plugin is missing .codex-plugin/plugin.json.'
-    }
-    if (!(Test-Path -LiteralPath $runtimeMarkerPath -PathType Leaf)) {
-      throw 'Prepared plugin is missing the Codex Plugin runtime marker.'
-    }
-
-    $incomingManifest = Get-Content -Raw -Encoding UTF8 -LiteralPath $incomingManifestPath |
-      ConvertFrom-Json
-    if ($incomingManifest.name -ne $pluginName) {
-      throw "Prepared plugin name '$($incomingManifest.name)' does not match '$pluginName'."
-    }
-    if ([string]$incomingManifest.version -notmatch '\+codex\.local-[0-9]{14}$') {
-      throw "Prepared plugin version lacks the expected cachebuster: $($incomingManifest.version)"
-    }
-
-    Invoke-CheckedCommand -Command $PythonPath -Arguments @(
-      $cachebusterScript,
-      $incomingPath
-    )
-    Invoke-CheckedCommand -Command $PythonPath -Arguments @(
-      $validatePluginScript,
-      $incomingPath
-    )
-
-    if (Test-Path -LiteralPath $localPluginPath) {
-      Move-Item -LiteralPath $localPluginPath -Destination $backupPath
-    }
-    Move-Item -LiteralPath $incomingPath -Destination $localPluginPath
-    if (Test-Path -LiteralPath $backupPath) {
-      Remove-Item -LiteralPath $backupPath -Recurse -Force
-    }
-  } catch {
-    if (
-      !(Test-Path -LiteralPath $localPluginPath) -and
-      (Test-Path -LiteralPath $backupPath)
-    ) {
-      Move-Item -LiteralPath $backupPath -Destination $localPluginPath
-    }
-    throw
-  } finally {
-    if (Test-Path -LiteralPath $incomingPath) {
-      Remove-Item -LiteralPath $incomingPath -Recurse -Force
-    }
-    if (Test-Path -LiteralPath $backupPath) {
-      Remove-Item -LiteralPath $backupPath -Recurse -Force
-    }
-  }
+  Invoke-CheckedCommand -Command 'node' -Arguments @(
+    (Join-Path $projectRoot 'scripts\validate-marketplace.mjs')
+  )
+  Invoke-CheckedCommand -Command $PythonPath -Arguments @(
+    $validatePluginScript,
+    $projectRoot
+  )
 }
 
-function Install-LocalPlugin {
-  $marketplaceName = & $PythonPath $readMarketplaceNameScript
-  if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($marketplaceName)) {
-    throw 'Unable to read the personal marketplace name.'
-  }
+function Update-PluginCachebuster {
+  Invoke-CheckedCommand -Command $PythonPath -Arguments @(
+    $cachebusterScript,
+    $projectRoot
+  )
+}
+
+function Register-RepositoryMarketplace {
+  Invoke-CheckedCommand -Command $CodexPath -Arguments @(
+    'plugin',
+    'marketplace',
+    'add',
+    $repositoryRoot
+  )
+}
+
+function Install-RepositoryPlugin {
+  $marketplaceName = Get-RepositoryMarketplaceName
   Invoke-CheckedCommand -Command $CodexPath -Arguments @(
     'plugin',
     'add',
-    "$pluginName@$($marketplaceName.Trim())"
+    "$pluginName@$marketplaceName"
   )
 }
+
+function Get-LocalStatus {
+  $marketplaceName = Get-RepositoryMarketplaceName
+  $currentManifest = Get-Content -Raw -Encoding UTF8 -LiteralPath $sourceManifestPath |
+    ConvertFrom-Json
+
+  Write-Output "Plugin: $pluginName"
+  Write-Output "Source: $projectRoot"
+  Write-Output "Source version: $($currentManifest.version)"
+  Write-Output "Repository marketplace: $marketplacePath"
+  Write-Output "Marketplace name: $marketplaceName"
+  Write-Output "Install target: $pluginName@$marketplaceName"
+}
+
+Assert-RequiredFiles
 
 if ($Action -eq 'status') {
   Get-LocalStatus
@@ -286,12 +177,29 @@ if ($Action -eq 'status') {
 }
 
 Assert-PythonReady
+
 if ($Action -eq 'bootstrap') {
-  Initialize-PersonalMarketplace
+  Assert-PluginSource
+  Register-RepositoryMarketplace
+  Install-RepositoryPlugin
+} elseif ($Action -eq 'install') {
+  Assert-PluginSource
+  Install-RepositoryPlugin
+} elseif ($Action -eq 'update') {
+  Invoke-CheckedCommand -Command 'node' -Arguments @(
+    (Join-Path $projectRoot 'scripts\sync-plugin-skill.mjs'),
+    '--check'
+  )
+  Invoke-CheckedCommand -Command 'node' -Arguments @(
+    (Join-Path $projectRoot 'scripts\validate-marketplace.mjs')
+  )
+  Update-PluginCachebuster
+  Invoke-CheckedCommand -Command $PythonPath -Arguments @(
+    $validatePluginScript,
+    $projectRoot
+  )
+  Install-RepositoryPlugin
 }
 
-Assert-MarketplaceEntry
-Build-LocalPluginSnapshot
-Install-LocalPlugin
 Get-LocalStatus
-Write-Output 'Local plugin installation is ready. Start a new Codex thread to load the updated Skill and MCP configuration.'
+Write-Output 'Local repository plugin installation is ready. Start a new Codex thread to load the updated Skill and MCP configuration.'

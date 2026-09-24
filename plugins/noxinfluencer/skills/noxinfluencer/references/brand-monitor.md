@@ -1,13 +1,13 @@
 # Brand Monitor Workflows
 
-Use brand-monitor commands for brand-level market intelligence and asset exports. This workflow starts from `brand_id`; do not substitute `creator_id`.
+Use the provider's brand-monitor Tools for brand-level market intelligence and asset exports. This workflow starts from `brand_id`; do not substitute `creator_id`.
 
 ## Routing
 
-| User intent | Command family |
+| User intent | MCP capability family |
 |-------------|----------------|
 | Find a known brand by name | `brand-monitor search <keyword>` |
-| Discover brands by category or market | `brand-monitor rank --body-file <path>` |
+| Discover brands by category or market | `brand-monitor rank` with structured filters |
 | List this account's monitored, unlocked, or sample brands | `brand-monitor list` |
 | Inspect one monitored brand | `brand-monitor get <brand_id>` |
 | Compare brand competition | `brand-monitor competition-matrix <brand_id>` |
@@ -29,9 +29,9 @@ Use brand-monitor commands for brand-level market intelligence and asset exports
 
 ## Platform Boundaries
 
-- Core brand monitor reads support YouTube, TikTok, and Instagram where the CLI schema permits.
-- Product signal commands currently support `youtube` only. Do not call product signal commands for TikTok or Instagram unless a future schema explicitly shows support.
-- Asset list commands are JSON-first. Use `--body-file` and inspect schema usage notes before building selectors.
+- Core brand monitor reads support YouTube, TikTok, and Instagram where the live Tool schema permits.
+- Product signal capabilities currently support `youtube` only. Do not call product signal capabilities for TikTok or Instagram unless a future schema explicitly shows support.
+- Asset-list Tools use structured inputs. Inspect the live schema before building selectors.
 
 ## Output Rules
 
@@ -39,11 +39,11 @@ Use brand-monitor commands for brand-level market intelligence and asset exports
 - Matrices and strategy reads: summarize top rows and the decision implication; do not dump every normalized field.
 - Asset lists: present comparable rows and include pagination state when present.
 - Product signals: state that the result is YouTube-only if the user asked for cross-platform analysis.
-- Exports: preserve `export_id` and route follow-up status/download through shared `export` commands.
+- Exports: preserve `export_id` and route follow-up status/download through the provider's shared export Tools.
 
 ## Mutation Rules
 
-- `add`, `unlock-base`, `unlock-high`, and all `*-export` commands are mutations or async job creation.
+- Add, unlock, and export capabilities are mutations or async job creation.
 - Dry-run first unless the user already approved the exact brand and action.
-- Use `--force` only after approval.
+- Apply only after approval and any provider preview step.
 - For unlock operations, explain that quota/entitlement may be consumed before executing.
