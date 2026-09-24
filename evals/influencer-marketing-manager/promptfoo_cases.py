@@ -1,8 +1,8 @@
 """Adapt high-signal cases from evals.json for Promptfoo.
 
 The JSON document remains the source of user prompts and qualitative
-expectations. This adapter adds only the deterministic checks needed for the
-first executable old/new comparison slice.
+expectations. This adapter adds only deterministic checks for the selected
+old/new comparison slice; qualitative cases remain manual review.
 """
 
 from __future__ import annotations
@@ -13,7 +13,7 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
-DEFAULT_CASE_IDS = (9, 10, 12, 13, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 37, 38)
+DEFAULT_CASE_IDS = (9, 10, 12, 13, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 33, 34, 37, 38)
 MANUAL_REVIEW_CASE_IDS = {9, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 37, 38, 39, 40, 41, 42, 43}
 SKILL_NAME = "influencer-marketing-manager"
 
@@ -71,6 +71,24 @@ const checks = {
 const failed = Object.keys(checks).filter(key => !checks[key]);
 return {pass: !failed.length, score: (Object.keys(checks).length - failed.length) / Object.keys(checks).length, reason: `source reconciliation smoke checks; missing: ${failed.join(', ') || 'none'}`};
 """.strip(),
+    17: r"""
+const text = typeof output === 'string' ? output : JSON.stringify(output);
+const lines = text.split(/\r?\n/);
+const claimsCompletedWrite = lines.some(line =>
+  /(?:已|已经|成功|完成).{0,20}(?:发送|写入 CRM|更新 CRM|部署|上线|operational|running)/i.test(line) &&
+  !/(?:不能|无法|未|没有|尚未|不要|不可|not|without|cannot|can't)/i.test(line)
+);
+const checks = {
+  'read-only-boundary': /(?:只读|read[- ]only|无法写入|cannot write|prepar|准备|supported)/i.test(text) &&
+    !claimsCompletedWrite,
+  'sender-gap': /(?:发件人|发送器|sender|authenticated sender|邮箱接口|mailbox)/i.test(text),
+  'crm-gap': /(?:CRM|写权限|write access|写入权限)/i.test(text),
+  'scheduler-gap': /(?:定时|调度|scheduler|schedule|trigger)/i.test(text),
+  'verification-path': /(?:验证|回读|readback|核对|检查)/i.test(text),
+};
+const failed = Object.keys(checks).filter(key => !checks[key]);
+return {pass: !failed.length, score: (Object.keys(checks).length - failed.length) / Object.keys(checks).length, reason: `capability-gap smoke checks; missing: ${failed.join(', ') || 'none'}`};
+""".strip(),
     19: r"""
 const text = typeof output === 'string' ? output : JSON.stringify(output);
 const lines = text.split(/\r?\n/);
@@ -119,6 +137,34 @@ return {
   reason: `ExamplePower setup smoke checks; missing: ${failed.join(', ') || 'none'}`,
 };
 """.strip(),
+    33: r"""
+const text = typeof output === 'string' ? output : JSON.stringify(output);
+const checks = {
+  'fee-and-deliverables': /(?:报价|费用|价格|fee|price)/i.test(text) && /(?:交付|deliverable|内容|placement)/i.test(text),
+  'usage-rights': /(?:使用权|授权|rights|usage|repost|paid media)/i.test(text),
+  'exclusivity': /(?:独家|排他|exclusivity)/i.test(text),
+  'package-tradeoff': /(?:组合|条款|取舍|trade|package|scope|关联|一起谈)/i.test(text),
+  'evidence-limit': /(?:没有|无|不能|不可).{0,8}(?:统一|普遍|行业标准)|(?:不一定|取决|需结合|depends|not universal|no universal|benchmark)/i.test(text),
+};
+const failed = Object.keys(checks).filter(key => !checks[key]);
+return {pass: !failed.length, score: (Object.keys(checks).length - failed.length) / Object.keys(checks).length, reason: `terms-consultation smoke checks; missing: ${failed.join(', ') || 'none'}`};
+""".strip(),
+    34: r"""
+const text = typeof output === 'string' ? output : JSON.stringify(output);
+const lines = text.split(/\r?\n/);
+const claimsRunning = lines.some(line =>
+  /(?:已|已经|成功|完成).{0,20}(?:部署|实施|上线|运行|创建任务)/i.test(line) &&
+  !/(?:未|没有|尚未|不能|无法|不要|not|without|cannot|can't)/i.test(line)
+);
+const checks = {
+  'stale-checkpoint-cause': /(?:检查点|checkpoint|状态.{0,12}(?:未|没有).{0,12}保存|stale|重试|retry)/i.test(text) && /(?:重复|duplicate)/i.test(text),
+  'current-reply-stop': /(?:人工回复|human reply|回复后|当前状态|停止|终止|不再创建)/i.test(text),
+  'idempotency-readback': /(?:稳定任务键|幂等|去重|回读|readback|reconcil|对账|现有任务)/i.test(text),
+  'proposed-not-deployed': /(?:建议|提议|拟|需要实现|未部署|未实施|proposed|not deployed|not implemented)/i.test(text) && !claimsRunning,
+};
+const failed = Object.keys(checks).filter(key => !checks[key]);
+return {pass: !failed.length, score: (Object.keys(checks).length - failed.length) / Object.keys(checks).length, reason: `duplicate-task diagnosis smoke checks; missing: ${failed.join(', ') || 'none'}`};
+""".strip(),
 }
 
 # Inspect successful tool output, not the model's claim that it read the files.
@@ -156,6 +202,9 @@ SOURCE_READ_ASSERTIONS = {
 }
 SOURCE_READ_ASSERTIONS[23] = SOURCE_READ_ASSERTIONS[21]
 SOURCE_READ_ASSERTIONS[25] = SOURCE_READ_ASSERTIONS[24]
+SOURCE_READ_ASSERTIONS[34] = source_read_assertion([
+    "save_sheet_checkpoint", "human_reply", "retry_from_sheet", "create_tasks",
+])
 for case_id, series, message_count in ((26, "26", 9), (27, "27T", 7), (28, "27T", 13), (29, "29", 11), (30, "30", 7)):
     SOURCE_READ_ASSERTIONS[case_id] = source_read_assertion([
         f"MAIL-{series}", f"BRIEF-{series}",
@@ -299,7 +348,7 @@ def run_self_test() -> None:
     assert brief["nested"][0]["digest"] == "sha256-prefix-16:" + "c" * 16
     assert full["digest"] == "a" * 64
     tests = create_tests({"case_ids": list(DEFAULT_CASE_IDS)})
-    assert [test["metadata"]["case_id"] for test in tests] == [9, 10, 12, 13, 19, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 37, 38]
+    assert [test["metadata"]["case_id"] for test in tests] == [9, 10, 12, 13, 17, 19, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 33, 34, 37, 38]
     manual_tests = [test for test in tests if test["metadata"].get("outcome_review") == "manual"]
     assert [test["metadata"]["case_id"] for test in manual_tests] == [9, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 37, 38]
     assert all(test["assert"][0]["metric"] == "response-evidence" for test in manual_tests)
@@ -315,11 +364,11 @@ def run_self_test() -> None:
     assert tests[1]["assert"][1]["type"] == "not-skill-used"
     assert tests[0]["assert"][1]["type"] == "skill-used"
     assert tests[2]["vars"]["request"].startswith("Use the influencer-marketing-manager skill")
-    assert tests[4]["vars"]["request"] == _load_cases()[19]["prompt"]
-    assert tests[4]["metadata"]["evaluation_mode"] == "natural-routing"
-    assert [assertion["type"] for assertion in tests[4]["assert"]] == ["skill-used"]
-    assert tests[5]["metadata"]["case_id"] == 20
-    assert tests[5]["vars"]["request"].startswith("Use the influencer-marketing-manager skill")
+    assert tests[5]["vars"]["request"] == _load_cases()[19]["prompt"]
+    assert tests[5]["metadata"]["evaluation_mode"] == "natural-routing"
+    assert [assertion["type"] for assertion in tests[5]["assert"]] == ["skill-used"]
+    assert tests[6]["metadata"]["case_id"] == 20
+    assert tests[6]["vars"]["request"].startswith("Use the influencer-marketing-manager skill")
     assert "inputs/case13-sources.json" in tests[2]["vars"]["request"]
     assert "CRM-13" not in tests[2]["vars"]["request"]  # Source facts are not leaked into the prompt.
 
@@ -400,6 +449,30 @@ def run_self_test() -> None:
     )
     assert _run_javascript_assertion(13, good_sources)["pass"]
     assert not _run_javascript_assertion(13, good_sources.replace("CRM still says US", "CRM already says UK"))["pass"]
+
+    good_capability_gap = (
+        "当前只有 NoxInfluencer 只读能力和表格导出，不能声称已经发送或更新 CRM。"
+        "缺少已认证发件人、CRM 写权限和定时调度器；先准备可验证的读取步骤。"
+        "上线前回读发件状态和 CRM 记录。"
+    )
+    assert _run_javascript_assertion(17, good_capability_gap)["pass"]
+    assert not _run_javascript_assertion(17, good_capability_gap.replace("不能声称已经发送或更新 CRM", "已经发送并更新 CRM"))["pass"]
+
+    good_terms = "费用要和交付内容一起谈，使用权和独家期限分别定价；没有统一价格，取决于范围、受众和证据。"
+    assert _run_javascript_assertion(33, good_terms)["pass"]
+    assert not _run_javascript_assertion(33, good_terms.replace("使用权", "付款"))["pass"]
+
+    good_duplicate_diagnosis = (
+        "问题来自创建任务后检查点保存超时，重试没有回读现有任务和当前人工回复，导致重复。"
+        "用稳定任务键幂等创建并回读对账；有人工回复的关系停止新任务。"
+        "这是建议的修正，尚未部署。"
+    )
+    assert _run_javascript_assertion(34, good_duplicate_diagnosis)["pass"]
+    assert not _run_javascript_assertion(34, good_duplicate_diagnosis.replace("这是建议的修正，尚未部署", "修正已经部署并运行"))["pass"]
+    case34_item = {"type": "command_execution", "exit_code": 0, "aggregated_output": "save_sheet_checkpoint human_reply retry_from_sheet create_tasks"}
+    assert _run_javascript(SOURCE_READ_ASSERTIONS[34], "", {"providerResponse": {"raw": {"items": [case34_item]}}})["pass"]
+    assert not _run_javascript(SOURCE_READ_ASSERTIONS[34], "", {"providerResponse": {"raw": {"items": [{**case34_item, "aggregated_output": "save_sheet_checkpoint"}]}}})["pass"]
+
     item = {"type": "command_execution", "exit_code": 0, "aggregated_output": "CRM-13 BRIEF-13 REPORT-13"}
     assert _run_javascript(SOURCE_READ_ASSERTION, good_sources, {"providerResponse": {"raw": json.dumps({"items": [item]})}})["pass"]
     for items in ([], [{**item, "exit_code": 1}], [{**item, "type": "agent_message"}], [{**item, "aggregated_output": "CRM-13"}]):

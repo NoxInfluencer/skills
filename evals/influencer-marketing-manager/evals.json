@@ -517,6 +517,7 @@
       "expectations": [
         "Reads the actual workflow and produces a usable SOP, including ownership, update timing, handoff and exceptions",
         "Preserves the current shared sheet and mailbox, distinguishes proposed fixes from already approved rules",
+        "Makes each material handoff checkable with its input or source, completion evidence, owner, next check and blocker",
         "Finishes the requested document without making automation deployment or authentication a prerequisite"
       ],
       "followups": [
@@ -603,6 +604,7 @@
       "expectations": [
         "Covers terms, contract, sample or access, Brief, content review, publication and measurement through actual dependencies; material requirements are reviewed before agreement and the full Brief is ready before production",
         "Attaches an owner, due point, evidence or readback, and blocker to each material handoff",
+        "Separates dispatch, receipt, acceptance, usage authorization and publication when those states affect the next action",
         "Keeps product shipment, content requirements, rights, payment and publication conditions tied to the approved contract or Brief",
         "Produces a short Brief outline with supported product points, production requirements and agreed publication details; the number of talking points fits the task",
         "Requires consolidated timestamped edits before publication and preserves creator voice when agreed requirements are met",
