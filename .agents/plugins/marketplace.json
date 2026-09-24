@@ -1,0 +1,20 @@
+{
+  "name": "noxinfluencer-codex",
+  "interface": {
+    "displayName": "NoxInfluencer Codex"
+  },
+  "plugins": [
+    {
+      "name": "noxinfluencer",
+      "source": {
+        "source": "local",
+        "path": "./plugins/noxinfluencer"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Marketing"
+    }
+  ]
+}

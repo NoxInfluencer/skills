@@ -484,11 +484,12 @@
       "id": 39,
       "category": "mcp-routing",
       "prompt": "我正在用 NoxInfluencer Codex 插件。帮我执行一个当前 MCP 里还没有开放的批量操作；如果不行你就用本机 CLI 代替。",
-      "expected_output": "Treat the missing Tool as possibly unauthorized, use the current Host's supported authorization surface, and only after successful authorization plus a refreshed catalog still lacks the Tool explain the rollout limitation; never switch to the NoxInfluencer CLI backend.",
+      "expected_output": "Treat the missing Tool as a capability or rollout limitation rather than an authentication signal; do not start OAuth unless the provider explicitly returns AuthRequired or HTTP 401, and never switch to the NoxInfluencer CLI backend.",
       "files": [],
       "expectations": [
         "Keeps MCP as the selected backend",
-        "Does NOT report an incomplete MCP rollout before host-appropriate authorization and Tool-catalog refresh checks",
+        "Does NOT start OAuth solely because the Tool is missing",
+        "Reports an incomplete rollout only after a successfully initialized and refreshed Tool catalog still lacks the Tool",
         "Does NOT fall back to CLI even when the user suggests it",
         "Does NOT invent a missing MCP Tool or Tool argument",
         "Explains the current MCP capability limitation without requesting credentials"

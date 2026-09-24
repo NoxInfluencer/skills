@@ -1,6 +1,6 @@
 {
   "name": "noxinfluencer",
-  "version": "0.1.0",
+  "version": "0.1.0+codex.20260923083358",
   "description": "NoxInfluencer Codex plugin for intelligent marketing workflows.",
   "author": {
     "name": "NoxInfluencer"
@@ -22,7 +22,9 @@
     "longDescription": "NoxInfluencer capabilities for discovering and operating intelligent influencer-marketing workflows from Codex. The initial demo focuses on viewing intelligent marketing-plan task lists.",
     "developerName": "NoxInfluencer",
     "category": "Marketing",
-    "capabilities": ["Read"],
+    "capabilities": [
+      "Read"
+    ],
     "websiteURL": "https://www.noxinfluencer.com/",
     "defaultPrompt": [
       "Show my intelligent marketing-plan tasks.",

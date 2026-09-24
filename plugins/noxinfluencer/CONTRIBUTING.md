@@ -1,104 +1,126 @@
 # NoxInfluencer Codex Plugin 提交规范
 
-本规范适用于以下两个相互关联的目录：
+本规范适用于 `plugins/noxinfluencer` 及仓库级 `.agents/plugins/marketplace.json`。插件内 Skill 是独立源码；仓库中的其他 Skill 不参与本插件的开发、验证或安装。
 
-```text
-skills/noxinfluencer
-plugins/noxinfluencer
-```
-
-## 唯一源码与生成副本
-
-- `skills/noxinfluencer` 是 NoxInfluencer Skill 的唯一源码，独立 Skill 用户从这里使用 CLI 分路。
-- `plugins/noxinfluencer/skills/noxinfluencer` 是 Codex Plugin 的生成副本，不允许手工编辑。
-- Plugin 内置副本必须严格等于根 Skill，再额外包含自动生成的 `references/codex-plugin-runtime.md`；该文件用于确定 MCP 分路。
-- 不得把 `.git`、评测目录、日志、构建产物、环境文件或疑似密钥复制进 Plugin 内置 Skill。
-
-所有命令均从仓库根目录下的 `plugins/noxinfluencer` 执行：
+所有插件命令从插件根目录执行：
 
 ```powershell
 cd plugins/noxinfluencer
 ```
 
-## 修改 Skill
+## 开发流程
 
-先修改唯一源码：
+直接修改插件目录内的 Skill、Manifest、MCP 配置、脚本或文档。不要从其他 Skill 目录同步或复制内容。
 
-```text
-skills/noxinfluencer
-```
-
-然后同步并校验：
+首次安装依赖：
 
 ```powershell
 npm ci
+```
+
+提交前执行：
+
+```powershell
+npm run verify
+```
+
+`verify` 是只读校验，覆盖 Plugin Skill、Manifest、MCP 配置以及仓库 Marketplace。正常开发和 CI 不需要生成 ZIP。
+
+如果修改了运行时标记模板，先执行：
+
+```powershell
 npm run plugin:sync-skill
-npm run plugin:verify-sync
-npm run package:dev
+npm run verify
 ```
 
-同一个提交必须同时包含：
+## Marketplace 约束
+
+仓库 Marketplace 位于：
 
 ```text
-skills/noxinfluencer
-plugins/noxinfluencer/skills/noxinfluencer
+.agents/plugins/marketplace.json
 ```
 
-不得只提交其中一份，也不得直接修补 Plugin 内置副本。
+必须保持：
 
-## 只修改 Plugin
+- Marketplace 名称为 `noxinfluencer-codex`；
+- 插件名称为 `noxinfluencer`；
+- 来源为 `./plugins/noxinfluencer`；
+- 安装策略为 `AVAILABLE`；
+- 认证策略为 `ON_INSTALL`；
+- 分类为 `Marketing`。
 
-只修改 `plugins/noxinfluencer` 下的 manifest、MCP 配置、脚本、文档或其他 Plugin 文件时，执行：
+不要把个人 Marketplace、用户目录路径、Token 或机器相关配置提交到仓库。
+
+## 本地更新
+
+首次注册当前仓库 Marketplace：
 
 ```powershell
-npm ci
-npm run plugin:verify-sync
-npm run package:dev
+npm run plugin:local:deps
+npm run plugin:local:bootstrap
 ```
 
-如果 `plugin:verify-sync` 报告内置 Skill 漂移，不要手工修复副本；回到根 Skill 确认修改，再执行 `npm run plugin:sync-skill`。
+后续修改插件后：
+
+```powershell
+npm run plugin:local:update
+```
+
+本地更新按照 `plugin-creator` 的开发流程更新 Manifest cachebuster，再从仓库 Marketplace 重新安装。更新完成后使用新 Codex 会话测试。
+
+本地 cachebuster 不能直接作为正式发布版本。正式发布前把 Manifest 版本改成确定版本，并运行 `npm run verify`。
+
+## 可选发布 ZIP
+
+仅在离线交付、GitHub Release 附件或文件清单审计需要时执行：
+
+```powershell
+npm run release:package
+```
+
+开发 ZIP：
+
+```powershell
+npm run release:package:dev
+```
+
+ZIP 不是 GitHub Marketplace 安装链路的一部分。
 
 ## 提交前检查
 
-提交前必须确认：
-
-- `npm run plugin:verify-sync` 通过，且没有修改文件。
-- `npm run package:dev` 通过。
-- `git status` 中没有 `node_modules`、`dist`、日志、环境文件、密钥或临时文件。
-- Skill 变更同时包含根 Skill 和 Plugin 内置副本。
-- Plugin-only 变更没有误改根 Skill 或手工修改内置副本。
-- `.mcp.json` 中 `url` 与 `oauth_resource` 完全相等，使用 HTTPS，且不带尾部 `/`。
+- `npm run verify` 通过；
+- `git diff --check` 通过；
+- `git status` 中没有 `node_modules`、`dist`、日志、环境文件、密钥或临时文件；
+- Marketplace 条目仍指向本插件目录；
+- `.mcp.json` 中 `type` 为 `http`，`url` 与 `oauth_resource` 完全相等且不带尾部 `/`；当前测试构建仅允许固定 HTTPS 内网域名 `https://skilltest.noxinfluencer.com/mcp`；
+- 正式发布使用确定版本和对应 Git Tag。
 
 ## Commit Message
 
-使用 Conventional Commits，并明确变更范围：
+使用 Conventional Commits：
 
 ```text
-feat(skill): add creator workflow
-fix(skill): tighten campaign guardrails
-feat(plugin): add Codex MCP runtime
+feat(plugin): add creator workflow
+fix(plugin): tighten MCP guardrails
+feat(marketplace): publish GitHub install entry
 fix(plugin): validate MCP resource
-docs(plugin): document release workflow
-chore(plugin): refresh bundled skill
+docs(plugin): document GitHub installation
 ```
-
-一个提交只表达一个完整意图。由同一次 Skill 修改产生的根 Skill 与 Plugin 内置副本属于同一个完整意图，应放在同一提交中。
 
 ## CI 门禁
 
-当 Pull Request 或 `mcp` 分支推送涉及以下路径时，GitHub Actions 会自动执行 Plugin 校验：
+当以下路径发生变化时，GitHub Actions 执行验证：
 
 ```text
-skills/noxinfluencer/**
+.agents/plugins/marketplace.json
 plugins/noxinfluencer/**
+.github/workflows/noxinfluencer-plugin.yml
 ```
 
 CI 固定执行：
 
 ```powershell
 npm ci
-npm run plugin:verify-sync
-npm run package
+npm run verify
 ```
-
-`plugin:verify-sync` 是只读检查；如果开发者忘记同步、直接手改内置副本，或复制了额外文件，CI 会失败。Git hook 可以作为本地便利，但不作为唯一保障。

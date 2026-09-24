@@ -4,8 +4,6 @@ import {
   mkdirSync,
   readFileSync,
   readdirSync,
-  renameSync,
-  rmSync,
   writeFileSync,
 } from "node:fs";
 import { dirname, join, posix, relative, resolve, sep } from "node:path";
@@ -15,10 +13,6 @@ export const projectRoot = resolve(
   dirname(fileURLToPath(import.meta.url)),
   "..",
 );
-const configuredSkillSource = process.env.NOX_PLUGIN_SKILL_SOURCE?.trim();
-export const canonicalSkillSourceDirectory = configuredSkillSource
-  ? resolve(projectRoot, configuredSkillSource)
-  : resolve(projectRoot, "..", "..", "skills", "noxinfluencer");
 export const bundledSkillDirectory = join(
   projectRoot,
   "skills",
@@ -32,11 +26,11 @@ This file is generated only in the NoxInfluencer Codex Plugin package. Its prese
 
 - Use the connected MCP provider named \`noxinfluencer\` for every NoxInfluencer operation.
 - Reuse the shared business workflows and guardrails from the Skill.
-- When OAuth is required, actively start the Codex Host OAuth flow exactly once per user request. On Windows desktop or CLI conversations, use the bundled \`scripts/start-codex-oauth.ps1\` helper; on macOS/Linux, use an independently executable \`codex mcp login noxinfluencer --oauth-client-registration dcr --scopes noxinfluencer.codex.user\`. The CLI registration value is case-sensitive and must remain lowercase.
+- When OAuth is required, actively start the Codex Host OAuth flow exactly once per user request. On Windows desktop or Codex CLI-hosted conversations, use the bundled \`scripts/start-codex-oauth.ps1\` helper; on macOS/Linux, use an independently executable \`codex mcp login noxinfluencer --oauth-client-registration dcr --scopes noxinfluencer.codex.user\`. The registration value is case-sensitive and must remain lowercase.
 - The Windows helper may invoke the Plugin App Server control CLI already installed under the current \`CODEX_HOME\`. It must never invoke a \`WindowsApps\` alias, copy or elevate an executable, construct an authorization URL, or read OAuth credentials.
 - Let the Codex Host handle DCR, PKCE, state, the loopback callback, external-browser authorization, and Token storage. Fall back to NoxInfluencer Connect/Re-authorize in Codex settings only when the one automatic attempt cannot start or the user cancels it.
-- Never execute \`noxinfluencer login\`, any NoxInfluencer CLI business command, Device Flow, or API-key setup in this packaged runtime.
-- Never fall back to the NoxInfluencer CLI when OAuth, MCP connection, or Tool availability fails. Never request, construct, print, or store OAuth credentials or authorization URLs in the Skill.
+- Never execute \`noxinfluencer login\`, any local NoxInfluencer CLI business command, Device Flow, or API-key setup in this packaged runtime.
+- Never fall back to a local CLI when OAuth, MCP connection, or Tool availability fails. Never request, construct, print, or store OAuth credentials or authorization URLs in the Skill.
 `;
 
 const forbiddenSegments = new Set([
@@ -63,7 +57,7 @@ function assertSafeRelativePath(relativePath) {
   const baseName = segments.at(-1)?.toLowerCase() ?? "";
 
   if (segments.some((segment) => forbiddenSegments.has(segment.toLowerCase()))) {
-    fail(`Development-only content cannot be bundled: ${relativePath}`);
+    fail(`Development-only content cannot be packaged: ${relativePath}`);
   }
   if (
     baseName === ".env" ||
@@ -85,14 +79,14 @@ function listFiles(path, root = path) {
   const stat = lstatSync(path);
   const relativePath = toPortablePath(path, root);
   if (stat.isSymbolicLink()) {
-    fail(`Symbolic links are not allowed in the bundled Skill: ${relativePath}`);
+    fail(`Symbolic links are not allowed in the Plugin Skill: ${relativePath}`);
   }
   if (stat.isFile()) {
     assertSafeRelativePath(relativePath);
     return [path];
   }
   if (!stat.isDirectory()) {
-    fail(`Unsupported Skill filesystem entry: ${relativePath}`);
+    fail(`Unsupported Plugin Skill filesystem entry: ${relativePath}`);
   }
 
   return readdirSync(path, { withFileTypes: true })
@@ -100,33 +94,12 @@ function listFiles(path, root = path) {
     .flatMap((entry) => listFiles(join(path, entry.name), root));
 }
 
-function buildExpectedFiles(sourceDirectory) {
-  const source = resolve(sourceDirectory);
-  const skillManifest = join(source, "SKILL.md");
-  if (!existsSync(skillManifest)) {
-    fail(`Canonical Skill is missing SKILL.md: ${source}`);
-  }
-
-  const expected = new Map();
-  for (const path of listFiles(source)) {
-    const relativePath = toPortablePath(path, source);
-    if (relativePath === ".gitkeep") continue;
-    if (relativePath === pluginRuntimeMarkerRelativePath) {
-      fail(
-        `Canonical Skill must not contain the Plugin runtime marker: ${relativePath}`,
-      );
-    }
-    expected.set(relativePath, readFileSync(path));
-  }
-  expected.set(
-    pluginRuntimeMarkerRelativePath,
-    Buffer.from(pluginRuntimeMarker, "utf8"),
-  );
-  return expected;
-}
-
 function readActualFiles(targetDirectory) {
   const target = resolve(targetDirectory);
+  if (!existsSync(target)) {
+    fail(`Plugin Skill directory is missing: ${target}`);
+  }
+
   const actual = new Map();
   for (const path of listFiles(target)) {
     const relativePath = toPortablePath(path, target);
@@ -136,80 +109,71 @@ function readActualFiles(targetDirectory) {
   return actual;
 }
 
-function diffFileMaps(expected, actual) {
-  const missing = [...expected.keys()].filter((path) => !actual.has(path));
-  const extra = [...actual.keys()].filter((path) => !expected.has(path));
-  const changed = [...expected.keys()].filter(
-    (path) => actual.has(path) && !expected.get(path).equals(actual.get(path)),
-  );
-  return { missing, extra, changed };
-}
-
-function formatDrift({ missing, extra, changed }) {
-  const details = [];
-  if (missing.length) details.push(`missing: ${missing.join(", ")}`);
-  if (extra.length) details.push(`extra: ${extra.join(", ")}`);
-  if (changed.length) details.push(`changed: ${changed.join(", ")}`);
-  return details.join("; ");
-}
-
-export function verifyBundledSkillSync({
-  sourceDirectory = canonicalSkillSourceDirectory,
-  targetDirectory = bundledSkillDirectory,
-} = {}) {
-  const expected = buildExpectedFiles(sourceDirectory);
-  const actual = readActualFiles(targetDirectory);
-  const drift = diffFileMaps(expected, actual);
-  if (drift.missing.length || drift.extra.length || drift.changed.length) {
-    fail(
-      `Bundled Skill is out of sync (${formatDrift(drift)}). Run npm run plugin:sync-skill.`,
-    );
-  }
-  return { fileCount: expected.size };
-}
-
 function assertSafeTarget(targetDirectory) {
   const resolvedTarget = resolve(targetDirectory);
   const expectedTarget = resolve(bundledSkillDirectory);
   if (resolvedTarget !== expectedTarget) {
-    fail(`Refusing to replace an unexpected bundled Skill target: ${resolvedTarget}`);
+    fail(`Refusing to modify an unexpected Plugin Skill target: ${resolvedTarget}`);
   }
 }
 
+export function verifyBundledSkillSync({
+  targetDirectory = bundledSkillDirectory,
+} = {}) {
+  const actual = readActualFiles(targetDirectory);
+  if (!actual.has("SKILL.md")) {
+    fail(`Plugin Skill is missing SKILL.md: ${resolve(targetDirectory)}`);
+  }
+
+  const marker = actual.get(pluginRuntimeMarkerRelativePath);
+  if (!marker) {
+    fail(
+      `Plugin Skill is missing ${pluginRuntimeMarkerRelativePath}. Run npm run plugin:sync-skill.`,
+    );
+  }
+  if (!marker.equals(Buffer.from(pluginRuntimeMarker, "utf8"))) {
+    fail(
+      `${pluginRuntimeMarkerRelativePath} is not the generated Plugin runtime marker. Run npm run plugin:sync-skill.`,
+    );
+  }
+
+  return { fileCount: actual.size };
+}
+
+/**
+ * Keep the Plugin-owned runtime marker deterministic.
+ *
+ * The Plugin Skill directory is its own source tree. This operation never
+ * reads from, compares with, or writes to the standalone Skill directory.
+ */
 export function syncBundledSkill({
-  sourceDirectory = canonicalSkillSourceDirectory,
   targetDirectory = bundledSkillDirectory,
 } = {}) {
   assertSafeTarget(targetDirectory);
-  const expected = buildExpectedFiles(sourceDirectory);
   const target = resolve(targetDirectory);
-  const targetParent = dirname(target);
-  const operationId = `${process.pid}-${Date.now()}`;
-  const incoming = join(targetParent, `.noxinfluencer.incoming-${operationId}`);
-  const backup = join(targetParent, `.noxinfluencer.backup-${operationId}`);
+  const skillManifest = join(target, "SKILL.md");
+  if (!existsSync(skillManifest)) {
+    fail(`Plugin Skill is missing SKILL.md: ${target}`);
+  }
+  // Scan before writing so a symlinked directory cannot redirect the marker
+  // write outside the Plugin-owned Skill tree.
+  readActualFiles(target);
 
-  mkdirSync(targetParent, { recursive: true });
-  try {
-    for (const [relativePath, contents] of expected) {
-      const destination = join(incoming, ...relativePath.split("/"));
-      mkdirSync(dirname(destination), { recursive: true });
-      writeFileSync(destination, contents);
-    }
-    verifyBundledSkillSync({
-      sourceDirectory,
-      targetDirectory: incoming,
-    });
-
-    if (existsSync(target)) renameSync(target, backup);
-    renameSync(incoming, target);
-    if (existsSync(backup)) rmSync(backup, { recursive: true, force: true });
-  } catch (error) {
-    if (!existsSync(target) && existsSync(backup)) renameSync(backup, target);
-    throw error;
-  } finally {
-    if (existsSync(incoming)) rmSync(incoming, { recursive: true, force: true });
-    if (existsSync(backup)) rmSync(backup, { recursive: true, force: true });
+  const markerPath = join(
+    target,
+    ...pluginRuntimeMarkerRelativePath.split("/"),
+  );
+  if (existsSync(markerPath) && lstatSync(markerPath).isSymbolicLink()) {
+    fail(
+      `Symbolic links are not allowed in the Plugin Skill: ${pluginRuntimeMarkerRelativePath}`,
+    );
+  }
+  mkdirSync(dirname(markerPath), { recursive: true });
+  const expectedMarker = Buffer.from(pluginRuntimeMarker, "utf8");
+  if (!existsSync(markerPath) || !readFileSync(markerPath).equals(expectedMarker)) {
+    writeFileSync(markerPath, expectedMarker);
   }
 
-  return { fileCount: expected.size, targetDirectory: target };
+  const result = verifyBundledSkillSync({ targetDirectory: target });
+  return { ...result, targetDirectory: target };
 }

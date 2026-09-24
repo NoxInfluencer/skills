@@ -1,5 +1,4 @@
 import { createHash } from "node:crypto";
-import { execFileSync } from "node:child_process";
 import {
   copyFileSync,
   createReadStream,
@@ -16,7 +15,6 @@ import { fileURLToPath } from "node:url";
 import yazl from "yazl";
 import {
   bundledSkillDirectory,
-  canonicalSkillSourceDirectory,
   pluginRuntimeMarkerRelativePath,
   verifyBundledSkillSync,
 } from "./plugin-skill-sync.mjs";
@@ -26,9 +24,6 @@ const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const manifestPath = join(projectRoot, ".codex-plugin", "plugin.json");
 const outputDirectory = join(projectRoot, "dist");
 const stagingDirectory = join(outputDirectory, ".staging");
-const skillSourceDirectory = canonicalSkillSourceDirectory;
-const skillRepositoryRoot = resolve(skillSourceDirectory, "..", "..");
-const skillGitSafeDirectory = skillRepositoryRoot.split(sep).join("/");
 const pluginRuntimeMarkerArchivePath =
   posix.join("skills/noxinfluencer", pluginRuntimeMarkerRelativePath);
 const fixedArchiveDate = new Date("1980-01-01T00:00:00.000Z");
@@ -86,58 +81,13 @@ function assertSafeArchivePath(archivePath) {
   }
 }
 
-function runSkillGit(args) {
-  return execFileSync(
-    "git",
-    [
-      "-c",
-      `safe.directory=${skillGitSafeDirectory}`,
-      "-C",
-      skillRepositoryRoot,
-      ...args,
-    ],
-    { encoding: "utf8" },
-  ).trim();
-}
-
-function assertSkillSourceReady({ development }) {
-  const skillManifest = join(skillSourceDirectory, "SKILL.md");
-  if (!existsSync(skillManifest)) {
-    fail(
-      `Canonical Skill is missing at ${skillSourceDirectory}. Place this Plugin at plugins/noxinfluencer inside the NoxInfluencer skills repository.`,
-    );
-  }
-
+function assertPluginSkillReady() {
   try {
     verifyBundledSkillSync();
   } catch (error) {
     fail(error.message);
   }
-
-  try {
-    const status = runSkillGit(["status", "--porcelain"]);
-    const branch = runSkillGit(["rev-parse", "--abbrev-ref", "HEAD"]);
-    if (development && branch !== "mcp") {
-      fail(
-        `Development packages must use the Skill repository's mcp branch; current branch is "${branch}".`,
-      );
-    }
-    if (status && !development) {
-      fail(
-        "Skill source contains uncommitted changes. Commit them in the Skill repository before production packaging, or use npm run package:dev for a local development artifact.",
-      );
-    }
-
-    return {
-      branch,
-      commit: runSkillGit(["rev-parse", "HEAD"]),
-      dirty: Boolean(status),
-    };
-  } catch (error) {
-    if (error.message.startsWith("Skill source")) throw error;
-    if (error.message.startsWith("Development packages")) throw error;
-    fail(`Unable to verify Skill source: ${error.message}`);
-  }
+  return verifyBundledSkillSync();
 }
 
 function copyFileToStaging(sourcePath, archivePath) {
@@ -272,7 +222,7 @@ async function main() {
 
   const { manifest } = validatePluginSource();
 
-  const skillSource = assertSkillSourceReady({ development });
+  const pluginSkill = assertPluginSkillReady();
   const artifactVersion = development
     ? createDevelopmentVersion(manifest.version)
     : manifest.version;
@@ -289,10 +239,7 @@ async function main() {
 
     console.log(`Package mode: ${development ? "development" : "production"}`);
     console.log(`Plugin version: ${artifactVersion}`);
-    console.log(`Skill source branch: ${skillSource.branch}`);
-    console.log(
-      `Skill source commit: ${skillSource.commit}${skillSource.dirty ? " (dirty working tree)" : ""}`,
-    );
+    console.log(`Plugin-local Skill files: ${pluginSkill.fileCount}`);
     console.log(`Packaged ${files.length} files:`);
     for (const path of files) {
       console.log(`- ${toArchivePath(path, stagingDirectory)}`);

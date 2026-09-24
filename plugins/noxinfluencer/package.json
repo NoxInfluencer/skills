@@ -2,7 +2,7 @@
   "name": "@noxinfluencer/codex-plugin",
   "version": "0.1.0",
   "private": true,
-  "description": "Build tooling for the NoxInfluencer Codex Plugin.",
+  "description": "Validation and optional release tooling for the NoxInfluencer Codex Plugin.",
   "type": "module",
   "engines": {
     "node": ">=20"
@@ -10,10 +10,14 @@
   "scripts": {
     "plugin:sync-skill": "node scripts/sync-plugin-skill.mjs",
     "plugin:verify-sync": "node scripts/sync-plugin-skill.mjs --check",
+    "marketplace:validate": "node scripts/validate-marketplace.mjs",
+    "verify": "npm run plugin:verify-sync && npm run marketplace:validate",
     "skill:sync": "npm run plugin:sync-skill",
     "skill:verify": "npm run plugin:verify-sync",
-    "package": "node scripts/package-plugin.mjs",
-    "package:dev": "node scripts/package-plugin.mjs --dev",
+    "release:package": "node scripts/package-plugin.mjs",
+    "release:package:dev": "node scripts/package-plugin.mjs --dev",
+    "package": "npm run release:package",
+    "package:dev": "npm run release:package:dev",
     "plugin:local:deps": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-local-plugin-deps.ps1",
     "plugin:local:bootstrap": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local-plugin.ps1 -Action bootstrap",
     "plugin:local:install": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local-plugin.ps1 -Action install",
