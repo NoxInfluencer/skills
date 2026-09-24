@@ -130,6 +130,38 @@ Each new result embeds the prepared fixture identity in test metadata. Full SHA-
 
 Use the pinned project dependency with an existing compatible Node runtime (22.22.0+); do not change system Node. Install with `npm ci` if needed.
 
+### Network prerequisites on another machine
+
+The default eval is networked. It needs four things on the machine that runs it:
+
+1. A working Codex login or API-key configuration. Run the preparation command with `--reuse-codex-login` only after the local Codex login has been completed; omit it when the SDK will use an API key.
+2. The `noxinfluencer` CLI on `PATH`, with its own account configuration. Run `noxinfluencer doctor` before an eval and keep its config outside Git.
+3. A route to the configured model provider. The model provider may be an internal or self-hosted endpoint, so keep that connection in the local Codex configuration rather than in this repository.
+4. An HTTP proxy when the network egress blocks `skill.noxinfluencer.com`. Set `INFLUENCER_EVAL_PROXY` to the local HTTP proxy URL, for example `http://127.0.0.1:10808`. The CLI uses Node's HTTP proxy support; a `socks5://` URL is not accepted. Set `INFLUENCER_EVAL_NO_PROXY` when private model or local service addresses must bypass the proxy.
+
+Run a harmless preflight from the repository root:
+
+```bash
+noxinfluencer doctor
+INFLUENCER_EVAL_PROXY=http://127.0.0.1:10808 \
+INFLUENCER_EVAL_NO_PROXY=127.0.0.1,localhost,::1 \
+npm run eval:manager:validate
+```
+
+Then prepare and run one bounded network smoke case before a larger set:
+
+```bash
+INFLUENCER_EVAL_PROXY=http://127.0.0.1:10808 \
+npm run eval:manager:prepare -- --baseline-ref <old-ref> --reuse-codex-login
+
+INFLUENCER_EVAL_PROXY=http://127.0.0.1:10808 \
+npm run eval:manager -- --filter-pattern '^\[34\]' \
+  --filter-providers manager-candidate --no-cache \
+  -o evals/influencer-marketing-manager/workspace/promptfoo/network-smoke.json
+```
+
+The repository supplies a local proxy default for the current development setup, but `INFLUENCER_EVAL_PROXY` should be set explicitly on other machines. Do not copy API keys, `auth.json`, Nox config files, proxy credentials, or raw runtime traces into the repository. Network access enables read-only and dry-run checks; it does not authorize live marketing mutations.
+
 Run local checks first; these make no model or marketing-system calls:
 
 ```bash
