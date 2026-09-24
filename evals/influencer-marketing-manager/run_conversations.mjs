@@ -113,6 +113,12 @@ async function main() {
   const env = Object.fromEntries(['PATH', 'HOME', 'USER', 'TMPDIR', 'LANG', 'OPENAI_API_KEY', 'CODEX_API_KEY']
     .filter(key => process.env[key] !== undefined).map(key => [key, process.env[key]]));
   env.CODEX_HOME = resolve(workspace, 'codex-home');
+  const proxy = process.env.INFLUENCER_EVAL_PROXY || process.env.HTTPS_PROXY || 'http://127.0.0.1:10808';
+  env.HTTP_PROXY = process.env.HTTP_PROXY || proxy;
+  env.HTTPS_PROXY = process.env.HTTPS_PROXY || proxy;
+  env.ALL_PROXY = process.env.ALL_PROXY || proxy;
+  env.NO_PROXY = process.env.INFLUENCER_EVAL_NO_PROXY || process.env.NO_PROXY ||
+    '127.0.0.1,localhost,::1,10.0.0.0/8';
   const codex = new Codex({ env, config: shared.cli_config });
   const report = {
     schema_version: 1, started_at: new Date().toISOString(),

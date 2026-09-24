@@ -7,13 +7,19 @@ x-codex-config: &codexConfig
   model: '{{ env.INFLUENCER_EVAL_MODEL | default("gpt-5.6-terra") }}'
   model_reasoning_effort: medium
   skip_git_repo_check: true
-  sandbox_mode: read-only
+  sandbox_mode: workspace-write
   approval_policy: never
-  network_access_enabled: false
+  network_access_enabled: true
   web_search_mode: disabled
   enable_streaming: true
   cli_env:
     CODEX_HOME: '{{ env.PWD }}/evals/influencer-marketing-manager/workspace/promptfoo/codex-home'
+    # The local Xray mixed port is an HTTP proxy for Node/undici. Override
+    # INFLUENCER_EVAL_PROXY on machines with a different network route.
+    HTTP_PROXY: '{{ env.INFLUENCER_EVAL_PROXY | default("http://127.0.0.1:10808") }}'
+    HTTPS_PROXY: '{{ env.INFLUENCER_EVAL_PROXY | default("http://127.0.0.1:10808") }}'
+    ALL_PROXY: '{{ env.INFLUENCER_EVAL_PROXY | default("http://127.0.0.1:10808") }}'
+    NO_PROXY: '{{ env.INFLUENCER_EVAL_NO_PROXY | default("127.0.0.1,localhost,::1,10.0.0.0/8") }}'
   cli_config:
     features:
       memories: false
