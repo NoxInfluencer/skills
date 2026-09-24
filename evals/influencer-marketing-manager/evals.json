@@ -719,6 +719,22 @@
         "For C, separates completed deliverables from hoped-for reach; proposes negotiated support while preserving the absence of a free make-good guarantee, paid-use permission or budget authority",
         "Gives each incident a concrete owner/next check and evidence for resumption, distinguishes proposals from completed actions, and keeps the response proportionate"
       ]
+    },
+    {
+      "id": 44,
+      "category": "creator-growth-method",
+      "trigger": "should-trigger",
+      "prompt": "我准备做一轮红人合作，但团队只说想要曝光和增长，没说清这轮要解决什么。请把这次工作整理成一套可执行的判断方法：怎么确定主任务和购买理由，怎么选达人和内容任务，怎么检查承接和断点，怎么区分归因、辅助影响与增量，以及如何决定放大、优化或停止。我们可能会把表现好的内容复用到官网和付费广告，请说明交接时要记录哪些授权字段。请给一个简短例子，先做方案，不执行外部操作。",
+      "expected_output": "Turn the high-level creator-growth framework into a concrete, evidence-based working method with an example and clear limits.",
+      "files": [],
+      "expectations": [
+        "Chooses one primary job while retaining secondary signals and gives a concrete example rather than treating exposure and sales as interchangeable goals",
+        "Explains why the buying reason comes before creator selection and covers why need, why this option and can I use it, with a scene-based example",
+        "Assigns a main job to content and connects the same buying reason to the destination or sales touchpoint",
+        "Diagnoses play-to-visit, visit-to-cart and cart-to-order as different breaks before proposing a change",
+        "Separates direct attribution, assisted evidence and incremental design; treats incrementality as an available method chosen when the decision justifies its cost, not as a default calculation",
+        "Includes usage-rights fields in the handoff and uses scale, fix or stop with evidence, while keeping thresholds and budget authority project-specific"
+      ]
     }
   ]
 }

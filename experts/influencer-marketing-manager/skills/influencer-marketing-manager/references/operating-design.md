@@ -25,6 +25,13 @@ Each stage should leave a usable result for the next stage:
 | Deliver/recover | delivery, defect, delay or recovery state with owner | Can dependent work continue? |
 | Reuse or close | rights, retention, result and learning state | What may be reused, and what should stop? |
 
+For creator work, choose one primary job before searching or briefing: demand,
+conversion, or content asset. Record secondary signals, the project-defined
+observation window, and the decision they inform. For example, a conversion test
+may use qualified visits and purchase questions as secondary signals; high views
+alone do not prove sales. Keep this choice in the brief and use it to select the
+next evidence rather than treating exposure and sales as interchangeable goals.
+
 ## Use one handoff contract
 
 Write each handoff in the smallest form that lets another person or tool continue without re-reading the whole history:
@@ -46,6 +53,14 @@ evidence + gaps → proposal + terms → current state + to-dos
 
 Do not turn a chat summary into a completed state. Keep fit, contact readiness, interest, agreement, delivery, acceptance, and usage permission distinct. A reply is evidence of a conversation; it is not automatically qualification or agreement.
 
+For a creator campaign, add the decision fields that let the next owner continue
+without reopening the strategy: the primary job and secondary signals, the buying
+reason, the content's main job, the destination or next touchpoint, and the
+evidence expected at review. If reuse may affect the next decision, also record
+authorized channels, territory, term and expiry, editing rights, paid-ads rights,
+supporting contract or message evidence, owner, and next review. A published post
+is evidence of delivery, not permission for indefinite reposting or paid media.
+
 For materials and samples, read back these states separately when they matter:
 
 ```text
@@ -53,6 +68,54 @@ sent/dispatched → received → accepted/approved → authorized for use → pu
 ```
 
 Record the evidence, owner and next action for each transition. A received file may still need revision, and acceptance does not grant rights that were not agreed.
+
+## Choose a creator strategy from evidence
+
+Start with the primary job and write the buying reason before choosing a creator.
+Answer three questions: why does the user need it, why choose this option, and can
+the user use it? Then look for a creator with a real scene, a credible way to
+explain the problem, and a natural way to demonstrate the value. A solo-travel
+product may need a creator who can show the actual travel setup and explain the
+problem, rather than the largest channel. Check audience, scene, recent work,
+safety, cost, and contactability together; do not reduce fit to follower count.
+
+Give each asset a main job when that helps the decision: `demand` makes the need
+visible, `choice` supports comparison, and `confidence` reduces usage risk. Define
+the signal for that job. A hands-on video may answer compatibility and setup
+questions; it does not need to maximize reach, education, and orders at once. These
+labels are decision aids, not a required three-part campaign.
+
+Carry the same buying reason into the product page, social post, email, live
+session, or sales reply. Check facts such as compatibility, price, stock, delivery,
+returns, and support. If the video promises an easy setup, the destination should
+show supported devices and the purchase path. A click alone does not prove the
+next touchpoint can complete the decision.
+
+When results are weak, locate the break before changing the plan. Compare
+`play → visit`, `visit → cart`, and `cart → order` using the same object, source,
+market, and observation window. High plays with few visits points to creator fit,
+the buying reason, the call to action, or the link; visits with few carts points to
+the offer or page; carts with few orders points to payment, delivery, or checkout.
+Test one leading explanation first instead of adding creators because orders are
+low.
+
+Separate evidence by what it can answer. UTM, affiliate links, and codes can assign
+a tracked order (direct attribution). Brand search, direct traffic, email activity,
+new-customer share, and feedback can show related movement (assisted evidence)
+without proving who caused it. When the decision is important enough to justify
+the cost, choose a time, geography, staggered-launch, or comparison design to
+estimate incrementality. Without that design, call the result an observation or
+hypothesis, not causal lift. Incrementality is an available method selected for a
+material decision, not a default calculation for every campaign.
+
+At review, choose scale, fix, or stop. Scale gradually only when fit,
+repeatability, acceptable cost, and business contribution are supported. Fix when
+a useful signal has a specific break to test. Stop or replace the approach after
+sustained mismatch or repeated failed corrections. A single spike is not enough
+for a large budget change. Ask how much authority the user wants the Manager to
+have when unclear; prepare a recommendation and seek human confirmation for
+material spend changes by default. Keep windows, thresholds, and budget rules
+project-specific rather than presenting them as industry benchmarks.
 
 ## Make automation bounded and observable
 

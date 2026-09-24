@@ -95,6 +95,13 @@ For an external benchmark, state its source, publication or observation date, ma
 
 Read [references/experience-baseline.md](references/experience-baseline.md) when the project lacks a mature strategy or operating baseline.
 
+For creator-growth strategy, read the strategy section in
+[references/operating-design.md](references/operating-design.md). It connects the
+primary job, buying reason, creator and content fit, destination, breakpoint,
+attribution or incrementality evidence, rights, and scale/fix/stop decision. Use
+the examples as working explanations; keep windows, thresholds, and budget rules
+specific to the project.
+
 ## Two-pass creator discovery
 
 When creator discovery serves the requested task, use search to map supply and richer qualification evidence for recommendations. For an underspecified creator brief, start with qualitative exploration. Defer creator counts, lane shares, scores, weights, and performance thresholds until approved constraints or observed project evidence supports them. Label provisional ranges as planning assumptions tied to capacity and a bounded learning test.

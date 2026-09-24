@@ -95,6 +95,7 @@ npm run eval:manager:conversations -- --cases 15,35,36 \
 | 30 | Useful conversation continuation | A rewritten agency exchange contains earlier interest, a vague later reply and mismatched display/signature names. Test a useful next draft without restarting, inventing ownership or confirming cooperation. Manually reviewed. |
 | 33 | Industry-practice consultation | Explain the relationship between fee, deliverables, usage rights and exclusivity without inventing a universal price benchmark. |
 | 34 | Existing automation diagnosis | Supplied duplicate-task trace; preserve current reply state, use idempotent/readback repair, and distinguish a proposal from deployment. |
+| 44 | Creator-growth method | Turn an ambiguous exposure/growth request into a primary job, buying reason, content and handoff checks, breakpoint diagnosis, attribution layers, rights fields, and scale/fix/stop decisions. Smoke checks cover the observable contract; review the answer for concrete examples and project-specific limits. |
 | 19-natural | Natural positive routing | The original case 19 prompt without naming the Skill. This is reported separately from content. |
 
 Positive content cases, including the business decision in case 13, explicitly invoke Manager. Their `skill-used` assertion verifies the test precondition; a failure means the loaded-Skill comparison is not established. Case 12 stays unprefixed and retains `not-skill-used` as a scope guard.

@@ -13,7 +13,7 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
-DEFAULT_CASE_IDS = (9, 10, 12, 13, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 33, 34, 37, 38)
+DEFAULT_CASE_IDS = (9, 10, 12, 13, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 33, 34, 37, 38, 44)
 MANUAL_REVIEW_CASE_IDS = {9, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 37, 38, 39, 40, 41, 42, 43}
 SKILL_NAME = "influencer-marketing-manager"
 
@@ -164,6 +164,20 @@ const checks = {
 };
 const failed = Object.keys(checks).filter(key => !checks[key]);
 return {pass: !failed.length, score: (Object.keys(checks).length - failed.length) / Object.keys(checks).length, reason: `duplicate-task diagnosis smoke checks; missing: ${failed.join(', ') || 'none'}`};
+""".strip(),
+    44: r"""
+const text = (typeof output === 'string' ? output : JSON.stringify(output)).replace(/[*_`]/g, '');
+const checks = {
+  'primary-job': /(?:主任务|优先目标|primary\s+(?:job|goal)|demand|conversion|转化|内容资产)/i.test(text),
+  'buying-reason': /(?:为什么需要|为什么选择|能不能用|why\s+need|why\s+(?:this|you)|can\s+i\s+use)/i.test(text) && /(?:场景|creator|达人|作品|使用)/i.test(text),
+  'content-and-handoff': /(?:Demand|Choice|Confidence|需求|选择|顾虑)/i.test(text) && /(?:商品页|落地页|承接|官网|landing|destination)/i.test(text),
+  'breakpoints': /(?:Play\s*→\s*Visit|Visit\s*→\s*Cart|Cart\s*→\s*Order|播放.{0,12}访问|访问.{0,12}加购|加购.{0,12}订单)/i.test(text),
+  'evidence-layers': /(?:直接归因|辅助影响|增量|attribution|assisted|incremental)/i.test(text),
+  'rights': /(?:授权|使用权|期限|地域|剪辑|paid\s*(?:ads|media)|usage\s*rights)/i.test(text),
+  'decision': /(?:放大|优化|停止|scale|fix|stop)/i.test(text) && /(?:证据|匹配|成本|断点|threshold|阈值|authority|确认)/i.test(text),
+};
+const failed = Object.keys(checks).filter(key => !checks[key]);
+return {pass: !failed.length, score: (Object.keys(checks).length - failed.length) / Object.keys(checks).length, reason: `creator-growth method checks; missing: ${failed.join(', ') || 'none'}`};
 """.strip(),
 }
 
@@ -348,7 +362,7 @@ def run_self_test() -> None:
     assert brief["nested"][0]["digest"] == "sha256-prefix-16:" + "c" * 16
     assert full["digest"] == "a" * 64
     tests = create_tests({"case_ids": list(DEFAULT_CASE_IDS)})
-    assert [test["metadata"]["case_id"] for test in tests] == [9, 10, 12, 13, 17, 19, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 33, 34, 37, 38]
+    assert [test["metadata"]["case_id"] for test in tests] == [9, 10, 12, 13, 17, 19, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 33, 34, 37, 38, 44]
     manual_tests = [test for test in tests if test["metadata"].get("outcome_review") == "manual"]
     assert [test["metadata"]["case_id"] for test in manual_tests] == [9, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 37, 38]
     assert all(test["assert"][0]["metric"] == "response-evidence" for test in manual_tests)
@@ -394,6 +408,15 @@ def run_self_test() -> None:
         "先找 20 位达人。",
     ):
         assert not _run_javascript_assertion(10, good_cold_start + "\n" + premature)["pass"], premature
+
+    good_creator_growth = (
+        "主任务是转化，次级信号是合格访问。先写为什么需要、为什么选择和能不能用，再按真实使用场景选 Creator。"
+        "内容标记 Choice，商品页继续说明兼容性和配送。检查 Play → Visit、Visit → Cart、Cart → Order。"
+        "UTM 是直接归因，品牌搜索是辅助影响；只有重要决策才设计分批或对照来测增量。"
+        "交接记录授权期限、地域、剪辑权和 Paid Ads 权。根据匹配、可重复、成本和业务贡献决定放大、优化或停止，预算规则按项目确认。"
+    )
+    assert _run_javascript_assertion(44, good_creator_growth)["pass"]
+    assert not _run_javascript_assertion(44, good_creator_growth.replace("Play → Visit、Visit → Cart、Cart → Order", "看一下数据"))["pass"]
 
     assert _run_javascript_assertion(12, "Please paste the approved source email.")["pass"]
     assert not _run_javascript_assertion(12, "Translation: 你好，我们想合作。")["pass"]
