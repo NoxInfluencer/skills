@@ -43,7 +43,7 @@ The CLI is self-describing — use it instead of memorizing parameters:
 - **Diagnostics**: `noxinfluencer doctor`
 - **Local auth state**: `noxinfluencer auth status` reads persisted or environment-provided credentials without a network call; `noxinfluencer auth logout` clears locally persisted credentials and pending device logins
 - **Cost planning**: `noxinfluencer pricing tools --charged-only` shows current server-side Skill Credit prices; `noxinfluencer quota usage --days 7` reviews recent consumption
-- **Command-tree check**: `noxinfluencer schema --all` lists the installed capabilities, including `tiktok-shop` from CLI 0.5.5; check the exact operation, not just its command group
+- **Command-tree check**: `noxinfluencer schema --all` lists the installed capabilities, including `tiktok` and `tiktok-shop`; check the exact operation, not just its command group. Use `noxinfluencer schema tiktok.search` for product/shop/live search fields.
 - **Exit codes**: `noxinfluencer agent exit-codes`
 - **Preview**: `--dry-run` (shows request without executing)
 - **Language routing**: `--lang zh` switches all URLs to `cn.noxinfluencer.com`
@@ -53,6 +53,7 @@ The CLI is self-describing — use it instead of memorizing parameters:
 Use `noxinfluencer schema <cmd>` for exact parameters. Prefer broad command families over memorizing flags:
 
 - Creator sourcing: `creator search`, `creator search-filter*`, `creator not-interested ...`, `creator lookalikes`, `creator export*`, `creator lookalikes-export`
+- TikTok GMV and TTS discovery (CLI 0.5.8+): use TikTok creator-search GMV filters for creator-side qualification, and `tiktok search product|shop|live` for product, shop, or live-market results
 - Creator reads: `creator profile/audience/content/cooperation`; use `creator contacts` only for visible/exported contacts
 - Monitoring: `monitor list/create/add-task/import-*/tasks/history/summary/report*`; use `monitor auto-track ...` for newly published creator content
 - Operations: `campaign`, `collection`, `crm`, `email`, `message`, `product`, `logistics`, `short-link`, `affiliation`, `export`, `file`
@@ -99,6 +100,8 @@ Map a defined sourcing intent to structured search and a usable candidate set.
 Ask for only the missing tool essentials: platform, niche, region, creator size, and whether email signal matters. Search directly once the request is specific enough. If the user needs help deciding the underlying audience, creator role, portfolio, budget, or success criteria, use the `influencer-marketing-manager` Skill when available; otherwise keep those choices explicit and ask for the inputs that determine the Nox search. Multi-platform sourcing requires separate platform searches.
 
 Use `schema creator.search` for flags. Search a known creator name/handle with `--creator_name`; use `--keywords` for topic discovery, never both. Put user-specified unwanted topics in `exclude_keywords`, and apply the SaaS cooperation, CRM communication, contacted-scope, and collection filters in the same search. Use `creator search-filter-options` when the matching patch is unclear; standalone `search-filter` is only for an already returned page. Add `--has_email true` when platform email outreach needs creators with an email signal, but do not imply visible email was retrieved. For pagination, reuse the prior filters and `data.search_after`; prefer a JSON body.
+
+For TikTok creator qualification, use `schema creator.search` and the TikTok-only seller, category, sales, GPM, video-view, recent-activity, and last-30-day product GMV fields. These creator metrics describe TikTok Shop product signals attached to creator search rows; report them separately from product, shop, or live-market results. For market-level GMV, use `tiktok search product`, `tiktok search shop`, or `tiktok search live` with `--body-file` when advanced filters are needed. These read paths are separate from `tiktok-shop`, which requires a connected Creator Marketplace store and is used for store-scoped creator discovery and private-message projects.
 
 Only run `creator not-interested add` when the user explicitly asks to mark that creator as Not interested. Treat it as an approved, reversible mutation; a weak match or noisy result alone is not approval.
 

@@ -4,9 +4,9 @@
     "version": "20"
   },
   "init": {
-    "darwin": "npm install -g @noxinfluencer/cli@0.5.5",
-    "linux": "npm install -g @noxinfluencer/cli@0.5.5",
-    "win32": "npm.cmd install -g @noxinfluencer/cli@0.5.5"
+    "darwin": "npm install -g @noxinfluencer/cli@0.5.8",
+    "linux": "npm install -g @noxinfluencer/cli@0.5.8",
+    "win32": "npm.cmd install -g @noxinfluencer/cli@0.5.8"
   },
   "versionCheck": {
     "command": {
@@ -14,7 +14,7 @@
       "linux": "noxinfluencer --version",
       "win32": "noxinfluencer.cmd --version"
     },
-    "minVersion": "0.5.5",
+    "minVersion": "0.5.8",
     "versionPattern": "(\\d+\\.\\d+\\.\\d+)"
   },
   "auth": {

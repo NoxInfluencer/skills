@@ -19,10 +19,15 @@ For a new search, apply topic exclusions and SaaS hide/deduplication directly th
 | Audience fit | `--follower_ages`, `--follower_female_pct_min`, `--follower_language` | Match audience demographics |
 | Active creators | `--published_within_days` | Exclude dormant channels |
 | Performance floor | `--engagement_rate_min`, `--avg_view_min` | Filter out low-engagement creators |
+| TikTok Shop creator GMV | `--platform tiktok`, `--last30_days_products_gmv_min/max` | Filter creators by last-30-day video-attributed product GMV |
 
 ## Search Result Fields
 
-Each result item includes: `id` (encrypted token), `nickname` (masked display value), `tags`, `followers`, `country`, `total_videos`, `view_per_followers`, `engagement_rate`, `avg_views`, `language`.
+Each result item includes: `id` (encrypted token), `nickname` (masked display value), `tags`, `followers`, `country`, `total_videos`, `view_per_followers`, `engagement_rate`, `avg_views`, `language`. TikTok rows may also include `ttseller`, `last30_days_products_gmv`, `total_products_gmv`, `last30_days_products_sales_count`, `total_products_sales_count`, `last30_days_products_gpm`, and `total_products_gpm`.
+
+The creator-search GMV filter is a TikTok Shop product signal attached to creators. For market-level product, shop, or live GMV, use `noxinfluencer tiktok search product|shop|live`; those results expose `total_gmv`, `last30_days_gmv`, and `currency` when SaaS supplies them.
+
+The `last30_days_products_gmv_min/max` filter targets video-attributed GMV. The returned `last30_days_products_gmv` maps to the channel's overall 30-day product GMV snapshot, so do not label it as a video-only figure. Creator rows currently provide no currency; avoid comparing their GMV across markets without a verified common unit. Missing/null metrics mean unavailable evidence, not zero sales.
 
 `creator_name` and `keywords` are mutually exclusive. Name search uses the same result pricing and pagination as topic search.
 

@@ -22,6 +22,7 @@ Use this reference for NoxInfluencer marketing operations. Discover parameters w
 | Track shipped creator samples or import shipment spreadsheets | `logistics list/get/carriers/options`, then `create/update/delete` or `import-template/import-file/import-report`; `export` downloads saved tracking |
 | Manage Shopify affiliate campaigns and members | `affiliation stores list`, then `affiliation campaigns ...` / `affiliation members ...`; use member template/import and campaign export for files |
 | Search TikTok Shop Creator Marketplace or manage private-message projects | `tiktok-shop bindings list`, then `creator-search ...` / `projects ...` |
+| Search TikTok product, shop, or live-market GMV | `tiktok search product|shop|live --body-file <path>`; use `schema tiktok.search` for fields |
 | Send standalone platform email outreach to creators | `email create`, then `email recipients add/replace` with search `data.items[].id` or creator read `data.creator_id` in the recipient `creator_id` field, `email content save`, `email sender list [task_id]` before optional `email sender update`, optional `email attachments ...`, then `email send` or `email schedule` |
 | Add recipients to an intelligent Campaign fixed task | Check dedicated runtime support; follow the Campaign boundary under Outreach Routing below |
 | Manage email tasks | `email list`, `email drafts`, `email get`, `email create`, `email update`, `email recipients ...`, `email content ...`, `email sender ...`, `email report`, `email team-summary`, `email team-breakdown` |
@@ -68,7 +69,19 @@ Use native `logistics` for SaaS sample tracking; it does not purchase shipping l
 
 ## TikTok Shop
 
-Use CLI 0.5.5+ and start with `tiktok-shop bindings list`. Reuse the returned `binding_id` for `creator-search categories/advanced-filters/search`; preserve `next_page_token` for pagination. Use `projects list/get/recipients/statistics` for project state and current schema for draft, execution, and update contracts. Store binding, official quotas, and membership still apply.
+Use CLI 0.5.8+ and start with `tiktok-shop bindings list`. Reuse the returned `binding_id` for `creator-search categories/advanced-filters/search`; preserve `next_page_token` for pagination. Use `projects list/get/recipients/statistics` for project state and current schema for draft, execution, and update contracts. Store binding, official quotas, and membership still apply.
+
+Use `tiktok search product`, `tiktok search shop`, or `tiktok search live` for the public SaaS TTS indexes. Pass a JSON body with `--body-file` for GMV, sales, category, view, and engagement filters; read `total_gmv`, `last30_days_gmv`, and `currency` from the returned rows. This market search is distinct from the connected-store Creator Marketplace workflow above and is read-only.
+
+Use snake_case fields in the body. Common fields are `keywords` (array), `country` (one country code), `page_num`, and `page_size` (1-100); preserve the same filters when paging. GMV bounds differ by result type:
+
+| Search type | GMV filter fields |
+|---|---|
+| `product` | `min/max_total_video_gmv`, `min/max_total_live_gmv`, `min/max_last30_days_video_gmv`, `min/max_last30_days_live_gmv` |
+| `shop` | `min/max_total_gmv`, `min/max_last30_days_gmv` |
+| `live` | `min/max_total_gmv` |
+
+Each `min/max_...` pair means separate `min_...` and `max_...` fields. For example, a shop query body can be `{"keywords":["beauty"],"country":"US","min_last30_days_gmv":1000,"page_num":1,"page_size":5}`. Compare GMV only within the same currency and time window. Live search reports GMV for the returned stream; do not describe it as a 30-day creator total. Missing/null values are unavailable evidence; an explicit zero is a returned data value.
 
 ## Deduplication and Collaborators
 

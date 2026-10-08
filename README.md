@@ -26,7 +26,8 @@ The manager helps users build and improve automated influencer-marketing workflo
 - Use SaaS spreadsheet templates, imports, failure reports, and direct Excel reports for supported workflows
 - Track shipped samples with native `logistics`, including carrier discovery, batch imports, and saved tracking exports; check installed CLI support and current pricing
 - Manage NoxInfluencer campaigns, collections, CRM channels, products, normal short links, Shopify affiliate campaigns, email/message tasks, and export jobs
-- Search TikTok Shop Creator Marketplace and manage private-message projects through a connected store (CLI 0.5.5+)
+- Search TikTok Shop Creator Marketplace and manage private-message projects through a connected store (CLI 0.5.8+)
+- Search TikTok creators with Shop/GMV filters and read product, shop, and live GMV results (`tiktok search product|shop|live`)
 - Discover global brands by name or category/market, then analyze monitored brands, product signals, influencer/content/tag/product assets, and exports
 - Upload approved public images and download authorized email, message, template, feedback, and export files
 - Check current Skill Credit prices and historical consumption to plan Agent workflows
@@ -79,7 +80,7 @@ python3 scripts/sync_connector.py check
 python3 scripts/sync_connector.py package
 ```
 
-The Connector pins `@noxinfluencer/cli@0.5.5` and uses the CLI's device-login flow. The generated zip under `dist/` is a local release artifact for WorkBuddy review; it is not submitted to the marketplace automatically.
+The Connector pins `@noxinfluencer/cli@0.5.8` and uses the CLI's device-login flow. The generated zip under `dist/` is a local release artifact for WorkBuddy review; it is not submitted to the marketplace automatically.
 
 ### WorkBuddy Expert (draft)
 
@@ -95,7 +96,7 @@ The Expert depends on the WorkBuddy Connector submission identified as `oc_e701b
 
 ### NoxInfluencer CLI
 
-The skill uses the current `@noxinfluencer/cli` command tree; TikTok Shop requires 0.5.5+. Install the latest npm package:
+The skill uses the current `@noxinfluencer/cli` command tree; TikTok GMV/TTS search requires 0.5.8+. Install the latest npm package:
 
 ```bash
 npm install -g @noxinfluencer/cli@latest
