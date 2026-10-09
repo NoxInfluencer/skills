@@ -80,7 +80,7 @@ python3 scripts/sync_connector.py check
 python3 scripts/sync_connector.py package
 ```
 
-The Connector pins `@noxinfluencer/cli@0.5.8` and uses the CLI's device-login flow. The generated zip under `dist/` is a local release artifact for WorkBuddy review; it is not submitted to the marketplace automatically.
+The Connector pins `@noxinfluencer/cli@0.5.9` and uses the CLI's device-login flow. The generated zip under `dist/` is a local release artifact for WorkBuddy review; it is not submitted to the marketplace automatically.
 
 ### WorkBuddy Expert (draft)
 
@@ -96,7 +96,7 @@ The Expert depends on the WorkBuddy Connector submission identified as `oc_e701b
 
 ### NoxInfluencer CLI
 
-The skill uses the current `@noxinfluencer/cli` command tree; TikTok GMV/TTS search requires 0.5.8+. Install the latest npm package:
+The skill uses the current `@noxinfluencer/cli` command tree; TikTok GMV/TTS search requires 0.5.8+, and 0.5.9 adds explicit Credit guidance. Install the latest npm package:
 
 ```bash
 npm install -g @noxinfluencer/cli@latest

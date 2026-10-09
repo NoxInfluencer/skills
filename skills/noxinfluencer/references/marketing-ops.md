@@ -71,7 +71,7 @@ Use native `logistics` for SaaS sample tracking; it does not purchase shipping l
 
 Use CLI 0.5.8+ and start with `tiktok-shop bindings list`. Reuse the returned `binding_id` for `creator-search categories/advanced-filters/search`; preserve `next_page_token` for pagination. Use `projects list/get/recipients/statistics` for project state and current schema for draft, execution, and update contracts. Store binding, official quotas, and membership still apply.
 
-Use `tiktok search product`, `tiktok search shop`, or `tiktok search live` for the public SaaS TTS indexes. Pass a JSON body with `--body-file` for GMV, sales, category, view, and engagement filters; read `total_gmv`, `last30_days_gmv`, and `currency` from the returned rows. This market search is distinct from the connected-store Creator Marketplace workflow above and is read-only.
+Use `tiktok search product`, `tiktok search shop`, or `tiktok search live` for the public SaaS TTS indexes. Pass a JSON body with `--body-file` for GMV, sales, category, view, and engagement filters; read `total_gmv`, `last30_days_gmv`, and `currency` from the returned rows. This market search consumes Skill Credit by returned item; check `pricing tools --action tiktok_search` before broad pages. It is read-only and separate from the connected-store Creator Marketplace workflow above; read-only does not mean free.
 
 Use snake_case fields in the body. Common fields are `keywords` (array), `country` (one country code), `page_num`, and `page_size` (1-100); preserve the same filters when paging. GMV bounds differ by result type:
 
