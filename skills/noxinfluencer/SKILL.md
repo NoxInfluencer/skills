@@ -66,7 +66,6 @@ Use `noxinfluencer schema <cmd>` for exact parameters. Prefer broad command fami
 - Creator reads: `creator profile/audience/content/cooperation`; use `creator contacts` only for visible/exported contacts
 - Monitoring: `monitor list/create/add-task/import-*/tasks/history/summary/report*`; use `monitor auto-track ...` for newly published creator content
 - Operations: `campaign`, `collection`, `crm`, `email`, `message`, `product`, `short-link`, `affiliation`, `export`, `file`
-- Intelligent Campaign queued invitation cancellation: `campaign invitations state`; read `{baseDir}/references/campaign-invitation-cancel.md` before cancelling selected or all matching queued creators.
 - Brand monitoring: `brand-monitor ...`
 - Creator dispute due diligence: `dispute records/search/mine/get/report/update/withdraw`
 - Setup, quota, and pricing: `login`, `doctor`, `quota`, `quota usage`, `pricing`, `pricing tools`, `agent exit-codes`
@@ -186,7 +185,7 @@ Operate NoxInfluencer campaign, collection, CRM, email, message, product-center,
 
 Do not draft outreach copy. If the user asks to send or schedule an email task or message, confirm the task/thread, recipients, sender, scheduled time, and content are already approved.
 
-See `{baseDir}/references/marketing-ops.md` for domain routing, mutation guardrails, and export handling. Cancelling queued invitations in the current intelligent Campaign is supported through the Campaign capability described in `{baseDir}/references/campaign-invitation-cancel.md`; do not substitute standalone email-task cancellation.
+See `{baseDir}/references/marketing-ops.md` for domain routing, mutation guardrails, and export handling.
 
 ---
 

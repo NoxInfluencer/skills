@@ -7,7 +7,6 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 | User intent | Start with |
 |-------------|------------|
 | Find or inspect campaigns | `campaign list`, `campaign get`, `campaign dashboard`, `campaign dropdown` |
-| Cancel selected or all matching queued invitations in the current intelligent Campaign | `campaign invitations state` with `action=cancel`, `status_group=queued`; read `campaign-invitation-cancel.md` |
 | Create or change campaign skeleton data | `campaign init`, `campaign create`, `campaign update`, `campaign delete` |
 | Find or inspect collections | `collection list`, `collection get`, `collection items`, `collection resources` |
 | Add creators from search/profile results to collections | `collection add-creators` |
