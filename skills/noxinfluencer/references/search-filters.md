@@ -13,6 +13,8 @@ For a new search, apply topic exclusions and SaaS hide/deduplication directly th
 | Known creator name or handle | `--creator_name`, `--platform` | Match creator identity instead of treating the name as a topic keyword |
 | Niche sourcing | `--keywords`, `--platform` | Narrow to relevant content creators |
 | Every topic must match | `--keywords`, `--keyword_match all` | Require all supplied topic keywords instead of the default any-keyword union |
+| Semantic precision | `--accurate 0..1` | Tune topic semantic matching precision; 0 leaves precision off and 1 is strict |
+| Official account type | `--channel_type_infos` | Filter brand, celebrity, and non-official accounts using SaaS combinations |
 | Regional targeting | `--country`, `--follower_countries` | Match campaign geography |
 | Budget-constrained | `--follower_min`, `--follower_max` | Size correlates with cost |
 | Platform email outreach | `--has_email true` | Only creators with known email signal; platform email can add search `data.items[].id` values as recipient `creator_id` without retrieving visible email |
@@ -35,6 +37,33 @@ For recent content, `creator content` defaults to 10 items and supports `--page_
 The `last30_days_products_gmv_min/max` filter targets video-attributed GMV. The returned `last30_days_products_gmv` maps to the channel's overall 30-day product GMV snapshot, so do not label it as a video-only figure. Creator rows currently provide no currency; avoid comparing their GMV across markets without a verified common unit. Missing/null metrics mean unavailable evidence, not zero sales.
 
 `creator_name` and `keywords` are mutually exclusive. Name search uses the same result pricing and pagination as topic search.
+
+## Precision and Official Account Filters
+
+`accurate` accepts a finite numeric value in `[0,1]`: SaaS 60% is `0.6`, not `60`. Omitted or 0 turns it off; higher values request stricter topic semantic matching. This is independent of `keyword_match all` (every topic must match), does not make name search semantic, and does not guarantee marketing suitability. Preserve the user's requested value; do not invent a fixed threshold when none was given.
+
+`channel_type_infos` preserves the SaaS official-account rules on all three platforms:
+
+| Array value | Upstream account-type condition |
+|-------------|---------------------------------|
+| Omitted or `[]` | No account-type filter |
+| `[is_brand]` | Brand flag is true |
+| `[is_celebrity]` | Celebrity flag is true |
+| `[is_brand,is_celebrity]` | Brand OR celebrity flag is true |
+| `[no_official]` | Neither brand nor celebrity flag is true |
+| `[is_brand,no_official]` | Brand is true AND celebrity is not true |
+| `[is_celebrity,no_official]` | Celebrity is true AND brand is not true |
+| `[is_brand,is_celebrity,no_official]` | Both brand AND celebrity flags are true |
+
+“Not true” can include missing flags; do not treat it as verified personal ownership. All three selections do **not** mean all accounts. Ask which type the user means if “official account” alone is ambiguous. Reuse the same filters and precision when paging.
+
+Example combining a supplied precision with non-official discovery:
+
+```bash
+noxinfluencer creator search --platform youtube --keywords '[beauty]' --accurate 0.6 --channel_type_infos '[no_official]'
+```
+
+Check the installed `schema creator.search` before using these flags. If it lacks them, report that this CLI build needs an update; do not omit the user's condition or assume the SaaS deployed behavior has been verified from local code alone.
 
 Search responses also include page metadata under `data`: `page_num`, `page_size`, `total_page`, `total_size`, and `search_after`.
 
