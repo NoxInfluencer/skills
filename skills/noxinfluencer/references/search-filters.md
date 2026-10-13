@@ -28,27 +28,38 @@ For a new search, apply topic exclusions and SaaS hide/deduplication directly th
 
 ## Search Result Fields
 
-Each result item includes: `id` (encrypted token), `nickname` (masked display value), `tags`, `followers`, `country`, `total_videos`, `view_per_followers`, `engagement_rate`, `avg_views`, `language`. TikTok rows may also include `ttseller`, `products_market`, `currency`, `last30_days_video_gmv`, `last30_days_live_gmv`, `last30_days_video_sales_count`, `last30_days_live_sales_count`, and the existing product GMV, sales, and GPM snapshots.
+Each result includes the encrypted `id`, masked `nickname`, `tags`, `followers`, `country`, `total_videos`, `view_per_followers`, `engagement_rate`, and `language`. `avg_views` is the actual latest-10-content average; `estimated_exposure_30d` and `estimated_exposure_180d` are separate estimates, not substitutes for that average. `avg_comments`, `is_brand`, `is_celebrity`, and `has_email` provide corresponding filter evidence when available. `has_email` is a signal, not an address. Audience filters return only their requested matching values/female percentage, not a full audience distribution.
 
-The creator-search GMV filter is a TikTok Shop product signal attached to creators. For market-level product, shop, or live GMV, use `noxinfluencer tiktok search product|shop|live`; those results expose `total_gmv`, `last30_days_gmv`, and `currency` when SaaS supplies them.
-
-For recent content, `creator content` defaults to 10 items and supports `--page_num`, `--page_size`, `--sort_field`, and platform-supported `--video_type`. Use an explicit format when comparing samples; a mixed response must not be presented as the latest 10 items of one format. Each returned item may include `content_id`, `content_url`, and `content_type` when SaaS supplies enough data.
-
-Use the explicit video/live fields to interpret creator commerce:
+TikTok commerce search exposes only existing filter values within the account's search entitlement:
 
 | Field | Meaning |
 | --- | --- |
-| `products_market`, `currency` | SaaS sales market and its currency; the sales market can differ from creator `country`. Missing currency stays unknown. |
-| `last30_days_video_gmv` | 30-day video-attributed GMV; the metric targeted by `last30_days_products_gmv_min/max`. |
-| `last30_days_video_sales_count` | 30-day video-attributed sales; the metric targeted by `last30_products_sales_count_min/max`. |
-| `last30_days_live_gmv`, `last30_days_live_sales_count` | Separate 30-day live-attributed metrics when supplied by SaaS. |
-| `last30_days_products_gmv`, `last30_days_products_sales_count` | Existing upstream product snapshots with unspecified video/live aggregation; not substitutes for the video filter metrics. |
-| `last30_days_products_gpm` | The existing 30-day product GPM snapshot and GPM filter metric; monetary value per thousand views, not a GMV total. |
-| `total_products_*` | Cumulative snapshots, not 30-day values. |
+| `ttseller` | TikTok Shop creator flag. |
+| `products_market`, `currency` | SaaS sales market and its currency; distinct from creator `country`. Missing currency stays unknown. |
+| `last30_days_video_gmv` | 30-day video GMV targeted by `last30_days_products_gmv_min/max`. |
+| `last30_days_video_sales_count` | 30-day video sales targeted by `last30_products_sales_count_min/max`. |
+| `last30_days_products_gpm` | Product GPM filter value, in market currency per thousand views; not a GMV total. |
+| `products_category`, `main_products_category` | Category IDs used by the corresponding filters. |
+| `products_video_avg_views`, `products_video_view_exclude_extreme` | Actual 30-day product-video average for the chosen normal/trimmed filter scope. |
+| `last7_has_products_video`, `last7_has_products_sales_count` | Nullable activity signals, without raw 7-day counts. |
+| `last7_open_tiktok_shop` | Same recent-shop signal as SaaS: first product-video publication reaches its 7-natural-day boundary. Not a verified official shop opening date. |
+| `matches_seller_of` | Match for the seller specified in this request; null without that filter. No associated seller ID list. |
 
-GMV bounds use each market's local currency; do not assume USD or compare amounts across markets without a verified common unit. Do not add product, video, and live snapshots together or label the product snapshot as an all-channel total. For example, a product snapshot of 300000 and video GMV of 90000 do not satisfy a video GMV minimum of 100000, even if the product snapshot looks large enough.
+Search does not return `last30_days_live_gmv/sales_count`, `total_products_*`, or legacy `last30_days_products_gmv/sales_count`. Basic/degraded or unknown search permission metadata does not unlock commerce values. Report a capability/entitlement gap if required evidence is missing; do not use an unprotected raw endpoint or substitute a different metric. If analyzing a user-supplied legacy snapshot, describe its recorded scope without presenting those legacy fields as the current search contract.
 
-Missing/null metrics mean unavailable evidence, not zero sales; a returned `0` stays zero. The SaaS frontend currently shows live overview for US creators, but a creator's country alone does not prove live data is available or zero. Older upstream deployments may omit the new fields: report the available product snapshot with currency/scope limitations instead of borrowing it for missing video/live metrics. These fields come from the search snapshot without per-creator detail reads; compare search and profile-detail amounts only with their respective time range and update/calibration context.
+GMV bounds use each market's local currency. Do not infer USD from creator country, rank money across unverified units, add snapshots into a total, or use a legacy product snapshot to satisfy a video GMV threshold. A video GMV of 90000 does not meet a video GMV minimum of 100000, regardless of a larger historical product snapshot. Null is unavailable evidence; a returned 0 is zero.
+
+For an explicitly requested creator commerce detail, check `schema creator.profile` for `--include-shop` (CLI 0.5.12+), then use:
+
+```bash
+noxinfluencer creator profile <creator_id> --detail --include-shop --json
+```
+
+Read `data.shop`: fixed 30-day video/live GMV, sales and GPM, sales market and currency. This reuses SaaS scope 34, single-creator unlock and the current profile-detail price; permission/quota failures must be surfaced. The current SaaS live overview supports US creators; `live_supported=false` leaves live values null, not zero. Detail is independently ranged/calibrated and can differ from search snapshots. No cumulative or legacy generic-product snapshot is supplied. Search never auto-requests this detail; do not expand a search into paid per-creator reads without the user's task requiring them.
+
+For market-level product, shop, or live GMV, use `noxinfluencer tiktok search product|shop|live`; those separate indexes expose `total_gmv`, `last30_days_gmv`, and `currency` when SaaS supplies them.
+
+For recent content, `creator content` defaults to 10 items and supports `--page_num`, `--page_size`, `--sort_field`, and platform-supported `--video_type`. Keep requested formats explicit when comparing samples. Each item may include `content_id`, `content_url`, and `content_type` when supplied.
 
 `creator_name` and `keywords` are mutually exclusive. Name search uses the same result pricing and pagination as topic search.
 

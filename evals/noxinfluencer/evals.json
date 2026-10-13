@@ -604,27 +604,40 @@
     {
       "id": 48,
       "category": "creator-commerce-scope",
-      "prompt": "请直接分析这份 TikTok 达人搜索结果，不要再查询：达人 A 的 country=US、products_market=TH、currency=THB、last30_days_products_gmv=300000、last30_days_video_gmv=90000、last30_days_live_gmv=50000。客户设置 last30_days_products_gmv_min=100000，觉得 A 应该入选，并想把金额标成近30天全渠道美元GMV。这个判断成立吗？",
-      "expected_output": "Explain the video GMV threshold and THB currency from the supplied evidence; keep the product snapshot and live metric separate without additional calls.",
+      "prompt": "请直接分析这份 TikTok 达人搜索结果，不要再查询：达人 A 的 country=US、products_market=TH、currency=THB、last30_days_video_gmv=90000、last30_days_video_sales_count=90、last30_days_products_gpm=2.5、products_video_avg_views=300、products_video_view_exclude_extreme=true、last7_open_tiktok_shop=true。客户设置 last30_days_products_gmv_min=100000，觉得 A 应该入选，想标成近30天美元总GMV，还把近7天开店说成官方开店日期。如何判断？",
+      "expected_output": "Use the actual video filter value, THB currency, trimmed average and SaaS recent-shop signal without inventing live/cumulative data or an official opening date.",
       "files": [],
       "expectations": [
-        "Uses last30_days_video_gmv=90000 for the 100000 GMV minimum and explains why product GMV=300000 does not establish qualification",
-        "Uses returned THB from products_market=TH despite creator country=US and does not assume USD",
-        "Does not add the product, video, and live snapshots together or claim the product snapshot is a verified all-channel total",
-        "Keeps the analysis within the supplied search snapshot and makes no extra searches or creator detail calls"
+        "Explains that video GMV 90000 is below the requested minimum 100000",
+        "Uses THB from products_market=TH despite creator country=US, and does not call this USD or all-channel GMV",
+        "Identifies 300 as the trimmed 30-day product-video average and recent-shop as a first-product-video signal, not verified official opening time",
+        "Does not infer live/cumulative values or add search/detail calls when the user forbids them"
       ]
     },
     {
       "id": 49,
       "category": "creator-commerce-legacy-null",
-      "prompt": "只根据这些已有返回分析带货情况：TikTok 达人 B 的 country=US、last30_days_products_gmv=307765.57，但 currency、products_market、last30_days_video_gmv、last30_days_live_gmv 都是 null。达人 C 的 currency=USD、last30_days_video_gmv=150000、last30_days_live_gmv=0。客户想把 B 记成美元总GMV且直播为零，再和 C 比较。不要追加查询。",
-      "expected_output": "Preserve unknown currency and attribution for the legacy product snapshot, distinguish missing live evidence from a real zero, and avoid an unsupported monetary ranking.",
+      "prompt": "只根据已有返回分析：TikTok 达人 B 的 country=US，但搜索 currency、products_market、last30_days_video_gmv 都是 null；达人 C 的搜索 currency=USD、last30_days_video_gmv=0。另有达人 D 的显式详情 data.shop.live_supported=false、last30_days_live_gmv=null；达人 E 的详情 live_supported=true、last30_days_live_gmv=0。客户想把 B 记成美元总GMV、把 D 的直播记为零并排序。不要追加查询。",
+      "expected_output": "Preserve missing search currency/metrics and unsupported live detail as unknown, distinguish actual zeros and avoid an unsupported ranking.",
       "files": [],
       "expectations": [
-        "Reports B product GMV as the available snapshot with unspecified video/live aggregation and unknown currency, without borrowing country=US to fill USD",
-        "Treats B null live GMV as unavailable evidence while retaining C explicit live GMV=0",
-        "Does not substitute B product snapshot for its missing video GMV or compare B and C money as if their units and scopes were verified equal",
-        "Does not claim every US creator has live data and makes no extra queries"
+        "Keeps B currency and video GMV unknown without using country=US to fill USD or a total",
+        "Preserves C video GMV=0 and E live GMV=0 while treating D unsupported live metric as unknown",
+        "Explains that live detail is separate from the search contract and does not substitute other metrics or promise cumulative/product snapshots",
+        "Does not make extra searches or creator detail calls"
+      ]
+    },
+    {
+      "id": 50,
+      "category": "creator-commerce-explicit-detail",
+      "prompt": "这个 TikTok 候选我想继续看近30天的视频和直播带货概览。已经有 creator_id=opaque-candidate，当前 CLI schema creator.profile 支持 --detail 和 --include-shop。请读取并解释结果，遇到权益不足就告诉我。",
+      "expected_output": "Use the existing creator profile explicit shop-detail option, preserving the creator identity and permission boundary; interpret video/live values separately.",
+      "files": [],
+      "expectations": [
+        "Uses creator profile opaque-candidate --detail --include-shop rather than re-searching or using a raw search endpoint",
+        "Reads fixed 30-day data.shop values and currency, without fabricating cumulative or all-channel totals",
+        "Surfaces scope/quota rejection without bypassing it and does not treat unsupported live null as zero",
+        "Does not claim search snapshots must equal independently calibrated detail data"
       ]
     }
   ]

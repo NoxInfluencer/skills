@@ -80,7 +80,7 @@ python3 scripts/sync_connector.py check
 python3 scripts/sync_connector.py package
 ```
 
-The Connector pins `@noxinfluencer/cli@0.5.11` and uses the CLI's device-login flow. Creator-search commerce currency and video/live breakdown fields require the updated Java and Claw servers; CLI 0.5.11 already passes these response fields through. The generated zip under `dist/` uses the version from `connector-meta.json` and is a local release artifact for WorkBuddy review; it is not submitted to the marketplace automatically.
+The Connector pins `@noxinfluencer/cli@0.5.12` and uses the CLI's device-login flow. This source revision requires deployment of Java main.server/data.provider and Claw Server for the revised search contract, and npm publication of CLI 0.5.12 for explicit `creator profile --detail --include-shop`. Search returns entitled filter evidence; live overview stays in protected explicit detail. The generated Connector 0.1.7 zip under `dist/` is a local review artifact; generation does not publish npm or submit a marketplace release.
 
 ### WorkBuddy Expert (draft)
 
@@ -96,7 +96,7 @@ The Expert depends on the WorkBuddy Connector submission identified as `oc_e701b
 
 ### NoxInfluencer CLI
 
-The skill uses the current `@noxinfluencer/cli` command tree; TikTok GMV/TTS search requires 0.5.8+, 0.5.10 adds creator average-comment, exposure-period, YouTube content-type, and recent-content pagination filters, and 0.5.11 adds search precision and official-account filters. Install the latest npm package:
+The skill uses the current `@noxinfluencer/cli` command tree; TikTok GMV/TTS search requires 0.5.8+, 0.5.10 adds creator average-comment, exposure-period, YouTube content-type, and recent-content pagination filters, 0.5.11 adds search precision and official-account filters, and 0.5.12 adds explicit protected creator shop detail. Install the latest npm package:
 
 ```bash
 npm install -g @noxinfluencer/cli@latest
