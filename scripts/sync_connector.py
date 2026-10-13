@@ -22,7 +22,6 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCE_SKILL = ROOT / "skills" / "noxinfluencer"
 CONNECTOR = ROOT / "connectors" / "noxinfluencer-cli"
 SNAPSHOT_SKILL = CONNECTOR / "skills" / "noxinfluencer"
-DEFAULT_PACKAGE = ROOT / "dist" / "noxinfluencer-cli-0.1.3.zip"
 REFERENCE_TOKEN = b"{baseDir}/references/"
 WORKBUDDY_REFERENCE_TOKEN = b"@references/"
 SEMVER_RE = re.compile(r"^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$")
@@ -252,7 +251,7 @@ def package(output: Path) -> None:
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("action", choices=("sync", "check", "package"))
-    parser.add_argument("--output", type=Path, default=DEFAULT_PACKAGE, help="package output path")
+    parser.add_argument("--output", type=Path, help="package output path (default: dist/noxinfluencer-cli-<Connector version>.zip)")
     return parser.parse_args()
 
 
@@ -267,7 +266,8 @@ def main() -> int:
             validate()
             print("Connector checks passed")
         else:
-            package(args.output)
+            output = args.output or ROOT / "dist" / f"noxinfluencer-cli-{validate_metadata()['version']}.zip"
+            package(output)
     except ValidationError as exc:
         print(f"Connector validation failed: {exc}", file=sys.stderr)
         return 1

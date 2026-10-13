@@ -63,7 +63,7 @@ Example combining a supplied precision with non-official discovery:
 noxinfluencer creator search --platform youtube --keywords '[beauty]' --accurate 0.6 --channel_type_infos '[no_official]'
 ```
 
-Check the installed `schema creator.search` before using these flags. If it lacks them, report that this CLI build needs an update; do not omit the user's condition or assume the SaaS deployed behavior has been verified from local code alone.
+These controls require CLI 0.5.11 or later. Check the installed `schema creator.search` before using these flags. If it lacks them, report that this CLI build needs an update; do not omit the user's condition or assume the SaaS deployed behavior has been verified from local code alone.
 
 Search responses also include page metadata under `data`: `page_num`, `page_size`, `total_page`, `total_size`, and `search_after`.
 
