@@ -28,13 +28,27 @@ For a new search, apply topic exclusions and SaaS hide/deduplication directly th
 
 ## Search Result Fields
 
-Each result item includes: `id` (encrypted token), `nickname` (masked display value), `tags`, `followers`, `country`, `total_videos`, `view_per_followers`, `engagement_rate`, `avg_views`, `language`. TikTok rows may also include `ttseller`, `last30_days_products_gmv`, `total_products_gmv`, `last30_days_products_sales_count`, `total_products_sales_count`, `last30_days_products_gpm`, and `total_products_gpm`.
+Each result item includes: `id` (encrypted token), `nickname` (masked display value), `tags`, `followers`, `country`, `total_videos`, `view_per_followers`, `engagement_rate`, `avg_views`, `language`. TikTok rows may also include `ttseller`, `products_market`, `currency`, `last30_days_video_gmv`, `last30_days_live_gmv`, `last30_days_video_sales_count`, `last30_days_live_sales_count`, and the existing product GMV, sales, and GPM snapshots.
 
 The creator-search GMV filter is a TikTok Shop product signal attached to creators. For market-level product, shop, or live GMV, use `noxinfluencer tiktok search product|shop|live`; those results expose `total_gmv`, `last30_days_gmv`, and `currency` when SaaS supplies them.
 
 For recent content, `creator content` defaults to 10 items and supports `--page_num`, `--page_size`, `--sort_field`, and platform-supported `--video_type`. Use an explicit format when comparing samples; a mixed response must not be presented as the latest 10 items of one format. Each returned item may include `content_id`, `content_url`, and `content_type` when SaaS supplies enough data.
 
-The `last30_days_products_gmv_min/max` filter targets video-attributed GMV. The returned `last30_days_products_gmv` maps to the channel's overall 30-day product GMV snapshot, so do not label it as a video-only figure. Creator rows currently provide no currency; avoid comparing their GMV across markets without a verified common unit. Missing/null metrics mean unavailable evidence, not zero sales.
+Use the explicit video/live fields to interpret creator commerce:
+
+| Field | Meaning |
+| --- | --- |
+| `products_market`, `currency` | SaaS sales market and its currency; the sales market can differ from creator `country`. Missing currency stays unknown. |
+| `last30_days_video_gmv` | 30-day video-attributed GMV; the metric targeted by `last30_days_products_gmv_min/max`. |
+| `last30_days_video_sales_count` | 30-day video-attributed sales; the metric targeted by `last30_products_sales_count_min/max`. |
+| `last30_days_live_gmv`, `last30_days_live_sales_count` | Separate 30-day live-attributed metrics when supplied by SaaS. |
+| `last30_days_products_gmv`, `last30_days_products_sales_count` | Existing upstream product snapshots with unspecified video/live aggregation; not substitutes for the video filter metrics. |
+| `last30_days_products_gpm` | The existing 30-day product GPM snapshot and GPM filter metric; monetary value per thousand views, not a GMV total. |
+| `total_products_*` | Cumulative snapshots, not 30-day values. |
+
+GMV bounds use each market's local currency; do not assume USD or compare amounts across markets without a verified common unit. Do not add product, video, and live snapshots together or label the product snapshot as an all-channel total. For example, a product snapshot of 300000 and video GMV of 90000 do not satisfy a video GMV minimum of 100000, even if the product snapshot looks large enough.
+
+Missing/null metrics mean unavailable evidence, not zero sales; a returned `0` stays zero. The SaaS frontend currently shows live overview for US creators, but a creator's country alone does not prove live data is available or zero. Older upstream deployments may omit the new fields: report the available product snapshot with currency/scope limitations instead of borrowing it for missing video/live metrics. These fields come from the search snapshot without per-creator detail reads; compare search and profile-detail amounts only with their respective time range and update/calibration context.
 
 `creator_name` and `keywords` are mutually exclusive. Name search uses the same result pricing and pagination as topic search.
 

@@ -80,7 +80,7 @@ python3 scripts/sync_connector.py check
 python3 scripts/sync_connector.py package
 ```
 
-The Connector pins `@noxinfluencer/cli@0.5.11` and uses the CLI's device-login flow. The generated zip under `dist/` uses the version from `connector-meta.json` and is a local release artifact for WorkBuddy review; it is not submitted to the marketplace automatically.
+The Connector pins `@noxinfluencer/cli@0.5.11` and uses the CLI's device-login flow. Creator-search commerce currency and video/live breakdown fields require the updated Java and Claw servers; CLI 0.5.11 already passes these response fields through. The generated zip under `dist/` uses the version from `connector-meta.json` and is a local release artifact for WorkBuddy review; it is not submitted to the marketplace automatically.
 
 ### WorkBuddy Expert (draft)
 
