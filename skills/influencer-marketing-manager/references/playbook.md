@@ -227,9 +227,13 @@ Use four compact blocks, adapting them to the agreed scope:
 
 Choose a review, tutorial, routine integration, challenge, timely theme or channel-specific idea from the creator's actual work. Let demonstrated capability determine the support needed. If a full script is unnecessary or impractical, agree a concept, placement, transition, core claims and CTA, or supply an outline the creator can adapt. Confirm the review arrangement before filming.
 
+Turn the approved message into an explanation the intended audience can understand, preserving product facts, supported outcomes and material audience/use conditions. Agree this meaning with the creator while allowing natural wording and narrative; preserve the intended action and sponsorship disclosure without requiring verbatim delivery.
+
 ### 7.3 Review and publication
 
 Review the draft and publication copy together against the approved Brief and contract. Check product use and claims, understandable visuals/audio, required demonstrations, CTA, working links, current discount details and sponsorship disclosure. Preserve truthful experience and the creator's style. Product criticism can reveal a defect or expectation gap that needs resolution.
+
+Match each important claim to what the demonstration or other evidence can establish. Visible color payoff does not establish wear duration, and a whole-look transformation does not isolate one product. Where a comparison matters, check the conditions that could change the conclusion, such as lighting, filters, application, elapsed time or other products; keep individual experience within its supported scope.
 
 Return one consolidated set of edits within the agreed review window. For each required correction, give the timestamp or passage, the agreed requirement, and a specific change; separate new requests that affect scope or revision allowance. Prefer a targeted insert, corrected caption or clearer demonstration when it solves the problem. An unsupported claim may require removing or reshooting the claim itself.
 

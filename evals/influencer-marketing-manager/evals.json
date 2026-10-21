@@ -766,6 +766,40 @@
         "Leaves unused channels until a real use is chosen; keeps social, ads and tutorial/presales checks tied to their distinct goals when discussed, with no ad launch before authorization and spend approval",
         "Does not fabricate an observed lift, completed page test, publication, ad launch or business-record update"
       ]
+    },
+    {
+      "id": 47,
+      "category": "demonstration-claim-scope",
+      "trigger": "should-trigger",
+      "prompt": "请读资料，帮运营判断两条样片怎样处理，给出可直接用于内部交接的一次审核意见和下一检查点。保持简洁，只使用所给信息，不联网、不发送、不发布、不修改业务记录。",
+      "expected_output": "Distinguish supported initial-use evidence from a whole-look transformation, and recommend proportionate corrections within the agreed review scope.",
+      "files": [
+        "inputs/case47-demonstrations.md"
+      ],
+      "expectations": [
+        "Keeps A's supported, qualified initial-coverage demonstration usable without requiring an extended-wear study before accepting that limited claim",
+        "Explains why B's changed lighting, styling and multiple products do not isolate C1's effect; views or a larger visual change do not substantiate universal coverage or all-day wear",
+        "Rejects transferring B's unsupported caption to A and gives specific corrections tied to the supplied passages or timestamps, preserving truthful experience, disclosure and the link",
+        "Selects a targeted pickup or narrower claim according to the evidence needed, without automatically demanding a full reshoot, laboratory protocol or accusation of deception",
+        "Makes the next evidence check and responsible role clear, treats added scope as requiring agreement, and does not invent completed testing, approval, publication or business action"
+      ]
+    },
+    {
+      "id": 48,
+      "category": "consumer-language-claim-preservation",
+      "trigger": "should-trigger",
+      "prompt": "请读这组品牌与达人表达分歧，给一个实用的处理建议和可供讨论的表达示例，说明运营下一步怎么核对。保持精简，只使用所给资料，不联网、不发送、不发布、不修改业务记录。",
+      "expected_output": "Adapt the approved message to audience-friendly language while preserving the evidence scope, material conditions and publication requirements.",
+      "files": [
+        "inputs/case48-message.md"
+      ],
+      "expectations": [
+        "Identifies that all skin types, all-day wear and hot-commute performance exceed the supplied indoor six-hour evidence; the initial application demonstration does not fill that gap",
+        "Offers an understandable expression consistent with the six-hour indoor observation and its limits, while allowing creator wording and narrative instead of requiring verbatim technical delivery",
+        "Preserves the approved shade/usage CTA, sponsorship disclosure and truthful experience without turning qualifiers into universal guarantees",
+        "Does not treat one creator's audience description or a colleague's country-level claim as established consumer evidence; any needed understanding check stays bounded to the intended audience",
+        "Gives a proportionate next check with an appropriate owner and review point before publication, without inventing acceptance, a market study, completed testing or an external action"
+      ]
     }
   ]
 }
