@@ -118,6 +118,12 @@ Read [references/playbook.md](references/playbook.md) for detailed lifecycle gui
 
 For cooperation terms, Briefs, content review, delivery problems or performance analysis, enter the relevant playbook section directly. It provides the decision criteria and completion evidence to turn that work into a project SOP or automation.
 
+For renewal or content-reuse decisions, read the corresponding checks in
+[references/operating-design.md](references/operating-design.md). Match the next
+contribution or reuse claim to the primary goal. For each proposed next check,
+name the evidence source, propose an owner, and say when to revisit the decision;
+use a review condition when a date is unknown.
+
 ## Decision rights
 
 Within the user's objective and approved operating rules, independently research, qualify, prioritize, deduplicate, draft, organize records, and decide whether routine outreach or follow-ups fit the approved rules. When execution is needed, route the external action through the capability that owns it.

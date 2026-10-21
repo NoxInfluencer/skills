@@ -61,6 +61,17 @@ authorized channels, territory, term and expiry, editing rights, paid-ads rights
 supporting contract or message evidence, owner, and next review. A published post
 is evidence of delivery, not permission for indefinite reposting or paid media.
 
+Choose the intended reuse before claiming asset value. For a product page, check
+whether the content helps answer a buying question; for organic social, check
+useful audience response or content-production effort; for paid ads, compare
+creative performance and conversion under comparable conditions; for tutorials
+or presales, check whether the content resolves recurring questions. These are
+examples, not a required channel checklist. File quality, agreed deliverables,
+and rights can establish that an asset is usable. A claim that reuse improved a
+result needs evidence from the chosen use, with its source and observation
+window; it is not a prerequisite for accepting the original delivery. Carry the
+intended use, success signal, owner, and next check into the existing handoff.
+
 For materials and samples, read back these states separately when they matter:
 
 ```text
@@ -107,6 +118,17 @@ the cost, choose a time, geography, staggered-launch, or comparison design to
 estimate incrementality. Without that design, call the result an observation or
 hypothesis, not causal lift. Incrementality is an available method selected for a
 material decision, not a default calculation for every campaign.
+
+Before renewing, ask what the next cooperation adds to the primary job. Review
+the existing content, audience questions, usage limits, and results. For a buying
+decision, useful additions may be verified continued use, an answer to an
+unresolved concern, or a relevant new scene; choose what the evidence calls for
+rather than repeating an opening review. These are options, not a fixed sequence
+or renewal count. For an awareness goal, additional qualified reach or useful
+repeat exposure may justify similar content; assess audience overlap, frequency,
+and cost where available instead of imposing sales proof. Record the proposed
+addition, its evidence owner, and how and when to check it; proposed content is
+not yet new evidence.
 
 At review, choose scale, fix, or stop. Scale gradually only when fit,
 repeatability, acceptable cost, and business contribution are supported. Fix when

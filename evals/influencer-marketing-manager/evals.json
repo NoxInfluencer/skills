@@ -735,6 +735,37 @@
         "Separates direct attribution, assisted evidence and incremental design; treats incrementality as an available method chosen when the decision justifies its cost, not as a default calculation",
         "Includes usage-rights fields in the handoff and uses scale, fix or stop with evidence, while keeping thresholds and budget authority project-specific"
       ]
+    },
+    {
+      "id": 45,
+      "category": "goal-specific-creator-renewal",
+      "trigger": "should-trigger",
+      "prompt": "团队想继续合作两位达人，请帮我判断下次还做不做同样的内容，以及需要核对什么。A 为便携照明产品做了一条开箱，按时交付，播放表现好；这轮主目标是帮助购买决策，评论里还在问持续使用后的续航和设备兼容性，目前只有首次开箱证据，达人也尚未做后续实测。团队想直接再订一条相同开箱。B 的主目标是覆盖某地区的新受众，已确认受众匹配、触达成本在项目约定范围内；下一条拟沿用相同形式，尚未核对与上次的受众重合和频次，也没有销售归因数据。请分别给一个简短建议和下次检查点，先做决策建议，不确认续约或预算，不执行外部操作。",
+      "expected_output": "Make different renewal recommendations from each primary goal, specifying the added value and the evidence needed without a fixed renewal sequence.",
+      "files": [],
+      "expectations": [
+        "For A, does not treat on-time delivery or high views as enough to repeat the same opening review; uses the unresolved purchase questions to choose a useful next contribution",
+        "Proposes a relevant continued-use test, compatibility answer or supported new scene without fabricating completed testing, proven performance or a requirement to do every option",
+        "For B, keeps the awareness goal and allows similar content if qualified additional reach or useful repeat exposure is supported; checks overlap, frequency and cost rather than requiring sales attribution",
+        "Names the evidence or source, a responsible owner and a project-appropriate observation point for each recommendation; does not invent universal renewal counts, thresholds or a mandatory sequence",
+        "Keeps renewal, spend and external commitments as proposals within the user's authority"
+      ]
+    },
+    {
+      "id": 46,
+      "category": "content-asset-reuse-value",
+      "trigger": "should-trigger",
+      "prompt": "我们收到四条已验收的达人视频，文件可下载、质量符合原交付要求；授权台账及合同写明官网和品牌自然社媒可用 180 天、可剪辑，付费广告尚未授权。本周只计划挑一条放到商品页解释兼容性，社媒、教程和付费广告用途以后再定。会上有人说拿到素材就能写成已带来增长，也有人坚持所有渠道都完成 A/B 测试才算原视频交付完成。请给一个够用的交接和验证建议：今天能确认什么、商品页试用后看什么、其他用途何时再检查。只使用所给信息，不联网、不发布、不投放、不修改业务记录。",
+      "expected_output": "Separate accepted usable assets from demonstrated reuse value, with a bounded product-page check and purpose-specific rights and evidence for later uses.",
+      "files": [],
+      "expectations": [
+        "Preserves accepted delivery and usable-file status within known rights, while rejecting the unsupported claim that receipt or publication proves growth",
+        "For the chosen product-page use, connects the compatibility question to an observable success signal and an authoritative source, owner and observation window; a proportionate check is enough",
+        "Requires evidence from the selected use before claiming improved results; does not require every channel to run an experiment or make original delivery acceptance depend on downstream uplift",
+        "Carries the intended use, rights evidence and expiry or start-date unknown, editing permission, paid-ads gap and next check in a compact handoff without inventing territory or authorization",
+        "Leaves unused channels until a real use is chosen; keeps social, ads and tutorial/presales checks tied to their distinct goals when discussed, with no ad launch before authorization and spend approval",
+        "Does not fabricate an observed lift, completed page test, publication, ad launch or business-record update"
+      ]
     }
   ]
 }

@@ -2,6 +2,8 @@
 
 Use these evaluations to answer: did the user task improve, where did it fail, what should change next, and did the revision regress? Packaging checks alone do not establish task quality.
 
+The [2026-10-21 renewal and reuse review](review-2026-10-21-renewal-reuse.md) records the goal-specific renewal and asset-value checks, fixed-contract cases 45/46, and the corrected limits of the earlier case 44 runs. Business outcomes require reading the answers; the new cases use evidence checks and manual review rather than keyword outcome grades.
+
 The [2026-09-15 handbook integration review](review-2026-09-15-handbook.md) records the retained discovery, cooperation, Brief, recovery and measurement methods. Cases 39–43 add synthetic decision probes, including a two-turn content review. It separates useful native results, partial answers and the failed SDK comparison; opening breadth and industry-source reliability remain open findings.
 
 The [2026-09-15 industry-evidence review](review-2026-09-15-industry-evidence.md) adds cases 35/36 for supplied-source reasoning and transfer. Two shorter Skill revisions still produced an unsupported statistic in case 15 and were rolled back. It records source interpretation defects, runtime failures and the separate bookmark-only subagent results. The issue remains open; the retained work is test coverage, not a demonstrated repair.
@@ -30,14 +32,14 @@ The [operator follow-up review](review-2026-09-06-operator-followups.md) adds ca
 
 ## Organization
 
-- `evals.json` owns the 43 canonical prompts and qualitative expectations. IDs remain stable. Optional `followups` contain later user prompts and separate review expectations.
+- `evals.json` owns the 46 canonical prompts and qualitative expectations. IDs remain stable. Optional `followups` contain later user prompts and separate review expectations.
 - `fixtures/` contains synthetic evidence and rewritten evaluation examples, without expected answers or grading rules. A case's optional `files` list is relative to this directory.
 - `promptfoo_cases.py` selects executable cases and adds focused assertions. Expectations stay in test metadata for review; they are not sent to the model.
 - `prepare_promptfoo_fixtures.py` copies the Skills and declared files into isolated baseline/candidate workspaces. Only the Manager Skill may differ.
 - `review_results.py` reports saved results by metric and separates runtime errors. It can replay updated outcome graders without another model call, and report observed shortlist-renderer output and whether its table reached the final answer unchanged.
 - `workspace/` holds ignored run traces and review notes. Do not put live customer data, credentials, or commercial records in the case corpus.
 
-The default Promptfoo smoke set currently covers cases 9, 10, 12, 13, 17, 19, 20, 21–30, 33, 34, 37 and 38. Cases 31/32/41 and other multi-turn or qualitative cases use `run_conversations.mjs` because reducing them to a single turn would discard the behavior being reviewed. Smoke assertions check observable boundaries and source reads; they do not replace qualitative business review.
+The default Promptfoo set covers cases 9, 10, 12, 13, 17, 19, 20, 21–30, 33, 34, 37, 38 and 44–46. Cases 45/46 require manual business review. Cases 31/32/41 and other multi-turn or qualitative cases use `run_conversations.mjs` because reducing them to a single turn would discard the behavior being reviewed. Smoke assertions check observable boundaries and source reads; they do not replace qualitative business review.
 
 Cases use `should-trigger`, `should-not-trigger`, or `boundary`. These describe the intended routing, not whether the case is executable. Cases that require live discovery, sends, scheduling, or an actual SOP workspace still need a separately authorized environment and its inputs. An empty `files` list does not supply those capabilities. JSON validation establishes structure only.
 
@@ -96,6 +98,8 @@ npm run eval:manager:conversations -- --cases 15,35,36 \
 | 33 | Industry-practice consultation | Explain the relationship between fee, deliverables, usage rights and exclusivity without inventing a universal price benchmark. |
 | 34 | Existing automation diagnosis | Supplied duplicate-task trace; preserve current reply state, use idempotent/readback repair, and distinguish a proposal from deployment. |
 | 44 | Creator-growth method | Turn an ambiguous exposure/growth request into a primary job, buying reason, content and handoff checks, breakpoint diagnosis, attribution layers, rights fields, and scale/fix/stop decisions. Smoke checks cover the observable contract; review the answer for concrete examples and project-specific limits. |
+| 45 | Goal-specific renewal | Compare a purchase-decision partnership with unresolved usage questions and an awareness partnership considering similar content. Review added value, evidence and timing without forcing sales proof or a fixed renewal sequence. Manually reviewed. |
+| 46 | Content reuse value | Keep accepted usable files separate from demonstrated downstream value; check the chosen product-page use, rights expiry and paid-ads gap without requiring every channel to be tested. Manually reviewed. |
 | 19-natural | Natural positive routing | The original case 19 prompt without naming the Skill. This is reported separately from content. |
 
 Positive content cases, including the business decision in case 13, explicitly invoke Manager. Their `skill-used` assertion verifies the test precondition; a failure means the loaded-Skill comparison is not established. Case 12 stays unprefixed and retains `not-skill-used` as a scope guard.

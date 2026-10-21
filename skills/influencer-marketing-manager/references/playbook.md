@@ -261,6 +261,10 @@ Choose metrics from the primary objective:
 - content asset: usable files, rights duration, reuse value;
 - relationship: response quality, on-time delivery, repeatability, and cost trend.
 
+For renewal and content reuse, use the goal-specific checks in
+[operating-design.md](operating-design.md): identify what the next cooperation
+adds and distinguish usable delivery from evidence that reuse improved a result.
+
 Set the observation window and denominator before comparing a batch. Use the highest available benchmark in this order: **same-project, same-type history → the creator's recent same-format content → a dated industry reference**. Define minimum acceptable, target, and stretch outcomes when a decision needs a threshold. For response rates, record the sent denominator, human-reply definition, and window; a single batch is a learning signal, not an industry benchmark.
 
 Keep exposure, engagement, clicks, visitors, orders and repeat purchase distinct. Record each metric's source, window, denominator and cost scope. Request creator-side analytics for needed private metrics. Reach counts people while views count plays; CPM is cost per thousand impressions, and a view-based cost needs that label. Revenue-based ROAS differs from profit-based ROI.
