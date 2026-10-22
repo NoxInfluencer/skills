@@ -164,7 +164,9 @@ Choose timing from the launch window, channel norms, creator value, and prior in
 
 Treat an inbound message as new business evidence:
 
-For recurring monitoring, read task-level aggregate counters first and compare them with the last successful baseline. Keep **unique replying creators**, **inbound message count**, **bounces**, and **qualified human intent** as separate measures; a new task's first successful check establishes its baseline. Read message bodies only after an aggregate count increases, then deduplicate on a stable message ID.
+For recurring monitoring, compare task-level aggregate counters with the previous observation. Keep **unique replying creators**, **inbound message count**, **bounces**, and **qualified human intent** separate. Counts help detect activity; they do not establish which messages have been inspected.
+
+On takeover, check the authorized pending work and deduplicate by stable message ID, unless the user explicitly chose a future-only starting point. During steady monitoring, unchanged counts can skip body reads when the covered messages have been inspected and no unfinished inspection remains. Keep failed or unfinished reads eligible for retry even if counts do not change. Advance the processed-message ID or cursor only after inspection and the resulting decision record succeed; re-read current state before any dependent action.
 
 1. Detect new messages and deduplicate on a stable message ID.
 2. Preserve the complete original text and message time.
@@ -210,7 +212,7 @@ Use current comparable evidence for market guidance. When it is absent, state th
 
 ### 7.1 Agree the work and prepare delivery
 
-Turn the accepted package into a short handoff checklist: owner, due point, required input, completion evidence, and next action or blocker. Share workload-changing Brief requirements before agreement; prepare the full Brief before production. Schedule sample/access, concept, draft review, publication, payment and reporting by their actual dependencies.
+Turn the accepted package into a short handoff checklist: owner, due point, required input, completion evidence, and next action or blocker. Keep agreed quantities and durations attached to their specific deliverables. Share workload-changing Brief requirements before agreement; prepare the full Brief before production. Schedule sample/access, concept, draft review, publication, payment and reporting by their actual dependencies.
 
 For samples, confirm the recipient, product, delivery window, gift/loan/return terms and shipping lead time. Use contract and Brief confirmation before a high-value shipment when the project requires that protection. Track dispatch, receipt and working condition separately. Digital products may need access and onboarding instead. Allow time for brand review and replacement delivery when planning the launch.
 
@@ -228,6 +230,8 @@ Use four compact blocks, adapting them to the agreed scope:
 Choose a review, tutorial, routine integration, challenge, timely theme or channel-specific idea from the creator's actual work. Let demonstrated capability determine the support needed. If a full script is unnecessary or impractical, agree a concept, placement, transition, core claims and CTA, or supply an outline the creator can adapt. Confirm the review arrangement before filming.
 
 Turn the approved message into an explanation the intended audience can understand, preserving product facts, supported outcomes and material audience/use conditions. Agree this meaning with the creator while allowing natural wording and narrative; preserve the intended action and sponsorship disclosure without requiring verbatim delivery.
+
+Discussion copy may propose personal wording. Mark any unconfirmed experience for the creator to confirm or replace before use; a proposed line is not evidence that the experience occurred.
 
 ### 7.3 Review and publication
 

@@ -6,6 +6,13 @@ Status: user criteria clarified on 2026-09-06; audience and adapted-conversation
 
 Judge whether the result supports the user's next marketing decision with less critical correction. Do not judge wording similarity, a fixed report layout, or whether every possible contract field appears.
 
+For creative discussion drafts, distinguish proposed wording from verified
+personal experience. Unconfirmed experience needs a creator-confirmation marker
+before use; it is not an observed fact. Apply this check to both baseline and
+candidate without treating all proposed personal wording as a business failure.
+For delivery scope, check which deliverable each quantity and duration modifies,
+not merely whether the same number appears.
+
 These criteria combine reviewer feedback with general lessons from operator workflows:
 
 - Use recent comparable content and real scenes, keeping creator fit separate from contact readiness.

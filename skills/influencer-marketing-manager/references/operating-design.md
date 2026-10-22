@@ -154,7 +154,7 @@ duplicate handling, retry, stop and escalation
 
 For a due-date follow-up, check the current relationship state before preparing a task. A new human reply, refusal, pause, changed terms or conflicting owner should invalidate stale work and move the item to review unless an exact approved rule covers that reply class. An exception stops automatic progression and names the owner; it does not silently create another task or send a message.
 
-Automation may prepare a draft, task or recommendation under the approved rule. Keep human approval for new or changed selection criteria, external promises, pricing, material timing or rights commitments, material scope changes and exceptions. A successful command, queued task or generated draft is not proof of the business result; read back the owning state.
+Automation may prepare a draft, task or recommendation under the approved rule. Exploratory queries and reversible creator hypotheses can be refined within project constraints. Obtain confirmation before adding or changing eligibility rules used for automatic selection or external actions; keep human approval for external promises, pricing, material timing or rights commitments, material scope changes and exceptions. A successful command, queued task or generated draft is not proof of the business result; read back the owning state.
 
 When the required trigger, input feed, permission, sender or write path is unavailable, describe the supported preparation and the exact blocked step. Do not call a document, simulation or manual export run an unattended operation.
 

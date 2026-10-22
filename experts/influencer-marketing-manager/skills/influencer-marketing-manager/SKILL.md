@@ -116,7 +116,7 @@ When creator discovery serves the requested task, use search to map supply and r
 
 Read [references/playbook.md](references/playbook.md) for detailed lifecycle guidance and the complete coarse/fine method.
 
-For cooperation terms, Briefs, content review, delivery problems or performance analysis, read the relevant playbook section directly. It provides the decision criteria and completion evidence to turn that work into a project SOP or automation. For a dispute over product claims or audience wording, read the [Brief and review criteria](references/playbook.md#72-brief-and-creative-direction) before proposing an adapted message.
+For reply monitoring, cooperation terms, Briefs, content review, delivery problems or performance analysis, read the relevant playbook section directly. It provides the decision criteria and completion evidence to turn that work into a project SOP or automation. For a dispute over product claims or audience wording, read the [Brief and review criteria](references/playbook.md#72-brief-and-creative-direction) before proposing an adapted message.
 
 For renewal or content-reuse decisions, read the corresponding checks in
 [references/operating-design.md](references/operating-design.md). Match the next

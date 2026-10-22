@@ -204,7 +204,7 @@
         "Uses the validated creator only to form a scene, audience, and format hypothesis for lookalikes, then fine-reviews every new result independently",
         "Separates creator fit from contact readiness and verifies the intended delivery route, business purpose, identity deduplication, and send history; requires an actual address and ownership for external email, while platform email can use resolved creator IDs and authoritative recipient readiness without exporting an address",
         "Does not treat the six visible addresses as a universal limit on platform sendability or the ten has_email flags as proof of delivery",
-        "Separates unique replying creators, inbound messages, bounces, and qualified human intent, establishes a baseline for the new task, and reads message bodies only after aggregate change",
+        "Separates unique replying creators, inbound messages, bounces, and qualified human intent; distinguishes observed counts from inspected-message progress, checks authorized pending work on takeover, and retains unfinished reads for retry even without aggregate change",
         "Chooses a dated observation window, denominator, and benchmark source for the next comparison instead of treating one batch as an industry benchmark"
       ]
     },
@@ -671,7 +671,7 @@
         "inputs/case41-brief.md"
       ],
       "expectations": [
-        "Uses the exact product facts and agreed deliverables, link/code, disclosure, retention, review window and payment scope to create a usable short Brief",
+        "Uses the exact product facts and agreed deliverables, link/code, disclosure, retention, review window and payment scope to create a usable short Brief; the 60–90 seconds qualifies the integration within the video, not the whole video's duration",
         "Treats the old template as unapproved material: unsupported eye-health claims, removing ad labels and the excluded branded thumbnail do not become requirements",
         "Works with the accepted concept, placement and transition instead of demanding a word-for-word script; preserves the creator style and requests a sample function check before filming"
       ],
@@ -796,9 +796,41 @@
       "expectations": [
         "Identifies that all skin types, all-day wear and hot-commute performance exceed the supplied indoor six-hour evidence; the initial application demonstration does not fill that gap",
         "Offers an understandable expression consistent with the six-hour indoor observation and its limits, while allowing creator wording and narrative instead of requiring verbatim technical delivery",
-        "Preserves the approved shade/usage CTA, sponsorship disclosure and truthful experience without turning qualifiers into universal guarantees",
+        "Preserves the approved shade/usage CTA, sponsorship disclosure and truthful experience without turning qualifiers into universal guarantees; proposed personal wording may be used as a discussion draft when unconfirmed experience is marked for creator confirmation before use",
         "Does not treat one creator's audience description or a colleague's country-level claim as established consumer evidence; any needed understanding check stays bounded to the intended audience",
         "Gives a proportionate next check with an appropriate owner and review point before publication, without inventing acceptance, a market study, completed testing or an external action"
+      ]
+    },
+    {
+      "id": 49,
+      "category": "reply-monitoring-takeover-and-recovery",
+      "trigger": "should-trigger",
+      "prompt": "请看四个回复监控任务的记录，判断这轮各自下一步查什么、哪些可以不查，以及处理进度何时才能前进。保持够用，不另建平台。只用所给材料，不联网、不发送、不执行调度、不修改业务记录。",
+      "expected_output": "Use counts for efficient monitoring without losing authorized pending work or failed reads, and respect an explicit future-only cutoff.",
+      "files": [
+        "inputs/case49-monitoring.md"
+      ],
+      "expectations": [
+        "For A, inspects the authorized pending replies on takeover rather than treating the initial nonzero counters as already processed or waiting for another increase",
+        "For B, retries the unfinished B-15 read despite unchanged counters, retains B-14 as inspected progress until inspection and the decision record succeed, and checks current state before dependent action",
+        "For C, permits skipping repeated body reads when the covered messages are already inspected and no unfinished work remains",
+        "For D, honors the explicit future-only starting point without processing earlier replies or extending the authorized scope",
+        "Keeps replied creators, inbound messages, bounces and qualified intent distinct; uses existing records and stable message IDs rather than a new monitoring platform",
+        "Gives concrete proposed checks without inventing message contents, completed reads, sent replies, scheduled work or updated records"
+      ]
+    },
+    {
+      "id": 50,
+      "category": "research-versus-automatic-eligibility-authority",
+      "trigger": "should-trigger",
+      "prompt": "我们已批准一个自动流程：只选英国 YouTube、近期有真实露营使用场景的账号；符合条件且未触达过的对象，按已确认邮件和频次规则联系。当前命中较差。研究同事想在这些边界内把探索词从 portable power 换为 camping setup、off-grid weekend，先放独立研究队列、逐个核对；另一位同事想让现有自动流程直接纳入美国账号、放宽场景条件，并立刻发出邮件补量。请说明哪些准备可以自主推进、哪些需要我决定、现在能交付什么。先给建议，不搜索、不发送、不修改流程。",
+      "expected_output": "Allow reversible research within project constraints while reserving changes to automatic eligibility and external scope for user approval.",
+      "files": [],
+      "expectations": [
+        "Allows the bounded exploratory query and hypothesis refinement without demanding fresh permission for each keyword; keeps research candidates provisional until the approved criteria are checked",
+        "Identifies US expansion and relaxed scene eligibility as changes to the approved automatic rules and sending scope, and proposes them for user decision before activation",
+        "Preserves approved UK, platform, real-scene, deduplication, message and cadence boundaries while preparing a useful next research or decision plan",
+        "Does not infer authority to send, broaden the workflow, fabricate creator results or claim that a rule or business record has been changed"
       ]
     }
   ]

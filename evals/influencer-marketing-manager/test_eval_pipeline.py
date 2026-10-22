@@ -29,8 +29,8 @@ class ConversationContractTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "requires run_conversations"):
                 create_tests({"case_ids": [31]})
 
-    def test_handbook_cases_keep_decisions_for_review(self):
-        for case_id in (37, 38, 39, 40, 42, 43, 45, 46, 47, 48):
+    def test_qualitative_cases_keep_decisions_for_review(self):
+        for case_id in (37, 38, 39, 40, 42, 43, 45, 46, 47, 48, 49, 50):
             with self.subTest(case_id=case_id):
                 case, = create_tests({"case_ids": [case_id]})
                 self.assertEqual(case["metadata"]["outcome_review"], "manual")
