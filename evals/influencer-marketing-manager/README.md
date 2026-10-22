@@ -3,10 +3,12 @@
 Use these evaluations to answer: did the user task improve, where did it fail, what should change next, and did the revision regress? Packaging checks alone do not establish task quality.
 
 The current [improvement plan](improvement-plan.md) distinguishes measurement,
-rule, discovery and output-fidelity defects. It freezes a source-linked Brief
+rule, discovery and output-fidelity defects. Its fixed source-linked Brief
 experiment on cases 41/51, with case 25 checking preliminary-decision scope,
-before changing the Manager method. Repeated failures and rejected candidates
-remain evidence; they are not erased by a later passing answer.
+rejected the added drafting/checking method and restored the prior Manager.
+Case 51, the source/answer review method and the failure record remain. The next
+intervention separates extraction from composition before building another tool
+or adding instructions; no autonomous Brief repair is claimed.
 
 The [2026-10-22 consistency corrections](review-2026-10-22-consistency.md) repair case 44's wording-sensitive smoke check and replay the same saved answers, while correcting the shared integration-duration error and applying the same personal-experience review to both creative-evidence variants. Cases 49/50 cover monitoring takeover/recovery and research versus automatic eligibility. The retained comparison and discarded Brief clarification preserve case 41's unresolved scope and terms defects. A grader repair is not a Skill behavior improvement.
 

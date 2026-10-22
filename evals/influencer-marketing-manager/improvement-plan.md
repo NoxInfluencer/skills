@@ -33,8 +33,9 @@ supporting observations and limitations.
 
 | Priority | Work | Completion evidence or boundary |
 | --- | --- | --- |
-| P1, phase 1 | Freeze the source-fidelity probe and review method before editing Manager. | Existing cases unchanged; case 51 uses fictional raw agreement material; local isolation and no-rubric-leakage checks pass. |
-| P1, phase 2 | Test a compact source-to-draft-to-source Brief method. | One paired run on cases 41, 51 and 25 with fixed inputs, criteria and runtime; inspect source/answer pairs and the multi-turn review. Retain or reject against the rule below. |
+| Completed, phase 1 | Freeze the source-fidelity probe and review method before editing Manager. | Pushed as `5d5444d`; existing cases unchanged; case 51 uses fictional raw agreement material; local isolation and no-rubric-leakage checks pass. |
+| Completed, phase 2 | Test a compact source-to-draft-to-source Brief method. | One paired run on cases 41, 51 and 25 completed. The candidate failed the fixed retention rule and was reverted; observations below remain part of the record. |
+| Next P1 | Locate a preventable loss in the accepted-terms handoff before another Skill revision. | Separate source-to-working-note extraction from working-note-to-final-draft composition. Establish which accepted fields can be preserved directly and which still need semantic review; do not assume a new schema fixes extraction. |
 | P2 | Complete the next concrete reuse handoff. | Check the chosen use, evidence source/owner, review condition and contract-based rights start/expiry. Do not turn downstream uplift into a condition of original delivery acceptance. |
 | P2 | Keep the earlier external-benchmark defect visible. | Case 15's unsupported-statistic finding in the industry-evidence review remains open; this Brief experiment does not address it. |
 | Separate owner | Connector installation/release dependency. | Assigned by the user to someone else. This plan neither changes that dependency nor establishes current installation or release readiness. |
@@ -90,9 +91,117 @@ and failure record. Do not tune the new example or rerun until it happens to
 pass. Any later artifact or tool intervention needs a concrete failure it can
 prevent and a separate bounded test.
 
+## Experiment result, 2026-10-22
+
+The six executions completed at `2026-10-22T02:47:42.702Z`, covering eight user
+turns and three distinct cases. The runner completed its post-run freshness
+check. Each variant used the fixed contract above; the review criteria and
+expectations were outside the model input. The candidate's successful source
+reads included the new drafting method and agreement/fee row. Reading the new
+material did not establish that the model performed its proposed checks.
+
+| Case | Baseline observation | Candidate observation |
+| --- | --- | --- |
+| 41, opening | Integration duration now attached correctly, but GBP 800 and payment after publication omitted. Criterion 1 partial. | Duration attached correctly, but the same fee/payment omissions remain despite reading the new method and fee row. Criterion 1 partial. |
+| 41, later review | Claim/discount correction, product-side cause investigation, release hold and excluded-scope boundaries hold. Calls the 80-second whole draft compliant with the integration-duration agreement without establishing the segment duration; criterion 4 partial. | Same duration equivalence error. A release hold and truthful criticism remain, but product-team investigation is not clearly assigned; criteria 2/4 partial. |
+| 51 | All six criteria supported in this observation, including three separate duration objects, EUR 1,200, both-publications payment trigger and the distinct review/revision owners and time units. | All six criteria supported in this observation. No baseline failure or candidate improvement is established on this material. |
+| 25 | All seven criteria supported in this observation. The proposal remains preliminary and the snapshot is dated. | Keeps the useful preliminary proposal and does not impose a full-contract gate. Criterion 7 partial: says current without the supplied snapshot date. |
+
+Selected exact answer evidence:
+
+> Baseline 41 review: 广告披露已具备，80 秒片长符合 60–90 秒约定。
+>
+> Candidate 41 review: 保留广告披露。`80 秒`符合约定的 `60–90 秒`时长。
+>
+> Candidate 51: EUR 1,200。在两项约定内容均发布后 10 个工作日内支付。
+
+The case 41 agreement assigns 60–90 seconds to an integration inside the host
+video. The later request only supplies a whole-draft duration. It does not make
+those objects equivalent. This issue was recorded on both variants under the
+fixed source-fidelity review; no expected term was added to the model request.
+
+The Brief-outline hypothesis did not meet the retention rule. The baseline
+already preserved the complete case 51 package using the old outline; the
+candidate still omitted case 41's money terms after reading the added row. This
+does not isolate the internal cause, but it does not support retaining the
+extra method text or treating the missing row as the demonstrated cause.
+
+The candidate was reverted to the exact pre-experiment Manager content. No
+second candidate or favorable repeat was selected. Keep case 51, the source/answer
+review method, the failure record and this updated plan. The optimization
+retained in this phase is the improvement and review process, not a claimed
+repair of autonomous Brief drafting. Real Brief handoffs still need a person to
+compare their material terms and release conditions with the original agreement.
+
+### Identities and retained evidence
+
+| Identity | Value |
+| --- | --- |
+| Baseline commit | `94ddd74bd8fe6e640fb2b80933874a065f0d454c` |
+| Baseline and restored Manager SHA-256 | `bc84fe5a37621b8b02d7e0a97eaa5d02c86a882b5d61c17d536a7a2d0641cc1b` |
+| Rejected candidate Manager SHA-256 | `19756f9333f6553383c6b0efc6d4a2de4d57a1ea1b5ef62ae15b477cd5f80d06` |
+| Shared Nox Skill SHA-256, both variants | `96d5d7e51ec49f60874dfd2f556497fec9cd775be7e169b7551997e4215e7d37` |
+| Evaluation contract SHA-256 | `acbbfa039cdd23d2791593853167615e438d39a77b769733eb44eb11b412230e` |
+| Runtime | `gpt-5.6-terra`, medium reasoning; isolated home; exact options saved in the raw run |
+| Rejected patch SHA-256 | `72061ef934962b9cabbc1eef4095a7575b973208e970efc0c3495cdee53c882c` |
+
+The following local evidence is ignored by Git:
+
+- `workspace/promptfoo/brief-fidelity-20261022.json`: untouched raw events,
+  responses, runtime and original fixture identity.
+- `workspace/promptfoo/brief-fidelity-20261022-answers.md`: verbatim responses.
+- `workspace/promptfoo/brief-fidelity-20261022-business-review.json`: eight
+  turn-level agent judgments with 33 grouped source/answer comparisons, including
+  abbreviated excerpts labelled as such. These are not user acceptance.
+- `workspace/brief-fidelity-20261022/candidate.patch`: the discarded source diff,
+  retained for reproduction in a disposable checkout. The current worktree is
+  the restored version, so preparing it alone does not recreate the candidate.
+
+The original comparison command was:
+
+```bash
+npm run eval:manager:prepare -- --baseline-ref 94ddd74 --reuse-codex-login
+npm run eval:manager:conversations -- --cases 41,51,25 \
+  --variants baseline,candidate \
+  --output evals/influencer-marketing-manager/workspace/promptfoo/brief-fidelity-20261022.json
+```
+
+The original result file must not be overwritten. A reproduction requires the
+archived candidate patch in a disposable checkout and a fresh result filename.
+After rejection, preparation was repeated to verify restoration of the exact
+Manager digest above. It does not rewrite the original comparison identity.
+
+Observed model commands only read Skills and synthetic inputs. No marketing
+sends, scheduler deployment or business-record writes were performed. Local
+tests and these observations establish neither live business acceptance nor a
+working Connector installation.
+
+## Next intervention boundary
+
+Before adding more instructions, separate two failure surfaces in a concrete
+handoff: whether the source was extracted faithfully, and whether correct known
+terms survived composition. Check a source-backed working record against the
+agreement and the final answer against both. This can use the existing local
+review record; it does not require a new business system.
+
+If accepted terms are already available as verified authoritative fields, a
+small deterministic pass-through may prevent omission or value substitution.
+Test that narrow transformation, including missing fields and conditions, before
+integrating it. It would not prove that source extraction or surrounding prose
+is semantically correct. If the source is unstructured, first test source
+representation separately with the same factual content and an unchanged Skill;
+report that as an input intervention. Do not credit it as a Skill repair.
+
+Keep judgment about creative direction, evidence, fit and proportional recovery
+flexible. Preserve fixed obligations through a checked path when one is
+available. Until such a path is demonstrated, retain the explicit source-review
+requirement and do not promise unattended Brief delivery. This is the next plan,
+not a tool implementation or an operation already validated.
+
 ## Progress
 
 - Phase 1: review method and probe fixed; 51 case definitions, adapter checks,
   46 Python tests, five Node tests, Promptfoo configuration, Expert snapshot and
   whitespace checks pass. No Manager content changed in this phase.
-- Phase 2: not started; the candidate and model comparison follow phase 1.
+- Phase 2: comparison completed; candidate rejected and original Manager/Expert
+  bytes restored. Plan, review method, case 51 and failure evidence retained.
