@@ -167,17 +167,27 @@ return {pass: !failed.length, score: (Object.keys(checks).length - failed.length
 """.strip(),
     44: r"""
 const text = (typeof output === 'string' ? output : JSON.stringify(output)).replace(/[*_`]/g, '');
+const buyingQuestions = [
+  /(?:为什么|为何)[^。；;\n]{0,12}需要|why\b[^.;,\n]{0,50}\bneeds?\b/i,
+  /(?:为什么|为何)[^。；;\n]{0,12}选(?:择)?|why\b[^.;,\n]{0,50}\b(?:choos\w*|this|you|us)\b/i,
+  /(?:能不能|能否|是否能|会不会)[^。；;\n]{0,8}(?:用|使用)|敢不敢买|(?:can\s+(?:i|we|they|the\s+(?:user|audience))|(?:i|we|they|the\s+(?:user|audience))\s+can)\s+use/i,
+];
+const evidenceLayers = [
+  /直接归因|direct\s+attribution/i,
+  /辅助(?:影响|证据)|assisted(?:\s+(?:impact|evidence))?/i,
+  /增量|incremental(?:ity)?/i,
+];
 const checks = {
   'primary-job': /(?:主任务|优先目标|primary\s+(?:job|goal)|demand|conversion|转化|内容资产)/i.test(text),
-  'buying-reason': /(?:为什么需要|为什么选择|能不能用|why\s+need|why\s+(?:this|you)|can\s+i\s+use)/i.test(text) && /(?:场景|creator|达人|作品|使用)/i.test(text),
+  'buying-reason': buyingQuestions.every(pattern => pattern.test(text)) && /(?:场景|creator|达人|作品|使用)/i.test(text),
   'content-and-handoff': /(?:Demand|Choice|Confidence|需求|选择|顾虑)/i.test(text) && /(?:商品页|落地页|承接|官网|landing|destination)/i.test(text),
   'breakpoints': /(?:Play\s*→\s*Visit|Visit\s*→\s*Cart|Cart\s*→\s*Order|播放.{0,12}访问|访问.{0,12}加购|加购.{0,12}订单)/i.test(text),
-  'evidence-layers': /(?:直接归因|辅助影响|增量|attribution|assisted|incremental)/i.test(text),
+  'evidence-layers': evidenceLayers.every(pattern => pattern.test(text)),
   'rights': /(?:授权|使用权|期限|地域|剪辑|paid\s*(?:ads|media)|usage\s*rights)/i.test(text),
   'decision': /(?:放大|优化|停止|scale|fix|stop)/i.test(text) && /(?:证据|匹配|成本|断点|threshold|阈值|authority|确认)/i.test(text),
 };
 const failed = Object.keys(checks).filter(key => !checks[key]);
-return {pass: !failed.length, score: (Object.keys(checks).length - failed.length) / Object.keys(checks).length, reason: `creator-growth method checks; missing: ${failed.join(', ') || 'none'}`};
+return {pass: !failed.length, score: (Object.keys(checks).length - failed.length) / Object.keys(checks).length, reason: `creator-growth smoke checks; missing: ${failed.join(', ') || 'none'}`};
 """.strip(),
 }
 
@@ -416,6 +426,17 @@ def run_self_test() -> None:
         "交接记录授权期限、地域、剪辑权和 Paid Ads 权。根据匹配、可重复、成本和业务贡献决定放大、优化或停止，预算规则按项目确认。"
     )
     assert _run_javascript_assertion(44, good_creator_growth)["pass"]
+    buying_questions = "为什么需要、为什么选择和能不能用"
+    for equivalent in (
+        "用户为何现在需要它、为何选你、是否能放心使用",
+        "用户为什么现在需要、为什么选我们、会不会用/敢不敢买",
+        "why the audience needs it, why this option, and whether they can use it",
+    ):
+        assert _run_javascript_assertion(44, good_creator_growth.replace(buying_questions, equivalent))["pass"], equivalent
+    for incomplete in ("为什么需要", "为什么选择和能不能用", "先研究产品"):
+        assert not _run_javascript_assertion(44, good_creator_growth.replace(buying_questions, incomplete))["pass"], incomplete
+    for missing_layer in ("直接归因", "辅助影响", "增量"):
+        assert not _run_javascript_assertion(44, good_creator_growth.replace(missing_layer, "未说明的证据"))["pass"], missing_layer
     assert not _run_javascript_assertion(44, good_creator_growth.replace("Play → Visit、Visit → Cart、Cart → Order", "看一下数据"))["pass"]
 
     assert _run_javascript_assertion(12, "Please paste the approved source email.")["pass"]

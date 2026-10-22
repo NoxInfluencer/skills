@@ -136,9 +136,18 @@ automated outcome scores or user acceptance.
 | Case | Baseline observation | Final candidate observation |
 | --- | --- | --- |
 | 47 | All five criteria supported: qualified A remains usable; B's caption is unsupported; a targeted pickup and pre-publication check are proposed. | All five criteria supported. Keeps A, scopes B's claim, preserves disclosure/link and separates full reshoot from the agreed correction round. |
-| 48 | Core evidence limits and audience-facing wording hold; the example explicitly attributes the indoor six-hour observation to brand information. | Core claim limits, audience-facing explanation and brand-record attribution hold. Criterion 3 is partial: the proposed sample adds a preference for a natural finish that the supplied evidence does not establish; the creator must confirm or remove it before use. |
-| 41, opening | Complete Brief includes GBP 800 and payment after publication, with a clamp check before filming. | Criterion 1 remains partial: fee and payment milestone are omitted. It also calls the two pre-filming checks cost-free without supplied cost evidence. Other product, disclosure and scope boundaries hold. |
+| 48 | Core evidence limits and audience-facing wording hold; the example explicitly attributes the indoor six-hour observation to brand information. The sample's personal commute-preparation setting requires creator confirmation before use. | Core claim limits, audience-facing explanation and brand-record attribution hold. The sample's preference for a natural finish requires creator confirmation before use. Both are discussion drafts, not evidence that those personal experiences occurred. |
+| 41, opening | Retains GBP 800 and payment after publication, with a clamp check before filming. Criterion 1 is partial: it attaches the 60–90 second duration to the whole desk-setup video rather than the integration. | Criterion 1 remains partial: fee and payment milestone are omitted, and the 60–90 second duration is attached to the whole video rather than the integration. It also calls the two pre-filming checks cost-free without supplied cost evidence. Disclosure and excluded-rights boundaries hold. |
 | 41, draft review | Timestamped corrections and truthful criticism hold; criterion 2 is partial because the product-team investigation owner is implicit. | Timestamped claim/discount corrections, truthful criticism and extra-scope boundaries hold. Criterion 2 remains partial: it asks to record/notify the product team, but does not clearly establish installation/compatibility/defect investigation and its release checkpoint. |
+
+Review correction, 2026-10-22: the original review called the baseline Brief
+complete and flagged only the candidate's personal preference in case 48. Reading
+both raw answers again exposed the shared duration error and the baseline's
+unverified commute-preparation setting. The table now applies the same scope and
+experience checks to both variants. A discussion draft may propose wording that
+the creator must confirm; it is not a verified testimonial. Raw answers and the
+original dated local judgments remain unchanged. These corrections are not a
+new model run or evidence of a Skill improvement.
 
 Selected final-answer evidence:
 
@@ -150,7 +159,7 @@ Selected final-answer evidence:
 
 > 初始上妆展示不被表述成持妆证明。
 
-For practical use, remove or confirm the sample's unverified personal preference;
+For practical use, remove or confirm each sample's unverified personal experience;
 keep the brand-record attribution. That is a reviewer correction, not a claim
 that the raw answer already passed every criterion. An illustrative corrected
 passage is: "Here is the initial finish in this demonstration. The brand's

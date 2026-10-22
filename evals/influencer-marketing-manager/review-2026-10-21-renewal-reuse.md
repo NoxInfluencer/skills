@@ -2,6 +2,10 @@
 
 Date: 2026-10-21
 
+Later correction: the [2026-10-22 consistency review](review-2026-10-22-consistency.md)
+repairs the case 44 smoke checker and replays the same saved answers. The original
+scores below describe the checker used at the time; business caveats remain.
+
 ## Change and decision boundary
 
 The existing growth method covered goals, buying reasons, content jobs,

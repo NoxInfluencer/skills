@@ -2,6 +2,8 @@
 
 Use these evaluations to answer: did the user task improve, where did it fail, what should change next, and did the revision regress? Packaging checks alone do not establish task quality.
 
+The [2026-10-22 consistency corrections](review-2026-10-22-consistency.md) repair case 44's wording-sensitive smoke check and replay the same saved answers, while correcting the shared integration-duration error and applying the same personal-experience review to both creative-evidence variants. A grader repair is not a Skill behavior improvement.
+
 The [2026-10-21 creative-evidence review](review-2026-10-21-creative-evidence.md) records the focused Brief/review integration, synthetic demonstration and message-adaptation cases 47/48, and the existing two-turn case 41 regression. The comparison keeps prior cases and graders unchanged; new business outcomes require manual review of actual answers.
 
 The [2026-10-21 renewal and reuse review](review-2026-10-21-renewal-reuse.md) records the goal-specific renewal and asset-value checks, fixed-contract cases 45/46, and the corrected limits of the earlier case 44 runs. Business outcomes require reading the answers; the new cases use evidence checks and manual review rather than keyword outcome grades.
