@@ -13,19 +13,12 @@ import {
 import { dirname, join, posix, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import yazl from "yazl";
-import {
-  bundledSkillDirectory,
-  pluginRuntimeMarkerRelativePath,
-  verifyBundledSkillSync,
-} from "./plugin-skill-sync.mjs";
 import { validatePluginSource } from "./plugin-source-validation.mjs";
 
 const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const manifestPath = join(projectRoot, ".codex-plugin", "plugin.json");
 const outputDirectory = join(projectRoot, "dist");
 const stagingDirectory = join(outputDirectory, ".staging");
-const pluginRuntimeMarkerArchivePath =
-  posix.join("skills/noxinfluencer", pluginRuntimeMarkerRelativePath);
 const fixedArchiveDate = new Date("1980-01-01T00:00:00.000Z");
 
 function fail(message) {
@@ -81,15 +74,6 @@ function assertSafeArchivePath(archivePath) {
   }
 }
 
-function assertPluginSkillReady() {
-  try {
-    verifyBundledSkillSync();
-  } catch (error) {
-    fail(error.message);
-  }
-  return verifyBundledSkillSync();
-}
-
 function copyFileToStaging(sourcePath, archivePath) {
   assertSafeArchivePath(archivePath);
   const destinationPath = join(stagingDirectory, ...archivePath.split("/"));
@@ -106,13 +90,12 @@ function writeTextToStaging(archivePath, contents) {
 
 function stageDirectory(sourceRoot, archiveRoot) {
   for (const path of listFiles(sourceRoot)) {
-    if (path.split(sep).at(-1) === ".gitkeep") continue;
     const relativePath = toArchivePath(path, sourceRoot);
     copyFileToStaging(path, posix.join(archiveRoot, relativePath));
   }
 }
 
-function buildStaging(manifest, options = {}) {
+function buildStaging(manifest, common, options = {}) {
   const declaredSkills = manifest.skills ?? "./skills/";
   if (declaredSkills !== "./skills/") {
     fail(`Unsupported skills path "${declaredSkills}"; expected "./skills/".`);
@@ -129,18 +112,32 @@ function buildStaging(manifest, options = {}) {
     }
   }
 
-  rmSync(outputDirectory, { recursive: true, force: true });
+  // Keep other target ZIPs when producing Codex and Claude packages in sequence.
+  rmSync(stagingDirectory, { recursive: true, force: true });
   mkdirSync(stagingDirectory, { recursive: true });
 
   stageDirectory(pluginManifestDirectory, ".codex-plugin");
+  stageDirectory(join(projectRoot, ".plugin"), ".plugin");
   if (options.stagedVersion) {
     writeTextToStaging(
       ".codex-plugin/plugin.json",
       `${JSON.stringify({ ...manifest, version: options.stagedVersion }, null, 2)}\n`,
     );
+    writeTextToStaging(
+      ".plugin/plugin.json",
+      `${JSON.stringify({ ...common, version: options.stagedVersion }, null, 2)}\n`,
+    );
   }
   copyFileToStaging(mcpPath, ".mcp.json");
-  stageDirectory(bundledSkillDirectory, "skills/noxinfluencer");
+  stageDirectory(join(projectRoot, "skills"), "skills");
+
+  // Native Claude ZIPs need a manifest; ordinary npx installs generate it.
+  if (options.target === "claude-code") {
+    writeTextToStaging(
+      ".claude-plugin/plugin.json",
+      `${JSON.stringify({ ...common, version: options.stagedVersion || common.version }, null, 2)}\n`,
+    );
+  }
 
   const assetsPath = join(projectRoot, "assets");
   if (existsSync(assetsPath)) stageDirectory(assetsPath, "assets");
@@ -159,12 +156,6 @@ function buildStaging(manifest, options = {}) {
       toArchivePath(right, stagingDirectory),
     ),
   );
-  if (!existsSync(join(stagingDirectory, "skills", "noxinfluencer", "SKILL.md"))) {
-    fail("Staged plugin does not contain skills/noxinfluencer/SKILL.md.");
-  }
-  if (!existsSync(join(stagingDirectory, ...pluginRuntimeMarkerArchivePath.split("/")))) {
-    fail("Staged plugin does not contain the Codex Plugin runtime marker.");
-  }
   return files;
 }
 
@@ -210,9 +201,14 @@ function createDevelopmentVersion(version, now = new Date()) {
 
 async function main() {
   const args = process.argv.slice(2);
-  const unsupportedArgs = args.filter((argument) => argument !== "--dev");
-  if (unsupportedArgs.length) {
-    fail(`Unsupported package argument(s): ${unsupportedArgs.join(", ")}`);
+  let target = "codex";
+  for (let index = 0; index < args.length; index++) {
+    if (args[index] === "--dev") continue;
+    if (args[index] === "--target" && ["codex", "claude-code"].includes(args[index + 1])) {
+      target = args[++index];
+      continue;
+    }
+    fail(`Unsupported package argument: ${args[index]}`);
   }
   const development = args.includes("--dev");
 
@@ -220,16 +216,15 @@ async function main() {
     fail("Missing .codex-plugin/plugin.json.");
   }
 
-  const { manifest } = validatePluginSource();
-
-  const pluginSkill = assertPluginSkillReady();
+  const { manifest, common, skills } = validatePluginSource({ release: !development });
   const artifactVersion = development
     ? createDevelopmentVersion(manifest.version)
     : manifest.version;
-  const files = buildStaging(manifest, {
+  const files = buildStaging(manifest, common, {
     stagedVersion: development ? artifactVersion : "",
+    target,
   });
-  const artifactName = `${manifest.name}-${artifactVersion}.zip`;
+  const artifactName = `${manifest.name}-${target}-${artifactVersion}.zip`;
   const outputPath = join(outputDirectory, artifactName);
 
   try {
@@ -239,7 +234,7 @@ async function main() {
 
     console.log(`Package mode: ${development ? "development" : "production"}`);
     console.log(`Plugin version: ${artifactVersion}`);
-    console.log(`Plugin-local Skill files: ${pluginSkill.fileCount}`);
+    console.log(`MCP Skill: ${skills.pending ? "pending delivery" : `${skills.fileCount} files`}`);
     console.log(`Packaged ${files.length} files:`);
     for (const path of files) {
       console.log(`- ${toArchivePath(path, stagingDirectory)}`);

@@ -1,0 +1,13 @@
+{
+  "name": "noxinfluencer-plugins",
+  "owner": {
+    "name": "NoxInfluencer"
+  },
+  "plugins": [
+    {
+      "name": "noxinfluencer",
+      "source": "./plugins/noxinfluencer",
+      "description": "NoxInfluencer marketing workflows through MCP."
+    }
+  ]
+}

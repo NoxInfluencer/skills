@@ -1,179 +1,118 @@
-import { existsSync, readFileSync } from "node:fs";
-import { join } from "node:path";
-import {
-  bundledSkillDirectory,
-  pluginRuntimeMarkerRelativePath,
-  projectRoot,
-  verifyBundledSkillSync,
-} from "./plugin-skill-sync.mjs";
+import { existsSync, lstatSync, readFileSync, readdirSync, realpathSync } from "node:fs";
+import { dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
+import { fileURLToPath } from "node:url";
+import { isDeepStrictEqual } from "node:util";
 
-const expectedPluginName = "noxinfluencer";
-const legacyMcpResource = "https://api.noxinfluencer.com/mcp";
-const canonicalMcpResource = "https://skilltest.noxinfluencer.com/mcp";
+export const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+export const testMcpResource = "https://skilltest.noxinfluencer.com/mcp";
 
-function fail(message) {
-  throw new Error(message);
+function requireValue(condition, message) {
+  if (!condition) throw new Error(message);
 }
 
-export function readJson(path, label) {
+export function readJson(path, label = path) {
   try {
     return JSON.parse(readFileSync(path, "utf8"));
   } catch (error) {
-    fail(`${label} is not valid JSON: ${error.message}`);
+    throw new Error(`${label} is not valid JSON: ${error.message}`);
   }
 }
 
-function unquoteYamlScalar(value) {
-  const trimmed = value.trim();
-  if (
-    trimmed.length >= 2 &&
-    ((trimmed.startsWith('"') && trimmed.endsWith('"')) ||
-      (trimmed.startsWith("'") && trimmed.endsWith("'")))
-  ) {
-    return trimmed.slice(1, -1);
+// Scan delivered content as well as placeholder directories. Never follow links
+// into another Skill tree or the developer's machine.
+export function listRuntimeFiles(path, root = path) {
+  const stat = lstatSync(path);
+  const name = relative(root, path).split(sep).join("/");
+  requireValue(!stat.isSymbolicLink(), `Symbolic links are not allowed: ${name || path}`);
+  if (stat.isDirectory()) {
+    requireValue(!/^(node_modules|dist|build|coverage|logs|evals|\.git|\.evals)$/i.test(path.split(sep).at(-1)), `Development directory is not allowed: ${name}`);
+    return readdirSync(path).sort().flatMap((entry) => listRuntimeFiles(join(path, entry), root));
   }
-  return trimmed;
+  requireValue(stat.isFile(), `Unsupported filesystem entry: ${name}`);
+  requireValue(!/^(\.env(?:\..*)?|id_rsa)$|\.(pem|key|p12|pfx|log)$/i.test(path.split(sep).at(-1)), `Potential secret or log file is not allowed: ${name}`);
+  return [path];
 }
 
-export function validateSkillManifest(skillDirectory, label) {
-  const skillPath = join(skillDirectory, "SKILL.md");
+function validateSkill(skillPath) {
+  const content = readFileSync(skillPath, "utf8").replace(/^\uFEFF/, "").replaceAll("\r\n", "\n");
+  const match = content.match(/^---\n([\s\S]*?)\n---(?:\n|$)/);
+  const frontmatter = match?.[1];
+  requireValue(frontmatter, `${skillPath} must begin with YAML frontmatter.`);
+  const scalar = (field) => frontmatter.match(new RegExp(`^${field}:[ \\t]*([^\\n]*)$`, "m"))?.[1].trim().replace(/^(['"])(.*)\1$/, "$2");
+  requireValue(/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(scalar("name") ?? ""), `${skillPath} must declare a valid name.`);
+  let description = scalar("description");
+  if (/^[>|][+-]?$/.test(description ?? "")) {
+    description = frontmatter.match(/^description:[ \t]*[>|][+-]?[ \t]*\n((?:[ \t]+[^\n]*(?:\n|$))+)/m)?.[1].trim();
+  }
+  requireValue(description, `${skillPath} must declare a non-empty description.`);
+  requireValue(content.slice(match[0].length).trim(), `${skillPath} must contain instructions.`);
+  requireValue(!content.includes("[TODO:"), `${skillPath} contains a TODO placeholder.`);
+}
+
+export function validateSkills(root, { release = false } = {}) {
+  const skillsRoot = join(root, "skills");
+  const mcpRoot = join(skillsRoot, "mcp");
+  requireValue(existsSync(mcpRoot), "Missing skills/mcp/ delivery directory.");
+  const files = listRuntimeFiles(skillsRoot).filter((file) => !file.endsWith(`${sep}.gitkeep`));
+  const mcpFiles = files.filter((file) => file.startsWith(`${mcpRoot}${sep}`));
+  const skillPath = join(mcpRoot, "SKILL.md");
   if (!existsSync(skillPath)) {
-    fail(`${label} is missing SKILL.md: ${skillDirectory}`);
+    requireValue(mcpFiles.length === 0, "skills/mcp/ contains files but no SKILL.md; delivery is incomplete.");
+    requireValue(!release, "MCP Skill delivery is pending: add skills/mcp/SKILL.md before release.");
   }
-
-  const content = readFileSync(skillPath, "utf8")
-    .replace(/^\uFEFF/, "")
-    .replaceAll("\r\n", "\n");
-  const lines = content.split("\n");
-  if (lines[0] !== "---") {
-    fail(`${label} SKILL.md must begin with YAML frontmatter.`);
+  // Every direct child is an independently loadable Skill. No host-specific
+  // runtime marker is generated or injected into the MCP team's content.
+  for (const entry of readdirSync(skillsRoot, { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue;
+    const path = join(skillsRoot, entry.name, "SKILL.md");
+    if (entry.name === "mcp" && !existsSync(path)) continue;
+    validateSkill(path);
   }
-
-  const closingDelimiter = lines.indexOf("---", 1);
-  if (closingDelimiter < 2) {
-    fail(`${label} SKILL.md is missing its closing frontmatter delimiter.`);
-  }
-
-  const frontmatter = lines.slice(1, closingDelimiter);
-  const readField = (name) => {
-    const prefix = `${name}:`;
-    const line = frontmatter.find((candidate) => candidate.startsWith(prefix));
-    return line ? unquoteYamlScalar(line.slice(prefix.length)) : "";
-  };
-
-  const name = readField("name");
-  const description = readField("description");
-  if (name !== expectedPluginName) {
-    fail(
-      `${label} Skill name must remain '${expectedPluginName}', received '${name || "<missing>"}'.`,
-    );
-  }
-  if (!description) {
-    fail(`${label} Skill must declare a non-empty description.`);
-  }
-  if (content.includes("[TODO:")) {
-    fail(`${label} SKILL.md must not contain TODO placeholders.`);
-  }
+  return { pending: !existsSync(skillPath), fileCount: files.length };
 }
 
-export function validatePluginManifest(manifest) {
-  if (!manifest || typeof manifest !== "object" || Array.isArray(manifest)) {
-    fail("plugin.json must contain a JSON object.");
-  }
-  if (manifest.name !== expectedPluginName) {
-    fail(
-      `plugin.json name must remain '${expectedPluginName}', received '${manifest.name ?? "<missing>"}'.`,
-    );
-  }
-  if (typeof manifest.version !== "string" || !manifest.version.trim()) {
-    fail("plugin.json must contain a non-empty version.");
-  }
-  if (manifest.skills !== "./skills/") {
-    fail('plugin.json must declare "skills": "./skills/".');
-  }
-  if (manifest.mcpServers !== "./.mcp.json") {
-    fail('plugin.json must declare "mcpServers": "./.mcp.json".');
-  }
+function validateAsset(root, assetPath) {
+  requireValue(typeof assetPath === "string" && assetPath.startsWith("./") && !assetPath.includes("\\") && !assetPath.split("/").includes(".."), "Asset paths must be ./-prefixed paths inside the plugin.");
+  const resolvedPath = resolve(root, assetPath);
+  const rel = relative(realpathSync(root), realpathSync(resolvedPath));
+  requireValue(rel && !rel.startsWith(`..${sep}`) && !isAbsolute(rel), "Asset path escapes the plugin.");
+  const stat = lstatSync(resolvedPath);
+  requireValue(stat.isFile() && stat.size > 0 && stat.size <= 5 * 1024 * 1024, `Asset must be a non-empty image at most 5 MiB: ${assetPath}`);
+  requireValue(/\.(svg|png|jpe?g|webp)$/i.test(assetPath), `Unsupported image format: ${assetPath}`);
 }
 
-export function validateMcpConfig(config) {
-  const provider = config?.mcpServers?.noxinfluencer;
-  if (!provider || typeof provider !== "object" || Array.isArray(provider)) {
-    fail('.mcp.json must declare mcpServers.noxinfluencer.');
+export function validatePluginSource({ root = projectRoot, release = false } = {}) {
+  const common = readJson(join(root, ".plugin", "plugin.json"));
+  const manifest = readJson(join(root, ".codex-plugin", "plugin.json"));
+  for (const [label, entry] of [["Common", common], ["Codex", manifest]]) {
+    requireValue(entry?.name === "noxinfluencer", `${label} plugin name must be noxinfluencer.`);
+    requireValue(typeof entry.version === "string" && /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/.test(entry.version), `${label} manifest requires a semantic version.`);
+    requireValue(typeof entry.description === "string" && entry.description.trim(), `${label} description is required.`);
   }
-
-  if (provider.type !== "http") {
-    fail('NoxInfluencer MCP type must be "http".');
+  for (const key of Object.keys(common)) {
+    requireValue(isDeepStrictEqual(common[key], manifest[key]), `Common and Codex manifest fields differ: ${key}`);
   }
-
-  const url = String(provider.url ?? "").trim();
-  const oauthResource = String(provider.oauth_resource ?? "").trim();
-  if (!url || !oauthResource) {
-    fail("NoxInfluencer MCP url and oauth_resource must both be configured.");
+  requireValue(manifest.skills === "./skills/", 'Codex skills must be "./skills/".');
+  requireValue(manifest.mcpServers === "./.mcp.json", 'Codex mcpServers must be "./.mcp.json".');
+  const iface = manifest.interface;
+  for (const field of ["displayName", "shortDescription", "longDescription", "developerName", "category"]) {
+    requireValue(typeof iface?.[field] === "string" && iface[field].trim(), `Codex interface.${field} is required.`);
   }
-  if (url !== oauthResource) {
-    fail("NoxInfluencer MCP url and oauth_resource must be exactly equal.");
+  requireValue(iface.category === "Marketing", "Codex category must be Marketing.");
+  requireValue(Array.isArray(iface.capabilities) && iface.capabilities.length > 0, "Codex capabilities are required.");
+  listRuntimeFiles(join(root, "assets"));
+  for (const field of ["logo", "composerIcon"]) {
+    if (iface[field]) validateAsset(root, iface[field]);
+    else requireValue(!release, `Formal release requires interface.${field} and the approved brand asset.`);
   }
-  if (url === legacyMcpResource) {
-    fail(`Legacy MCP Resource is not allowed in the Codex Plugin package: ${url}`);
-  }
-  if (url !== canonicalMcpResource) {
-    fail(`NoxInfluencer MCP Resource must be the canonical test environment resource: ${canonicalMcpResource}`);
-  }
-
-  let parsed;
-  try {
-    parsed = new URL(url);
-  } catch (error) {
-    fail(`NoxInfluencer MCP Resource is not a valid absolute URL: ${error.message}`);
-  }
-  if (parsed.protocol !== "https:") {
-    fail("NoxInfluencer MCP Resource must use HTTPS.");
-  }
-  if (
-    parsed.username ||
-    parsed.password ||
-    parsed.search ||
-    parsed.hash ||
-    url.endsWith("/")
-  ) {
-    fail(
-      "NoxInfluencer MCP Resource must not contain userinfo, query, fragment, or a trailing slash.",
-    );
-  }
-
-  const headers = provider.http_headers;
-  if (headers && typeof headers === "object") {
-    const hasLegacySurfaceHeader = Object.keys(headers).some(
-      (name) => name.toLowerCase() === "x-nox-mcp-surface",
-    );
-    if (hasLegacySurfaceHeader) {
-      fail(
-        "x-nox-mcp-surface is not allowed; the Codex Plugin uses an independent MCP Resource path.",
-      );
-    }
-  }
-}
-
-export function validatePluginSource() {
-  const manifest = readJson(
-    join(projectRoot, ".codex-plugin", "plugin.json"),
-    "plugin.json",
-  );
-  const mcpConfig = readJson(join(projectRoot, ".mcp.json"), ".mcp.json");
-
-  validatePluginManifest(manifest);
-  validateMcpConfig(mcpConfig);
-  validateSkillManifest(bundledSkillDirectory, "Plugin-local");
-  verifyBundledSkillSync();
-
-  const runtimeMarker = join(
-    bundledSkillDirectory,
-    ...pluginRuntimeMarkerRelativePath.split("/"),
-  );
-  if (!existsSync(runtimeMarker)) {
-    fail("Plugin-local Skill is missing references/codex-plugin-runtime.md.");
-  }
-
-  return { manifest, mcpConfig };
+  const mcpConfig = readJson(join(root, ".mcp.json"));
+  const provider = mcpConfig?.mcpServers?.noxinfluencer;
+  requireValue(provider?.type === "http", 'MCP provider type must be "http".');
+  requireValue(provider.url === provider.oauth_resource, "MCP url and oauth_resource must be equal.");
+  const url = new URL(provider.url);
+  requireValue(url.protocol === "https:" && !url.username && !url.password && !url.search && !url.hash && !provider.url.endsWith("/"), "MCP requires a clean HTTPS resource URL without a trailing slash.");
+  requireValue(provider.url === testMcpResource, `This test configuration must use ${testMcpResource}. Update validation deliberately when selecting the production endpoint.`);
+  requireValue(!release || provider.url !== testMcpResource, "Formal release requires the confirmed production MCP endpoint; this configuration still uses skilltest.");
+  const skills = validateSkills(root, { release });
+  return { common, manifest, mcpConfig, skills };
 }

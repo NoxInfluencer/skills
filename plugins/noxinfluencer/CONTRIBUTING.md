@@ -1,126 +1,49 @@
-# NoxInfluencer Codex Plugin 提交规范
+# NoxInfluencer Plugin 开发规范
 
-本规范适用于 `plugins/noxinfluencer` 及仓库级 `.agents/plugins/marketplace.json`。插件内 Skill 是独立源码；仓库中的其他 Skill 不参与本插件的开发、验证或安装。
+开发边界为 `plugins/noxinfluencer/`。仓库根 `.plugin/marketplace.json` 仅负责定位该目录；既有 `.agents/plugins/marketplace.json` 继续作为新版 Codex 原生入口。不要读写、复制或同步外层独立 Skill。
 
-所有插件命令从插件根目录执行：
+## 修改与验证
 
-```powershell
-cd plugins/noxinfluencer
-```
+在插件目录执行：
 
-## 开发流程
-
-直接修改插件目录内的 Skill、Manifest、MCP 配置、脚本或文档。不要从其他 Skill 目录同步或复制内容。
-
-首次安装依赖：
-
-```powershell
+```bash
 npm ci
-```
-
-提交前执行：
-
-```powershell
 npm run verify
+npm test
 ```
 
-`verify` 是只读校验，覆盖 Plugin Skill、Manifest、MCP 配置以及仓库 Marketplace。正常开发和 CI 不需要生成 ZIP。
+`verify` 只读，检查通用与 Codex Manifest、插件内 Skill、MCP 配置和安装索引。两份 Manifest 的共用元数据必须一致，Codex 专用字段只放 `.codex-plugin/plugin.json`。
 
-如果修改了运行时标记模板，先执行：
+MCP Skill 唯一交付位置为 `skills/mcp/`。交付前仅保留 `.gitkeep`；交付后必须有有效 `SKILL.md` 和全部依赖文件。不生成或注入宿主运行时标记。不在源码维护 `.claude-plugin/plugin.json`。
 
-```powershell
-npm run plugin:sync-skill
-npm run verify
-```
+`package.json` 和锁文件是开发工具配置，保持无 `preinstall`、`install`、`postinstall`、`prepare` 等自动执行钩子。安装依赖不能触发插件注册、认证或业务操作。
 
-## Marketplace 约束
+## 本地联调
 
-仓库 Marketplace 位于：
-
-```text
-.agents/plugins/marketplace.json
-```
-
-必须保持：
-
-- Marketplace 名称为 `noxinfluencer-codex`；
-- 插件名称为 `noxinfluencer`；
-- 来源为 `./plugins/noxinfluencer`；
-- 安装策略为 `AVAILABLE`；
-- 认证策略为 `ON_INSTALL`；
-- 分类为 `Marketing`。
-
-不要把个人 Marketplace、用户目录路径、Token 或机器相关配置提交到仓库。
-
-## 本地更新
-
-首次注册当前仓库 Marketplace：
-
-```powershell
-npm run plugin:local:deps
+```bash
 npm run plugin:local:bootstrap
-```
-
-后续修改插件后：
-
-```powershell
 npm run plugin:local:update
 ```
 
-本地更新按照 `plugin-creator` 的开发流程更新 Manifest cachebuster，再从仓库 Marketplace 重新安装。更新完成后使用新 Codex 会话测试。
+这两个命令会主动修改本机 Codex 插件安装状态；`update` 同时为两份 Manifest 写入开发版本。不要把开发 cachebuster 当成正式版本发布。修改后使用新会话测试。
 
-本地 cachebuster 不能直接作为正式发布版本。正式发布前把 Manifest 版本改成确定版本，并运行 `npm run verify`。
+## 发布
 
-## 可选发布 ZIP
+GitHub 安装直接读取默认分支源码，不要求生成 ZIP。用户命令保持 README 中的形式，不追加 npm 安装器版本号。
 
-仅在离线交付、GitHub Release 附件或文件清单审计需要时执行：
+正式发布前补齐 MCP Skill、正式品牌图标、生产 MCP 配置与上架信息，然后执行：
 
-```powershell
-npm run release:package
-```
-
-开发 ZIP：
-
-```powershell
-npm run release:package:dev
-```
-
-ZIP 不是 GitHub Marketplace 安装链路的一部分。
-
-## 提交前检查
-
-- `npm run verify` 通过；
-- `git diff --check` 通过；
-- `git status` 中没有 `node_modules`、`dist`、日志、环境文件、密钥或临时文件；
-- Marketplace 条目仍指向本插件目录；
-- `.mcp.json` 中 `type` 为 `http`，`url` 与 `oauth_resource` 完全相等且不带尾部 `/`；当前测试构建仅允许固定 HTTPS 内网域名 `https://skilltest.noxinfluencer.com/mcp`；
-- 正式发布使用确定版本和对应 Git Tag。
-
-## Commit Message
-
-使用 Conventional Commits：
-
-```text
-feat(plugin): add creator workflow
-fix(plugin): tighten MCP guardrails
-feat(marketplace): publish GitHub install entry
-fix(plugin): validate MCP resource
-docs(plugin): document GitHub installation
-```
-
-## CI 门禁
-
-当以下路径发生变化时，GitHub Actions 执行验证：
-
-```text
-.agents/plugins/marketplace.json
-plugins/noxinfluencer/**
-.github/workflows/noxinfluencer-plugin.yml
-```
-
-CI 固定执行：
-
-```powershell
-npm ci
+```bash
 npm run verify
+npm test
+npm run verify:release
+git diff --check
 ```
+
+可选 ZIP 使用 `npm run release:package`；Claude 包追加 `-- --target claude-code`。开发包使用 `npm run release:package:dev`。产物不作为源码维护。
+
+生产 MCP 地址必须为 HTTPS，`url` 与 `oauth_resource` 完全相等，不含尾部斜杠、凭据、查询或片段。切换生产环境时同步调整 `scripts/plugin-source-validation.mjs` 的地址白名单及发布检查，不能仅修改 JSON 绕过环境约束。
+
+不要提交个人 Marketplace、用户绝对路径、Token、密钥、日志、`node_modules/` 或 `dist/`。
+
+CI 监听 `.plugin/marketplace.json`、`.agents/plugins/marketplace.json`、本插件目录和对应工作流，执行依赖安装、只读校验及失败场景测试。

@@ -1,13 +1,15 @@
-name: NoxInfluencer Codex Plugin
+name: NoxInfluencer Plugin
 
 on:
   pull_request:
     paths:
+      - ".plugin/marketplace.json"
       - ".agents/plugins/marketplace.json"
       - "plugins/noxinfluencer/**"
       - ".github/workflows/noxinfluencer-plugin.yml"
   push:
     paths:
+      - ".plugin/marketplace.json"
       - ".agents/plugins/marketplace.json"
       - "plugins/noxinfluencer/**"
       - ".github/workflows/noxinfluencer-plugin.yml"
@@ -43,3 +45,6 @@ jobs:
 
       - name: Verify Plugin and repository Marketplace
         run: npm run verify
+
+      - name: Test validation failure cases
+        run: npm test

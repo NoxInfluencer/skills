@@ -1,172 +1,111 @@
-# NoxInfluencer Codex Plugin
+# NoxInfluencer Plugin
 
-这是 NoxInfluencer 面向 Codex 的独立插件。插件通过远程 MCP Server 执行业务，插件目录内的 Skill、Manifest、MCP 配置和脚本共同构成完整源码。
+面向 Codex 和 Claude Code 的 NoxInfluencer MCP 插件。插件源码只维护在 `plugins/noxinfluencer/`，仓库外层的独立 Skill 不参与本插件的开发、校验或安装。WorkBuddy 本轮暂不适配。
 
-插件以 GitHub Marketplace 为主要分发方式。用户安装时由 Codex 拉取 GitHub 仓库并缓存插件，不需要开发者预先生成 ZIP，也不需要用户手工下载发布包。
+## 用户安装
 
-## 从 GitHub 安装
+下列命令在本次修改合并并发布到 GitHub 仓库默认分支后生效；当前分支的本地修改不会被远程安装命令读取。
 
-添加 NoxInfluencer GitHub Marketplace：
+Codex：
 
-```powershell
-codex plugin marketplace add NoxInfluencer/skills
+```bash
+npx plugins add https://github.com/NoxInfluencer/skills --target codex
 ```
 
-安装插件：
+Claude Code：
 
-```powershell
-codex plugin add noxinfluencer@noxinfluencer-codex
+```bash
+npx plugins add https://github.com/NoxInfluencer/skills --target claude-code
 ```
 
-安装完成后新建 Codex 会话，使新的 Skill 和 MCP 配置生效。首次使用需要连接 NoxInfluencer 时，按 Codex 的授权提示完成 OAuth。
+安装器使用 npm 默认版本，不指定版本号。首次运行可按 npx 提示下载安装器，然后按安装器提示选择安装范围。用户需要可用的 Node.js/npm、Git 和对应宿主。安装后新建会话，再按宿主提示连接 MCP 并授权。
 
-如需固定到某个发布 Tag，可在首次添加 Marketplace 时指定：
+这两条命令从 GitHub 分发插件；官方目录上架需要另行提交审核。插件业务使用远程 MCP，不通过 NoxInfluencer CLI 执行。
 
-```powershell
-codex plugin marketplace add NoxInfluencer/skills --ref v0.1.0
-```
-
-## 从 GitHub 更新
-
-刷新 Marketplace，并重新安装当前插件版本：
-
-```powershell
-codex plugin marketplace upgrade noxinfluencer-codex
-codex plugin add noxinfluencer@noxinfluencer-codex
-```
-
-更新后新建 Codex 会话。
-
-## 工程结构
+## 目录和安装路由
 
 ```text
 NoxInfluencer/skills/
-├─ .agents/
-│  └─ plugins/
-│     └─ marketplace.json          # Codex GitHub Marketplace 入口
-└─ plugins/
-   └─ noxinfluencer/
-      ├─ .codex-plugin/
-      │  └─ plugin.json
-      ├─ .mcp.json
-      ├─ skills/
-      │  └─ noxinfluencer/         # Plugin Skill 唯一源码
-      ├─ scripts/
-      ├─ package.json
-      └─ README.md
+├── .plugin/marketplace.json             # 通用安装器索引，只列新插件
+├── .agents/plugins/marketplace.json     # 保留既有 Codex 原生入口
+└── plugins/noxinfluencer/
+    ├── .plugin/plugin.json             # 通用元数据
+    ├── .codex-plugin/plugin.json       # Codex 配置和展示信息
+    ├── .mcp.json                       # 共享 MCP 连接配置
+    ├── skills/mcp/.gitkeep             # 待 MCP 团队交付
+    ├── assets/.gitkeep                 # 待补正式品牌图标
+    ├── scripts/                        # 开发校验、可选打包、本地开发安装
+    ├── tests/
+    ├── doc/
+    ├── package.json
+    ├── package-lock.json
+    ├── CONTRIBUTING.md
+    ├── README.md
+    └── .gitignore
 ```
 
-`plugins/noxinfluencer/skills/noxinfluencer/` 是插件自己的 Skill 源码。插件开发、校验和安装流程不读取、比较或覆盖仓库中的独立 Skill 目录。
+仓库根 `.plugin/marketplace.json` 的 `source: "./plugins/noxinfluencer"` 定位插件。插件内 `.plugin/plugin.json` 描述插件本身，不能代替仓库索引。根目录不要再添加优先级更高的 `marketplace.json`。
 
-仓库级 `.agents/plugins/marketplace.json` 将 `noxinfluencer@noxinfluencer-codex` 映射到 `./plugins/noxinfluencer`。Codex 从 GitHub 获取 Marketplace 后，直接安装该目录。Codex Marketplace 使用独立名称，以免与仓库现有的 Claude 兼容 Marketplace 冲突。
+已核对的 npm `plugins` 1.3.5 先查根 `marketplace.json`，再查 `.plugin/marketplace.json`，然后才是其他平台索引；发现有效索引后不合并其他索引。本仓库由 `.plugin/marketplace.json` 统一定位新版插件。版本后续升级时需重新验证。
 
-## 开发校验
+Codex 使用显式 `.codex-plugin/plugin.json`，避免安装器生成默认分类和展示信息。Claude Code 安装时，安装器在临时安装目录把 `.plugin/` 转换为 `.claude-plugin/`；源码不维护第三份 Manifest，也不复制三份 Skill。
 
-安装构建依赖：
+## MCP Skill 交付
 
-```powershell
+目前 `skills/mcp/` 仅用 `.gitkeep` 保留目录，不注册虚假的 Skill。MCP 团队测试通过后将完整内容直接放入：
+
+```text
+skills/mcp/
+├── SKILL.md
+├── references/       # 按实际需要交付
+└── scripts/          # 按实际需要交付
+```
+
+`SKILL.md` 的业务名称可以继续使用 `noxinfluencer`；文件夹按约定叫 `mcp`。内部指令需适用于支持的宿主，安装器只转换插件包装配置，不会改写 Markdown 中的平台命令。不再自动生成 Codex 运行时标记，也不从外层 Skill 同步。
+
+## 开发和校验
+
+在插件目录执行：
+
+```bash
 npm ci
-```
-
-运行完整的只读校验：
-
-```powershell
 npm run verify
+npm test
 ```
 
-该命令检查：
+`npm install` 或 `npm ci` 只安装开发依赖，不注册插件、不启动 OAuth，也不修改用户宿主配置。没有生命周期安装脚本。校验本身不要求安装依赖；可直接用 Node.js 20 以上执行 `scripts/verify-plugin.mjs` 和 `scripts/validate-marketplace.mjs`。
 
-- 插件本地 Skill 及 `codex-plugin-runtime.md` 运行时标记；
-- `.codex-plugin/plugin.json` 与 `.mcp.json`；
-- 仓库 Marketplace 名称、插件条目、安装策略及相对路径；
-- Marketplace 条目是否准确解析到本插件目录。
+日常校验允许 MCP 目录暂时为空，检测不完整交付、Manifest 元数据漂移、MCP OAuth Resource 不一致，以及通用和 Codex 索引是否解析到本插件。不会要求交付内容包含特定宿主的运行时文件。
 
-如需刷新插件本地运行时标记：
+Windows 下保留 Codex 原生本地开发入口，供开发者主动调用：
 
-```powershell
-npm run plugin:sync-skill
-```
-
-该命令只操作插件自己的 Skill，不会从其他 Skill 目录复制文件。
-
-## 本地开发安装
-
-本地开发也直接使用仓库 Marketplace，不再生成或解压 ZIP。
-
-首次准备 Python 校验依赖并注册本地仓库 Marketplace：
-
-```powershell
-npm run plugin:local:deps
+```bash
+npm run plugin:local:status
 npm run plugin:local:bootstrap
-```
-
-`plugin:local:bootstrap` 会：
-
-1. 校验插件和仓库 Marketplace；
-2. 执行 `codex plugin marketplace add <当前仓库目录>`；
-3. 安装 `noxinfluencer@noxinfluencer-codex`。
-
-插件已注册后，普通安装执行：
-
-```powershell
-npm run plugin:local:install
-```
-
-修改插件后更新本地缓存：
-
-```powershell
 npm run plugin:local:update
 ```
 
-更新命令按照 Codex 本地插件开发约定，为源码 Manifest 写入新的 `+codex.<cachebuster>`，重新校验并安装。开发完成准备正式发布时，应把版本改为确定的发布版本，例如 `0.1.1`，并通过 Git Tag 固定发布内容。
+`status` 仅读取信息。`bootstrap` 注册当前本地仓库并安装；`update` 同时更新两份 Manifest 的开发版本，再重新安装。它们不依赖外部 `plugin-creator` Python 脚本。可用 `NOX_CODEX_PLUGIN_CLI` 指定控制 CLI；正式发布前恢复确定版本。
 
-查看本地源码与 Marketplace 信息：
+## 可选 ZIP
 
-```powershell
-npm run plugin:local:status
-```
+正常 GitHub 安装不需要构建产物。需要开发包时执行：
 
-本地脚本优先使用 Codex 随附的 Python 和控制 CLI。需要覆盖时可设置：
-
-```powershell
-$env:NOX_CODEX_PLUGIN_PYTHON = 'C:\path\to\python.exe'
-$env:NOX_CODEX_PLUGIN_CLI = 'C:\path\to\codex.exe'
-```
-
-## 可选 ZIP 发布物
-
-GitHub Marketplace 安装不需要 ZIP。仅在需要离线交付、GitHub Release 附件或固定文件清单审计时生成：
-
-```powershell
-npm run release:package
-```
-
-生成带本地 cachebuster 的开发 ZIP：
-
-```powershell
+```bash
 npm run release:package:dev
+npm run release:package:dev -- --target claude-code
 ```
 
-为了兼容旧自动化，`npm run package` 和 `npm run package:dev` 仍分别作为以上两个命令的别名。ZIP 产物位于 `dist/`，但不参与 GitHub Marketplace 的正常安装和更新。
+ZIP 和 SHA-256 清单位于忽略提交的 `dist/`。只打包 Manifest、MCP 配置、插件内 Skill 和资源；Claude ZIP 的原生 Manifest 在打包时生成，不回写源码。开发包可以没有业务 Skill，不能作为完整业务验收结果。
 
-## 远程 MCP
+完整交付后运行 `npm run verify:release` 和 `npm run release:package`；正式检查会拦截未交付 Skill、缺失图标或仍使用测试 MCP 的配置。
 
-Plugin 通过 `.mcp.json` 连接 NoxInfluencer 远程 MCP。MCP Server 独立部署在 NoxInfluencer 云端，不打包进 GitHub 仓库安装缓存之外的本地服务，也不在 Plugin 中保存账号密码、OAuth Token、API Key 或业务数据。
+## 上线前待交付
 
-当前测试构建连接 `https://skilltest.noxinfluencer.com/mcp`，仅供能够解析并访问该内网域名的 Codex Desktop 联调。该地址使用 HTTPS，并作为测试环境固定的 MCP URL 与 OAuth Resource。
+- MCP 团队提供 `skills/mcp/` 完整内容，并完成 Codex、Claude Code 的业务及 OAuth 联调。
+- 提供正式方形品牌图标，放到 `assets/icon.svg`，将 Codex `interface.logo`、`interface.composerIcon` 配为 `./assets/icon.svg`。当前不编造品牌素材。
+- 确定公网生产 MCP 地址，同步更新 `.mcp.json` 与校验脚本中允许的环境地址。当前保留 `https://skilltest.noxinfluencer.com/mcp` 测试配置。
+- 官方上架时准备真实的隐私政策、服务条款、支持链接与审核材料，补入对应展示字段。图标规范参见 [OpenAI 官方提交文档](https://developers.openai.com/plugins/deploy/submission)。
+- 使用确定版本，运行校验后合并到 GitHub 默认分支；验证两条真实远程安装命令，再进行官方目录提交。
 
-## CI 与发布
-
-GitHub Actions 只执行源码和 Marketplace 校验：
-
-```powershell
-npm ci
-npm run verify
-```
-
-CI 不再要求生成 ZIP。正式发布建议：
-
-1. 更新 `.codex-plugin/plugin.json` 的确定版本；
-2. 运行 `npm run verify`；
-3. 提交并创建对应 Git Tag；
-4. 用户通过 GitHub Marketplace 安装或升级该版本。
+已确认 `plugins` 1.3.5 在已有个人 Codex Marketplace 时可能保留原名称、却写入 `@plugins-cli` 启用键；还会使用默认用户目录，忽略自定义 `CODEX_HOME`。这属于安装器兼容性限制，本插件没有加入自动修补用户配置的逻辑。当前只验证安装发现和转换，最终宿主加载与 OAuth 仍需联调。
