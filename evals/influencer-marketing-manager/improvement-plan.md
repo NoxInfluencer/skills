@@ -1,6 +1,15 @@
-# Manager improvement plan
+# Brief source-fidelity experiment record
 
 Updated: 2026-10-22
+
+## Scope and status
+
+This file retains the completed Brief evaluation topic, including its fixed
+protocol, rejected candidate and remaining limitations. The guest-material
+extraction plan is maintained separately in the ignored local
+`workspace/guest-materials-extraction-plan-20260923.md`; its next source is the
+fourth material. Follow-on Brief interventions below are deferred options, not
+the next stage of material extraction. This filename remains for existing links.
 
 ## Outcome and lessons
 
@@ -19,32 +28,35 @@ become a universal operating requirement.
 | Case 44 equivalent buying questions failed the checker; one evidence-layer keyword passed all layers. | A measurement defect, corrected by replaying the same saved answers and omission mutations. | Fix the checker separately from the Skill. Do not report its higher score as better behavior. |
 | Monitoring ignored pending takeover work and unfinished reads when counters were unchanged. | A rule gap; cases 49/50 support usable advice, while the baseline also reasoned correctly in those observations. | Clarify the small state and authority distinctions; do not claim an observed live failure or measured reliability gain. |
 | A case 48 answer did not read the relevant reference. | A discovery problem in that trace. | Make the existing task-specific reading route discoverable, then inspect actual reads and the answer. A read is not a quality grade. |
-| Case 41 read the guidance but still misplaced duration, omitted money or reassigned review timing. A more explicit example also failed. | Delivery-term fidelity remains a recurring business defect. Its precise cause is not established. | Test a different drafting/checking method once; do not keep appending reminders or selecting the best repeat. |
-| The suggested four-block Brief outline has no agreement/fee row; both recent case 41 answers retained the product price but omitted the creator fee. | A plausible loss point between accepted terms and creative instructions, not an established cause of the omission. | Make accepted cooperation terms part of the existing Brief outline and check the finished handoff against the source, without imposing a new form. |
+| Case 41 read the guidance but still misplaced duration, omitted money or reassigned review timing. A more explicit example and a later drafting/checking method also failed. | Delivery-term fidelity remains a recurring business defect. Its precise cause is not established. | The later candidate was tested once and reverted. Keep source comparison in manual handoff review; defer further interventions rather than append reminders or select the best repeat. |
+| The suggested four-block Brief outline has no agreement/fee row; both recent case 41 answers retained the product price but omitted the creator fee. | A plausible loss point was tested, but the added fee row still did not preserve case 41's money terms. | The row was reverted with the failed candidate. Its absence is not an established cause, and its addition is not a retained repair. |
 | Historical review missed the baseline's duration error and applied different experience checks to variants. | Reviewer error can conceal regressions or invent an advantage. | Compare each material source obligation with the actual answer on both sides; preserve corrections and the raw outputs. |
-| Case 46 separated asset acceptance from reuse value but left evidence ownership, review point and rights start/expiry incomplete. | The method distinction is useful; the handoff is still partial. | Keep the pending checks visible. Revisit the concrete handoff after the narrower Brief experiment, rather than add another general framework. |
+| Case 46 separated asset acceptance from reuse value but left evidence ownership, review point and rights start/expiry incomplete. | The method distinction is useful; the handoff is still partial. | Keep the pending checks visible for the next concrete reuse task; no additional framework or immediate experiment is scheduled. |
 
 The [consistency review](review-2026-10-22-consistency.md),
 [renewal/reuse review](review-2026-10-21-renewal-reuse.md) and
 [creative-evidence review](review-2026-10-21-creative-evidence.md) retain the
 supporting observations and limitations.
 
-## Current priorities
+## Topic status and deferred follow-ups
 
-| Priority | Work | Completion evidence or boundary |
+| Status | Work | Completion evidence or boundary |
 | --- | --- | --- |
 | Completed, phase 1 | Freeze the source-fidelity probe and review method before editing Manager. | Pushed as `5d5444d`; existing cases unchanged; case 51 uses fictional raw agreement material; local isolation and no-rubric-leakage checks pass. |
 | Completed, phase 2 | Test a compact source-to-draft-to-source Brief method. | One paired run on cases 41, 51 and 25 completed. The candidate failed the fixed retention rule and was reverted; observations below remain part of the record. |
-| Next P1 | Locate a preventable loss in the accepted-terms handoff before another Skill revision. | Separate source-to-working-note extraction from working-note-to-final-draft composition. Establish which accepted fields can be preserved directly and which still need semantic review; do not assume a new schema fixes extraction. |
-| P2 | Complete the next concrete reuse handoff. | Check the chosen use, evidence source/owner, review condition and contract-based rights start/expiry. Do not turn downstream uplift into a condition of original delivery acceptance. |
-| P2 | Keep the earlier external-benchmark defect visible. | Case 15's unsupported-statistic finding in the industry-evidence review remains open; this Brief experiment does not address it. |
+| Deferred topic option | Locate a preventable loss in the accepted-terms handoff before another Skill revision. | If resumed, separate source-to-working-note extraction from working-note-to-final-draft composition. Establish which accepted fields can be preserved directly and which still need semantic review; do not assume a new schema fixes extraction. |
+| Pending concrete reuse task | Complete the relevant reuse handoff. | Check the chosen use, evidence source/owner, review condition and contract-based rights start/expiry. Do not turn downstream uplift into a condition of original delivery acceptance. |
+| Open evidence finding | Keep the earlier external-benchmark defect visible. | Case 15's unsupported-statistic finding in the industry-evidence review remains open; this Brief experiment does not address it. |
 | Separate owner | Connector installation/release dependency. | Assigned by the user to someone else. This plan neither changes that dependency nor establishes current installation or release readiness. |
 
 Do not widen this task into a live monitoring system, a contract database,
 automatic marketing sends or a general scoring platform. Production execution
 requires its actual inputs, capabilities and existing authorization.
 
-## Fixed Brief experiment
+## Completed Brief experiment protocol
+
+The following protocol was fixed before the completed comparison. It describes
+the tested and rejected intervention; the current Skill is the restored version.
 
 Hypothesis: preserving an accepted term's object, responsible party and condition
 through a compact working note, followed by a comparison with the original
@@ -176,9 +188,9 @@ sends, scheduler deployment or business-record writes were performed. Local
 tests and these observations establish neither live business acceptance nor a
 working Connector installation.
 
-## Next intervention boundary
+## Deferred intervention options
 
-Before adding more instructions, separate two failure surfaces in a concrete
+If this topic is resumed, first separate two failure surfaces in a concrete
 handoff: whether the source was extracted faithfully, and whether correct known
 terms survived composition. Check a source-backed working record against the
 agreement and the final answer against both. This can use the existing local
@@ -195,8 +207,8 @@ report that as an input intervention. Do not credit it as a Skill repair.
 Keep judgment about creative direction, evidence, fit and proportional recovery
 flexible. Preserve fixed obligations through a checked path when one is
 available. Until such a path is demonstrated, retain the explicit source-review
-requirement and do not promise unattended Brief delivery. This is the next plan,
-not a tool implementation or an operation already validated.
+requirement and do not promise unattended Brief delivery. These options remain
+unvalidated and are not scheduled as part of guest-material extraction.
 
 ## Progress
 

@@ -8,7 +8,7 @@ Correct the Manager review findings while preserving historical answers and run
 identities. The user assigned the Connector installation dependency to another
 owner; this work does not change that dependency or claim its release readiness.
 
-Follow-up: the [current improvement plan](improvement-plan.md) records a separate,
+Follow-up: the [Brief experiment record](improvement-plan.md) records a separate,
 fixed-contract Brief method experiment, its rejection and restoration of this
 review's retained Manager version. Case 51 and source/answer-pair review remain;
 the later experiment does not turn the partial Brief result below into a pass.
