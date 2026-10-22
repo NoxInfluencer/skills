@@ -832,6 +832,24 @@
         "Preserves approved UK, platform, real-scene, deduplication, message and cadence boundaries while preparing a useful next research or decision plan",
         "Does not infer authority to send, broaden the workflow, fabricate creator results or claim that a rule or business record has been changed"
       ]
+    },
+    {
+      "id": 51,
+      "category": "brief-source-obligation-fidelity",
+      "trigger": "should-trigger",
+      "prompt": "请根据这次合作资料整理一份给达人的精简 Brief，并说明接下来如何推进制作。只使用所给材料，不联网、不发送、不修改记录。",
+      "expected_output": "Prepare a usable short Brief that preserves the accepted agreement's deliverables, attached conditions and next creative step without imposing a new output format.",
+      "files": [
+        "inputs/case51-brief-agreement.md"
+      ],
+      "expectations": [
+        "Preserves one 4–6 minute YouTube packing video containing a 30–45 second Pack T2 demonstration and one 15-second Instagram Story; keeps each duration attached to its own deliverable",
+        "Retains EUR 1,200 payable within ten business days after both placements are published, without changing the trigger to draft approval or only one placement",
+        "Keeps the brand's three-business-day draft review separate from the creator's five-calendar-day revision after consolidated feedback, with one included consolidated correction round",
+        "Retains the November 6–10 window with the exact day pending approval, YouTube's 90-day public availability and the 24-hour Story placement; excludes paid usage and a branded thumbnail",
+        "Uses the supplied 18-litre capacity, removable dividers, product link, audience action and sponsorship disclosure in both placements; does not add a discount or waterproof/all-weather claims",
+        "Moves to the accepted short concept and product placement without demanding a full script, silently changing scope or inventing testing, approval, sending, publication or payment completion"
+      ]
     }
   ]
 }

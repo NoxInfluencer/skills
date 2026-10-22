@@ -2,6 +2,12 @@
 
 Use these evaluations to answer: did the user task improve, where did it fail, what should change next, and did the revision regress? Packaging checks alone do not establish task quality.
 
+The current [improvement plan](improvement-plan.md) distinguishes measurement,
+rule, discovery and output-fidelity defects. It freezes a source-linked Brief
+experiment on cases 41/51, with case 25 checking preliminary-decision scope,
+before changing the Manager method. Repeated failures and rejected candidates
+remain evidence; they are not erased by a later passing answer.
+
 The [2026-10-22 consistency corrections](review-2026-10-22-consistency.md) repair case 44's wording-sensitive smoke check and replay the same saved answers, while correcting the shared integration-duration error and applying the same personal-experience review to both creative-evidence variants. Cases 49/50 cover monitoring takeover/recovery and research versus automatic eligibility. The retained comparison and discarded Brief clarification preserve case 41's unresolved scope and terms defects. A grader repair is not a Skill behavior improvement.
 
 The [2026-10-21 creative-evidence review](review-2026-10-21-creative-evidence.md) records the focused Brief/review integration, synthetic demonstration and message-adaptation cases 47/48, and the existing two-turn case 41 regression. The comparison keeps prior cases and graders unchanged; new business outcomes require manual review of actual answers.
@@ -36,14 +42,14 @@ The [operator follow-up review](review-2026-09-06-operator-followups.md) adds ca
 
 ## Organization
 
-- `evals.json` owns the 50 canonical prompts and qualitative expectations. IDs remain stable. Optional `followups` contain later user prompts and separate review expectations.
+- `evals.json` owns the 51 canonical prompts and qualitative expectations. IDs remain stable. Optional `followups` contain later user prompts and separate review expectations.
 - `fixtures/` contains synthetic evidence and rewritten evaluation examples, without expected answers or grading rules. A case's optional `files` list is relative to this directory.
 - `promptfoo_cases.py` selects executable cases and adds focused assertions. Expectations stay in test metadata for review; they are not sent to the model.
 - `prepare_promptfoo_fixtures.py` copies the Skills and declared files into isolated baseline/candidate workspaces. Only the Manager Skill may differ.
 - `review_results.py` reports saved results by metric and separates runtime errors. It can replay updated outcome graders without another model call, and report observed shortlist-renderer output and whether its table reached the final answer unchanged.
 - `workspace/` holds ignored run traces and review notes. Do not put live customer data, credentials, or commercial records in the case corpus.
 
-The default Promptfoo set covers cases 9, 10, 12, 13, 17, 19, 20, 21–30, 33, 34, 37, 38 and 44–50. Cases 45–50 require manual business review. Cases 31/32/41 and other multi-turn or qualitative cases use `run_conversations.mjs` because reducing them to a single turn would discard the behavior being reviewed. Smoke assertions check observable boundaries and source reads; they do not replace qualitative business review.
+The default Promptfoo set covers cases 9, 10, 12, 13, 17, 19, 20, 21–30, 33, 34, 37, 38 and 44–51. Cases 45–51 require manual business review. Cases 31/32/41 and other multi-turn or qualitative cases use `run_conversations.mjs` because reducing them to a single turn would discard the behavior being reviewed. Smoke assertions check observable boundaries and source reads; they do not replace qualitative business review.
 
 Cases use `should-trigger`, `should-not-trigger`, or `boundary`. These describe the intended routing, not whether the case is executable. Cases that require live discovery, sends, scheduling, or an actual SOP workspace still need a separately authorized environment and its inputs. An empty `files` list does not supply those capabilities. JSON validation establishes structure only.
 
@@ -108,6 +114,7 @@ npm run eval:manager:conversations -- --cases 15,35,36 \
 | 48 | Consumer-language adaptation | Preserve the supported result, material conditions, CTA and disclosure in natural wording; reject unsupported promises and country-level assumptions. Manually reviewed. |
 | 49 | Reply-monitoring takeover and recovery | Separate inspected-message progress from counts; review existing pending replies, retry failed reads, skip completed unchanged work and respect a future-only cutoff. Manually reviewed; no live monitor. |
 | 50 | Research and automatic eligibility authority | Allow reversible exploration within project constraints while seeking approval for changes to automatic eligibility and sending scope. Manually reviewed; no live search or sends. |
+| 51 | Brief source-obligation fidelity | Preserve accepted quantities, scope, owners, timing and payment conditions across a multi-deliverable agreement. Manually reviewed against source/answer pairs. |
 | 19-natural | Natural positive routing | The original case 19 prompt without naming the Skill. This is reported separately from content. |
 
 Positive content cases, including the business decision in case 13, explicitly invoke Manager. Their `skill-used` assertion verifies the test precondition; a failure means the loaded-Skill comparison is not established. Case 12 stays unprefixed and retains `not-skill-used` as a scope guard.

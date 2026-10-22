@@ -13,6 +13,14 @@ candidate without treating all proposed personal wording as a business failure.
 For delivery scope, check which deliverable each quantity and duration modifies,
 not merely whether the same number appears.
 
+When known agreement terms matter to the requested Brief or handoff, record the
+material source passage and corresponding answer passage for each obligation.
+Compare the value together with its object, responsible party, trigger and
+conditions where supplied. Mark omissions, changed relationships and unsupported
+additions on both variants. This is a reviewer check, not a required customer
+format or a full-contract gate for preliminary decisions. Cases 41/51 exercise
+Brief fidelity; case 25 checks that the intervention stays proportional.
+
 These criteria combine reviewer feedback with general lessons from operator workflows:
 
 - Use recent comparable content and real scenes, keeping creator fit separate from contact readiness.
