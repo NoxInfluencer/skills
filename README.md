@@ -1,13 +1,20 @@
-# NoxInfluencer Skill
+# NoxInfluencer Skills
 
-Agent skill for NoxInfluencer creator and marketing operations: creator discovery and selected-result exports, due-diligence analysis and dispute reporting, platform email outreach, external contact retrieval, known-video monitoring and future-content auto-track, spreadsheet workflows, campaign/collection operations, CRM/email/message/product/short-link/affiliation operations, brand monitoring, and exports across YouTube, TikTok, and Instagram.
+This repository publishes two complementary Agent Skills for influencer marketing:
+
+| Skill | Role | Use it for |
+|---|---|---|
+| `influencer-marketing-manager` | Marketing workflow and automation manager | Industry guidance, strategy, SOP design, automating existing processes, partnership decisions, and continuous improvement |
+| `noxinfluencer` | NoxInfluencer capability specialist | Nox data and interpretation, product-native workflows, system operations, quota, previews, mutations, errors, and verified readback |
+
+The manager helps users build and improve automated influencer-marketing workflows, starting from their current goal and existing methods. Consultation, strategy, and SOP design can each be a complete task; implementation proceeds when requested. NoxInfluencer owns correct use of its product capabilities and can also serve experienced users directly when their objective and method are already clear. In a combined workflow, the manager sets the business action and acceptance criteria while NoxInfluencer returns verified evidence and system state.
 
 - Official website: [NoxInfluencer](https://www.noxinfluencer.com/)
 - Skills dashboard / API key fallback: [NoxInfluencer Skills Dashboard](https://www.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli)
 - skills.sh: [NoxInfluencer on skills.sh](https://skills.sh/noxinfluencer/skills/noxinfluencer)
 - ClawHub: [NoxInfluencer on ClawHub](https://clawhub.ai/noxinfluencer/skills/nox-influencer-marketing)
 
-## What This Skill Helps With
+## NoxInfluencer Tool Capabilities
 
 - Discover creators with topic exclusions and SaaS result filters, and mark or unmark creators as Not interested
 - Find similar creators with the same opaque creator IDs and returned-result pricing as normal search
@@ -17,12 +24,15 @@ Agent skill for NoxInfluencer creator and marketing operations: creator discover
 - Retrieve visible/exportable contact information for selected creators when external outreach is needed
 - Monitor known campaign videos and auto-track matching content that selected creators publish later
 - Use SaaS spreadsheet templates, imports, failure reports, and direct Excel reports for supported workflows
+- Track shipped samples with native `logistics`, including carrier discovery, batch imports, and saved tracking exports; check installed CLI support and current pricing
 - Manage NoxInfluencer campaigns, collections, CRM channels, products, normal short links, Shopify affiliate campaigns, email/message tasks, and export jobs
+- Search TikTok Shop Creator Marketplace and manage private-message projects through a connected store (CLI 0.5.8+)
+- Search TikTok creators with Shop/GMV filters and read product, shop, and live GMV results (`tiktok search product|shop|live`)
 - Discover global brands by name or category/market, then analyze monitored brands, product signals, influencer/content/tag/product assets, and exports
 - Upload approved public images and download authorized email, message, template, feedback, and export files
 - Check current Skill Credit prices and historical consumption to plan Agent workflows
 
-## Account Setup
+## NoxInfluencer Account Setup
 
 If you are starting from scratch, install the CLI and start login:
 
@@ -46,23 +56,57 @@ Manual fallback:
 - English: [Sign up](https://www.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard&utm_source=skill&utm_medium=cli) and [open the Skills dashboard](https://www.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli)
 - Chinese: [注册账号](https://cn.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard&utm_source=skill&utm_medium=cli) and [打开 Skills 控制台](https://cn.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli)
 
-## Install
+## Install Skills
 
-The skill expects the latest `@noxinfluencer/cli`, including the command tree with `creator`, `monitor`, `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `dispute`, `export`, `file`, `feedback`, `quota`, `pricing`, and `agent`. Install the latest npm package:
+Install the business manager:
+
+```bash
+npx skills add https://github.com/NoxInfluencer/skills --skill influencer-marketing-manager
+```
+
+Install the NoxInfluencer tool skill when the Agent should operate NoxInfluencer:
+
+```bash
+npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer
+```
+
+### WorkBuddy Connector
+
+The WorkBuddy CLI Connector source lives at [`connectors/noxinfluencer-cli`](connectors/noxinfluencer-cli). Its embedded `noxinfluencer` Skill is generated from [`skills/noxinfluencer`](skills/noxinfluencer); edit the latter, then synchronize and verify the package:
+
+```bash
+python3 scripts/sync_connector.py sync
+python3 scripts/sync_connector.py check
+python3 scripts/sync_connector.py package
+```
+
+The Connector pins `@noxinfluencer/cli@0.5.12` and uses the CLI's device-login flow. This source revision requires deployment of Java main.server/data.provider and Claw Server for the revised search contract, and npm publication of CLI 0.5.12 for explicit `creator profile --detail --include-shop`. Search returns entitled filter evidence; live overview stays in protected explicit detail. The generated Connector 0.1.7 zip under `dist/` is a local review artifact; generation does not publish npm or submit a marketplace release.
+
+### WorkBuddy Expert (draft)
+
+The WorkBuddy Expert draft at [`experts/influencer-marketing-manager`](experts/influencer-marketing-manager) combines the business Manager Skill with the NoxInfluencer Connector. Its bundled Skill is generated from [`skills/influencer-marketing-manager`](skills/influencer-marketing-manager); synchronize and validate it before packaging:
+
+```bash
+python3 scripts/sync_expert.py sync
+python3 scripts/sync_expert.py check
+python3 scripts/sync_expert.py package
+```
+
+The Expert depends on the WorkBuddy Connector submission identified as `oc_e701b8b6011f3b3e`. Keep it as a draft until that Connector is approved and passes an installation and read-only smoke test in WorkBuddy.
+
+### NoxInfluencer CLI
+
+The skill uses the current `@noxinfluencer/cli` command tree; TikTok GMV/TTS search requires 0.5.8+, 0.5.10 adds creator average-comment, exposure-period, YouTube content-type, and recent-content pagination filters, 0.5.11 adds search precision and official-account filters, and 0.5.12 adds explicit protected creator shop detail. Install the latest npm package:
 
 ```bash
 npm install -g @noxinfluencer/cli@latest
 ```
 
-After installation, verify with `noxinfluencer schema --all` and confirm the expected command groups are present. Version output alone is not enough if a local/global install has stale compiled files.
+After installation, verify the needed operations with `noxinfluencer schema --all` and command-specific schema/help. Version output alone is not enough if a local/global install has stale compiled files.
 
-### Skills CLI / skills.sh
+### skills.sh
 
-Install the skill from GitHub with the open skills ecosystem CLI:
-
-```bash
-npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer
-```
+The GitHub install commands above are the canonical Skills CLI path. The current public skills.sh listing is for the `noxinfluencer` tool skill; the repository is the source of truth for both Skill directories.
 
 ### OpenClaw
 
@@ -131,10 +175,16 @@ Start a new conversation after installation. This plugin uses the NoxInfluencer 
 
 ## Notes
 
-- This repository publishes the `noxinfluencer` skill.
-- The skill is designed to help an agent operate the NoxInfluencer CLI on the user's behalf.
+- This repository publishes `influencer-marketing-manager` and `noxinfluencer`.
+- The manager is tool-agnostic and can implement business SOPs and automation across available systems; the NoxInfluencer Skill supplies product-native data, workflow guidance, and execution.
+- NoxInfluencer business work defaults to CLI. Capability gaps pause dependent steps while independent work continues; they do not authorize an automatic SaaS fallback. Campaign recipient execution is under development and follows current runtime support.
+- Original creator/channel pages remain available for visual review. Explicitly requested or approved NoxInfluencer SaaS work prefers external Chrome and must not use an embedded browser, which can disrupt the user's session. Sign-in, authorization, and billing remain user-completed web steps.
 - Marketing-ops write actions default to preview/dry-run behavior and require explicit approval before execution.
 - Creator, collection, CRM, and brand-monitor exports use shared async export tasks; monitor, short-link, and affiliation Excel reports download directly.
 - Public rich-text/product image URLs are separate from private email/message attachments.
 - ChatGPT is not a supported Skill runtime; OpenAI users should run this Skill with OpenAI Codex.
 - Some workflows may require a NoxInfluencer account, API access, or CLI authentication during setup.
+
+## License
+
+This repository is licensed under [MIT No Attribution (MIT-0)](LICENSE).

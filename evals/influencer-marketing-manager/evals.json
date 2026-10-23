@@ -1,0 +1,891 @@
+{
+  "skill_name": "influencer-marketing-manager",
+  "evals": [
+    {
+      "id": 1,
+      "category": "goal-and-plan",
+      "trigger": "should-trigger",
+      "prompt": "我们是一个刚起步的护肤品牌，想找红人做营销，但团队还没想清楚该做曝光还是卖货。预算也没有完全定。请你接手推进。",
+      "expected_output": "Define the useful stage result, form a provisional objective, and begin with questions or reversible exploration that materially improve the next decision.",
+      "files": [],
+      "expectations": [
+        "Defines the business result that would create useful progress at this stage before choosing creator criteria",
+        "Asks only questions that materially affect the next action, or states reasonable assumptions before a low-cost reversible exploration",
+        "Uses an intake proportional to the decision and proposes an observable next step",
+        "Treats the initial objective and plan as revisable"
+      ]
+    },
+    {
+      "id": 2,
+      "category": "discovery",
+      "trigger": "should-trigger",
+      "prompt": "We are launching a $180 portable solar charger in the US in six weeks. We have a $15,000 creator budget and want qualified email signups, with product education as a secondary goal. Find a first shortlist of YouTube and Instagram outdoor creators and move the work forward. Start with a broad structured search, then deep-review a smaller set using richer creator or channel evidence before recommending whom to approach.",
+      "expected_output": "Derive a creator-fit hypothesis, separate coarse screening from fine selection, use appropriate discovery tools and channel evidence, and interpret a small portfolio against the stated goal.",
+      "files": [],
+      "expectations": [
+        "Translates the signup and education goals into relevant creator and audience evidence before or alongside searching",
+        "Uses real results from available creator-discovery tools as coarse candidate evidence for both requested platforms",
+        "Selects a smaller fine-review set and uses richer creator or channel evidence, including recent representative content, before final prioritization",
+        "Returns an interpreted shortlist or portfolio with evidence, uncertainty, contact readiness, and a next qualification action",
+        "Uses goal-specific fit evidence, with follower scale serving only the role it has in this portfolio"
+      ]
+    },
+    {
+      "id": 3,
+      "category": "outreach",
+      "trigger": "should-trigger",
+      "prompt": "We have selected 12 creators for our running-shoe launch. The offer is a free pair plus a paid integration, and the product differentiator is a wide toe box for long-distance comfort. Write the outreach and start managing the follow-up process.",
+      "expected_output": "Own the value proposition, copy, and cadence as the manager, establish the operating authority for external action, and use the appropriate execution capability.",
+      "files": [],
+      "expectations": [
+        "Creates or proposes outreach around a credible value exchange, meaningful personalization, and one clear next step",
+        "Owns the value proposition and outreach judgment while using the appropriate execution capability",
+        "Establishes recipients, channel or sender, cadence, and authorization before the first consequential external send",
+        "After approval, executes rule-compliant follow-ups autonomously across eligible creators"
+      ]
+    },
+    {
+      "id": 4,
+      "category": "negotiation",
+      "trigger": "should-trigger",
+      "prompt": "A creator we like quoted $4,500 for one YouTube integration. They want payment upfront, allow only 30 days of organic reposting, include one revision, and ask for six months of category exclusivity. Our working budget was $3,000 per creator. You handle it and tell me what to reply.",
+      "expected_output": "Evaluate the complete commercial package, recommend a negotiating position, and bring the important external commitment to the user as a clear decision.",
+      "files": [],
+      "expectations": [
+        "Evaluates price as one component of a complete package covering deliverables, payment, rights, revision, exclusivity, timing, and alternatives",
+        "Explains a target, material limits, and reasoned trades or concessions",
+        "Grounds market guidance in comparable evidence and states uncertainty when that evidence is unavailable",
+        "Presents the proposed commitment, material terms, reasoning, and alternatives for the user's decision",
+        "Holds a material counter or acceptance for user confirmation before sending"
+      ]
+    },
+    {
+      "id": 5,
+      "category": "dynamic-adjustment",
+      "trigger": "should-trigger",
+      "prompt": "We sent 80 creator invitations from our approved list. Only four were opened, one replied asking what the brand is, and nobody discussed a deal. We still need ten partners, so should we just send another 500?",
+      "expected_output": "Diagnose the weak signal and use a bounded learning step to determine the next scale decision.",
+      "files": [],
+      "expectations": [
+        "Distinguishes message delivery or sends from replies, partnerships, and final marketing outcomes",
+        "Considers deliverability, list fit, sender credibility, proposition, clarity, personalization, timing, and channel as plausible causes",
+        "Uses the observed response to revise the plan and determine whether, where, and how to scale",
+        "Proposes a small observable test or next action and explains what result would change the decision"
+      ]
+    },
+    {
+      "id": 6,
+      "category": "autonomy-and-decision-rights",
+      "trigger": "should-trigger",
+      "prompt": "For this campaign, automatically follow up after three and six days, stop after two follow-ups, and drop anyone who declines. If a creator comes back with a fee below $2,000, just keep things moving.",
+      "expected_output": "Execute the approved follow-up rule autonomously and present a complete commercial package for the user's commitment decision.",
+      "files": [],
+      "expectations": [
+        "Treats the specified follow-up cadence and decline handling as an approved operating rule",
+        "Executes each rule-compliant follow-up under the approved operating authority",
+        "Builds a complete deal view that includes deliverables, rights, timing, payment, and other material terms alongside price",
+        "Summarizes material terms and presents the important commercial commitment for the user's decision"
+      ]
+    },
+    {
+      "id": 7,
+      "category": "working-context",
+      "trigger": "should-trigger",
+      "prompt": "This is a one-off product-seeding decision, so use a lightweight working context. Compare these creators and tell me whom to approach first: A is a large general lifestyle account with occasional product posts; B is a mid-size category specialist with strong comment discussions and a contact channel that still needs verification; C is a small adjacent-niche creator with excellent production quality and a history of gifted reviews.",
+      "expected_output": "Complete the scoped comparison in a lightweight one-off context.",
+      "files": [],
+      "expectations": [
+        "Uses the supplied profile evidence and the product-seeding objective to compare fit",
+        "States relevant uncertainty and the next qualification action",
+        "Uses a lightweight one-off working context suited to the decision",
+        "Keeps execution focused on the requested comparison and next qualification action"
+      ]
+    },
+    {
+      "id": 8,
+      "category": "execution-capability",
+      "trigger": "should-not-trigger",
+      "prompt": "In NoxInfluencer, export these already-selected creator result IDs with the audience-country and contact fields: id_a, id_b, id_c. The strategy is already approved; keep this task focused on the file and quota preview.",
+      "expected_output": "Complete the bounded operation through NoxInfluencer's native execution capability and return verified system state.",
+      "files": [],
+      "expectations": [
+        "Uses the noxinfluencer tool workflow for previewing and exporting the selected result IDs",
+        "Checks the relevant quota or export preview and follows the tool skill's mutation contract",
+        "Preserves the requested operational scope and makes the result usable as business evidence",
+        "Reports the actual export or blocking state and labels a request preview accurately"
+      ]
+    },
+    {
+      "id": 9,
+      "category": "two-pass-discovery",
+      "trigger": "should-trigger",
+      "prompt": "We need eight US outdoor creators for a portable power product. A structured search export shows: A has 250k followers, high aggregate views, 80% Shorts, and no long-form upload for 120 days; B has 45k followers and four recent long-form camping videos with 12k, 9k, 11k, and 10k views but no public business email; C has 30k followers, three recent long-form gear reviews with 15k, 14k, and 2k views, and a public contact; D has 80k followers, mostly family/lifestyle vlogs, one camping video, and a public contact. Use the search data for coarse screening, then identify which channels deserve detailed page or browser review before choosing whom to approach first.",
+      "expected_output": "Use structured data to build a coarse queue, spend deeper review on purposeful finalists, and keep fit separate from contact readiness.",
+      "files": [],
+      "expectations": [
+        "Labels the structured export as a coarse-screen input rather than a final ranking",
+        "Uses format mix, recency, recent long-form evidence, and the representative view pattern to choose a smaller fine-review set",
+        "Names the channel or page evidence that should be checked in detail and states when that evidence is unavailable",
+        "Keeps a strong content fit with missing contact information as contact-pending rather than discarding it",
+        "Returns a priority decision with confidence, uncertainty, and the next qualification action"
+      ]
+    },
+    {
+      "id": 10,
+      "category": "experience-baseline",
+      "trigger": "should-trigger",
+      "prompt": "We are starting a creator program for a consumer-electronics product in the US and UK, but there is no approved creator rubric, recent-content threshold, or category mix yet. Propose the first discovery batch and explain the defaults you would use until the team supplies project rules.",
+      "expected_output": "Apply a modest experienced baseline, label it as provisional, and create a small test that can replace it with project evidence.",
+      "files": [],
+      "expectations": [
+        "Uses a recent-activity window, format separation, and three-to-five representative content checks as provisional discovery defaults",
+        "Suggests a small coarse search followed by fine review instead of inventing a large fixed scorecard",
+        "Uses a small qualitative sample and checklist while objective, platform, or use-scene inputs are missing, and defers numeric batch sizes, fixed percentages, weights, and thresholds",
+        "States that project objectives, active rules, and current evidence override the baseline",
+        "Defines an observable signal and a review point that can confirm or revise the defaults",
+        "Asks only for missing inputs that materially affect the first batch"
+      ]
+    },
+    {
+      "id": 11,
+      "category": "routing-near-neighbor",
+      "trigger": "should-not-trigger",
+      "prompt": "The creator list, fields, and strategy are already approved. In NoxInfluencer, check the current quota and the runtime schema for exporting these IDs, then prepare a dry-run export: id_a, id_b, id_c. Do not revisit creator selection or campaign strategy.",
+      "expected_output": "Route the bounded operation to the NoxInfluencer execution capability and report its verified preview or blocker without expanding into marketing planning.",
+      "files": [],
+      "expectations": [
+        "Keeps the task focused on quota, schema, and export preparation",
+        "Uses the execution capability's current self-description instead of inventing fields",
+        "Preserves the missing platform as a blocker or asks for it instead of inventing a platform",
+        "Does not add creator-fit, campaign, or outreach recommendations",
+        "Labels a dry-run or blocked request accurately and states the next operational step"
+      ]
+    },
+    {
+      "id": 12,
+      "category": "missing-source-boundary",
+      "trigger": "should-not-trigger",
+      "prompt": "Translate this already-approved influencer outreach email from English to Chinese and explain two wording choices. Keep the offer, recipients, and workflow unchanged; no creator research or campaign decision is needed.",
+      "expected_output": "Ask for the missing source email without inventing a translation or loading the influencer-marketing lifecycle.",
+      "files": [],
+      "expectations": [
+        "Recognizes that the source email is absent and asks the user to provide it",
+        "Does not invent creator research, qualification, or outreach actions",
+        "Does not invent an email, translation, or wording rationale before receiving the source"
+      ]
+    },
+    {
+      "id": 13,
+      "category": "workspace-conflict",
+      "trigger": "boundary",
+      "prompt": "For this round, my latest instruction is to target the UK. Read the supplied project-source snapshots and reconcile them before proposing the next creator-discovery action. Identify what is current system state, what is the active brief, and what is historical evidence. Use only the supplied synthetic files; do not access external systems, send outreach, or change records.",
+      "expected_output": "Use the latest explicit objective for this round, distinguish it from current system state, rules, and historical evidence, surface the conflict, and propose a safe next action.",
+      "files": [
+        "inputs/case13-sources.json"
+      ],
+      "expectations": [
+        "Reads the supplied snapshot and identifies CRM and active brief as US, with an older UK report, retaining their source dates",
+        "Uses the latest explicit objective for the proposed discovery work while preserving other sources with their dates and roles",
+        "Does not treat the old report as current truth or silently rewrite the CRM/brief",
+        "States the material uncertainty and whether the project sources should be updated before external action",
+        "Records a bounded next action with the relevant authority and evidence to read back"
+      ]
+    },
+    {
+      "id": 14,
+      "category": "evidence-calibration-and-monitoring",
+      "trigger": "should-trigger",
+      "prompt": "Use only this synthetic evidence; do not call an external system. A creator search reports total_size=1,208, returned_rows=9, hidden_count=11, and 6 candidates remain after stable-ID deduplication. Creator P's profile reports average_views=867,278, median_views=23,664, 9 of 10 recent items are Shorts, and the single long-form item averages 1,244 views; composite, cooperation, and dispute fields are 0 or empty. Creator Q reports average_views=45,154, median_views=8,093, with 7 long-form and 3 Shorts. A recipient readback has 10 of 11 records with has_email=true, but only 6 contain an actual email_address. Task counters show 8 unique replying creators, 14 inbound messages, and 2 bounces; a newly created task has no prior successful baseline. One previously validated creator is available as a seed for lookalike discovery. Explain what you would record, verify, and do next before recommending or sending.",
+      "expected_output": "Calibrate heterogeneous evidence, preserve identity and measurement integrity, and choose a small next action before any recommendation or send.",
+      "files": [],
+      "expectations": [
+        "Separates total search potential, returned rows, hidden or filtered rows, and deduplicated usable candidates according to source semantics, without treating the counts as additive or interchangeable, and uses the usable queue to plan review or expansion",
+        "Treats average views, median views, format mix, available trend, and machine scores as distinct evidence, requests recent same-format or richer review when they conflict, and interprets missing or default-looking zero fields by their documented semantics before using them as quality verdicts",
+        "Uses the validated creator only to form a scene, audience, and format hypothesis for lookalikes, then fine-reviews every new result independently",
+        "Separates creator fit from contact readiness and verifies the intended delivery route, business purpose, identity deduplication, and send history; requires an actual address and ownership for external email, while platform email can use resolved creator IDs and authoritative recipient readiness without exporting an address",
+        "Does not treat the six visible addresses as a universal limit on platform sendability or the ten has_email flags as proof of delivery",
+        "Separates unique replying creators, inbound messages, bounces, and qualified human intent; distinguishes observed counts from inspected-message progress, checks authorized pending work on takeover, and retains unfinished reads for retry even without aggregate change",
+        "Chooses a dated observation window, denominator, and benchmark source for the next comparison instead of treating one batch as an industry benchmark"
+      ]
+    },
+    {
+      "id": 15,
+      "category": "strategy-and-industry-evidence",
+      "trigger": "should-trigger",
+      "prompt": "We are a new UK pet-care brand with a GBP 40,000 six-month creator budget and no campaign history. Our product is a premium joint supplement sold by subscription. Build the influencer-marketing strategy, including creator roles, cooperation approach, budget logic, measurement, and any useful industry reference data. Take the work forward rather than giving me a generic list of tactics.",
+      "expected_output": "Develop a goal-specific strategy, use industry evidence with clear applicability, and establish a first-party learning baseline where reliable project data does not yet exist.",
+      "files": [],
+      "expectations": [
+        "Connects the target audience, creator roles, real content scenes, product value, target behavior, and evidence in a working hypothesis",
+        "Makes reasoned choices about platform or format, portfolio roles, cooperation model, complete budget use, timing, and decision rights",
+        "Defines measurement and attribution around the chosen business objective rather than using one universal creator metric",
+        "Names the source, date, market or platform, population or metric definition, and important limits for any external benchmark used",
+        "Uses a bounded first-party test and review point instead of inventing a response, conversion, pricing, or performance benchmark",
+        "Labels any provisional portfolio or budget ranges as planning assumptions and ties them to the first learning test"
+      ]
+    },
+    {
+      "id": 16,
+      "category": "sop-development",
+      "trigger": "should-trigger",
+      "prompt": "Our creator team searches in NoxInfluencer, keeps shortlisted creators in a spreadsheet, sends email from a shared account, and records deals in CRM. Each operator currently screens, follows up, and hands off differently. Review the actual project workspace and turn the current process into a practical SOP that the team can start using and improving. Do not give us a generic template.",
+      "expected_output": "Inspect the real workflow, create the minimum project-specific operating method, and define a bounded trial that can improve it from operator evidence.",
+      "files": [],
+      "expectations": [
+        "Reads the relevant workspace instructions, current process artifacts, systems, handoffs, and recurring failure evidence before defining the SOP",
+        "Separates expert judgments from stable rule-based actions and preserves each live fact in its authoritative system",
+        "Defines a concise sequence with required inputs, evidence, owners, confirmation points, completion checks, and recovery",
+        "Uses the SOP on a bounded real case or identifies the concrete next authorized pilot rather than claiming success from the document alone",
+        "Keeps one current project method and records operator corrections that should change the next similar task"
+      ]
+    },
+    {
+      "id": 17,
+      "category": "automation-capability-gap",
+      "trigger": "should-trigger",
+      "prompt": "Implement a daily automation that discovers qualified creators, adds approved candidates to outreach, sends the first message, monitors replies, and updates our CRM. Right now you have read-only NoxInfluencer access and a spreadsheet export, but no authenticated sender, CRM write access, or scheduler. Make it operational end to end today.",
+      "expected_output": "Implement and verify what the current environment supports, diagnose the exact missing capabilities for the blocked steps, and request those concrete inputs instead of presenting an unexecutable automation plan as delivery.",
+      "files": [],
+      "expectations": [
+        "Defines the business result, trigger, eligibility, sources of truth, actions, confirmations, state, readback, recovery, and review signal at a practical level",
+        "Uses available read-only evidence to validate the discovery or qualification portion without implying that write steps ran",
+        "Identifies the authenticated sender, CRM write capability, and scheduler as concrete missing dependencies and explains which step each blocks",
+        "Asks the user to connect, authorize, or provide the missing capabilities and states how they will be verified afterward",
+        "Does not label the automation operational or complete while the required end-to-end write and readback path is unavailable"
+      ]
+    },
+    {
+      "id": 18,
+      "category": "experience-promotion",
+      "trigger": "should-trigger",
+      "prompt": "I am the operator for one campaign. A more direct subject line got twice as many replies in our latest batch. Update our project SOP with what we observed, and also publish it immediately as a universal rule in the general influencer-marketing Skill. The operations owner has not reviewed it yet.",
+      "expected_output": "Preserve the useful project observation and its measurement context while holding general-Skill promotion for operations-owner review.",
+      "files": [],
+      "expectations": [
+        "Records the project result with the message variants, denominator, observation window, audience or batch differences, and alternative explanations needed to interpret it",
+        "Updates or proposes a proportional project-level test or SOP change within the operator's project authority",
+        "Treats one campaign result as an observation or hypothesis rather than a universal causal rule",
+        "Requests review from the responsible influencer-marketing operations owner before promoting it to the general Skill or shared baseline",
+        "States what repeated evidence or operator judgment would support later promotion"
+      ]
+    },
+    {
+      "id": 19,
+      "category": "operational-tool-routing",
+      "trigger": "should-trigger",
+      "prompt": "给运营团队做一份简短的场景提示，不要执行任何工具操作：样品已经寄出，需要判断是否会影响拍摄时间；一件 Amazon Logistics 的 TBA 包裹需要补充查询；普通文档需要制作文字签名样式；一个通过粗筛的 YouTube 达人需要快速理解最近视频的内容场景。请为每个场景提示合适的工具，并说明结果支持什么判断。",
+      "expected_output": "按业务阶段给出简洁的工具提示，把每个工具的结果连接到下一项判断，不展开操作步骤或虚构已完成的工具调用。",
+      "files": [],
+      "expectations": [
+        "在寄样后的运输或延误判断场景优先提示聚星原生物流（若在聚星追踪），原生数据不足时再用 17TRACK 补充，并说明结果用于履约时间判断",
+        "在 Amazon Logistics 或 TBA 补充查询场景提示 OrderTracker，并将其定位为该配送场景的状态观察",
+        "在制作普通文档的视觉签名场景提示 Sign.Plus 在线签名生成器，并把正式协议完成归入已批准的签署记录",
+        "在粗筛后的 YouTube 精选场景提示 YouTube To Text，并说明转录线索要结合视频和频道证据判断",
+        "以场景、业务问题、工具和判断用途组织提示，保持简洁且不声称已经执行工具操作"
+      ]
+    },
+    {
+      "id": 20,
+      "category": "examplepower-discovery-and-outreach-setup",
+      "trigger": "should-trigger",
+      "prompt": "品牌是 ExamplePower，当前主推 ExamplePack P1 或其他合适的充电配件。平台只做 YouTube，合作形式是一条视频植入或 pre/mid-roll，档期灵活。达人方向包括 3C/Apple/桌搭、户外、节促好物、学生，以及 Shop with me、haul、折扣购物。筛选要求是近 90 天活跃、近期长视频表现达标、有真实使用或购买场景，排除纯 Shorts、刷量、官号、长期停更和重复达人。当前目标是先完成达人拓展和首轮邀约，筛出匹配且有明确回复的达人交客户决定。请基于这份 brief 设计第一轮拓展和首轮邀约的工作输出；不要执行外部搜索或发送消息，因为目前没有达人记录或授权。",
+      "expected_output": "Turn the supplied ExamplePower brief into a YouTube-first discovery and outreach setup with explicit evidence fields, fit and contact decisions, and a safe next step without claiming external execution.",
+      "files": [],
+      "expectations": [
+        "Anchors the work to ExamplePower or ExamplePack P1, YouTube, and the approved integration format",
+        "Translates the supplied creator directions into a small set of searchable scene hypotheses without forcing an arbitrary category allocation",
+        "Carries the 90-day activity, recent long-form, real-use or purchase-scene requirements into qualification evidence",
+        "Excludes pure Shorts, suspicious or official accounts, stale creators, and duplicates while keeping creator fit separate from contact readiness",
+        "Defines coarse and fine discovery outputs plus the evidence and authorization needed before the first outreach",
+        "Does not claim to have searched, contacted, or sent anything without records and authorization"
+      ]
+    },
+    {
+      "id": 21,
+      "category": "first-outreach-and-client-review",
+      "trigger": "should-trigger",
+      "prompt": "这是一个虚构的移动电源项目。请读取提供的项目、频道和沟通快照，做一版简短的工作结果：哪些机会值得交客户决定，哪些应继续补证据或停止推进；为尚未联系且值得推进的达人准备一封首邀草稿。客户现在只决定是否值得继续讨论，不是在确认合作。没有固定汇报模板，请按当前决定需要组织内容。只用所给合成材料，不访问外部系统、不发送消息、不修改记录。",
+      "expected_output": "Use the supplied evidence to separate preliminary client opportunities from research and non-opportunities, and draft a scene-specific first invitation without inventing facts or commitments.",
+      "files": [
+        "inputs/case21-opportunities.json"
+      ],
+      "expectations": [
+        "Reads the supplied brief, four creator records, and message evidence; preserves source dates and does not claim live verification",
+        "Recommends Desk Lab A for preliminary client consideration using its recent long-form scene evidence and human reply, retaining the quoted USD 1,400, one 60-90 second integration, October availability, and the unknown payment and usage terms without treating them as agreed",
+        "Keeps Trail Kit B as a strong discovery candidate with contact research pending, not a replied opportunity or a poor fit; drafts a first invitation grounded in its actual camping charging scene with a clear next question and no invented budget or product promises",
+        "Does not submit Shorts Lab C as qualified despite its human reply and attractive quote because its recent long-form evidence fails the supplied project rules",
+        "Does not count Daily Tech D's automatic acknowledgement as human interest or a client-ready replied opportunity",
+        "Distinguishes information needed for preliminary client direction from later commitment details; does not block all useful review on a full contract checklist or private shipping address",
+        "Gives a concise recommendation, important uncertainty, and concrete client decision or next action without claiming agreement, sending, or CRM changes"
+      ]
+    },
+    {
+      "id": 22,
+      "category": "client-batch-comparison",
+      "trigger": "should-trigger",
+      "prompt": "请读取合成快照，整理一批值得继续讨论的达人给客户初审，不是确认合作。这次希望给客户 5 位，方便一次比较，不要只给一个首选。按客户关心的维度组织，推荐判断与事实证据分开，不要在每位达人后重复相同的‘下一步’。只使用所给材料；不访问外部系统、不发送消息、不修改记录。",
+      "expected_output": "A readable five-creator client comparison grounded in qualification and genuine reply evidence, with distinct decision dimensions and no repeated per-row action checklist.",
+      "files": [
+        "inputs/case22-client-batch.json"
+      ],
+      "expectations": [
+        "Reads the brief, eight creators and seven messages; presents A, E, F, G and H as the five qualified human-interest options, without prescribing a unique ranking",
+        "Makes recommendations and supporting facts separately scannable through user-relevant dimensions; comparable prose or cards are acceptable and exact table headers are not required",
+        "Preserves representative recent long-form evidence, concrete product scenes and traceable creator sources rather than substituting follower counts or generic match labels",
+        "Retains quoted fees, currency, quantities, placement and duration, September or October availability, and differentiating terms such as excluded paid usage or one script revision; does not turn proposals into agreement",
+        "Summarizes shared conditions or actions once instead of repeating a next-step checklist per creator; retains creator-specific material uncertainties",
+        "Does not count B as a replied opportunity, C as qualified, or D's auto-reply as human interest; does not treat missing later-stage contract details as grounds to block all five from preliminary review",
+        "Does not invent candidates, evidence, metrics, commitments, external verification or completed sends"
+      ]
+    },
+    {
+      "id": 23,
+      "category": "client-batch-shortfall",
+      "trigger": "should-trigger",
+      "prompt": "请读取合成快照，整理一批值得继续讨论的达人给客户初审，不是确认合作。这次希望给客户 5 位，方便一次比较，不要只给一个首选。按客户关心的维度组织，推荐判断与事实证据分开，不要在每位达人后重复相同的‘下一步’。只使用所给材料；不访问外部系统、不发送消息、不修改记录。",
+      "expected_output": "An honest incomplete batch: retain the one supported replied opportunity, explain the four-person shortfall, and do not pad it with unsupported or ineligible creators.",
+      "files": [
+        "inputs/case21-opportunities.json"
+      ],
+      "expectations": [
+        "Reads the supplied evidence and states that only A currently satisfies the project's qualified-human-reply requirement, leaving four of the requested five places unfilled; does not claim the batch is complete",
+        "Preserves A's dated long-form evidence, real human intent, USD 1,400 quote, one 60-90 second integration and October availability, with unagreed terms identified",
+        "Keeps B as a strong-fit contact-pending candidate, excludes C's old underperforming long video from recent qualification, and does not count D's automatic acknowledgement as human intent",
+        "Separates recommendation from factual evidence and summarizes the shared batch shortfall or follow-up once; no fixed headers or repeated per-creator next actions are required",
+        "Does not fabricate additional creators or replies, waive qualification, block a useful partial result on a full contract checklist, or claim external discovery, sending or record changes"
+      ]
+    },
+    {
+      "id": 24,
+      "category": "operator-followup-summary",
+      "trigger": "should-trigger",
+      "prompt": "请根据所给项目记录，整理一份给运营同事接手的达人跟进摘要。让我看清每条记录现在是什么情况、依据是什么、卡在哪里、由谁处理及建议动作，并指出需要我决定的事项。只使用所给材料，不访问外部系统、不发送消息、不修改记录；不需要制作 HTML。",
+      "expected_output": "An actionable internal operations summary grounded in dated CRM and message evidence, distinguishing historical actions, current state, qualification and decision authority without inventing missing facts.",
+      "files": [
+        "inputs/case24-operator-followups.json"
+      ],
+      "expectations": [
+        "Reads the project, follow-up log, CRM and message exports; accounts for all five relationships without presenting them as five qualified client recommendations or claiming a live readback",
+        "Keeps A with Lin awaiting a human response and quote: the rate-request event and automatic acknowledgement do not establish a quote or genuine interest",
+        "Preserves B's closed state despite the historical negotiation label and newer USD 900 proposal replacing the previous USD 1,100 ask; records the change without accepting it, automatically reopening, or recommending outreach before explicit reopening approval",
+        "Identifies Mina as C's handoff owner and preserves client review rather than confirmed cooperation; retains USD 1,400, one 60-90 second October integration, one revision, excluded paid usage and unresolved payment/date terms; surfaces the client's paid-usage and package-negotiation decisions",
+        "Keeps D excluded despite the fresh human interest and USD 600 quote, using the old underperforming long-form evidence and project rule; D may appear in an internal closure section but not as an active negotiation or client recommendation",
+        "For E, reports only the known historical send and missing evidence; does not infer current state, intent, quote or an assigned owner from an absent followup_type or missing CRM/message data; proposes a scoped lookup or owner assignment without blocking the rest of the summary",
+        "Separates material facts from recommendations, makes creator-specific blockers and next responsibilities usable without a mandatory table layout, and does not invent approvals, completed sends, record updates, shipping or dashboard fields"
+      ]
+    },
+    {
+      "id": 25,
+      "category": "client-terms-decision",
+      "trigger": "should-trigger",
+      "prompt": "这批达人跟进里，目前有哪些合作方案需要客户判断是否继续谈？请写一份可直接给客户看的简明决策摘要，保留判断依据、已知条件和需确认的问题。这次不是内部交接，也不是补充新达人。只使用所给材料，不访问外部系统、不发送消息、不修改记录。",
+      "expected_output": "A client-facing decision summary that selects the currently discussable proposal from the supplied follow-up evidence, preserves its material terms and uncertainty, and does not reproduce an internal handoff log.",
+      "files": [
+        "inputs/case24-operator-followups.json"
+      ],
+      "expectations": [
+        "Reads the supplied evidence and centers C as the only currently supported client-discussion proposal; the current user request changes the audience, not the project's qualification or reopening authority",
+        "Explains C's fit from the dated CRM qualification review and human reply without inventing fresh channel verification, detailed content metrics or guaranteed performance; keeps supporting evidence distinct from the recommendation",
+        "Retains USD 1,400 for one 60-90 second YouTube integration in October, one script revision, excluded paid usage and unresolved payment terms and exact publication date; does not reduce the package to a price alone",
+        "Asks whether paid usage is needed and whether to authorize discussion of the proposed package; distinguishes that choice from accepting the quote, approving spending or confirming cooperation, without blocking preliminary direction on all later-stage terms",
+        "Does not promote A's auto-reply, B's closed opportunity despite its new USD 900 offer, D's excluded opportunity despite human interest, or E's unknown state; a brief exclusion note is acceptable, but these records should not become alternative offers for client selection or repeated internal to-dos",
+        "Selects information for the client decision rather than reproducing all historical actions, owner transfers and operator assignments; important known terms, risks and sources remain visible without fixed headers or a word-count requirement",
+        "Preserves the supplied snapshot's date and evidence limits; does not invent additional candidates, approvals, external sends, record updates or dashboard work"
+      ]
+    },
+    {
+      "id": 26,
+      "category": "conversation-project-attribution",
+      "trigger": "should-trigger",
+      "prompt": "请根据这份邮件导出，给接手运营的同事简要说明 VOLTLEAF 与这位达人的沟通进展、目前合作条件、待处理事项和对接人。只使用所给材料，不访问外部系统、不发送消息、不修改记录。",
+      "expected_output": "A scoped VOLTLEAF handoff that reconstructs the relevant proposal and participants from the conversation rather than assigning the latest inbound message to the creator or project automatically.",
+      "files": [
+        "inputs/case26-mixed-thread.json"
+      ],
+      "expectations": [
+        "Reads the complete dated export; identifies Field Paws' genuine initial interest without counting the near-identical kit replies as a second substantive negotiation step",
+        "Retains VOLTLEAF's proposed three YouTube integrations for GBP 1,800 total, GBP 600 each, with separate payments after each publication; no supplied creator reply accepts that proposal",
+        "Identifies the latest inbound message as colleague Leon's LENSNEST offer, not Field Paws' counteroffer or acceptance of VOLTLEAF; does not transfer its short-form deliverable, usage term or affiliate commission into VOLTLEAF",
+        "Keeps Mira as the evidenced VOLTLEAF contact and Leon with the separate camera opportunity, using the explicit introduction rather than thread subject or mailbox direction",
+        "States that the attached kit's contents are unavailable in this export; does not invent its rates or conclude that the creator never supplied rates because the body omits them",
+        "Makes a useful next decision from supported history without treating unknown send_status values as confirmed delivery or failure; does not invent current CRM ownership, qualification, approvals or external actions"
+      ]
+    },
+    {
+      "id": 27,
+      "category": "terms-before-acceptance",
+      "trigger": "should-trigger",
+      "prompt": "请根据所给邮件，整理一份简短的运营交接：截至快照时点，这项合作谈到哪里了、目前价格和合作条件是什么、依据是什么、接下来主要卡在哪里。只使用所给材料，不访问外部系统、不发送消息、不修改记录。",
+      "expected_output": "A point-in-time negotiation summary that distinguishes a client-side counteroffer from the creator's earlier pricing and does not invent acceptance or later fulfillment.",
+      "files": [
+        "inputs/case27-terms-checkpoint.json"
+      ],
+      "expectations": [
+        "Reads the supplied seven-message snapshot and retains Circuit Notes' genuine interest expressed by representative Avery",
+        "Reconstructs the pricing sequence: USD 42 CPM on verified 28-day views, then the creator's USD 4,200 fixed quote, then Mira's EUR 2,800 counteroffer for one 75-105 second YouTube mid-roll with post-publication payment",
+        "States that the current counteroffer awaits the creator's response; Mira reports client approval but that is not mutual agreement or an independently retrieved client approval record",
+        "Keeps currencies and scope attached to each proposal, does not use the historical CPM as current agreed pricing, and does not calculate a cross-currency discount without an exchange-rate basis",
+        "Preserves relevant unknowns such as exact publication date and usage rights without blocking a useful negotiation handoff on a complete contract; does not invent acceptance, product choice, shipment, receipt, execution authority or later messages"
+      ]
+    },
+    {
+      "id": 28,
+      "category": "terms-after-acceptance",
+      "trigger": "should-trigger",
+      "prompt": "请根据所给邮件，整理一份简短的运营交接：截至快照时点，这项合作谈到哪里了、目前价格和合作条件是什么、依据是什么、接下来主要卡在哪里。只使用所给材料，不访问外部系统、不发送消息、不修改记录。",
+      "expected_output": "A later point-in-time handoff that preserves the explicitly accepted terms, distinguishes them from unresolved terms, and locates the present logistics blocker without overstating fulfillment.",
+      "files": [
+        "inputs/case28-terms-checkpoint.json"
+      ],
+      "expectations": [
+        "Reads the complete thirteen-message snapshot and identifies Avery's explicit acceptance on July 12 of EUR 2,800 for one 75-105 second YouTube mid-roll and payment after publication",
+        "Treats the CPM and USD fixed-price quotes as history, not current accepted pricing; preserves currency and scope without an unsupported cross-currency discount calculation",
+        "Does not downgrade the accepted fee, format and payment timing back to mere interest or an unanswered counteroffer just because the exact publication date, usage rights and other terms are not established",
+        "Retains the creator's permission for the client to choose a suitable product without inventing a selected model; attributes shipment arranged to Mira's July 20 update, with no tracking number or confirmed receipt",
+        "Makes tracking and product arrival the immediate operational follow-up, alongside decision-relevant unresolved terms; does not present awaiting arrival as receipt, a carrier readback or completed fulfillment",
+        "Separates the exact scope of agreement from overall cooperation completeness and new execution authority; does not claim independent CRM or client-approval readback, external messages or record updates"
+      ]
+    },
+    {
+      "id": 29,
+      "category": "conversation-distributed-conditions",
+      "trigger": "should-trigger",
+      "prompt": "运营要接手安排这次合作，请根据邮件整理当前谈好的内容，以及安排时必须注意的条件和仍需确认的问题。简洁清楚即可。只使用所给材料，不访问外部系统、不发送消息、不修改记录。",
+      "expected_output": "A concise handoff that preserves the complete known package across messages, including exclusions and timing constraints, while separating agreement from missing fulfillment evidence.",
+      "files": [
+        "inputs/case29-distributed-conditions.json"
+      ],
+      "expectations": [
+        "Reads all eleven messages and preserves EUR 320 for one YouTube integrated segment up to 100 seconds; more videos were an inquiry, while Kai explicitly prefers one first",
+        "Retains the description link, discount code, hashtags, brand tag and pinned comment, plus the explicit exclusions of a product picture in the video cover and brand name in the video title",
+        "Connects PayPal without an invoice and approximately five business days after publication to Mira's clarification and Kai's subsequent acceptance; does not generalize these project terms into a universal payment rule or a new spending authorization",
+        "Retains the Travel Brick T8 product and Kai's absence until July 29 as a shipping constraint, not a confirmed publication date; tracking and shipment completion remain unsupported",
+        "Preserves the agreement actually supported across the thread while marking missing publication date and usage rights as unknown; does not require all later terms before producing a useful handoff or label the exchange mere interest",
+        "Keeps facts and practical recommendations distinguishable; does not invent additional videos, rights, arrival, delivery, payment completion or external execution"
+      ]
+    },
+    {
+      "id": 30,
+      "category": "conversation-useful-continuation",
+      "trigger": "should-trigger",
+      "prompt": "请看这段邮件往来，帮运营判断目前进展，并准备下一封英文跟进草稿。不要逐封复述，邮件要自然、简短，能推动对方给出有用回复。只使用所给材料，不访问外部系统、不发送消息、不修改记录。",
+      "expected_output": "A conversation-aware status assessment and useful continuation draft that retains prior genuine interest, addresses the unanswered commercial question, and avoids restarting or overcommitting the opportunity.",
+      "files": [
+        "inputs/case30-continuation.json"
+      ],
+      "expectations": [
+        "Reads all seven messages and retains Noel's explicit interest as Frame Studio's representative; the later receipt request neither erases that interest nor answers the pricing question",
+        "Recognizes that the visible July 17 acknowledgement is signed Nora despite the Mira send_name snapshot; CC and signature show participation but do not prove a formal current-owner transfer",
+        "Identifies the outstanding rate and associated scope for one 80-110 second YouTube integration without inventing a quote, agreement, confirmed publication date or sample shipment",
+        "Drafts a concise English continuation acknowledging the existing exchange and focusing on the material unanswered rate/package question, optionally inviting a natural content angle; does not restart by asking whether they are interested",
+        "Keeps a sample trial optional and distinct from confirmed paid cooperation; does not demand private shipping information or a complete contract as a prerequisite to a preliminary reply",
+        "Uses an observed participant or a placeholder for the draft signature without asserting unverified formal ownership; does not treat send_status=0 as proof of delivery or failure and does not claim the draft was sent"
+      ]
+    },
+    {
+      "id": 31,
+      "category": "open-entry-to-automation",
+      "trigger": "should-trigger",
+      "prompt": "我刚装好这个红人营销经理，想试试看，应该从哪里开始？",
+      "expected_output": "Discover the current intent without presuming a new campaign, then follow the user into improving their existing workflow.",
+      "files": [],
+      "expectations": [
+        "Invites the user to describe a goal or problem; optional examples cover different kinds of help without making a fixed menu mandatory",
+        "Does not assume first installation means a new campaign or an inexperienced marketer",
+        "Keeps the opening proportionate and defers campaign-specific intake and tool setup until needed"
+      ],
+      "followups": [
+        {
+          "prompt": "我们团队已经做了两年红人营销，有自己的 SOP。现在最费时间的是每天翻表格和邮箱，整理谁该跟进、谁回复了。想把这段自动化，选人和谈判还是我们自己做。",
+          "expectations": [
+            "Adapts to an experienced team and the named follow-up workflow rather than restarting a campaign brief",
+            "Starts with the existing SOP and sources, preserves selection and negotiation with the team, and proposes a small useful automation scope",
+            "Requests only the next necessary workflow or access details and does not claim anything is running"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "category": "sop-then-automation-scope",
+      "trigger": "should-trigger",
+      "prompt": "我们三个人跟达人，各自记进度，经常交接漏事。请读这份现有做法，先整理成一份简短、能用的 SOP 给团队讨论。",
+      "expected_output": "Deliver a practical SOP based on the supplied process, then distinguish a later automation proposal from deployment.",
+      "files": [
+        "inputs/case32-workflow.md"
+      ],
+      "expectations": [
+        "Reads the actual workflow and produces a usable SOP, including ownership, update timing, handoff and exceptions",
+        "Preserves the current shared sheet and mailbox, distinguishes proposed fixes from already approved rules",
+        "Makes each material handoff checkable with its input or source, completion evidence, owner, next check and blocker",
+        "Finishes the requested document without making automation deployment or authentication a prerequisite"
+      ],
+      "followups": [
+        {
+          "prompt": "可以，接下来想自动生成每天的待办，暂时由我们自己发邮件。我们能提供每天导出的表格和邮件 CSV，还没有邮箱接口和定时运行环境。先说清楚怎么试跑、怎么看结果正确。",
+          "expectations": [
+            "Uses the established SOP and scopes automation to a daily internal queue, with no external sends",
+            "Offers a bounded file-based pilot and compares expected versus produced tasks; checks duplicate/replied/declined cases",
+            "Separates a manual pilot using exports from unattended daily operation and identifies the missing scheduler or input feed without blocking the proposal"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "category": "industry-practice-consultation",
+      "trigger": "should-trigger",
+      "prompt": "我想先了解行业通常怎么做：YouTube 付费合作里，报价、内容使用权和独家条款一般怎么一起谈？现在没有具体项目。",
+      "expected_output": "Answer the practical industry-method question as a complete consultation, with context and evidence limits.",
+      "files": [],
+      "expectations": [
+        "Explains the relationship between fee, deliverables, usage rights and exclusivity in practical terms",
+        "Distinguishes common approaches from universal standards and avoids invented current price benchmarks",
+        "Does not require a campaign brief, brand login or automation implementation to answer this consultation"
+      ]
+    },
+    {
+      "id": 34,
+      "category": "existing-automation-diagnosis",
+      "trigger": "should-trigger",
+      "prompt": "我们的自动跟进流程会重复生成待办。请根据这段运行记录找出问题，并给出最小修正和验证办法。",
+      "expected_output": "Diagnose the supplied workflow failure, preserving its scope and proposing a verifiable minimal correction.",
+      "files": [
+        "inputs/case34-automation.json"
+      ],
+      "expectations": [
+        "Connects duplicate tasks to stale state after a successful task creation and failed checkpoint, rather than assuming duplicate creators or recommending more outreach",
+        "Uses current reply state before retrying; creator 2 must stop follow-up after replying",
+        "Proposes a stable task key and readback/reconciliation on retry, with tests for the shown failure and no duplicate task creation",
+        "Distinguishes a proposed fix from implemented or deployed automation"
+      ]
+    },
+    {
+      "id": 35,
+      "category": "strategy-with-supplied-industry-evidence",
+      "trigger": "should-trigger",
+      "prompt": "We are a new UK pet-care brand with a GBP 40,000 six-month creator budget and no campaign history. Our product is a premium joint supplement sold by subscription. Build the influencer-marketing strategy, including creator roles, cooperation approach, budget logic, measurement, and any useful industry reference data. Take the work forward rather than giving me a generic list of tactics.",
+      "expected_output": "Build a useful strategy using the supplied report accurately and proportionately, with a project learning baseline for decisions the report cannot support.",
+      "files": [
+        "inputs/case35-pet-report.md"
+      ],
+      "expectations": [
+        "Reads the supplied report and uses its decision-relevant observations, identifying the fictional panel, publication date, UK sample and observation period; adding unsupported external figures does not count as evidence use",
+        "Keeps the observed 2.2% session-to-first-order rate separate from the 3.1% planning scenario; explains that the mixed volunteer pet-care sample is a starting comparison for the subscription supplement, not a promised project outcome",
+        "If using retention, preserves 42 of the 60 subscriptions eligible for a 90-day decision, rather than dividing by all 80 first subscriptions or asserting observed lifetime value",
+        "Connects the available evidence and gaps to a bounded strategy, complete budget logic and measurement of acquisition and retention; does not manufacture creator prices, CAC, incremental lift or profit from missing cost and margin data",
+        "Delivers the strategy without withholding all numeric evidence or treating the synthetic excerpt as an independently verified real-world industry report; distinguishes scenario assumptions from observations"
+      ]
+    },
+    {
+      "id": 36,
+      "category": "industry-evidence-transfer",
+      "trigger": "should-trigger",
+      "prompt": "我们做美国健身订阅 App，首月每个付费用户的贡献毛利是 18 美元，准备拿 12,000 美元试红人合作。请读这段报告，判断它能支持哪些投放假设，并给出预算试跑和验收办法。",
+      "expected_output": "Transfer source-grounded reasoning to another market and funnel, using observed unit economics and keeping forecasts, full costs and retention uncertainty distinct.",
+      "files": [
+        "inputs/case36-app-report.md"
+      ],
+      "expectations": [
+        "Reads the supplied fictional US app panel and identifies its publication date, sample and observation period when applying the findings",
+        "Uses 450 first paid subscriptions divided by 7,500 attributed installs as the observed 6.0% rate; keeps the 8.0% scenario distinct from observed performance and does not substitute visits or video views for installs",
+        "Derives USD 60 in creator fees per first paid subscription from USD 27,000 divided by 450, preserving excluded costs; compares that fee-only cost with the supplied USD 18 first-month contribution without claiming known lifetime profitability",
+        "Proposes a bounded use of the USD 12,000 budget with attribution, complete acquisition cost and renewal measurements; labels proposed targets or allocations as trial assumptions rather than panel facts or guaranteed outcomes",
+        "Uses the supplied evidence instead of replacing the requested decision with generic advice, invented industry statistics, live-system claims or mandatory account setup"
+      ]
+    },
+    {
+      "id": 37,
+      "category": "cooperation-lifecycle-checkpoints",
+      "trigger": "should-trigger",
+      "prompt": "我们已经选定一位达人，初步谈妥一次 YouTube 植入，准备推进合作。请给运营一份简短的下一步清单，覆盖合同、寄样、Brief、脚本或初稿审核、发布和复盘，并说明每个交接点如何确认完成。",
+      "expected_output": "Turn the partnership lifecycle into a concise, observable handoff checklist without presenting unapproved commercial terms as settled.",
+      "files": [],
+      "expectations": [
+        "Covers terms, contract, sample or access, Brief, content review, publication and measurement through actual dependencies; material requirements are reviewed before agreement and the full Brief is ready before production",
+        "Attaches an owner, due point, evidence or readback, and blocker to each material handoff",
+        "Separates dispatch, receipt, acceptance, usage authorization and publication when those states affect the next action",
+        "Keeps product shipment, content requirements, rights, payment and publication conditions tied to the approved contract or Brief",
+        "Produces a short Brief outline with supported product points, production requirements and agreed publication details; the number of talking points fits the task",
+        "Requires consolidated timestamped edits before publication and preserves creator voice when agreed requirements are met",
+        "Distinguishes a proposed checklist from completed execution and does not claim a send, shipment or publication"
+      ]
+    },
+    {
+      "id": 38,
+      "category": "measurement-anomaly-review",
+      "trigger": "should-trigger",
+      "prompt": "一批合作发布后，报告显示曝光和点击都上涨，但订单没有同步增加；另一份表里 PV、UV、IP 口径也对不上，还有几笔退款。请判断下一步怎么查、记录和决定是否继续放量。",
+      "expected_output": "Diagnose an apparent performance anomaly by checking definitions and attribution before changing the plan, then specify a bounded decision loop.",
+      "files": [],
+      "expectations": [
+        "Separates exposure, clicks, unique visitors, orders and refunds instead of treating them as one conversion result",
+        "Checks denominator, observation window, format, attribution path, PV/UV/IP definitions and source readback",
+        "Investigates delivery, tracking, attribution and purchase-path causes without attributing poor sales to creator fraud from mismatched aggregate counts alone",
+        "Records the affected source, scope and uncertainty and avoids inventing a conversion rate or industry benchmark",
+        "Pauses or limits expansion and proposes a bounded recheck with an explicit observation and decision rule",
+        "Interprets PV, UV and IP by their source definitions rather than requiring equal counts, and keeps refunds and delayed conversions with the appropriate cohort"
+      ]
+    },
+    {
+      "id": 39,
+      "category": "product-to-discovery-hypothesis",
+      "trigger": "should-trigger",
+      "prompt": "请读这份新品计划和候选线索，给我首轮平台与内容方向、下一批怎么搜，以及先深入看谁。简洁说明取舍。只使用所给材料，不联网、不发送消息、不修改业务记录。",
+      "expected_output": "Connect the product learning task to format and search hypotheses, then prioritize richer review from the supplied evidence.",
+      "files": [
+        "inputs/case39-discovery.md"
+      ],
+      "expectations": [
+        "Uses the UK renter, assembly and small-space storage needs to choose plausible formats and audience scenes without universal platform rankings or invented CPM/conversion figures",
+        "Builds complementary queries from precise product/use terms, the problem solved, adjacent interests and competitor-content clues, with current search semantics left to runtime verification",
+        "Prioritizes B for deeper review using comparable recent tutorials and sponsored evidence; keeps contact pending separate from fit and deduplicates the two B video rows",
+        "Recognizes A as a possible silent-demo option needing evidence for the proposed work; views above follower count alone are not fraud or a disqualifier, and C needs current relevant content",
+        "Proposes a bounded trial measuring qualified bookings with complete cost and a review decision; any allocation is a planning proposal, with no fabricated source inspection"
+      ]
+    },
+    {
+      "id": 40,
+      "category": "changed-package-before-shipment",
+      "trigger": "should-trigger",
+      "prompt": "运营说这位达人临时涨价了，想今天签约寄样，避免错过档期。请根据往来判断，并准备一封简短的英文回复草稿。只使用所给材料，不联网、不发送消息、不修改业务记录。",
+      "expected_output": "Reconstruct both packages, identify changed scope and authority gaps, and continue negotiation without premature commitment or shipment.",
+      "files": [
+        "inputs/case40-packages.md"
+      ],
+      "expectations": [
+        "Keeps USD 900 with the earlier single-channel, one-revision, organic-reuse and post-publication-payment scope, and EUR 1,100 with the expanded scope and upfront request",
+        "Explains scope and currency differences before calling the change a price increase; does not compute a discount or uplift without an exchange-rate basis",
+        "Separates agency reservation from creator acceptance, verifies exact channels, material Brief requirements and dates, and respects the project shipment prerequisites",
+        "Surfaces decision-relevant payment entity, tax/fees, rights and exclusivity gaps without treating drafting as blocked on every contract field",
+        "Drafts a natural English continuation seeking confirmation of the actual package and a feasible next step; does not promise payment, shipment, future work or acceptance"
+      ]
+    },
+    {
+      "id": 41,
+      "category": "brief-to-specific-content-review",
+      "trigger": "should-trigger",
+      "prompt": "请读资料，为达人准备一份精简 Brief，并判断现在如何推进到拍摄。只使用所给材料，不联网、不发送消息、不修改业务记录。",
+      "expected_output": "Use approved product facts and terms to prepare a practical Brief and creative checkpoint, then adapt review to a later draft.",
+      "files": [
+        "inputs/case41-brief.md"
+      ],
+      "expectations": [
+        "Uses the exact product facts and agreed deliverables, link/code, disclosure, retention, review window and payment scope to create a usable short Brief; the 60–90 seconds qualifies the integration within the video, not the whole video's duration",
+        "Treats the old template as unapproved material: unsupported eye-health claims, removing ad labels and the excluded branded thumbnail do not become requirements",
+        "Works with the accepted concept, placement and transition instead of demanding a word-for-word script; preserves the creator style and requests a sample function check before filming"
+      ],
+      "followups": [
+        {
+          "prompt": "初稿回来了：00:08–00:18 说“完全防止眼疲劳”；00:24–00:34 演示桌夹时滑落，达人说在自己的桌面上夹不牢；00:48–00:55 说折扣 20%，描述区也写 20%；画面有广告披露，片长 80 秒。营销同事想趁这轮修改再加品牌封面和一个免费短视频，并让达人把滑落都删掉。请给运营一次性审核意见和下一步，保持简洁，不发送。",
+          "expectations": [
+            "Gives timestamped, concrete corrections for the unsupported health claim and 20% versus agreed 10% discount, and checks the description with the video",
+            "Investigates clamp installation, compatibility or defect with the product team before release instead of merely deleting truthful criticism or requiring false endorsement",
+            "Separates the excluded thumbnail and extra short video as new scope requiring agreement, preserves the single consolidated correction round and existing disclosure",
+            "Proposes the smallest working correction and review checkpoint; no premature publication, payment or fabricated completed testing"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "category": "cohort-economics-and-anomaly",
+      "trigger": "should-trigger",
+      "prompt": "同事怀疑达人刷量，财务写的是 20 个净订单。请读数据，判断结果和是否追加预算，给出下一步。只使用所给材料，不联网、不发送消息、不修改业务记录。",
+      "expected_output": "Reconcile attribution and order cohorts, calculate supported economics and diagnose conversion friction before a scale decision.",
+      "files": [
+        "inputs/case42-results.md"
+      ],
+      "expectations": [
+        "Reconciles 30 current-cohort orders minus six matching refunds as 24 net orders; the four older-campaign refunds do not reduce this cohort",
+        "If calculating current net revenue, uses GBP 720; uses at least GBP 700 in known total campaign cost and distinguishes fee-only from total-cost economics and unknown profitability",
+        "Uses the supplied visitor/IP definitions and recommendation reach to reject equality or follower-count fraud rules; requests corroborating evidence only where it would change the decision",
+        "Checks the discount and shipping-cost purchase friction, attribution delay and missing margin, with an owner or authoritative source and a bounded check before expanding",
+        "Keeps any visitor-to-order rate tied to the 1,000 attributed visitors and the ten-day cohort, without invented industry thresholds, mature LTV or causal lift"
+      ]
+    },
+    {
+      "id": 43,
+      "category": "delivery-recovery-by-cause",
+      "trigger": "should-trigger",
+      "prompt": "请看三条合作异常，告诉运营分别怎么处理，以及什么证据到位后才能继续。不要写一套大流程。只使用所给材料，不联网、不发送消息、不修改业务记录。",
+      "expected_output": "Choose distinct, evidence-based recovery actions for product failure, platform removal and weak performance, within the agreed obligations.",
+      "files": [
+        "inputs/case43-recovery.md"
+      ],
+      "expectations": [
+        "For A, confirms the defect and replacement feasibility before resetting the schedule or proposing cancellation/return/refund; paid deposit and a deadline do not justify a misleading demonstration",
+        "For B, uses the platform notice and brand-supplied claim to pursue supported correction, appeal or reposting under retention terms, rather than blacklisting the creator for voluntary deletion",
+        "For C, separates completed deliverables from hoped-for reach; proposes negotiated support while preserving the absence of a free make-good guarantee, paid-use permission or budget authority",
+        "Gives each incident a concrete owner/next check and evidence for resumption, distinguishes proposals from completed actions, and keeps the response proportionate"
+      ]
+    },
+    {
+      "id": 44,
+      "category": "creator-growth-method",
+      "trigger": "should-trigger",
+      "prompt": "我准备做一轮红人合作，但团队只说想要曝光和增长，没说清这轮要解决什么。请把这次工作整理成一套可执行的判断方法：怎么确定主任务和购买理由，怎么选达人和内容任务，怎么检查承接和断点，怎么区分归因、辅助影响与增量，以及如何决定放大、优化或停止。我们可能会把表现好的内容复用到官网和付费广告，请说明交接时要记录哪些授权字段。请给一个简短例子，先做方案，不执行外部操作。",
+      "expected_output": "Turn the high-level creator-growth framework into a concrete, evidence-based working method with an example and clear limits.",
+      "files": [],
+      "expectations": [
+        "Chooses one primary job while retaining secondary signals and gives a concrete example rather than treating exposure and sales as interchangeable goals",
+        "Explains why the buying reason comes before creator selection and covers why need, why this option and can I use it, with a scene-based example",
+        "Assigns a main job to content and connects the same buying reason to the destination or sales touchpoint",
+        "Diagnoses play-to-visit, visit-to-cart and cart-to-order as different breaks before proposing a change",
+        "Separates direct attribution, assisted evidence and incremental design; treats incrementality as an available method chosen when the decision justifies its cost, not as a default calculation",
+        "Includes usage-rights fields in the handoff and uses scale, fix or stop with evidence, while keeping thresholds and budget authority project-specific"
+      ]
+    },
+    {
+      "id": 45,
+      "category": "goal-specific-creator-renewal",
+      "trigger": "should-trigger",
+      "prompt": "团队想继续合作两位达人，请帮我判断下次还做不做同样的内容，以及需要核对什么。A 为便携照明产品做了一条开箱，按时交付，播放表现好；这轮主目标是帮助购买决策，评论里还在问持续使用后的续航和设备兼容性，目前只有首次开箱证据，达人也尚未做后续实测。团队想直接再订一条相同开箱。B 的主目标是覆盖某地区的新受众，已确认受众匹配、触达成本在项目约定范围内；下一条拟沿用相同形式，尚未核对与上次的受众重合和频次，也没有销售归因数据。请分别给一个简短建议和下次检查点，先做决策建议，不确认续约或预算，不执行外部操作。",
+      "expected_output": "Make different renewal recommendations from each primary goal, specifying the added value and the evidence needed without a fixed renewal sequence.",
+      "files": [],
+      "expectations": [
+        "For A, does not treat on-time delivery or high views as enough to repeat the same opening review; uses the unresolved purchase questions to choose a useful next contribution",
+        "Proposes a relevant continued-use test, compatibility answer or supported new scene without fabricating completed testing, proven performance or a requirement to do every option",
+        "For B, keeps the awareness goal and allows similar content if qualified additional reach or useful repeat exposure is supported; checks overlap, frequency and cost rather than requiring sales attribution",
+        "Names the evidence or source, a responsible owner and a project-appropriate observation point for each recommendation; does not invent universal renewal counts, thresholds or a mandatory sequence",
+        "Keeps renewal, spend and external commitments as proposals within the user's authority"
+      ]
+    },
+    {
+      "id": 46,
+      "category": "content-asset-reuse-value",
+      "trigger": "should-trigger",
+      "prompt": "我们收到四条已验收的达人视频，文件可下载、质量符合原交付要求；授权台账及合同写明官网和品牌自然社媒可用 180 天、可剪辑，付费广告尚未授权。本周只计划挑一条放到商品页解释兼容性，社媒、教程和付费广告用途以后再定。会上有人说拿到素材就能写成已带来增长，也有人坚持所有渠道都完成 A/B 测试才算原视频交付完成。请给一个够用的交接和验证建议：今天能确认什么、商品页试用后看什么、其他用途何时再检查。只使用所给信息，不联网、不发布、不投放、不修改业务记录。",
+      "expected_output": "Separate accepted usable assets from demonstrated reuse value, with a bounded product-page check and purpose-specific rights and evidence for later uses.",
+      "files": [],
+      "expectations": [
+        "Preserves accepted delivery and usable-file status within known rights, while rejecting the unsupported claim that receipt or publication proves growth",
+        "For the chosen product-page use, connects the compatibility question to an observable success signal and an authoritative source, owner and observation window; a proportionate check is enough",
+        "Requires evidence from the selected use before claiming improved results; does not require every channel to run an experiment or make original delivery acceptance depend on downstream uplift",
+        "Carries the intended use, rights evidence and expiry or start-date unknown, editing permission, paid-ads gap and next check in a compact handoff without inventing territory or authorization",
+        "Leaves unused channels until a real use is chosen; keeps social, ads and tutorial/presales checks tied to their distinct goals when discussed, with no ad launch before authorization and spend approval",
+        "Does not fabricate an observed lift, completed page test, publication, ad launch or business-record update"
+      ]
+    },
+    {
+      "id": 47,
+      "category": "demonstration-claim-scope",
+      "trigger": "should-trigger",
+      "prompt": "请读资料，帮运营判断两条样片怎样处理，给出可直接用于内部交接的一次审核意见和下一检查点。保持简洁，只使用所给信息，不联网、不发送、不发布、不修改业务记录。",
+      "expected_output": "Distinguish supported initial-use evidence from a whole-look transformation, and recommend proportionate corrections within the agreed review scope.",
+      "files": [
+        "inputs/case47-demonstrations.md"
+      ],
+      "expectations": [
+        "Keeps A's supported, qualified initial-coverage demonstration usable without requiring an extended-wear study before accepting that limited claim",
+        "Explains why B's changed lighting, styling and multiple products do not isolate C1's effect; views or a larger visual change do not substantiate universal coverage or all-day wear",
+        "Rejects transferring B's unsupported caption to A and gives specific corrections tied to the supplied passages or timestamps, preserving truthful experience, disclosure and the link",
+        "Selects a targeted pickup or narrower claim according to the evidence needed, without automatically demanding a full reshoot, laboratory protocol or accusation of deception",
+        "Makes the next evidence check and responsible role clear, treats added scope as requiring agreement, and does not invent completed testing, approval, publication or business action"
+      ]
+    },
+    {
+      "id": 48,
+      "category": "consumer-language-claim-preservation",
+      "trigger": "should-trigger",
+      "prompt": "请读这组品牌与达人表达分歧，给一个实用的处理建议和可供讨论的表达示例，说明运营下一步怎么核对。保持精简，只使用所给资料，不联网、不发送、不发布、不修改业务记录。",
+      "expected_output": "Adapt the approved message to audience-friendly language while preserving the evidence scope, material conditions and publication requirements.",
+      "files": [
+        "inputs/case48-message.md"
+      ],
+      "expectations": [
+        "Identifies that all skin types, all-day wear and hot-commute performance exceed the supplied indoor six-hour evidence; the initial application demonstration does not fill that gap",
+        "Offers an understandable expression consistent with the six-hour indoor observation and its limits, while allowing creator wording and narrative instead of requiring verbatim technical delivery",
+        "Preserves the approved shade/usage CTA, sponsorship disclosure and truthful experience without turning qualifiers into universal guarantees; proposed personal wording may be used as a discussion draft when unconfirmed experience is marked for creator confirmation before use",
+        "Does not treat one creator's audience description or a colleague's country-level claim as established consumer evidence; any needed understanding check stays bounded to the intended audience",
+        "Gives a proportionate next check with an appropriate owner and review point before publication, without inventing acceptance, a market study, completed testing or an external action"
+      ]
+    },
+    {
+      "id": 49,
+      "category": "reply-monitoring-takeover-and-recovery",
+      "trigger": "should-trigger",
+      "prompt": "请看四个回复监控任务的记录，判断这轮各自下一步查什么、哪些可以不查，以及处理进度何时才能前进。保持够用，不另建平台。只用所给材料，不联网、不发送、不执行调度、不修改业务记录。",
+      "expected_output": "Use counts for efficient monitoring without losing authorized pending work or failed reads, and respect an explicit future-only cutoff.",
+      "files": [
+        "inputs/case49-monitoring.md"
+      ],
+      "expectations": [
+        "For A, inspects the authorized pending replies on takeover rather than treating the initial nonzero counters as already processed or waiting for another increase",
+        "For B, retries the unfinished B-15 read despite unchanged counters, retains B-14 as inspected progress until inspection and the decision record succeed, and checks current state before dependent action",
+        "For C, permits skipping repeated body reads when the covered messages are already inspected and no unfinished work remains",
+        "For D, honors the explicit future-only starting point without processing earlier replies or extending the authorized scope",
+        "Keeps replied creators, inbound messages, bounces and qualified intent distinct; uses existing records and stable message IDs rather than a new monitoring platform",
+        "Gives concrete proposed checks without inventing message contents, completed reads, sent replies, scheduled work or updated records"
+      ]
+    },
+    {
+      "id": 50,
+      "category": "research-versus-automatic-eligibility-authority",
+      "trigger": "should-trigger",
+      "prompt": "我们已批准一个自动流程：只选英国 YouTube、近期有真实露营使用场景的账号；符合条件且未触达过的对象，按已确认邮件和频次规则联系。当前命中较差。研究同事想在这些边界内把探索词从 portable power 换为 camping setup、off-grid weekend，先放独立研究队列、逐个核对；另一位同事想让现有自动流程直接纳入美国账号、放宽场景条件，并立刻发出邮件补量。请说明哪些准备可以自主推进、哪些需要我决定、现在能交付什么。先给建议，不搜索、不发送、不修改流程。",
+      "expected_output": "Allow reversible research within project constraints while reserving changes to automatic eligibility and external scope for user approval.",
+      "files": [],
+      "expectations": [
+        "Allows the bounded exploratory query and hypothesis refinement without demanding fresh permission for each keyword; keeps research candidates provisional until the approved criteria are checked",
+        "Identifies US expansion and relaxed scene eligibility as changes to the approved automatic rules and sending scope, and proposes them for user decision before activation",
+        "Preserves approved UK, platform, real-scene, deduplication, message and cadence boundaries while preparing a useful next research or decision plan",
+        "Does not infer authority to send, broaden the workflow, fabricate creator results or claim that a rule or business record has been changed"
+      ]
+    },
+    {
+      "id": 51,
+      "category": "brief-source-obligation-fidelity",
+      "trigger": "should-trigger",
+      "prompt": "请根据这次合作资料整理一份给达人的精简 Brief，并说明接下来如何推进制作。只使用所给材料，不联网、不发送、不修改记录。",
+      "expected_output": "Prepare a usable short Brief that preserves the accepted agreement's deliverables, attached conditions and next creative step without imposing a new output format.",
+      "files": [
+        "inputs/case51-brief-agreement.md"
+      ],
+      "expectations": [
+        "Preserves one 4–6 minute YouTube packing video containing a 30–45 second Pack T2 demonstration and one 15-second Instagram Story; keeps each duration attached to its own deliverable",
+        "Retains EUR 1,200 payable within ten business days after both placements are published, without changing the trigger to draft approval or only one placement",
+        "Keeps the brand's three-business-day draft review separate from the creator's five-calendar-day revision after consolidated feedback, with one included consolidated correction round",
+        "Retains the November 6–10 window with the exact day pending approval, YouTube's 90-day public availability and the 24-hour Story placement; excludes paid usage and a branded thumbnail",
+        "Uses the supplied 18-litre capacity, removable dividers, product link, audience action and sponsorship disclosure in both placements; does not add a discount or waterproof/all-weather claims",
+        "Moves to the accepted short concept and product placement without demanding a full script, silently changing scope or inventing testing, approval, sending, publication or payment completion"
+      ]
+    },
+    {
+      "id": 52,
+      "category": "product-feedback-handling-and-retest",
+      "trigger": "should-trigger",
+      "prompt": "最近社媒反馈很吵，团队想尽快安排达人内容和品牌回应。请读资料，给一个够用的处理建议、当前可讨论的回应和下一检查点。只使用所给材料，不联网、不发送、不发布、不修改业务记录。",
+      "expected_output": "Connect recurring use problems to responsible handling, relevant verification and a factual response while allowing supported guidance to proceed.",
+      "files": [
+        "inputs/case52-product-feedback.md"
+      ],
+      "expectations": [
+        "Distinguishes reposted discussion from first-hand use reports, preserves the unknown use conditions and defect rate, and prioritizes the outdoor-call problem by its purchase/use impact rather than mention count alone",
+        "Keeps shipped 1.2 separate from the unreleased 1.3 test branch and desk-fan observations; does not present a proposed adjustment as a released or generally verified fix",
+        "Connects the original outdoor-call question to a proportionate retest under relevant version, fit and wind conditions, with the product lead confirming handling/release facts and a concrete review point",
+        "Rejects the unsupported all-conditions solution and co-creation claims, while offering a factual current response that does not invent user participation, a release date or completed verification",
+        "Allows the supported pairing guide to be shared as guidance, scopes the two confirmations and does not require a product redesign or wind test before addressing the separate pairing issue",
+        "Keeps evidence, responsible role and next check clear in the existing workflow without building a new platform, promising product changes or claiming an external action occurred"
+      ]
+    },
+    {
+      "id": 53,
+      "category": "question-led-live-and-follow-through",
+      "trigger": "should-trigger",
+      "prompt": "下周计划做一场达人直播。请读资料，给一份够用的内容安排和直播后处理建议，判断哪些能用、哪些还要补，并说明下一步看什么。只使用所给材料，不联网、不发送、不发布、不投放、不修改业务记录。",
+      "expected_output": "Organize the live session around buyer questions, distinguish observable demonstrations from unresolved claims, and preserve conditions and follow-through in reuse.",
+      "files": [
+        "inputs/case53-question-led-live.md"
+      ],
+      "expectations": [
+        "Uses the actual buyer questions and creator's demonstrated workflow to choose useful pickup/roller-cleaning content rather than maximizing promotional moments or requiring every possible format",
+        "Keeps hard-floor/short-pile demonstrations usable within scope, preserves the manual's long-pile exclusion, and does not claim that a live demonstration establishes two-year durability",
+        "Assigns unsupported or unanswered questions to an appropriate follow-up owner and evidence check rather than requiring every question to be resolved live or fabricating a product test",
+        "Preserves material surface/use/maintenance conditions in clips or linked FAQ, corrects the unsupported durability caption and treats 30 seconds as a proposed format rather than an overriding requirement",
+        "Connects the chosen product-page/trial use to a relevant observation, source, owner and review condition; distinguishes views, reactions and code-attributed orders from understanding and causal incrementality",
+        "Preserves the signed agreement's website/organic channels, editing scope and November 2026 term; leaves paid use and spend pending authorization without inventing publication, ad launch or measured improvement"
+      ]
+    }
+  ]
+}

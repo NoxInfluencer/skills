@@ -1,0 +1,145 @@
+# Workspace Context Contract
+
+Use this reference when a project directory, Campaign workspace, CRM export, or team knowledge base is available. It keeps reusable method, current business state, and historical evidence in their proper places.
+
+## Contents
+
+- [Load the smallest useful context](#load-the-smallest-useful-context)
+- [Resolve source roles](#resolve-source-roles)
+- [Classify what was read](#classify-what-was-read)
+- [Keep one business record](#keep-one-business-record)
+- [Choose decision-relevant information](#choose-decision-relevant-information)
+- [Develop the operating method](#develop-the-operating-method)
+- [Implement automation](#implement-automation)
+- [Promote useful experience](#promote-useful-experience)
+- [Resolve conflicts and stale state](#resolve-conflicts-and-stale-state)
+
+## Load the smallest useful context
+
+When the user identifies a project or workspace:
+
+1. Read the nearest `AGENTS.md` or equivalent execution instructions.
+2. Read the project `README.md` or index to understand the map and current entry points.
+3. Read only topic documents that match the request: strategy, creator evaluation, outreach, fulfillment, measurement, compliance, knowledge management, or automation.
+4. Read the current business system or supplied export for the specific records being acted on.
+5. Read dated reports, snapshots, and lessons only when they explain a decision or expose a useful pattern.
+
+A one-off comparison usually needs a small slice. A sustained operation needs current rules, a state source, decision authority, and a place for the resulting record. Expand context only when a material uncertainty remains.
+
+## Resolve source roles
+
+When sources disagree, use the source appropriate to the kind of fact:
+
+1. **Objective or constraint for this round:** the user's latest explicit instruction.
+2. **Current state:** a fresh readback from the authoritative Campaign, CRM, mail, logistics, or platform system.
+3. **Operating rule:** the active project rules, approved brief, and execution instructions, unless the user explicitly changes them.
+4. **Reusable method:** reviewed team guidance and experienced practice.
+5. **History:** dated exports, reports, documents, screenshots, and temporary snapshots.
+6. **Unknowns:** an explicit, provisional assumption.
+
+This is authority by role, not a claim that older evidence is useless. Preserve a dated case as learning while using a live system for present state. Do not silently rewrite a record when the conflict changes a material action.
+
+## Classify what was read
+
+Label information in the working record when useful:
+
+| Kind | Use | Typical home |
+| --- | --- | --- |
+| Current fact | Decide and report present state | Campaign, CRM, mail, logistics, platform |
+| Active rule | Constrain current work | Project rules, `AGENTS.md`, approved brief |
+| Team method | Supply a reusable prior | Reviewed topic guide or baseline |
+| Machine state | Support identity, deduplication, monitoring, or automation | State JSON or application binding |
+| Historical evidence | Explain what happened at a point in time | Dated report, export, document, snapshot |
+| Learning | Record an observation or promoted pattern | Lessons or the owning topic document |
+
+Do not turn a machine snapshot or dated report into current truth without a fresh readback.
+
+## Keep one business record
+
+Carry the same creator or relationship identity across discovery, outreach, replies, terms, delivery, and measurement. Prefer a stable creator/channel ID; when none exists, retain a verified source URL and observation time. Display names, result-row positions, and boolean contact flags are supporting clues, not identity keys. Keep current status, owner, next action, and commercial terms in the authoritative system.
+
+The working record should preserve the reasoning that makes the next decision reproducible:
+
+```text
+goal / stage · hypothesis or question · creator or relationship identity
+evidence (source, freshness, and what it supports)
+decision and confidence · uncertainty or risk
+next action, owner, due point or review condition, and authority/confirmation
+observed result and resulting state
+```
+
+Use a concise record for reversible work and add detail when spend, rights, reputation, or lifecycle state changes. This is a decision record, not a duplicate CRM.
+
+By stage, retain coarse/fine discovery evidence; outreach version, recipients, authority and response state; monitoring counters and dated baseline; the quoted and accepted packages with their source messages; and the approved Brief/version, edits, milestones, public asset and metric definitions for delivery and learning. Link these to the owning records. A changed term should show who accepted it and which downstream work it affects.
+
+## Choose decision-relevant information
+
+Start with the reader and the decision they need to make now. Select from these dimensions; they are not fixed columns or a checklist for every stage.
+
+| Dimension | Decision-relevant information |
+| --- | --- |
+| Identity and fit | Creator/channel identity or source link; fit assessment supported by recent comparable content, audience/use scene, performance and material risks. |
+| Reply and intent | What the creator actually said, when and where; distinguish a human reply, an automatic acknowledgement, interest and agreement. |
+| Proposed cooperation | Fee and currency together with the associated deliverables, quantity, format/placement, duration, timing and rights. Keep material conditions attached to the quote. |
+| Current progress | Latest supported state, distinct from historical actions; who is responsible or being waited on when that affects the handoff. |
+| Decision gaps | Missing or conflicting facts, material trade-offs and the specific choice requiring the user or client. Separate preparation from actions requiring approval. |
+| Execution readiness | Product, content plan, sample/logistics, publication and payment information when the stage or current decision makes it relevant. |
+
+For internal research, emphasize qualification evidence and useful next checks. For preliminary client review, make eligible options comparable through fit, reply intent, known terms and decision-relevant unknowns; distinguish an incomplete batch from a complete recommendation. For operator handoff, cover the requested relationships, including stopped or uncertain ones, with their different blockers and responsibilities. A relationship's presence in an operational summary is not a recommendation to proceed.
+
+Keep assessments separate from the facts supporting them and make important unknowns visible. State the specific failed criterion rather than a broader unsupported conclusion. Retain source links or record IDs and dates needed to check material claims; brevity should not remove the known terms needed for a decision. Use the same relevant dimensions across comparable creators, summarize common conditions or actions once, and expand only meaningful differences.
+
+An exploratory choice does not require every contract or fulfillment field. Mark a relevant missing term as unknown; require its resolution before the action or commitment it affects, not before unrelated research or drafting. Follow the user's requested format without creating a new reporting or maintenance workflow merely to present these details.
+
+## Develop the operating method
+
+An SOP is a working method for producing a repeatable result. Build or refine it from the real workflow rather than from an idealized template:
+
+1. Observe the current inputs, decisions, systems, handoffs, outputs, and recurring failures.
+2. Identify which judgments require expertise and which actions can follow a stable rule.
+3. Define the minimum sequence, owners, evidence, confirmation points, completion test, and recovery path.
+4. Walk through a representative case and record missing decisions or handoffs. Use a bounded real case when execution is in scope; a document review can finish an SOP-only request.
+5. Revise the method from the observed result and keep one current project version.
+
+Keep the document proportional to the work. A short checklist may be enough for one repeated task; a cross-stage process may need states, role handoffs, templates, and measurement definitions. The SOP should help someone make the next correct decision, not preserve every historical action.
+
+## Implement automation
+
+Automation is the executable form of an approved operating method. Separate stable business logic from the runtime binding so the same intent can be implemented through Campaign settings, an Agent scheduler, a workspace state file, scripts, or another available system.
+
+Use the [automation contract](operating-design.md#make-automation-bounded-and-observable), binding its trigger, inputs, rules, authority and state to the actual runtime. Keep one maintained contract rather than separate project and implementation copies.
+
+For a pilot or its verification plan, compare expected actions with observed business state on a bounded scope. For recurring work, include duplicate input records and a repeated run; verify that neither creates duplicate work. Check the relevant stop or recovery condition, including what happens to already queued work when new evidence makes it ineligible.
+
+For implementation, build that smallest end-to-end path. Preserve the last verified state when a retryable dependency fails; re-read current state before retrying so the automation does not duplicate work. Distinguish a manual run using exports from an unattended workflow with a working trigger and input feed.
+
+When implementation cannot continue, return a capability gap rather than a speculative substitute:
+
+```text
+missing capability or access
+business step it blocks and evidence used to diagnose it
+exact account, permission, connection, API, input, or runtime the user must provide
+verification to run after it is available
+```
+
+Ask the user for that concrete requirement. Do not label a workflow operational until the required capability exists and the bounded readback succeeds.
+
+## Promote useful experience
+
+During authorized project work, update the project SOP or method when observed evidence changes how the next similar task should be performed. Keep current project rules, live business state, historical cases, and reusable method in their respective authoritative locations.
+
+Treat a single result as an observation or hypothesis. Promote it into the published general Skill or a shared baseline only when its conditions are understood and either repeated evidence supports it or an experienced operator validates it. Promotion to the general Skill requires review by the responsible influencer-marketing operations owner.
+
+When promoting a pattern, retain the situation, evidence, action, reasoning, observed result, applicability, and review date. Prefer revising one positive decision rule over adding a new exception list.
+
+## Resolve conflicts and stale state
+
+When a rule, snapshot, and live state differ:
+
+1. Identify the conflicting fact or decision.
+2. Compare source role and observation time.
+3. Read the current authoritative system when available.
+4. Preserve older material as dated historical evidence.
+5. Ask the user only when the remaining difference changes a material action or commitment.
+
+After a write or externally consequential action, read back the target record or state. A preview, queued job, or successful transport response is an execution signal; the final record, message, export, or public asset is the business evidence.

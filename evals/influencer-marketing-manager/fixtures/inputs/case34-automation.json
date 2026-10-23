@@ -1,0 +1,17 @@
+{
+  "source": "synthetic evaluation scenario",
+  "workflow": "Create internal follow-up tasks. Operators send messages manually.",
+  "rule": "After three days without a human reply, create a follow-up task. Stop on a reply or refusal, or after two follow-ups.",
+  "records": [
+    {"creator": 1, "last_sent": "2026-09-10", "followups_sent": 0, "reply": null},
+    {"creator": 2, "last_sent": "2026-09-10", "followups_sent": 0, "reply": null}
+  ],
+  "events": [
+    {"time": "2026-09-14T09:00:00Z", "action": "load_sheet", "result": "both records due; no tasks recorded"},
+    {"time": "2026-09-14T09:01:00Z", "action": "create_tasks", "result": "success", "tasks": [{"task": 1, "creator": 1}, {"task": 2, "creator": 2}]},
+    {"time": "2026-09-14T09:02:00Z", "action": "save_sheet_checkpoint", "result": "timeout; task references not saved"},
+    {"time": "2026-09-14T09:03:00Z", "action": "human_reply", "creator": 2, "message": "Thanks, please send more details."},
+    {"time": "2026-09-14T09:05:00Z", "action": "retry_from_sheet", "result": "same two records; existing tasks and current replies not read"},
+    {"time": "2026-09-14T09:06:00Z", "action": "create_tasks", "result": "success", "tasks": [{"task": 3, "creator": 1}, {"task": 4, "creator": 2}]}
+  ]
+}

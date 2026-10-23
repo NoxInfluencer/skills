@@ -1,0 +1,419 @@
+"""Local contract tests; no model calls, real login, or live marketing systems."""
+
+import json
+import re
+import tempfile
+import unittest
+from datetime import datetime
+from pathlib import Path
+from unittest.mock import patch
+
+import prepare_promptfoo_fixtures as fixtures
+from promptfoo_cases import SOURCE_READ_ASSERTIONS, _run_javascript, create_tests
+from review_results import inspect_result, inspect_shortlist_render
+from validate_evals import validate_document
+
+
+class ConversationContractTests(unittest.TestCase):
+    def test_followup_contract_rejects_missing_user_input_or_review(self):
+        document = json.loads((Path(__file__).parent / "evals.json").read_text())
+        case = next(item for item in document["evals"] if item["id"] == 31)
+        for followups in ("not a list", [None], [{"prompt": ""}], [{"prompt": "Continue"}],
+                          [{"prompt": "Continue", "expectations": [""]}]):
+            invalid = {**document, "evals": [{**case, "followups": followups}]}
+            self.assertTrue(validate_document(invalid))
+
+    def test_single_turn_adapter_cannot_discard_followups(self):
+        import promptfoo_cases
+        with patch.object(promptfoo_cases, "MANUAL_REVIEW_CASE_IDS", {31}):
+            with self.assertRaisesRegex(ValueError, "requires run_conversations"):
+                create_tests({"case_ids": [31]})
+
+    def test_qualitative_cases_keep_decisions_for_review(self):
+        for case_id in (37, 38, 39, 40, 42, 43, 45, 46, 47, 48, 49, 50, 51, 52, 53):
+            with self.subTest(case_id=case_id):
+                case, = create_tests({"case_ids": [case_id]})
+                self.assertEqual(case["metadata"]["outcome_review"], "manual")
+                self.assertNotIn("task-outcome", [item["metric"] for item in case["assert"]])
+                for criterion in case["metadata"]["expectations"]:
+                    self.assertNotIn(criterion, case["vars"]["request"])
+        with self.assertRaisesRegex(ValueError, "requires run_conversations"):
+            create_tests({"case_ids": [41]})
+
+
+class FixtureTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name)
+        paths = {
+            "EVAL_DIR": self.root / "eval",
+            "FIXTURE_ROOT": self.root / "eval" / "fixtures",
+            "SKILLS_DIR": self.root / "skills",
+            "WORKSPACE_DIR": self.root / "workspace",
+            "FIXTURES_DIR": self.root / "workspace" / "fixtures",
+            "CODEX_HOME_DIR": self.root / "workspace" / "codex-home",
+            "MANIFEST_PATH": self.root / "workspace" / "fixture-manifest.json",
+        }
+        for name, value in paths.items():
+            handle = patch.object(fixtures, name, value)
+            handle.start()
+            self.addCleanup(handle.stop)
+        self.source = fixtures.FIXTURE_ROOT / "inputs" / "source.json"
+        self.source.parent.mkdir(parents=True)
+        self.source.write_text('{"source":"synthetic"}')
+        document = {"skill_name": fixtures.MANAGER_SKILL, "evals": [{
+            "id": 13, "category": "workspace-conflict", "trigger": "boundary",
+            "prompt": "Read the supplied snapshot.", "expected_output": "Reconcile sources.",
+            "expectations": ["Uses source evidence"], "files": ["inputs/source.json"],
+        }]}
+        (fixtures.EVAL_DIR / "evals.json").write_text(json.dumps(document))
+        for name in ("promptfoo_cases.py", "promptfooconfig.yaml", "run_conversations.mjs"):
+            (fixtures.EVAL_DIR / name).write_text("test contract")
+        for name in (fixtures.MANAGER_SKILL, "neighbor"):
+            folder = fixtures.SKILLS_DIR / name
+            folder.mkdir(parents=True)
+            (folder / "SKILL.md").write_text(name)
+
+        def export(_ref, _name, destination):
+            destination.mkdir(parents=True)
+            (destination / "SKILL.md").write_text("old manager")
+
+        for name, replacement in (("_resolve_commit", lambda ref: "fixed-commit"), ("_export_skill", export)):
+            handle = patch.object(fixtures, name, replacement)
+            handle.start()
+            self.addCleanup(handle.stop)
+        # validate_document's default root is production-scoped; keep the test fully isolated.
+        validate = fixtures.validate_document
+        handle = patch.object(fixtures, "validate_document", lambda doc: validate(doc, fixtures.FIXTURE_ROOT))
+        handle.start()
+        self.addCleanup(handle.stop)
+
+    def test_identical_inputs_and_no_rubric_leakage(self):
+        manifest = fixtures.prepare("old", None)
+        fixtures.check_prepared()
+        self.assertTrue(manifest["only_manager_varies"])
+        for variant in ("baseline", "candidate"):
+            root = fixtures.FIXTURES_DIR / variant
+            self.assertEqual((root / "inputs/source.json").read_bytes(), self.source.read_bytes())
+            self.assertFalse((root / "evals.json").exists())
+
+    def test_stale_worktree_fails_before_run(self):
+        fixtures.prepare("old", None)
+        (fixtures.SKILLS_DIR / fixtures.MANAGER_SKILL / "SKILL.md").write_text("changed")
+        with self.assertRaisesRegex(ValueError, "Worktree Manager changed"):
+            fixtures.check_prepared()
+
+    def test_changed_case_contract_fails(self):
+        fixtures.prepare("old", None)
+        self.source.write_text("changed input")
+        with self.assertRaisesRegex(ValueError, "Eval contract changed"):
+            fixtures.check_prepared()
+
+    def test_modified_copied_input_fails(self):
+        fixtures.prepare("old", None)
+        (fixtures.FIXTURES_DIR / "candidate/inputs/source.json").write_text("changed copy")
+        with self.assertRaisesRegex(ValueError, "case fixture differs"):
+            fixtures.check_prepared()
+
+    def test_changed_neighbor_fails(self):
+        fixtures.prepare("old", None)
+        (fixtures.SKILLS_DIR / "neighbor/SKILL.md").write_text("changed neighbor")
+        with self.assertRaisesRegex(ValueError, "Shared Skill neighbor changed"):
+            fixtures.check_prepared()
+
+    def test_missing_manifest_fails(self):
+        with self.assertRaisesRegex(ValueError, "not prepared"):
+            fixtures.check_prepared()
+
+    def test_committed_candidate_is_not_invalidated_by_worktree(self):
+        fixtures.prepare("old", "candidate-commit")
+        (fixtures.SKILLS_DIR / fixtures.MANAGER_SKILL / "SKILL.md").write_text("unrelated local revision")
+        fixtures.check_prepared()
+
+
+class ClientBatchTests(unittest.TestCase):
+    def test_batch_and_shortfall_share_request_but_not_evidence(self):
+        tests = create_tests({"case_ids": [22, 23]})
+        self.assertEqual(tests[0]["vars"]["request"].split("Supplied read-only files:")[0],
+                         tests[1]["vars"]["request"].split("Supplied read-only files:")[0])
+        self.assertNotEqual(tests[0]["metadata"]["files"], tests[1]["metadata"]["files"])
+        for test in tests:
+            self.assertEqual(test["metadata"]["outcome_review"], "manual")
+            self.assertNotIn("task-outcome", [item["metric"] for item in test["assert"]])
+            self.assertNotIn(test["metadata"]["expected_output"], test["vars"]["request"])
+
+    def test_batch_source_check_requires_every_supplied_record(self):
+        source = json.loads((Path(__file__).parent / "fixtures/inputs/case22-client-batch.json").read_text())
+        ids = [source["record_id"]]
+        for creator in source["creators"]:
+            ids.append(creator["record_id"])
+            ids.extend(message["record_id"] for message in creator["messages"])
+        self.assertEqual(len(ids), len(set(ids)))
+
+        def grade(record_ids):
+            item = {"type": "command_execution", "exit_code": 0, "aggregated_output": " ".join(record_ids)}
+            return _run_javascript(SOURCE_READ_ASSERTIONS[22], "", {"providerResponse": {"raw": {"items": [item]}}})["pass"]
+
+        self.assertTrue(grade(ids))
+        for missing in ids:
+            with self.subTest(missing=missing):
+                self.assertFalse(grade([record_id for record_id in ids if record_id != missing]))
+        self.assertEqual(SOURCE_READ_ASSERTIONS[23], SOURCE_READ_ASSERTIONS[21])
+
+
+class OperatorFollowupTests(unittest.TestCase):
+    def setUp(self):
+        self.source = json.loads((Path(__file__).parent / "fixtures/inputs/case24-operator-followups.json").read_text())
+
+    def test_client_and_operator_requests_share_evidence_not_rubrics(self):
+        operator, client = create_tests({"case_ids": [24, 25]})
+        self.assertEqual(operator["metadata"]["files"], client["metadata"]["files"])
+        self.assertNotEqual(operator["vars"]["request"], client["vars"]["request"])
+        self.assertNotEqual(operator["metadata"]["expected_output"], client["metadata"]["expected_output"])
+        self.assertNotEqual(operator["metadata"]["expectations"], client["metadata"]["expectations"])
+        self.assertEqual(SOURCE_READ_ASSERTIONS[25], SOURCE_READ_ASSERTIONS[24])
+        self.assertEqual(operator["assert"], client["assert"])
+        for test in (operator, client):
+            self.assertEqual(test["metadata"]["outcome_review"], "manual")
+            self.assertNotIn("task-outcome", [item["metric"] for item in test["assert"]])
+            for criterion in [test["metadata"]["expected_output"], *test["metadata"]["expectations"]]:
+                self.assertNotIn(criterion, test["vars"]["request"])
+            for record in self.source["crm_snapshot"]["records"]:
+                self.assertNotIn(record["creator_name"], test["vars"]["request"])
+
+    def test_operator_case_requires_manual_review_without_rubric_leakage(self):
+        test, = create_tests({"case_ids": [24]})
+        self.assertEqual(test["metadata"]["outcome_review"], "manual")
+        self.assertEqual([item["metric"] for item in test["assert"]],
+                         ["response-evidence", "routing-evidence", "fixture-evidence"])
+        for criterion in [test["metadata"]["expected_output"], *test["metadata"]["expectations"]]:
+            self.assertNotIn(criterion, test["vars"]["request"])
+        self.assertEqual(test["metadata"]["files"], ["inputs/case24-operator-followups.json"])
+
+    def test_source_check_requires_every_supplied_record(self):
+        ids = [self.source[key]["record_id"] for key in ("project", "followup_log", "crm_snapshot", "mail_snapshot")]
+        ids.extend(self.source["followup_log"]["user_confirmed_followups"])
+        ids.extend(message["record_id"] for message in self.source["mail_snapshot"]["messages"])
+        self.assertEqual(len(ids), 13)
+        self.assertEqual(len(ids), len(set(ids)))
+
+        def grade(record_ids):
+            item = {"type": "command_execution", "exit_code": 0, "aggregated_output": " ".join(record_ids)}
+            return _run_javascript(SOURCE_READ_ASSERTIONS[24], "", {"providerResponse": {"raw": {"items": [item]}}})["pass"]
+
+        self.assertTrue(grade(ids))
+        for missing in ids:
+            with self.subTest(missing=missing):
+                self.assertFalse(grade([record_id for record_id in ids if record_id != missing]))
+
+    def test_claims_and_failed_commands_are_not_source_read_evidence(self):
+        contents = json.dumps(self.source)
+        item = {"type": "command_execution", "exit_code": 0, "aggregated_output": contents}
+        for change in ({"exit_code": 1}, {"type": "agent_message"}, {"aggregated_output": ""}):
+            with self.subTest(change=change):
+                result = _run_javascript(SOURCE_READ_ASSERTIONS[24], contents,
+                                         {"providerResponse": {"raw": {"items": [{**item, **change}]}}})
+                self.assertFalse(result["pass"])
+        self.assertFalse(_run_javascript(SOURCE_READ_ASSERTIONS[24], contents)["pass"])
+
+    def test_fixture_preserves_state_conflicts_and_missing_evidence(self):
+        log = self.source["followup_log"]["user_confirmed_followups"]
+        crm = {row["record_id"]: row for row in self.source["crm_snapshot"]["records"]}
+        messages = {row["relationship_id"]: row for row in self.source["mail_snapshot"]["messages"]}
+        self.assertEqual(set(log), {f"REL-24-{letter}" for letter in "ABCDE"})
+        self.assertEqual(set(crm), {f"REL-24-{letter}" for letter in "ABCD"})
+        self.assertEqual(len(self.source["crm_snapshot"]["records"]), 4)
+        self.assertEqual(set(messages), set(crm))
+        self.assertEqual(len(self.source["mail_snapshot"]["messages"]), 4)
+        self.assertEqual(set(log["REL-24-E"]), {"creator_name", "sent_at"})
+        for record_id in crm:
+            self.assertEqual(log[record_id]["creator_name"], crm[record_id]["creator_name"])
+            self.assertIsNone(crm[record_id]["cooperation_approval"])
+        self.assertEqual(messages["REL-24-A"]["headers"]["Auto-Submitted"], "auto-replied")
+        self.assertIsNone(crm["REL-24-A"]["quoted_fee"])
+        for record_id, status in (("REL-24-B", "closed"), ("REL-24-D", "excluded")):
+            with self.subTest(record_id=record_id):
+                self.assertEqual(crm[record_id]["status"], status)
+                self.assertLess(log[record_id]["sent_at"], crm[record_id]["updated_at"])
+                self.assertLess(crm[record_id]["updated_at"], messages[record_id]["received_at"])
+        self.assertEqual(crm["REL-24-C"]["owner"], "Mina")
+        self.assertEqual(crm["REL-24-C"]["status"], "client_review")
+        self.assertLess(log["REL-24-C"]["sent_at"], crm["REL-24-C"]["updated_at"])
+
+
+class ConversationEvidenceTests(unittest.TestCase):
+    def setUp(self):
+        self.tests = create_tests({"case_ids": [26, 27, 28, 29, 30]})
+        self.sources = {
+            test["metadata"]["case_id"]: json.loads(
+                (Path(__file__).parent / "fixtures" / test["metadata"]["files"][0]).read_text()
+            ) for test in self.tests
+        }
+
+    def test_manual_review_and_no_rubric_in_request_or_evidence(self):
+        def keys(value):
+            if isinstance(value, dict):
+                for key, item in value.items():
+                    yield key
+                    yield from keys(item)
+            elif isinstance(value, list):
+                for item in value:
+                    yield from keys(item)
+
+        for test in self.tests:
+            with self.subTest(case_id=test["metadata"]["case_id"]):
+                self.assertEqual(test["metadata"]["outcome_review"], "manual")
+                self.assertEqual([item["metric"] for item in test["assert"]],
+                                 ["response-evidence", "routing-evidence", "fixture-evidence"])
+                evidence = self.sources[test["metadata"]["case_id"]]
+                for criterion in [test["metadata"]["expected_output"], *test["metadata"]["expectations"]]:
+                    self.assertNotIn(criterion, test["vars"]["request"])
+                    self.assertNotIn(criterion, json.dumps(evidence))
+                self.assertFalse(set(keys(evidence)) & {
+                    "expected_output", "expectations", "current_quote", "intent", "cooperation_status", "recommended_action",
+                })
+
+    def test_source_checks_require_all_records_and_successful_reads(self):
+        for case_id, source in self.sources.items():
+            ids = [source["record_id"], source["project"]["record_id"]]
+            ids.extend(message["record_id"] for message in source["messages"])
+            self.assertEqual(len(ids), len(set(ids)))
+
+            def grade(record_ids, **changes):
+                item = {"type": "command_execution", "exit_code": 0,
+                        "aggregated_output": " ".join(record_ids), **changes}
+                return _run_javascript(SOURCE_READ_ASSERTIONS[case_id], "I read the source",
+                                       {"providerResponse": {"raw": {"items": [item]}}})["pass"]
+
+            with self.subTest(case_id=case_id):
+                self.assertTrue(grade(ids))
+                for missing in ids:
+                    self.assertFalse(grade([record_id for record_id in ids if record_id != missing]))
+                self.assertFalse(grade(ids, exit_code=1))
+                self.assertFalse(grade(ids, type="agent_message"))
+
+    def test_messages_are_ordered_and_do_not_cross_snapshot_cutoff(self):
+        for case_id, source in self.sources.items():
+            with self.subTest(case_id=case_id):
+                cutoff = datetime.fromisoformat(source["snapshot_at"])
+                times = [datetime.fromisoformat(message["sent_at"]) for message in source["messages"]]
+                self.assertEqual(times, sorted(times))
+                self.assertTrue(all(time <= cutoff for time in times))
+
+    def test_terms_checkpoints_have_identical_request_and_strict_prefix_evidence(self):
+        before, after = self.sources[27], self.sources[28]
+        before_test, after_test = self.tests[1:3]
+        self.assertEqual(before_test["vars"]["request"].split("Supplied read-only files:")[0],
+                         after_test["vars"]["request"].split("Supplied read-only files:")[0])
+        self.assertNotEqual(before_test["metadata"]["files"], after_test["metadata"]["files"])
+        self.assertEqual(len(before["messages"]), 7)
+        self.assertEqual(len(after["messages"]), 13)
+        self.assertEqual(before["messages"], after["messages"][:len(before["messages"])])
+        self.assertEqual({key: value for key, value in before.items() if key not in {"messages", "snapshot_at"}},
+                         {key: value for key, value in after.items() if key not in {"messages", "snapshot_at"}})
+        for message in after["messages"][len(before["messages"]):]:
+            self.assertGreater(datetime.fromisoformat(message["sent_at"]), datetime.fromisoformat(before["snapshot_at"]))
+            self.assertNotIn(message["record_id"], json.dumps(before))
+            self.assertNotIn(message["body"], json.dumps(before))
+
+    def test_transport_ambiguity_and_attachment_limits_remain_in_inputs(self):
+        mixed = self.sources[26]
+        self.assertEqual(mixed["messages"][-1]["from_type"], 2)
+        self.assertNotEqual(mixed["messages"][-1]["from"], mixed["messages"][1]["from"])
+        first_reply, repeated_reply = mixed["messages"][1:3]
+        self.assertEqual(first_reply["body"], repeated_reply["body"])
+        self.assertEqual(first_reply["attachments"], repeated_reply["attachments"])
+        self.assertNotEqual(first_reply["record_id"], repeated_reply["record_id"])
+        self.assertEqual(set(first_reply["attachments"][0]), {"name", "size_bytes"})
+        latest = self.sources[30]["messages"][-1]
+        self.assertEqual(latest["send_name"], "Mira")
+        self.assertTrue(latest["body"].endswith("Best, Nora"))
+
+    def test_adaptations_use_reserved_contact_domains(self):
+        for case_id, source in self.sources.items():
+            with self.subTest(case_id=case_id):
+                self.assertEqual(source["fixture_kind"], "adapted-evaluation-example")
+                self.assertIn("invented", source["export_notes"]["adaptation"])
+                text = json.dumps(source)
+                addresses = re.findall(r"[\w.+-]+@([\w.-]+)", text)
+                self.assertTrue(addresses)
+                self.assertTrue(all(domain.endswith(".example") for domain in addresses))
+                self.assertNotRegex(text, r"https?://")
+
+
+class ReportTests(unittest.TestCase):
+    def test_renderer_observation_does_not_create_an_outcome_grade(self):
+        rendered = {"markdown": "| Name |\n| --- |\n| Alpha |", "selected_ids": ["alpha"], "selected_count": 1, "shortfall": 4}
+        item = {"type": "command_execution", "exit_code": 0, "command": "python3 skill/scripts/render_shortlist.py", "aggregated_output": json.dumps(rendered)}
+        response = {"raw": json.dumps({"items": [item]}), "output": "Partial batch\n" + rendered["markdown"]}
+        result = inspect_result({"response": response})
+        self.assertTrue(result["shortlist_render"]["table_in_final"])
+        self.assertEqual(result["shortlist_render"]["shortfall"], 4)
+        self.assertEqual(result["metrics"], {})
+        response["output"] = rendered["markdown"].replace("Alpha", "Beta")
+        self.assertFalse(inspect_shortlist_render(response)["table_in_final"])
+
+    def test_renderer_claim_or_failed_command_is_not_execution_evidence(self):
+        item = {"type": "command_execution", "exit_code": 0, "command": "python3 skill/scripts/render_shortlist.py", "aggregated_output": json.dumps({"markdown": "a table"})}
+        for patch_values in ({"exit_code": 1}, {"type": "agent_message"}, {"command": "read source"}, {"aggregated_output": "not JSON"}):
+            with self.subTest(patch_values=patch_values):
+                self.assertIsNone(inspect_shortlist_render({"raw": {"items": [{**item, **patch_values}]}, "output": "I ran the renderer"}))
+        self.assertIsNone(inspect_shortlist_render({"raw": "invalid", "output": "I ran the renderer"}))
+        for raw in (None, [], {"items": None}, {"items": [None]}):
+            self.assertIsNone(inspect_shortlist_render({"raw": raw}))
+
+    def test_failed_assertion_is_not_runtime_error(self):
+        row = {"failureReason": 1, "error": "assertion failed", "gradingResult": {"componentResults": [
+            {"assertion": {"metric": "task-outcome"}, "pass": True},
+            {"assertion": {"metric": "routing-evidence"}, "pass": False},
+        ]}}
+        result = inspect_result(row)
+        self.assertFalse(result["runtime_error"])
+        self.assertTrue(result["metrics"]["task-outcome"]["pass"])
+        self.assertFalse(result["metrics"]["routing-evidence"]["pass"])
+
+    def test_timeout_is_not_skill_failure(self):
+        result = inspect_result({"failureReason": 2, "error": "timeout"}, regrade=True)
+        self.assertTrue(result["runtime_error"])
+        self.assertEqual(result["metrics"], {})
+
+    def test_natural_routing_stays_separate(self):
+        row = {"testCase": {"metadata": {"case_id": 19, "evaluation_mode": "natural-routing"}}}
+        self.assertEqual(inspect_result(row)["mode"], "natural-routing")
+
+    def test_missing_grades_are_not_passes(self):
+        self.assertEqual(inspect_result({"response": {"output": "ungraded"}})["metrics"], {})
+
+    def test_manual_case_evidence_is_not_a_task_pass(self):
+        row = {"testCase": {"metadata": {"case_id": 21, "outcome_review": "manual"}}, "response": {"output": "Review me"}, "gradingResult": {"componentResults": [
+            {"assertion": {"metric": "response-evidence"}, "pass": True},
+            {"assertion": {"metric": "routing-evidence"}, "pass": True},
+            {"assertion": {"metric": "fixture-evidence"}, "pass": True},
+        ]}}
+        with patch("review_results._run_javascript_assertion") as grader:
+            result = inspect_result(row, regrade=True)
+            grader.assert_not_called()
+        self.assertTrue(result["manual_review_required"])
+        self.assertNotIn("task-outcome", result["metrics"])
+
+    def test_manual_case_timeout_has_no_successful_evidence(self):
+        result = inspect_result({"testCase": {"metadata": {"case_id": 21, "outcome_review": "manual"}}, "failureReason": 2, "error": "timeout"})
+        self.assertTrue(result["runtime_error"])
+        self.assertEqual(result["metrics"], {})
+
+    def test_replay_changes_only_outcome_without_overwriting_saved_grade(self):
+        row = {"testCase": {"metadata": {"case_id": 12}}, "response": {"output": "saved output"}, "gradingResult": {"componentResults": [
+            {"assertion": {"metric": "task-outcome"}, "pass": True},
+            {"assertion": {"metric": "routing-evidence"}, "pass": False},
+        ]}}
+        with patch("review_results._run_javascript_assertion", return_value={"pass": False, "reason": "new check"}) as grader:
+            result = inspect_result(row, regrade=True)
+            grader.assert_called_once_with(12, "saved output")
+        self.assertFalse(result["metrics"]["task-outcome"]["pass"])
+        self.assertFalse(result["metrics"]["routing-evidence"]["pass"])
+        self.assertTrue(row["gradingResult"]["componentResults"][0]["pass"])
+
+
+if __name__ == "__main__":
+    unittest.main()

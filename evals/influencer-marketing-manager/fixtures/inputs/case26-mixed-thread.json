@@ -1,0 +1,112 @@
+{
+  "record_id": "MAIL-26",
+  "fixture_kind": "adapted-evaluation-example",
+  "snapshot_at": "2026-07-15T18:00:00Z",
+  "project": {
+    "record_id": "BRIEF-26",
+    "brand": "VOLTLEAF (fictional)",
+    "product": "portable power banks and charging accessories",
+    "platform": "YouTube",
+    "requested_format": "long-form video integration or pre/mid-roll",
+    "timing": "flexible"
+  },
+  "export_notes": {
+    "adaptation": "Rewritten evaluation example; identities, dates and commercial values are invented.",
+    "from_type": {"1": "outbound from the connected mailbox", "2": "inbound to the connected mailbox"},
+    "send_status": "Status code supplied in this example; its definition is not supplied.",
+    "attachments": "Metadata only; attachment bodies are not included."
+  },
+  "messages": [
+    {
+      "record_id": "MESSAGE-26-01",
+      "sent_at": "2026-07-02T08:00:00Z",
+      "from_type": 1,
+      "send_status": 0,
+      "from": "mira@agency.example",
+      "to": ["team@fieldpaws.example"],
+      "subject": "VOLTLEAF x Field Paws — YouTube collaboration",
+      "body": "Hi Jules and Robin, your van-travel videos look like a natural setting for portable charging. I am Mira, working with VOLTLEAF. Would you be interested in a YouTube integration or pre/mid-roll? Timing is flexible. We can also discuss sending a product to try before deciding on a paid collaboration. Best, Mira"
+    },
+    {
+      "record_id": "MESSAGE-26-02",
+      "sent_at": "2026-07-05T10:20:00Z",
+      "from_type": 2,
+      "from": "team@fieldpaws.example",
+      "to": ["mira@agency.example"],
+      "subject": "Re: VOLTLEAF x Field Paws — YouTube collaboration",
+      "body": "Hi Mira, we would be interested in hearing more. Our current media kit is attached. Thanks, Jules and Robin, Field Paws",
+      "attachments": [{"name": "kit-current.pdf", "size_bytes": 2178048}]
+    },
+    {
+      "record_id": "MESSAGE-26-03",
+      "sent_at": "2026-07-05T10:23:00Z",
+      "from_type": 2,
+      "from": "team@fieldpaws.example",
+      "to": ["mira@agency.example"],
+      "subject": "Re: VOLTLEAF x Field Paws — YouTube collaboration",
+      "body": "Hi Mira, we would be interested in hearing more. Our current media kit is attached. Thanks, Jules and Robin, Field Paws",
+      "attachments": [{"name": "kit-current.pdf", "size_bytes": 2178048}]
+    },
+    {
+      "record_id": "MESSAGE-26-04",
+      "sent_at": "2026-07-06T09:00:00Z",
+      "from_type": 1,
+      "send_status": 0,
+      "from": "mira@agency.example",
+      "to": ["team@fieldpaws.example"],
+      "subject": "Re: VOLTLEAF x Field Paws — YouTube collaboration",
+      "body": "Thanks for sending your media kit and rates. I will discuss them with the VOLTLEAF team and come back to you. Best, Mira"
+    },
+    {
+      "record_id": "MESSAGE-26-05",
+      "sent_at": "2026-07-08T08:30:00Z",
+      "from_type": 1,
+      "send_status": 0,
+      "from": "mira@agency.example",
+      "to": ["team@fieldpaws.example"],
+      "subject": "Re: VOLTLEAF x Field Paws — YouTube collaboration",
+      "body": "Hi Jules and Robin, would three YouTube integrations for a total of £1,800 work for you? This would be £600 per integration, with each payment made separately after the corresponding video is published. Please let me know what you think of this VOLTLEAF proposal. Best, Mira"
+    },
+    {
+      "record_id": "MESSAGE-26-06",
+      "sent_at": "2026-07-11T08:00:00Z",
+      "from_type": 1,
+      "send_status": 0,
+      "from": "mira@agency.example",
+      "to": ["team@fieldpaws.example"],
+      "subject": "Re: VOLTLEAF x Field Paws — YouTube collaboration",
+      "body": "Hi both, following up on the three-integration VOLTLEAF package below. Is that scope and fee workable for you? Best, Mira"
+    },
+    {
+      "record_id": "MESSAGE-26-07",
+      "sent_at": "2026-07-14T08:00:00Z",
+      "from_type": 1,
+      "send_status": 0,
+      "from": "mira@agency.example",
+      "to": ["team@fieldpaws.example"],
+      "subject": "Re: VOLTLEAF x Field Paws — YouTube collaboration",
+      "body": "Just checking whether you have had a chance to review the VOLTLEAF offer. Happy to hear your feedback. Best, Mira"
+    },
+    {
+      "record_id": "MESSAGE-26-08",
+      "sent_at": "2026-07-15T08:00:00Z",
+      "from_type": 1,
+      "send_status": 0,
+      "from": "mira@agency.example",
+      "to": ["team@fieldpaws.example"],
+      "cc": ["leon@agency.example"],
+      "subject": "Re: VOLTLEAF x Field Paws — YouTube collaboration",
+      "body": "Hi Jules and Robin, I am introducing my colleague Leon, who has a separate camera-brand opportunity for you. I will continue handling VOLTLEAF; Leon will handle the camera opportunity. He will share the details here. Best, Mira"
+    },
+    {
+      "record_id": "MESSAGE-26-09",
+      "sent_at": "2026-07-15T12:00:00Z",
+      "from_type": 2,
+      "from": "leon@agency.example",
+      "to": ["team@fieldpaws.example"],
+      "cc": ["mira@agency.example"],
+      "subject": "Re: VOLTLEAF x Field Paws — YouTube collaboration",
+      "body": "Hi Jules and Robin, nice to meet you. I work with LENSNEST on a camera campaign. Could we discuss £600 for a 2–3 minute YouTube integration plus a short clip cross-posted to your social channels? The proposal includes two months of content usage, an 8% affiliate commission and keeping the product. Looking forward to your thoughts. Best, Leon"
+    }
+  ]
+}

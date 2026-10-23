@@ -2,20 +2,7 @@
 
 ## API-backed Commands
 
-These commands return the standard API envelope:
-
-- `creator ...`
-- `monitor ...`
-- `campaign ...`
-- `collection ...`
-- `email ...`
-- `message ...`
-- `crm ...`
-- `brand-monitor ...`
-- `dispute ...`
-- `export ...`
-- `quota`
-- `pricing`
+API-backed business commands normally return a JSON envelope. File downloads and local helpers have different outputs; follow the individual command schema.
 
 Successful responses include `success`, `data`, `summary`, and `meta`. Some current endpoints may also include a legacy compatibility field named `credits`.
 
@@ -27,10 +14,10 @@ Notes:
 - Some current API envelopes may still include a legacy `credits` field for compatibility; do not treat it as the primary quota model
 - Mutation commands default to dry-run; `--force` executes the write after user approval
 - Non-GET writes automatically use `Idempotency-Key`; `--idempotency-key` can override it for automation
-- JSON-first commands declare `supports_body_file: true` in schema and require `--body-file`
+- JSON-first commands declare `supports_body_file: true`; check schema for whether the body is required and which fields are documented. A missing field description does not by itself prove the operation is unsupported
 - `export download` writes binary data to `--output`, not stdout
 
-Error responses include an `action` field with next-step guidance:
+Error responses may include an `action` field with recovery guidance. Interpret it under the Skill's Execution Route; a URL does not authorize browser automation:
 
 ```json
 {
@@ -62,6 +49,7 @@ These commands have their own response structures — do not assume the API enve
 ## Agent Diagnostics
 
 - Use `--trace-json` when a harness or eval needs structured request traces on stderr.
-- Use `schema --all` to verify the installed CLI exposes the expected modern command tree, including `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `dispute`, `export`, `feedback`, `quota`, `pricing`, and `agent`. Version output alone is not sufficient when a local/global install has stale compiled files. If reinstalling `@noxinfluencer/cli@latest` still lacks the expected command groups, stop the affected workflow and report a CLI package / command-tree mismatch.
+- Check the installed version and `schema --all`, then the exact operation's schema/help. Version output alone is insufficient if a local/global install has stale compiled files. Missing commands may require an upgrade; missing permissions or failed requests require their own recovery. If a current package still lacks the operation, report the specific capability gap and pause only dependent work.
 - Use `noxinfluencer agent exit-codes` to distinguish retryable failures such as rate limits or temporary upstream failures from invalid requests and auth problems.
+- For non-JSON failures, report the HTTP or transport evidence without inventing an `action` or a specific auth/quota cause. Configured local credentials do not prove API access.
 - Use `doctor` as the first diagnostic step when the failure cause is unclear.

@@ -1,6 +1,6 @@
 # Marketing Ops Workflows
 
-Use this reference for NoxInfluencer campaign, collection, CRM, email, message, product, short-link, affiliation, creator dispute, file, report, and export operations. Keep command parameters runtime-discovered with `noxinfluencer schema <cmd>`.
+Use this reference for NoxInfluencer marketing operations. Discover parameters with `noxinfluencer schema <cmd>` and apply the Skill's Execution Route to capability gaps and web steps.
 
 ## Domain Routing
 
@@ -19,8 +19,12 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 | Query, import, or update NoxInfluencer CRM channels | `crm list/get/update`, `crm import-template/import-file/import-report`, `crm groups ...` |
 | Manage CRM labels for batch tagging | `crm labels list/create/update/delete` |
 | Manage product-center records, images, and tags | `product list/get/create/update/delete`, `product image upload`, `product tags ...` |
+| Track shipped creator samples or import shipment spreadsheets | `logistics list/get/carriers/options`, then `create/update/delete` or `import-template/import-file/import-report`; `export` downloads saved tracking |
 | Manage Shopify affiliate campaigns and members | `affiliation stores list`, then `affiliation campaigns ...` / `affiliation members ...`; use member template/import and campaign export for files |
-| Send standalone platform email outreach to creators | `email create`, then `email recipients add/replace` with creator search/profile IDs, `email content save`, `email sender list [task_id]` before optional `email sender update`, optional `email attachments ...`, then `email send` or `email schedule` |
+| Search TikTok Shop Creator Marketplace or manage private-message projects | `tiktok-shop bindings list`, then `creator-search ...` / `projects ...` |
+| Search TikTok product, shop, or live-market GMV | `tiktok search product|shop|live --body-file <path>`; use `schema tiktok.search` for fields |
+| Send standalone platform email outreach to creators | `email create`, then `email recipients add/replace` with search `data.items[].id` or creator read `data.creator_id` in the recipient `creator_id` field, `email content save`, `email sender list [task_id]` before optional `email sender update`, optional `email attachments ...`, then `email send` or `email schedule` |
+| Add recipients to an intelligent Campaign fixed task | Check dedicated runtime support; follow the Campaign boundary under Outreach Routing below |
 | Manage email tasks | `email list`, `email drafts`, `email get`, `email create`, `email update`, `email recipients ...`, `email content ...`, `email sender ...`, `email report`, `email team-summary`, `email team-breakdown` |
 | Import email recipients | `email recipients import-template`, then `email recipients import-file` |
 | Manage email recipient deduplication | `email recipients filter options`, then `email recipients filter get/update/tasks` |
@@ -37,27 +41,55 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 
 ## Outreach Routing
 
-- For standalone NoxInfluencer platform email outreach, do not call `creator contacts` first. Create or select an email task without `campaign_id`, add search/profile result `creator_id` values with `email recipients add/replace`, save user-approved content with `email content save`, set sender if needed, read back task and recipients, then ask for final approval before `email send --force` or `email schedule --force`. Manage intelligent Campaign email in SaaS until Campaign supports multiple email tasks.
-- Use `creator contacts` only when the user explicitly wants visible/exported contact info or outreach outside NoxInfluencer. If the user vaguely asks to "find emails and send", choose platform email by default and say exported email retrieval uses extra contact quota.
+- For standalone platform email, follow the Skill's Retrieving Contacts and Email Task Boundary rules. Create or select a type 3 task, add resolved recipients, save approved content with `email content save`, set the sender if needed, and read back the task and recipients before an approved `email send --force` or `email schedule --force`.
+- An intelligent Campaign initializes three fixed tasks by recipient source: type 0 manual-add, type 1 proactive invitation, and type 2 creator application. A source type does not identify a writable task. Dedicated CLI support is under development: check current schema, preserve the Campaign target when blocked, and never guess a fixed `task_id` or substitute a standalone task. The standalone field restrictions remain in the Skill's Email Task Boundary.
 - Email attachments belong to the email task primary project. Upload approved files with `email attachments upload <task_id> --file <path>` before send or schedule; use `email attachments list/download/delete` to inspect, retrieve, or remove files. Email tasks support at most 1 attachment, max 10MB. Uploading or deleting an attachment cancels an existing scheduled send, so read back the task and confirm again before scheduling.
 - If approved recipients come from Excel, download `email recipients import-template` and use `email recipients import-file <task_id>`. Do not invent spreadsheet columns.
 - Email recipient import is only available before the task enters its active send flow.
 - For one email task's reply reporting, use `email report <task_id>`. For multi-task or team-level reporting, use `email team-summary`; for SaaS team member breakdown, use `email team-breakdown`. Treat `reply_count` as email tracking replies, `replied_creator_count` as replied creators, and `inbound_message_count` as inbound reply messages. Team filters use SaaS team member `uid`, not Gmail or enterprise sender mailbox accounts. Do not recompute replies by manually scanning message threads unless the user explicitly asks for raw thread inspection.
-- If the user wants in-platform DM/message, `message send` and `message schedule` require an existing `thread_id`. If the user only has an email task ID, use `message list --business_kind email_task --business_id <task_id>` to resolve the thread first. Without a thread, say that starting a new message thread is not exposed by the CLI and offer the email-task path for platform creators.
+- Message-center replies use `message send` or `message schedule` with an existing `thread_id`. If the user only has an email task ID, use `message list --business_kind email_task --business_id <task_id>` to resolve the thread first. If none exists, check runtime support for the requested messaging workflow; do not replace a reply with a standalone email task. TikTok Shop private messaging uses `tiktok-shop projects`.
 - For message-center filtering by task creator or team member, first run `message creator-filters`, then use returned `user_uid` values with `message list --creator_uids` or `message project-filters --creator_uids`.
-- For message-center pending work, trust `needs_reply` / `last_message_direction`; `deal` is not the same as `unread`. If one opened task is already replied but SaaS still shows pending, inspect siblings with `message projects <thread_id>`. Use `message archive` only when the user explicitly wants the creator's entire conversation archived; it includes sibling task threads and is separate from `crm archive`. If only one task needs no reply, do not send an empty reply or archive the conversation; task-level mark-handled is not exposed yet.
+- For message-center pending work, trust `needs_reply` / `last_message_direction`; `deal` is not the same as `unread`. If one opened task is already replied but pending work remains, inspect siblings with `message projects <thread_id>`. Use `message archive` only for an explicitly requested whole-conversation archive; it includes sibling task threads and is separate from `crm archive`. If only one task needs no reply, check current task-level mark-handled support and report any gap; never send an empty reply or archive the conversation as a substitute.
 - Message draft/history attachments and message-template attachments are separate. Use `message attachments list/upload/download/delete` for thread files and `message templates attachments list/upload/download/delete` for reusable template files. Never reuse IDs across the two paths. One template supports at most 2 private attachments, max 10MB each.
 - Use `file image upload` for public inline images in approved email/message `html_body`. The returned `file_url` is public and is not a private email, message, or template attachment.
 - `crm add-to-email` is only for adding existing NoxInfluencer CRM channels to an existing email task. Do not treat CRM as required when the user already has creator IDs or explicit email addresses.
 
+## Sample Logistics
+
+Use native `logistics` for SaaS sample tracking; it does not purchase shipping labels or dispatch parcels. Single registration requires a resolved creator and also adds that creator to CRM. Check current `pricing tools` before paid registration, effective updates, or imports; SaaS logistics entitlement/quota remains separate. Imports may partially succeed: preserve success/failure counts and use the returned `report_url` with `logistics import-report` to fix only failed rows. Exports and reports download directly, without shared export polling.
+
 ## Affiliate Marketing
 
 - Use `affiliation` for Shopify affiliate stores, campaigns, members, tracking links, discount codes, and performance reads. This is separate from normal `short-link`.
-- Start with `affiliation stores list`. If no store is authorized or access is denied, ask the user to authorize/manage the store in SaaS; do not attempt store authorization in the Skill.
+- Start with `affiliation stores list`. If store authorization is missing, ask the user to complete it; if access is denied, report the permission issue. Resume CLI work after verifying access.
 - Add NoxInfluencer creators to affiliate campaigns with search/profile `creator_id`, or use `platform + channel_id` / `custom_id` when the CLI schema calls for it.
 - For owned creator links, download `affiliation members import-template` and submit `.xls` or `.xlsx` with `affiliation members import-file <campaign_id>`; max file size is 10MB.
 - Executing affiliation member import writes members immediately and reads back the pending-member count; it is not validation-only.
 - `affiliation campaigns export` downloads campaign-performance Excel directly to `--output`; it is not a shared async export task.
+
+## TikTok Shop
+
+Use CLI 0.5.8+ and start with `tiktok-shop bindings list`. Reuse the returned `binding_id` for `creator-search categories/advanced-filters/search`; preserve `next_page_token` for pagination. Use `projects list/get/recipients/statistics` for project state and current schema for draft, execution, and update contracts. Store binding, official quotas, and membership still apply.
+
+For target invitations, inspect `schema tiktok-shop.projects.draft` or `.formal` and command `--help`. CLI 0.5.12 adds a complete `body_example`; older versions may expose only command options. Replace the example store, creators, product IDs, commission, contact, approved message, and future `end_time` (epoch milliseconds). Commission `1000` means 10%.
+
+Free samples with manual review use `target_invitation.free_sample_rule: {"has_free_sample":true,"sample_approval_exempt":false}`. `sample_approval_exempt:true` exempts approval. Prefer the canonical `sample_approval_exempt`; the updated Claw Server also accepts official `is_sample_approval_exempt`. Use one name per field. On a field error, preserve the error and request ID, then check installed CLI and server support; do not toggle the approval value to make a request pass.
+
+Saving with `projects draft --force` does not send invitations. `projects formal --force` in IMMEDIATE mode can start sending immediately, without a separate `execute`; apply the user's approved sending scope before submission. After saving, read `projects get <project_id>` and verify `data.target_invitation_free_sample_rule`; manual approval must read back as `has_free_sample:true` and `sample_approval_exempt:false`.
+
+Existing project updates replace the complete SaaS form. Read the current project and creator selection first, then submit all `private_message`, `target_invitation`, and `execution_config` settings plus `project_id`, store, name, and creator source/selection. Preserve current values when changing approval; the creation example is not an update snapshot. A rejected partial update requires a complete snapshot, not a retry with invented defaults. If required current settings cannot be recovered, use the SaaS form rather than guessing.
+
+Use `tiktok search product`, `tiktok search shop`, or `tiktok search live` for the public SaaS TTS indexes. Pass a JSON body with `--body-file` for GMV, sales, category, view, and engagement filters; read `total_gmv`, `last30_days_gmv`, and `currency` from the returned rows. This market search consumes Skill Credit by returned item; check `pricing tools --action tiktok_search` before broad pages. It is read-only and separate from the connected-store Creator Marketplace workflow above; read-only does not mean free.
+
+Use snake_case fields in the body. Common fields are `keywords` (array), `country` (one country code), `page_num`, and `page_size` (1-100); preserve the same filters when paging. GMV bounds differ by result type:
+
+| Search type | GMV filter fields |
+|---|---|
+| `product` | `min/max_total_video_gmv`, `min/max_total_live_gmv`, `min/max_last30_days_video_gmv`, `min/max_last30_days_live_gmv` |
+| `shop` | `min/max_total_gmv`, `min/max_last30_days_gmv` |
+| `live` | `min/max_total_gmv` |
+
+Each `min/max_...` pair means separate `min_...` and `max_...` fields. For example, a shop query body can be `{"keywords":["beauty"],"country":"US","min_last30_days_gmv":1000,"page_num":1,"page_size":5}`. Compare GMV only within the same currency and time window. Live search reports GMV for the returned stream; do not describe it as a 30-day creator total. Missing/null values are unavailable evidence; an explicit zero is a returned data value.
 
 ## Deduplication and Collaborators
 
@@ -114,7 +146,7 @@ Many marketing-ops commands intentionally keep complex selectors in JSON bodies.
 1. Run `noxinfluencer schema <cmd>` to inspect required fields and usage notes.
 2. Prepare the minimal JSON body needed for the user's request.
 3. Prefer the CLI's validate/preview stages when available.
-4. Preserve stable opaque IDs from responses (`campaign_id`, `collection_id`, `creator_id`, `thread_id`, `task_id`, `export_id`) for follow-up calls.
+4. Preserve stable opaque IDs from legitimate CLI responses (`campaign_id`, `collection_id`, `creator_id`, `thread_id`, `task_id`, `export_id`) for follow-up calls within the same supported workflow. This does not permit injecting a Campaign ID into a standalone mutation or treating a returned type value as a fixed task ID.
 
 ## Export Handling
 

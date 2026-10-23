@@ -1,0 +1,107 @@
+{
+  "record_id": "MAIL-29",
+  "fixture_kind": "adapted-evaluation-example",
+  "snapshot_at": "2026-07-17T18:00:00Z",
+  "project": {
+    "record_id": "BRIEF-29",
+    "brand": "VOLTLEAF (fictional)",
+    "product": "portable power banks and charging accessories",
+    "platform": "YouTube",
+    "requested_format": "long-form video integration",
+    "timing": "flexible"
+  },
+  "export_notes": {
+    "adaptation": "Rewritten evaluation example; identities, dates and commercial values are invented.",
+    "from_type": {"1": "outbound from the connected mailbox", "2": "inbound to the connected mailbox"}
+  },
+  "messages": [
+    {
+      "record_id": "MESSAGE-29-01",
+      "sent_at": "2026-07-02T08:00:00Z",
+      "from_type": 1,
+      "from": "mira@agency.example",
+      "to": ["kai@roadloom.example"],
+      "body": "Hi Kai, I work with VOLTLEAF on portable charging products. Would Road Loom be interested in a YouTube integration? We could discuss a sample to try before agreeing paid work. Timing is flexible. Best, Mira"
+    },
+    {
+      "record_id": "MESSAGE-29-02",
+      "sent_at": "2026-07-04T12:00:00Z",
+      "from_type": 2,
+      "from": "kai@roadloom.example",
+      "to": ["mira@agency.example"],
+      "body": "Hi Mira, I would be interested in trying a product. Portable charging could be useful on our trips. Best, Kai"
+    },
+    {
+      "record_id": "MESSAGE-29-03",
+      "sent_at": "2026-07-06T08:00:00Z",
+      "from_type": 1,
+      "from": "mira@agency.example",
+      "to": ["kai@roadloom.example"],
+      "body": "Thanks, Kai. I will discuss the opportunity with the client and get back to you. Best, Mira"
+    },
+    {
+      "record_id": "MESSAGE-29-04",
+      "sent_at": "2026-07-07T10:00:00Z",
+      "from_type": 2,
+      "from": "kai@roadloom.example",
+      "to": ["mira@agency.example"],
+      "body": "Thanks, sounds good. Best, Kai"
+    },
+    {
+      "record_id": "MESSAGE-29-05",
+      "sent_at": "2026-07-08T08:00:00Z",
+      "from_type": 1,
+      "from": "mira@agency.example",
+      "to": ["kai@roadloom.example"],
+      "body": "Could you share your rate for one integrated segment and what is included? Best, Mira"
+    },
+    {
+      "record_id": "MESSAGE-29-06",
+      "sent_at": "2026-07-09T12:00:00Z",
+      "from_type": 2,
+      "from": "kai@roadloom.example",
+      "to": ["mira@agency.example"],
+      "body": "My rate is EUR 320 for one integrated segment, up to 100 seconds. It includes a description link, discount code, hashtags and a brand tag, plus a pinned comment. I do not include a product picture in the video cover or the brand name in the video title. Payment is by PayPal and I do not issue an invoice. Best, Kai"
+    },
+    {
+      "record_id": "MESSAGE-29-07",
+      "sent_at": "2026-07-11T08:00:00Z",
+      "from_type": 1,
+      "from": "mira@agency.example",
+      "to": ["kai@roadloom.example"],
+      "body": "Thanks for explaining the package. I will discuss these details with VOLTLEAF. Best, Mira"
+    },
+    {
+      "record_id": "MESSAGE-29-08",
+      "sent_at": "2026-07-12T08:00:00Z",
+      "from_type": 1,
+      "from": "mira@agency.example",
+      "to": ["kai@roadloom.example"],
+      "body": "Hi Kai, the client confirmed EUR 320 for one integration based on the inclusions you described. Could you share shipping details? Would you also be open to featuring the product in more than one video? Best, Mira"
+    },
+    {
+      "record_id": "MESSAGE-29-09",
+      "sent_at": "2026-07-16T10:00:00Z",
+      "from_type": 2,
+      "from": "kai@roadloom.example",
+      "to": ["mira@agency.example"],
+      "body": "Hi Mira, my shipping details are below. [Shipping details omitted from adaptation.] I am away until July 29, so please take that into account when sending the package. I would prefer to start with one video and discuss any further collaborations later. Can you confirm that payment by PayPal without an invoice is okay? Best, Kai"
+    },
+    {
+      "record_id": "MESSAGE-29-10",
+      "sent_at": "2026-07-17T08:00:00Z",
+      "from_type": 1,
+      "from": "mira@agency.example",
+      "to": ["kai@roadloom.example"],
+      "body": "Hi Kai, the client selected the VOLTLEAF Travel Brick T8 power bank. PayPal without an invoice is fine, with payment approximately five business days after publication. We have noted that you return on July 29 and will take that into account for shipping. Best, Mira"
+    },
+    {
+      "record_id": "MESSAGE-29-11",
+      "sent_at": "2026-07-17T14:00:00Z",
+      "from_type": 2,
+      "from": "kai@roadloom.example",
+      "to": ["mira@agency.example"],
+      "body": "That all works for me, thank you. Let's proceed. Please send the tracking details when available. Best, Kai"
+    }
+  ]
+}

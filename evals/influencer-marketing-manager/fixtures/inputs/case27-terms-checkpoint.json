@@ -1,0 +1,75 @@
+{
+  "record_id": "MAIL-27T",
+  "fixture_kind": "adapted-evaluation-example",
+  "snapshot_at": "2026-07-12T12:00:00Z",
+  "project": {
+    "record_id": "BRIEF-27T",
+    "brand": "VOLTLEAF (fictional)",
+    "product": "portable power banks and charging accessories",
+    "platform": "YouTube",
+    "requested_format": "one long-form video integration or pre/mid-roll",
+    "timing": "flexible"
+  },
+  "export_notes": {
+    "adaptation": "Rewritten evaluation example; identities, dates and commercial values are invented.",
+    "from_type": {"1": "outbound from the connected mailbox", "2": "inbound to the connected mailbox"}
+  },
+  "messages": [
+    {
+      "record_id": "MESSAGE-27T-01",
+      "sent_at": "2026-07-02T08:00:00Z",
+      "from_type": 1,
+      "from": "mira@agency.example",
+      "to": ["avery@circuitnotes.example"],
+      "body": "Hi Avery, I represent VOLTLEAF and would like to explore one YouTube integration or pre/mid-roll with Circuit Notes. We have a compact power bank and other charging accessories; timing is flexible. A product trial before agreeing a paid collaboration is also an option. Are you interested? Best, Mira"
+    },
+    {
+      "record_id": "MESSAGE-27T-02",
+      "sent_at": "2026-07-05T11:00:00Z",
+      "from_type": 2,
+      "from": "avery@circuitnotes.example",
+      "to": ["mira@agency.example"],
+      "body": "Hi Mira, I handle partnerships for Circuit Notes. We are interested. We could work at USD 42 CPM, calculated from verified views 28 days after publication. Let me know if that works. Best, Avery"
+    },
+    {
+      "record_id": "MESSAGE-27T-03",
+      "sent_at": "2026-07-06T08:00:00Z",
+      "from_type": 1,
+      "from": "mira@agency.example",
+      "to": ["avery@circuitnotes.example"],
+      "body": "Thanks, Avery. The client prefers a fixed fee. What would your rate be for a 75–105 second mid-roll integration in one YouTube video? Best, Mira"
+    },
+    {
+      "record_id": "MESSAGE-27T-04",
+      "sent_at": "2026-07-06T13:00:00Z",
+      "from_type": 2,
+      "from": "avery@circuitnotes.example",
+      "to": ["mira@agency.example"],
+      "body": "Our fixed fee for one 75–105 second YouTube mid-roll integration is USD 4,200. Best, Avery"
+    },
+    {
+      "record_id": "MESSAGE-27T-05",
+      "sent_at": "2026-07-08T08:00:00Z",
+      "from_type": 1,
+      "from": "mira@agency.example",
+      "to": ["avery@circuitnotes.example"],
+      "body": "Thanks for the quote. I will discuss this with the client and come back with their feedback. Best, Mira"
+    },
+    {
+      "record_id": "MESSAGE-27T-06",
+      "sent_at": "2026-07-09T08:00:00Z",
+      "from_type": 1,
+      "from": "mira@agency.example",
+      "to": ["avery@circuitnotes.example"],
+      "body": "Hi Avery, the client has approved an offer of EUR 2,800 for one 75–105 second YouTube mid-roll integration, with payment after publication. Would those terms be acceptable to you? Best, Mira"
+    },
+    {
+      "record_id": "MESSAGE-27T-07",
+      "sent_at": "2026-07-12T08:00:00Z",
+      "from_type": 1,
+      "from": "mira@agency.example",
+      "to": ["avery@circuitnotes.example"],
+      "body": "Hi Avery, following up on the EUR 2,800 offer for the 75–105 second mid-roll, payable after publication. Please let me know whether that works for Circuit Notes. Best, Mira"
+    }
+  ]
+}

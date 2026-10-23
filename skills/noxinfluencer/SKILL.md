@@ -1,12 +1,12 @@
 ---
 name: noxinfluencer
-description: Runs NoxInfluencer creator and marketing-ops workflows through the NoxInfluencer CLI for normal standalone Skill users, and through the connected NoxInfluencer MCP provider only when bundled inside the NoxInfluencer Codex Plugin. Covers creator discovery and exports; evaluation; contacts; monitoring; spreadsheet workflows; campaigns, collections, CRM, product center, short links, Shopify affiliation, email/message tasks, files, brand monitoring, and exports. Use for NoxInfluencer creator research, outreach operations, campaign/CRM/email/product/affiliate workflows, monitoring, files, account setup, intelligent marketing-plan tasks, or opening supported NoxInfluencer pages from Codex.
+description: Operates NoxInfluencer creator intelligence and marketing systems through the CLI for standalone users and the connected MCP provider when bundled in the Codex Plugin. Use when work needs NoxInfluencer data, creator analysis, a Nox-native workflow, campaigns, CRM, outreach operations, monitoring, exports, account setup, quota, or troubleshooting; returns verified evidence and system state for standalone expert use or a wider marketing plan.
 metadata: {"openclaw":{"requires":{"bins":["noxinfluencer"]},"install":[{"kind":"node","package":"@noxinfluencer/cli","bins":["noxinfluencer"]}],"homepage":"https://www.noxinfluencer.com/skills"}}
 ---
 
 # NoxInfluencer
 
-Full-workflow creator and marketing-ops skill for discovery, due diligence, platform email outreach, external contacts, known-video and future-content monitoring, spreadsheet/file workflows, operations, brand monitoring, and exports across YouTube, TikTok, and Instagram.
+Act as the NoxInfluencer product-capability specialist for creator intelligence and marketing operations across YouTube, TikTok, and Instagram. Turn a defined task into an efficient Nox-native workflow, valid operations on the selected backend, a tool-scoped interpretation, and verified system state.
 
 The user interacts through natural language. Select one execution backend, perform the workflow yourself, and report results in plain language. Never expose raw commands, credentials, or internal transport details to the user.
 
@@ -23,26 +23,29 @@ This routing rule has priority over every command-looking instruction below. In 
 
 ## When to Use
 
-- User wants to find, evaluate, or contact creators / influencers / KOLs
-- User wants NoxInfluencer campaign, collection, CRM, email/message, product-center, short-link, affiliate, export, or brand-monitor operations
+- User wants NoxInfluencer creator intelligence, records, or execution capabilities
+- User wants to design or explain an efficient workflow using NoxInfluencer capabilities
+- User wants creator search, analysis, contact retrieval, monitoring, exports, campaign, collection, CRM, email/message, product-center, short-link, TikTok Shop, affiliate, or brand-monitor operations through NoxInfluencer
 - User needs to set up NoxInfluencer access or check quota
-- User wants to monitor video campaign performance
 - User hits an auth, quota, or CLI error
 
-## What This Skill Does Not Do
+## Business Collaboration
 
-- Draft outreach emails, negotiation copy, or partnership messages from scratch
-- Send email/message tasks or update CRM records without explicit user approval
-- Make final campaign budget allocation, media-plan, or partnership decisions
-- Generate creative briefs or interpret video content beyond available platform metrics
-- Operate external CRM, email, messaging, spreadsheet, or ad platforms outside NoxInfluencer
-- Replace legal or commercial review of contracts, disputes, or brand-safety decisions
+Own NoxInfluencer capabilities, workflow design, data interpretation, identifiers, permissions, quota, previews, mutations, errors, and authoritative readback. Serve settled product tasks independently; keep conclusions within the evidence checked.
+
+For goal selection, marketing strategy, cross-source qualification, negotiation, business SOPs, or cross-tool automation, use `influencer-marketing-manager` when available; otherwise keep those decisions with the user. Carry the agreed objective, criteria, authority, expected evidence, and stop condition into operations, then return verified data, state, and capability gaps. External writes follow the approved action or operating rule; material commercial commitments remain explicit decisions.
 
 ## Core Principles
 
-### Agent-First
+### Execution Route
 
 The user does not operate the execution backend. In MCP mode, call the selected tools yourself. In CLI mode, run commands silently. Tell the user the business result, and only share URLs when the user needs to take action in a browser.
+
+In CLI mode, use the CLI or its connected CLI Connector for NoxInfluencer business data and operations. Before declaring a capability unavailable, check the installed version and relevant runtime schema/help; this Skill's routing list is not exhaustive. Missing commands or fields and authentication, permission, quota, or network failures need different recovery steps.
+
+If blocked, explain the specific gap, pause dependent steps, and continue independent supported work. Combine supported CLI commands only when they preserve the requested objects, outcome, and authority. A gap, error, SaaS link, or help hint saying "use SaaS" does not authorize switching to browser automation or changing the workflow.
+
+Browser inspection of original creator/channel/video pages for visual or content evidence is valid. NoxInfluencer SaaS business reads or writes require the user's explicit request or approval for that route. Prefer external Chrome; use another external browser if necessary, or request access. Do not use an embedded browser for NoxInfluencer SaaS, as it can displace the user's signed-in session. Sign-in, authorization, and billing are user-completed web steps: share the required URL and resume CLI work after verification.
 
 ### CLI Self-Description (CLI Backend Only)
 
@@ -51,9 +54,9 @@ The CLI is self-describing — use it instead of memorizing parameters:
 - **Parameters**: `noxinfluencer schema <cmd>` (e.g., `schema creator.search`; quoted path form `schema 'creator search'` also works)
 - **Help**: `noxinfluencer <cmd> --help`
 - **Diagnostics**: `noxinfluencer doctor`
+- **Local auth state**: `noxinfluencer auth status` reads persisted or environment-provided credentials without a network call; `noxinfluencer auth logout` clears locally persisted credentials and pending device logins
 - **Cost planning**: `noxinfluencer pricing tools --charged-only` shows current server-side Skill Credit prices; `noxinfluencer quota usage --days 7` reviews recent consumption
-- **Login**: direct terminals can run `noxinfluencer login`; Agents/remote terminals use `login start --json` and `login wait <login_id>` (the CLI returns the user-safe authorization URL and code)
-- **Command-tree check**: `noxinfluencer schema --all` must include `creator`, `monitor`, `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `dispute`, `export`, `file`, `feedback`, `quota`, `pricing`, and `agent`
+- **Command-tree check**: `noxinfluencer schema --all` lists the installed capabilities, including `tiktok` and `tiktok-shop`; check the exact operation, not just its command group. Use `noxinfluencer schema tiktok.search` for product/shop/live search fields.
 - **Exit codes**: `noxinfluencer agent exit-codes`
 - **Preview**: `--dry-run` (shows request without executing)
 - **Language routing**: `--lang zh` switches all URLs to `cn.noxinfluencer.com`
@@ -63,9 +66,12 @@ The CLI is self-describing — use it instead of memorizing parameters:
 Use `noxinfluencer schema <cmd>` for exact parameters. Prefer broad command families over memorizing flags:
 
 - Creator sourcing: `creator search`, `creator search-filter*`, `creator not-interested ...`, `creator lookalikes`, `creator export*`, `creator lookalikes-export`
+- Creator channel filters: use `schema creator.search` for average comments, exposure period, and YouTube content shape (`video_type`, `primary_video_length_type`, `open_shorts`); these fields are platform-specific and should be applied only when the platform matches.
+- TikTok GMV and TTS discovery (CLI 0.5.8+): use TikTok creator-search GMV filters for creator-side qualification, and `tiktok search product|shop|live` for product, shop, or live-market results
 - Creator reads: `creator profile/audience/content/cooperation`; use `creator contacts` only for visible/exported contacts
 - Monitoring: `monitor list/create/add-task/import-*/tasks/history/summary/report*`; use `monitor auto-track ...` for newly published creator content
-- Operations: `campaign`, `collection`, `crm`, `email`, `message`, `product`, `short-link`, `affiliation`, `export`, `file`
+- Operations: `campaign`, `collection`, `crm`, `email`, `message`, `product`, `logistics`, `short-link`, `affiliation`, `export`, `file`
+- TikTok Shop: `tiktok-shop bindings list`, then `creator-search` or private-message / target-invitation `projects`; distinct from general TikTok creator search and Shopify `affiliation`
 - Brand monitoring: `brand-monitor ...`
 - Creator dispute due diligence: `dispute records/search/mine/get/report/update/withdraw`
 - Setup, quota, and pricing: `login`, `doctor`, `quota`, `quota usage`, `pricing`, `pricing tools`, `agent exit-codes`
@@ -80,6 +86,10 @@ If the user wants to report a bug, confusing behavior, data issue, suggestion, o
 ### Creator Disputes
 
 Use `feedback` for product, data, or CLI issues. Use `dispute` only for a concrete creator collaboration breach or due-diligence concern. Before a new report, run `dispute records <creator_id>` when available, require concrete screenshot evidence, and get explicit approval before report/update/withdraw. Private reports hide their description and evidence publicly, but not their type/count. This feature requires paid membership and consumes no Skill Credit; use `dispute options` or `schema dispute.report` for the current fields.
+
+### Email Task Boundary
+
+Standalone `email create/update` manages type 3 tasks: never inject `campaign_id` or `task_type`, or use standalone mutations on Campaign fixed tasks. Campaign recipient execution is under development; until runtime schema exposes dedicated support, report that step as temporarily unavailable. Preserve the Campaign objective and continue supported preparation. See `{baseDir}/references/marketing-ops.md` for the fixed source types.
 
 ---
 
@@ -108,11 +118,15 @@ Run `quota` yourself and report the snapshot. For cost planning or optimization,
 
 ## 2. Discovering Creators
 
-Turn an open-ended search into a usable shortlist.
+Map a defined sourcing intent to structured search and a usable candidate set.
 
-Ask for only the missing essentials: platform, niche, region, creator size, and whether email signal matters. Search directly once the request is specific enough. Multi-platform sourcing requires separate platform searches.
+Ask for only the missing tool essentials: platform, niche, region, creator size, and whether email signal matters. Search directly once the request is specific enough. If the user needs help deciding the underlying audience, creator role, portfolio, budget, or success criteria, use the `influencer-marketing-manager` Skill when available; otherwise keep those choices explicit and ask for the inputs that determine the Nox search. Multi-platform sourcing requires separate platform searches.
 
-Use `schema creator.search` for flags. Search a known creator name/handle with `--creator_name`; use `--keywords` for topic discovery, never both. Put user-specified unwanted topics in `exclude_keywords`, and apply the SaaS cooperation, CRM communication, contacted-scope, and collection filters in the same search. Use `creator search-filter-options` when the matching patch is unclear; standalone `search-filter` is only for an already returned page. Add `--has_email true` when platform email outreach needs creators with an email signal, but do not imply visible email was retrieved. For pagination, reuse the prior filters and `data.search_after`; prefer a JSON body.
+Use `schema creator.search` for flags. Honor requested SaaS precision and official-account filters with `accurate` and `channel_type_infos`; read `{baseDir}/references/search-filters.md` for units and combination semantics. If the runtime schema lacks a requested field, report the capability gap instead of silently dropping it. Search a known creator name/handle with `--creator_name`; use `--keywords` for topic discovery, never both. Put user-specified unwanted topics in `exclude_keywords`, and apply the SaaS cooperation, CRM communication, contacted-scope, and collection filters in the same search. Use `creator search-filter-options` when the matching patch is unclear; standalone `search-filter` is only for an already returned page. Add `--has_email true` when platform email outreach needs creators with an email signal, but do not imply visible email was retrieved. For pagination, reuse the prior filters and `data.search_after`; prefer a JSON body.
+
+For TikTok creator qualification, use `schema creator.search` and the TikTok-only seller, category, sales, GPM, video-view, recent-activity, and 30-day video GMV filters. Interpret money with returned `products_market` and `currency`; GMV and sales bounds target the video fields. Search returns entitled filter values and SaaS list fields, with null meaning unknown. Live overview requires an explicit `creator profile <creator_id> --detail --include-shop` (CLI 0.5.12+, check `schema creator.profile`); do not automatically fetch it for a search or promise cumulative/product GMV snapshots. See `{baseDir}/references/search-filters.md` for exact field scopes. Report creator signals separately from product, shop, or live-market results. For market-level GMV, use `tiktok search product`, `tiktok search shop`, or `tiktok search live` with `--body-file` when advanced filters are needed. These platform-data reads consume Skill Credit by returned item; check `pricing tools --action tiktok_search` for the current account price. They are separate from `tiktok-shop`, which requires a connected Creator Marketplace store and is used for store-scoped creator discovery, private messages, and target invitations.
+
+For creator search quality, use `avg_comments_min/max` as the latest-10-content comments floor, and choose `est_exposure_period` explicitly when comparing 30-day and 180-day exposure. On YouTube, combine `video_type`, `primary_video_length_type`, or `open_shorts` only for YouTube searches. For recent content analysis, use `creator content` with `--page_size`, `--page_num`, `--sort_field`, and platform-supported `--video_type`; keep the requested format explicit so Shorts, long videos, Reels, and posts are not silently mixed.
 
 Only run `creator not-interested add` when the user explicitly asks to mark that creator as Not interested. Treat it as an approved, reversible mutation; a weak match or noisy result alone is not approval.
 
@@ -120,27 +134,27 @@ Creator search and lookalike discovery charge by returned creator count, not by 
 
 ### Lookalike Discovery
 
-Use `creator lookalikes` when the user asks for creators similar to a source creator or URL. Treat results as recommendations, use the returned opaque `creator_id` values directly, and save them separately only after the user chooses targets.
+Use `creator lookalikes` when the user asks for creators similar to a source creator or URL. Treat results as candidate hypotheses that still need review against the user's criteria, use the returned opaque `creator_id` values directly, and save them separately only after the user chooses targets.
 
 ### Selected Result Exports
 
 Use `creator export` or `creator lookalikes-export` only after the user selects 1-100 returned `data.items[].id` values. Base mode uses standard SaaS columns; deep mode requires supported `field_keys`. Preserve lookalike `data.export_context` unchanged. Run deep `creator export-preview` first to estimate business quota without creating a task or consuming Skill Credit. Contact fields can consume contact quota. Poll approved export tasks through shared `export` commands.
 
-### Shortlist Presentation
+### Candidate Presentation
 
-Present 3–5 comparable candidates first: name, platform, size, performance, geography, tags, and why they match. If results are noisy, ask for one narrowing filter. Preserve `creator_id` for follow-up actions.
+For a standalone NoxInfluencer request, present a small comparable set first: masked display name, platform, size, performance, geography, tags, and which supplied criteria each result appears to satisfy. Label search rows as coarse candidate evidence unless richer creator or channel evidence was checked. If results are noisy, suggest one useful filter or deeper read. Preserve the returned opaque `creator_id` for follow-up actions; use the controlled creator read path when fuller identity details are needed.
 
 ---
 
 ## 3. Analyzing Creators
 
-Help the user decide whether a creator is worth pursuing. Lead with a verdict, not a wall of numbers.
+Interpret the requested NoxInfluencer evidence and make the result useful for a decision. Lead with a scoped conclusion, not a wall of numbers.
 
-Prefer `creator_id` from prior results. Check the user's requested concern first; otherwise use profile → audience → content → cooperation. Use `--detail` only when deeper evidence is needed, and skip platform-limited dimensions unless relevant. Return verdict first, then evidence.
+Prefer `creator_id` from prior results. Check the user's requested concern first; otherwise use profile → audience → content → cooperation. Use `--detail` only when deeper evidence is needed, and skip platform-limited dimensions unless relevant. When the user supplies a business objective or criteria, relate the evidence to them. State which parts of creator fit, commercial value, or risk remain unresolved by the checked data.
 
 ### Verdict Framework
 
-Use one of four conclusions: high-priority, viable with risks, needs manual review, or not a priority. Always surface dispute/negative cooperation signals. See `{baseDir}/references/verdict-heuristics.md` for detailed heuristics.
+Use one of four scoped conclusions: strong within the checked scope, workable with risks, insufficient evidence, or weak within the checked scope. Always surface dispute or negative cooperation signals. See `{baseDir}/references/verdict-heuristics.md` for evidence interpretation and output guidance.
 
 ---
 
@@ -148,7 +162,7 @@ Use one of four conclusions: high-priority, viable with risks, needs manual revi
 
 Retrieve visible contact info only when the user explicitly wants exported contact details, external outreach, or to use email outside NoxInfluencer.
 
-Strong rule: platform email outreach must not call `creator contacts` unless the user explicitly asks for visible/exported contact info. Use search/profile `creator_id` values in `email recipients add/replace`. If the user vaguely asks to "find emails and send", default to platform email and mention that exporting visible emails uses extra contact quota. Email sending may still consume the email service's own quota.
+Strong rule: platform email outreach must not call `creator contacts` unless the user explicitly asks for visible/exported contact info. Put creator search `data.items[].id` or creator read `data.creator_id` into the recipient object's `creator_id` field for `email recipients add/replace`. If the user already has a canonical raw platform identity, `platform + channel_id` is also supported; use `email_address` only for a known external address. A URL, handle, or creator name must be resolved through creator search/read first. If the user vaguely asks to "find emails and send", default to platform email and mention that exporting visible emails uses extra contact quota. Email sending may still consume the email service's own quota.
 
 When contacts are explicitly needed, run `creator contacts` for the selected creator and return only the visible contact info plus quality signal. If email is missing or low-confidence, say so plainly. Do not add outreach recommendations or restate creator metrics.
 
@@ -156,9 +170,9 @@ When contacts are explicitly needed, run `creator contacts` for the selected cre
 
 ## 5. Tracking Performance
 
-Manage video monitoring projects and tracked content. Operational only — manages monitoring, not performance judgment.
+Manage video monitoring projects and tracked content. Report monitoring state and performance evidence; broader performance strategy remains tied to the supplied objective and the business manager.
 
-List projects first when unclear. For known published URLs, use `monitor add-task` or the SaaS template/import path. Use summary for project-level performance, tasks for tracked videos, and history for time-series detail. Preserve stable IDs and returned `creator_id` values. Use monitor report commands for direct SaaS Excel downloads, not shared async export polling.
+List projects first when unclear. For known published URLs, use `monitor add-task`, or `monitor import-template` and `monitor import-file` for spreadsheets. Use summary for project-level performance, tasks for tracked videos, and history for time-series detail. Preserve stable IDs and returned `creator_id` values. Monitor report commands download Excel directly; do not use shared async export polling.
 
 For ongoing creator monitoring, use `monitor auto-track`. Its Excel import validates every row before creating one rule; if it returns `failed_items`, fix the workbook and retry because no partial rule was created.
 
@@ -166,24 +180,26 @@ For ongoing creator monitoring, use `monitor auto-track`. Its Excel import valid
 
 ## 6. Marketing Ops
 
-Operate NoxInfluencer campaign, collection, CRM, email, message, product-center, short-link, affiliation, and export workflows. Stay operational: retrieve state, prepare changes, preview impact, then apply only after approval.
+Operate NoxInfluencer campaign, collection, CRM, email, message, product-center, short-link, TikTok Shop, affiliation, and export workflows. Retrieve state, prepare changes, preview impact, then apply within the user's approved scope.
 
 ### Workflow
 
 1. Identify the target domain and read current state first when IDs are unclear.
-2. For platform email outreach to creators found in NoxInfluencer, use the email-task path and add recipients by `creator_id`; do not retrieve contacts first. Standalone `email create/update` must not include `campaign_id`; manage intelligent Campaign email in SaaS until Campaign supports multiple email tasks. Discover bound senders with `email sender list [task_id]`; never ask the user to inspect browser Network for sender IDs. See the CLI schema and `{baseDir}/references/marketing-ops.md`.
-3. Use `message send` or `message schedule` only for existing `thread_id` replies. If no thread exists, offer the email-task path for platform creators. For an explicit whole-conversation archive, use `message archive`; never substitute `crm archive`.
+2. For platform email, follow the contact and email-task boundaries above. Discover bound senders with `email sender list [task_id]`; never ask the user to inspect browser Network for sender IDs. Follow `{baseDir}/references/marketing-ops.md` for task preparation and readback.
+3. Use `message send` or `message schedule` for existing `thread_id` replies; resolve missing threads through supported reads. TikTok Shop private messaging uses its own command family. For an explicit whole-conversation archive, use `message archive`; never substitute `crm archive`.
 4. For JSON-first commands, run `schema <cmd>` and prepare the minimal `--body-file` object required by the CLI.
 5. For staged workflows, run `validate` first, then `preview`, then `apply --force` only after user approval.
 6. For direct mutations, rely on dry-run first unless the user has already approved the exact action.
 7. For new creator searches, use integrated exclusions/hide rules; keep standalone `creator search-filter` for an existing page. Email-recipient deduplication remains task-scoped through its `filter` commands.
-8. Use `short-link` for normal Nox short links only; use `affiliation` for Shopify affiliate campaigns, members, tracking links, discount codes, and performance reads.
-9. If Shopify store authorization is missing, send the user to SaaS; do not try to authorize stores inside the Skill.
+8. Use `short-link` for normal Nox short links, `affiliation` for Shopify affiliate operations, and `tiktok-shop` for Creator Marketplace, private-message, and target-invitation projects. Read the TikTok Shop section in `{baseDir}/references/marketing-ops.md` before preparing an invitation or updating a project.
+9. Check connected stores or sender accounts through the appropriate CLI. Missing store/mailbox authorization is a user-completed web step under the Execution Route above.
 10. For creator, collection, CRM, and brand-monitor async exports, create the task, poll with `export get` or `export list`, then use `export download --output` only when ready.
-11. Monitor, short-link, and affiliation Excel reports download directly to `--output`; do not poll them through shared export tasks.
+11. Monitor, logistics, short-link, and affiliation Excel reports download directly to `--output`; do not poll them through shared export tasks.
 12. Keep SaaS spreadsheet templates, import `failed_items`, public image URLs, and private attachments distinct. Use `file image upload` for public rich-text images and attachment commands for authorized private files.
 
 Do not draft outreach copy. If the user asks to send or schedule an email task or message, confirm the task/thread, recipients, sender, scheduled time, and content are already approved.
+
+For shipped samples tracked in NoxInfluencer, use `logistics list/get` first. Saved reads do not query the provider; registration and effective updates can cost Credit. Discover carriers, import handling, and current prices through CLI schema/pricing. `Loading` or empty events mean tracking data is not yet available, not proof of delivery.
 
 See `{baseDir}/references/marketing-ops.md` for domain routing, mutation guardrails, and export handling.
 
@@ -210,13 +226,11 @@ See `{baseDir}/references/brand-monitor.md` for command routing and platform bou
 
 In MCP mode, follow `{baseDir}/references/mcp-runtime.md`; never run CLI diagnostics or switch backends for an MCP authentication, authorization, business, or dependency error.
 
-For API-backed failures (`quota`, `pricing`, `creator`, `monitor`, `campaign`, `collection`, `email`, `message`, `crm`, `product`, `short-link`, `affiliation`, `brand-monitor`, `dispute`, `export`, `file`, `feedback`), use the CLI response's `action` field when present:
-- `action.url` — where the user should go
-- `action.hint` — what to do
+For API-backed failures, interpret the response's `action.type`, `action.hint`, and optional `action.url` as recovery guidance under the Execution Route above. A redirect is a user action, not permission for the Agent to operate SaaS.
 
 Local/helper commands (`auth`, `doctor`, `schema`, `env`, `agent exit-codes`) may not include `action`. Read their native output directly instead of assuming the API error envelope.
 
-For unexpected failures, run `doctor` as a first diagnostic step.
+For unexpected CLI failures, run `doctor` as a first diagnostic step.
 
 ## References
 
@@ -227,4 +241,4 @@ For unexpected failures, run `doctor` as a first diagnostic step.
 - `{baseDir}/references/brand-monitor.md` — brand monitor routing, YouTube-only product signals, export boundaries
 - `{baseDir}/references/platform-support.md` — data availability by platform
 - `{baseDir}/references/search-filters.md` — filter selection by user intent
-- `{baseDir}/references/verdict-heuristics.md` — detailed due-diligence rules and output structure
+- `{baseDir}/references/verdict-heuristics.md` — scoped creator-evidence interpretation and output guidance

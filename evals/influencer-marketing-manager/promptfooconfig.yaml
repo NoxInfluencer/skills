@@ -1,0 +1,55 @@
+description: Compare influencer-marketing-manager Skill versions
+
+prompts:
+  - '{{request}}'
+
+x-codex-config: &codexConfig
+  model: '{{ env.INFLUENCER_EVAL_MODEL | default("gpt-5.6-terra") }}'
+  model_reasoning_effort: medium
+  skip_git_repo_check: true
+  sandbox_mode: workspace-write
+  approval_policy: never
+  network_access_enabled: true
+  web_search_mode: disabled
+  enable_streaming: true
+  cli_env:
+    CODEX_HOME: '{{ env.PWD }}/evals/influencer-marketing-manager/workspace/promptfoo/codex-home'
+    # The local Xray mixed port is an HTTP proxy for Node/undici. Override
+    # INFLUENCER_EVAL_PROXY on machines with a different network route.
+    HTTP_PROXY: '{{ env.INFLUENCER_EVAL_PROXY | default("http://127.0.0.1:10808") }}'
+    HTTPS_PROXY: '{{ env.INFLUENCER_EVAL_PROXY | default("http://127.0.0.1:10808") }}'
+    ALL_PROXY: '{{ env.INFLUENCER_EVAL_PROXY | default("http://127.0.0.1:10808") }}'
+    NO_PROXY: '{{ env.INFLUENCER_EVAL_NO_PROXY | default("127.0.0.1,localhost,::1,10.0.0.0/8") }}'
+  cli_config:
+    features:
+      memories: false
+      multi_agent: false
+      plugins: false
+      apps: false
+      skill_mcp_dependency_install: false
+
+providers:
+  - id: openai:codex-sdk
+    label: manager-baseline
+    config:
+      <<: *codexConfig
+      working_dir: ./workspace/promptfoo/fixtures/baseline
+  - id: openai:codex-sdk
+    label: manager-candidate
+    config:
+      <<: *codexConfig
+      working_dir: ./workspace/promptfoo/fixtures/candidate
+
+defaultTest:
+  options:
+    disableVarExpansion: true
+
+evaluateOptions:
+  maxConcurrency: 1
+  timeoutMs: 600000
+  maxEvalTimeMs: 1200000
+
+tests:
+  path: file://./promptfoo_cases.py:create_tests
+  config:
+    case_ids: [9, 10, 12, 13, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 33, 34, 37, 38, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53]

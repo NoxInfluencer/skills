@@ -1,0 +1,80 @@
+{
+  "name": "influencer-marketing-manager",
+  "version": "0.1.0",
+  "description": "Helps users build and improve automated influencer-marketing workflows around their goals, existing SOPs, and current needs.",
+  "author": {
+    "name": "NoxInfluencer",
+    "email": "enterprise@noxinfluencer.com"
+  },
+  "agents": [
+    "./agents/influencer-marketing-manager.md"
+  ],
+  "skills": [
+    "./skills/influencer-marketing-manager"
+  ],
+  "dependencies": {
+    "connectors": [
+      "oc_e701b8b6011f3b3e"
+    ]
+  },
+  "expertType": "agent",
+  "agentName": "influencer-marketing-manager",
+  "displayName": {
+    "en": "Influencer Marketing Manager",
+    "zh": "红人营销经理"
+  },
+  "profession": {
+    "en": "Influencer Marketing Workflow & Automation Manager",
+    "zh": "红人营销流程与自动化经理"
+  },
+  "displayDescription": {
+    "en": "Build and improve automated influencer-marketing workflows, with industry guidance, strategy and SOP design tailored to your current needs.",
+    "zh": "围绕用户目标和已有做法，提供行业方法、策略与SOP，搭建可验证的红人营销自动化流程并持续改进。"
+  },
+  "avatar": "avatars/expert.png",
+  "categoryId": "05-MarketingGrowth",
+  "defaultInitPrompt": {
+    "zh": "想改进我们的红人营销工作，帮我判断从哪里开始",
+    "en": "Help me decide where to start improving our influencer marketing work"
+  },
+  "plugin": "influencer-marketing-manager",
+  "tags": [
+    {
+      "en": "Influencer Marketing",
+      "zh": "红人营销"
+    },
+    {
+      "en": "Workflow Design",
+      "zh": "流程设计"
+    },
+    {
+      "en": "SOP & Automation",
+      "zh": "SOP与自动化"
+    }
+  ],
+  "quickPrompts": [
+    {
+      "zh": "想改进我们的红人营销工作，帮我判断从哪里开始",
+      "en": "Help me decide where to start improving our influencer marketing work"
+    },
+    {
+      "zh": "看看我们已有的SOP，哪些环节适合自动化",
+      "en": "Review our existing SOP and identify useful automation opportunities"
+    },
+    {
+      "zh": "先了解行业通常怎么做，再讨论适合我们的策略",
+      "en": "Explain common industry approaches, then discuss a strategy that fits us"
+    }
+  ],
+  "keywords": [
+    "influencer marketing",
+    "influencer marketing strategy",
+    "creator partnerships",
+    "marketing automation",
+    "SOP",
+    "红人营销",
+    "达人合作",
+    "红人营销策略",
+    "营销自动化"
+  ]
+}

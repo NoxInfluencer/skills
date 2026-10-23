@@ -1,12 +1,14 @@
 # Evaluation Assets
 
-This directory holds evaluation test cases and benchmark results for NoxInfluencer skills.
+This directory holds stable evaluation cases and validation tools for the NoxInfluencer Skill.
+
+Record identifiers in the cases are example ordinals, such as `creator_001`, collection `1` and email task `2`. Channel and video placeholders retain their usual string shape. These values are not live-record targets; execution tests must supply isolated test records.
 
 ## Methodology
 
 Following Anthropic's eval-first development approach:
 
-1. **Baseline**: Run representative tasks without the skill, record failure points
+1. **Baseline**: Run representative tasks with the previous Skill, record failure points
 2. **Minimal skill**: Write the smallest instruction set that addresses the failures
 3. **With-skill / baseline comparison**: Run the same tasks with and without the skill
 4. **Benchmark**: Aggregate pass rate, token usage, latency, and tool call counts
@@ -21,6 +23,12 @@ This skill should have 3-5 eval queries per major workflow category covering:
 - **Boundary**: Ambiguous queries where correct behavior matters most
 - **Runtime routing**: Plugin-marker versus standalone execution, including strict CLI isolation
 - **MCP auth recovery**: one-attempt automatic desktop/CLI OAuth startup, settings fallback, refresh/retry behavior, and safe failure branches
+
+Also test coexistence with `influencer-marketing-manager`:
+
+- A user with settled goals and criteria can use NoxInfluencer independently for data interpretation, product-native workflow design, and system operations.
+- A request for goal selection, broader marketing strategy, a company SOP, or cross-tool automation should keep business ownership with the Manager while NoxInfluencer contributes its supported capabilities.
+- A NoxInfluencer conclusion must stay within the evidence checked; it should identify the business context or external evidence still needed for a broader decision.
 
 ### Negative Example Quality
 
@@ -38,8 +46,34 @@ evals/
 
 ## MCP OAuth Coverage
 
+MCP-specific cases use IDs 51–64; standalone and shared cases retain the main branch IDs 1–50.
+
 The eval set covers missing MCP Tools, `AuthRequired`, automatic desktop/CLI OAuth startup, settings fallback, Tool refresh, `403`/`insufficient_scope`, cancellation, unavailable Host commands, credential non-disclosure, prohibition on hand-built authorization URLs, and the standalone marker-absent CLI path. Plugin cases distinguish the one-attempt Codex Host OAuth bootstrap from the forbidden `noxinfluencer login` and NoxInfluencer CLI business fallback.
 
 ## Status
 
 The eval set includes standalone CLI workflows plus Codex Plugin routing, Tool-schema, Browser Handoff, and OAuth-bootstrap cases.
+
+## Behavior and Structure Checks
+
+Behavior evaluation and static validation have different roles:
+
+- Behavior evaluation runs the same pressure prompts against the previous and updated Skill, then reviews the actual Agent responses against each case's expectations. RED/GREEN transcripts and reviewer notes belong in the ignored `evals/noxinfluencer/workspace/` directory; they may contain transient model output and are not committed.
+- `validate_evals.py` checks only the JSON document structure, unique eval IDs, non-empty prompts, and non-empty string expectations. Passing it does not prove Agent behavior.
+
+For routing cases 35–36 and 40–46, review tool traces by **purpose, destination, and browser type**. Original channel/video inspection is valid; a CLI gap or failure must not silently become NoxInfluencer SaaS operation. Explicitly requested SaaS reads should use external Chrome when available and must not use an embedded browser. Check that independent supported steps continue and that any alternative preserves the requested business object and outcome. Use case 37 as the supported standalone-email control, and exercise the routing cases both with NoxInfluencer alone and with Manager coordinating it.
+
+Use isolated records and browser fixtures for execution tests. For case 44, supply both an older command tree without TikTok Shop and a current tree with it, including the `projects snapshots` operation omitted from the Skill's short list. For cases 42–43, browser availability in the test environment must match the prompt. A response that says which browser it would choose establishes a routing proposal only; claims of actual reads, writes, partial completion, or absence of SaaS access require the corresponding complete tool trace.
+
+Run the stable static checks from the repository root:
+
+```bash
+python -m json.tool evals/noxinfluencer/evals.json
+python evals/noxinfluencer/validate_evals.py
+```
+
+Run the validator's built-in contract test after changing validation logic:
+
+```bash
+python evals/noxinfluencer/validate_evals.py --self-test
+```

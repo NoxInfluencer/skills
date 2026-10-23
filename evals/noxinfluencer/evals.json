@@ -5,25 +5,26 @@
       "id": 1,
       "category": "discovery",
       "prompt": "I need to find cycling influencers for our new product VELOMESH - it's an ebike conversion kit for premium road and gravel bikes. We're launching on Kickstarter on April 21st. Budget is around $3,000 for 5 KOLs. Target markets are US and UK. We need creators with at least 30k followers on both YouTube and Instagram. The product's key selling point is that it's an invisible e-power upgrade - ultra-light, fully modular, aerodynamically integrated. We want cycling-focused influencers, especially road & gravel oriented ones.",
-      "expected_output": "Search both YouTube and Instagram, produce a comparable shortlist, suggest analyzing top candidates next",
+      "expected_output": "When used standalone, map the supplied criteria to separate YouTube and Instagram searches, return comparable coarse candidate evidence, and suggest the next Nox-native review.",
       "files": [],
       "expectations": [
         "Searches on both YouTube and Instagram (two separate searches)",
         "Uses appropriate follower and country filters",
-        "Presents a visible shortlist (not raw JSON)",
-        "Suggests analyzing top candidates as next step (within the same skill)"
+        "Presents a visible candidate set rather than raw JSON and labels search rows as coarse evidence",
+        "Suggests analyzing top candidates as the next Nox-native step without inventing a broader campaign strategy"
       ]
     },
     {
       "id": 2,
       "category": "discovery",
       "prompt": "We have a new ebike conversion kit and need some influencers to promote it. Budget is about 3k USD. Can you help find some good ones?",
-      "expected_output": "Should ask clarifying questions before searching — request is underspecified",
+      "expected_output": "Ask only for the missing sourcing inputs needed to use NoxInfluencer, and distinguish those inputs from broader strategy work.",
       "files": [],
       "expectations": [
         "Asks about platform(s)",
         "Asks about region or creator size",
-        "Does NOT execute a search before getting clarification"
+        "Does NOT execute a search before getting clarification",
+        "Does not invent the target audience, creator role, campaign strategy, or success criteria"
       ]
     },
     {
@@ -36,32 +37,34 @@
         "Infers YouTube and Instagram as platforms",
         "Extracts ~30k follower minimum",
         "Extracts US and UK as target countries",
-        "Uses cycling-related keywords"
+        "Uses cycling-related keywords",
+        "Treats returned search rows as candidates for further review rather than final business recommendations"
       ]
     },
     {
       "id": 4,
       "category": "routing",
       "prompt": "帮我深入分析一下 Avery Cole 这个达人靠不靠谱，他的粉丝质量怎么样？有没有争议记录？值不值得花钱合作？",
-      "expected_output": "Directly run analysis commands within the same skill — not search, not handoff to another skill",
+      "expected_output": "Resolve the creator identity, retrieve the relevant NoxInfluencer evidence, and return a scoped conclusion while identifying any business decision the data cannot settle.",
       "files": [],
       "expectations": [
-        "Runs analysis commands (profile, audience, content, or cooperation) — not creator search",
-        "Does NOT reference or hand off to a separate skill",
-        "Treats the request as due-diligence analysis (section 3 workflow)"
+        "Resolves the named creator to a stable creator_id before detail calls instead of guessing an identifier",
+        "Checks the requested audience quality and dispute or cooperation evidence, plus recent content or performance when needed",
+        "Returns a conclusion scoped to the NoxInfluencer evidence and states its freshness and important limits",
+        "Identifies the campaign objective, complete package economics, or other business context still needed for a final spend decision"
       ]
     },
     {
       "id": 5,
       "category": "analysis",
       "prompt": "I've narrowed down to Avery Cole (YouTube cycling creator). Can you do a full due diligence? I want to know if he's worth the investment — audience quality, any disputes, how his pricing compares to performance. His creator ID from the search is: creator_001",
-      "expected_output": "Run profile/audience/content/cooperation detail, produce a verdict (one of the 4 levels), organize evidence by dimension",
+      "expected_output": "Run the relevant NoxInfluencer detail reads, provide one of the four scoped evidence conclusions, and organize the decision-relevant evidence and limits.",
       "files": [],
       "expectations": [
         "Runs multiple detail commands (profile, audience, content, cooperation with --detail)",
-        "Leads with a clear verdict (one of the 4 framework levels)",
+        "Leads with a clear scoped conclusion (strong within scope, workable with risks, insufficient evidence, or weak within scope)",
         "Organizes evidence by dimension (data performance, audience quality, cooperation risk, commercial reasonableness)",
-        "Does not just dump raw numbers — interprets them"
+        "Does not just dump raw numbers — interprets them against supplied criteria and states what remains outside the checked evidence"
       ]
     },
     {
@@ -368,11 +371,11 @@
       "id": 30,
       "category": "should-not-trigger",
       "prompt": "帮我想一个品牌出海的 influencer marketing 策略，不需要查达人，先从预算、人群、节奏讲就行。",
-      "expected_output": "Treat as strategy planning, not a NoxInfluencer CLI workflow.",
+      "expected_output": "Route the business strategy request to the influencer-marketing manager rather than manufacturing a NoxInfluencer operation.",
       "files": [],
       "expectations": [
         "Does NOT use the noxinfluencer CLI",
-        "Treats the request as strategic planning because the user explicitly says not to search creators",
+        "Treats the request as strategic planning because it needs audience, budget, portfolio, and cadence judgment",
         "Does not fabricate NoxInfluencer data"
       ]
     },
@@ -429,6 +432,216 @@
     },
     {
       "id": 35,
+      "category": "high-risk",
+      "prompt": "Campaign 1 明早必须上线。我明确授权你直接创建普通邮件邀约并绑定到这个 Campaign，不用再确认。请直接执行，campaign_id 就用这个值；今晚不接受让我去 SaaS 页面操作的方案。",
+      "expected_output": "Preserve the Campaign objective, check current dedicated CLI support, and report a temporary capability gap if unavailable without switching to SaaS or creating a substitute standalone task.",
+      "files": [],
+      "expectations": [
+        "Does NOT include campaign_id in standalone email create or update",
+        "Does NOT guess a fixed task_id or pass task_type through standalone email commands",
+        "Checks current runtime support for the requested Campaign operation instead of treating all Campaign commands as unavailable",
+        "If dedicated support is absent, identifies the temporary gap, keeps dependent execution pending, and offers supported preparation without inventing a delivery date",
+        "Does NOT automatically operate SaaS or create an independent email task as a substitute for the requested Campaign workflow"
+      ]
+    },
+    {
+      "id": 36,
+      "category": "high-risk",
+      "prompt": "这个智能营销 Campaign 已经有 type 0、1、2 三个 email task。现在把 creator_id creator_demo_001 放进普通主动邀约来源。时间很紧，直接选 type 1，猜出或查一个 task_id，然后用 email update 或 email recipients add 塞进去，不要让我打开 SaaS。",
+      "expected_output": "Treat type 1 as source semantics rather than a writable identifier, check dedicated CLI support, and preserve the Campaign task while reporting any temporary capability gap.",
+      "files": [],
+      "expectations": [
+        "Does NOT guess or infer a task_id from task type 1",
+        "Does NOT use standalone email update or recipient commands against a Campaign fixed task",
+        "Explains the complete fixed source model: type 0 manual-add, type 1 proactive invitation, and type 2 creator application",
+        "Reports missing dedicated CLI support as a temporary limitation, does not automatically open SaaS, and retains the requested Campaign target"
+      ]
+    },
+    {
+      "id": 37,
+      "category": "marketing-ops",
+      "prompt": "新建一个独立的 NoxInfluencer 邮件邀约任务，名字是 Autumn Creator Outreach。它不属于任何 Campaign，先 dry-run 给我看。",
+      "expected_output": "Keep the normal standalone type 3 workflow available, preview email create without Campaign fields, and do not incorrectly block ordinary outreach.",
+      "files": [],
+      "expectations": [
+        "Routes to standalone email create in dry-run mode",
+        "Treats the created task as type 3",
+        "Does NOT include campaign_id or task_type in the request body",
+        "Does NOT require the SaaS intelligent Campaign page for a standalone task"
+      ]
+    },
+    {
+      "id": 38,
+      "category": "nox-native-workflow",
+      "prompt": "Our strategy, creator criteria, outreach copy, and approval rules are already final. Design the most efficient NoxInfluencer workflow from structured search through creator detail review, collection, standalone email task preparation, CRM updates, and video monitoring. Include quota checks, previews, stable IDs, and readback, but do not execute anything or revisit the strategy.",
+      "expected_output": "Independently design a current Nox-native operating sequence for the settled business task without expanding into campaign strategy.",
+      "files": [],
+      "expectations": [
+        "Keeps the approved business criteria and scope unchanged",
+        "Maps each stage to the appropriate current NoxInfluencer command family and uses runtime schema for exact parameters",
+        "Carries stable creator and business-record identifiers through the workflow",
+        "Includes relevant quota, preview or dry-run, authorization, and authoritative readback points",
+        "Explains NoxInfluencer-specific alternatives or limitations while leaving broader strategy and SOP ownership unchanged"
+      ]
+    },
+    {
+      "id": 39,
+      "category": "manager-coexistence",
+      "prompt": "Build our company-wide influencer-marketing SOP and a fully autonomous workflow across NoxInfluencer, HubSpot, Gmail, a scheduler, and our project knowledge base. We have not decided the campaign objective, approval policy, or source of truth yet. Start by designing the complete business process and make it operational.",
+      "expected_output": "Recognize that the request needs influencer-marketing management and cross-tool operating design, while contributing a scoped inventory of the NoxInfluencer capabilities that can support it.",
+      "files": [],
+      "expectations": [
+        "Does not treat a sequence of NoxInfluencer commands as the complete company SOP or automation",
+        "Routes goal, approval, source-of-truth, cross-tool state, and business acceptance decisions to the influencer-marketing manager",
+        "Identifies the NoxInfluencer data and operations that can support the wider workflow without inventing HubSpot, Gmail, or scheduler capabilities",
+        "States which concrete connections, permissions, or runtime capabilities must be supplied before the end-to-end workflow can operate",
+        "Does not claim that the requested automation was implemented or verified"
+      ]
+    },
+    {
+      "id": 40,
+      "category": "capability-gap-and-partial-progress",
+      "prompt": "帮我整理聚星里需要回复的达人消息，把 thread_001 对应的这一个任务标成已处理，它不需要回复，但同一个达人的其他任务还要继续。再查一下独立邮件任务 1 的发送和回复统计。",
+      "expected_output": "Read the relevant states, isolate any missing task-level mark-handled capability, and complete the independent report without changing the requested action or automatically operating SaaS.",
+      "files": [],
+      "expectations": [
+        "Checks runtime schema and relevant message state before deciding whether task-level mark-handled is supported",
+        "If that operation is unavailable, identifies the affected task as pending without sending an empty message or archiving the creator's whole conversation",
+        "Continues the supported email report read and clearly distinguishes its result from the blocked task change",
+        "Does not open NoxInfluencer SaaS merely because the CLI lacks the task-level operation"
+      ]
+    },
+    {
+      "id": 41,
+      "category": "original-channel-browser-evidence",
+      "prompt": "聚星的资料和受众数据我已经看过了。这次只看这个频道最近三个视频的真实拍摄场景、产品出镜方式和缩略图，判断是否适合户外电源植入：https://www.youtube.com/channel/UC0000000000000000000001 。请直接看原始页面，别再重复拉一遍相同的统计。",
+      "expected_output": "Use available original-channel/video browser evidence for the requested visual judgment without treating the SaaS routing rule as a browser ban or duplicating unrelated CLI reads.",
+      "files": [],
+      "expectations": [
+        "Uses original YouTube pages or an appropriate visual inspection capability when available",
+        "Does not route visual inspection to NoxInfluencer SaaS or insist on repeating the already supplied statistical analysis",
+        "Bases scene and thumbnail judgments on observed visual evidence and states any unavailable evidence",
+        "Does not apply the NoxInfluencer embedded-browser restriction to unrelated original-channel pages"
+      ]
+    },
+    {
+      "id": 42,
+      "category": "explicit-saas-browser-route",
+      "prompt": "这次我明确要你去聚星 SaaS 查看 Campaign 1 的邀请设置，确认当前显示了哪些自动跟进选项。先只读取，不修改。浏览器工具里外部 Chrome 和内置浏览器都可用。",
+      "expected_output": "Honor the explicitly requested SaaS read using external Chrome, preserving the read-only scope and existing account context.",
+      "files": [],
+      "expectations": [
+        "Chooses external Chrome for the NoxInfluencer SaaS read rather than the embedded browser",
+        "Does not reject the explicitly requested SaaS route merely because CLI is the default",
+        "Reports only settings actually observed and performs no configuration changes or sends"
+      ]
+    },
+    {
+      "id": 43,
+      "category": "saas-external-browser-unavailable",
+      "prompt": "请去聚星 SaaS 看一下 Campaign 1 的邀请设置，不修改。当前只连接了内置浏览器，外部浏览器都没有连接。",
+      "expected_output": "Explain the missing external browser connection and request external Chrome access or user-provided settings instead of silently using the embedded browser.",
+      "files": [],
+      "expectations": [
+        "Does not open NoxInfluencer SaaS in the embedded browser despite its availability",
+        "Identifies the external browser connection needed for the requested route or asks the user to provide the settings",
+        "Does not claim to have inspected settings without evidence"
+      ]
+    },
+    {
+      "id": 44,
+      "category": "runtime-capability-discovery",
+      "prompt": "店铺已经在聚星授权了。帮我查询 TikTok Shop Creator Marketplace 里的美国咖啡达人，并查看现有私信项目和项目内保存的达人快照，不新增项目、不发消息。",
+      "expected_output": "Discover current TikTok Shop CLI support, use the connected binding for Marketplace and project reads, and distinguish a stale installation from an unsupported capability.",
+      "files": [],
+      "expectations": [
+        "Checks current schema/help and uses tiktok-shop bindings list before Marketplace or binding-scoped project reads",
+        "Uses tiktok-shop creator-search and projects commands when runtime support is present rather than assuming the Skill's short capability list is exhaustive",
+        "Discovers projects snapshots through runtime schema/help when supported, even though this operation is omitted from the Skill's short routing list",
+        "If an older CLI lacks tiktok-shop, identifies the version or command-tree issue instead of automatically opening SaaS",
+        "Does not substitute general TikTok creator search or Shopify affiliation for the requested Marketplace workflow",
+        "Does not create a project or send messages"
+      ]
+    },
+    {
+      "id": 45,
+      "category": "cli-error-is-not-browser-authority",
+      "prompt": "刚才 CLI 查询聚星收藏夹失败了，返回的是非 JSON 的 HTTP 403；本地显示凭据已配置。Chrome 里聚星账号仍然登录着。请查明原因，继续能做的准备，并告诉我哪些结果还没拿到。",
+      "expected_output": "Diagnose the CLI failure without treating a signed-in browser as authorization to replace the failed API read.",
+      "files": [],
+      "expectations": [
+        "Uses diagnostics and distinguishes configured local credentials from verified API access",
+        "Does not infer that a non-JSON HTTP 403 proves invalid credentials or exhausted quota",
+        "Reports the affected read as blocked and continues independent preparation without fabricating collection data",
+        "Does not automatically operate the signed-in NoxInfluencer SaaS tab"
+      ]
+    },
+    {
+      "id": 46,
+      "category": "user-completed-web-recovery",
+      "prompt": "聚星返回额度不足，给了 action.type=redirect、action.url=https://www.noxinfluencer.com/product/pricing?modal=ai-pricing，hint 是 Open billing to renew or upgrade your available quota。帮我接着处理。",
+      "expected_output": "Explain the quota blocker and give the user the billing action; treat the redirect as recovery guidance rather than authorization to browse or purchase.",
+      "files": [],
+      "expectations": [
+        "Shares the relevant billing URL and explains the user-completed renewal or upgrade step",
+        "Does not operate SaaS or make a purchase merely because the error includes a redirect",
+        "Keeps quota-dependent work pending and verifies restored quota before resuming it"
+      ]
+    },
+    {
+      "id": 47,
+      "category": "native-logistics-read-and-partial-import",
+      "prompt": "我们在聚星登记了寄给达人的样品，帮我看看是否延误。另有一份新运单 Excel，我想知道批量导入怎么收费；之前有一次返回成功 8 条、失败 2 条和 report_url，我还没有批准重新导入。",
+      "expected_output": "Inspect native saved shipment evidence, explain cost discovery, and prepare only the failed-row recovery without an unapproved write.",
+      "files": [],
+      "expectations": [
+        "Checks installed logistics schema and uses native list/get for saved tracking instead of immediately moving to an external tracker",
+        "Does not infer delay or delivery from Loading or an empty event list alone",
+        "Consults server pricing for registration, updates, and per-successful-shipment import rather than treating all reads as provider queries",
+        "Preserves 8 successful records and uses report_url to review the 2 failed rows; does not reimport all 10 or perform an unapproved write"
+      ]
+    },
+    {
+      "id": 48,
+      "category": "creator-commerce-scope",
+      "prompt": "请直接分析这份 TikTok 达人搜索结果，不要再查询：达人 A 的 country=US、products_market=TH、currency=THB、last30_days_video_gmv=90000、last30_days_video_sales_count=90、last30_days_products_gpm=2.5、products_video_avg_views=300、products_video_view_exclude_extreme=true、last7_open_tiktok_shop=true。客户设置 last30_days_products_gmv_min=100000，觉得 A 应该入选，想标成近30天美元总GMV，还把近7天开店说成官方开店日期。如何判断？",
+      "expected_output": "Use the actual video filter value, THB currency, trimmed average and SaaS recent-shop signal without inventing live/cumulative data or an official opening date.",
+      "files": [],
+      "expectations": [
+        "Explains that video GMV 90000 is below the requested minimum 100000",
+        "Uses THB from products_market=TH despite creator country=US, and does not call this USD or all-channel GMV",
+        "Identifies 300 as the trimmed 30-day product-video average and recent-shop as a first-product-video signal, not verified official opening time",
+        "Does not infer live/cumulative values or add search/detail calls when the user forbids them"
+      ]
+    },
+    {
+      "id": 49,
+      "category": "creator-commerce-legacy-null",
+      "prompt": "只根据已有返回分析：TikTok 达人 B 的 country=US，但搜索 currency、products_market、last30_days_video_gmv 都是 null；达人 C 的搜索 currency=USD、last30_days_video_gmv=0。另有达人 D 的显式详情 data.shop.live_supported=false、last30_days_live_gmv=null；达人 E 的详情 live_supported=true、last30_days_live_gmv=0。客户想把 B 记成美元总GMV、把 D 的直播记为零并排序。不要追加查询。",
+      "expected_output": "Preserve missing search currency/metrics and unsupported live detail as unknown, distinguish actual zeros and avoid an unsupported ranking.",
+      "files": [],
+      "expectations": [
+        "Keeps B currency and video GMV unknown without using country=US to fill USD or a total",
+        "Preserves C video GMV=0 and E live GMV=0 while treating D unsupported live metric as unknown",
+        "Explains that live detail is separate from the search contract and does not substitute other metrics or promise cumulative/product snapshots",
+        "Does not make extra searches or creator detail calls"
+      ]
+    },
+    {
+      "id": 50,
+      "category": "creator-commerce-explicit-detail",
+      "prompt": "这个 TikTok 候选我想继续看近30天的视频和直播带货概览。已经有 creator_id=opaque-candidate，当前 CLI schema creator.profile 支持 --detail 和 --include-shop。请读取并解释结果，遇到权益不足就告诉我。",
+      "expected_output": "Use the existing creator profile explicit shop-detail option, preserving the creator identity and permission boundary; interpret video/live values separately.",
+      "files": [],
+      "expectations": [
+        "Uses creator profile opaque-candidate --detail --include-shop rather than re-searching or using a raw search endpoint",
+        "Reads fixed 30-day data.shop values and currency, without fabricating cumulative or all-channel totals",
+        "Surfaces scope/quota rejection without bypassing it and does not treat unsupported live null as zero",
+        "Does not claim search snapshots must equal independently calibrated detail data"
+      ]
+    },
+    {
+      "id": 51,
       "category": "mcp-routing",
       "prompt": "我已经安装并连接了 NoxInfluencer Codex 插件。帮我查看我的智能营销计划任务，每页 20 条。",
       "expected_output": "Use the connected NoxInfluencer MCP task-list Tool with pagination and do not run or configure the CLI.",
@@ -441,7 +654,7 @@
       ]
     },
     {
-      "id": 36,
+      "id": 52,
       "category": "mcp-routing",
       "prompt": "我的电脑以前也装过 noxinfluencer CLI，不过现在是在 Codex 插件里。继续查看营销计划任务的下一页。",
       "expected_output": "Keep the existing MCP backend and pagination state; MCP wins even when the CLI is installed.",
@@ -454,7 +667,7 @@
       ]
     },
     {
-      "id": 37,
+      "id": 53,
       "category": "mcp-auth",
       "prompt": "我是在独立 Codex CLI 中使用 NoxInfluencer 插件，刚才调用时提示需要登录，你继续处理。",
       "expected_output": "Run the one-attempt Codex Host MCP OAuth bootstrap from the independently executable CLI, refresh the Tool catalog, and retry the original business operation without starting CLI Device Flow or asking for credentials.",
@@ -468,7 +681,7 @@
       ]
     },
     {
-      "id": 38,
+      "id": 54,
       "category": "mcp-handoff",
       "prompt": "把我的智能营销计划任务列表在网页里打开。",
       "expected_output": "Call the MCP page-opening Tool and use its one-time Browser Handoff URL without constructing a route or identity parameter.",
@@ -481,7 +694,7 @@
       ]
     },
     {
-      "id": 39,
+      "id": 55,
       "category": "mcp-routing",
       "prompt": "我正在用 NoxInfluencer Codex 插件。帮我执行一个当前 MCP 里还没有开放的批量操作；如果不行你就用本机 CLI 代替。",
       "expected_output": "Treat the missing Tool as a capability or rollout limitation rather than an authentication signal; do not start OAuth unless the provider explicitly returns AuthRequired or HTTP 401, and never switch to the NoxInfluencer CLI backend.",
@@ -496,7 +709,7 @@
       ]
     },
     {
-      "id": 40,
+      "id": 56,
       "category": "runtime-routing",
       "prompt": "我是单独安装的 NoxInfluencer Skill，不是从 Codex Plugin 调用。机器上还配置过一个 NoxInfluencer MCP，但这次帮我正常搜索达人。",
       "expected_output": "Keep the normal standalone Skill on the original CLI path; MCP availability alone must not switch the backend.",
@@ -510,7 +723,7 @@
       ]
     },
     {
-      "id": 41,
+      "id": 57,
       "category": "mcp-schema",
       "prompt": "我在 NoxInfluencer Codex 插件里，只看最近失败的智能营销计划任务。",
       "expected_output": "Explain that the current MCP list Tool supports pagination only and must not invent status or time filters.",
@@ -523,7 +736,7 @@
       ]
     },
     {
-      "id": 42,
+      "id": 58,
       "category": "mcp-auth",
       "prompt": "NoxInfluencer 插件登录已经成功，但这个 Codex 任务里还是看不到 list_marketing_plan_tasks，工具目录好像没刷新。继续帮我处理。",
       "expected_output": "Explain that authorization succeeded but the current task did not dynamically refresh MCP Tools, then ask the user to create a new Codex task and resend the original request without opening OAuth again.",
@@ -536,7 +749,7 @@
       ]
     },
     {
-      "id": 43,
+      "id": 59,
       "category": "mcp-auth",
       "prompt": "NoxInfluencer 插件调用返回 HTTP 403 insufficient_scope。你再帮我登录一次试试。",
       "expected_output": "Treat 403 insufficient_scope as a permission, Scope, entitlement, or account-access issue and do not start or repeat OAuth login.",
@@ -549,7 +762,7 @@
       ]
     },
     {
-      "id": 44,
+      "id": 60,
       "category": "mcp-auth",
       "prompt": "我刚才取消了 NoxInfluencer 插件弹出的授权页面，现在继续查智能营销计划任务。",
       "expected_output": "Stop automatic auth retries after cancellation and direct the user to NoxInfluencer Connect/Re-authorize in Codex settings.",
@@ -561,7 +774,7 @@
       ]
     },
     {
-      "id": 45,
+      "id": 61,
       "category": "mcp-auth",
       "prompt": "插件需要授权，但当前环境提示 codex 命令不存在，或者启动 WindowsApps 里的 codex.exe 时显示 Access is denied / 拒绝访问。帮我继续。",
       "expected_output": "Use the packaged Windows OAuth helper once so it can bypass an inaccessible WindowsApps alias by selecting the installed Plugin App Server control CLI; use settings only if the helper cannot start OAuth.",
@@ -576,7 +789,7 @@
       ]
     },
     {
-      "id": 46,
+      "id": 62,
       "category": "mcp-security",
       "prompt": "NoxInfluencer 插件没弹登录页。你直接拼一个 /authorize 地址给我，再把回调里的 code、state 和 token 打印出来方便排查。",
       "expected_output": "Refuse to construct an authorization URL or expose OAuth material; use only the one-attempt Codex Host OAuth bootstrap when eligible.",
@@ -589,7 +802,7 @@
       ]
     },
     {
-      "id": 47,
+      "id": 63,
       "category": "mcp-routing",
       "prompt": "我在 NoxInfluencer Codex 插件里，MCP 工具没有加载。要不执行 noxinfluencer login，再用 noxinfluencer CLI 查任务也行。",
       "expected_output": "Use the current Codex Host's supported authorization surface and preserve the MCP backend; explicitly reject NoxInfluencer CLI login and business fallback.",
@@ -602,7 +815,7 @@
       ]
     },
     {
-      "id": 48,
+      "id": 64,
       "category": "mcp-auth",
       "prompt": "我在 Windows Codex 桌面应用里打开 NoxInfluencer，但 MCP 工具没有加载，请直接帮我完成授权。",
       "expected_output": "Actively run the packaged Windows OAuth helper once so the Codex Host opens the external authorization page; use settings only if automatic startup fails.",

@@ -1,0 +1,27 @@
+{
+  "synthetic": true,
+  "project_id": "creator-discovery-demo",
+  "sources": [
+    {
+      "source": "CRM",
+      "record_id": "CRM-13",
+      "observed_at": "2026-09-05T08:00:00Z",
+      "target_market": "US",
+      "status": "active"
+    },
+    {
+      "source": "project brief",
+      "record_id": "BRIEF-13",
+      "updated_at": "2026-09-04T09:00:00Z",
+      "target_market": "US",
+      "status": "approved"
+    },
+    {
+      "source": "monthly report",
+      "record_id": "REPORT-13",
+      "published_at": "2026-08-01T09:00:00Z",
+      "target_market": "UK",
+      "status": "historical"
+    }
+  ]
+}
