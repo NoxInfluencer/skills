@@ -38,17 +38,9 @@ Start from the actual workflow, inputs, systems, decisions, handoffs, and recurr
 
 For an SOP request, deliver a method the team can review and use. Walk it through a representative case to expose missing decisions and handoffs; distinguish proposed changes from existing rules. For an automation proposal, identify the implementation path, dependencies, and pilot without claiming it is running.
 
-When implementation is requested, use the capabilities available in the user's environment, such as business tools, scheduled tasks, or a small script. Define the contract needed to run and verify it:
+When implementation is requested, use the capabilities available in the user's environment, such as business tools, scheduled tasks, or a small script. Read [the automation contract](references/operating-design.md#make-automation-bounded-and-observable), implement a bounded path, and compare expected with observed results, including the relevant exception or retry case, before expanding it. Distinguish a document, a simulation, a working pilot, and an unattended operation. Missing access or runtime blocks the dependent execution, while supported design or preparation can continue.
 
-```text
-business result; trigger and scope; inputs and authoritative sources
-decision rules; actions and owners; confirmation points
-state and readback; retry, stop, and exception handling; success signal
-```
-
-Implement a bounded path and compare expected with observed results, including the relevant exception or retry case, before expanding it. Distinguish a document, a simulation, a working pilot, and an unattended operation. Missing access or runtime blocks the dependent execution, while supported design or preparation can continue. A design document alone is not automation delivery.
-
-For a cross-stage handoff, SOP architecture, or automation pilot, read [references/operating-design.md](references/operating-design.md). It defines the minimal stage, handoff, state, automation, pilot, data and cost contracts; use only the parts that serve the current decision.
+For cross-stage handoffs, SOP architecture, pilot economics, or data definitions, read the relevant section of [references/operating-design.md](references/operating-design.md).
 
 Read [references/workspace-context.md](references/workspace-context.md) for project context, SOP development, automation verification, and promoting operating experience.
 
@@ -66,17 +58,7 @@ For the work being undertaken:
 4. **Verify the result.** Check advice and methods against the supplied situation and evidence. For execution, read back the authoritative business state. Distinguish a tool response, a stage result, and the broader outcome.
 5. **Learn and continue.** Update the objective, strategy, creator hypothesis, message, terms, process, or automation when results change the likelihood or economics of success.
 
-Keep a compact working record for each material decision or state change:
-
-```text
-stage result and business question
-evidence (source, observed time, scope, and what it supports)
-decision and confidence; uncertainty or risk
-next action, owner, and authority; observed result and current state
-method, SOP, or automation change when the lesson should repeat
-```
-
-Keep live status and commercial terms in the system that owns them. Keep reusable reasoning and project methods in the designated workspace.
+For each material decision or state change, use the [working record](references/workspace-context.md#keep-one-business-record) to preserve evidence, reasoning, uncertainty, authority, owner, next check and observed result. Keep live status and commercial terms in the system that owns them; keep reusable reasoning and project methods in the designated workspace.
 
 For creator recommendations, client comparisons, or operator summaries, use [decision-relevant information](references/workspace-context.md#choose-decision-relevant-information). Select details for the reader's current decision; keep factual evidence, assessment, and material unknowns distinct. Use comparable dimensions across creators and summarize shared conditions once.
 
@@ -95,12 +77,14 @@ For an external benchmark, state its source, publication or observation date, ma
 
 Read [references/experience-baseline.md](references/experience-baseline.md) when the project lacks a mature strategy or operating baseline.
 
-For creator-growth strategy or live-content planning, read the strategy section in
-[references/operating-design.md](references/operating-design.md). It connects the
+For creator-growth strategy or live-content planning, read
+[the strategy section](references/operating-design.md#choose-a-creator-strategy-from-evidence). It connects the
 primary job, buying reason, creator and content fit, destination, breakpoint,
 attribution or incrementality evidence, rights, and scale/fix/stop decision. Use
 the examples as working explanations; keep windows, thresholds, and budget rules
 specific to the project.
+
+For renewal or content-reuse decisions, read the [reuse handoff](references/operating-design.md#use-one-handoff-contract) and [renewal checks](references/operating-design.md#renew-scale-fix-or-stop). Match the next contribution or reuse claim to the primary goal. Name the evidence source, propose an owner, and say when to revisit the decision; use a review condition when a date is unknown.
 
 ## Two-pass creator discovery
 
@@ -108,29 +92,20 @@ When creator discovery serves the requested task, use search to map supply and r
 
 - **Coarse screen:** use structured search and filters to form a deduplicated candidate queue. Preserve the query, source, snapshot time, supported fields, and open questions.
 - **Fine selection:** review a smaller, purposeful set with creator detail data and, when available, browser inspection of original channel/video pages for visual or content evidence. Decide fit, priority, and the next qualification action from the richer evidence.
-- Fine review normally covers 3-5 representative recent pieces within 90 days, preferring continued activity within 60 days. Separate formats and use comparable medians or typical ranges.
-- Reconcile platform averages, tags, scores, percentiles, and contact flags with recent format-specific content and actual contact evidence.
-- Assess the real scene, audience, market, language, authenticity, eligible entity type, safety, cooperation signals, and a concrete partnership idea.
-- Deduplicate by stable creator or channel identity. Keep creator fit and contact readiness as separate decisions.
-- When evidence is incomplete, keep the conclusion provisional and name the smallest useful follow-up.
 
-Read [references/playbook.md](references/playbook.md) for detailed lifecycle guidance and the complete coarse/fine method.
+Read [the complete discovery method](references/playbook.md#2-discover-creators-in-two-passes) before qualification. Reconcile machine signals with representative, format-specific content; keep creator fit and contact readiness separate. Incomplete evidence leaves a provisional decision and a named next check. The playbook links to provisional review defaults when project rules leave a gap.
 
-For reply monitoring, cooperation terms, Briefs, content review, delivery problems, recurring product feedback or performance analysis, read the relevant playbook section directly. It provides the decision criteria and completion evidence to turn that work into a project SOP or automation. For a dispute over product claims or audience wording, read the [Brief and review criteria](references/playbook.md#72-brief-and-creative-direction) before proposing an adapted message.
+## Partnership execution
 
-For renewal or content-reuse decisions, read the corresponding checks in
-[references/operating-design.md](references/operating-design.md). Match the next
-contribution or reuse claim to the primary goal. For each proposed next check,
-name the evidence source, propose an owner, and say when to revisit the decision;
-use a review condition when a date is unknown.
+Read the matching playbook section for [reply monitoring](references/playbook.md#5-turn-replies-into-decisions), [cooperation terms](references/playbook.md#6-negotiate-the-complete-cooperation), [Briefs and content review](references/playbook.md#72-brief-and-creative-direction), [delivery problems or product feedback](references/playbook.md#74-recover-from-delivery-problems), or [performance analysis](references/playbook.md#8-measure-and-learn). Use its decision criteria and completion evidence when turning the work into an SOP or automation. Read the Brief and review criteria before adapting a disputed product claim or audience message.
 
 ## Decision rights
 
-Within the user's objective and approved operating rules, independently research, qualify, prioritize, deduplicate, draft, organize records, and decide whether routine outreach or follow-ups fit the approved rules. When execution is needed, route the external action through the capability that owns it.
+Within the user's objective and approved operating rules, independently research, qualify, prioritize, deduplicate, draft, organize records, and decide whether routine outreach or follow-ups fit the approved rules. Search terms and independent research queues are discovery inputs: refining them within approved project boundaries leaves eligibility and sending authority unchanged. Candidates verified against the existing criteria can continue under the same authorized workflow, regardless of which query found them. When execution is needed, route the external action through the capability that owns it.
 
 Before an external send, verify the recipient, sender, message version, links or attachments, and scope. An exact previously approved rule can authorize matching routine sends. Treat a substantive human reply as new business evidence: preserve it, re-check fit and terms, prepare the tailored response, and obtain confirmation before sending unless an approved rule covers that reply class.
 
-Bring the user a decision before a material commitment or change to price, deliverables, rights, paid usage, exclusivity, payment, budget, market, schedule, contract language, or another substantive promise. Show the proposed package, evidence and confidence, trade-offs, unresolved terms, and a practical alternative.
+Use existing explicit authority within its agreed limits. Bring the user a decision before a material commitment or change not covered by that authority, including price, deliverables, rights, paid usage, exclusivity, payment, budget, market, schedule, or contract language. Show the proposed package, evidence and confidence, trade-offs, unresolved terms, and a practical alternative.
 
 ## Capability collaboration
 

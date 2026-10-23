@@ -83,7 +83,7 @@ Spend detail and browser-review effort on a smaller, purposeful subset:
 
 Use creator detail data and, when available, browser inspection of original channel/video pages: About, recent videos, titles, thumbnails, descriptions, comments, and visible cooperation context. This evidence tests whether the partnership will feel natural to the audience, not merely whether a row passes a filter.
 
-Review **3–5 representative recent pieces**, normally within **90 days** and with preference for continued activity within **60 days**. Separate long-form, Shorts, live replays, and other formats. Record a comparable recent view range or median, explain breakouts, and compare commercial and non-commercial content when useful.
+Use the project's review sample and recency rules; where they leave a gap, use the [provisional discovery defaults](experience-baseline.md#discovery-defaults). Separate long-form, Shorts, live replays, and other formats. Record a comparable recent view range or median, explain breakouts, and compare commercial and non-commercial content when useful.
 
 Check whether the requested creative work fits the creator's demonstrated format: a successful silent demonstration gives little evidence of skill at a spoken tutorial. Compare sponsored-content frequency and performance with ordinary content of the same format and age. Sparse uploads, abrupt growth, repetitive comments, or missing past partnerships call for context and verification; assess their cause before changing priority.
 
@@ -95,12 +95,12 @@ Answer the decision questions:
 2. Do audience, market, and language fit the target behavior?
 3. Can the creator explain or demonstrate the value in a natural format?
 4. Is recent, format-specific performance representative and consistent enough for this objective?
-5. Do authenticity, brand-safety, prior cooperation, and production signals support a workable relationship?
+5. Do authenticity, eligible entity type, brand-safety, prior cooperation, and production signals support a workable relationship?
 6. What concrete cooperation idea makes the selection credible?
 
 Record supporting links, observation time, interpretation, confidence, and the largest unresolved risk. If detail or browser evidence is unavailable, keep the decision provisional and name the smallest follow-up that would raise confidence.
 
-Apply a simple scene test to the primary lane: tech should show repeated testing, explanation, or real use; outdoor should show a real activity and visible function; shopping or gifting should show purchase or selection intent; student should show a credible campus or study context. Use one primary lane and treat other labels as supporting context.
+Use a primary lane when it helps explain the cooperation, with other labels as context. The [example creator lanes](experience-baseline.md#example-creator-lanes) illustrate scene tests; choose or adapt one to the product rather than requiring every creator to fit that list.
 
 Call a candidate fine-qualified when recent representative content, scene and audience fit, comparable performance, identity or safety context, and a concrete cooperation angle are covered. Until then, mark the decision provisional.
 
@@ -158,7 +158,7 @@ Before an external send, verify the approved message version, recipient identity
 
 ### 4.3 Follow up under an approved cadence
 
-Choose timing from the launch window, channel norms, creator value, and prior interaction. A practical starting point is a first follow-up after **3–5 business days**, a second after another **5–7 business days**, and a short close-the-loop note. Once an exact rule is approved, continue matching routine follow-ups for eligible creators. A reply, opt-out, bounce, or material change moves the creator to response handling. For a substantive human reply, prepare the next response and obtain confirmation before sending unless an exact approved rule covers that reply class.
+Choose timing from the launch window, channel norms, creator value, and prior interaction; the [baseline cadence](experience-baseline.md#outreach-and-lifecycle-defaults) is a starting proposal when project rules are absent. Once an exact rule is approved, continue matching routine follow-ups for eligible creators. A reply, opt-out, bounce, or material change moves the creator to response handling. For a substantive human reply, prepare the next response and obtain confirmation before sending unless an exact approved rule covers that reply class.
 
 ## 5. Turn replies into decisions
 
@@ -206,7 +206,7 @@ Bind each quote to its scope, currency, date and any validity period. When it ch
 
 Before replying, define the desired package, acceptable limits, best alternative, unresolved facts, and why each concession creates value. Trade scope, format, rights, exclusivity, timing, revisions, bundle size, or payment structure deliberately so a price movement has a corresponding change in value or risk.
 
-Use current comparable evidence for market guidance. When it is absent, state the uncertainty and reason from expected contribution, recent performance, alternatives, complete cost, and downside. Use CPV only when views are a relevant objective; for traffic, sales, or another objective, compare the economics of that outcome. For a material commitment, present the package and total economics, evidence and confidence, target and limits, trade-offs, remaining risks, a practical alternative, and the exact decision the user must make. Hold the counter or acceptance until that package is confirmed.
+Use current comparable evidence for market guidance. When it is absent, state the uncertainty and reason from expected contribution, recent performance, alternatives, complete cost, and downside. Use CPV only when views are a relevant objective; for traffic, sales, or another objective, compare the economics of that outcome. Apply the Manager's [decision rights](../SKILL.md#decision-rights). For a material commitment beyond existing authority, present the package and total economics, evidence and confidence, target and limits, trade-offs, remaining risks, a practical alternative, and the exact decision the user must make; hold the counter or acceptance until confirmed.
 
 ## 7. Fulfill and publish
 
@@ -287,7 +287,7 @@ adds and distinguish usable delivery from evidence that reuse improved a result.
 
 Set the observation window and denominator before comparing a batch. Use the highest available benchmark in this order: **same-project, same-type history → the creator's recent same-format content → a dated industry reference**. Define minimum acceptable, target, and stretch outcomes when a decision needs a threshold. For response rates, record the sent denominator, human-reply definition, and window; a single batch is a learning signal, not an industry benchmark.
 
-Keep exposure, engagement, clicks, visitors, orders and repeat purchase distinct. Record each metric's source, window, denominator and cost scope. Request creator-side analytics for needed private metrics. Reach counts people while views count plays; CPM is cost per thousand impressions, and a view-based cost needs that label. Revenue-based ROAS differs from profit-based ROI.
+Keep exposure, engagement, clicks, visitors, orders and repeat purchase distinct. Record each metric's source, window, denominator and cost scope. Request creator-side analytics for needed private metrics. Reach usually estimates unique accounts or users under a source's identity model; it does not establish distinct people across platforms. Views follow each platform's play-count rules and can include repeats. CPM is cost per thousand impressions; label a view-based cost as CPV or cost per thousand views as appropriate. Revenue-based ROAS differs from profit-based ROI.
 
 For an apparent anomaly, work through the smallest relevant checks:
 

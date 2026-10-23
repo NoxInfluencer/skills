@@ -25,8 +25,9 @@ Each stage should leave a usable result for the next stage:
 | Deliver/recover | delivery, defect, delay or recovery state with owner | Can dependent work continue? |
 | Reuse or close | rights, retention, result and learning state | What may be reused, and what should stop? |
 
-For creator work, choose one primary job before searching or briefing: demand,
-conversion, or content asset. Record secondary signals, the project-defined
+For creator work, choose one primary job before searching or briefing, such as
+demand, conversion, or a content asset. Use the project's objective rather than
+forcing every task into these examples. Record secondary signals, the project-defined
 observation window, and the decision they inform. For example, a conversion test
 may use qualified visits and purchase questions as secondary signals; high views
 alone do not prove sales. Keep this choice in the brief and use it to select the
@@ -101,6 +102,8 @@ the signal for that job. A hands-on video may answer compatibility and setup
 questions; it does not need to maximize reach, education, and orders at once. These
 labels are decision aids, not a required three-part campaign.
 
+### Content, demonstration and destination
+
 When an experience event serves content creation, choose a real task worth
 recording, such as assembling a camping setup. Offer useful photos or short
 clips where needed, preserving participants' own viewpoints. Distinguish
@@ -122,22 +125,33 @@ returns, and support. If the video promises an easy setup, the destination shoul
 show supported devices and the purchase path. A click alone does not prove the
 next touchpoint can complete the decision.
 
-When results are weak, locate the break before changing the plan. Compare
-`play → visit`, `visit → cart`, and `cart → order` using the same object, source,
-market, and observation window. High plays with few visits points to creator fit,
-the buying reason, the call to action, or the link; visits with few carts points to
-the offer or page; carts with few orders points to payment, delivery, or checkout.
+### Diagnose performance and causality
+
+When results are weak, check measurement before changing the plan. For a purchase
+path, compare `play → visit`, `visit → cart`, and `cart → order` within comparable
+campaigns and markets, only where sources, counting units, cohorts and attribution
+windows can be reconciled.
+Aggregate plays and visits are not automatically a person-level funnel; other
+objectives may need a different path. High plays with few visits can suggest a
+creator-fit, buying-reason, CTA or link problem; visits with few carts can suggest
+an offer or page problem; carts with few orders can suggest a payment, delivery
+or checkout problem. These are explanations to test, not established causes.
 Test one leading explanation first instead of adding creators because orders are
-low.
+low. Use the [measurement checks](playbook.md#8-measure-and-learn) for definitions,
+tracking, refunds and delayed attribution.
 
 Separate evidence by what it can answer. UTM, affiliate links, and codes can assign
 a tracked order (direct attribution). Brand search, direct traffic, email activity,
 new-customer share, and feedback can show related movement (assisted evidence)
 without proving who caused it. When the decision is important enough to justify
 the cost, choose a time, geography, staggered-launch, or comparison design to
-estimate incrementality. Without that design, call the result an observation or
+estimate incrementality. The design needs a credible comparison for what would
+have happened without the activity, accounting for material differences such as
+seasonality and concurrent promotions. Without that support, call the result an observation or
 hypothesis, not causal lift. Incrementality is an available method selected for a
 material decision, not a default calculation for every campaign.
+
+### Renew, scale, fix or stop
 
 Before renewing, ask what the next cooperation adds to the primary job. Review
 the existing content, audience questions, usage limits, and results. For a buying
@@ -165,16 +179,16 @@ Before proposing or implementing recurring automation, define only the contract 
 
 ```text
 business result and success signal
-trigger, eligibility and scope
+trigger, eligibility, scope and schedule
 authoritative inputs and stable identity
-decision rule and action
+decision rule, action, owner and authority/confirmation
 state update and readback
 duplicate handling, retry, stop and escalation
 ```
 
 For a due-date follow-up, check the current relationship state before preparing a task. A new human reply, refusal, pause, changed terms or conflicting owner should invalidate stale work and move the item to review unless an exact approved rule covers that reply class. An exception stops automatic progression and names the owner; it does not silently create another task or send a message.
 
-Automation may prepare a draft, task or recommendation under the approved rule. Exploratory queries and reversible creator hypotheses can be refined within project constraints. Obtain confirmation before adding or changing eligibility rules used for automatic selection or external actions; keep human approval for external promises, pricing, material timing or rights commitments, material scope changes and exceptions. A successful command, queued task or generated draft is not proof of the business result; read back the owning state.
+Automation may prepare a draft, task or recommendation under the approved rule. Exploratory queries and reversible creator hypotheses can be refined within project constraints. Apply the Manager's [decision rights](../SKILL.md#decision-rights): use existing explicit authority and seek confirmation before changing automatic eligibility or external-action scope beyond it. A successful command, queued task or generated draft is not proof of the business result; read back the owning state.
 
 When the required trigger, input feed, permission, sender or write path is unavailable, describe the supported preparation and the exact blocked step. Do not call a document, simulation or manual export run an unattended operation.
 

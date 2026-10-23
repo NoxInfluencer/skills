@@ -2,6 +2,13 @@
 
 Use these evaluations to answer: did the user task improve, where did it fail, what should change next, and did the revision regress? Packaging checks alone do not establish task quality.
 
+The [2026-10-23 overall integration review](review-2026-10-23-overall-integration.md)
+consolidates repeated guidance, corrects measurement and authority wording, and
+keeps historical progress separate from current state. It preserves the initial
+authority failure, the bounded correction and runtime-recovery evidence, and the
+remaining business-answer limitations. Structural cleanup is not an all-outcomes
+pass or a stable improvement claim.
+
 The [Brief source-fidelity experiment record](improvement-plan.md) distinguishes
 measurement, rule, discovery and output-fidelity defects. Its fixed source-linked Brief
 experiment on cases 41/51, with case 25 checking preliminary-decision scope,
@@ -24,13 +31,13 @@ The [2026-09-15 handbook integration review](review-2026-09-15-handbook.md) reco
 
 The [2026-09-15 industry-evidence review](review-2026-09-15-industry-evidence.md) adds cases 35/36 for supplied-source reasoning and transfer. Two shorter Skill revisions still produced an unsupported statistic in case 15 and were rolled back. It records source interpretation defects, runtime failures and the separate bookmark-only subagent results. The issue remains open; the retained work is test coverage, not a demonstrated repair.
 
-The [2026-09-15 native subagent review](review-2026-09-15-native-forward.md) adds three independent conversations with six user turns and an implemented local follow-up pilot. The parent separately verified its generated CLI through repeated runs, changed reply state, a later follow-up and conflicting-input recovery. The exact requests and synthetic inputs are retained for repetition. These writable native probes supplement the 43 canonical cases (there were 34 when that review ran); they are not a score comparison with the earlier SDK runtime, and the Skill is unchanged.
+The [2026-09-15 native subagent review](review-2026-09-15-native-forward.md) adds three independent conversations with six user turns and an implemented local follow-up pilot. The parent separately verified its generated CLI through repeated runs, changed reply state, a later follow-up and conflicting-input recovery. The exact requests and synthetic inputs are retained for repetition. These writable native probes supplement the canonical suite (there were 34 cases when that review ran); they are not a score comparison with the earlier SDK runtime, and that review left the Skill unchanged.
 
 The [2026-09-15 workflow-entry review](review-2026-09-15-workflow-entry.md) retains the Manager's open entry and workflow-automation positioning after isolated conversation comparison and focused regression. Cases 31–34 add two multi-turn probes plus consultation and automation diagnosis. It records the repaired input-isolation defect, raw-answer excerpts and the still-unresolved benchmark-evidence issue in case 15; it does not claim every business outcome passed.
 
 Case 20 uses the fictional names ExamplePower and ExamplePack P1. Prepare fresh fixtures when case labels or assertions change. Commit references follow the published history; recorded scores and fixture fingerprints retain their original run values. Regrading older answers against renamed assertions requires explicit label normalization.
 
-The latest [adapted-conversation review](review-2026-09-08-adapted-conversations.md) adds cases 26–30 covering four conversation decision patterns. Ten executions cover the new slice, focused repeats and cases 24/25. Project attribution and negotiation timing held, but case 29 twice omitted an expected usage-rights unknown. That unresolved finding and the [raw answers](business-review-sample-2026-09-08-adapted-conversations.md) await user review; the Skill remains unchanged. This is evidence-backed coverage, not a version-improvement or all-business-outcomes-pass claim. At that review's baseline, the original 25 cases, inputs and five outcome graders were unchanged.
+The [2026-09-08 adapted-conversation review](review-2026-09-08-adapted-conversations.md) adds cases 26–30 covering four conversation decision patterns. Ten executions cover the new slice, focused repeats and cases 24/25. Project attribution and negotiation timing held, but case 29 twice omitted an expected usage-rights unknown. That unresolved finding and the [raw answers](business-review-sample-2026-09-08-adapted-conversations.md) await user review; that review left the Skill unchanged. This is evidence-backed coverage, not a version-improvement or all-business-outcomes-pass claim. At that review's baseline, the original 25 cases, inputs and five outcome graders were unchanged.
 
 The earlier [audience-selection review](review-2026-09-08-audience-selection.md) adds case 25: the exact case 24 evidence with a client-facing decision request. Three bounded executions support keeping the current Skill unchanged; this is added coverage, not a version-improvement claim. The [first-run raw answers](business-review-sample-2026-09-08-audience-selection.md) await user review. The original 24 cases, inputs and outcome graders are unchanged.
 

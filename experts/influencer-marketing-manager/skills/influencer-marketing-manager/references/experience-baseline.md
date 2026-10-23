@@ -23,7 +23,7 @@ Use [workspace-context.md](workspace-context.md) for current-state source roles 
 
 ## Strategy baseline
 
-Start with one primary business outcome and, when useful, one or two supporting outcomes. Express the operating hypothesis by connecting the target audience, creator role, real content scene, product value, desired behavior, and the evidence that makes the connection plausible.
+Use the [strategy method](operating-design.md#choose-a-creator-strategy-from-evidence) to choose the primary outcome and evidence. The following are starting hypotheses for a project without established practice.
 
 Build the initial plan around the decisions that change execution:
 
@@ -34,31 +34,21 @@ Build the initial plan around the decisions that change execution:
 - complete budget, timing, capacity, and material constraints;
 - target behavior, observation window, attribution method, and success signal.
 
-Use complete cooperation cost for portfolio choices: creator fee, rights, exclusivity, product and logistics, tax and payment, production or localization, measurement, and a project-supported risk allowance. Allocate early work to learning as well as delivery when the project has no reliable history.
+Use the playbook's [complete cooperation cost](playbook.md#6-negotiate-the-complete-cooperation) for portfolio choices, including localization when needed. Allocate early work to learning as well as delivery when the project has no reliable history.
 
 For a product that needs demonstration, test a review or tutorial; for an immediately visible benefit, test a short demonstration or natural routine integration. A timely promotion may use a short-lived placement, while a searchable explanation can serve later buyers. Check current platform support, creator evidence, and the landing or purchase experience. Compare a bounded set of viable options and concentrate effort where the observed outcome supports it. Coordinate useful brand-account replies and content reuse within the agreed rights.
 
-When the user asks for industry experience or reference data, retrieve a current credible source when possible and state its publication date, covered market or platform, population, metric definition, and important limits. Use industry data to frame hypotheses and plausible ranges. Let same-project history, recent comparable creator evidence, and a bounded current test establish operating thresholds.
-
 ## Evidence calibration
 
-Use machine output to decide what to inspect, then ground the decision in current, comparable evidence.
+Apply the playbook's [discovery checks](playbook.md#2-discover-creators-in-two-passes) to query counts, machine signals and contact readiness, and its [measurement checks](playbook.md#8-measure-and-learn) to comparator and rate definitions. These examples explain why those distinctions matter:
 
-- Record a query's **total**, **returned**, **filtered/hidden**, and **deduplicated usable** counts separately, using the source's definitions. Treat them as separate dimensions and derive combined values only when the source documents their relationship. Plan review and expansion from the usable queue; treat the other counts as coverage diagnostics.
-- Platform averages, tags, percentiles, composite or cooperation scores, reply likelihood, and contact/dispute flags are supporting clues. Establish optional-field semantics first; treat a missing or default-looking zero as unknown until the source documents it as "none." Reconcile the field with recent same-format content, a median or typical range, trend, and the real scene.
-- Calibration examples from one reviewed snapshot (not thresholds): a ten-item profile averaged about **867K** views but had a **24K** median because nine items were Shorts and its only long-form item averaged about **1.2K**; another averaged about **45K** with an **8K** median. Headline averages therefore need format-specific review.
+- Calibration examples from one reviewed snapshot (not thresholds): a ten-item profile averaged about **867K** views with a **24K** median; nine items were Shorts and its only long-form item had about **1.2K** views. Another profile averaged about **45K** with an **8K** median. The headline averages hide skew and format differences, so inspect representative content before estimating expected performance.
 - When a historical note gives a send count and an informal "effective reply" count without fixed definitions, preserve it as a qualitative observation. Set the sent denominator, human-reply and qualification definitions, and observation window before calculating a rate.
-- A contact flag is a discovery signal. Establish send readiness through the playbook's delivery-route and identity checks; platform-managed email need not expose an address. Display names or result-row positions cannot prove creator-level deduplication.
-- Use the highest available benchmark in this order: same-project, same-type history → the creator's recent same-format content → a dated industry reference. External reports (for example, the [IAB 2025 Creator Economy Ad Spend & Strategy Report](https://www.iab.com/insights/2025-creator-economy-ad-spend-strategy-report/)) help frame funnel and measurement hypotheses; they do not set rates, thresholds, or response benchmarks.
+- External reports (for example, the [IAB 2025 Creator Economy Ad Spend & Strategy Report](https://www.iab.com/insights/2025-creator-economy-ad-spend-strategy-report/)) help frame funnel and measurement hypotheses; they do not set project rates, thresholds, or response benchmarks. Qualify them using the Manager's [external-evidence criteria](../SKILL.md#strategy-and-evidence).
 
 ## Discovery defaults
 
-- Follow the playbook's two-pass method. As provisional values, review **3–5 representative recent pieces**, normally within **90 days** and with preference for continued activity within **60 days**; separate formats and use comparable medians or typical ranges.
-- Check the real scene, audience, market, language, authenticity, safety, and prior cooperation; assign one primary lane for the cooperation story.
-- Use follower count and platform averages for planning. Let goal-specific fit, recent evidence, and execution likelihood set priority.
-- Keep fit and contact readiness separate, preserve strong fits while contact research continues, and check identity deduplication before expanding supply.
-- If the project provides a cumulative mix, use its current gaps to steer the next query or market; let quality determine batch size rather than forcing a per-batch quota.
-- Use a validated creator as a lookalike-search hypothesis by extracting its scene, audience, and format. Review every new result independently.
+Where project rules leave a gap, a provisional review covers **3–5 representative recent pieces**, normally within **90 days** and with preference for continued activity within **60 days**. Adjust to posting frequency and the evidence the decision needs; separate formats and use comparable medians or typical ranges. Apply the playbook's two-pass method rather than treating these values as qualification thresholds.
 
 One earlier team case used fewer than roughly **1,000 views** on recent comparable long-form videos to lower priority for that campaign. Treat it as a calibration example only; establish any threshold with a small, current sample and the stated objective.
 
@@ -76,20 +66,6 @@ Use these lanes to form an initial hypothesis; the active project may rename, me
 
 Travel, photography, device ecosystems, desk setup, and similar terms can be secondary scene labels. Use the lane that best describes the creator's recent main narrative so the cooperation story follows the actual context.
 
-Use a simple scene test: tech needs repeated testing, explanation, or real use; outdoor needs a real activity with visible function; shopping or gifting needs recurring purchase or selection intent; student needs a credible campus or study context. Treat the label as provisional until recent content supports it.
-
 ## Outreach and lifecycle defaults
 
-- If platform delivery is unavailable or external contact is needed, check the channel's public contact area, linked website or media kit, then clearly associated public profiles. Verify ownership and record the source.
-- Personalize the first contact to the creator's primary lane and **one concrete recent scene**; use the playbook's message checklist and leave detailed price, rights, exclusivity, and delivery promises for the approved commercial conversation.
-- A practical starting cadence is a follow-up after **3–5 business days**, another after **5–7 business days**, and a short close-the-loop note. Verify the send and read back the actual state afterward.
-- Treat a substantive human reply as new evidence: summarize it, re-check fit and terms, and apply the confirmation rule in the playbook before sending a changed response.
-- Use the playbook to compare complete packages, turn approved terms into a checklist, and measure the chosen objective.
-
-## Transferable patterns
-
-1. **Aggregate data hides format mix.** Split formats and use recent representative medians.
-2. **Fit and readiness differ.** Preserve a strong fit while contact research continues.
-3. **A reply changes qualification.** Re-read the message and re-check terms before a commercial decision.
-4. **The lane changes the proposition.** Tie the product scene and question to the creator's actual narrative.
-5. **Weak response is a learning signal.** Test the most plausible cause on a bounded batch before scaling volume.
+A practical starting proposal is a follow-up after **3–5 business days**, another after **5–7 business days**, and a short close-the-loop note. Project timing and approved rules take precedence. Apply the playbook's [cadence, stop and reply-handling rules](playbook.md#43-follow-up-under-an-approved-cadence); these intervals do not authorize a send. Keep supported fit, complete terms and observed results in the same relationship record as work advances.

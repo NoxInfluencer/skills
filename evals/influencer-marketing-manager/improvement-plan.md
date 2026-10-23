@@ -1,14 +1,14 @@
 # Brief source-fidelity experiment record
 
-Updated: 2026-10-22
+Updated: 2026-10-23 (source-progress pointer only; experiment retained)
 
 ## Scope and status
 
 This file retains the completed Brief evaluation topic, including its fixed
 protocol, rejected candidate and remaining limitations. The guest-material
 extraction plan is maintained separately in the ignored local
-`workspace/guest-materials-extraction-plan-20260923.md`; its next source is the
-fourth material. Follow-on Brief interventions below are deferred options, not
+`workspace/guest-materials-extraction-plan-20260923.md`; consult that plan for
+current source progress. Follow-on Brief interventions below are deferred options, not
 the next stage of material extraction. This filename remains for existing links.
 
 ## Outcome and lessons
@@ -17,7 +17,7 @@ The useful outcome is a supported next marketing decision or authorized action
 with less material correction. Reading a reference, producing a polished answer,
 completing a model turn and passing a packaging check establish different things.
 
-The three source integrations remain organized around the actual operating
+At the time of this experiment, the three source integrations were organized around the actual operating
 workflow: goal and contribution, renewal or reuse decision, creative evidence,
 then the next check. Preserve that structure and the conditional methods. A
 source's numerical example, one project's terms or one failed answer must not
@@ -56,7 +56,8 @@ requires its actual inputs, capabilities and existing authorization.
 ## Completed Brief experiment protocol
 
 The following protocol was fixed before the completed comparison. It describes
-the tested and rejected intervention; the current Skill is the restored version.
+the tested and rejected intervention; that Brief-specific method was reverted.
+Subsequent Skill changes are recorded in their own reviews.
 
 Hypothesis: preserving an accepted term's object, responsible party and condition
 through a compact working note, followed by a comparison with the original

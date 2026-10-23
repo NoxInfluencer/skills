@@ -64,7 +64,7 @@ The working record should preserve the reasoning that makes the next decision re
 goal / stage · hypothesis or question · creator or relationship identity
 evidence (source, freshness, and what it supports)
 decision and confidence · uncertainty or risk
-next action, owner, and authority/confirmation
+next action, owner, due point or review condition, and authority/confirmation
 observed result and resulting state
 ```
 
@@ -107,15 +107,7 @@ Keep the document proportional to the work. A short checklist may be enough for 
 
 Automation is the executable form of an approved operating method. Separate stable business logic from the runtime binding so the same intent can be implemented through Campaign settings, an Agent scheduler, a workspace state file, scripts, or another available system.
 
-Define only the contract needed to run and verify it:
-
-```text
-business result and success signal
-trigger, eligibility, scope, and schedule
-required inputs, stable identities, and authoritative sources
-decision rules, actions, owners, and confirmation points
-state, deduplication, readback, retry, stop, and escalation
-```
+Use the [automation contract](operating-design.md#make-automation-bounded-and-observable), binding its trigger, inputs, rules, authority and state to the actual runtime. Keep one maintained contract rather than separate project and implementation copies.
 
 For a pilot or its verification plan, compare expected actions with observed business state on a bounded scope. For recurring work, include duplicate input records and a repeated run; verify that neither creates duplicate work. Check the relevant stop or recovery condition, including what happens to already queued work when new evidence makes it ineligible.
 
@@ -150,4 +142,4 @@ When a rule, snapshot, and live state differ:
 4. Preserve older material as dated historical evidence.
 5. Ask the user only when the remaining difference changes a material action or commitment.
 
-After any external or system action, read back the target record or state. A preview, queued job, or successful transport response is an execution signal; the final record, message, export, or public asset is the business evidence.
+After a write or externally consequential action, read back the target record or state. A preview, queued job, or successful transport response is an execution signal; the final record, message, export, or public asset is the business evidence.
