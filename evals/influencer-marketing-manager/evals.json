@@ -850,6 +850,42 @@
         "Uses the supplied 18-litre capacity, removable dividers, product link, audience action and sponsorship disclosure in both placements; does not add a discount or waterproof/all-weather claims",
         "Moves to the accepted short concept and product placement without demanding a full script, silently changing scope or inventing testing, approval, sending, publication or payment completion"
       ]
+    },
+    {
+      "id": 52,
+      "category": "product-feedback-handling-and-retest",
+      "trigger": "should-trigger",
+      "prompt": "最近社媒反馈很吵，团队想尽快安排达人内容和品牌回应。请读资料，给一个够用的处理建议、当前可讨论的回应和下一检查点。只使用所给材料，不联网、不发送、不发布、不修改业务记录。",
+      "expected_output": "Connect recurring use problems to responsible handling, relevant verification and a factual response while allowing supported guidance to proceed.",
+      "files": [
+        "inputs/case52-product-feedback.md"
+      ],
+      "expectations": [
+        "Distinguishes reposted discussion from first-hand use reports, preserves the unknown use conditions and defect rate, and prioritizes the outdoor-call problem by its purchase/use impact rather than mention count alone",
+        "Keeps shipped 1.2 separate from the unreleased 1.3 test branch and desk-fan observations; does not present a proposed adjustment as a released or generally verified fix",
+        "Connects the original outdoor-call question to a proportionate retest under relevant version, fit and wind conditions, with the product lead confirming handling/release facts and a concrete review point",
+        "Rejects the unsupported all-conditions solution and co-creation claims, while offering a factual current response that does not invent user participation, a release date or completed verification",
+        "Allows the supported pairing guide to be shared as guidance, scopes the two confirmations and does not require a product redesign or wind test before addressing the separate pairing issue",
+        "Keeps evidence, responsible role and next check clear in the existing workflow without building a new platform, promising product changes or claiming an external action occurred"
+      ]
+    },
+    {
+      "id": 53,
+      "category": "question-led-live-and-follow-through",
+      "trigger": "should-trigger",
+      "prompt": "下周计划做一场达人直播。请读资料，给一份够用的内容安排和直播后处理建议，判断哪些能用、哪些还要补，并说明下一步看什么。只使用所给材料，不联网、不发送、不发布、不投放、不修改业务记录。",
+      "expected_output": "Organize the live session around buyer questions, distinguish observable demonstrations from unresolved claims, and preserve conditions and follow-through in reuse.",
+      "files": [
+        "inputs/case53-question-led-live.md"
+      ],
+      "expectations": [
+        "Uses the actual buyer questions and creator's demonstrated workflow to choose useful pickup/roller-cleaning content rather than maximizing promotional moments or requiring every possible format",
+        "Keeps hard-floor/short-pile demonstrations usable within scope, preserves the manual's long-pile exclusion, and does not claim that a live demonstration establishes two-year durability",
+        "Assigns unsupported or unanswered questions to an appropriate follow-up owner and evidence check rather than requiring every question to be resolved live or fabricating a product test",
+        "Preserves material surface/use/maintenance conditions in clips or linked FAQ, corrects the unsupported durability caption and treats 30 seconds as a proposed format rather than an overriding requirement",
+        "Connects the chosen product-page/trial use to a relevant observation, source, owner and review condition; distinguishes views, reactions and code-attributed orders from understanding and causal incrementality",
+        "Preserves the signed agreement's website/organic channels, editing scope and November 2026 term; leaves paid use and spend pending authorization without inventing publication, ad launch or measured improvement"
+      ]
     }
   ]
 }

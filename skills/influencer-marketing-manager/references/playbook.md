@@ -256,6 +256,18 @@ Confirm the cause and affected obligation, then choose a proportionate recovery 
 | Content disappears | Confirm public availability, retention terms and any platform notice; distinguish removal, expiry and creator deletion before agreeing correction, appeal, repost or replacement. |
 | Cooperation stops | Record confirmed costs and obligations, agree cancellation/return/refund steps and stop dependent tasks. |
 
+When use feedback recurs, keep the original problem, scene and source visible.
+Distinguish independent reports from copied discussion; weigh severity, purchase
+impact and feasible remedies rather than mention volume alone. Route findings
+to the product or service owner to assess the cause and handling. Guidance may
+resolve a use problem without redesign. If a change is made, check it against
+the original problem under conditions that matter—for example, retest outdoor
+calls after an audio adjustment. Keep planned, implemented and verified distinct.
+Explain only confirmed changes and unresolved limits; call it co-creation only
+if users actually participated. Retain verification evidence, the responsible
+owner and next review in the existing handoff, without promising product changes
+on that owner's behalf.
+
 A recovery that changes cost, rights, deliverables or timing follows the Manager's commitment rules. Record the verified outcome and revise the project method when the cause can recur.
 
 ## 8. Measure and learn

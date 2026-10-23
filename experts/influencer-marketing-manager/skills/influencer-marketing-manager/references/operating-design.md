@@ -90,11 +90,31 @@ product may need a creator who can show the actual travel setup and explain the
 problem, rather than the largest channel. Check audience, scene, recent work,
 safety, cost, and contactability together; do not reduce fit to follower count.
 
+For professional-use products, show the finished work together with the process
+and relevant conditions: for example, how a camera fits the creator's actual
+shooting workflow. A prestigious title or impressive finished piece alone does
+not establish one product's contribution.
+
 Give each asset a main job when that helps the decision: `demand` makes the need
 visible, `choice` supports comparison, and `confidence` reduces usage risk. Define
 the signal for that job. A hands-on video may answer compatibility and setup
 questions; it does not need to maximize reach, education, and orders at once. These
 labels are decision aids, not a required three-part campaign.
+
+When an experience event serves content creation, choose a real task worth
+recording, such as assembling a camping setup. Offer useful photos or short
+clips where needed, preserving participants' own viewpoints. Distinguish
+voluntary sharing from agreed posting, and apply the existing purpose-specific
+reuse and rights checks to any later use.
+
+If a live session fits the buying question, collect the key doubts and choose an
+observable demonstration or supported answer for each. Mark what cannot be
+established live. Preserve important conditions and unanswered items in later
+clips or FAQs, with an owner and next check; use the intended next touchpoint to
+choose the success signal. For example, show vacuum roller cleaning under
+supported conditions; a live demo cannot establish two-year durability. Choose
+clip length for the explanation, and apply the existing claim, reuse-rights and
+measurement checks.
 
 Carry the same buying reason into the product page, social post, email, live
 session, or sales reply. Check facts such as compatibility, price, stock, delivery,
