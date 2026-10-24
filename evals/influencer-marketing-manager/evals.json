@@ -922,6 +922,42 @@
         "Keeps materials received and slot held separate from content acceptance/publication and tracking readiness; addresses the known US redirect, unvalidated code and missing attribution readback before clearing B's launch without requiring an unauthorized live order",
         "Uses channel operations, website operations, product specialist and finance for the relevant handoffs and the November 4 project-owner readiness review; distinguishes later valid-order/settlement evidence from current readiness and claims no external action"
       ]
+    },
+    {
+      "id": 56,
+      "category": "cross-touchpoint-fact-alignment",
+      "trigger": "should-trigger",
+      "prompt": "请读资料，审查这轮跨触点内容和团队提出的改法，给出够用的修正建议、可供讨论的表达和下一次交接。只用所给材料，不联网、不联系、不发布、不修改业务记录。",
+      "expected_output": "Align current product facts and applicability across touchpoints while preserving truthful historical experience, source independence and a proportionate handoff.",
+      "files": [
+        "inputs/case56-touchpoint-facts.md"
+      ],
+      "expectations": [
+        "Uses the current revision-B firmware-2.0 facts: Q5/Q6 supported and Q4 unsupported; corrects the current sales-page Q4 inclusion and the entire-series partner claim with the supplied product authority rather than majority wording",
+        "Preserves the dated revision-A firmware-1.4 Q4/Q5 guide and the creator's actual revision-A Q4 use as historical, version-specific evidence; does not call normal version changes a factual contradiction or require deleting every older guide",
+        "Does not rewrite unperformed revision-B use as personal experience or generalize to every device; marks any proposed first-person line for creator confirmation or uses factual non-personal wording until the appropriate experience exists",
+        "Gives a useful natural-language explanation that retains model/version limits, the device-check CTA and paid-partnership disclosure, without requiring identical wording across the website, partner copy and creator narrative",
+        "Treats the three articles as syndications of one brand release rather than three independent product tests or proof of algorithmic trust, ranking or recommendation",
+        "Hands product facts to P, creator/partner wording to C and page correction to W for the October 27 readiness review; distinguishes proposed from verified changes and seeks agreement for new creator work without inventing testing, acceptance, publication or authority"
+      ]
+    },
+    {
+      "id": 57,
+      "category": "ai-answer-evidence-and-handoff",
+      "trigger": "should-trigger",
+      "prompt": "请读资料，判断这组结果支持哪些结论，团队的改法是否合理，并给出下一步最小可行的检查和交接建议。只用所给材料，不联网、不联系、不改站、不发布、不投放、不修改业务记录。",
+      "expected_output": "Interpret AI answer and access observations at their actual scope, correct supported fact errors and choose proportionate content, technical and measurement checks.",
+      "files": [
+        "inputs/case57-ai-answer-evidence.md"
+      ],
+      "expectations": [
+        "Distinguishes A's branded non-browsing mention from B's actual single web-search recommendation for the relevant UK rainy-commute question; preserves that a recommendation was observed while rejecting reliable or all-platform coverage claims",
+        "Checks the cited R0 source against R1 facts and rejects the unsupported R1 waterproof claim; proposes a supported current explanation or correction without inventing a waterproof property, a general platform fault or control over the service's answer",
+        "Treats the operator-made user-agent HTTP 200 and raw JavaScript shell as limited path observations, not verified bot activity, universal render failure, indexing, citation or recommendation proof; does not default-open training access or prescribe universal SSR or special AI files",
+        "Uses relevant user questions and preserves the necessary service/mode, language/market, date, original answer and available source evidence for a proportionate next check, without fixed five-platform, two-week, all-channel or mandatory linear-stage requirements",
+        "Treats AI-referrer visits and same-week orders as related observations whose cohorts, attribution and competing email promotion need checking; does not infer AI-caused orders or sales lift, and selects incrementality evidence only when the investment decision warrants its cost",
+        "Gives P/C the fact/correction work, W the specific access-path gap and M the measurement/investment review for the October 28 project-owner check; permits supported preparation while dependent technical or causal claims remain unresolved and invents no external action or new authority"
+      ]
     }
   ]
 }

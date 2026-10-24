@@ -2,6 +2,14 @@
 
 Use these evaluations to answer: did the user task improve, where did it fail, what should change next, and did the revision regress? Packaging checks alone do not establish task quality.
 
+The [2026-10-24 AI-answer experiment](review-2026-10-24-ai-answer-integration.md)
+records a rejected sixth-material integration and restored baseline Manager/Expert.
+Synthetic cases 56/57 retain version-specific experience, source independence,
+answer accuracy and technical/measurement handoff coverage. Nine executions and
+52 manual criterion/answer judgments preserve the dependency defect, failed
+fact-correction repair and unconfirmed-personal-experience limitation. Existing
+cases and outcome graders remain unchanged; no Skill improvement is claimed.
+
 The [2026-10-24 affiliate integration review](review-2026-10-24-affiliate-integration.md)
 records the fifth material's approved partner-role, incentive-economics and
 launch-readiness supplements. Synthetic cases 54/55 cover tier and fee-credit
@@ -32,7 +40,9 @@ examples on 2026-10-23. The [feedback and live-content review](review-2026-10-23
 records the scoped integration, fixed comparison and its limits.
 
 The fifth material was fully audited on 2026-10-23 before the user approved the
-minimal integration on 2026-10-24. Source notes, the original extraction plan and
+minimal integration on 2026-10-24. The sixth was fully visually reviewed on
+2026-10-24 before its bounded integration experiment; its candidates were rejected.
+Source notes, the original extraction plan and
 raw execution evidence remain in ignored `workspace/` directories.
 
 The [2026-10-22 consistency corrections](review-2026-10-22-consistency.md) repair case 44's wording-sensitive smoke check and replay the same saved answers, while correcting the shared integration-duration error and applying the same personal-experience review to both creative-evidence variants. Cases 49/50 cover monitoring takeover/recovery and research versus automatic eligibility. The retained comparison and discarded Brief clarification preserve case 41's unresolved scope and terms defects. A grader repair is not a Skill behavior improvement.
@@ -69,7 +79,7 @@ The [operator follow-up review](review-2026-09-06-operator-followups.md) adds ca
 
 ## Organization
 
-- `evals.json` owns the 55 canonical prompts and qualitative expectations. IDs remain stable. Optional `followups` contain later user prompts and separate review expectations.
+- `evals.json` owns the 57 canonical prompts and qualitative expectations. IDs remain stable. Optional `followups` contain later user prompts and separate review expectations.
 - `fixtures/` contains synthetic evidence and rewritten evaluation examples, without expected answers or grading rules. A case's optional `files` list is relative to this directory.
 - `promptfoo_cases.py` selects executable cases and adds focused assertions. Expectations stay in test metadata for review; they are not sent to the model.
 - `prepare_promptfoo_fixtures.py` copies the Skills and declared files into isolated baseline/candidate workspaces. Only the Manager Skill may differ.
@@ -146,6 +156,8 @@ npm run eval:manager:conversations -- --cases 15,35,36 \
 | 53 | Question-led live content | Use buyer questions to choose scoped demonstrations, preserve unresolved-item follow-up and clip conditions, then check the selected use under known rights. Manually reviewed. |
 | 54 | Incentive economics | Preserve complete supplied costs, distinguish retroactive/marginal commission tiers and keep conditional fee credits separate from realized cash or returns. Manually reviewed. |
 | 55 | Partner choice and readiness | Choose work and payment models by role, reconcile EPC definitions and carry offer, destination and tracking gaps into the existing launch handoff. Manually reviewed. |
+| 56 | Cross-touchpoint facts | Keep current version/compatibility facts coherent while preserving dated creator experience, natural wording and the distinction between syndication and independent tests. Manually reviewed. |
+| 57 | AI-answer evidence | Distinguish a branded mention, an observed inaccurate category recommendation, access-path checks and business contribution; choose a proportionate owner handoff. Manually reviewed. |
 | 19-natural | Natural positive routing | The original case 19 prompt without naming the Skill. This is reported separately from content. |
 
 Positive content cases, including the business decision in case 13, explicitly invoke Manager. Their `skill-used` assertion verifies the test precondition; a failure means the loaded-Skill comparison is not established. Case 12 stays unprefixed and retains `not-skill-used` as a scope guard.
