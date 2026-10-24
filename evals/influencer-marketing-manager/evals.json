@@ -886,6 +886,42 @@
         "Connects the chosen product-page/trial use to a relevant observation, source, owner and review condition; distinguishes views, reactions and code-attributed orders from understanding and causal incrementality",
         "Preserves the signed agreement's website/organic channels, editing scope and November 2026 term; leaves paid use and spend pending authorization without inventing publication, ad launch or measured improvement"
       ]
+    },
+    {
+      "id": 54,
+      "category": "affiliate-incentive-economics",
+      "trigger": "should-trigger",
+      "prompt": "请读资料，审查这份合作报价和会上提出的做法，给出够用的经济测算、需要谈清的条件和下一决策建议。只使用所给材料，不联网、不联系、不接受报价、不付款、不修改业务记录。",
+      "expected_output": "Evaluate the proposed hybrid cooperation from complete supplied costs, clarify tier economics and keep uncertain fee credits separate from realized returns and authority.",
+      "files": [
+        "inputs/case54-incentive-economics.md"
+      ],
+      "expectations": [
+        "Uses the 100-valid-order planning scenario without double-discounting: $8,000 eligible revenue, $5,200 product/fulfillment/payment cost and $700 other known cost; $2,100 remains before commission and the 12% case leaves $1,140 within the supplied cost scope, not realized company profit",
+        "Identifies the unresolved tier basis and distinguishes $1,440 commission on all $8,000 from $1,080 when only revenue above $6,000 earns 18%, leaving $660 or $1,020 respectively; does not silently accept one interpretation",
+        "Keeps the estimated 8% fee credit conditional on eligibility, qualifying basis and timing; $640 may only be a labeled scenario if the full $8,000 qualifies, not confirmed cash, an applied credit or an unconditional immediate cost reduction",
+        "Rejects the no-upfront-risk claim and bases the incentive proposal on known contribution space, fixed and variable costs and the agreed valid-order/attribution/refund/settlement terms rather than a universal commission rate",
+        "Provides a useful clarified package or negotiation path and a proportionate finance/marketing/project-owner handoff with evidence to check before commitment; no acceptance, payment or unsupported budget authority is implied",
+        "Keeps the planned sales and possible credit separate from observed performance, profit ROI and incremental growth; does not invent a completed test, paid fee, credit award or external action"
+      ]
+    },
+    {
+      "id": 55,
+      "category": "affiliate-partner-choice-and-readiness",
+      "trigger": "should-trigger",
+      "prompt": "请读资料，给一个够用的伙伴选择、上线准备和复查建议，说明现在能决定什么，以及各项工作由谁接着做。只使用所给材料，不联网、不发送、不发布、不下单、不付款、不修改业务记录。",
+      "expected_output": "Choose partners by their actual work and comparable evidence, then carry role-specific materials, offer and tracking gaps into a bounded launch-readiness handoff.",
+      "files": [
+        "inputs/case55-partner-readiness.md"
+      ],
+      "expectations": [
+        "Connects A's compatibility explanation and B's promotion to the two supplied jobs, allows a fixed-fee-plus-commission arrangement where it fits and does not require a preset partner mix or drop useful content merely because it is not pure CPS",
+        "Preserves A's partner-commission versus B's merchant-gross-revenue EPC, per-100 versus per-click units, different windows and immature refunds; normalization to $0.06 and $0.55 alone does not make them comparable or justify eliminating A",
+        "Does not call the different partners' 8% and 10% an already completed commission A/B test, or treat credited sales as causal incremental growth",
+        "Gives A the relevant compatibility/demonstration and sample/scope checks, and preserves B's UK D4-only November 5–7 Europe/London offer, non-stacking condition and allocated stock without requiring all partners to use one identical toolkit",
+        "Keeps materials received and slot held separate from content acceptance/publication and tracking readiness; addresses the known US redirect, unvalidated code and missing attribution readback before clearing B's launch without requiring an unauthorized live order",
+        "Uses channel operations, website operations, product specialist and finance for the relevant handoffs and the November 4 project-owner readiness review; distinguishes later valid-order/settlement evidence from current readiness and claims no external action"
+      ]
     }
   ]
 }

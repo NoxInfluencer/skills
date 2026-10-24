@@ -84,6 +84,9 @@ attribution or incrementality evidence, rights, and scale/fix/stop decision. Use
 the examples as working explanations; keep windows, thresholds, and budget rules
 specific to the project.
 
+For coordination with affiliate or media partners, also read
+[the channel interface](references/operating-design.md#connect-channels-through-shared-evidence).
+
 For renewal or content-reuse decisions, read the [reuse handoff](references/operating-design.md#use-one-handoff-contract) and [renewal checks](references/operating-design.md#renew-scale-fix-or-stop). Match the next contribution or reuse claim to the primary goal. Name the evidence source, propose an owner, and say when to revisit the decision; use a review condition when a date is unknown.
 
 ## Two-pass creator discovery
