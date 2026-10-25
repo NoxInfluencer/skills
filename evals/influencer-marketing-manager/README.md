@@ -2,6 +2,14 @@
 
 Use these evaluations to answer: did the user task improve, where did it fail, what should change next, and did the revision regress? Packaging checks alone do not establish task quality.
 
+The [2026-10-25 product/scene experiment](review-2026-10-25-product-scene-hypotheses.md)
+records a withdrawn eighth-material diagnosis supplement. Paired synthetic
+cases 58/59 differ only in current capability evidence and form one family.
+Eight executions and 48 manual criterion/answer judgments preserve useful
+paired-case decisions, the candidate's lost feedback-source distinction and
+tester/test-count error, and remaining metric/window limitations. Manager and
+Expert are restored to the baseline; no Skill improvement is claimed.
+
 The [2026-10-24 AI-answer experiment](review-2026-10-24-ai-answer-integration.md)
 records a rejected sixth-material integration and restored baseline Manager/Expert.
 Synthetic cases 56/57 retain version-specific experience, source independence,
@@ -158,6 +166,7 @@ npm run eval:manager:conversations -- --cases 15,35,36 \
 | 55 | Partner choice and readiness | Choose work and payment models by role, reconcile EPC definitions and carry offer, destination and tracking gaps into the existing launch handoff. Manually reviewed. |
 | 56 | Cross-touchpoint facts | Keep current version/compatibility facts coherent while preserving dated creator experience, natural wording and the distinction between syndication and independent tests. Manually reviewed. |
 | 57 | AI-answer evidence | Distinguish a branded mention, an observed inaccurate category recommendation, access-path checks and business contribution; choose a proportionate owner handoff. Manually reviewed. |
+| 58 / 59 | Product/scene versus execution hypotheses | Paired fictional booking-tool snapshots differ only in current capability evidence. Choose a supported product/scene or explanation/onboarding check while preserving populations, actual state, authority and a useful review handoff. One family, not independent business examples. Manually reviewed. |
 | 19-natural | Natural positive routing | The original case 19 prompt without naming the Skill. This is reported separately from content. |
 
 Positive content cases, including the business decision in case 13, explicitly invoke Manager. Their `skill-used` assertion verifies the test precondition; a failure means the loaded-Skill comparison is not established. Case 12 stays unprefixed and retains `not-skill-used` as a scope guard.

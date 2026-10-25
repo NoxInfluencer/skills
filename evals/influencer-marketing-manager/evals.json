@@ -958,6 +958,42 @@
         "Treats AI-referrer visits and same-week orders as related observations whose cohorts, attribution and competing email promotion need checking; does not infer AI-caused orders or sales lift, and selects incrementality evidence only when the investment decision warrants its cost",
         "Gives P/C the fact/correction work, W the specific access-path gap and M the measurement/investment review for the October 28 project-owner check; permits supported preparation while dependent technical or causal claims remain unresolved and invents no external action or new authority"
       ]
+    },
+    {
+      "id": 58,
+      "category": "product-use-scene-hypothesis",
+      "trigger": "should-trigger",
+      "prompt": "这轮达人推广有访问和试用，但付费不多。请读资料，判断团队提出的下一步是否合适，给出够用的调整建议和下一检查点。只用所给材料，不联网、不联系、不发布、不投放、不修改业务记录。",
+      "expected_output": "Use an explicit current capability gap to propose a bounded product/scene review and marketing response without inventing a roadmap or treating low conversion as a complete diagnosis.",
+      "files": [
+        "inputs/case58-product-scene-gap.md"
+      ],
+      "expectations": [
+        "Preserves that version 2.3 supports only a personal calendar and lacks multi-coach scheduling; routes the concrete studio-capability gap to the product owner instead of claiming that tutorial changes alone can enable the missing capability or promising next-week delivery",
+        "Chooses a proportionate next test for the intended studio task from the supplied evidence, allowing product/scene and execution explanations to coexist without diagnosing all weak conversion as no demand or validated PMF",
+        "Keeps the visitor, trial-account, personal-task and paid-account populations and trial ages distinct; does not invent a reconciled funnel, creator-caused payment or studio success from the two solo-coach payments",
+        "Preserves the approved studio audience and current RMB 4,000 cap, treating a new audience, budget increase, product promise or added creator work as a proposal requiring its existing authority rather than an approved or completed action",
+        "Carries the original studio question and version/capability evidence to the relevant M/P/W owners for the October 29 review, specifying an observation that can support the next decision rather than merely promising to monitor",
+        "Distinguishes proposed checks and edits from observed task completion, continued use and payment; a single task or trial does not establish sustained use, paid demand or PMF, and extra evidence is chosen for the decision rather than forced into a universal timetable"
+      ]
+    },
+    {
+      "id": 59,
+      "category": "growth-execution-hypothesis",
+      "trigger": "should-trigger",
+      "prompt": "这轮达人推广有访问和试用，但付费不多。请读资料，判断团队提出的下一步是否合适，给出够用的调整建议和下一检查点。只用所给材料，不联网、不联系、不发布、不投放、不修改业务记录。",
+      "expected_output": "Use the supported existing capability and incomplete user explanation to choose a relevant explanation/onboarding check instead of inventing a missing feature or a new release.",
+      "files": [
+        "inputs/case59-existing-capability-gap.md"
+      ],
+      "expectations": [
+        "Preserves that version 2.3 already supports multi-coach scheduling under the supplied invitation/calendar conditions and QA scope; tests explanation or onboarding with relevant studio users rather than asserting the feature is absent, requesting its development or calling internal QA real-user success",
+        "Chooses a proportionate next test for the intended studio task from the supplied evidence, allowing product/scene and execution explanations to coexist without diagnosing all weak conversion as no demand or validated PMF",
+        "Keeps the visitor, trial-account, personal-task and paid-account populations and trial ages distinct; does not invent a reconciled funnel, creator-caused payment or studio success from the two solo-coach payments",
+        "Preserves the approved studio audience and current RMB 4,000 cap, treating a new audience, budget increase, product promise or added creator work as a proposal requiring its existing authority rather than an approved or completed action",
+        "Carries the original studio question and version/capability evidence to the relevant M/P/W owners for the October 29 review, specifying an observation that can support the next decision rather than merely promising to monitor",
+        "Distinguishes proposed checks and edits from observed task completion, continued use and payment; a single task or trial does not establish sustained use, paid demand or PMF, and extra evidence is chosen for the decision rather than forced into a universal timetable"
+      ]
     }
   ]
 }
