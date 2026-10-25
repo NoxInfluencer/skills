@@ -2,6 +2,11 @@
 
 Use these evaluations to answer: did the user task improve, where did it fail, what should change next, and did the revision regress? Packaging checks alone do not establish task quality.
 
+The [2026-10-25 validation-design review](review-2026-10-25-validation-design.md)
+adds opt-in repeated observations and explicit reference preloading. These
+separate output variation and content availability from autonomous reference
+selection. The original eighth-material comparison remains unchanged.
+
 The [2026-10-25 product/scene experiment](review-2026-10-25-product-scene-hypotheses.md)
 records a withdrawn eighth-material diagnosis supplement. Paired synthetic
 cases 58/59 differ only in current capability evidence and form one family.
@@ -87,14 +92,14 @@ The [operator follow-up review](review-2026-09-06-operator-followups.md) adds ca
 
 ## Organization
 
-- `evals.json` owns the 57 canonical prompts and qualitative expectations. IDs remain stable. Optional `followups` contain later user prompts and separate review expectations.
+- `evals.json` owns the 59 canonical prompts and qualitative expectations. IDs remain stable. Optional `followups` contain later user prompts and separate review expectations.
 - `fixtures/` contains synthetic evidence and rewritten evaluation examples, without expected answers or grading rules. A case's optional `files` list is relative to this directory.
 - `promptfoo_cases.py` selects executable cases and adds focused assertions. Expectations stay in test metadata for review; they are not sent to the model.
 - `prepare_promptfoo_fixtures.py` copies the Skills and declared files into isolated baseline/candidate workspaces. Only the Manager Skill may differ.
 - `review_results.py` reports saved results by metric and separates runtime errors. It can replay updated outcome graders without another model call, and report observed shortlist-renderer output and whether its table reached the final answer unchanged.
 - `workspace/` holds ignored run traces and review notes. Do not put live customer data, credentials, or commercial records in the case corpus.
 
-The default Promptfoo set covers cases 9, 10, 12, 13, 17, 19, 20, 21–30, 33, 34, 37, 38 and 44–55. Cases 45–55 require manual business review. Cases 31/32/41 and other multi-turn or qualitative cases use `run_conversations.mjs` because reducing them to a single turn would discard the behavior being reviewed. Smoke assertions check observable boundaries and source reads; they do not replace qualitative business review.
+The default Promptfoo set covers cases 9, 10, 12, 13, 17, 19, 20, 21–30, 33, 34, 37, 38 and 44–59. Cases 45–59 require manual business review. Cases 31/32/41 and other multi-turn or qualitative cases use `run_conversations.mjs` because reducing them to a single turn would discard the behavior being reviewed. Smoke assertions check observable boundaries and source reads; they do not replace qualitative business review.
 
 Cases use `should-trigger`, `should-not-trigger`, or `boundary`. These describe the intended routing, not whether the case is executable. Cases that require live discovery, sends, scheduling, or an actual SOP workspace still need a separately authorized environment and its inputs. An empty `files` list does not supply those capabilities. JSON validation establishes structure only.
 
@@ -102,7 +107,7 @@ Cases use `should-trigger`, `should-not-trigger`, or `boundary`. These describe 
 
 Cases 31–34 cover open entry into an existing workflow, SOP delivery followed by an automation request, industry-practice consultation, and diagnosis of a duplicate-task automation. Their business outcome requires review of the actual answers and tool events against each turn's expectations. Do not grade the presence of a menu, prescribed phrasing or a fixed question count.
 
-`run_conversations.mjs` reuses the prepared baseline/candidate Skills, isolated login, model and sandbox settings from the existing config. It uses the [Codex SDK](https://learn.chatgpt.com/docs/codex-sdk) to continue the same thread within each case. Each case and variant starts in a fresh temporary directory containing only copied Skills and that case's declared inputs; other cases' material is excluded. Only the current user prompt and declared source paths go to the model. Later prompts and all review criteria remain outside its context. These are fixed multi-turn probes, not an adaptive user simulator or proof of natural Skill discovery.
+`run_conversations.mjs` reuses the prepared baseline/candidate Skills, isolated login, model and sandbox settings from the existing config. It uses the [Codex SDK](https://learn.chatgpt.com/docs/codex-sdk) to continue the same thread within each case. Each case, variant and repetition starts in a fresh temporary directory containing only copied Skills and that case's declared inputs; other cases' material is excluded. By default, only the current user prompt and declared source paths go to the model. Later prompts and all review criteria remain outside its context. These are fixed multi-turn probes, not an adaptive user simulator or proof of natural Skill discovery.
 
 After preparation, run:
 
@@ -112,6 +117,30 @@ npm run eval:manager:conversations -- --cases 31,32,33,34 \
 ```
 
 Use `--variants candidate` for an affected-case rerun. The runner also accepts existing single-turn cases for qualitative regression. It saves requests, raw events, responses, usage, errors and fixture fingerprints after each event, refuses to overwrite results, and stops dependent turns on failure. A zero exit code means complete response evidence only; it is never a business-quality pass. Review source reads, scope, usefulness, unnecessary questions, unsupported execution claims, and adaptation to new user information before retaining a Skill change. Keep raw runtime paths and thread IDs in the ignored workspace; publish only reviewed synthetic examples and findings.
+
+For a fixed diagnostic comparison, optionally add:
+
+```bash
+npm run eval:manager:conversations -- --cases 52,38 --repeat 2 \
+  --preload-references references/operating-design.md,references/playbook.md \
+  --output evals/influencer-marketing-manager/workspace/promptfoo/controlled.json
+```
+
+`--repeat` defaults to 1 and alternates the supplied variant order each round;
+every observation uses a new workspace and thread. Set the count before running
+and review every result. Two repeats can expose variation but cannot establish
+statistical significance or stable reliability. Do not keep rerunning until a
+preferred answer appears.
+
+`--preload-references` defaults to none. It appends the selected Manager reference
+contents to the first request, using each prepared variant's own bytes. Only
+Markdown paths within that Manager's `references/` directory are accepted.
+Schema 2 reports record the input mode, reference paths/hashes/byte counts,
+execution order and repetition IDs; full delivered text remains in the saved
+requests. Preloading establishes that text was supplied, not that it was
+understood. It tests a different input condition from self-selected reads and
+cannot prove improved reference discovery. Keep conditions separate when
+comparing answers; a one-off omission does not by itself identify its cause.
 
 The Promptfoo adapter rejects multi-turn cases rather than silently evaluating only the opener. The file-based probes do not establish a deployed scheduler, live marketing integration or successful external action.
 

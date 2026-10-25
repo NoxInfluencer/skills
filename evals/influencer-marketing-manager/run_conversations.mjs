@@ -1,7 +1,8 @@
 /** Sequential behavioral probes; reuse prepared Skills and keep review outside the model. */
-import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { dirname, resolve } from 'node:path';
+import { dirname, isAbsolute, relative, resolve, sep } from 'node:path';
 import { tmpdir } from 'node:os';
 import { execFileSync } from 'node:child_process';
 import { parseArgs } from 'node:util';
@@ -27,20 +28,52 @@ export function copyCaseWorkspace(preparedRoot, testCase) {
   }
 }
 
-export function requestsFor(testCase) {
+export function loadReferences(preparedRoot, paths) {
+  if (new Set(paths).size !== paths.length) throw new Error('Provide distinct reference paths');
+  if (!paths.length) return [];
+  const root = resolve(realpathSync(resolve(preparedRoot, '.agents/skills/influencer-marketing-manager')), 'references');
+  return paths.map(path => {
+    if (!path.startsWith('references/') || !path.endsWith('.md') || path.includes('\\') ||
+        path.split('/').some(part => ['', '.', '..'].includes(part))) {
+      throw new Error(`Use a Manager-relative references/*.md path: ${path}`);
+    }
+    const file = realpathSync(resolve(root, path.slice('references/'.length)));
+    const within = relative(root, file);
+    if (isAbsolute(within) || within === '..' || within.startsWith('..' + sep) || !statSync(file).isFile()) {
+      throw new Error(`Reference must stay inside Manager references: ${path}`);
+    }
+    const bytes = readFileSync(file);
+    return { path, sha256: createHash('sha256').update(bytes).digest('hex'),
+      bytes: bytes.length, text: bytes.toString('utf8') };
+  });
+}
+
+export function* conversationPlan(cases, variants, repeat = 1) {
+  if (!Number.isSafeInteger(repeat) || repeat < 1) throw new Error('--repeat must be a positive integer');
+  for (let repetition = 1; repetition <= repeat; repetition++) {
+    const order = repetition % 2 ? variants : [...variants].reverse();
+    for (const testCase of cases) {
+      for (const variant of order) yield { testCase, variant, repetition };
+    }
+  }
+}
+
+export function requestsFor(testCase, references = []) {
   const invocation = testCase.trigger === 'should-not-trigger' ? ''
     : 'Use the influencer-marketing-manager skill to handle this request.\n\n';
   const files = testCase.files?.length
     ? '\n\nSupplied read-only files:\n' + testCase.files.join('\n') : '';
+  const context = references.length ? '\n\nManager references preloaded by the evaluation harness (not case evidence):\n' +
+    references.map(item => `\n--- Manager reference: ${item.path} ---\n${item.text}\n--- End Manager reference ---`).join('\n') : '';
   // Later user input and all expectations stay outside the current model turn.
-  return [invocation + testCase.prompt + files,
+  return [invocation + testCase.prompt + files + context,
     ...(testCase.followups || []).map(turn => turn.prompt)];
 }
 
-export async function runConversation(thread, testCase, save, timeoutMs) {
+export async function runConversation(thread, testCase, save, timeoutMs, references = []) {
   const result = { case_id: testCase.id, category: testCase.category,
     review_required: true, turns: [], completed: false };
-  for (const request of requestsFor(testCase)) {
+  for (const request of requestsFor(testCase, references)) {
     const turn = { request, events: [], response: '', completed: false };
     result.turns.push(turn);
     save(result);
@@ -82,6 +115,8 @@ async function main() {
   const { values } = parseArgs({ options: {
     cases: { type: 'string', default: '31,32,33,34' },
     variants: { type: 'string', default: 'baseline,candidate' },
+    repeat: { type: 'string', default: '1' },
+    'preload-references': { type: 'string' },
     output: { type: 'string' },
   } });
   if (!values.output) throw new Error('--output is required; use an ignored workspace path');
@@ -100,6 +135,11 @@ async function main() {
     if (!testCase) throw new Error(`Unknown case ${id}`);
     return testCase;
   });
+  const plan = [...conversationPlan(selected, variants, Number(values.repeat))];
+  const referencePaths = values['preload-references']?.split(',') || [];
+  // Validate every requested reference before any paid execution starts.
+  const references = Object.fromEntries(variants.map(variant => [variant,
+    loadReferences(resolve(workspace, 'fixtures', variant), referencePaths)]));
   const config = parse(readFileSync(resolve(evalDir, 'promptfooconfig.yaml'), 'utf8'));
   const shared = config['x-codex-config'];
   const defaultModel = shared.model.match(/default\("([^"]+)"\)/)?.[1];
@@ -121,28 +161,33 @@ async function main() {
     '127.0.0.1,localhost,::1,10.0.0.0/8';
   const codex = new Codex({ env, config: shared.cli_config });
   const report = {
-    schema_version: 1, started_at: new Date().toISOString(),
+    schema_version: 2, started_at: new Date().toISOString(),
     fixture_snapshot: JSON.parse(readFileSync(resolve(workspace, 'fixture-manifest.json'), 'utf8')),
+    design: {
+      repeat: Number(values.repeat),
+      reference_mode: referencePaths.length ? 'preloaded-references' : 'self-selected-reads',
+      preloaded_references: Object.fromEntries(variants.map(variant => [variant,
+        references[variant].map(({ text, ...identity }) => identity)])),
+      execution_order: plan.map(({ testCase, variant, repetition }) => ({ case_id: testCase.id, variant, repetition })),
+    },
     runtime: options, conversations: [],
   };
   const output = resolve(values.output);
   // Refuse to overwrite a previous observation.
   writeFileSync(output, JSON.stringify(report, null, 2) + '\n', { flag: 'wx' });
   const save = () => writeFileSync(output, JSON.stringify(report, null, 2) + '\n');
-  for (const testCase of selected) {
-    for (const variant of variants) {
-      const index = report.conversations.length;
-      const directory = copyCaseWorkspace(resolve(workspace, 'fixtures', variant), testCase);
-      try {
-        const thread = codex.startThread({ ...options, workingDirectory: directory });
-        const result = await runConversation(thread, testCase, value => {
-          report.conversations[index] = { variant, ...value };
-          save();
-        }, config.evaluateOptions.timeoutMs);
-        console.log(`${variant} case ${testCase.id}: ${result.completed ? 'recorded; review required' : 'runtime error'}`);
-      } finally {
-        rmSync(directory, { recursive: true, force: true });
-      }
+  for (const { testCase, variant, repetition } of plan) {
+    const index = report.conversations.length;
+    const directory = copyCaseWorkspace(resolve(workspace, 'fixtures', variant), testCase);
+    try {
+      const thread = codex.startThread({ ...options, workingDirectory: directory });
+      const result = await runConversation(thread, testCase, value => {
+        report.conversations[index] = { variant, repetition, ...value };
+        save();
+      }, config.evaluateOptions.timeoutMs, references[variant]);
+      console.log(`${variant} case ${testCase.id} repetition ${repetition}: ${result.completed ? 'recorded; review required' : 'runtime error'}`);
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
     }
   }
   execFileSync('python3', [resolve(evalDir, 'prepare_promptfoo_fixtures.py'), '--check'], { stdio: 'pipe' });
