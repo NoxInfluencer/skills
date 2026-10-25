@@ -10,6 +10,11 @@ route and this bounded experiment record. Eight completed executions and 48
 criterion/answer judgments support the decision to withdraw; they are not a
 successful Skill integration or an all-criteria pass.
 
+A later [controlled recheck](review-2026-10-25-validation-design.md) separates
+reference availability and repeated output variation. It retains the evaluation
+improvements and the same baseline Skill. The original observations below remain
+historical evidence; neither comparison establishes a causal B1 regression.
+
 The eighth material's approved B1 supplement distinguished product/use-scene
 fit from growth execution in the existing diagnosis section. One short booking
 example contrasted a missing studio capability with an existing capability

@@ -5,7 +5,10 @@ Use these evaluations to answer: did the user task improve, where did it fail, w
 The [2026-10-25 validation-design review](review-2026-10-25-validation-design.md)
 adds opt-in repeated observations and explicit reference preloading. These
 separate output variation and content availability from autonomous reference
-selection. The original eighth-material comparison remains unchanged.
+selection. Twelve valid observations and 72 manual judgments retain these
+evaluation controls and the original Manager; the B1 paragraph is not retained.
+One invalid stream and its identical recovery are preserved separately. The
+original eighth-material observations remain unchanged.
 
 The [2026-10-25 product/scene experiment](review-2026-10-25-product-scene-hypotheses.md)
 records a withdrawn eighth-material diagnosis supplement. Paired synthetic
