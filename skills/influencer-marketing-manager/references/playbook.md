@@ -194,13 +194,26 @@ An interested reply is a productive conversation result. Re-check fit and eviden
 Evaluate the whole package:
 
 ```text
-complete cost = creator fee + commission + rights + exclusivity + product/logistics + tax/payment + production/measurement
+complete cost = creator fee + commission + rights + exclusivity + product/logistics + platform/tools + tax/payment + production/measurement
 estimated CPV (when views are relevant) = complete cost / expected effective views
 ```
 
 Include an explicit contingency for uncertain costs or delivery risks; use any percentage only when the active project or a tested assumption supports it.
 
 Choose the exchange that fits the work: a fixed fee buys agreed deliverables; commission links compensation to attributed results; a hybrid shares production and performance risk. For commission, agree the eligible revenue or action, attribution window, refunds, and settlement. Gifting alone carries no posting obligation; product-for-content exchange requires explicit deliverables.
+
+Size incentives against the contribution remaining after discounts,
+product/fulfillment and other cooperation costs, within the project's profit
+requirement or learning budget. If revenue is already net of discounts or refunds,
+do not subtract them again. Lower upfront cash does not establish lower total
+cost. For a tiered commission, clarify its eligible base, effective point and
+whether the higher rate applies to all eligible sales or only the portion above
+the threshold before accepting the term.
+
+When fee credits or rebates affect the decision, keep estimates, confirmed
+amounts and actual application separate. Check eligibility, qualifying basis and
+timing; compare a conditional credit scenario with the uncredited economics. A
+future fee offset is not cash in hand.
 
 Bind each quote to its scope, currency, date and any validity period. When it changes, compare the old and new scope, amount, currency and payment together; check elapsed time, added work, rights and product changes before proposing a trade. Offer bundles or future work only within real authority. Confirm that the contracting party and payee fit the user's payment process; choose deposit and balance milestones for the actual delivery risk and both parties' needs.
 
@@ -213,6 +226,13 @@ Use current comparable evidence for market guidance. When it is absent, state th
 ### 7.1 Agree the work and prepare delivery
 
 Turn the accepted package into a short handoff checklist: owner, due point, required input, completion evidence, and next action or blocker. Keep agreed quantities and durations attached to their specific deliverables. Share workload-changing Brief requirements before agreement; prepare the full Brief before production. Schedule sample/access, concept, draft review, publication, payment and reporting by their actual dependencies.
+
+Adapt partner preparation to its job. A reviewer may need supported product
+facts and demonstration material; a promotion partner needs the applicable
+product/market, price, stock, offer period and time zone, code-stacking conditions
+and a working destination/tracking path. Check that path through authorized
+previews or readbacks before clearing publication, carrying gaps to their owner
+and the agreed launch check. Sending the material alone does not establish readiness.
 
 For samples, confirm the recipient, product, delivery window, gift/loan/return terms and shipping lead time. Use contract and Brief confirmation before a high-value shipment when the project requires that protection. Track dispatch, receipt and working condition separately. Digital products may need access and onboarding instead. Allow time for brand review and replacement delivery when planning the launch.
 
@@ -289,10 +309,16 @@ Set the observation window and denominator before comparing a batch. Use the hig
 
 Keep exposure, engagement, clicks, visitors, orders and repeat purchase distinct. Record each metric's source, window, denominator and cost scope. Request creator-side analytics for needed private metrics. Reach usually estimates unique accounts or users under a source's identity model; it does not establish distinct people across platforms. Views follow each platform's play-count rules and can include repeats. CPM is cost per thousand impressions; label a view-based cost as CPV or cost per thousand views as appropriate. Revenue-based ROAS differs from profit-based ROI.
 
+For EPC, identify whose earnings are measured, such as partner commission or
+merchant revenue, and whether the unit is one or a hundred clicks. Normalizing
+units alone does not reconcile different earnings, windows or refund states.
+Different partners' commission rates and results are not automatically a
+controlled test of the incentive.
+
 For an apparent anomaly, work through the smallest relevant checks:
 
 1. Reconcile source definitions, windows, format and organic/paid traffic. PV counts page views, UV follows the tool's visitor identity, and IP counts network addresses; shared networks and repeat visits can produce different totals. Views can exceed followers through recommendation and repeat viewing.
-2. Check link/code routing, event deduplication and attribution delay. Separate order cohorts, refunds, net orders and net revenue; keep refunds of older orders with their original cohort when measuring acquisition results.
+2. Check link/code routing, event deduplication and attribution delay. Separate order cohorts, refunds, net orders and net revenue; keep refunds of older orders with their original cohort when measuring acquisition results. For commission work, reconcile tracked orders with eligible orders, approved amounts due and actual settlement.
 3. If traffic is valid but conversion is weak, inspect audience intent, landing-page continuity, product usability, offer accuracy, checkout and shipping costs. Distinguish a content problem from a purchase-path problem.
 4. Keep unsupported measures provisional. Limit the affected expansion, assign the recheck and define what observed result would justify resuming it.
 

@@ -228,3 +228,10 @@ business result → channel jobs → shared audience/content/attribution evidenc
 ```
 
 Creator content may supply trust, demonstrations and reusable assets; affiliate activity may supply partner distribution and attributable actions; SEO/GEO may improve discoverability and answer continuity; advertising may amplify a tested audience or asset; social, email, website and live touchpoints may carry education and conversion. Treat these as hypotheses whose role depends on the target behavior, evidence and operating capacity. Do not add a channel, fixed allocation or universal benchmark just because a source mentions it.
+
+Partner identity, the work it performs and its payment model are separate choices.
+A creator might explain compatibility for a content fee and earn commission on
+tracked purchases; a deal publisher might carry a valid short-term offer. Those
+roles can overlap. Choose the work needed for the buying decision before adding
+partners, and use the playbook's [cooperation economics](playbook.md#6-negotiate-the-complete-cooperation)
+and [measurement checks](playbook.md#8-measure-and-learn) to assess each contribution.
