@@ -24,8 +24,6 @@ CONNECTOR = ROOT / "connectors" / "noxinfluencer-cli"
 SNAPSHOT_SKILL = CONNECTOR / "skills" / "noxinfluencer"
 REFERENCE_TOKEN = b"{baseDir}/references/"
 WORKBUDDY_REFERENCE_TOKEN = b"@references/"
-SCRIPT_TOKEN = b"{baseDir}/scripts/"
-WORKBUDDY_SCRIPT_TOKEN = b"@scripts/"
 SEMVER_RE = re.compile(r"^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$")
 PACKAGE_VERSION_RE = re.compile(
     rb"@noxinfluencer/cli@([0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?)"
@@ -51,7 +49,6 @@ def transformed_source_bytes(path: Path) -> bytes:
     content = path.read_bytes()
     if path.suffix.lower() == ".md":
         content = content.replace(REFERENCE_TOKEN, WORKBUDDY_REFERENCE_TOKEN)
-        content = content.replace(SCRIPT_TOKEN, WORKBUDDY_SCRIPT_TOKEN)
     return content
 
 

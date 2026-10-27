@@ -21,8 +21,6 @@ This skill should have 3-5 eval queries per major workflow category covering:
 - **Should-trigger**: Clear use cases that match the skill's description
 - **Should-not-trigger**: Near-miss queries that belong to a different skill
 - **Boundary**: Ambiguous queries where correct behavior matters most
-- **Runtime routing**: Plugin-marker versus standalone execution, including strict CLI isolation
-- **MCP auth recovery**: one-attempt automatic desktop/CLI OAuth startup, settings fallback, refresh/retry behavior, and safe failure branches
 
 Also test coexistence with `influencer-marketing-manager`:
 
@@ -43,16 +41,6 @@ evals/
     ├── evals.json                # All eval cases for the single noxinfluencer skill
     └── workspace/                # Benchmark artifacts and reviewer feedback
 ```
-
-## MCP OAuth Coverage
-
-MCP-specific cases use IDs 51–64; standalone and shared cases retain the main branch IDs 1–50.
-
-The eval set covers missing MCP Tools, `AuthRequired`, automatic desktop/CLI OAuth startup, settings fallback, Tool refresh, `403`/`insufficient_scope`, cancellation, unavailable Host commands, credential non-disclosure, prohibition on hand-built authorization URLs, and the standalone marker-absent CLI path. Plugin cases distinguish the one-attempt Codex Host OAuth bootstrap from the forbidden `noxinfluencer login` and NoxInfluencer CLI business fallback.
-
-## Status
-
-The eval set includes standalone CLI workflows plus Codex Plugin routing, Tool-schema, Browser Handoff, and OAuth-bootstrap cases.
 
 ## Behavior and Structure Checks
 

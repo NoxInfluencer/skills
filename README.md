@@ -150,19 +150,14 @@ npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer --a
 npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer --agent cursor
 ```
 
-### MCP Plugin for Codex and Claude Code
+### Claude Code Plugin Marketplace
 
-The MCP plugin is maintained independently under `plugins/noxinfluencer/`. Its MCP Skill delivery and host integration tests are still pending. Once the complete plugin is released to this repository's default branch, install it using:
+If you prefer the Claude Code plugin marketplace flow:
 
 ```bash
-# Codex
-npx plugins add https://github.com/NoxInfluencer/skills --target codex
-
-# Claude Code
-npx plugins add https://github.com/NoxInfluencer/skills --target claude-code
+claude plugin marketplace add https://github.com/NoxInfluencer/skills
+claude plugin install nox-influencer@noxinfluencer
 ```
-
-Start a new conversation after installation. This plugin uses the NoxInfluencer MCP provider and is independent from the standalone CLI Skill above. See the [plugin README](plugins/noxinfluencer/README.md) for delivery status and development instructions.
 
 ## Platform Entry Points
 
@@ -170,8 +165,7 @@ Start a new conversation after installation. This plugin uses the NoxInfluencer 
 - **Skills CLI / skills.sh**: use the CLI install command above, or browse the public listing on [skills.sh](https://skills.sh/noxinfluencer/skills/noxinfluencer)
 - **OpenClaw**: use the OpenClaw-targeted install command above
 - **Hermes Skills Hub**: install through the skills.sh identifier shown above; Hermes can also discover this repository through GitHub taps
-- **Claude Code**: use the Skills CLI for the standalone Skill, or the separate MCP plugin once released
-- **Codex Plugin**: use the separate MCP plugin once released
+- **Claude Code**: use either the Skills CLI install or the plugin marketplace install
 
 ## Notes
 

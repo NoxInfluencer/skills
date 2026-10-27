@@ -7,10 +7,9 @@ param(
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $projectRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
-$repositoryRoot = [IO.Path]::GetFullPath((Join-Path $projectRoot '..\..'))
 $manifestPath = Join-Path $projectRoot '.codex-plugin\plugin.json'
 $commonManifestPath = Join-Path $projectRoot '.plugin\plugin.json'
-$marketplacePath = Join-Path $repositoryRoot '.agents\plugins\marketplace.json'
+$marketplacePath = Join-Path $projectRoot '.agents\plugins\marketplace.json'
 $manifest = Get-Content -Raw -Encoding UTF8 -LiteralPath $manifestPath | ConvertFrom-Json
 $marketplace = Get-Content -Raw -Encoding UTF8 -LiteralPath $marketplacePath | ConvertFrom-Json
 $pluginRef = "$($manifest.name)@$($marketplace.name)"
@@ -48,7 +47,7 @@ if ($Action -ne 'status') {
     Assert-Source
   }
   if ($Action -eq 'bootstrap') {
-    Invoke-CheckedCommand $CodexPath @('plugin', 'marketplace', 'add', $repositoryRoot)
+    Invoke-CheckedCommand $CodexPath @('plugin', 'marketplace', 'add', $projectRoot)
   }
   Invoke-CheckedCommand $CodexPath @('plugin', 'add', $pluginRef)
 }

@@ -30,6 +30,8 @@
       "Show the next page of my intelligent marketing-plan tasks.",
       "Open my intelligent marketing-plan tasks in NoxInfluencer."
     ],
-    "brandColor": "#FF5A36"
+    "brandColor": "#FF5A36",
+    "logo": "./assets/icon.png",
+    "composerIcon": "./assets/icon.png"
   }
 }

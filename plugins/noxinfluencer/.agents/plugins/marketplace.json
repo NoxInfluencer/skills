@@ -8,7 +8,7 @@
       "name": "noxinfluencer",
       "source": {
         "source": "local",
-        "path": "./plugins/noxinfluencer"
+        "path": "./"
       },
       "policy": {
         "installation": "AVAILABLE",

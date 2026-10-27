@@ -1,3 +1,5 @@
+# Reference workflow only. GitHub does not discover workflows in this directory.
+# Kept inside the plugin so repository-root files can remain identical to main.
 name: NoxInfluencer Plugin
 
 on:

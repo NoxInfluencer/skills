@@ -1,0 +1,8 @@
+{
+  "mcp": {
+    "display_name": "NoxInfluencer",
+    "display_name_en": "NoxInfluencer",
+    "description_zh": "通过连接的 NoxInfluencer MCP 服务查找达人、查看营销计划并处理达人营销任务。",
+    "description_en": "Use the connected NoxInfluencer MCP service for creator research and influencer marketing tasks."
+  }
+}

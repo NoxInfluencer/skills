@@ -1,0 +1,19 @@
+{
+  "name": "NoxInfluencer",
+  "name_zh": "NoxInfluencer",
+  "name_en": "NoxInfluencer",
+  "description": "Find creators and manage influencer marketing workflows with NoxInfluencer.",
+  "description_zh": "连接 NoxInfluencer，查找达人、查看营销计划并处理达人营销工作流程。",
+  "description_en": "Find creators and manage influencer marketing workflows with NoxInfluencer.",
+  "source": "noxinfluencer",
+  "type": "mcp",
+  "examples_zh": [
+    "查看我的智能营销计划任务",
+    "在 NoxInfluencer 中打开我的智能营销计划任务"
+  ],
+  "examples_en": [
+    "Show my intelligent marketing-plan tasks.",
+    "Open my intelligent marketing-plan tasks in NoxInfluencer."
+  ],
+  "minWorkbuddyVersion": "4.24.0"
+}

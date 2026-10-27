@@ -14,3 +14,5 @@ coverage/
 .DS_Store
 Thumbs.db
 .codex-local/
+evals/**/workspace/
+__pycache__/

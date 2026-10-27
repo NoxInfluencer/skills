@@ -2,9 +2,9 @@ import { existsSync, lstatSync, readFileSync, readdirSync, realpathSync } from "
 import { dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { isDeepStrictEqual } from "node:util";
+import { categories, isDevelopmentEndpoint } from "./submission-rules.mjs";
 
 export const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-export const testMcpResource = "https://skilltest.noxinfluencer.com/mcp";
 
 function requireValue(condition, message) {
   if (!condition) throw new Error(message);
@@ -51,13 +51,13 @@ function validateSkill(skillPath) {
 
 export function validateSkills(root, { release = false } = {}) {
   const skillsRoot = join(root, "skills");
-  const mcpRoot = join(skillsRoot, "mcp");
-  requireValue(existsSync(mcpRoot), "Missing skills/mcp/ delivery directory.");
+  const primarySkillRoot = join(skillsRoot, "mcp");
+  requireValue(existsSync(primarySkillRoot), "Missing skills/mcp/ delivery directory.");
   const files = listRuntimeFiles(skillsRoot).filter((file) => !file.endsWith(`${sep}.gitkeep`));
-  const mcpFiles = files.filter((file) => file.startsWith(`${mcpRoot}${sep}`));
-  const skillPath = join(mcpRoot, "SKILL.md");
+  const primarySkillFiles = files.filter((file) => file.startsWith(`${primarySkillRoot}${sep}`));
+  const skillPath = join(primarySkillRoot, "SKILL.md");
   if (!existsSync(skillPath)) {
-    requireValue(mcpFiles.length === 0, "skills/mcp/ contains files but no SKILL.md; delivery is incomplete.");
+    requireValue(primarySkillFiles.length === 0, "skills/mcp/ contains files but no SKILL.md; delivery is incomplete.");
     requireValue(!release, "MCP Skill delivery is pending: add skills/mcp/SKILL.md before release.");
   }
   // Every direct child is an independently loadable Skill. No host-specific
@@ -98,8 +98,8 @@ export function validatePluginSource({ root = projectRoot, release = false } = {
   for (const field of ["displayName", "shortDescription", "longDescription", "developerName", "category"]) {
     requireValue(typeof iface?.[field] === "string" && iface[field].trim(), `Codex interface.${field} is required.`);
   }
-  requireValue(iface.category === "Marketing", "Codex category must be Marketing.");
-  requireValue(Array.isArray(iface.capabilities) && iface.capabilities.length > 0, "Codex capabilities are required.");
+  requireValue(categories.includes(iface.category) || (!release && iface.category === "Marketing"), "Codex category must be an official category, such as Business & Operations.");
+  requireValue(Array.isArray(iface.capabilities), "Codex capabilities must be an array (which may be empty).");
   listRuntimeFiles(join(root, "assets"));
   for (const field of ["logo", "composerIcon"]) {
     if (iface[field]) validateAsset(root, iface[field]);
@@ -107,12 +107,11 @@ export function validatePluginSource({ root = projectRoot, release = false } = {
   }
   const mcpConfig = readJson(join(root, ".mcp.json"));
   const provider = mcpConfig?.mcpServers?.noxinfluencer;
-  requireValue(provider?.type === "http", 'MCP provider type must be "http".');
-  requireValue(provider.url === provider.oauth_resource, "MCP url and oauth_resource must be equal.");
+  requireValue(provider && (provider.type === undefined || ["http", "streamable-http"].includes(provider.type)), 'MCP provider must use remote HTTP.');
+  requireValue(provider.oauth_resource === undefined || provider.url === provider.oauth_resource, "MCP url and oauth_resource must be equal.");
   const url = new URL(provider.url);
   requireValue(url.protocol === "https:" && !url.username && !url.password && !url.search && !url.hash && !provider.url.endsWith("/"), "MCP requires a clean HTTPS resource URL without a trailing slash.");
-  requireValue(provider.url === testMcpResource, `This test configuration must use ${testMcpResource}. Update validation deliberately when selecting the production endpoint.`);
-  requireValue(!release || provider.url !== testMcpResource, "Formal release requires the confirmed production MCP endpoint; this configuration still uses skilltest.");
+  requireValue(!release || !isDevelopmentEndpoint(url.hostname), "Formal release requires the confirmed production MCP endpoint; this configuration still uses a test or local endpoint.");
   const skills = validateSkills(root, { release });
   return { common, manifest, mcpConfig, skills };
 }

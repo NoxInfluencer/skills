@@ -10,8 +10,16 @@
   "scripts": {
     "plugin:validate": "node scripts/verify-plugin.mjs",
     "marketplace:validate": "node scripts/validate-marketplace.mjs",
-    "verify": "npm run plugin:validate && npm run marketplace:validate",
+    "verify:boundary": "node scripts/check-repository-boundary.mjs",
+    "verify:evals": "python evals/mcp/validate_evals.py",
+    "verify": "npm run plugin:validate && npm run marketplace:validate && npm run verify:workbuddy:dev",
     "verify:release": "node scripts/verify-plugin.mjs --release",
+    "verify:chatgpt": "node scripts/package-chatgpt.mjs --check",
+    "package:chatgpt": "node scripts/package-chatgpt.mjs",
+    "verify:workbuddy": "node scripts/package-workbuddy.mjs --check",
+    "verify:workbuddy:dev": "node scripts/package-workbuddy.mjs --check --dev",
+    "package:workbuddy": "node scripts/package-workbuddy.mjs",
+    "package:workbuddy:dev": "node scripts/package-workbuddy.mjs --dev",
     "test": "node --test",
     "release:package": "node scripts/package-plugin.mjs",
     "release:package:dev": "node scripts/package-plugin.mjs --dev",
@@ -23,6 +31,9 @@
     "plugin:local:status": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/local-plugin.ps1 -Action status"
   },
   "devDependencies": {
+    "image-size": "2.0.4",
+    "semver": "7.8.5",
+    "yaml": "2.9.1",
     "yazl": "3.3.1"
   }
 }

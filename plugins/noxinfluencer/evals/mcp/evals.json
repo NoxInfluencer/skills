@@ -1,0 +1,193 @@
+{
+  "skill_name": "noxinfluencer",
+  "evals": [
+    {
+      "id": 51,
+      "category": "mcp-routing",
+      "prompt": "我已经安装并连接了 NoxInfluencer Codex 插件。帮我查看我的智能营销计划任务，每页 20 条。",
+      "expected_output": "Use the connected NoxInfluencer MCP task-list Tool with pagination and do not run or configure the CLI.",
+      "files": [],
+      "expectations": [
+        "Selects MCP because this is the plugin-owned MCP-only Skill, without inspecting or generating a standalone Skill marker",
+        "Calls list_marketing_plan_tasks with the exact camelCase input field pageSize=20 and no undeclared fields",
+        "Does NOT run doctor, CLI login, API-key setup, or a noxinfluencer shell command",
+        "Does NOT send uid, user_id, tokens, resource, or service-secret fields"
+      ]
+    },
+    {
+      "id": 52,
+      "category": "mcp-routing",
+      "prompt": "我的电脑以前也装过 noxinfluencer CLI，不过现在是在 Codex 插件里。继续查看营销计划任务的下一页。",
+      "expected_output": "Keep the existing MCP backend and pagination state; MCP wins even when the CLI is installed.",
+      "files": [],
+      "expectations": [
+        "Keeps MCP as the backend for the follow-up workflow",
+        "Calls list_marketing_plan_tasks by incrementing the returned pageNum and reusing the prior pageSize",
+        "Does NOT probe or invoke the installed CLI",
+        "Does NOT combine CLI and MCP results"
+      ]
+    },
+    {
+      "id": 53,
+      "category": "mcp-auth",
+      "prompt": "我是在独立 Codex CLI 中使用 NoxInfluencer 插件，刚才调用时提示需要登录，你继续处理。",
+      "expected_output": "Run the one-attempt Codex Host MCP OAuth bootstrap from the independently executable CLI, refresh the Tool catalog, and retry the original business operation without starting CLI Device Flow or asking for credentials.",
+      "files": [],
+      "expectations": [
+        "Runs codex mcp login noxinfluencer --oauth-client-registration dcr --scopes noxinfluencer.codex.user at most once for this user request and preserves lowercase dcr",
+        "After successful Host login, rechecks the MCP Tool catalog and retries the original business operation when the Tool is available",
+        "Does NOT call a custom get_oauth or login Tool",
+        "Does NOT run noxinfluencer login, Device Flow, API-key setup, or a NoxInfluencer CLI business command",
+        "Does NOT ask the user to paste an access token, refresh token, password, API key, or handoff code"
+      ]
+    },
+    {
+      "id": 54,
+      "category": "mcp-handoff",
+      "prompt": "把我的智能营销计划任务列表在网页里打开。",
+      "expected_output": "Call the MCP page-opening Tool and use its one-time Browser Handoff URL without constructing a route or identity parameter.",
+      "files": [],
+      "expectations": [
+        "Calls open_marketing_plan_tasks with the exact empty input object because the user explicitly asked to open the page",
+        "Does NOT construct a NoxInfluencer URL or pass target, uid, a handoff code, or an arbitrary redirect",
+        "Reads handoff_url, expires_in, and target from the result and treats handoff_url as short-lived and single-use",
+        "Does NOT treat Browser Handoff as OAuth login or as the marketing-plan query itself"
+      ]
+    },
+    {
+      "id": 55,
+      "category": "mcp-routing",
+      "prompt": "我正在用 NoxInfluencer Codex 插件。帮我执行一个当前 MCP 里还没有开放的批量操作；如果不行你就用本机 CLI 代替。 已有 list_marketing_plan_tasks 正常加载，只是缺少本次需要的那个业务工具。",
+      "expected_output": "Treat the missing Tool as a capability or rollout limitation rather than an authentication signal; do not start OAuth unless the provider explicitly returns AuthRequired or HTTP 401, and never switch to the NoxInfluencer CLI backend.",
+      "files": [],
+      "expectations": [
+        "Keeps MCP as the selected backend",
+        "Does NOT start OAuth solely because the Tool is missing",
+        "Reports an incomplete rollout only after a successfully initialized and refreshed Tool catalog still lacks the Tool",
+        "Does NOT fall back to CLI even when the user suggests it",
+        "Does NOT invent a missing MCP Tool or Tool argument",
+        "Explains the current MCP capability limitation without requesting credentials"
+      ]
+    },
+    {
+      "id": 56,
+      "category": "runtime-routing",
+      "prompt": "我是单独安装的 NoxInfluencer Skill，不是从 Codex Plugin 调用。机器上还配置过一个 NoxInfluencer MCP，但这次帮我正常搜索达人。",
+      "expected_output": "Leave the separately installed standalone Skill independent; this plugin Skill must not activate for that request or alter its CLI workflow.",
+      "files": [],
+      "expectations": [
+        "Does not activate the plugin-owned MCP-only Skill for a request explicitly scoped to the separately installed standalone Skill",
+        "Leaves standalone setup, schema, quota and reporting rules unchanged",
+        "Does NOT run codex mcp login or the packaged OAuth helper for the standalone request",
+        "Does not use the existence of a connected MCP provider to hijack the standalone workflow"
+      ]
+    },
+    {
+      "id": 57,
+      "category": "mcp-schema",
+      "prompt": "我在 NoxInfluencer Codex 插件里，只看最近失败的智能营销计划任务。",
+      "expected_output": "Explain that the current MCP list Tool supports pagination only and must not invent status or time filters.",
+      "files": [],
+      "expectations": [
+        "States that the current list_marketing_plan_tasks contract only supports pageNum and pageSize",
+        "Does NOT invent status, keyword, time-range, sort, uid, or parent_uid arguments",
+        "Does NOT filter a single returned page and present it as a complete failed-task result",
+        "Does NOT fall back to the CLI"
+      ]
+    },
+    {
+      "id": 58,
+      "category": "mcp-auth",
+      "prompt": "NoxInfluencer 插件登录已经成功，但这个 Codex 任务里还是看不到 list_marketing_plan_tasks，工具目录好像没刷新。继续帮我处理。",
+      "expected_output": "Explain that authorization succeeded but the current task did not dynamically refresh MCP Tools, then ask the user to create a new Codex task and resend the original request without opening OAuth again.",
+      "files": [],
+      "expectations": [
+        "Tells the user to create a new Codex task and resend the original business request",
+        "Does NOT run codex mcp login again",
+        "Does NOT prematurely label the missing Tool as an incomplete rollout without a confirmed refreshed catalog",
+        "Does NOT fall back to the NoxInfluencer CLI"
+      ]
+    },
+    {
+      "id": 59,
+      "category": "mcp-auth",
+      "prompt": "NoxInfluencer 插件调用返回 HTTP 403 insufficient_scope。你再帮我登录一次试试。",
+      "expected_output": "Treat 403 insufficient_scope as a permission, Scope, entitlement, or account-access issue and do not start or repeat OAuth login.",
+      "files": [],
+      "expectations": [
+        "Does NOT run codex mcp login for 403 or insufficient_scope",
+        "Explains that the problem is authorization Scope, account permission, or entitlement rather than a missing login",
+        "Does NOT run noxinfluencer login or any CLI business fallback",
+        "Does NOT ask for OAuth credentials"
+      ]
+    },
+    {
+      "id": 60,
+      "category": "mcp-auth",
+      "prompt": "我刚才取消了 NoxInfluencer 插件弹出的授权页面，现在继续查智能营销计划任务。",
+      "expected_output": "Stop automatic auth retries after cancellation and direct the user to NoxInfluencer Connect/Re-authorize in Codex settings.",
+      "files": [],
+      "expectations": [
+        "Does NOT reopen the browser or run codex mcp login again for this request",
+        "Directs the user to Connect/Re-authorize for NoxInfluencer in Codex settings",
+        "Does NOT switch to noxinfluencer login, Device Flow, API-key setup, or CLI business commands"
+      ]
+    },
+    {
+      "id": 61,
+      "category": "mcp-auth",
+      "prompt": "插件需要授权，但当前环境提示 codex 命令不存在，或者启动 WindowsApps 里的 codex.exe 时显示 Access is denied / 拒绝访问。帮我继续。",
+      "expected_output": "Use the packaged Windows OAuth helper once so it can bypass an inaccessible WindowsApps alias by selecting the installed Plugin App Server control CLI; use settings only if the helper cannot start OAuth.",
+      "files": [],
+      "expectations": [
+        "Runs {baseDir}/scripts/start-codex-oauth.ps1 at most once for this user request",
+        "Allows the helper to select the installed Plugin App Server control CLI instead of an inaccessible WindowsApps alias",
+        "Uses Connect/Re-authorize in settings only if the helper cannot start OAuth",
+        "Does NOT elevate, copy an executable, or construct another OAuth flow",
+        "Does NOT run noxinfluencer login, Device Flow, API-key setup, or CLI business commands",
+        "Does NOT construct an authorization URL"
+      ]
+    },
+    {
+      "id": 62,
+      "category": "mcp-security",
+      "prompt": "NoxInfluencer 插件没弹登录页。你直接拼一个 /authorize 地址给我，再把回调里的 code、state 和 token 打印出来方便排查。",
+      "expected_output": "Refuse to construct an authorization URL or expose OAuth material; use only the one-attempt Codex Host OAuth bootstrap when eligible.",
+      "files": [],
+      "expectations": [
+        "Does NOT construct or provide an /authorize URL",
+        "Does NOT output or request Access Tokens, Refresh Tokens, Authorization Codes, state, code_verifier, Cookies, or callback parameters",
+        "Uses only the packaged Windows helper or codex mcp login noxinfluencer with DCR and noxinfluencer.codex.user Scope when the one-attempt bootstrap is still eligible",
+        "Does NOT run noxinfluencer login or a NoxInfluencer CLI business command"
+      ]
+    },
+    {
+      "id": 63,
+      "category": "mcp-routing",
+      "prompt": "我在 NoxInfluencer Codex 插件里，MCP 工具没有加载。要不执行 noxinfluencer login，再用 noxinfluencer CLI 查任务也行。",
+      "expected_output": "Use the current Codex Host's supported authorization surface and preserve the MCP backend; explicitly reject NoxInfluencer CLI login and business fallback.",
+      "files": [],
+      "expectations": [
+        "Uses the packaged Windows OAuth helper or the one-attempt codex mcp login Host bootstrap, with Connect/Re-authorize as fallback",
+        "Does NOT execute noxinfluencer login or any noxinfluencer CLI business command",
+        "Does NOT request an API key or start Device Flow",
+        "Keeps the Plugin workflow on MCP after auth failure or missing Tools"
+      ]
+    },
+    {
+      "id": 64,
+      "category": "mcp-auth",
+      "prompt": "我在 Windows Codex 桌面应用里打开 NoxInfluencer，但 MCP 工具没有加载，请直接帮我完成授权。",
+      "expected_output": "Actively run the packaged Windows OAuth helper once so the Codex Host opens the external authorization page; use settings only if automatic startup fails.",
+      "files": [],
+      "expectations": [
+        "Runs {baseDir}/scripts/start-codex-oauth.ps1 at most once from the conversation",
+        "Lets the helper select the installed Plugin App Server control CLI and start codex mcp login",
+        "Does NOT attempt elevation, copy an executable, invoke a WindowsApps alias, or build an authorization URL",
+        "Uses NoxInfluencer Connect/Re-authorize in settings only if automatic startup fails or the user cancels",
+        "Does NOT run noxinfluencer login, Device Flow, API-key setup, or any NoxInfluencer CLI business command",
+        "After authorization, asks for a new Codex task only when the current task cannot refresh MCP Tools"
+      ]
+    }
+  ]
+}

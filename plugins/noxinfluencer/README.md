@@ -1,39 +1,29 @@
 # NoxInfluencer Plugin
 
-面向 Codex 和 Claude Code 的 NoxInfluencer MCP 插件。插件源码只维护在 `plugins/noxinfluencer/`，仓库外层的独立 Skill 不参与本插件的开发、校验或安装。WorkBuddy 本轮暂不适配。
+面向 Codex、Claude Code 和 WorkBuddy 的 NoxInfluencer MCP 插件。插件源码只维护在 `plugins/noxinfluencer/`，仓库外层的独立 Skill 不参与本插件的开发、校验或安装。WorkBuddy 使用独立的连接器提交包，尚待客户端联调和官方审核。
 
 ## 用户安装
 
-下列命令在本次修改合并并发布到 GitHub 仓库默认分支后生效；当前分支的本地修改不会被远程安装命令读取。
+本插件的安装元数据、Skill、授权指引和开发工具全部位于当前目录。仓库根目录与 `main` 保持一致，不再提供新版插件的根级安装索引，因此不能把仓库根 URL 当作新版插件的远程安装入口。
 
-Codex：
+Codex 本地联调使用下文的 `plugin:local:bootstrap`；Codex／Claude Code、ChatGPT 和 WorkBuddy 的 ZIP 分发使用各自的打包命令。若后续需要远程安装，应将本目录作为独立发布根，另行验证远程安装入口。这里不自动发布、安装或修改用户配置。
 
-```bash
-npx plugins add https://github.com/NoxInfluencer/skills --target codex
-```
-
-Claude Code：
-
-```bash
-npx plugins add https://github.com/NoxInfluencer/skills --target claude-code
-```
-
-安装器使用 npm 默认版本，不指定版本号。首次运行可按 npx 提示下载安装器，然后按安装器提示选择安装范围。用户需要可用的 Node.js/npm、Git 和对应宿主。安装后新建会话，再按宿主提示连接 MCP 并授权。
-
-这两条命令从 GitHub 分发插件；官方目录上架需要另行提交审核。插件业务使用远程 MCP，不通过 NoxInfluencer CLI 执行。
+安装后新建会话，再按当前宿主的 MCP 连接入口授权。插件业务仅使用远程 MCP；Codex 专用 OAuth 辅助脚本不会在 Claude Code 或 WorkBuddy 中运行。
 
 ## 目录和安装路由
 
 ```text
-NoxInfluencer/skills/
-├── .plugin/marketplace.json             # 通用安装器索引，只列新插件
-├── .agents/plugins/marketplace.json     # 保留既有 Codex 原生入口
-└── plugins/noxinfluencer/
+plugins/noxinfluencer/
+    ├── .plugin/marketplace.json        # 插件内通用索引，source 为 ./
+    ├── .agents/plugins/marketplace.json # 插件内 Codex 索引，path 为 ./
     ├── .plugin/plugin.json             # 通用元数据
     ├── .codex-plugin/plugin.json       # Codex 配置和展示信息
     ├── .mcp.json                       # 共享 MCP 连接配置
-    ├── skills/mcp/.gitkeep             # 待 MCP 团队交付
-    ├── assets/.gitkeep                 # 待补正式品牌图标
+    ├── skills/mcp/SKILL.md             # 独立 MCP Skill，含 references/ 和 scripts/
+    ├── evals/mcp/                     # 14 条插件专属评测及校验器
+    ├── ci/                            # 原工作流模板，不在仓库根启用
+    ├── assets/icon.png                 # 正式品牌图标，128×128 PNG
+    ├── workbuddy/                      # WorkBuddy 元信息和 Skill 平台字段
     ├── scripts/                        # 开发校验、可选打包、本地开发安装
     ├── tests/
     ├── doc/
@@ -44,15 +34,15 @@ NoxInfluencer/skills/
     └── .gitignore
 ```
 
-仓库根 `.plugin/marketplace.json` 的 `source: "./plugins/noxinfluencer"` 定位插件。插件内 `.plugin/plugin.json` 描述插件本身，不能代替仓库索引。根目录不要再添加优先级更高的 `marketplace.json`。
+本目录 `.plugin/marketplace.json` 的 `source: "./"` 定位插件自身；`.agents/plugins/marketplace.json` 同样使用 `./`。本地开发注册的是插件目录，而非仓库根目录。
 
-已核对的 npm `plugins` 1.3.5 先查根 `marketplace.json`，再查 `.plugin/marketplace.json`，然后才是其他平台索引；发现有效索引后不合并其他索引。本仓库由 `.plugin/marketplace.json` 统一定位新版插件。版本后续升级时需重新验证。
+不要在本目录添加会遮蔽 `.plugin/marketplace.json` 的 `marketplace.json`。目录外的安装索引和独立 Skill 不参与本插件的校验、同步或打包。
 
 Codex 使用显式 `.codex-plugin/plugin.json`，避免安装器生成默认分类和展示信息。Claude Code 安装时，安装器在临时安装目录把 `.plugin/` 转换为 `.claude-plugin/`；源码不维护第三份 Manifest，也不复制三份 Skill。
 
 ## MCP Skill 交付
 
-目前 `skills/mcp/` 仅用 `.gitkeep` 保留目录，不注册虚假的 Skill。MCP 团队测试通过后将完整内容直接放入：
+本分支此前编写的 MCP-only Skill 已整理至以下目录，包含运行路由、OAuth、错误处理、Browser Handoff、业务引用及 Windows Codex 授权辅助脚本：
 
 ```text
 skills/mcp/
@@ -61,7 +51,13 @@ skills/mcp/
 └── scripts/          # 按实际需要交付
 ```
 
-`SKILL.md` 的业务名称可以继续使用 `noxinfluencer`；文件夹按约定叫 `mcp`。内部指令需适用于支持的宿主，安装器只转换插件包装配置，不会改写 Markdown 中的平台命令。不再自动生成 Codex 运行时标记，也不从外层 Skill 同步。
+`SKILL.md` 的业务名称为 `noxinfluencer`，目录固定为 `mcp`。直接固定使用 MCP，不检查外层 Skill，不生成运行时标记，不切换到 NoxInfluencer CLI。Codex 专用授权命令在指令中明确限定宿主；其他宿主使用自身授权入口。所有引用资源随 Skill 一起交付，不从外层 Skill 同步。
+
+当前内容先用于联调。联调完成后，将 MCP 团队的其余 Skill 内容与依赖合并到本目录，核对重复规则和引用，再运行校验与打包检查。
+
+`skills/` 下可放多个并列 Skill，每个目录有自己的 `SKILL.md`。在 ChatGPT／Codex 中，宿主先提供各 Skill 的名称与描述，匹配请求或被明确调用时才加载对应正文；不会因为同属一个插件就自动读取全部 Skill。公共授权规则由当前入口明确引用 `references/mcp-runtime.md`，以后增加其他业务 Skill 时也应明确引用所需的公共规则，不能依赖另一个 Skill 自动加载。参见 [OpenAI 官方 Skill 激活说明](https://developers.openai.com/plugins/concepts/skills)。
+
+插件评测位于 `evals/mcp/`，保留原 MCP 用例编号 51–64。结构校验不能证明业务和 OAuth 联调已通过；测试地址、实时工具目录和各宿主授权仍需实际验证。
 
 ## 开发和校验
 
@@ -71,9 +67,11 @@ skills/mcp/
 npm ci
 npm run verify
 npm test
+npm run verify:evals
+npm run verify:boundary
 ```
 
-`npm install` 或 `npm ci` 只安装开发依赖，不注册插件、不启动 OAuth，也不修改用户宿主配置。没有生命周期安装脚本。校验本身不要求安装依赖；可直接用 Node.js 20 以上执行 `scripts/verify-plugin.mjs` 和 `scripts/validate-marketplace.mjs`。
+`npm install` 或 `npm ci` 只安装开发依赖，不注册插件、不启动 OAuth，也不修改用户宿主配置。没有生命周期安装脚本。完整 `verify` 包含 WorkBuddy 配置检查，需要开发依赖；基础 Manifest 和索引检查仍可直接用 Node.js 20 以上执行 `scripts/verify-plugin.mjs` 和 `scripts/validate-marketplace.mjs`。
 
 日常校验允许 MCP 目录暂时为空，检测不完整交付、Manifest 元数据漂移、MCP OAuth Resource 不一致，以及通用和 Codex 索引是否解析到本插件。不会要求交付内容包含特定宿主的运行时文件。
 
@@ -93,19 +91,126 @@ npm run plugin:local:update
 
 ```bash
 npm run release:package:dev
-npm run release:package:dev -- --target claude-code
+node scripts/package-plugin.mjs --dev --target claude-code
 ```
 
 ZIP 和 SHA-256 清单位于忽略提交的 `dist/`。只打包 Manifest、MCP 配置、插件内 Skill 和资源；Claude ZIP 的原生 Manifest 在打包时生成，不回写源码。开发包可以没有业务 Skill，不能作为完整业务验收结果。
 
-完整交付后运行 `npm run verify:release` 和 `npm run release:package`；正式检查会拦截未交付 Skill、缺失图标或仍使用测试 MCP 的配置。
+完整交付后，通用发布包可以运行 `npm run verify:release` 和 `npm run release:package`。ChatGPT 官方目录提交使用下方专用命令，增加公开提交字段检查并排除通用安装器元数据。
+
+## ChatGPT 官方目录 ZIP
+
+要求 Node.js 20 以上。从仓库根目录执行以下命令；首次使用时执行 `npm ci` 安装锁定的开发依赖，之后使用一个命令打包：
+
+```powershell
+cd plugins/noxinfluencer
+npm ci
+npm run package:chatgpt
+```
+
+只检查、不生成文件：
+
+```powershell
+npm run verify:chatgpt
+```
+
+也可以从仓库根目录执行 `npm --prefix plugins/noxinfluencer run package:chatgpt`。脚本按自身位置定位插件，不依赖调用者的工作目录。
+
+检查成功后，按当前版本 `0.1.0` 生成：
+
+```text
+dist/
+├── noxinfluencer-chatgpt-0.1.0.zip
+├── noxinfluencer-chatgpt-0.1.0.zip.sha256
+└── noxinfluencer-chatgpt-0.1.0.zip.files.json
+```
+
+只将 `.zip` 上传到 OpenAI 插件后台的远程 MCP 提交流程（With MCP）。`.sha256` 是整个 ZIP 的校验值；`.files.json` 是包内路径、字节大小及逐文件校验值，不进入 ZIP。
+
+ZIP 的根目录直接包含：
+
+```text
+.codex-plugin/plugin.json
+.mcp.json
+assets/icon.png                 # 以及 assets/ 内其他资源
+skills/mcp/SKILL.md             # 以及插件内全部 Skill 的配套资源
+```
+
+脚本采用固定收集范围：只读取 `.codex-plugin/plugin.json`、`.mcp.json`、`skills/`、`assets/`。不加入 `.plugin/`、Marketplace 索引、根级开发脚本、测试、文档、package 文件或依赖目录。忽略 `.gitkeep` 等占位文件；Skill 内实际引用的 `references/` 和 `scripts/` 会完整保留。源文件不会被改写，重复打包相同内容可得到相同的 ZIP 校验值。
+
+打包前集中报告以下本地问题，检查失败返回非零退出码，不创建新的 ZIP，也不覆盖此前的产物：
+
+- 插件名称、正式版本、必填展示文本、公开提交的长度限制及官方分类；
+- 官网、支持、隐私、条款四个 HTTPS 链接的格式；
+- 能力标签、示例提问、品牌色格式和对比度；
+- 图标路径、格式识别、文件大小和图像尺寸；
+- `skills/mcp/SKILL.md` 已交付、Skill 直接位于 `skills/` 下、有效 YAML、必填名称／描述及非空正文；
+- 普通 Markdown 文件链接引用的本地文件是否包含在 ZIP 内；
+- 生产 MCP URL 的格式，拒绝已知测试、示例和本地地址；
+- 文件路径、目录联接／符号链接、危险文件名、重复路径及官方 ZIP 体积／数量限制；
+- Manifest 内的固定凭据、认证请求头、app 引用及生命周期钩子。
+
+脚本不提供绕过检查的 `--force` 或开发模式。当前 Skill 已迁入，正式 URL 和部分展示字段仍未交付，命令会如实列出缺项；不会自动从外部仓库补 Skill，也不会替你编造正式文案或生产地址。
+
+这些是离线打包检查，并不是官方审核通过证明。它不连接 MCP、不发起 OAuth、不上传 ZIP，也不验证网页是否真实可访问、身份认证、域名所有权、服务器工具或图像的完整解码安全性。业务可用性、完整工具扫描、审核用例、演示录像和最终审核仍需在后台完成；可选审核元数据如已写入 Manifest，会原样随包包含。可选 UI 截图还需官方扫描确认有 UI 才能提交。
+
+规则依据：[官方提交流程与字段](https://developers.openai.com/plugins/deploy/submission)、[官方包和资源校验规则](https://developers.openai.com/plugins/deploy/submission-errors)。
+
+## WorkBuddy 连接器 ZIP
+
+复用本插件的 `.mcp.json`、`assets/icon.png` 和唯一的 `skills/` 源码，不新增业务 Skill 副本。平台配置放在：
+
+```text
+workbuddy/
+├── connector-meta.json   # 中英文名称、介绍、示例、source 和最低客户端版本
+└── skill-metadata.json   # 按 Skill 目录补充中英文展示字段，不含业务指令
+```
+
+当前文案以已有功能描述和智能营销计划示例为基础，提审前应结合 MCP 实际能力确认。`source` 使用 `noxinfluencer`，全局唯一性须在 WorkBuddy 后台确认。
+
+在插件目录安装开发依赖后执行：
+
+```powershell
+npm ci
+npm run verify:workbuddy
+npm run package:workbuddy
+```
+
+从仓库根目录也可运行 `npm --prefix plugins/noxinfluencer run package:workbuddy`。检查成功后生成 `dist/noxinfluencer-workbuddy-0.1.0.zip`、相邻的 `.sha256` 和 `.files.json`，提交时使用 ZIP。包根目录直接包含：
+
+```text
+connector-meta.json
+mcp.json
+icon.png
+skills/mcp/SKILL.md
+skills/mcp/references/ ...       # 如有，包含实际交付的配套文件
+skills/mcp/scripts/ ...
+```
+
+打包时从 `.plugin/plugin.json` 读取连接器版本，避免再维护第三份插件版本号；从 `.mcp.json` 读取唯一服务地址，生成 `type: "streamableHttp"` 和 `timeout: 30000` 的 WorkBuddy `mcp.json`，不输出 OpenAI 的 `oauth_resource` 字段。使用 MCP 服务自身的标准 OAuth，`auth_mode` 省略，不配置 CLI 或 Token 表单。最低 WorkBuddy 版本设为 `4.24.0`，与中英文示例字段一致。
+
+Skill 正文和配套资源保留。输出包内的 frontmatter 仅补充缺失的 WorkBuddy 字段：中英文说明／展示名称来自 `workbuddy/skill-metadata.json` 的对应目录项，作者／版本默认来自通用 Manifest；已交付字段不会被覆盖。额外 Skill 若没有中英文说明，应按目录补充配置，不能用 MCP Skill 的说明冒充。源码 `skills/mcp/` 保持不变，也不会从外层 Skill 或网络下载内容。
+
+正式命令要求公网生产 MCP 地址和已交付的 `skills/mcp/SKILL.md`。虽然 WorkBuddy 对 MCP 连接器允许不带 Skill，本项目的正式包仍要求完整交付。当前 Skill 已迁入，测试地址仍会阻止生成正式包；校验失败保留原有 ZIP。开发阶段可执行：
+
+```powershell
+npm run verify:workbuddy:dev
+npm run package:workbuddy:dev
+```
+
+开发命令只允许测试地址和暂时完全为空的 MCP Skill，产物明确命名为 `noxinfluencer-workbuddy-0.1.0-dev.zip`，不能上传上架。部分交付、错误 YAML、断开的 Markdown 文件链接、错误平台字段、凭据文件和符号链接等仍会失败。
+
+收集范围只包含生成的连接器元信息、MCP 配置、品牌图标和插件内 Skill；不加入其他平台 Manifest、开发文档、测试、package 文件、依赖或平台补充配置原文件。文件数量／大小限制是本地保护措施，不表示官方公布限制。相同输入产生相同 ZIP 和文件校验清单。
+
+这是离线配置适配和打包，不证明 MCP/OAuth 可用，也不会登录、安装或上传。MCP 团队仍需验证 WorkBuddy 的发现、动态注册、PKCE、续期和回调兼容性；按当前 source，首选回调为 `workbuddy://workbuddy/mcp/connector%3Anoxinfluencer/oauth/callback`，并检查官方约定的本机回环回退。公司信息、发布权限、审核资料和市场唯一标识在官方后台处理，不写入包中的个人凭证。
+
+官方依据：[连接器格式、认证与提交](https://open.workbuddy.cn/docs/connector)、[Skill 格式](https://open.workbuddy.cn/docs/skill)。
 
 ## 上线前待交付
 
-- MCP 团队提供 `skills/mcp/` 完整内容，并完成 Codex、Claude Code 的业务及 OAuth 联调。
-- 提供正式方形品牌图标，放到 `assets/icon.svg`，将 Codex `interface.logo`、`interface.composerIcon` 配为 `./assets/icon.svg`。当前不编造品牌素材。
-- 确定公网生产 MCP 地址，同步更新 `.mcp.json` 与校验脚本中允许的环境地址。当前保留 `https://skilltest.noxinfluencer.com/mcp` 测试配置。
+- MCP 团队核对已迁入的 `skills/mcp/` 与实时 Tool 契约，并完成 Codex、Claude Code、WorkBuddy 的业务及 OAuth 联调。
+- 确定公网生产 MCP 地址后更新 `.mcp.json`；当前保留 `https://skilltest.noxinfluencer.com/mcp` 测试配置。校验不再固定要求该测试地址，正式打包会拒绝测试地址。
 - 官方上架时准备真实的隐私政策、服务条款、支持链接与审核材料，补入对应展示字段。图标规范参见 [OpenAI 官方提交文档](https://developers.openai.com/plugins/deploy/submission)。
-- 使用确定版本，运行校验后合并到 GitHub 默认分支；验证两条真实远程安装命令，再进行官方目录提交。
+- 使用确定版本，运行校验；远程分发时以本插件目录作为发布根并验证实际安装入口，再进行官方目录提交。
 
 已确认 `plugins` 1.3.5 在已有个人 Codex Marketplace 时可能保留原名称、却写入 `@plugins-cli` 启用键；还会使用默认用户目录，忽略自定义 `CODEX_HOME`。这属于安装器兼容性限制，本插件没有加入自动修补用户配置的逻辑。当前只验证安装发现和转换，最终宿主加载与 OAuth 仍需联调。

@@ -1,25 +1,14 @@
 ---
 name: noxinfluencer
-description: Operates NoxInfluencer creator intelligence and marketing systems through the CLI for standalone users and the connected MCP provider when bundled in the Codex Plugin. Use when work needs NoxInfluencer data, creator analysis, a Nox-native workflow, campaigns, CRM, outreach operations, monitoring, exports, account setup, quota, or troubleshooting; returns verified evidence and system state for standalone expert use or a wider marketing plan.
+description: Operates NoxInfluencer creator intelligence and marketing systems through the CLI. Use when work needs NoxInfluencer data, creator analysis, a Nox-native workflow, campaigns, CRM, outreach operations, monitoring, exports, account setup, quota, or troubleshooting; returns verified evidence and system state for standalone expert use or a wider marketing plan.
 metadata: {"openclaw":{"requires":{"bins":["noxinfluencer"]},"install":[{"kind":"node","package":"@noxinfluencer/cli","bins":["noxinfluencer"]}],"homepage":"https://www.noxinfluencer.com/skills"}}
 ---
 
 # NoxInfluencer
 
-Act as the NoxInfluencer product-capability specialist for creator intelligence and marketing operations across YouTube, TikTok, and Instagram. Turn a defined task into an efficient Nox-native workflow, valid operations on the selected backend, a tool-scoped interpretation, and verified system state.
+Act as the NoxInfluencer product-capability specialist for creator intelligence and marketing operations across YouTube, TikTok, and Instagram. Turn a defined task into an efficient Nox-native workflow, valid CLI operations, a tool-scoped interpretation, and verified system state.
 
-The user interacts through natural language. Select one execution backend, perform the workflow yourself, and report results in plain language. Never expose raw commands, credentials, or internal transport details to the user.
-
-## Execution Backend — Decide First
-
-Read `@references/runtime-routing.md` before any NoxInfluencer operation and select the backend once for the current workflow.
-
-- If `@references/codex-plugin-runtime.md` exists, this Skill came from the Codex Plugin package; use MCP exclusively.
-- If that package marker does not exist, use the original CLI workflow even if an MCP provider happens to be configured separately.
-- In Codex Plugin mode, a missing required Tool or `AuthRequired` is a possible unconnected OAuth state. Follow the one-attempt, host-owned OAuth bootstrap in `mcp-runtime.md` before deciding that the MCP rollout is incomplete. On Windows, use the packaged Skill helper so the conversation can select an executable Codex control CLI instead of an inaccessible `WindowsApps` alias.
-- An OAuth challenge, missing Tool, or MCP error is never permission to fall back to the NoxInfluencer CLI.
-
-This routing rule has priority over every command-looking instruction below. In MCP mode, treat later CLI command names as names of business capabilities and use the matching runtime MCP Tool instead of executing the CLI. Read `@references/mcp-runtime.md` for MCP-specific execution, OAuth, error, and Browser Handoff rules. Keep all workflow sequencing, approval, mutation, quota, and reporting rules in this Skill unchanged across both backends.
+The user interacts through natural language. Execute CLI commands yourself and report results in plain language. Never expose raw commands to the user.
 
 ## When to Use
 
@@ -39,15 +28,13 @@ For goal selection, marketing strategy, cross-source qualification, negotiation,
 
 ### Execution Route
 
-The user does not operate the execution backend. In MCP mode, call the selected tools yourself. In CLI mode, run commands silently. Tell the user the business result, and only share URLs when the user needs to take action in a browser.
-
-In CLI mode, use the CLI or its connected CLI Connector for NoxInfluencer business data and operations. Before declaring a capability unavailable, check the installed version and relevant runtime schema/help; this Skill's routing list is not exhaustive. Missing commands or fields and authentication, permission, quota, or network failures need different recovery steps.
+Use the CLI or its connected CLI Connector for NoxInfluencer business data and operations. Before declaring a capability unavailable, check the installed version and relevant runtime schema/help; this Skill's routing list is not exhaustive. Missing commands or fields and authentication, permission, quota, or network failures need different recovery steps.
 
 If blocked, explain the specific gap, pause dependent steps, and continue independent supported work. Combine supported CLI commands only when they preserve the requested objects, outcome, and authority. A gap, error, SaaS link, or help hint saying "use SaaS" does not authorize switching to browser automation or changing the workflow.
 
 Browser inspection of original creator/channel/video pages for visual or content evidence is valid. NoxInfluencer SaaS business reads or writes require the user's explicit request or approval for that route. Prefer external Chrome; use another external browser if necessary, or request access. Do not use an embedded browser for NoxInfluencer SaaS, as it can displace the user's signed-in session. Sign-in, authorization, and billing are user-completed web steps: share the required URL and resume CLI work after verification.
 
-### CLI Self-Description (CLI Backend Only)
+### CLI Self-Description
 
 The CLI is self-describing — use it instead of memorizing parameters:
 
@@ -94,15 +81,6 @@ Standalone `email create/update` manages type 3 tasks: never inject `campaign_id
 ---
 
 ## 1. Getting Started
-
-In MCP mode, skip NoxInfluencer CLI installation, `doctor`, API-key setup, and Device Flow. Start with the requested MCP business Tool when it is available. If the required Tool is not loaded or the connection returns `AuthRequired`, mark authorization as attempted for this user request and actively start the Codex Host OAuth flow exactly once:
-
-- Windows: run `powershell -NoProfile -ExecutionPolicy Bypass -File "@scripts/start-codex-oauth.ps1"`.
-- macOS/Linux: run `codex mcp login noxinfluencer --oauth-client-registration dcr --scopes noxinfluencer.codex.user` when `codex` is independently executable. The registration value is case-sensitive.
-
-The helper and CLI command invoke Codex Host MCP OAuth; neither is a NoxInfluencer CLI backend or business-command fallback. The host owns DCR, PKCE, state, loopback callback, external-browser launch, and Token storage. Never construct an `/authorize` URL or handle OAuth credentials in the Skill. If the one automatic attempt cannot start, fall back to NoxInfluencer **Connect/Re-authorize** in Codex settings without trying to reproduce OAuth yourself. After authorization, recheck the MCP Tool catalog and retry the original business operation when the Tool is available. If the current task cannot refresh its Tool catalog, tell the user to create a new Codex task and resend the original request. Only report an incomplete MCP rollout after authorization succeeds, the connection refreshes, and the required Tool is still absent. Follow `@references/mcp-runtime.md` for cancellation, `403`, command failure, and retry rules.
-
-The setup flow below is only for CLI mode. When the Plugin marker exists, do not run `noxinfluencer login`, any `noxinfluencer` business command, Device Flow, or API-key setup.
 
 Run `noxinfluencer doctor`, then fix only what is missing:
 
@@ -224,18 +202,14 @@ See `@references/brand-monitor.md` for command routing and platform boundaries.
 
 ## Error Handling
 
-In MCP mode, follow `@references/mcp-runtime.md`; never run CLI diagnostics or switch backends for an MCP authentication, authorization, business, or dependency error.
-
 For API-backed failures, interpret the response's `action.type`, `action.hint`, and optional `action.url` as recovery guidance under the Execution Route above. A redirect is a user action, not permission for the Agent to operate SaaS.
 
 Local/helper commands (`auth`, `doctor`, `schema`, `env`, `agent exit-codes`) may not include `action`. Read their native output directly instead of assuming the API error envelope.
 
-For unexpected CLI failures, run `doctor` as a first diagnostic step.
+For unexpected failures, run `doctor` as a first diagnostic step.
 
 ## References
 
-- `@references/runtime-routing.md` — mandatory MCP/CLI backend selection and no-fallback rules
-- `@references/mcp-runtime.md` — MCP Tool execution, OAuth, error handling, and Browser Handoff
 - `@references/cli-response-format.md` — response envelope differences and error action handling
 - `@references/marketing-ops.md` — campaign, spreadsheet, file, email/message, report/export workflows and mutation guardrails
 - `@references/brand-monitor.md` — brand monitor routing, YouTube-only product signals, export boundaries

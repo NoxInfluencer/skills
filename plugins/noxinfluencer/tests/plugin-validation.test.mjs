@@ -12,6 +12,7 @@ function fixture(t) {
   t.after(() => rmSync(repository, { recursive: true, force: true }));
   for (const directory of [".plugin", ".codex-plugin", "skills/mcp", "assets"]) mkdirSync(join(root, directory), { recursive: true });
   for (const file of [".plugin/plugin.json", ".codex-plugin/plugin.json", ".mcp.json"]) cpSync(join(projectRoot, file), join(root, file));
+  cpSync(join(projectRoot, "assets"), join(root, "assets"), { recursive: true });
   return { root, repository };
 }
 
@@ -76,7 +77,7 @@ test("common and Codex versions cannot drift", (t) => {
 
 test("test shell cannot be packaged as a formal release", (t) => {
   const { root } = fixture(t);
-  assert.throws(() => validatePluginSource({ root, release: true }), /Formal release requires/);
+  assert.throws(() => validatePluginSource({ root, release: true }), /official category|Formal release requires/);
 });
 
 test("MCP OAuth resource mismatch is rejected", (t) => {
@@ -88,14 +89,13 @@ test("MCP OAuth resource mismatch is rejected", (t) => {
   assert.throws(() => validatePluginSource({ root }), /must be equal/);
 });
 
-test("new index resolves nested plugin and detects a shadowing root index", (t) => {
-  const { root, repository } = fixture(t);
-  const sourceRepository = join(projectRoot, "../..");
+test("plugin-local indexes work without repository-root metadata and detect shadowing", (t) => {
+  const { root } = fixture(t);
   for (const file of [".plugin/marketplace.json", ".agents/plugins/marketplace.json"]) {
-    mkdirSync(join(repository, file, ".."), { recursive: true });
-    cpSync(join(sourceRepository, file), join(repository, file));
+    mkdirSync(join(root, file, ".."), { recursive: true });
+    cpSync(join(projectRoot, file), join(root, file));
   }
-  assert.equal(validateMarketplaces(repository, root).plugins[0].source, "./plugins/noxinfluencer");
-  writeFileSync(join(repository, "marketplace.json"), JSON.stringify({ plugins: [] }));
-  assert.throws(() => validateMarketplaces(repository, root), /shadows/);
+  assert.equal(validateMarketplaces(root, root).plugins[0].source, "./");
+  writeFileSync(join(root, "marketplace.json"), JSON.stringify({ plugins: [] }));
+  assert.throws(() => validateMarketplaces(root, root), /shadows/);
 });
