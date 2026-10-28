@@ -1,12 +1,12 @@
 # MCP Runtime Routing
 
-The bundled `noxinfluencer-mcp` Skill is this plugin's MCP execution entry point. Every NoxInfluencer operation must use the connected `noxinfluencer` MCP provider; there is no standalone CLI backend or fallback path. The Skill name is distinct from the provider name and from the shared business Skill named `noxinfluencer`.
+The bundled `noxinfluencer-mcp` Skill is this plugin's product and MCP execution entrypoint. Every NoxInfluencer operation must use the connected `noxinfluencer` MCP provider; there is no standalone CLI backend or fallback path. The Skill name is distinct from the provider name. The outer standalone `noxinfluencer` Skill is not included in this plugin.
 
 ## Shared Business Guidance
 
-Follow [Shared Business Skills](../SKILL.md#shared-business-skills) when product or marketing guidance is needed. Read a sibling's plugin `SKILL.md` before its generated `upstream.md` or references. The upstream text is preserved in full except for the excluded CLI-response document; its CLI commands, metadata, login, response formats, and browser rules do not select a runtime. A missing shared file is a delivery gap, not an authentication failure, and must not trigger OAuth or CLI fallback.
+Follow [Shared Business Skills](../SKILL.md#shared-business-skills) when marketing guidance is needed. Read the Manager's plugin `SKILL.md` before its generated `upstream.md` or references. Its CLI commands, metadata, login, response formats, and browser rules do not select a runtime. Product workflows and interpretation come from this MCP Skill's own guidance. A missing shared file is a delivery gap, not an authentication failure, and must not trigger OAuth or CLI fallback.
 
-Shared Skill entrypoints explicitly read `skills/mcp/SKILL.md` before NoxInfluencer execution. Their business guidance does not select a transport, authorize an action, or override this MCP execution contract. Reuse an already loaded entrypoint without recursive handoffs. Neither folder order nor a shared plugin namespace loads these rules automatically.
+The Manager entrypoint explicitly reads `skills/noxinfluencer-mcp/SKILL.md` before NoxInfluencer execution. Its business guidance does not select a transport, authorize an action, or override this MCP execution contract. Reuse an already loaded entrypoint without recursive handoffs. Neither folder order nor a shared plugin namespace loads these rules automatically.
 
 ## Selection Algorithm
 

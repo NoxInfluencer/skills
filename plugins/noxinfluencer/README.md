@@ -7,7 +7,7 @@ The plugin combines two complementary assistants:
 | Assistant | Role | Use it for |
 | --- | --- | --- |
 | Influencer Marketing Manager | Marketing strategy and workflow planning | Campaign goals, creator-selection criteria, partnership decisions, outreach drafts, SOPs, and process improvement |
-| NoxInfluencer | Product guidance and account workflows | Understanding NoxInfluencer data and features, viewing marketing-plan tasks, and opening authorized business pages |
+| NoxInfluencer MCP | Product guidance and account workflows | Understanding NoxInfluencer data and features, viewing marketing-plan tasks, and opening authorized business pages |
 
 The manager helps you decide what to do and how to organize the work. NoxInfluencer provides product-specific guidance and performs supported account operations through a connected MCP service.
 

@@ -19,20 +19,19 @@ The user interacts through natural language. Call the connected MCP Tools yourse
 
 ## Shared Business Skills
 
-`noxinfluencer-mcp` is this plugin's execution entry point. It owns MCP selection, live Tool schemas, OAuth, retries, and Browser Handoff. The directory name `mcp` does not give it automatic loading priority; read the execution rules explicitly before a NoxInfluencer business Tool call.
+`noxinfluencer-mcp` is this plugin's NoxInfluencer product and execution entrypoint. It owns product workflows, result interpretation, MCP selection, live Tool schemas, OAuth, retries, and Browser Handoff. Read its execution rules explicitly before a NoxInfluencer business Tool call; the directory name does not give it automatic loading priority.
 
-The two sibling Skills provide shared business guidance. Read their plugin entrypoints, which apply this MCP contract before loading their complete upstream text:
+The sibling Manager Skill provides shared marketing guidance. Read its plugin entrypoint, which applies this MCP contract before loading its complete upstream text:
 
 | Sibling Skill | Read when | Responsibility |
 | --- | --- | --- |
-| [Product entrypoint](../noxinfluencer/SKILL.md) (`name: noxinfluencer`) | Product knowledge, a Nox-native business sequence, or result interpretation is needed | Shared product and business guidance; upstream CLI execution instructions are inactive |
 | [Manager entrypoint](../influencer-marketing-manager/SKILL.md) (`name: influencer-marketing-manager`) | The task needs marketing strategy, partnership judgment, SOP design, or cross-stage coordination | Shared marketing judgment and methods; upstream CLI/CLI Connector routes are inactive |
 
 Read only the shared guidance relevant to the user's task. Shared guidance informs the business action and interpretation; return to this Skill and its MCP runtime contract for the actual Tool call. Keep the selected MCP provider, identifiers, and authorization context throughout that handoff.
 
-Each shared Skill has a hand-maintained `SKILL.md` and generated `upstream.md` plus resources. The sync script copies the outer Skills without editing their text, renames the root `SKILL.md`, and excludes `cli-response-format.md`. CLI examples and metadata remaining in upstream text are reference material, never an active installation or execution contract. Apply the plugin entrypoint's filter to all copied guidance. Never load or install the outer standalone CLI Skill to fill a gap.
+The Manager has a hand-maintained `SKILL.md` and generated `upstream.md` plus resources. The sync script copies only the outer `influencer-marketing-manager` Skill without editing its text and renames its root `SKILL.md` to `upstream.md`. CLI examples and metadata remaining in that text are reference material, never an active installation or execution contract. Apply the Manager entrypoint's filter to all copied guidance. The outer standalone `noxinfluencer` Skill is not copied or loaded by this plugin.
 
-Shared entrypoints explicitly route NoxInfluencer execution here before a business Tool call. Read each needed entrypoint once and reuse loaded rules without recursive Skill handoffs. Shared upstream guidance owns product interpretation and marketing judgment, including scoped conclusions; the MCP runtime owns actual Tool availability, schemas, authorization, retries, and Handoff. If older business summaries below or in this directory differ, use the shared business guidance within the live Tool contract. The Manager may draft copy and recommendations; this execution role uses approved content and does not make commercial commitments on its own. Preserve explicit user requests for a separately installed standalone Skill; do not take over that workflow.
+The Manager entrypoint explicitly routes NoxInfluencer execution here before a business Tool call. Read each needed entrypoint once and reuse loaded rules without recursive Skill handoffs. The Manager's upstream guidance owns marketing judgment and methods; this Skill and its references own NoxInfluencer product workflows, result interpretation, and execution. The MCP runtime owns actual Tool availability, schemas, authorization, retries, and Handoff. The Manager may draft copy and recommendations; this execution role uses approved content and does not make commercial commitments on its own. Preserve explicit user requests for a separately installed standalone Skill; do not take over that workflow.
 
 ## When to Use
 

@@ -20,7 +20,7 @@ function listRuntimeFiles(path, root = path) {
   return [path];
 }
 
-export const sharedSkillNames = ["noxinfluencer", "influencer-marketing-manager"];
+export const sharedSkillNames = ["influencer-marketing-manager"];
 
 // Check every ancestor before reading or writing; never follow a directory
 // junction into the outer sources or another part of the developer's machine.
@@ -53,7 +53,7 @@ export function syncSharedSkills({ root = projectRoot, sourceRoot = resolve(root
     if (!plainPath(path).isDirectory()) throw new Error(`Expected a plain directory: ${path}`);
   }
 
-  // Read and validate BOTH snapshots before changing either destination.
+  // Read and validate every managed snapshot before changing its destination.
   const plans = sharedSkillNames.map((name) => {
     const source = join(sourceRoot, name), target = join(root, "skills", name);
     if (!inside(root, target) || source === target || inside(source, target) || inside(target, source)) {
@@ -92,7 +92,7 @@ export function syncSharedSkills({ root = projectRoot, sourceRoot = resolve(root
   if (!check) {
     for (const plan of plans) {
       // All non-SKILL.md content here is a generated snapshot. Only remove
-      // validated ordinary files inside these two fixed destinations.
+      // validated ordinary files inside the managed destination.
       for (const name of plan.removed) {
         const path = plan.current.get(name);
         if (!inside(plan.target, path) || !plainPath(path).isFile()) throw new Error(`Unsafe removal: ${path}`);
