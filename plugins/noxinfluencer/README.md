@@ -33,28 +33,27 @@ Use a current version of Codex or Claude Code with plugin support. The commands 
 Run these commands in your terminal:
 
 ```bash
-git clone --branch mcp --single-branch https://github.com/NoxInfluencer/skills.git noxinfluencer-marketplace
-codex plugin marketplace add ./noxinfluencer-marketplace/plugins/noxinfluencer
+codex plugin marketplace add NoxInfluencer/skills --ref mcp
 codex plugin add noxinfluencer@noxinfluencer-codex
 ```
 
 In the desktop app, you can also select **NoxInfluencer Marketplace** in the plugin directory and install **NoxInfluencer** after adding the marketplace.
 
-Keep the downloaded `noxinfluencer-marketplace` folder so the marketplace source remains available.
+Codex downloads and manages the marketplace automatically.
 
 ### Claude Code
 
 Run these commands in your terminal:
 
 ```bash
-claude plugin marketplace add https://raw.githubusercontent.com/NoxInfluencer/skills/mcp/plugins/noxinfluencer/.claude-plugin/marketplace.json
+claude plugin marketplace add NoxInfluencer/skills#mcp
 claude plugin install noxinfluencer@noxinfluencer-plugins
 ```
 
 Alternatively, run the following inside Claude Code:
 
 ```text
-/plugin marketplace add https://raw.githubusercontent.com/NoxInfluencer/skills/mcp/plugins/noxinfluencer/.claude-plugin/marketplace.json
+/plugin marketplace add NoxInfluencer/skills#mcp
 /plugin install noxinfluencer@noxinfluencer-plugins
 ```
 
