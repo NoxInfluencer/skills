@@ -5,8 +5,8 @@
     "node": ">=22.22.0"
   },
   "scripts": {
-    "skills-plugin": "node plugins/noxinfluencer/scripts/sync-shared-skills.mjs",
-    "skills-plugin:check": "node plugins/noxinfluencer/scripts/sync-shared-skills.mjs --check",
+    "skills-plugin": "node scripts/skills-plugin.mjs",
+    "skills-plugin:check": "node scripts/skills-plugin.mjs --check",
     "check:manager-evals": "python3 evals/influencer-marketing-manager/validate_evals.py && python3 evals/influencer-marketing-manager/validate_evals.py --self-test && python3 evals/influencer-marketing-manager/promptfoo_cases.py --self-test && python3 -m unittest discover -s evals/influencer-marketing-manager -p 'test_*.py' && node --test evals/influencer-marketing-manager/test_conversations.mjs",
     "eval:manager:prepare": "python3 evals/influencer-marketing-manager/prepare_promptfoo_fixtures.py",
     "eval:manager:validate": "promptfoo validate config -c evals/influencer-marketing-manager/promptfooconfig.yaml",

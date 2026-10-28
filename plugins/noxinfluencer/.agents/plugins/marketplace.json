@@ -1,7 +1,7 @@
 {
   "name": "noxinfluencer-codex",
   "interface": {
-    "displayName": "NoxInfluencer Codex"
+    "displayName": "NoxInfluencer Marketplace"
   },
   "plugins": [
     {

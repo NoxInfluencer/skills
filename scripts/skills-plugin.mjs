@@ -1,7 +1,24 @@
 import { existsSync, lstatSync, mkdirSync, readFileSync, readdirSync, rmSync, rmdirSync, writeFileSync } from "node:fs";
 import { dirname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
-import { listRuntimeFiles, projectRoot } from "./plugin-source-validation.mjs";
+const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../plugins/noxinfluencer");
+
+function listRuntimeFiles(path, root = path) {
+  const stat = lstatSync(path);
+  const name = relative(root, path).split(sep).join("/");
+  if (stat.isSymbolicLink()) throw new Error(`Symbolic links are not allowed: ${name || path}`);
+  if (stat.isDirectory()) {
+    if (/^(node_modules|dist|build|coverage|logs|evals|\.git|\.evals)$/i.test(path.split(sep).at(-1))) {
+      throw new Error(`Development directory is not allowed: ${name}`);
+    }
+    return readdirSync(path).sort().flatMap((entry) => listRuntimeFiles(join(path, entry), root));
+  }
+  if (!stat.isFile()) throw new Error(`Unsupported filesystem entry: ${name}`);
+  if (/^(\.env(?:\..*)?|id_rsa)$|\.(pem|key|p12|pfx|log)$/i.test(path.split(sep).at(-1))) {
+    throw new Error(`Potential secret or log file is not allowed: ${name}`);
+  }
+  return [path];
+}
 
 export const sharedSkillNames = ["noxinfluencer", "influencer-marketing-manager"];
 
@@ -99,7 +116,7 @@ export function syncSharedSkills({ root = projectRoot, sourceRoot = resolve(root
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   try {
     const args = process.argv.slice(2);
-    if (args.length > 1 || (args.length === 1 && args[0] !== "--check")) throw new Error("Usage: node scripts/sync-shared-skills.mjs [--check]");
+    if (args.length > 1 || (args.length === 1 && args[0] !== "--check")) throw new Error("Usage: npm run skills-plugin [-- --check]");
     const check = args[0] === "--check";
     const result = syncSharedSkills({ check });
     for (const skill of result.skills) {

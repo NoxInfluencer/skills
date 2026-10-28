@@ -9,3 +9,19 @@ refs/
 *-workspace/
 **/evals/workspace/
 evals/**/workspace/
+
+# Machine-local plugin development tools, tests, dependencies and release files.
+/plugins/noxinfluencer/scripts/
+/plugins/noxinfluencer/tests/
+/plugins/noxinfluencer/evals/
+/plugins/noxinfluencer/ci/
+/plugins/noxinfluencer/doc/
+/plugins/noxinfluencer/workbuddy/
+/plugins/noxinfluencer/.codex-local/
+/plugins/noxinfluencer/package.json
+/plugins/noxinfluencer/package-lock.json
+/plugins/noxinfluencer/.editorconfig
+/plugins/noxinfluencer/.gitignore
+/plugins/noxinfluencer/CONTRIBUTING.md
+/plugins/noxinfluencer/DEVELOPMENT.md
+/plugins/noxinfluencer/LOCAL-DEVELOPMENT.md
