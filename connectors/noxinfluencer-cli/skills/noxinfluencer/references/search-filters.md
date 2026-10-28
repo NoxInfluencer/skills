@@ -22,13 +22,33 @@ For a new search, apply topic exclusions and SaaS hide/deduplication directly th
 | Active creators | `--published_within_days` | Exclude dormant channels |
 | Performance floor | `--engagement_rate_min`, `--avg_view_min` | Filter out low-engagement creators |
 | Comment activity floor | `--avg_comments_min/max` | Filter by average comments across the latest 10 contents |
-| Exposure window | `--est_exposure_min/max`, `--est_exposure_period 30d|180d` | Compare estimated exposure within an explicit SaaS time window |
+| Exposure window | `--est_exposure_min/max`, `--est_exposure_period 30d|180d` | Choose the SaaS estimation basis; these values are distinct from actual average views |
 | YouTube content shape | `--video_type`, `--primary_video_length_type`, `--open_shorts` | Separate Shorts, long videos, live content, primary format, and Shorts availability |
 | TikTok Shop creator GMV | `--platform tiktok`, `--last30_days_products_gmv_min/max` | Filter creators by last-30-day video-attributed product GMV |
 
 ## Search Result Fields
 
 Each result includes the encrypted `id`, masked `nickname`, `tags`, `followers`, `country`, `total_videos`, `view_per_followers`, `engagement_rate`, and `language`. `avg_views` is the actual latest-10-content average; `estimated_exposure_30d` and `estimated_exposure_180d` are separate estimates, not substitutes for that average. `avg_comments`, `is_brand`, `is_celebrity`, and `has_email` provide corresponding filter evidence when available. `has_email` is a signal, not an address. Audience filters return only their requested matching values/female percentage, not a full audience distribution.
+
+### Average Views and Estimated Exposure
+
+YouTube search keeps `avg_views` as the overall search-index average even when a classified average is used for filtering. Match `avg_view_min/max` to the returned field:
+
+| YouTube `video_type` | Average-view filter evidence |
+| --- | --- |
+| `1` (Shorts) | `avg_views_shorts` |
+| `2` (long videos) | `avg_views_normal` |
+| Omitted or any other supported value | `avg_views` |
+
+For example, a long-video search with a minimum of 22 million can legitimately return `avg_views=21 million` and `avg_views_normal=25 million`. Check the long-video field; do not reject the creator using the overall value. Classified fields are supplied by the deployed Java/Claw search service and stay null on other platforms or when unavailable. If a classified field is missing/null, report that evidence gap rather than silently rechecking the threshold against another metric.
+
+Search averages are index snapshots. Profile detail computes its own sample, so its overall or classified averages can differ from search. Do not fetch paid per-creator detail solely to replace a missing search value. For detail sample definitions, medians, and fluctuation, read `@references/platform-support.md`.
+
+`est_exposure_period` defaults to `180d`; choose `30d` to filter `estimated_exposure_30d` instead. SaaS describes exposure as an estimate for subsequent content based on the selected historical window. It is not a cumulative exposure total for that window, so the 30-day estimate can exceed the 180-day estimate. Do not invent the underlying estimation formula or substitute exposure for an actual-views threshold.
+
+Instagram SaaS hides the average-views search control, but the CLI/API supports `avg_view_min/max` against the search-index `avg_views`. The visible SaaS exposure filter corresponds to `est_exposure_min/max` with the same period, not to `avg_view_min/max`.
+
+### TikTok Commerce Fields
 
 TikTok commerce search exposes only existing filter values within the account's search entitlement:
 

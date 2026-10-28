@@ -106,6 +106,8 @@ For TikTok creator qualification, use `schema creator.search` and the TikTok-onl
 
 For creator search quality, use `avg_comments_min/max` as the latest-10-content comments floor, and choose `est_exposure_period` explicitly when comparing 30-day and 180-day exposure. On YouTube, combine `video_type`, `primary_video_length_type`, or `open_shorts` only for YouTube searches. For recent content analysis, use `creator content` with `--page_size`, `--page_num`, `--sort_field`, and platform-supported `--video_type`; keep the requested format explicit so Shorts, long videos, Reels, and posts are not silently mixed.
 
+For YouTube average-view thresholds, compare the corresponding search field: `avg_views_shorts` for `video_type=1`, `avg_views_normal` for `video_type=2`, and `avg_views` otherwise. `avg_views` stays overall. Missing classified values mean unavailable evidence; do not substitute overall averages, estimated exposure, or profile-detail samples. See `{baseDir}/references/search-filters.md` for search metrics and `{baseDir}/references/platform-support.md` for detail samples, medians, and fluctuation.
+
 Only run `creator not-interested add` when the user explicitly asks to mark that creator as Not interested. Treat it as an approved, reversible mutation; a weak match or noisy result alone is not approval.
 
 Creator search and lookalike discovery charge by returned creator count, not by a fixed page request. Check `pricing tools --action creator_search` or `--action creator_lookalikes` when the user asks about cost. Default to smaller, purposeful pages for exploration; use larger pages only when the user asks for a broad shortlist or bulk follow-up.
