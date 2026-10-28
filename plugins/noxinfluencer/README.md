@@ -33,7 +33,7 @@ Use a current version of Codex or Claude Code with plugin support. The commands 
 Run these commands in your terminal:
 
 ```bash
-codex plugin marketplace add NoxInfluencer/skills --ref mcp
+codex plugin marketplace add NoxInfluencer/skills
 codex plugin add noxinfluencer@noxinfluencer-codex
 ```
 
@@ -46,14 +46,14 @@ Codex downloads and manages the marketplace automatically.
 Run these commands in your terminal:
 
 ```bash
-claude plugin marketplace add NoxInfluencer/skills#mcp
+claude plugin marketplace add NoxInfluencer/skills
 claude plugin install noxinfluencer@noxinfluencer-plugins
 ```
 
 Alternatively, run the following inside Claude Code:
 
 ```text
-/plugin marketplace add NoxInfluencer/skills#mcp
+/plugin marketplace add NoxInfluencer/skills
 /plugin install noxinfluencer@noxinfluencer-plugins
 ```
 
