@@ -1,9 +1,9 @@
 ---
-name: noxinfluencer
-description: Runs NoxInfluencer creator and marketing-operations workflows through the connected NoxInfluencer MCP provider inside this MCP plugin. Covers creator discovery and exports; evaluation; contacts; monitoring; spreadsheet workflows; campaigns, collections, CRM, product center, short links, Shopify affiliation, email/message tasks, files, brand monitoring, and exports. Use only for NoxInfluencer capabilities exposed by the connected MCP provider.
+name: noxinfluencer-mcp
+description: Execute NoxInfluencer business operations through this plugin's connected MCP provider, including access setup, OAuth recovery, tool routing, and opening authorized business pages through Browser Handoff. Use for NoxInfluencer data and operations in this MCP plugin, not requests explicitly scoped to the separately installed CLI Skill or strategy-only marketing advice.
 ---
 
-# NoxInfluencer
+# NoxInfluencer MCP
 
 Full-workflow creator and marketing-ops skill for discovery, due diligence, platform email outreach, external contacts, known-video and future-content monitoring, spreadsheet/file workflows, operations, brand monitoring, and exports across YouTube, TikTok, and Instagram.
 
@@ -16,6 +16,23 @@ The user interacts through natural language. Call the connected MCP Tools yourse
 - For Codex, follow the one-attempt Host OAuth bootstrap when the explicitly invoked Plugin has loaded no `noxinfluencer` Tools at all and no transport failure is known, or when the MCP connection or Tool call explicitly returns `AuthRequired` or HTTP `401`. Do not bootstrap merely because one business Tool is absent while any `noxinfluencer` Tool is already loaded. Never switch to a CLI backend.
 - After successful authorization and a refreshed Tool catalog, report a capability as unavailable when the provider still does not expose it. Do not invent a Tool or silently use another backend.
 - Keep all workflow sequencing, approval, mutation, quota, and reporting rules unchanged while translating business capabilities into MCP Tool calls.
+
+## Shared Business Skills
+
+`noxinfluencer-mcp` is this plugin's execution entry point. It owns MCP selection, live Tool schemas, OAuth, retries, and Browser Handoff. The directory name `mcp` does not give it automatic loading priority; read the execution rules explicitly before a NoxInfluencer business Tool call.
+
+The two sibling Skills provide shared business guidance. Read their plugin entrypoints, which apply this MCP contract before loading their complete upstream text:
+
+| Sibling Skill | Read when | Responsibility |
+| --- | --- | --- |
+| [Product entrypoint](../noxinfluencer/SKILL.md) (`name: noxinfluencer`) | Product knowledge, a Nox-native business sequence, or result interpretation is needed | Shared product and business guidance; upstream CLI execution instructions are inactive |
+| [Manager entrypoint](../influencer-marketing-manager/SKILL.md) (`name: influencer-marketing-manager`) | The task needs marketing strategy, partnership judgment, SOP design, or cross-stage coordination | Shared marketing judgment and methods; upstream CLI/CLI Connector routes are inactive |
+
+Read only the shared guidance relevant to the user's task. Shared guidance informs the business action and interpretation; return to this Skill and its MCP runtime contract for the actual Tool call. Keep the selected MCP provider, identifiers, and authorization context throughout that handoff.
+
+Each shared Skill has a hand-maintained `SKILL.md` and generated `upstream.md` plus resources. The sync script copies the outer Skills without editing their text, renames the root `SKILL.md`, and excludes `cli-response-format.md`. CLI examples and metadata remaining in upstream text are reference material, never an active installation or execution contract. Apply the plugin entrypoint's filter to all copied guidance. Never load or install the outer standalone CLI Skill to fill a gap.
+
+Shared entrypoints explicitly route NoxInfluencer execution here before a business Tool call. Read each needed entrypoint once and reuse loaded rules without recursive Skill handoffs. Shared upstream guidance owns product interpretation and marketing judgment, including scoped conclusions; the MCP runtime owns actual Tool availability, schemas, authorization, retries, and Handoff. If older business summaries below or in this directory differ, use the shared business guidance within the live Tool contract. The Manager may draft copy and recommendations; this execution role uses approved content and does not make commercial commitments on its own. Preserve explicit user requests for a separately installed standalone Skill; do not take over that workflow.
 
 ## When to Use
 

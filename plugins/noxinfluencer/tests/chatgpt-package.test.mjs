@@ -69,12 +69,31 @@ function unzip(data) {
   return files;
 }
 
+test("ChatGPT ZIP preserves shared upstream snapshots as references and includes the MCP plugin entrypoints", async (t) => {
+  const root = fixture(t);
+  for (const name of ["noxinfluencer", "influencer-marketing-manager"]) {
+    cpSync(join(pluginRoot, "skills", name), join(root, "skills", name), { recursive: true });
+  }
+  const result = await packageForChatgpt({ root });
+  const archived = unzip(readFileSync(result.path));
+  for (const name of ["noxinfluencer", "influencer-marketing-manager"]) {
+    assert.deepEqual(archived.get(`skills/${name}/SKILL.md`), readFileSync(join(pluginRoot, "skills", name, "SKILL.md")));
+    assert.deepEqual(archived.get(`skills/${name}/upstream.md`), readFileSync(join(pluginRoot, "skills", name, "upstream.md")));
+    assert.ok(!archived.has(`skills/${name}/references/cli-response-format.md`));
+  }
+  assert.equal([...archived.keys()].filter((name) => name.endsWith("/SKILL.md")).length, 3);
+});
+
 test("ChatGPT ZIP contains only runtime components and preserves binary assets", async (t) => {
   const root = fixture(t);
   writeJson(root, ".plugin/plugin.json", { name: "unused-installer-metadata" });
   writeFileSync(join(root, "package.json"), "{}");
   writeFileSync(join(root, "README.md"), "Development documentation");
   writeFileSync(join(root, "skills/mcp/.gitkeep"), "");
+  for (const name of ["noxinfluencer", "influencer-marketing-manager"]) {
+    mkdirSync(join(root, "skills", name));
+    writeFileSync(join(root, "skills", name, ".gitkeep"), "");
+  }
   const original = readFileSync(join(root, ".codex-plugin/plugin.json"));
   const result = await packageForChatgpt({ root });
   assert.match(result.path, /noxinfluencer-chatgpt-0\.1\.0\.zip$/);

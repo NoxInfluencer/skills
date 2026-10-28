@@ -16,7 +16,7 @@ function fixture(t) {
   return { root, repository };
 }
 
-const skill = "---\nname: noxinfluencer\ndescription: NoxInfluencer MCP workflows.\n---\n\nUse the connected MCP provider.\n";
+const skill = "---\nname: noxinfluencer-mcp\ndescription: NoxInfluencer MCP workflows.\n---\n\nUse the connected MCP provider.\n";
 
 test("empty mcp delivery is accepted during development", (t) => {
   const { root } = fixture(t);
@@ -30,10 +30,43 @@ test("partial MCP delivery fails instead of silently installing zero skills", (t
   assert.throws(() => validatePluginSource({ root }), /delivery is incomplete/);
 });
 
-test("delivered Skill may retain its business name without a generated host marker", (t) => {
+test("MCP entry has its own name without a generated host marker", (t) => {
   const { root } = fixture(t);
   writeFileSync(join(root, "skills/mcp/SKILL.md"), skill);
   assert.deepEqual(validatePluginSource({ root }).skills, { pending: false, fileCount: 1 });
+});
+
+test("reserved shared Skill placeholders do not count as delivered runtime content", (t) => {
+  const { root } = fixture(t);
+  writeFileSync(join(root, "skills/mcp/SKILL.md"), skill);
+  for (const name of ["noxinfluencer", "influencer-marketing-manager"]) {
+    mkdirSync(join(root, "skills", name));
+    writeFileSync(join(root, "skills", name, ".gitkeep"), "");
+  }
+  assert.deepEqual(validateSkills(root), { pending: false, fileCount: 1 });
+});
+
+test("reserved shared directories with actual payload require a complete Skill", (t) => {
+  const { root } = fixture(t);
+  writeFileSync(join(root, "skills/mcp/SKILL.md"), skill);
+  for (const name of ["noxinfluencer", "influencer-marketing-manager"]) {
+    mkdirSync(join(root, "skills", name));
+    const payload = join(root, "skills", name, "guidance.md");
+    writeFileSync(payload, "Shared business guidance.\n");
+    assert.throws(() => validateSkills(root), /Skill delivery is incomplete/);
+    rmSync(payload);
+  }
+});
+
+test("delivered shared Skills must have names distinct from the MCP entry", (t) => {
+  const { root } = fixture(t);
+  writeFileSync(join(root, "skills/mcp/SKILL.md"), skill);
+  mkdirSync(join(root, "skills/noxinfluencer"));
+  const shared = join(root, "skills/noxinfluencer/SKILL.md");
+  writeFileSync(shared, skill);
+  assert.throws(() => validateSkills(root), /Duplicate Skill name: noxinfluencer-mcp/);
+  writeFileSync(shared, skill.replace("name: noxinfluencer-mcp", "name: noxinfluencer"));
+  assert.deepEqual(validateSkills(root), { pending: false, fileCount: 2 });
 });
 
 test("malformed delivered Skill is rejected", (t) => {

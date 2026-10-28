@@ -1,6 +1,12 @@
 # MCP Runtime Routing
 
-This bundled Skill is MCP-only. Every NoxInfluencer operation must use the connected `noxinfluencer` MCP provider; there is no standalone CLI backend or fallback path.
+The bundled `noxinfluencer-mcp` Skill is this plugin's MCP execution entry point. Every NoxInfluencer operation must use the connected `noxinfluencer` MCP provider; there is no standalone CLI backend or fallback path. The Skill name is distinct from the provider name and from the shared business Skill named `noxinfluencer`.
+
+## Shared Business Guidance
+
+Follow [Shared Business Skills](../SKILL.md#shared-business-skills) when product or marketing guidance is needed. Read a sibling's plugin `SKILL.md` before its generated `upstream.md` or references. The upstream text is preserved in full except for the excluded CLI-response document; its CLI commands, metadata, login, response formats, and browser rules do not select a runtime. A missing shared file is a delivery gap, not an authentication failure, and must not trigger OAuth or CLI fallback.
+
+Shared Skill entrypoints explicitly read `skills/mcp/SKILL.md` before NoxInfluencer execution. Their business guidance does not select a transport, authorize an action, or override this MCP execution contract. Reuse an already loaded entrypoint without recursive handoffs. Neither folder order nor a shared plugin namespace loads these rules automatically.
 
 ## Selection Algorithm
 

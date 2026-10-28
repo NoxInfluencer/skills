@@ -39,7 +39,8 @@ function validateSkill(skillPath) {
   const frontmatter = match?.[1];
   requireValue(frontmatter, `${skillPath} must begin with YAML frontmatter.`);
   const scalar = (field) => frontmatter.match(new RegExp(`^${field}:[ \\t]*([^\\n]*)$`, "m"))?.[1].trim().replace(/^(['"])(.*)\1$/, "$2");
-  requireValue(/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(scalar("name") ?? ""), `${skillPath} must declare a valid name.`);
+  const name = scalar("name");
+  requireValue(/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(name ?? ""), `${skillPath} must declare a valid name.`);
   let description = scalar("description");
   if (/^[>|][+-]?$/.test(description ?? "")) {
     description = frontmatter.match(/^description:[ \t]*[>|][+-]?[ \t]*\n((?:[ \t]+[^\n]*(?:\n|$))+)/m)?.[1].trim();
@@ -47,6 +48,7 @@ function validateSkill(skillPath) {
   requireValue(description, `${skillPath} must declare a non-empty description.`);
   requireValue(content.slice(match[0].length).trim(), `${skillPath} must contain instructions.`);
   requireValue(!content.includes("[TODO:"), `${skillPath} contains a TODO placeholder.`);
+  return name;
 }
 
 export function validateSkills(root, { release = false } = {}) {
@@ -60,13 +62,20 @@ export function validateSkills(root, { release = false } = {}) {
     requireValue(primarySkillFiles.length === 0, "skills/mcp/ contains files but no SKILL.md; delivery is incomplete.");
     requireValue(!release, "MCP Skill delivery is pending: add skills/mcp/SKILL.md before release.");
   }
-  // Every direct child is an independently loadable Skill. No host-specific
-  // runtime marker is generated or injected into the MCP team's content.
+  // Reserved shared business directories may be empty until their content is
+  // delivered. Any actual payload still requires its own complete Skill.
+  const reservedSharedSkills = new Set(["noxinfluencer", "influencer-marketing-manager"]);
+  const skillNames = new Set();
   for (const entry of readdirSync(skillsRoot, { withFileTypes: true })) {
     if (!entry.isDirectory()) continue;
-    const path = join(skillsRoot, entry.name, "SKILL.md");
+    const directory = join(skillsRoot, entry.name);
+    const path = join(directory, "SKILL.md");
     if (entry.name === "mcp" && !existsSync(path)) continue;
-    validateSkill(path);
+    if (reservedSharedSkills.has(entry.name) && !existsSync(path) && !files.some((file) => file.startsWith(`${directory}${sep}`))) continue;
+    requireValue(existsSync(path), `${path} is required; Skill delivery is incomplete.`);
+    const name = validateSkill(path);
+    requireValue(!skillNames.has(name), `Duplicate Skill name: ${name}`);
+    skillNames.add(name);
   }
   return { pending: !existsSync(skillPath), fileCount: files.length };
 }

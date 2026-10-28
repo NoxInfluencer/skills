@@ -36,7 +36,7 @@ function listFiles(path) {
   if (stat.isSymbolicLink()) {
     fail(`Symbolic links are not allowed in the plugin package: ${toArchivePath(path)}`);
   }
-  if (stat.isFile()) return [path];
+  if (stat.isFile()) return path.split(sep).at(-1) === ".gitkeep" ? [] : [path];
   if (!stat.isDirectory()) {
     fail(`Unsupported filesystem entry: ${toArchivePath(path)}`);
   }

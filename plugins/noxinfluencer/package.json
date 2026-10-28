@@ -8,11 +8,13 @@
     "node": ">=20"
   },
   "scripts": {
+    "skills:sync": "node scripts/sync-shared-skills.mjs",
+    "skills:check": "node scripts/sync-shared-skills.mjs --check",
     "plugin:validate": "node scripts/verify-plugin.mjs",
     "marketplace:validate": "node scripts/validate-marketplace.mjs",
     "verify:boundary": "node scripts/check-repository-boundary.mjs",
     "verify:evals": "python evals/mcp/validate_evals.py",
-    "verify": "npm run plugin:validate && npm run marketplace:validate && npm run verify:workbuddy:dev",
+    "verify": "npm run skills:check && npm run plugin:validate && npm run marketplace:validate && npm run verify:workbuddy:dev",
     "verify:release": "node scripts/verify-plugin.mjs --release",
     "verify:chatgpt": "node scripts/package-chatgpt.mjs --check",
     "package:chatgpt": "node scripts/package-chatgpt.mjs",

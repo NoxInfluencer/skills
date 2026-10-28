@@ -1,6 +1,6 @@
 # NoxInfluencer Plugin
 
-面向 Codex、Claude Code 和 WorkBuddy 的 NoxInfluencer MCP 插件。插件源码只维护在 `plugins/noxinfluencer/`，仓库外层的独立 Skill 不参与本插件的开发、校验或安装。WorkBuddy 使用独立的连接器提交包，尚待客户端联调和官方审核。
+面向 Codex、Claude Code 和 WorkBuddy 的 NoxInfluencer MCP 插件。插件入口、MCP 运行规则和开发工具维护在 `plugins/noxinfluencer/`；公共业务内容只在外层 `skills/` 维护，通过显式脚本同步为插件内快照。WorkBuddy 使用独立的连接器提交包，尚待客户端联调和官方审核。
 
 ## 用户安装
 
@@ -19,7 +19,9 @@ plugins/noxinfluencer/
     ├── .plugin/plugin.json             # 通用元数据
     ├── .codex-plugin/plugin.json       # Codex 配置和展示信息
     ├── .mcp.json                       # 共享 MCP 连接配置
-    ├── skills/mcp/SKILL.md             # 独立 MCP Skill，含 references/ 和 scripts/
+    ├── skills/mcp/SKILL.md             # noxinfluencer-mcp：MCP 主执行入口
+    ├── skills/noxinfluencer/           # 产品业务入口和生成的上游快照
+    ├── skills/influencer-marketing-manager/ # 营销经理入口和生成的上游快照
     ├── evals/mcp/                     # 14 条插件专属评测及校验器
     ├── ci/                            # 原工作流模板，不在仓库根启用
     ├── assets/icon.png                 # 正式品牌图标，128×128 PNG
@@ -36,7 +38,7 @@ plugins/noxinfluencer/
 
 本目录 `.plugin/marketplace.json` 的 `source: "./"` 定位插件自身；`.agents/plugins/marketplace.json` 同样使用 `./`。本地开发注册的是插件目录，而非仓库根目录。
 
-不要在本目录添加会遮蔽 `.plugin/marketplace.json` 的 `marketplace.json`。目录外的安装索引和独立 Skill 不参与本插件的校验、同步或打包。
+不要在本目录添加会遮蔽 `.plugin/marketplace.json` 的 `marketplace.json`。目录外的安装索引不参与本插件校验或打包；外层两个 Skill 仅作为显式同步和一致性检查的只读来源，安装和打包使用插件内快照。
 
 Codex 使用显式 `.codex-plugin/plugin.json`，避免安装器生成默认分类和展示信息。Claude Code 安装时，安装器在临时安装目录把 `.plugin/` 转换为 `.claude-plugin/`；源码不维护第三份 Manifest，也不复制三份 Skill。
 
@@ -45,15 +47,43 @@ Codex 使用显式 `.codex-plugin/plugin.json`，避免安装器生成默认分�
 本分支此前编写的 MCP-only Skill 已整理至以下目录，包含运行路由、OAuth、错误处理、Browser Handoff、业务引用及 Windows Codex 授权辅助脚本：
 
 ```text
-skills/mcp/
-├── SKILL.md
-├── references/       # 按实际需要交付
-└── scripts/          # 按实际需要交付
+skills/
+├── mcp/
+│   ├── SKILL.md       # name: noxinfluencer-mcp
+│   ├── references/   # MCP 路由、OAuth、Handoff 与当前业务指引
+│   └── scripts/      # Codex Windows 授权辅助
+├── noxinfluencer/
+│   ├── SKILL.md      # 手工维护：MCP 执行约束及上游引用
+│   ├── upstream.md   # 外层 SKILL.md 的完整原文
+│   └── references/   # 上游资源，排除 cli-response-format.md
+└── influencer-marketing-manager/
+    ├── SKILL.md      # 手工维护：营销职责、MCP 执行约束及上游引用
+    ├── upstream.md   # 外层 SKILL.md 的完整原文
+    └── references/   # 上游资源原样保留
 ```
 
-`SKILL.md` 的业务名称为 `noxinfluencer`，目录固定为 `mcp`。直接固定使用 MCP，不检查外层 Skill，不生成运行时标记，不切换到 NoxInfluencer CLI。Codex 专用授权命令在指令中明确限定宿主；其他宿主使用自身授权入口。所有引用资源随 Skill 一起交付，不从外层 Skill 同步。
+MCP 主执行 Skill 的名称为 `noxinfluencer-mcp`，目录固定为 `mcp`；远程 provider 仍名为 `noxinfluencer`。Skill 直接使用 MCP，不检查外层 CLI Skill，不生成运行时标记，不切换到 NoxInfluencer CLI。Codex 专用授权命令在指令中明确限定宿主；其他宿主使用自身授权入口。
 
-当前内容先用于联调。联调完成后，将 MCP 团队的其余 Skill 内容与依赖合并到本目录，核对重复规则和引用，再运行校验与打包检查。
+两个公共 Skill 的薄入口先声明插件执行规则，再引用 `upstream.md` 和所需参考文档。业务原文不做段落过滤，仍可能含 CLI 命令或元数据；这些内容不承担插件安装、认证或执行职责。薄入口明确忽略 CLI／CLI Connector、参数、安装、登录、诊断、CLI 响应格式和浏览器路线；实际 NoxInfluencer 读写统一交给 `noxinfluencer-mcp` 和真实 Tool schema。忽略执行方式不移除业务授权、费用影响、写入副作用或结果核验规则。Manager 可开展策略和文案工作，执行角色使用已批准内容。
+
+三个 Skill 的名称唯一。目录顺序不产生自动优先级；每个公共入口明确引用 `mcp/SKILL.md`，并将其执行约束应用于完整上游文本和所有参考文件。`cli-response-format.md` 不交付，原文中对它的引用明确跳过。Manager 参考文档中的业务授权和证据章节通过薄入口链接到 `upstream.md` 的相应章节。
+
+## 同步公共业务 Skill
+
+在仓库根目录（`D:\KOL\skills`）执行，无需进入插件目录：
+
+```bash
+npm run skills-plugin
+npm run skills-plugin:check
+```
+
+根目录的 npm 命令直接调用插件内同步脚本，不需要手动执行 Node 命令，也无需安装 npm 依赖。脚本按自身位置定位路径，不依赖当前工作目录。
+
+同步从外层 `skills/noxinfluencer/` 和 `skills/influencer-marketing-manager/` 读取全部文件，只做两项处理：根 `SKILL.md` 改名为 `upstream.md`，任何名为 `cli-response-format.md` 的文件不复制。其余文件保留相对路径和原始字节，包括未来新增的脚本或资源；不执行其中的脚本。外层文件、插件薄入口 `SKILL.md` 和 `skills/mcp/` 不被改写。
+
+**两个目标目录中，除根 `SKILL.md` 外的内容均为生成快照。** 同步会更新新增和修改文件、删除已从上游移除或被排除的文件；不要手工维护快照。脚本先检查两个来源和目标，再执行写入，拒绝符号链接、目录联接和保留路径冲突。
+
+`skills-plugin:check` 只读，快照过期时返回非零状态；插件内的 `npm run verify` 已包含同一检查。更新外层内容后显式同步，并将外层改动与插件快照一起提交，GitHub 安装和各平台 ZIP 使用同一套已提交快照。安装及打包不自动读取外层来源或触发同步，不添加安装生命周期钩子；独立发布插件目录时应先在完整仓库中同步。
 
 `skills/` 下可放多个并列 Skill，每个目录有自己的 `SKILL.md`。在 ChatGPT／Codex 中，宿主先提供各 Skill 的名称与描述，匹配请求或被明确调用时才加载对应正文；不会因为同属一个插件就自动读取全部 Skill。公共授权规则由当前入口明确引用 `references/mcp-runtime.md`，以后增加其他业务 Skill 时也应明确引用所需的公共规则，不能依赖另一个 Skill 自动加载。参见 [OpenAI 官方 Skill 激活说明](https://developers.openai.com/plugins/concepts/skills)。
 
@@ -65,6 +95,7 @@ skills/mcp/
 
 ```bash
 npm ci
+npm run skills:sync
 npm run verify
 npm test
 npm run verify:evals

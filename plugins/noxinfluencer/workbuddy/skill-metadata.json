@@ -1,4 +1,16 @@
 {
+  "noxinfluencer": {
+    "display_name": "NoxInfluencer 产品业务",
+    "display_name_en": "NoxInfluencer Product Workflows",
+    "description_zh": "使用聚星产品知识、业务流程和数据解释方法，通过 MCP 执行聚星业务操作。",
+    "description_en": "Apply NoxInfluencer product knowledge and business workflows with execution through MCP."
+  },
+  "influencer-marketing-manager": {
+    "display_name": "达人营销经理",
+    "display_name_en": "Influencer Marketing Manager",
+    "description_zh": "制定达人营销策略、评估合作、设计 SOP 和自动化方法，并将聚星业务操作交给 MCP。",
+    "description_en": "Develop influencer-marketing strategy, partnership workflows, SOPs, and automation with NoxInfluencer execution through MCP."
+  },
   "mcp": {
     "display_name": "NoxInfluencer",
     "display_name_en": "NoxInfluencer",

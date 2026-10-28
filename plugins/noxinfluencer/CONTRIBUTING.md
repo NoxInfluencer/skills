@@ -1,6 +1,6 @@
 # NoxInfluencer Plugin 开发规范
 
-开发边界为 `plugins/noxinfluencer/`。插件使用本目录内的 `.plugin/marketplace.json` 和 `.agents/plugins/marketplace.json`，均通过 `./` 定位自身。外层文件必须与 `main` 保持一致，仅保留旧 `plugins/nox-influencer/` 及其根 `.claude-plugin/marketplace.json` 的删除。不要修改、复制或同步外层独立 Skill、评测或 CLI Connector。
+开发写入边界为 `plugins/noxinfluencer/`。插件使用本目录内的 `.plugin/marketplace.json` 和 `.agents/plugins/marketplace.json`，均通过 `./` 定位自身。外层文件必须与 `main` 保持一致，例外为旧 `plugins/nox-influencer/` 及其根 `.claude-plugin/marketplace.json` 的删除，以及用户要求在根 `package.json` 增加的 `skills-plugin`、`skills-plugin:check` 两个 npm 命令。边界校验只允许这两条脚本的确定内容，不放行根 package 的其他修改。用户已授权将外层 `skills/noxinfluencer/` 和 `skills/influencer-marketing-manager/` 作为只读来源同步到插件；不要修改外层独立 Skill、评测或 CLI Connector。
 
 ## 修改与验证
 
@@ -8,15 +8,20 @@
 
 ```bash
 npm ci
+npm run skills:sync
 npm run verify
 npm test
 npm run verify:evals
 npm run verify:boundary
 ```
 
-`verify` 只读，检查通用与 Codex Manifest、插件内 Skill、MCP 配置和安装索引。两份 Manifest 的共用元数据必须一致，Codex 专用字段只放 `.codex-plugin/plugin.json`。
+`verify` 只读，检查上游快照一致性、通用与 Codex Manifest、插件内 Skill、MCP 配置和安装索引。两份 Manifest 的共用元数据必须一致，Codex 专用字段只放 `.codex-plugin/plugin.json`。
 
-MCP Skill 唯一交付位置为 `skills/mcp/`，当前已迁入本分支的 MCP 专属指令、引用文件和 Codex OAuth 辅助脚本。业务名称为 `noxinfluencer`，直接使用 MCP，不生成或依赖宿主运行时标记。评测放在 `evals/mcp/`，不进入运行包。不在源码维护 `.claude-plugin/plugin.json`。
+MCP 主执行 Skill 交付于 `skills/mcp/`，名称为 `noxinfluencer-mcp`；MCP provider 仍名为 `noxinfluencer`。保留现有 MCP 专属指令、引用文件和 Codex OAuth 辅助脚本，直接使用 MCP，不生成或依赖宿主运行时标记。评测放在 `evals/mcp/`，不进入运行包。不在源码维护 `.claude-plugin/plugin.json`。
+
+`skills/noxinfluencer/` 和 `skills/influencer-marketing-manager/` 各保留一个手工维护的薄入口 `SKILL.md`，其余内容由 `npm run skills:sync` 生成。脚本完整复制两个外层 Skill，将根 `SKILL.md` 原样保存为 `upstream.md`，排除任何名为 `cli-response-format.md` 的文件。生成目录中根入口以外的文件均归脚本管理，重复同步会删除上游已移除的旧文件，禁止手改快照。
+
+薄入口先声明 MCP 约束，再读取上游业务指导；忽略原文里的 CLI 命令、安装、登录、诊断、Connector、响应格式和浏览器执行路线，保留业务含义、费用、副作用和业务授权。NoxInfluencer 执行明确回到 `mcp/SKILL.md`，只使用真实 MCP Tool；缺少能力不能回退 CLI。Manager 的业务授权和证据章节链接保持可达。`npm run skills:check` 只检查一致性，不写文件。同步脚本不改外层来源、入口或 MCP Skill，不在安装和打包时自动执行；上游修改和生成快照一起提交到发布分支。
 
 `package.json` 和锁文件是开发工具配置，保持无 `preinstall`、`install`、`postinstall`、`prepare` 等自动执行钩子。安装依赖不能触发插件注册、认证或业务操作。
 
