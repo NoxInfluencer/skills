@@ -22,7 +22,9 @@ The manager helps you decide what to do and how to organize the work. NoxInfluen
 - View your intelligent marketing-plan tasks, including subsequent pages of results.
 - Open the intelligent marketing-plan task page using your authorized NoxInfluencer account.
 
-The current connected actions are listing marketing-plan tasks and opening the task page. Other account operations depend on the tools available through your connection. Marketing advice and drafting can be used without connecting an account.
+The packaged V2 product guidance includes creator and Campaign workflows. Actual connected actions depend on the live provider's tools, schemas, authorization and host capabilities. Packaging does not establish deployment or business acceptance. Marketing advice can be used without connecting an account.
+
+The product Skill under `skills/noxinfluencer-mcp` is generated from the public source at `v2/source/noxinfluencer`. The bundled Manager is generated unchanged from the repository's existing `skills/influencer-marketing-manager`; do not maintain a separate Manager wrapper or upstream copy. From the repository root, use `npm run v2:build`, `npm run v2:check` and `npm run v2:package`. The complete directory or generated plugin ZIP is the handoff artifact. Build details and self-test limits are documented in [V2 maintenance](../../v2/README.md).
 
 ## Install from GitHub Marketplace
 

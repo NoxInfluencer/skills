@@ -1,0 +1,32 @@
+name: V2 skills and plugin
+on:
+  pull_request:
+    paths:
+      - 'v2/**'
+      - 'plugins/noxinfluencer/**'
+      - 'skills/influencer-marketing-manager/**'
+      - 'evals/v2/**'
+      - 'scripts/skills-plugin.mjs'
+      - 'package*.json'
+      - '.github/workflows/v2.yml'
+jobs:
+  offline:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.21.0'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm ci --ignore-scripts
+      - run: npm run v2:check
+      - run: npm run v2:test
+      - run: python evals/v2/check.py
+      - run: python -m unittest discover -s evals/v2/campaign-runtime -p "test_*.py"
+      - run: npm run v2:package

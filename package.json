@@ -5,6 +5,10 @@
     "node": ">=22.22.0"
   },
   "scripts": {
+    "v2:build": "node v2/scripts/build.mjs",
+    "v2:check": "node v2/scripts/build.mjs --check",
+    "v2:test": "node --test v2/tests/*.test.mjs",
+    "v2:package": "node v2/scripts/package.mjs",
     "skills-plugin": "node scripts/skills-plugin.mjs",
     "skills-plugin:check": "node scripts/skills-plugin.mjs --check",
     "check:manager-evals": "python3 evals/influencer-marketing-manager/validate_evals.py && python3 evals/influencer-marketing-manager/validate_evals.py --self-test && python3 evals/influencer-marketing-manager/promptfoo_cases.py --self-test && python3 -m unittest discover -s evals/influencer-marketing-manager -p 'test_*.py' && node --test evals/influencer-marketing-manager/test_conversations.mjs",
@@ -18,7 +22,9 @@
   },
   "devDependencies": {
     "@openai/codex-sdk": "0.144.6",
+    "ajv": "8.20.0",
     "promptfoo": "0.122.2",
-    "yaml": "2.9.0"
+    "yaml": "2.9.0",
+    "yazl": "3.3.1"
   }
 }

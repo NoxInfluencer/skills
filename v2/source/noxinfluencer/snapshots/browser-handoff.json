@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "id": "browser-handoff",
+  "kind": "browser-handoff",
+  "version": "1.0.0",
+  "source": "kol_claw/server/contracts/codex_plugin/open_marketing_plan_tasks.json",
+  "backend_version": "8e4cea8c8a36a574255f50b67b0ebda9c1f80ae9",
+  "items": [
+    {
+      "producer": "open_marketing_plan_tasks",
+      "output": "handoff_url",
+      "ttl_max_seconds": 300,
+      "single_use": true,
+      "consumers": [
+        "host-browser",
+        "user-handoff"
+      ],
+      "status": "deferred",
+      "reason": "Campaign and Handoff are frozen outside the 100 Tool catalog."
+    }
+  ]
+}

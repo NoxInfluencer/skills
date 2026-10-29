@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "id": "host-control",
+  "kind": "host-control",
+  "version": "1.0.0",
+  "source": "plugins/noxinfluencer/skills/noxinfluencer/references/codex-plugin-runtime.md",
+  "items": [
+    {
+      "id": "codex-mcp-login",
+      "provider": "noxinfluencer",
+      "oauth_client_registration": "dcr",
+      "scope": "noxinfluencer.codex.user",
+      "status": "supported"
+    }
+  ]
+}

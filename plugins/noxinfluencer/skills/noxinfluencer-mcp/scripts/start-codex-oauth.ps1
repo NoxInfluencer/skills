@@ -6,6 +6,7 @@ param(
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 
+# Collect existing, unique Codex Host control executables.
 function Add-Candidate {
   param(
     [System.Collections.Generic.List[string]]$Candidates,
@@ -21,6 +22,7 @@ function Add-Candidate {
   }
 }
 
+# Resolve trusted Host control candidates without copying or elevation.
 $userProfilePath = [Environment]::GetFolderPath('UserProfile')
 if ([string]::IsNullOrWhiteSpace($userProfilePath)) {
   $userProfilePath = [Environment]::GetEnvironmentVariable('USERPROFILE', 'Process')
@@ -63,6 +65,7 @@ if (
   [Environment]::SetEnvironmentVariable('CODEX_HOME', $codexHome, 'Process')
 }
 
+# Invoke only the fixed Codex Host MCP OAuth control contract.
 & $codexPath mcp login noxinfluencer `
   --oauth-client-registration dcr `
   --scopes noxinfluencer.codex.user

@@ -1,9 +1,8 @@
 {
   "mcpServers": {
     "noxinfluencer": {
-      "type": "http",
-      "oauth_resource": "https://skilltest.noxinfluencer.com/mcp",
-      "url": "https://skilltest.noxinfluencer.com/mcp"
+      "url": "https://skill.noxinfluencer.com/mcp",
+      "oauth_resource": "https://skill.noxinfluencer.com/mcp"
     }
   }
 }

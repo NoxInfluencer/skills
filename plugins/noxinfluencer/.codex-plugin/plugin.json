@@ -1,6 +1,6 @@
 {
   "name": "noxinfluencer",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "NoxInfluencer marketing workflows through MCP.",
   "author": {
     "name": "NoxInfluencer"
@@ -22,7 +22,8 @@
     "developerName": "NoxInfluencer",
     "category": "Marketing",
     "capabilities": [
-      "Read"
+      "Read",
+      "Write"
     ],
     "websiteURL": "https://www.noxinfluencer.com/",
     "defaultPrompt": [

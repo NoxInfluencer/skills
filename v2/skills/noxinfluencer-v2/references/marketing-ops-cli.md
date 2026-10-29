@@ -1,13 +1,15 @@
 # Marketing Ops Workflows
 
-Use this reference for NoxInfluencer campaign, collection, CRM, email, message, product, short-link, affiliation, creator dispute, file, report, and export operations. Keep Tool parameters runtime-discovered from the connected provider's live schemas.
+Use this reference for NoxInfluencer campaign, collection, CRM, email, message, product, short-link, affiliation, creator dispute, file, report, and export operations. Keep command parameters runtime-discovered with `node "{baseDir}/scripts/nox-cli.mjs" schema <cmd>`.
 
 ## Domain Routing
 
 | User intent | Start with |
 |-------------|------------|
-| Find or inspect campaigns | `campaign list`, `campaign get`, `campaign dashboard`, `campaign dropdown` |
-| Create or change campaign skeleton data | `campaign init`, `campaign create`, `campaign update`, `campaign delete` |
+| Find or inspect campaigns | `campaign plan list`, `campaign plan get`, `campaign plan overview` |
+| Create or change campaign skeleton data | `campaign plan init`, `campaign plan create`, `campaign plan settings-save/settings-apply`, `campaign plan delete` |
+| Add creators to cooperation management in a Campaign, including a selected set from search or a collection | `campaign context get`, `campaign cooperations list`, then one `campaign cooperations add` per selected creator; read the cooperation reference first |
+| Inspect or update Campaign cooperation records or statuses | `campaign cooperations list`, `campaign cooperations record-save`, `campaign cooperations status-update` |
 | Find or inspect collections | `collection list`, `collection get`, `collection items`, `collection resources` |
 | Add creators from search/profile results to collections | `collection add-creators` |
 | Import owned creator links into one collection | `collection import-template`, then `collection import-file` |
@@ -15,7 +17,7 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 | Export selected creator search/lookalike results | deep `creator export-preview`, then `creator export` / `creator lookalikes-export` |
 | Batch move/copy/delete/label collection members | `collection batch-* validate`, then `preview`, then `apply` |
 | Refresh collection base/email data or unlock audience | `collection refresh* validate`, then `preview`, then `apply` |
-| Add one whole collection and platform slice to CRM | `collection add-to-crm validate`, then `preview`, then `apply` |
+| Explicitly add one whole collection and platform slice to account-level CRM | `collection add-to-crm validate`, then `preview`, then `apply`; this does not add Campaign cooperation records |
 | Query, import, or update NoxInfluencer CRM channels | `crm list/get/update`, `crm import-template/import-file/import-report`, `crm groups ...` |
 | Manage CRM labels for batch tagging | `crm labels list/create/update/delete` |
 | Manage product-center records, images, and tags | `product list/get/create/update/delete`, `product image upload`, `product tags ...` |
@@ -37,14 +39,16 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 
 ## Outreach Routing
 
-- For standalone NoxInfluencer platform email outreach, do not call `creator contacts` first. Create or select an email task without `campaign_id`, add search/profile result `creator_id` values with `email recipients add/replace`, save user-approved content with `email content save`, set sender if needed, read back task and recipients, then ask for final approval before `email send --force` or `email schedule --force`. Manage intelligent Campaign email in SaaS until Campaign supports multiple email tasks.
+For ambiguous "cooperation management" in a Campaign page or conversation, use that Campaign's cooperation workflow. If the destination plan is missing or conflicts with the current context, clarify it before writing. Do not route to CRM because Campaign calls fail. See `{baseDir}/references/campaign-cooperation-management.md` for selected-set creation and readback.
+
+- For standalone NoxInfluencer platform email outreach, do not call `creator contacts` first. Create or select an email task without `campaign_id`, add search/profile result `creator_id` values with `email recipients add/replace`, save user-approved content with `email content save`, set sender if needed, read back task and recipients, then ask for final approval before `email send --force` or `email schedule --force`. For intelligent Campaign invitations, use the dedicated Campaign invitation workflow and its reviewed sending protocol.
 - Use `creator contacts` only when the user explicitly wants visible/exported contact info or outreach outside NoxInfluencer. If the user vaguely asks to "find emails and send", choose platform email by default and say exported email retrieval uses extra contact quota.
 - Email attachments belong to the email task primary project. Upload approved files with `email attachments upload <task_id> --file <path>` before send or schedule; use `email attachments list/download/delete` to inspect, retrieve, or remove files. Email tasks support at most 1 attachment, max 10MB. Uploading or deleting an attachment cancels an existing scheduled send, so read back the task and confirm again before scheduling.
 - If approved recipients come from Excel, download `email recipients import-template` and use `email recipients import-file <task_id>`. Do not invent spreadsheet columns.
 - Email recipient import is only available before the task enters its active send flow.
 - For one email task's reply reporting, use `email report <task_id>`. For multi-task or team-level reporting, use `email team-summary`; for SaaS team member breakdown, use `email team-breakdown`. Treat `reply_count` as email tracking replies, `replied_creator_count` as replied creators, and `inbound_message_count` as inbound reply messages. Team filters use SaaS team member `uid`, not Gmail or enterprise sender mailbox accounts. Do not recompute replies by manually scanning message threads unless the user explicitly asks for raw thread inspection.
-- If the user wants in-platform DM/message, message-send and message-schedule require an existing `thread_id`. If the user only has an email task ID, use the provider's message-list capability with the email-task business filter to resolve the thread first. Without a thread, say that starting a new message thread is not exposed by the current provider and offer the email-task path for platform creators.
-- For message-center filtering by task creator or team member, first use the provider's creator/project filter capabilities, then pass returned `user_uid` values to message-list inputs.
+- If the user wants in-platform DM/message, `message send` and `message schedule` require an existing `thread_id`. If the user only has an email task ID, use `message list --business_kind email_task --business_id <task_id>` to resolve the thread first. Without a thread, say that starting a new message thread is not exposed by the CLI and offer the email-task path for platform creators.
+- For message-center filtering by task creator or team member, first run `message creator-filters`, then use returned `user_uid` values with `message list --creator_uids` or `message project-filters --creator_uids`.
 - For message-center pending work, trust `needs_reply` / `last_message_direction`; `deal` is not the same as `unread`. If one opened task is already replied but SaaS still shows pending, inspect siblings with `message projects <thread_id>`. Use `message archive` only when the user explicitly wants the creator's entire conversation archived; it includes sibling task threads and is separate from `crm archive`. If only one task needs no reply, do not send an empty reply or archive the conversation; task-level mark-handled is not exposed yet.
 - Message draft/history attachments and message-template attachments are separate. Use `message attachments list/upload/download/delete` for thread files and `message templates attachments list/upload/download/delete` for reusable template files. Never reuse IDs across the two paths. One template supports at most 2 private attachments, max 10MB each.
 - Use `file image upload` for public inline images in approved email/message `html_body`. The returned `file_url` is public and is not a private email, message, or template attachment.
@@ -54,10 +58,35 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 
 - Use `affiliation` for Shopify affiliate stores, campaigns, members, tracking links, discount codes, and performance reads. This is separate from normal `short-link`.
 - Start with `affiliation stores list`. If no store is authorized or access is denied, ask the user to authorize/manage the store in SaaS; do not attempt store authorization in the Skill.
-- Add NoxInfluencer creators to affiliate campaigns with search/profile `creator_id`, or use `platform + channel_id` / `custom_id` when the live Tool schema calls for it.
+- Add NoxInfluencer creators to affiliate campaigns with search/profile `creator_id`, or use `platform + channel_id` / `custom_id` when the CLI schema calls for it.
 - For owned creator links, download `affiliation members import-template` and submit `.xls` or `.xlsx` with `affiliation members import-file <campaign_id>`; max file size is 10MB.
 - Executing affiliation member import writes members immediately and reads back the pending-member count; it is not validation-only.
 - `affiliation campaigns export` downloads campaign-performance Excel directly to `--output`; it is not a shared async export task.
+
+## TikTok Shop And Market Search
+
+First check `node "{baseDir}/scripts/nox-cli.mjs" schema --all` and the exact operation schema. These operations are not established by the pinned private catalog; use them only when the current runtime exposes them. Do not upgrade the CLI automatically or substitute Creator Marketplace for unavailable market search. Read `{baseDir}/references/creator.md` for creator-versus-market metric and capability boundaries.
+
+When the installed CLI and backend expose these operations (public CLI 0.5.8+), start with `tiktok-shop bindings list`. Reuse the returned `binding_id` for `creator-search categories/advanced-filters/search`; preserve `next_page_token` for pagination. Use `projects list/get/recipients/statistics` for project state and current schema for draft, execution, and update contracts. Store binding, official quotas, and membership still apply.
+
+For target invitations, read the shared connected-store invitation rules in `{baseDir}/references/creator.md`, then inspect `schema tiktok-shop.projects.draft` / `.formal` and command `--help`. Public CLI 0.5.12 adds a complete `body_example`; older versions may expose only command options. Fill the current schema with the approved scope, not example identities.
+
+Use `projects draft --force` for an approved draft and `projects formal --force` only at the approved submission boundary. Read back `projects get <project_id>` and `data.target_invitation_free_sample_rule`. The canonical body field is `target_invitation.free_sample_rule.sample_approval_exempt`; the updated server also accepts `is_sample_approval_exempt`. Use one supported name, following the shared rule for its value.
+
+For updates, fetch current `projects get` and creator selection, then submit the complete `private_message`, `target_invitation`, `execution_config`, project/store/name and creator source/selection fields required by the runtime. The shared full-form preservation and missing-state stop rules apply.
+
+Use `tiktok search product`, `tiktok search shop`, or `tiktok search live` for the public SaaS TTS indexes. Pass a JSON body with `--body-file` for GMV, sales, category, view, and engagement filters; read `total_gmv`, `last30_days_gmv`, and `currency` from the returned rows. This market search consumes Skill Credit by returned item; check `pricing tools --action tiktok_search` before broad pages. It is read-only and separate from the connected-store Creator Marketplace workflow above; read-only does not mean free.
+
+Use snake_case fields in the body. Common fields are `keywords` (array), `country` (one country code), `page_num`, and `page_size` (1-100); preserve the same filters when paging. GMV bounds differ by result type:
+
+| Search type | GMV filter fields |
+|---|---|
+| `product` | `min/max_total_video_gmv`, `min/max_total_live_gmv`, `min/max_last30_days_video_gmv`, `min/max_last30_days_live_gmv` |
+| `shop` | `min/max_total_gmv`, `min/max_last30_days_gmv` |
+| `live` | `min/max_total_gmv` |
+
+Each `min/max_...` pair means separate `min_...` and `max_...` fields. For example, a shop query body can be `{"keywords":["beauty"],"country":"US","min_last30_days_gmv":1000,"page_num":1,"page_size":5}`. Compare GMV only within the same currency and time window. Live search reports GMV for the returned stream; do not describe it as a 30-day creator total. Missing/null values are unavailable evidence; an explicit zero is a returned data value.
+
 
 ## Deduplication and Collaborators
 
@@ -79,45 +108,6 @@ Use this reference for NoxInfluencer campaign, collection, CRM, email, message, 
 - Download `collection import-template` before using `collection import-file <collection_id> --file <path>` for the user's owned creator links. The spreadsheet's first column should be the YouTube, Instagram, or TikTok creator URL; an optional second column may contain email/contact data. This import is accepted asynchronously, so poll `collection items <collection_id>` by platform to confirm resolved rows.
 - Do not confuse these paths with collection copy/move. `add-creators` adds explicit creators to target collections; `import-file` imports owned creator URLs into one collection.
 
-## Spreadsheet Imports and Reports
+## Runtime References
 
-- Always download the current SaaS `import-template` when the command family provides one. Do not infer columns from old files.
-- Monitor task imports accept `.xls`/`.xlsx` up to 10MB, parse up to 1,000 rows, and save at most 500 valid rows per request. Preserve validation- and save-stage `failed_items`; use `monitor import-report` for a direct failure workbook.
-- Monitor auto-track imports accept up to 50 creator homepage links and are all-or-nothing. If any row fails, no rule is created; fix `data.failed_items` and retry the complete workbook.
-- CRM imports accept `.xls`/`.xlsx` up to 10MB and 500 rows. Executing the check writes valid nonduplicate rows. Use `--overwrite-existing` only after approval; upstream reports repeated-row overwrite as submitted without row-level results. Preserve `failed_items` and `repeated_items` for `crm import-report` workbooks.
-- Email recipient imports accept `.xls`/`.xlsx` up to 8MB, target one existing `task_id`, and are available only before its active send flow.
-- Affiliation member imports accept `.xls`/`.xlsx` up to 10MB and target one existing affiliate `campaign_id`.
-- `monitor import-report`, monitor reports, short-link reports, affiliation campaign reports, and CRM import reports write Excel directly to `--output`. They do not return an `export_id`.
-
-## File Roles
-
-- Public rich-text images: `file image upload` returns `file_url` for approved `html_body`.
-- Public product images: `product image upload` returns `file_url` for `thumbnail_url`; `campaign product-images upload` returns URLs for up to 5 entries in one product's `thumbnail_urls`.
-- Private files: email, message draft/history, message-template, and owned feedback attachments require their domain-specific authorized download commands.
-- Downloads use `--output`; add `--overwrite` only when replacing an existing local file is intentional.
-
-## Mutation Rules
-
-- Write commands default to dry-run. Treat dry-run output as a preview, not completion.
-- Use `--force` only after the user has approved the exact object and action.
-- Feedback submission is also a write command, but it is free and does not consume Skill quota. Use it for product bugs, confusing behavior, data issues, suggestions, or feature requests. Attach screenshots/logs with `--file` when useful, and check `feedback inbox` for asynchronous follow-up.
-- Creator disputes are separate from product feedback: they require paid membership, consume no Skill Credit, and require concrete evidence. Check existing `dispute records` before an approved `dispute report`; use `dispute options` for current type/status values.
-- For staged workflows, always run `validate` before `preview`, and `preview` before `apply --force`.
-- For `send` and `schedule`, confirm the task/thread, recipient scope, sender identity, scheduled time when relevant, and content approval before execution.
-- Do not draft outreach or negotiation copy. If content is missing, ask the user for approved content or hand off to a writing task without invoking NoxInfluencer write commands.
-- Do not operate external CRM, email, messaging, or spreadsheet platforms. These commands only affect NoxInfluencer-owned objects.
-
-## Structured Tool Inputs
-
-Many marketing-ops Tools intentionally keep complex selectors in structured inputs. When a Tool requires a nested body:
-
-1. Inspect the live Tool input schema to identify required fields and usage notes.
-2. Prepare the minimal JSON body needed for the user's request.
-3. Prefer the provider's validate/preview stages when available.
-4. Preserve stable opaque IDs from responses (`campaign_id`, `collection_id`, `creator_id`, `thread_id`, `task_id`, `export_id`) for follow-up calls.
-
-## Export Handling
-
-- Shared export creation for creator, collection, CRM, and brand-monitor domains is async and returns `export_id`. Poll with `export get/list`, then use `export download <export_id> --output <path>` only when ready.
-- Creator exports use 1-100 selected result `data.items[].id` values. Deep mode requires `field_keys`; preserve lookalike `data.export_context`; preview deep business quota before creation. Contact fields can consume contact quota.
-- Monitor, short-link, affiliation, and import-report workbooks are direct downloads, not shared export tasks. Report the local output path and file metadata after completion.
+Use `{baseDir}/references/command-execution.md` for schema discovery, JSON-first inputs, response envelopes, mutation approval, and retries. Use `{baseDir}/references/files.md` for templates, spreadsheet limits, file roles, direct reports, and asynchronous export downloads.

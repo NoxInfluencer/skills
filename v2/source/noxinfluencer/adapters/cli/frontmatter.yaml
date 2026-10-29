@@ -1,0 +1,12 @@
+description: Runs NoxInfluencer creator and marketing-operations workflows through the standalone NoxInfluencer CLI. Use for creator research; intelligent marketing plans (Campaigns); collections and CRM; email tasks and message threads; products, short links, and Shopify affiliation; monitoring, files, exports, brand monitoring, disputes, feedback, account setup, quota, pricing, or supported NoxInfluencer page tasks when the standalone Skill is installed.
+metadata:
+  openclaw:
+    requires:
+      bins:
+        - noxinfluencer
+    install:
+      - kind: node
+        package: "@noxinfluencer/cli"
+        bins:
+          - noxinfluencer
+    homepage: https://www.noxinfluencer.com/skills

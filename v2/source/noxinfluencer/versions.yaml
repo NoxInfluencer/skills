@@ -1,0 +1,44 @@
+schema_version: 1
+node_version: 24.21.0
+npm_version: 11.19.0
+skill_version: 0.10.0
+plugin_version: 0.2.0
+capability_registry_version: 2.0.15
+backend_version: 8e4cea8c8a36a574255f50b67b0ebda9c1f80ae9
+plugin_manifest_schema:
+  version: codex-plugin-json-spec-2026-08-19
+  source: plugin-creator/references/plugin-json-spec.md
+  path: schemas/codex-plugin-manifest-v1.json
+  sha256: 0402a1fb2dba5af8bf69e505b92ac813b9e62f44fa10de9fc239004bafd4fafb
+deployment:
+  provider: noxinfluencer
+  url: https://skill.noxinfluencer.com/mcp
+  oauth_resource: https://skill.noxinfluencer.com/mcp
+snapshots:
+  - id: browser-handoff
+    path: snapshots/browser-handoff.json
+    sha256: 90062706a93c7434e06ed73bbf4ff69d47f65609d4737486db459da347051b60
+  - id: cli-schema
+    path: snapshots/cli-schema.json
+    sha256: e3a637bd6e0e914245a4b66f42a233b8bd79e4635abab2ae0d41f640125b00e2
+  - id: deployment
+    path: snapshots/deployment.json
+    sha256: f4e3f05126d31759a8e9fd09cc73e700bededa769080b0fcc3c5b974443b227a
+  - id: file-transfer
+    path: snapshots/file-transfer.json
+    sha256: 60811f1e4376e06cb6be1569726abe4ccd947a49a45c17c16ee16ba122d4c830
+  - id: host-browser
+    path: snapshots/host-browser.json
+    sha256: 06deaa4e54a254b7d1b042684301fd4049f614dd08a92b9945e8e8d956fbc346
+  - id: host-control
+    path: snapshots/host-control.json
+    sha256: 796a81927097f6d2558d3316a9441ef58c6e2d0611f8ddb45f7c209ba2cf881b
+  - id: mcp-resources
+    path: snapshots/mcp-resources.json
+    sha256: 2036b3932b4b74da160aa485a456bdde2fc234d674e6f66e957e6fd624f4af3a
+  - id: mcp-scopes
+    path: snapshots/mcp-scopes.json
+    sha256: 2462ed23cb7f32374b719a9de2f2a96a986ae3b598bbf482657b3b6bd2028191
+  - id: mcp-tools
+    path: snapshots/mcp-tools.json
+    sha256: e6c8fb1138868d6067cd4ddd18885ffc34c21db1c2ce346a3fe267a1dd999b15

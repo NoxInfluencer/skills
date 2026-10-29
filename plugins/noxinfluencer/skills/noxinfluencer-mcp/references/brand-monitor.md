@@ -1,49 +1,19 @@
-# Brand Monitor Workflows
+# Brand Monitoring
 
-Use the provider's brand-monitor Tools for brand-level market intelligence and asset exports. This workflow starts from `brand_id`; do not substitute `creator_id`.
+Brand monitoring starts from `brand_id` and analyzes owned or competitor brands. It is distinct from creator due diligence, which starts from creator identity.
 
-## Routing
+## Discovery And Selection
 
-| User intent | MCP capability family |
-|-------------|----------------|
-| Find a known brand by name | `brand-monitor search <keyword>` |
-| Discover brands by category or market | `brand-monitor rank` with structured filters |
-| List this account's monitored, unlocked, or sample brands | `brand-monitor list` |
-| Inspect one monitored brand | `brand-monitor get <brand_id>` |
-| Compare brand competition | `brand-monitor competition-matrix <brand_id>` |
-| Analyze cooperation strategy | `brand-monitor cooperate-matrix <brand_id>` |
-| Summarize influencer portrait | `brand-monitor influencer-portrait <brand_id>` |
-| Find defense gaps | `brand-monitor defense-gap <brand_id>` |
-| Read product trend/category signals | `brand-monitor product-pub-trend`, `product-category` |
-| Read product strategy signals | `brand-monitor product-sov-analysis`, `product-tae-analysis`, `product-pp-analysis`, `product-promotion-matrix`, `product-promotion-distinction` |
-| Query brand asset rows | `brand-monitor influencer-list`, `content-list`, `tag-list`, `product-list` |
-| Create brand asset exports | `brand-monitor influencer-export`, `content-export`, `tag-export`, `product-export` |
-| Add or unlock a monitored brand | `brand-monitor add`, `unlock-base`, `unlock-high` |
+Use exact-name search for a known brand, ranking for category or market discovery, and the account list for monitored, unlocked, or sample brands. After selection, preserve the opaque brand identity and read current brand state before a mutation.
 
-## Discovery Boundaries
+## Analysis
 
-- `search` queries the global brand catalog and returns opaque `brand_id` values; `page_size` defaults to 20 and is capped at 50.
-- `rank` is JSON-first and returns one entitlement-limited result set, not a pageable catalog. Compare `requested_limit`, `effective_limit`, and `returned_count` before describing coverage.
-- `consumer electronic` at category level 1 is a broad 3C category, not an exhaustive smartphone taxonomy.
-- Treat `countries` as ranking query context. Do not infer brand registration country or local market share without separate supporting data.
+Brand-level analysis can cover competition, cooperation, influencer portrait, defense gaps, and product signals. Asset lists provide underlying influencer, content, tag, or product rows. Present the business conclusion first, then the bounded evidence used to support it.
 
-## Platform Boundaries
+Product publication, category, share-of-voice, exposure, promotion matrix, and promotion distinction signals currently support YouTube only. For TikTok or Instagram questions, use supported non-product brand views and clearly state the product-signal limitation.
 
-- Core brand monitor reads support YouTube, TikTok, and Instagram where the live Tool schema permits.
-- Product signal capabilities currently support `youtube` only. Do not call product signal capabilities for TikTok or Instagram unless a future schema explicitly shows support.
-- Asset-list Tools use structured inputs. Inspect the live schema before building selectors.
+## Mutations And Exports
 
-## Output Rules
+Adding, unlocking, or changing monitored brands is a write. Show the selected brand, entitlement or cost impact, resulting visibility, and whether the action is reversible before approval. Never broaden an unlock from one brand or tier to another.
 
-- Brand overview: report brand name, `brand_id`, access/data level, quota state, and obvious blockers.
-- Matrices and strategy reads: summarize top rows and the decision implication; do not dump every normalized field.
-- Asset lists: present comparable rows and include pagination state when present.
-- Product signals: state that the result is YouTube-only if the user asked for cross-platform analysis.
-- Exports: preserve `export_id` and route follow-up status/download through the provider's shared export Tools.
-
-## Mutation Rules
-
-- Add, unlock, and export capabilities are mutations or async job creation.
-- Dry-run first unless the user already approved the exact brand and action.
-- Apply only after approval and any provider preview step.
-- For unlock operations, explain that quota/entitlement may be consumed before executing.
+Brand asset exports are asynchronous shared exports. Create one task for the selected asset scope, retain its identity, poll with bounded intervals, and retrieve the result only when ready. Preserve row-level or entitlement failures.

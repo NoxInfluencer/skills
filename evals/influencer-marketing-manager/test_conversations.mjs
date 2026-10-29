@@ -122,15 +122,23 @@ test('preload cannot escape Manager references through a path or symlink', () =>
     writeFileSync(resolve(manager, 'references/valid.md'), 'valid');
     const outside = resolve(prepared, 'private.md');
     writeFileSync(outside, 'must not enter a request');
-    symlinkSync(outside, resolve(manager, 'references/link.md'));
+    // Windows 使用无需文件符号链接特权的 junction，仍验证越界引用被拒绝。
+    let linkedReference = 'references/link.md';
+    if (process.platform === 'win32') {
+      const outsideDirectory = resolve(prepared, 'outside');
+      mkdirSync(outsideDirectory);
+      writeFileSync(resolve(outsideDirectory, 'private.md'), 'must not enter a request');
+      symlinkSync(outsideDirectory, resolve(manager, 'references/link'), 'junction');
+      linkedReference = 'references/link/private.md';
+    } else symlinkSync(outside, resolve(manager, 'references/link.md'));
     for (const name of [outside, '../private.md', 'references/../private.md',
       'references/../../private.md', 'references\\valid.md', 'references//valid.md',
-      'references/valid.txt', 'references/link.md', 'inputs/source.md', '']) {
+      'references/valid.txt', linkedReference, 'inputs/source.md', '']) {
       assert.throws(() => loadReferences(prepared, [name]));
     }
     assert.throws(() => loadReferences(prepared, ['references/valid.md', 'references/valid.md']), /distinct/);
     rmSync(resolve(manager, 'references'), { recursive: true });
-    symlinkSync(prepared, resolve(manager, 'references'));
+    symlinkSync(prepared, resolve(manager, 'references'), process.platform === 'win32' ? 'junction' : 'dir');
     assert.throws(() => loadReferences(prepared, ['references/private.md']), /stay inside/);
   } finally {
     rmSync(prepared, { recursive: true, force: true });
