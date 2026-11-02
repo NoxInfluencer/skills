@@ -129,8 +129,8 @@
     },
     {
       "path": "shared/references/campaign-invitation-management.md",
-      "bytes": 13989,
-      "sha256": "2cd0cedd1afac280a4c13bbd901263c271010ece932063d8f2d71b8a5960fd19"
+      "bytes": 16004,
+      "sha256": "8363a3eadce5672f7f3d403d11f9578bd2f2c181cac01116559764e05f307e79"
     },
     {
       "path": "shared/references/campaign-products.md",
@@ -216,8 +216,8 @@
     },
     {
       "path": "references/campaign-invitation-management.md",
-      "bytes": 13989,
-      "sha256": "2cd0cedd1afac280a4c13bbd901263c271010ece932063d8f2d71b8a5960fd19"
+      "bytes": 16004,
+      "sha256": "8363a3eadce5672f7f3d403d11f9578bd2f2c181cac01116559764e05f307e79"
     },
     {
       "path": "references/campaign-products.md",

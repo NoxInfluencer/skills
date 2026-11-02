@@ -57,5 +57,14 @@
     "snapshots/mcp-scopes.json",
     "snapshots/mcp-tools.json",
     "versions.yaml"
+  ],
+  "followup_imports": [
+    {
+      "source_commit": "6929fe051aad18d7a43efe8b3481ceb88bf9eded",
+      "source_paths": [
+        "shared/references/campaign-invitation-management.md"
+      ],
+      "reason": "Manually reviewed bounded Campaign batches and large-send page guidance."
+    }
   ]
 }
