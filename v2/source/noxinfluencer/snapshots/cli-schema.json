@@ -48771,6 +48771,91 @@
       "examples": [
         "noxinfluencer product update prod-1 --body-file product-update.json --force"
       ]
+    },
+    {
+      "command": "file upload",
+      "description": "Upload a generated file and return a download link\n\nMutation commands default to dry-run. Add --force to execute.\nUpload the requested generated document to OSS, then give the user the returned file_url as a download link.\nA sandbox path or dry-run result is not a download link. Report upload failures; never invent a URL.\nThis delivers an existing file; it does not bypass source-data access or export quotas.",
+      "arguments": [],
+      "required_options": [
+        {
+          "flag": "--file",
+          "description": "Local generated file to upload",
+          "required": true
+        }
+      ],
+      "options": [
+        {
+          "flag": "--version",
+          "description": "output the version number",
+          "required": false
+        },
+        {
+          "flag": "--json",
+          "description": "JSON output (default)",
+          "required": false
+        },
+        {
+          "flag": "--plain",
+          "description": "Plain text output",
+          "required": false
+        },
+        {
+          "flag": "--verbose",
+          "description": "Request details to stderr",
+          "required": false
+        },
+        {
+          "flag": "--trace-json",
+          "description": "Structured trace to stderr",
+          "required": false
+        },
+        {
+          "flag": "--enable-commands",
+          "description": "Restrict available commands (csv)",
+          "required": false
+        },
+        {
+          "flag": "--dry-run",
+          "description": "Preview request without executing",
+          "required": false
+        },
+        {
+          "flag": "--force",
+          "description": "Execute mutation without confirmation",
+          "required": false
+        },
+        {
+          "flag": "--idempotency-key",
+          "description": "Override Idempotency-Key for write requests",
+          "required": false
+        },
+        {
+          "flag": "--no-input",
+          "description": "Fail instead of prompting",
+          "required": false
+        },
+        {
+          "flag": "--lang",
+          "description": "User language for URLs and hints (default: en)",
+          "required": false
+        },
+        {
+          "flag": "--config",
+          "description": "Config file path (env: NOXINFLUENCER_CONFIG)",
+          "required": false
+        }
+      ],
+      "supports_body_file": false,
+      "mutation": true,
+      "usage_notes": [
+        "Mutation commands default to dry-run. Add --force to execute.",
+        "Upload the requested generated document to OSS, then give the user the returned file_url as a download link.",
+        "A sandbox path or dry-run result is not a download link. Report upload failures; never invent a URL.",
+        "This delivers an existing file; it does not bypass source-data access or export quotas."
+      ],
+      "examples": [
+        "noxinfluencer file upload --file report.xlsx --force"
+      ]
     }
   ]
 }

@@ -19,8 +19,8 @@
     },
     {
       "path": "adapters/cli/files.md",
-      "bytes": 2754,
-      "sha256": "89ee34e32d2010dd9afbf6bac035543f0b0dbd48e5cd1b905be7e1b840de602b"
+      "bytes": 3660,
+      "sha256": "a54f7817badb4b00a63ca9129a12d3932a1f06ba1f79cda50b8eb53ff1987a26"
     },
     {
       "path": "adapters/cli/references/brand-monitor-cli.md",
@@ -296,8 +296,8 @@
     },
     {
       "path": "references/files.md",
-      "bytes": 2754,
-      "sha256": "89ee34e32d2010dd9afbf6bac035543f0b0dbd48e5cd1b905be7e1b840de602b"
+      "bytes": 3660,
+      "sha256": "a54f7817badb4b00a63ca9129a12d3932a1f06ba1f79cda50b8eb53ff1987a26"
     },
     {
       "path": "references/brand-monitor-cli.md",

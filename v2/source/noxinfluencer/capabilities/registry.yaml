@@ -5844,6 +5844,16 @@ workflows:
         scope: []
         confirmation: explicit_user
         idempotency: idempotency_key
+      - id: file-upload
+        type: cli_command
+        role: upload
+        name: file upload
+        schema_ref: snapshots/cli-schema.json#command=file upload
+        after: []
+        condition: always
+        scope: []
+        confirmation: explicit_user
+        idempotency: idempotency_key
     bindings: []
     capability: upload
   - id: files-exports

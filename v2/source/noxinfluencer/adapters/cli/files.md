@@ -16,6 +16,7 @@ Preserve validation- and save-stage `failed_items`, plus `repeated_items` when r
 ## File Roles
 
 - `file image upload` creates a public `file_url` for approved rich-text content.
+- `file upload --file <path>` uploads a completed user-requested file (up to 100 MB) and returns its OSS `file_url`. Discover this command's current schema before use; use `--force` for the authorized delivery. Keep existing source-data access, field, and quota checks.
 - `product image upload` and `campaign product-images upload` create product image URLs within their declared limits.
 - Email, message history or draft, message-template, and feedback attachments remain private domain files. Never reuse a file identity across roles.
 
@@ -25,4 +26,6 @@ Preserve validation- and save-stage `failed_items`, plus `repeated_items` when r
 - Confirm before overwriting an existing destination, and add `--overwrite` only after that exact replacement is intentional.
 - Shared creator, collection, CRM, and brand-monitor exports return an `export_id`. Poll with `export get` or `export list`, then run `export download <export_id> --output <path>` only when ready.
 - Monitor, short-link, affiliation, and import-report workbooks are direct downloads rather than shared asynchronous export tasks.
-- Let the CLI stream or write the payload to the destination. Report the final local path and safe file metadata, not binary bytes.
+- Let the CLI stream or write the payload to the destination. In a client with a user-accessible filesystem, report the final local path and safe file metadata, not binary bytes.
+- In a hosted sandbox, deliver a requested file with `file upload`, then return a Markdown link using the successful result's exact `file_url`. Sandbox paths, `sandbox:` links, dry-run results, and guessed URLs are not downloads. If upload fails or the installed command is unavailable, state that delivery failed and preserve the file for retry; do not claim success or ask the user to open the sandbox.
+- Upload only the artifact requested for delivery. Do not republish unrelated private attachments or credentials. Ordinary generated files do not create shared export-history records.
