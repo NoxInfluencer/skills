@@ -11,10 +11,10 @@ Use this reference only for the independently installed NoxInfluencer CLI runtim
 
 The expected families include creator, monitor, campaign, collection, email, message, CRM, product, short-link, affiliation, brand-monitor, dispute, export, file, feedback, quota, pricing, and agent operations.
 
-## Interactive And Device Flow Login
+## User-Completed Device Flow Login
 
-- In a direct interactive terminal, run `node "{baseDir}/scripts/nox-cli.mjs" login` and let the CLI own its browser authorization and credential storage.
-- In an agent or remote terminal, use the CLI Device Flow: run `node "{baseDir}/scripts/nox-cli.mjs" login start --json`, show only the returned user-safe verification address and user code, wait for the user to authorize, then run `node "{baseDir}/scripts/nox-cli.mjs" login wait <login_id>`.
+- Whenever the Agent initiates login, run `node "{baseDir}/scripts/nox-cli.mjs" login start --json`, show only the returned user-safe verification address and user code, let the user open the link and authorize, then run `node "{baseDir}/scripts/nox-cli.mjs" login wait <login_id>`.
+- Do not run bare `login`, `login --browser`, or any browser launcher, and do not open or complete authorization using browser or computer-use tools. A terminal being interactive does not make Agent-driven login a manual user action.
 - Treat `login_id` as an opaque polling identity. Never reveal a device code, saved credential, callback value, or any field that the CLI does not mark user-safe.
 - Do not construct an authorization address, exchange a code, or store a credential outside the CLI.
 

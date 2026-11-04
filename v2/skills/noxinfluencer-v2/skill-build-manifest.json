@@ -9,13 +9,13 @@
     },
     {
       "path": "adapters/cli/auth.md",
-      "bytes": 2196,
-      "sha256": "b013c52ef4d88018b8ef14d39021836aac099badc2216c1955e4e35adbf1dbb1"
+      "bytes": 2263,
+      "sha256": "4c10e9a5081177e287d77506ee746b5e45dc9a024202f3aa9a40657e403ec732"
     },
     {
       "path": "adapters/cli/command-execution.md",
-      "bytes": 6692,
-      "sha256": "afd68180f07f2ed75da504627bbf8fffb5247a7e7d355b6e6ddca0e9a5ed9648"
+      "bytes": 6881,
+      "sha256": "95b79224d370a8ef889742e7616aa2b89aaba79a1c40050b741e2120defc644f"
     },
     {
       "path": "adapters/cli/files.md",
@@ -54,8 +54,8 @@
     },
     {
       "path": "adapters/cli/runtime.md",
-      "bytes": 2237,
-      "sha256": "dea162ee1387fd567677bfd8d2528a635eb354252d5152922b2969bbd7a37089"
+      "bytes": 3428,
+      "sha256": "9a67bb8c699dabbace5112ad5fe34b2c72a1a2e385d5af09fb2e698e8fcc61ac"
     },
     {
       "path": "adapters/cli/scripts/nox-cli.mjs",
@@ -104,8 +104,8 @@
     },
     {
       "path": "setup.md",
-      "bytes": 2934,
-      "sha256": "43e744b5ccf14398421856619f4c8d4bc348f28390b2d92b9d403447783a3ede"
+      "bytes": 3101,
+      "sha256": "4102c3ea65e34237ef06c52b9d1c6ad854b09178e5c5b6b32b2e031992f37279"
     },
     {
       "path": "shared/core.md",
@@ -194,8 +194,8 @@
     },
     {
       "path": "universal.md",
-      "bytes": 2312,
-      "sha256": "15313edff6029920f8dabc66bf2fb85ace18cdfe4c37e281a50b28e6d25eccf0"
+      "bytes": 2720,
+      "sha256": "aba49981b4e04a74222d14367e8cb45e6a0bb09baa31b92863ac2f80f2e77089"
     }
   ],
   "output_files": [
@@ -286,13 +286,13 @@
     },
     {
       "path": "references/auth.md",
-      "bytes": 2196,
-      "sha256": "b013c52ef4d88018b8ef14d39021836aac099badc2216c1955e4e35adbf1dbb1"
+      "bytes": 2263,
+      "sha256": "4c10e9a5081177e287d77506ee746b5e45dc9a024202f3aa9a40657e403ec732"
     },
     {
       "path": "references/command-execution.md",
-      "bytes": 6692,
-      "sha256": "afd68180f07f2ed75da504627bbf8fffb5247a7e7d355b6e6ddca0e9a5ed9648"
+      "bytes": 6881,
+      "sha256": "95b79224d370a8ef889742e7616aa2b89aaba79a1c40050b741e2120defc644f"
     },
     {
       "path": "references/files.md",
@@ -331,8 +331,8 @@
     },
     {
       "path": "references/runtime-cli.md",
-      "bytes": 2237,
-      "sha256": "dea162ee1387fd567677bfd8d2528a635eb354252d5152922b2969bbd7a37089"
+      "bytes": 3428,
+      "sha256": "9a67bb8c699dabbace5112ad5fe34b2c72a1a2e385d5af09fb2e698e8fcc61ac"
     },
     {
       "path": "scripts/nox-cli.mjs",
@@ -381,8 +381,8 @@
     },
     {
       "path": "references/setup.md",
-      "bytes": 2934,
-      "sha256": "43e744b5ccf14398421856619f4c8d4bc348f28390b2d92b9d403447783a3ede"
+      "bytes": 3101,
+      "sha256": "4102c3ea65e34237ef06c52b9d1c6ad854b09178e5c5b6b32b2e031992f37279"
     },
     {
       "path": "cli-package.json",
@@ -391,8 +391,8 @@
     },
     {
       "path": "SKILL.md",
-      "bytes": 8599,
-      "sha256": "73611dcf3552f01992afe02e1d049d16d8d8dda102102611d3ab65360125e1af"
+      "bytes": 9007,
+      "sha256": "6e684c87b09004aa7491ae87d871cbbda57bdb5ae65c9d4c1679d911bfda1559"
     }
   ]
 }
