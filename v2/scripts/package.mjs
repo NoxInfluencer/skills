@@ -4,15 +4,24 @@ import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import yazl from 'yazl';
 import { build, repositoryRoot, assertPublicFile } from './build.mjs';
-import { readDirectoryFileMap, assertNoSymbolicLinkComponents } from './lib/canonical-files.mjs';
+import { readDirectoryFileMap, readCanonicalTextFile, assertNoSymbolicLinkComponents } from './lib/canonical-files.mjs';
 
 /** 有界打包独立插件和通用 Skill，不安装客户端或发布渠道。 */
 export async function packageV2({ root = repositoryRoot, outputDirectory = resolve(root, 'v2/dist') } = {}) {
   build({ root, check: true });
   assertNoSymbolicLinkComponents(root, outputDirectory);
-  const plugin = readDirectoryFileMap(resolve(root, 'plugins/noxinfluencer'));
-  const prefixes = ['.codex-plugin/', '.plugin/', 'assets/', 'skills/'];
-  const pluginEntries = new Map([...plugin].filter(([path]) => path === '.mcp.json' || prefixes.some(prefix => path.startsWith(prefix))));
+  const pluginRoot = resolve(root, 'plugins/noxinfluencer');
+  assertNoSymbolicLinkComponents(root, pluginRoot);
+  const configPath = resolve(pluginRoot, '.mcp.json');
+  assertNoSymbolicLinkComponents(root, configPath);
+  const pluginEntries = new Map([['.mcp.json', Buffer.from(readCanonicalTextFile(configPath))]]);
+  // Select deliverable roots before traversal: ignored backups/dependencies are not package inputs.
+  for (const directory of ['.codex-plugin', '.plugin', 'assets', 'skills']) {
+    const path = resolve(pluginRoot, directory);
+    assertNoSymbolicLinkComponents(root, path);
+    for (const [name, bytes] of readDirectoryFileMap(path)) pluginEntries.set(`${directory}/${name}`, bytes);
+  }
+  if (pluginEntries.size > 256) throw new Error('Plugin delivery file count exceeds 256.');
   const general = readDirectoryFileMap(resolve(root, 'v2/skills/noxinfluencer-v2'));
   const manager = readDirectoryFileMap(resolve(root, 'skills/influencer-marketing-manager'));
   const generalEntries = new Map([...general].map(([path, bytes]) => [`skills/noxinfluencer-v2/${path}`, bytes]));

@@ -1,15 +1,22 @@
-# MCP OAuth Identity And Scopes
+# Plugin MCP Authorization And Task Continuation
 
-The deployed provider is `noxinfluencer`. OAuth obtains the user's existing platform Skills API Key and the Host credential store keeps it. The Agent never sees, configures, logs, or displays that Key. Never send `uid`, `parent_uid`, Key, Token, or Secret as a Tool argument.
+## Scope And Identity
 
-## One-Attempt Bootstrap
+This is the installed Agent plugin adapter, not standalone CLI setup. Use the current host's supported MCP connection controls. Codex, Claude, Cursor, Grok Bot, WorkBuddy, Harness and other hosts need their own supported authorization mechanisms; a Codex command is not a cross-host API. Identity comes from the authorized connection; never ask for or handle account keys, tokens, cookies or raw callback material.
 
-1. When the required Tool is loaded, call it directly. There is no login, Token, or credential Tool.
-2. In Codex only, when no provider Tools are loaded and no transport failure is known, or the connection explicitly returns `AuthRequired` or `401`, mark OAuth bootstrap attempted for this user request and start the Codex Host flow exactly once.
-3. Use the current host’s own supported connection controls outside Codex; never run Codex bootstrap commands in another client. In Codex, when the Codex Host control CLI is independently executable, run `codex mcp login noxinfluencer --oauth-client-registration dcr --scopes noxinfluencer.codex.user` on any operating system. Otherwise, on Windows run the packaged resolver with `powershell -NoProfile -ExecutionPolicy Bypass -File "{baseDir}/scripts/start-codex-oauth.ps1"`. If neither trusted Host control path is available, stop instead of substituting another login flow.
-4. Let the Host perform DCR, PKCE, state validation, loopback callback handling, external-browser authorization, and Token storage. Never construct an authorization URL or handle OAuth credentials.
-5. After success, refresh the Tool catalog and retry the original operation. If the current task cannot refresh, tell the user to start a new Codex task and resend the request.
+## One Attempt, Then Resume
 
-One missing business Tool while other provider Tools are loaded is a capability gap, not an OAuth trigger. The only supported Plugin scope is `noxinfluencer.codex.user`. Insufficient Skill Credit is a business error and never retries OAuth. Only an invalid or deleted Key (`AuthRequired`/`401`) permits the single Host OAuth attempt above. A `403` or `insufficient_scope` does not permit a login loop.
+1. Retain the original request, selected objects, filters, page and business/presentation progress. When the required live MCP tool is ready, call it directly; there is no custom credential tool.
+2. An explicit `AuthRequired`/HTTP `401` permits one host-owned authorization attempt. In Codex, provider-wide zero loaded tools with no known transport failure also permits the existing first-connection bootstrap. A single missing tool, a Handoff gap, `403`, insufficient scope, quota or transport failures do not trigger OAuth.
+3. In Codex only, use an independently executable `codex mcp login noxinfluencer --oauth-client-registration dcr --scopes noxinfluencer.codex.user`, or on Windows the packaged `scripts/start-codex-oauth.ps1` resolver when needed. Other hosts use their own supported MCP connection UI/control. Never build an authorization URL or run NoxInfluencer CLI login/business commands.
+4. Await the actual host login outcome, including an ongoing command's completion. A successful exit and explicit login-success result mean authorization succeeded. Never describe that state as "waiting for browser authorization" or ask the user to authorize again. Cancellation or failure stops automatic retries.
+5. After success, use a connection/catalog refresh capability only if the host actually exposes and documents it. Recheck the current live catalog and connection readiness; do not assume launching a separate login process refreshed the active task, invent a refresh command, or call a tool that is not loaded.
+6. If ready, resume the retained original operation immediately and apply `references/handoffs.md`. Continue from confirmed progress: do not repeat completed writes, job creation or consumed Handoffs. Use original idempotency/status protocols for uncertain outcomes.
+7. If the host cannot refresh this task, report "authorization succeeded; the current task has not loaded the MCP tools". Use a supported reconnect/reload control if available; otherwise explain that a new task is required to load the connection and retain a concise summary of the pending request. This is a host continuation limitation, not a failed authorization or proof that the service lacks the tool. Do not promise automatic continuation without host support.
 
-If the helper cannot start or the user cancels, stop automatic attempts and direct the user to NoxInfluencer Connect/Re-authorize in Codex settings. Never ask the user to paste a Key or run `noxinfluencer login`. Disconnect does not delete the shared platform Key. Never expose a Token, Cookie, authorization code, `state`, or `code_verifier`.
+## Failure Boundaries
+
+- A ready/refreshed catalog missing one business operation is a capability gap, not a login signal. Continue independent supported work.
+- `403`/insufficient scope is an access restriction. A configured Handoff failure is a presentation failure. Neither permits a login loop or CLI fallback.
+- If the host flow cannot start or the user cancels, stop automatic attempts and direct the user to that host's connection settings. Do not elevate, copy executables, or request credentials.
+- Keep authorization success, MCP readiness, business completion and page opening as separate states. Do not expose an authorization code, token, `state`, verifier or callback parameters in output.

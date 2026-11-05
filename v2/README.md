@@ -8,11 +8,11 @@ V2 is maintained in this repository. The one-time source migration is recorded i
 | --- | --- |
 | `v2/source/noxinfluencer/shared/` | The same business guidance in the universal Skill and MCP plugin |
 | `v2/source/noxinfluencer/universal.md`, `setup.md`, `adapters/cli/`, `adapters/mcp/` | `v2/skills/noxinfluencer-v2/`, with on-demand CLI/MCP adaptation |
-| Shared source and `adapters/mcp/` | `plugins/noxinfluencer/skills/noxinfluencer-mcp/`, fixed to MCP |
-| Existing `skills/influencer-marketing-manager/` | An unchanged, self-contained copy in the plugin; no V2 Manager identity |
+| Shared source, `adapters/mcp/` and plugin-only `adapters/plugin/` overrides | `plugins/noxinfluencer/skills/noxinfluencer-mcp/`, MCP-only with Handoff-first presentation |
+| Existing `skills/influencer-marketing-manager/` | Shared business bytes plus generated plugin installation context; standalone source and universal ZIP remain unchanged |
 | Versioned public contracts in `snapshots/`, `capabilities/`, `versions.yaml` | Validated schemas, package identity, runtime evidence and file hashes |
 
-Edit source files, not generated product Skills. Manager remains independently maintained in its existing source directory. Its business guidance does not choose CLI, MCP or a product version; execution remains bound to the active product entrypoint. The plugin contains the same Manager bytes, not a second hand-maintained wrapper or upstream copy.
+Edit source files, not generated product Skills. Manager remains independently maintained in its existing source directory. Its business guidance does not choose CLI, MCP or a product version; execution remains bound to the active product entrypoint. The plugin injects `adapters/plugin/manager-context.md` into the shared Manager entrypoint during generation; stripping that context reproduces the shared source exactly. Its business text is not independently maintained. Plugin adapter overrides never enter the universal Skill. Installed Agent plugin mode, not host name or local CLI presence, selects MCP-only execution and Handoff-first presentation.
 
 ## Build and checks
 

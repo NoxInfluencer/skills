@@ -74,23 +74,23 @@
     },
     {
       "path": "adapters/mcp/references/campaign-agent-automation-mcp.md",
-      "bytes": 6618,
-      "sha256": "a2bf75a9cd126c6d9c3f84022477520a5586ceed035c58962a109cdda4312c41"
+      "bytes": 6880,
+      "sha256": "e9290ea350fe66f6a420df62edb9254dbf48aeef6e0fede1acaceaf10a295186"
     },
     {
       "path": "adapters/mcp/references/codex-plugin-runtime.md",
-      "bytes": 785,
-      "sha256": "833a3b5bd4b34417e81ffdad4975313c6ca717f9e0d6d2e022d4d015d9cf60c0"
+      "bytes": 834,
+      "sha256": "fc3313cd90115779cf4e1069cf800d478d49ce4cc85236bac9d8b192bd14e81c"
     },
     {
       "path": "adapters/mcp/resources-and-files.md",
-      "bytes": 2723,
-      "sha256": "b8738249286da4023c26f95708230b245563c781dc3e55257ab18674222a6636"
+      "bytes": 845,
+      "sha256": "d3ebb23185982b5978828af5997ff449e16bb0a6868d5f6f92c7dcdd63ef8c13"
     },
     {
       "path": "adapters/mcp/runtime.md",
-      "bytes": 1147,
-      "sha256": "131afef0d291017d98855841fc75a21388eb5dd6928aaa36892d5c69ff75494e"
+      "bytes": 1063,
+      "sha256": "ccb2c6570b28ecce9360664a8d79df9db9f4991ca59b80a275a521988a5f308b"
     },
     {
       "path": "adapters/mcp/scripts/start-codex-oauth.ps1",
@@ -99,8 +99,8 @@
     },
     {
       "path": "adapters/mcp/tool-execution.md",
-      "bytes": 2214,
-      "sha256": "a6324d68f1287456e93f5c6252b91a2e46e167d35422de920ec1704c3d2c4235"
+      "bytes": 2277,
+      "sha256": "53302af9ef43af3b9a2f89aee9f115bcf56bf5b23029fdbb7e0b5ea613301bd4"
     },
     {
       "path": "setup.md",
@@ -191,6 +191,11 @@
       "path": "shared/references/risk-confirmation.md",
       "bytes": 1731,
       "sha256": "635ffe7aeff35da200d10c8fa1bfc6fa94af95f8cddad7babbe4e741c4adc296"
+    },
+    {
+      "path": "snapshots/mcp-tools.json",
+      "bytes": 1413250,
+      "sha256": "e6c8fb1138868d6067cd4ddd18885ffc34c21db1c2ce346a3fe267a1dd999b15"
     },
     {
       "path": "universal.md",
@@ -351,23 +356,23 @@
     },
     {
       "path": "references/campaign-agent-automation-mcp.md",
-      "bytes": 6618,
-      "sha256": "a2bf75a9cd126c6d9c3f84022477520a5586ceed035c58962a109cdda4312c41"
+      "bytes": 6880,
+      "sha256": "e9290ea350fe66f6a420df62edb9254dbf48aeef6e0fede1acaceaf10a295186"
     },
     {
       "path": "references/codex-plugin-runtime.md",
-      "bytes": 785,
-      "sha256": "833a3b5bd4b34417e81ffdad4975313c6ca717f9e0d6d2e022d4d015d9cf60c0"
+      "bytes": 834,
+      "sha256": "fc3313cd90115779cf4e1069cf800d478d49ce4cc85236bac9d8b192bd14e81c"
     },
     {
       "path": "references/resources-and-files.md",
-      "bytes": 2723,
-      "sha256": "b8738249286da4023c26f95708230b245563c781dc3e55257ab18674222a6636"
+      "bytes": 845,
+      "sha256": "d3ebb23185982b5978828af5997ff449e16bb0a6868d5f6f92c7dcdd63ef8c13"
     },
     {
       "path": "references/runtime-mcp.md",
-      "bytes": 1147,
-      "sha256": "131afef0d291017d98855841fc75a21388eb5dd6928aaa36892d5c69ff75494e"
+      "bytes": 1063,
+      "sha256": "ccb2c6570b28ecce9360664a8d79df9db9f4991ca59b80a275a521988a5f308b"
     },
     {
       "path": "scripts/start-codex-oauth.ps1",
@@ -376,8 +381,13 @@
     },
     {
       "path": "references/tool-execution.md",
-      "bytes": 2214,
-      "sha256": "a6324d68f1287456e93f5c6252b91a2e46e167d35422de920ec1704c3d2c4235"
+      "bytes": 2277,
+      "sha256": "53302af9ef43af3b9a2f89aee9f115bcf56bf5b23029fdbb7e0b5ea613301bd4"
+    },
+    {
+      "path": "references/tool-list.md",
+      "bytes": 5857,
+      "sha256": "fc2b60a9fb21487d904172375c4cc43a90feb0916362137c16c3e9d62c0cceda"
     },
     {
       "path": "references/setup.md",

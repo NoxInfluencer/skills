@@ -1,6 +1,6 @@
 {
   "name": "noxinfluencer",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "NoxInfluencer marketing workflows through MCP.",
   "author": {
     "name": "NoxInfluencer"
@@ -29,7 +29,7 @@
     "defaultPrompt": [
       "Show my intelligent marketing-plan tasks.",
       "Show the next page of my intelligent marketing-plan tasks.",
-      "Open my intelligent marketing-plan tasks in NoxInfluencer."
+      "Find my intelligent marketing plans by keyword."
     ],
     "brandColor": "#FF5A36",
     "logo": "./assets/icon.png",

@@ -1,12 +1,17 @@
-## Codex Plugin MCP Runtime Boundary
+## Agent Plugin Installation Context
 
-This generated Plugin Skill uses the connected NoxInfluencer MCP provider for every NoxInfluencer operation. Never execute NoxInfluencer CLI business commands or fall back to the CLI when OAuth, MCP connectivity, or Tool availability fails. Use only Host-owned OAuth, file transfer, download, and browser handoff mechanisms defined by the Plugin runtime references.
+These rules apply only when the active invocation is through an installed Agent plugin, including Codex, Claude, Cursor, Grok Bot, WorkBuddy and Harness. Host names, an installed CLI executable, or the presence of a shared Skill do not select this mode by themselves. Separately invoked standalone Skills and CLI retain their own routing and presentation rules.
 
-Read only the MCP references needed for the current workflow:
+For every NoxInfluencer business operation in plugin mode, use the connected MCP provider. Do not install or fall back to a business CLI after authorization, connectivity, missing-tool or Handoff failures. Shared Manager examples do not override this entrypoint. Business confirmation, permissions, account binding and idempotency still apply.
 
-- OAuth identity, scope, bootstrap, and failure branches: `{baseDir}/references/oauth-and-scopes.md`
-- Current Tools, schema-bound invocation, writes, polling, and errors: `{baseDir}/references/tool-execution.md`
-- Current Resources plus deferred upload/download contracts: `{baseDir}/references/resources-and-files.md`
-- Browser and User Handoff branches: `{baseDir}/references/handoffs.md`
+Every plugin workflow uses Handoff-first presentation, including search, analysis, lists, details, reports and mutation results. A configured Handoff is preferred without requiring the user to say "open a browser". Only an unconfigured presentation falls back normally to conversation results. A configured but failed Handoff must be reported separately from a successful business operation.
 
-For user-provided local attachments, follow the common attachment rules in `{baseDir}/references/campaign-agent-automation.md` using the Host's available reading tools. This permits local user-file reading only; remote file transfer and business operations retain the boundaries above.
+Read only the relevant references:
+
+- Presentation decision, live contract discovery and browser handling: `{baseDir}/references/handoffs.md`
+- Host-owned authorization and resuming the original request: `{baseDir}/references/oauth-and-scopes.md`
+- Business tool execution and confirmation: `{baseDir}/references/tool-execution.md`
+- Checked tool baseline; live schemas remain authoritative: `{baseDir}/references/tool-list.md`
+- Files and downloads: `{baseDir}/references/resources-and-files.md`
+
+For user attachments follow `{baseDir}/references/campaign-agent-automation.md`. Local attachment reading does not authorize direct backend access or a CLI fallback.

@@ -5,77 +5,60 @@ description: Operate NoxInfluencer creator and Campaign workflows through this p
 
 # NoxInfluencer
 
-NoxInfluencer supports creator discovery, due diligence, outreach operations, campaign execution, monitoring, commerce workflows, brand intelligence, and exports across YouTube, TikTok, and Instagram.
+Use the connected NoxInfluencer tools for creator research, collections, CRM, monitoring, intelligent marketing plans (Campaigns), products, exports, quota and pricing. The provided tool list defines the product's supported operations.
 
-The user works in natural language. Perform the workflow, preserve returned identifiers exactly, and report business results in plain language. Do not expose credentials, internal transport details, or implementation syntax.
+## Choose The Available Operation
 
-Keep replies focused on business outcomes. Do not proactively report Skill Credit consumption, remaining balances, or routine billing details, even when returned by a tool. Discuss these only when the user explicitly asks or a credit or entitlement restriction blocks the requested workflow; explain only the relevant restriction and necessary next action. Continue required internal quota checks without narrating them.
+Read `{baseDir}/references/tool-list.md` as a checked baseline, then use the connected provider's live catalog and schema as the execution authority. The live catalog may extend the baseline. Never invent a missing operation, require it for unrelated work, or switch to another backend.
 
-## When To Use
+When invoked through an installed Agent plugin (Codex, Claude, Cursor, Grok Bot, WorkBuddy, Harness or another host), all NoxInfluencer business operations use MCP and all workflows use Handoff-first presentation. Read `{baseDir}/references/handoffs.md` before presenting results. This policy belongs to the active plugin entrypoint; it does not change separately invoked shared Skills or CLI workflows, even when both installations exist.
 
-- Find, compare, evaluate, or contact creators.
-- Manage intelligent marketing plans (Campaigns), collections, CRM records, email tasks, or message threads.
-- Monitor known videos or future creator content and retrieve reports.
-- Manage products, short links, Shopify affiliation, brand monitoring, files, or exports.
-- Explain quota, pricing, disputes, feedback, platform limits, or a returned business error.
+For intelligent marketing-plan task lists, the current business tool is `campaign2_plan_list`. Use its live paging and filter schema, preserve selected filters, and apply the same Handoff policy as every other function. Do not assume a separate page-opening tool or historical tool name is required.
 
-## Shared Operating Model
+## Working Rules
 
-1. Identify the business domain and the user's intended outcome using the current turn's page context. In a Campaign conversation, a request to add creators to cooperation management means that Campaign's cooperation workspace. Use account-level CRM only when the user explicitly selects it. If neither context nor the conversation identifies the destination Campaign, resolve the plan before writing; do not silently substitute CRM.
-2. Ask only for missing inputs that materially change the result, target, scope, cost, or risk.
-3. Read current state before mutation when identifiers, ownership, status, or prior content are unclear.
-4. Preserve opaque identifiers and cursors exactly. Never decode, synthesize, or replace them with display names.
-5. Bound lists, pagination, batch sizes, remote calls, and response detail to the user's purpose. Prefer a small useful result first.
-6. For long-running work, create or start once, retain the returned task identity, poll with bounded intervals, and report progress without duplicate creation.
-7. Preview the exact effect of a write whenever the capability supports preview. Require the user's approval at the level defined in the risk reference.
-8. After execution, report what changed, what did not change, partial failures, remaining actions, and any quota or entitlement restriction.
-9. Before finishing Campaign automatic advancement on a creator reply, restore the exact conversation's unread reminder when no message was actually sent and its latest message is still inbound. Read the final-check rule in `{baseDir}/references/campaign-agent-automation.md` and the runtime instructions before performing it.
+- Resolve the selected Campaign, collection, CRM scope or monitoring project before writing. Campaign cooperation management and account CRM are distinct destinations.
+- Read current state when identity, ownership, status or existing content is unclear. Keep opaque IDs and cursors unchanged.
+- Ask only for missing inputs that materially affect the result. Bound pages, batches, remote calls and response detail to the user's purpose.
+- Follow the actual tool's preview, confirmation, idempotency and polling protocol. Query uncertain outcomes instead of creating duplicate writes.
+- Report business results, partial failures and pending work plainly. Do not expose credentials or internal transport details.
+- Discuss quota and pricing only when asked or when a restriction blocks the requested task. Continue required internal checks without routine billing narration.
+- Use `influencer-marketing-manager` for marketing strategy or partnership judgment when needed. Its recommendations do not add tools or bypass product confirmation rules.
 
-## Business Collaboration
+## Workflow References
 
-Operate settled product tasks directly. When the outcome needs marketing strategy, cross-source qualification, negotiation judgment, growth diagnosis or an operating method, use the available `influencer-marketing-manager` Skill for that decision. Pass the objective, criteria, stable identities, authority, expected evidence and stop condition into execution. A Manager recommendation does not bypass the product's specific preview, confirmation or state rules. Keep current facts in the authoritative business system and distinguish coarse search evidence from a qualified recommendation.
-
-## Shared Boundaries
-
-- Do not draft outreach, negotiation, or partnership copy from scratch.
-- Do not make final budget allocation, media-plan, legal, commercial, or brand-safety decisions for the user.
-- Do not operate unrelated external CRM, messaging, spreadsheet, advertising, or commerce systems.
-- Do not claim unavailable platform dimensions are zero or negative; explain them as unavailable or partial.
-- Do not silently broaden a selected creator set, recipient set, campaign, project, collection, or account scope.
-- Do not hide partial failures, skipped records, stale state, or asynchronous work that is still pending.
-
-## Domain References
-
-Read only the references required for the current workflow:
-
-- Product positioning and workflow selection: `{baseDir}/references/product-overview.md`
-- Creator discovery, precision/account filters, commerce metrics, connected-store invitations, contacts, and identity: `{baseDir}/references/creator.md`
-- Known-video and future-content monitoring: `{baseDir}/references/monitor.md`
-- Intelligent marketing plan (Campaign) operations: `{baseDir}/references/marketing-plan-and-campaign.md`
-- Campaign Agent automation tools: `{baseDir}/references/campaign-agent-automation.md`
-- Campaign cooperation management: `{baseDir}/references/campaign-cooperation-management.md`
+- Creator discovery, evidence, contacts and identity: `{baseDir}/references/creator.md`
 - Collections and CRM: `{baseDir}/references/collection-and-crm.md`
-- Email tasks and message threads: `{baseDir}/references/outreach-and-messaging.md`
-- Products from Briefs/conversations and adding them to plans: `{baseDir}/references/campaign-products.md`
-- Products, short links, and Shopify affiliation: `{baseDir}/references/product-short-link-affiliation.md`
-- Brand discovery and monitoring: `{baseDir}/references/brand-monitor.md`
-- File roles, direct reports, and asynchronous exports: `{baseDir}/references/files-and-exports.md`
-- Quota, pricing, disputes, and feedback: `{baseDir}/references/quota-pricing-dispute-feedback.md`
-- Read, normal-write, and high-risk confirmation: `{baseDir}/references/risk-confirmation.md`
-- Cross-platform data availability: `{baseDir}/references/platform-support.md`
+- Published-content monitoring, existing tracking rules and reports: `{baseDir}/references/monitor.md`
+- Campaign operations: `{baseDir}/references/marketing-plan-and-campaign.md`
+- Campaign automation and exact tool mappings: `{baseDir}/references/campaign-agent-automation.md` and `{baseDir}/references/campaign-agent-automation-mcp.md`
+- Campaign cooperation: `{baseDir}/references/campaign-cooperation-management.md`
+- Campaign invitations: `{baseDir}/references/campaign-invitation-management.md`
+- Products and Campaign product application: `{baseDir}/references/campaign-products.md`
+- Exports and report results: `{baseDir}/references/files-and-exports.md`
+- Quota and pricing: `{baseDir}/references/quota-pricing-dispute-feedback.md`
+- Write approval: `{baseDir}/references/risk-confirmation.md`
+- Platform data availability: `{baseDir}/references/platform-support.md`
 
-## Codex Plugin MCP Runtime Boundary
+Business references explain domain semantics; only the provided tools establish executable actions. Keep the selected account, target set and user authority throughout the workflow. Treat missing data as unknown and retain failed or skipped records in the result.
 
-This generated Plugin Skill uses the connected NoxInfluencer MCP provider for every NoxInfluencer operation. Never execute NoxInfluencer CLI business commands or fall back to the CLI when OAuth, MCP connectivity, or Tool availability fails. Use only Host-owned OAuth, file transfer, download, and browser handoff mechanisms defined by the Plugin runtime references.
+## Agent Plugin Installation Context
 
-Read only the MCP references needed for the current workflow:
+These rules apply only when the active invocation is through an installed Agent plugin, including Codex, Claude, Cursor, Grok Bot, WorkBuddy and Harness. Host names, an installed CLI executable, or the presence of a shared Skill do not select this mode by themselves. Separately invoked standalone Skills and CLI retain their own routing and presentation rules.
 
-- OAuth identity, scope, bootstrap, and failure branches: `{baseDir}/references/oauth-and-scopes.md`
-- Current Tools, schema-bound invocation, writes, polling, and errors: `{baseDir}/references/tool-execution.md`
-- Current Resources plus deferred upload/download contracts: `{baseDir}/references/resources-and-files.md`
-- Browser and User Handoff branches: `{baseDir}/references/handoffs.md`
+For every NoxInfluencer business operation in plugin mode, use the connected MCP provider. Do not install or fall back to a business CLI after authorization, connectivity, missing-tool or Handoff failures. Shared Manager examples do not override this entrypoint. Business confirmation, permissions, account binding and idempotency still apply.
 
-For user-provided local attachments, follow the common attachment rules in `{baseDir}/references/campaign-agent-automation.md` using the Host's available reading tools. This permits local user-file reading only; remote file transfer and business operations retain the boundaries above.
+Every plugin workflow uses Handoff-first presentation, including search, analysis, lists, details, reports and mutation results. A configured Handoff is preferred without requiring the user to say "open a browser". Only an unconfigured presentation falls back normally to conversation results. A configured but failed Handoff must be reported separately from a successful business operation.
+
+Read only the relevant references:
+
+- Presentation decision, live contract discovery and browser handling: `{baseDir}/references/handoffs.md`
+- Host-owned authorization and resuming the original request: `{baseDir}/references/oauth-and-scopes.md`
+- Business tool execution and confirmation: `{baseDir}/references/tool-execution.md`
+- Checked tool baseline; live schemas remain authoritative: `{baseDir}/references/tool-list.md`
+- Files and downloads: `{baseDir}/references/resources-and-files.md`
+
+For user attachments follow `{baseDir}/references/campaign-agent-automation.md`. Local attachment reading does not authorize direct backend access or a CLI fallback.
 
 
 The shared influencer-marketing-manager supplies business judgment, not transport selection. Its examples do not override this product entrypoint. Read the required runtime rules before executing NoxInfluencer operations; reuse loaded instructions without recursive handoffs.

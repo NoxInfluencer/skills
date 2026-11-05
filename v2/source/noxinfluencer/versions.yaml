@@ -2,7 +2,7 @@ schema_version: 1
 node_version: 24.21.0
 npm_version: 11.19.0
 skill_version: 0.10.1
-plugin_version: 0.2.1
+plugin_version: 0.2.2
 capability_registry_version: 2.0.15
 backend_version: 8e4cea8c8a36a574255f50b67b0ebda9c1f80ae9
 plugin_manifest_schema:

@@ -4,4 +4,4 @@ Read this reference only after the active product entrypoint selects MCP. A refe
 
 - Use the connected MCP provider named `noxinfluencer` for every NoxInfluencer operation and reuse the shared business workflow and risk rules.
 - Never execute the standalone NoxInfluencer CLI or change backends because authorization, connectivity, a Tool, or a Host capability is unavailable.
-- Read `{baseDir}/references/oauth-and-scopes.md`, `{baseDir}/references/tool-execution.md`, `{baseDir}/references/resources-and-files.md`, or `{baseDir}/references/handoffs.md` only when that runtime concern is relevant.
+- Read `{baseDir}/references/oauth-and-scopes.md`, `{baseDir}/references/tool-execution.md`, or `{baseDir}/references/resources-and-files.md` only when that runtime concern is relevant. Query plan lists with `campaign2_plan_list`; report the results in the conversation.

@@ -12,24 +12,36 @@ import { updateSnapshot } from '../scripts/update-snapshot.mjs';
 /** 构造不依赖私仓的最小公开维护工程，用于真实生成、漂移和回滚检查。 */
 function fixture(t) {
   const root = mkdtempSync(join(tmpdir(), 'nox-v2-public-'));
-  for (const path of ['v2/source', 'skills/influencer-marketing-manager', 'plugins/noxinfluencer']) {
+  // Copy the public delivery surface, excluding ignored machine-local tooling.
+  for (const path of ['v2/source', 'skills/influencer-marketing-manager',
+    ...['.codex-plugin', '.plugin', '.mcp.json', 'assets', 'skills'].map(path => `plugins/noxinfluencer/${path}`)]) {
+    mkdirSync(dirname(resolve(root, path)), { recursive: true });
     cpSync(resolve(repositoryRoot, path), resolve(root, path), { recursive: true });
   }
   t.after(() => rmSync(root, { recursive: true, force: true }));
   return root;
 }
 
-test('one business source produces both runtimes and the unchanged shared Manager', t => {
+function assertManagerBusinessUnchanged(pluginManager, root) {
+  const shared = readDirectoryFileMap(resolve(root, 'skills/influencer-marketing-manager'));
+  const policy = readFileSync(resolve(root, 'v2/source/noxinfluencer/adapters/plugin/manager-context.md'), 'utf8').trim();
+  const stripped = new Map(pluginManager);
+  stripped.set('SKILL.md', Buffer.from(stripped.get('SKILL.md').toString().replace('\n' + policy + '\n\n', '')));
+  assert.deepEqual(stripped, shared);
+}
+
+test('one business source produces both runtimes and preserves shared Manager business bytes', t => {
   const root = fixture(t);
   const first = createOutputs(root);
   const generic = first.outputs.get('v2/skills/noxinfluencer-v2');
   const mcp = first.outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp');
-  for (const [path, bytes] of generic) if (path.startsWith('references/') && mcp.has(path)) assert.deepEqual(bytes, mcp.get(path));
+  const mcpSpecific = new Set(['references/product-overview.md', 'references/files-and-exports.md', 'references/quota-pricing-dispute-feedback.md', 'references/creator.md', 'references/monitor.md', 'references/campaign-agent-automation.md', 'references/campaign-agent-automation-mcp.md', 'references/handoffs.md', 'references/oauth-and-scopes.md', 'references/runtime-mcp.md', 'references/codex-plugin-runtime.md', 'references/tool-execution.md', 'references/tool-list.md']);
+  for (const [path, bytes] of generic) if (path.startsWith('references/') && mcp.has(path) && !mcpSpecific.has(path)) assert.equal(bytes.toString(), mcp.get(path).toString(), path);
   assert.equal(generic.has('scripts/nox-cli.mjs'), true);
   assert.equal(mcp.has('scripts/nox-cli.mjs'), false);
   assert.equal(generic.has('references/runtime-cli.md'), true);
   assert.equal(mcp.has('references/runtime-cli.md'), false);
-  assert.deepEqual(first.outputs.get('plugins/noxinfluencer/skills/influencer-marketing-manager'), readDirectoryFileMap(resolve(root,'skills/influencer-marketing-manager')));
+  assertManagerBusinessUnchanged(first.outputs.get('plugins/noxinfluencer/skills/influencer-marketing-manager'), root);
   const path = resolve(root, 'v2/source/noxinfluencer/shared/references/creator.md');
   writeFileSync(path, readFileSync(path)+'\nUse current evidence for this creator decision.\n');
   const next = createOutputs(root);
@@ -45,6 +57,22 @@ test('CLI adapter changes do not change the fixed MCP artifact', t => {
   const next = createOutputs(root);
   assert.notDeepEqual(first.outputs.get('v2/skills/noxinfluencer-v2'), next.outputs.get('v2/skills/noxinfluencer-v2'));
   assert.deepEqual(first.outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp'), next.outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp'));
+});
+
+test('plugin presentation and authorization overrides cannot change standalone outputs or sources', t => {
+  const root = fixture(t);
+  const first = createOutputs(root);
+  const sharedManager = readDirectoryFileMap(resolve(root, 'skills/influencer-marketing-manager'));
+  for (const name of ['handoffs.md', 'oauth-and-scopes.md', 'manager-context.md', 'references/campaign-agent-automation-mcp.md']) {
+    const path = resolve(root, 'v2/source/noxinfluencer/adapters/plugin', name);
+    writeFileSync(path, readFileSync(path) + '\nPlugin-only policy revision.\n');
+  }
+  const next = createOutputs(root);
+  assert.deepEqual(next.outputs.get('v2/skills/noxinfluencer-v2'), first.outputs.get('v2/skills/noxinfluencer-v2'));
+  assert.deepEqual(readDirectoryFileMap(resolve(root, 'skills/influencer-marketing-manager')), sharedManager);
+  for (const path of ['plugins/noxinfluencer/skills/noxinfluencer-mcp', 'plugins/noxinfluencer/skills/influencer-marketing-manager']) {
+    assert.notDeepEqual(next.outputs.get(path), first.outputs.get(path));
+  }
 });
 
 test('generated hashes cover actual final bytes and repeated builds are deterministic', t => {
@@ -116,11 +144,15 @@ test('public content guard rejects credentials, internal modules and concrete lo
 test('standalone packaging has no source/evals/CLI adapter in the MCP package', async t => {
   const root = fixture(t);
   build({ root });
+  const ignoredRoot = resolve(root, 'plugins/noxinfluencer/.codex-local/history');
+  mkdirSync(ignoredRoot, { recursive: true });
+  for (let i = 0; i < 270; i++) writeFileSync(resolve(ignoredRoot, `ignored-${i}.txt`), 'Local-only historical file');
   const first = await packageV2({ root });
   const entries = readZipEntries(resolve(root,'v2/dist/noxinfluencer-mcp-plugin.zip'));
   assert.equal(entries.has('skills/noxinfluencer-mcp/SKILL.md'), true);
   assert.equal(entries.has('skills/influencer-marketing-manager/SKILL.md'), true);
   assert.equal([...entries.keys()].some(path => /(?:^|\/)(?:source|evals)(?:\/|$)|runtime-cli|nox-cli\.mjs|upstream\.md/.test(path)), false);
+  assert.equal([...entries.keys()].some(path => /(?:^|\/)(?:node_modules|\.codex-local|dist)(?:\/|$)/.test(path)), false);
   const installed = resolve(root,'standalone-client/plugin');
   for (const [path,bytes] of entries) {
     const destination=resolve(installed,path);
@@ -129,7 +161,7 @@ test('standalone packaging has no source/evals/CLI adapter in the MCP package', 
   }
   const manifest=JSON.parse(readFileSync(resolve(installed,'.codex-plugin/plugin.json')));
   assert.equal(existsSync(resolve(installed,manifest.skills,'noxinfluencer-mcp/SKILL.md')),true);
-  assert.deepEqual(readDirectoryFileMap(resolve(installed,'skills/influencer-marketing-manager')),readDirectoryFileMap(resolve(root,'skills/influencer-marketing-manager')));
+  assertManagerBusinessUnchanged(readDirectoryFileMap(resolve(installed,'skills/influencer-marketing-manager')), root);
   const before = readFileSync(resolve(root,'v2/dist/noxinfluencer-mcp-plugin.zip'));
   const second = await packageV2({ root });
   assert.deepEqual(first,second);

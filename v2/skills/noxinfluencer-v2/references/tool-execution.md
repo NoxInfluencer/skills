@@ -1,6 +1,6 @@
 # MCP Tool Execution
 
-Call only Tools exposed by the connected `noxinfluencer` provider. Campaign2 tools use the same external provider scope as the public catalog; internal Campaign permissions remain server-enforced. Verify live availability before use. Handoff remains outside this catalog. Never invent a missing Tool or fall back to CLI.
+Call only tools exposed by the connected `noxinfluencer` provider and included in the provided catalog. Campaign2 tools use the same external provider scope as the public catalog; internal Campaign permissions remain server-enforced. Verify live availability before use. Never invent a missing tool or fall back to CLI. Missing operations do not block unrelated catalogued workflows.
 
 Inspect the live closed input schema before every call. Never add `uid`, `parent_uid`, Key, Token, Secret, local file path, Base64 content, or arbitrary URL. Respect declared pagination and batch limits; request only needed pages and never concatenate an unbounded result set.
 

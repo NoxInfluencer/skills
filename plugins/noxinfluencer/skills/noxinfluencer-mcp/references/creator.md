@@ -55,14 +55,6 @@ Market results may expose `total_gmv`, `last30_days_gmv`, and `currency`. Compar
 
 TikTok product/shop/live market reads consume Skill Credit by returned item. Read-only does not mean free. Discover current account pricing for `tiktok_search` through the available runtime before broad pages; do not assume a fixed price or use Creator Marketplace store quotas as the price. Keep pages purposeful, preserve filters while paging, and stop at the user's requested scope. Connected-store workflows retain their separate binding, official quota and membership requirements.
 
-## Connected-Store Target Invitations
-
-Use only the currently exposed store-project capability and its exact schema for Creator Marketplace target invitations. This is separate from intelligent Campaign invitations. Replace examples with the selected binding, creators, products, commission, approved message/contact and a future epoch-millisecond end time. Commission 1000 means 10%.
-
-For free samples with manual approval, the canonical `sample_approval_exempt` is false with `has_free_sample` true. True exempts approval. Use one supported field name; do not change the approval value just to bypass a field error. Preserve the error and request identity while checking runtime support. A saved draft does not send; formal submission in IMMEDIATE mode may start sending immediately, so confirm the exact sending effect before that submission. Read back the saved approval rule and distinguish submission from completed delivery.
-
-Existing project updates replace the full form. Read current project and creator selection, preserve all message, invitation and execution settings, and change only the approved fields. A creation example cannot replace a current snapshot. If required current settings are unavailable, stop and explain what is missing; do not invent defaults or switch execution routes.
-
 ## Lookalikes And Selected Exports
 
 Lookalike results are recommendations, not proof of fit. Keep the source creator and returned export context intact. Create a selected-result export only after the user chooses the returned items. A deep export may require a preview because richer fields and contacts can consume additional business quota.
