@@ -23,8 +23,6 @@ npm ci --ignore-scripts
 npm run v2:build
 npm run v2:check
 npm run v2:test
-python evals/v2/check.py
-python -m unittest discover -s evals/v2/campaign-runtime -p "test_*.py"
 npm run v2:package
 ```
 
@@ -72,6 +70,6 @@ Keep the legacy CLI/server contracts compatible while legacy clients remain inst
 
 ## Acceptance layers
 
-`evals/v2/` contains synthetic inputs and review expectations, plus an offline harness that keeps future turns and rubrics out of model input. Structural validation, unit tests, ZIP checks and local CLI schema verification are offline evidence. Record separate evidence for model decisions, actual client installation, authorized account identity, live tool/schema availability, file transfer and business readback before rollout. The production endpoint configuration alone does not establish that every snapshotted tool or OAuth scope is deployed.
+Structural validation, unit tests, ZIP checks and local CLI schema verification are offline evidence. Record separate evidence for model decisions, actual client installation, authorized account identity, live tool/schema availability, file transfer and business readback before rollout. The production endpoint configuration alone does not establish that every snapshotted tool or OAuth scope is deployed.
 
 After acceptance, replacing the legacy default is a separate change to the stable `skills/noxinfluencer` artifact, installer references and relevant channel packages. Changing README text alone does not update existing installations.

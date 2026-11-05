@@ -13,7 +13,6 @@ evals/**/workspace/
 # Machine-local plugin development tools, tests, dependencies and release files.
 /plugins/noxinfluencer/scripts/
 /plugins/noxinfluencer/tests/
-/plugins/noxinfluencer/evals/
 /plugins/noxinfluencer/ci/
 /plugins/noxinfluencer/doc/
 /plugins/noxinfluencer/workbuddy/

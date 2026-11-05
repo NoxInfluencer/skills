@@ -639,6 +639,33 @@
         "Surfaces scope/quota rejection without bypassing it and does not treat unsupported live null as zero",
         "Does not claim search snapshots must equal independently calibrated detail data"
       ]
+    },
+    {
+      "id": 51,
+      "category": "creator-average-view-filter",
+      "prompt": "只分析已有结果，不要查询：YouTube 搜索设置 video_type=2、avg_view_min=22000000。候选 A 返回 avg_views=21000000、avg_views_normal=25000000、avg_views_shorts=15000000；候选 B 返回 avg_views=26000000、avg_views_normal=null。A 是不是不达标？B 能不能直接算达标？",
+      "expected_output": "Use the long-video search metric for the threshold, preserve missing evidence, and avoid replacing it with overall or detail averages.",
+      "files": [],
+      "expectations": [
+        "Checks A against avg_views_normal=25000000 and concludes it meets the long-video minimum of 22000000",
+        "Does not reject A using overall avg_views=21000000 or use Shorts or estimated exposure instead",
+        "Treats B long-video qualification as unverified because avg_views_normal is null, despite overall avg_views exceeding the threshold",
+        "Makes no extra queries or per-creator detail reads"
+      ]
+    },
+    {
+      "id": 52,
+      "category": "creator-profile-performance-sample",
+      "prompt": "只解释已有 YouTube 深度详情：avg_views=21884606、median_views=23520500、wave=0.3781、avg_views_change_ratio=-0.2783、normal_count=7、shorts_count=3、video_count=10、avg_views_normal=24842060、avg_views_benchmark.median=117159。2352.05万和11.72万两个中位数矛盾吗？波动指数是什么？长视频2484.21万是不是最近10条长视频的均播？不要追加查询。",
+      "expected_output": "Distinguish the creator's playback sample from peer benchmarks, explain fluctuation and percentage units, and preserve the grouped detail sample.",
+      "files": [],
+      "expectations": [
+        "Distinguishes the creator-content median 23520500 from the peer average-view median 117159 without treating them as contradictory",
+        "Explains wave as sample standard deviation divided by mean, displayed as 37.81%, rather than a share of videos",
+        "Interprets -0.2783 as a 27.83% decrease",
+        "Explains avg_views_normal as the 7 long videos within the same 10-content detail sample, not an independent latest-10-long-video sample",
+        "Does not fetch more data or replace search-index metrics with these detail metrics"
+      ]
     }
   ]
 }
