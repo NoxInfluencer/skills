@@ -39,8 +39,8 @@
     },
     {
       "path": "adapters/plugin/oauth-and-scopes.md",
-      "bytes": 3485,
-      "sha256": "29e20285333bf506420aea371409fbb6e81cdb4a7944d4a75b610acd4a622506"
+      "bytes": 4803,
+      "sha256": "039fd35121797d9d8ecaa96844b4cbf0943857a8e06e085f06b1649f63e27e49"
     },
     {
       "path": "adapters/plugin/references/campaign-agent-automation-mcp.md",
@@ -49,8 +49,8 @@
     },
     {
       "path": "adapters/plugin/references/codex-plugin-runtime.md",
-      "bytes": 1147,
-      "sha256": "d57b70e49dedce6efe8a7151861a7c710a032381c7637a521f03a3e697faf05b"
+      "bytes": 1220,
+      "sha256": "8551645468596ade93c6124a17755e26c65424ef910f3560e9bc99605cbb2382"
     },
     {
       "path": "adapters/plugin/runtime.md",
@@ -201,8 +201,8 @@
     },
     {
       "path": "references/oauth-and-scopes.md",
-      "bytes": 3485,
-      "sha256": "29e20285333bf506420aea371409fbb6e81cdb4a7944d4a75b610acd4a622506"
+      "bytes": 4803,
+      "sha256": "039fd35121797d9d8ecaa96844b4cbf0943857a8e06e085f06b1649f63e27e49"
     },
     {
       "path": "references/campaign-agent-automation-mcp.md",
@@ -211,8 +211,8 @@
     },
     {
       "path": "references/codex-plugin-runtime.md",
-      "bytes": 1147,
-      "sha256": "d57b70e49dedce6efe8a7151861a7c710a032381c7637a521f03a3e697faf05b"
+      "bytes": 1220,
+      "sha256": "8551645468596ade93c6124a17755e26c65424ef910f3560e9bc99605cbb2382"
     },
     {
       "path": "references/runtime-mcp.md",
