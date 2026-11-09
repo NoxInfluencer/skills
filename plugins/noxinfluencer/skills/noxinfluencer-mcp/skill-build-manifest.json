@@ -34,8 +34,8 @@
     },
     {
       "path": "adapters/plugin/handoffs.md",
-      "bytes": 4084,
-      "sha256": "8a1ac47720b562c7a4c1fd9bdffe2d3d9aab62b509e319e05901d0b0c88bd2f2"
+      "bytes": 4740,
+      "sha256": "d06ed69fabad05e1afc439255187c782846297e5729418330f7a76df7c7bf7cc"
     },
     {
       "path": "adapters/plugin/oauth-and-scopes.md",
@@ -196,8 +196,8 @@
     },
     {
       "path": "references/handoffs.md",
-      "bytes": 4084,
-      "sha256": "8a1ac47720b562c7a4c1fd9bdffe2d3d9aab62b509e319e05901d0b0c88bd2f2"
+      "bytes": 4740,
+      "sha256": "d06ed69fabad05e1afc439255187c782846297e5729418330f7a76df7c7bf7cc"
     },
     {
       "path": "references/oauth-and-scopes.md",
