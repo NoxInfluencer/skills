@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "id": "file-transfer",
+  "kind": "file-transfer",
+  "version": "1.0.0",
+  "source": "public MCP implementation progress at backend commit",
+  "backend_version": "8e4cea8c8a36a574255f50b67b0ebda9c1f80ae9",
+  "items": [
+    {
+      "id": "upload-ticket",
+      "status": "deferred",
+      "reason": "The Codex Plugin upload contract is awaiting private Plugin integration."
+    },
+    {
+      "id": "one-time-download-url",
+      "status": "deferred",
+      "reason": "The download implementation is not exposed by the frozen Codex Plugin Tool catalog."
+    }
+  ]
+}

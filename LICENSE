@@ -1,16 +1,15 @@
-MIT No Attribution
+License scope
 
-Copyright 2026 NoxInfluencer
+The official NoxInfluencer plugin distribution and NoxInfluencer-owned,
+plugin-specific material under plugins/noxinfluencer/ and, where present,
+v2/source/noxinfluencer/adapters/plugin/ are subject to the terms in
+plugins/noxinfluencer/LICENSE.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this
-software and associated documentation files (the "Software"), to deal in the Software
-without restriction, including without limitation the rights to use, copy, modify,
-merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so.
+Existing repository material outside those plugin-specific scopes is licensed
+under MIT No Attribution (MIT-0), as set out in LICENSES/MIT-0.txt. This includes
+the shared Influencer Marketing Manager Skill under
+skills/influencer-marketing-manager/.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+Independently licensed material is governed by its applicable license, including
+when bundled in the plugin. Earlier MIT-0 grants continue to apply to the
+material they cover.

@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "version": "2.0.1",
+  "backend_version": "8e4cea8c8a36a574255f50b67b0ebda9c1f80ae9",
+  "id": "deployment",
+  "kind": "deployment",
+  "source": "plugins/noxinfluencer/.mcp.json",
+  "items": [
+    {
+      "provider": "noxinfluencer",
+      "url": "https://skill.noxinfluencer.com/mcp",
+      "oauth_resource": "https://skill.noxinfluencer.com/mcp"
+    }
+  ]
+}

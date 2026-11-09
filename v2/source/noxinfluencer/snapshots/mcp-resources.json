@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "version": "2.0.1",
+  "backend_version": "8e4cea8c8a36a574255f50b67b0ebda9c1f80ae9",
+  "id": "mcp-resources",
+  "kind": "mcp-resources",
+  "source": "kol_claw/server/app/mcp/server.py",
+  "items": []
+}

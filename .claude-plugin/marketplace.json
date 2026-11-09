@@ -1,20 +1,20 @@
 {
-  "name": "noxinfluencer",
+  "name": "noxinfluencer-plugins",
+  "description": "NoxInfluencer creator and marketing workflows through MCP.",
   "owner": {
-    "name": "NoxInfluencer",
-    "url": "https://www.noxinfluencer.com/skills"
-  },
-  "metadata": {
-    "version": "0.1.1",
-    "pluginRoot": "./plugins",
-    "description": "NoxInfluencer plugins for creator discovery, analysis, outreach preparation, monitoring, marketing operations, brand monitoring, and exports."
+    "name": "NoxInfluencer"
   },
   "plugins": [
     {
-      "name": "nox-influencer",
-      "version": "0.1.1",
-      "source": "./plugins/nox-influencer",
-      "description": "NoxInfluencer skill plugin for creator and marketing-ops workflows in Claude Code."
+      "name": "noxinfluencer",
+      "version": "0.2.3",
+      "description": "NoxInfluencer marketing workflows through MCP.",
+      "author": {
+        "name": "NoxInfluencer"
+      },
+      "homepage": "https://www.noxinfluencer.com/",
+      "repository": "https://github.com/NoxInfluencer/skills",
+      "source": "./plugins/noxinfluencer"
     }
   ]
 }

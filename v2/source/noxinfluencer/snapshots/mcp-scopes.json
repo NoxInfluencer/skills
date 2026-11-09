@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "version": "2.0.2",
+  "backend_version": "8e4cea8c8a36a574255f50b67b0ebda9c1f80ae9",
+  "id": "mcp-scopes",
+  "kind": "mcp-scopes",
+  "source": "kol_claw/server/app/mcp/catalog.py",
+  "items": [
+    {
+      "scope": "noxinfluencer.codex.user",
+      "status": "supported",
+      "surface": "mcp"
+    },
+    {
+      "scope": "noxinfluencer.campaign.read",
+      "status": "supported",
+      "surface": "mcp"
+    },
+    {
+      "scope": "noxinfluencer.campaign.write",
+      "status": "supported",
+      "surface": "mcp"
+    }
+  ]
+}

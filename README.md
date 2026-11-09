@@ -72,27 +72,11 @@ npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer
 
 ### WorkBuddy Connector
 
-The WorkBuddy CLI Connector source lives at [`connectors/noxinfluencer-cli`](connectors/noxinfluencer-cli). Its embedded `noxinfluencer` Skill is generated from [`skills/noxinfluencer`](skills/noxinfluencer); edit the latter, then synchronize and verify the package:
-
-```bash
-python3 scripts/sync_connector.py sync
-python3 scripts/sync_connector.py check
-python3 scripts/sync_connector.py package
-```
-
-The Connector pins `@noxinfluencer/cli@0.5.12` and uses the CLI's device-login flow. This source revision requires deployment of Java main.server/data.provider and Claw Server for the revised search contract, and npm publication of CLI 0.5.12 for explicit `creator profile --detail --include-shop`. Search returns entitled filter evidence; live overview stays in protected explicit detail. The generated Connector 0.1.7 zip under `dist/` is a local review artifact; generation does not publish npm or submit a marketplace release.
+The [NoxInfluencer CLI Connector](connectors/noxinfluencer-cli) brings creator research and marketing operations to WorkBuddy. It uses the NoxInfluencer CLI device-login flow.
 
 ### WorkBuddy Expert (draft)
 
-The WorkBuddy Expert draft at [`experts/influencer-marketing-manager`](experts/influencer-marketing-manager) combines the business Manager Skill with the NoxInfluencer Connector. Its bundled Skill is generated from [`skills/influencer-marketing-manager`](skills/influencer-marketing-manager); synchronize and validate it before packaging:
-
-```bash
-python3 scripts/sync_expert.py sync
-python3 scripts/sync_expert.py check
-python3 scripts/sync_expert.py package
-```
-
-The Expert depends on the WorkBuddy Connector submission identified as `oc_e701b8b6011f3b3e`. Keep it as a draft until that Connector is approved and passes an installation and read-only smoke test in WorkBuddy.
+The [Influencer Marketing Manager Expert draft](experts/influencer-marketing-manager) combines marketing workflow guidance with the NoxInfluencer CLI Connector for supported account operations.
 
 ### NoxInfluencer CLI
 
@@ -150,13 +134,22 @@ npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer --a
 npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer --agent cursor
 ```
 
-### Claude Code Plugin Marketplace
+### Codex and Claude Code Plugin Marketplace
 
-If you prefer the Claude Code plugin marketplace flow:
+The NoxInfluencer plugin uses the connected MCP service for account operations. For setup and sign-in instructions, see the [plugin guide](plugins/noxinfluencer/README.md).
+
+#### Codex
+
+```bash
+codex plugin marketplace add NoxInfluencer/skills
+codex plugin add noxinfluencer@noxinfluencer-codex
+```
+
+#### Claude Code
 
 ```bash
 claude plugin marketplace add https://github.com/NoxInfluencer/skills
-claude plugin install nox-influencer@noxinfluencer
+claude plugin install noxinfluencer@noxinfluencer-plugins
 ```
 
 ## Platform Entry Points
@@ -165,14 +158,14 @@ claude plugin install nox-influencer@noxinfluencer
 - **Skills CLI / skills.sh**: use the CLI install command above, or browse the public listing on [skills.sh](https://skills.sh/noxinfluencer/skills/noxinfluencer)
 - **OpenClaw**: use the OpenClaw-targeted install command above
 - **Hermes Skills Hub**: install through the skills.sh identifier shown above; Hermes can also discover this repository through GitHub taps
-- **Claude Code**: use either the Skills CLI install or the plugin marketplace install
+- **Codex and Claude Code**: use Skills CLI for the standalone Skill or Marketplace for the connected MCP plugin
 
 ## Notes
 
 - This repository publishes `influencer-marketing-manager` and `noxinfluencer`.
 - The manager is tool-agnostic and can implement business SOPs and automation across available systems; the NoxInfluencer Skill supplies product-native data, workflow guidance, and execution.
-- NoxInfluencer business work defaults to CLI. Capability gaps pause dependent steps while independent work continues; they do not authorize an automatic SaaS fallback. Campaign recipient execution is under development and follows current runtime support.
-- Original creator/channel pages remain available for visual review. Explicitly requested or approved NoxInfluencer SaaS work prefers external Chrome and must not use an embedded browser, which can disrupt the user's session. Sign-in, authorization, and billing remain user-completed web steps.
+- The standalone NoxInfluencer Skill uses the CLI by default. Pause steps that need an unavailable capability and continue supported work. Use NoxInfluencer SaaS only when the user requests or approves that route. Check the installed CLI for Campaign recipient support.
+- With the standalone Skill, use original creator and channel pages for visual review. For approved NoxInfluencer SaaS work, use an external browser, preferably Chrome. Users complete sign-in, authorization, and billing themselves.
 - Marketing-ops write actions default to preview/dry-run behavior and require explicit approval before execution.
 - Creator, collection, CRM, and brand-monitor exports use shared async export tasks; monitor, short-link, and affiliation Excel reports download directly.
 - Public rich-text/product image URLs are separate from private email/message attachments.
@@ -181,4 +174,6 @@ claude plugin install nox-influencer@noxinfluencer
 
 ## License
 
-This repository is licensed under [MIT No Attribution (MIT-0)](LICENSE).
+The official NoxInfluencer plugin distribution and NoxInfluencer-owned, plugin-specific material are governed by the [plugin license](plugins/noxinfluencer/LICENSE).
+
+Existing repository material outside the plugin-specific scopes, including the standalone Influencer Marketing Manager Skill, is licensed under [MIT No Attribution (MIT-0)](LICENSES/MIT-0.txt). Independently licensed material retains its applicable terms. See the [repository license scope](LICENSE).

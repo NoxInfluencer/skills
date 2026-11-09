@@ -1,0 +1,408 @@
+{
+  "schema_version": 1,
+  "runtime": "universal",
+  "source_files": [
+    {
+      "path": "adapters/cli/assets/campaign-runtime-contract.json",
+      "bytes": 504896,
+      "sha256": "0a4dc1e36b8bf2bc31442fd20392131fa7b3e6bfaaedc09fc97af2492fe07ec2"
+    },
+    {
+      "path": "adapters/cli/auth.md",
+      "bytes": 2263,
+      "sha256": "4c10e9a5081177e287d77506ee746b5e45dc9a024202f3aa9a40657e403ec732"
+    },
+    {
+      "path": "adapters/cli/command-execution.md",
+      "bytes": 6881,
+      "sha256": "95b79224d370a8ef889742e7616aa2b89aaba79a1c40050b741e2120defc644f"
+    },
+    {
+      "path": "adapters/cli/files.md",
+      "bytes": 3660,
+      "sha256": "a54f7817badb4b00a63ca9129a12d3932a1f06ba1f79cda50b8eb53ff1987a26"
+    },
+    {
+      "path": "adapters/cli/references/brand-monitor-cli.md",
+      "bytes": 3300,
+      "sha256": "8e2d1f46bf4b1afb8222dc995ea42c6bd7a2f27b636abcf9cc70b86ebbdafae8"
+    },
+    {
+      "path": "adapters/cli/references/campaign-agent-automation-cli.md",
+      "bytes": 14229,
+      "sha256": "062ec6c16322f031c138d78b2f1bf9ef7fabd7745a102760d04528b0b6c11967"
+    },
+    {
+      "path": "adapters/cli/references/marketing-ops-cli.md",
+      "bytes": 16482,
+      "sha256": "aa0c199ed2adddd403d236c410082a012419135c7c19749abad221ebe13d7dbd"
+    },
+    {
+      "path": "adapters/cli/references/platform-support-cli.md",
+      "bytes": 3100,
+      "sha256": "3a168f187caae45de32ceb53187206412c3df697d23a96f2d624b69bdd91b619"
+    },
+    {
+      "path": "adapters/cli/references/search-filters-cli.md",
+      "bytes": 7403,
+      "sha256": "2c4d42f8208ea53c96e739855bcc9f9c21425b6ee71644dfb537c70793da9e99"
+    },
+    {
+      "path": "adapters/cli/references/verdict-heuristics-cli.md",
+      "bytes": 3619,
+      "sha256": "9e93e43c6678af9200bf46e7e7e1d5d58fe0d0c2cfd2af0da65dfc669a45ee52"
+    },
+    {
+      "path": "adapters/cli/runtime.md",
+      "bytes": 3428,
+      "sha256": "9a67bb8c699dabbace5112ad5fe34b2c72a1a2e385d5af09fb2e698e8fcc61ac"
+    },
+    {
+      "path": "adapters/cli/scripts/nox-cli.mjs",
+      "bytes": 8569,
+      "sha256": "37a3ed776ad04bbfa71611f15c539da7dec9c3d991fac1751459a3f74a36079b"
+    },
+    {
+      "path": "adapters/mcp/handoffs.md",
+      "bytes": 2136,
+      "sha256": "de4aff4390081db8c62152646b5b229fe8734095c87dc6e0f6dffd27d3e75df9"
+    },
+    {
+      "path": "adapters/mcp/oauth-and-scopes.md",
+      "bytes": 2385,
+      "sha256": "6f2a420bf4174252df83ae2e1120a01d8bc2fce5051d9a1e67acc03fe1181915"
+    },
+    {
+      "path": "adapters/mcp/references/campaign-agent-automation-mcp.md",
+      "bytes": 6880,
+      "sha256": "e9290ea350fe66f6a420df62edb9254dbf48aeef6e0fede1acaceaf10a295186"
+    },
+    {
+      "path": "adapters/mcp/references/codex-plugin-runtime.md",
+      "bytes": 834,
+      "sha256": "fc3313cd90115779cf4e1069cf800d478d49ce4cc85236bac9d8b192bd14e81c"
+    },
+    {
+      "path": "adapters/mcp/resources-and-files.md",
+      "bytes": 845,
+      "sha256": "d3ebb23185982b5978828af5997ff449e16bb0a6868d5f6f92c7dcdd63ef8c13"
+    },
+    {
+      "path": "adapters/mcp/runtime.md",
+      "bytes": 1063,
+      "sha256": "ccb2c6570b28ecce9360664a8d79df9db9f4991ca59b80a275a521988a5f308b"
+    },
+    {
+      "path": "adapters/mcp/scripts/start-codex-oauth.ps1",
+      "bytes": 2136,
+      "sha256": "2d674ed5a5ab01b9a868033795b4629529884c6489613e6dbb1951a8de41a01a"
+    },
+    {
+      "path": "adapters/mcp/tool-execution.md",
+      "bytes": 2277,
+      "sha256": "53302af9ef43af3b9a2f89aee9f115bcf56bf5b23029fdbb7e0b5ea613301bd4"
+    },
+    {
+      "path": "setup.md",
+      "bytes": 3101,
+      "sha256": "4102c3ea65e34237ef06c52b9d1c6ad854b09178e5c5b6b32b2e031992f37279"
+    },
+    {
+      "path": "shared/core.md",
+      "bytes": 5741,
+      "sha256": "5d84a73442caf1bf5e50012d9cd209fa3fdd9dc926a644a3c17c043874ac949c"
+    },
+    {
+      "path": "shared/references/brand-monitor.md",
+      "bytes": 1516,
+      "sha256": "a16fa36bc13993a5585c944416569e7863bc007f16147971b7a2babdf184be2e"
+    },
+    {
+      "path": "shared/references/campaign-agent-automation.md",
+      "bytes": 9291,
+      "sha256": "d31a7546ef148f26e63b15b7770471c1b95b9d23a9b6305029a0ad70e8533c7a"
+    },
+    {
+      "path": "shared/references/campaign-cooperation-management.md",
+      "bytes": 11012,
+      "sha256": "68b7ebc8e190b2b91aceb6ae09fba594eed6da2f13055ff8d299ff027fd56a92"
+    },
+    {
+      "path": "shared/references/campaign-invitation-management.md",
+      "bytes": 16004,
+      "sha256": "8363a3eadce5672f7f3d403d11f9578bd2f2c181cac01116559764e05f307e79"
+    },
+    {
+      "path": "shared/references/campaign-products.md",
+      "bytes": 3811,
+      "sha256": "c8f08f2196cd4ae2381bb5fd02f1165f752e9b3bb2e5f9471ccb932387f5aca5"
+    },
+    {
+      "path": "shared/references/collection-and-crm.md",
+      "bytes": 2366,
+      "sha256": "f2225556d89d439ad9ad931bc042a91d4b4ab885e2bf7aa8e20b60946548e9b7"
+    },
+    {
+      "path": "shared/references/creator.md",
+      "bytes": 11355,
+      "sha256": "fd7fdf07a9e68a448a23b4fd95b1453557a531b4da8df767609c66cf58aab8c4"
+    },
+    {
+      "path": "shared/references/files-and-exports.md",
+      "bytes": 1936,
+      "sha256": "1445a5cbbb85d7af1bacf2afcac4087bb8d38a3f68e67f252fdfa036adb5fdd8"
+    },
+    {
+      "path": "shared/references/marketing-plan-and-campaign.md",
+      "bytes": 11811,
+      "sha256": "16b2148f2f196a3f509100c3f7d7db1f850e4b1f10e41ee3fbfeef6f7215e4d8"
+    },
+    {
+      "path": "shared/references/monitor.md",
+      "bytes": 1591,
+      "sha256": "4599a740c2e40e51e58d4e9b87abe73f0ec924b4fe0e263afcc1de0d6963a5dc"
+    },
+    {
+      "path": "shared/references/outreach-and-messaging.md",
+      "bytes": 2358,
+      "sha256": "aa0d204889847e737a01c3c2771f536fdec1e0d7dba93ae75fb485848ce84615"
+    },
+    {
+      "path": "shared/references/platform-support.md",
+      "bytes": 1608,
+      "sha256": "cb4a3d3c0cf82f90e1dec5d1c84c7b942bb8524425f0f9b4b32f69fc992c65f5"
+    },
+    {
+      "path": "shared/references/product-overview.md",
+      "bytes": 1795,
+      "sha256": "5f59e8c4150c32468a50193ebf6645b65a668d1be50d90f0147fd96983e1366c"
+    },
+    {
+      "path": "shared/references/product-short-link-affiliation.md",
+      "bytes": 2061,
+      "sha256": "df39b8f2b2fb021da3ac6888d1a0b75a83b0f93bf2bf45a7755df2d47759d7fa"
+    },
+    {
+      "path": "shared/references/quota-pricing-dispute-feedback.md",
+      "bytes": 2112,
+      "sha256": "50866b6782b3ec909d2efb9455730ec561c4307828802089b3fbf29e3d14a405"
+    },
+    {
+      "path": "shared/references/risk-confirmation.md",
+      "bytes": 1731,
+      "sha256": "635ffe7aeff35da200d10c8fa1bfc6fa94af95f8cddad7babbe4e741c4adc296"
+    },
+    {
+      "path": "snapshots/mcp-tools.json",
+      "bytes": 1413250,
+      "sha256": "e6c8fb1138868d6067cd4ddd18885ffc34c21db1c2ce346a3fe267a1dd999b15"
+    },
+    {
+      "path": "universal.md",
+      "bytes": 2720,
+      "sha256": "aba49981b4e04a74222d14367e8cb45e6a0bb09baa31b92863ac2f80f2e77089"
+    }
+  ],
+  "output_files": [
+    {
+      "path": "references/brand-monitor.md",
+      "bytes": 1516,
+      "sha256": "a16fa36bc13993a5585c944416569e7863bc007f16147971b7a2babdf184be2e"
+    },
+    {
+      "path": "references/campaign-agent-automation.md",
+      "bytes": 9291,
+      "sha256": "d31a7546ef148f26e63b15b7770471c1b95b9d23a9b6305029a0ad70e8533c7a"
+    },
+    {
+      "path": "references/campaign-cooperation-management.md",
+      "bytes": 11012,
+      "sha256": "68b7ebc8e190b2b91aceb6ae09fba594eed6da2f13055ff8d299ff027fd56a92"
+    },
+    {
+      "path": "references/campaign-invitation-management.md",
+      "bytes": 16004,
+      "sha256": "8363a3eadce5672f7f3d403d11f9578bd2f2c181cac01116559764e05f307e79"
+    },
+    {
+      "path": "references/campaign-products.md",
+      "bytes": 3811,
+      "sha256": "c8f08f2196cd4ae2381bb5fd02f1165f752e9b3bb2e5f9471ccb932387f5aca5"
+    },
+    {
+      "path": "references/collection-and-crm.md",
+      "bytes": 2366,
+      "sha256": "f2225556d89d439ad9ad931bc042a91d4b4ab885e2bf7aa8e20b60946548e9b7"
+    },
+    {
+      "path": "references/creator.md",
+      "bytes": 11355,
+      "sha256": "fd7fdf07a9e68a448a23b4fd95b1453557a531b4da8df767609c66cf58aab8c4"
+    },
+    {
+      "path": "references/files-and-exports.md",
+      "bytes": 1936,
+      "sha256": "1445a5cbbb85d7af1bacf2afcac4087bb8d38a3f68e67f252fdfa036adb5fdd8"
+    },
+    {
+      "path": "references/marketing-plan-and-campaign.md",
+      "bytes": 11811,
+      "sha256": "16b2148f2f196a3f509100c3f7d7db1f850e4b1f10e41ee3fbfeef6f7215e4d8"
+    },
+    {
+      "path": "references/monitor.md",
+      "bytes": 1591,
+      "sha256": "4599a740c2e40e51e58d4e9b87abe73f0ec924b4fe0e263afcc1de0d6963a5dc"
+    },
+    {
+      "path": "references/outreach-and-messaging.md",
+      "bytes": 2358,
+      "sha256": "aa0d204889847e737a01c3c2771f536fdec1e0d7dba93ae75fb485848ce84615"
+    },
+    {
+      "path": "references/platform-support.md",
+      "bytes": 1608,
+      "sha256": "cb4a3d3c0cf82f90e1dec5d1c84c7b942bb8524425f0f9b4b32f69fc992c65f5"
+    },
+    {
+      "path": "references/product-overview.md",
+      "bytes": 1795,
+      "sha256": "5f59e8c4150c32468a50193ebf6645b65a668d1be50d90f0147fd96983e1366c"
+    },
+    {
+      "path": "references/product-short-link-affiliation.md",
+      "bytes": 2061,
+      "sha256": "df39b8f2b2fb021da3ac6888d1a0b75a83b0f93bf2bf45a7755df2d47759d7fa"
+    },
+    {
+      "path": "references/quota-pricing-dispute-feedback.md",
+      "bytes": 2112,
+      "sha256": "50866b6782b3ec909d2efb9455730ec561c4307828802089b3fbf29e3d14a405"
+    },
+    {
+      "path": "references/risk-confirmation.md",
+      "bytes": 1731,
+      "sha256": "635ffe7aeff35da200d10c8fa1bfc6fa94af95f8cddad7babbe4e741c4adc296"
+    },
+    {
+      "path": "campaign-runtime-contract.json",
+      "bytes": 504896,
+      "sha256": "0a4dc1e36b8bf2bc31442fd20392131fa7b3e6bfaaedc09fc97af2492fe07ec2"
+    },
+    {
+      "path": "references/auth.md",
+      "bytes": 2263,
+      "sha256": "4c10e9a5081177e287d77506ee746b5e45dc9a024202f3aa9a40657e403ec732"
+    },
+    {
+      "path": "references/command-execution.md",
+      "bytes": 6881,
+      "sha256": "95b79224d370a8ef889742e7616aa2b89aaba79a1c40050b741e2120defc644f"
+    },
+    {
+      "path": "references/files.md",
+      "bytes": 3660,
+      "sha256": "a54f7817badb4b00a63ca9129a12d3932a1f06ba1f79cda50b8eb53ff1987a26"
+    },
+    {
+      "path": "references/brand-monitor-cli.md",
+      "bytes": 3300,
+      "sha256": "8e2d1f46bf4b1afb8222dc995ea42c6bd7a2f27b636abcf9cc70b86ebbdafae8"
+    },
+    {
+      "path": "references/campaign-agent-automation-cli.md",
+      "bytes": 14229,
+      "sha256": "062ec6c16322f031c138d78b2f1bf9ef7fabd7745a102760d04528b0b6c11967"
+    },
+    {
+      "path": "references/marketing-ops-cli.md",
+      "bytes": 16482,
+      "sha256": "aa0c199ed2adddd403d236c410082a012419135c7c19749abad221ebe13d7dbd"
+    },
+    {
+      "path": "references/platform-support-cli.md",
+      "bytes": 3100,
+      "sha256": "3a168f187caae45de32ceb53187206412c3df697d23a96f2d624b69bdd91b619"
+    },
+    {
+      "path": "references/search-filters-cli.md",
+      "bytes": 7403,
+      "sha256": "2c4d42f8208ea53c96e739855bcc9f9c21425b6ee71644dfb537c70793da9e99"
+    },
+    {
+      "path": "references/verdict-heuristics-cli.md",
+      "bytes": 3619,
+      "sha256": "9e93e43c6678af9200bf46e7e7e1d5d58fe0d0c2cfd2af0da65dfc669a45ee52"
+    },
+    {
+      "path": "references/runtime-cli.md",
+      "bytes": 3428,
+      "sha256": "9a67bb8c699dabbace5112ad5fe34b2c72a1a2e385d5af09fb2e698e8fcc61ac"
+    },
+    {
+      "path": "scripts/nox-cli.mjs",
+      "bytes": 8569,
+      "sha256": "37a3ed776ad04bbfa71611f15c539da7dec9c3d991fac1751459a3f74a36079b"
+    },
+    {
+      "path": "references/handoffs.md",
+      "bytes": 2136,
+      "sha256": "de4aff4390081db8c62152646b5b229fe8734095c87dc6e0f6dffd27d3e75df9"
+    },
+    {
+      "path": "references/oauth-and-scopes.md",
+      "bytes": 2385,
+      "sha256": "6f2a420bf4174252df83ae2e1120a01d8bc2fce5051d9a1e67acc03fe1181915"
+    },
+    {
+      "path": "references/campaign-agent-automation-mcp.md",
+      "bytes": 6880,
+      "sha256": "e9290ea350fe66f6a420df62edb9254dbf48aeef6e0fede1acaceaf10a295186"
+    },
+    {
+      "path": "references/codex-plugin-runtime.md",
+      "bytes": 834,
+      "sha256": "fc3313cd90115779cf4e1069cf800d478d49ce4cc85236bac9d8b192bd14e81c"
+    },
+    {
+      "path": "references/resources-and-files.md",
+      "bytes": 845,
+      "sha256": "d3ebb23185982b5978828af5997ff449e16bb0a6868d5f6f92c7dcdd63ef8c13"
+    },
+    {
+      "path": "references/runtime-mcp.md",
+      "bytes": 1063,
+      "sha256": "ccb2c6570b28ecce9360664a8d79df9db9f4991ca59b80a275a521988a5f308b"
+    },
+    {
+      "path": "scripts/start-codex-oauth.ps1",
+      "bytes": 2136,
+      "sha256": "2d674ed5a5ab01b9a868033795b4629529884c6489613e6dbb1951a8de41a01a"
+    },
+    {
+      "path": "references/tool-execution.md",
+      "bytes": 2277,
+      "sha256": "53302af9ef43af3b9a2f89aee9f115bcf56bf5b23029fdbb7e0b5ea613301bd4"
+    },
+    {
+      "path": "references/tool-list.md",
+      "bytes": 5857,
+      "sha256": "fc2b60a9fb21487d904172375c4cc43a90feb0916362137c16c3e9d62c0cceda"
+    },
+    {
+      "path": "references/setup.md",
+      "bytes": 3101,
+      "sha256": "4102c3ea65e34237ef06c52b9d1c6ad854b09178e5c5b6b32b2e031992f37279"
+    },
+    {
+      "path": "cli-package.json",
+      "bytes": 82,
+      "sha256": "337ee4955064d7386e34446bfc885a63428f6b9d7a071dc88bca0bb1291db5b4"
+    },
+    {
+      "path": "SKILL.md",
+      "bytes": 9007,
+      "sha256": "6e684c87b09004aa7491ae87d871cbbda57bdb5ae65c9d4c1679d911bfda1559"
+    }
+  ]
+}

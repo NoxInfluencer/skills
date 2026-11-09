@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://noxinfluencer.com/schemas/contract-snapshot.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "id", "kind", "version", "source", "items"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "id": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+    "kind": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+    "version": {"type": "string", "minLength": 1, "maxLength": 128},
+    "source": {"type": "string", "minLength": 1, "maxLength": 512},
+    "backend_version": {"type": "string", "minLength": 1, "maxLength": 128},
+    "items": {"type": "array"}
+  }
+}

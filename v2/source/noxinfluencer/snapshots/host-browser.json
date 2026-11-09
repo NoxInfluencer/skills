@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "id": "host-browser",
+  "kind": "host-browser",
+  "version": "1.0.0",
+  "source": "plugins/noxinfluencer/skills/noxinfluencer/references/mcp-runtime.md",
+  "items": [
+    {
+      "id": "open-trusted-handoff-url",
+      "status": "supported",
+      "fallback": "user-handoff"
+    }
+  ]
+}

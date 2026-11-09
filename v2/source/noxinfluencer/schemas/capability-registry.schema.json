@@ -1,0 +1,111 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://noxinfluencer.com/schemas/capability-registry.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "registry_version", "workflows"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "registry_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "workflows": {"type": "array", "minItems": 1, "maxItems": 128, "items": {"$ref": "#/$defs/workflow"}}
+  },
+  "$defs": {
+    "workflow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "capability", "kind", "runtime", "status", "risk", "since_version", "backend_version", "snapshot_refs", "upload_dependency", "reference", "operational", "primitives", "bindings"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+        "capability": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+        "kind": {"enum": ["business", "system"]},
+        "runtime": {"enum": ["cli", "mcp"]},
+        "status": {"enum": ["supported", "deferred", "unavailable"]},
+        "risk": {"enum": ["read", "normal_write", "high_risk_write"]},
+        "since_version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+        "backend_version": {"type": ["string", "null"], "minLength": 1, "maxLength": 128},
+        "snapshot_refs": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z0-9-]+$"}},
+        "upload_dependency": {
+          "oneOf": [
+            {"type": "null"},
+            {"type": "object", "additionalProperties": false, "required": ["id", "status"], "properties": {"id": {"type": "string", "pattern": "^[a-z0-9-]+$"}, "status": {"enum": ["supported", "deferred", "unavailable"]}}}
+          ]
+        },
+        "reference": {"type": "string", "pattern": "^references/[a-z0-9-]+\\.md$"},
+        "not_applicable_reason": {"type": "string", "minLength": 1, "maxLength": 512},
+        "operational": {"$ref": "#/$defs/operational"},
+        "primitives": {"type": "array", "maxItems": 64, "items": {"$ref": "#/$defs/primitive"}},
+        "bindings": {"type": "array", "maxItems": 64, "items": {"$ref": "#/$defs/binding"}}
+      }
+    },
+    "operational": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pagination", "batching", "remote_calls", "rate_limit", "quota", "long_task", "response_size"],
+      "properties": {
+        "pagination": {"type": "string", "minLength": 1, "maxLength": 256},
+        "batching": {"type": "string", "minLength": 1, "maxLength": 256},
+        "remote_calls": {"type": "string", "minLength": 1, "maxLength": 256},
+        "rate_limit": {"type": "string", "minLength": 1, "maxLength": 256},
+        "quota": {"type": "string", "minLength": 1, "maxLength": 256},
+        "long_task": {"type": "string", "minLength": 1, "maxLength": 256},
+        "response_size": {"type": "string", "minLength": 1, "maxLength": 256}
+      }
+    },
+    "primitive": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "role", "name", "schema_ref", "after", "condition", "scope", "confirmation", "idempotency"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+        "type": {"enum": ["cli_command", "tool", "resource", "host_control", "browser_handoff", "user_handoff"]},
+        "role": {"enum": ["read", "validate", "preview", "confirm", "execute", "poll", "upload", "download", "handoff"]},
+        "name": {"type": "string", "minLength": 1, "maxLength": 256},
+        "schema_ref": {"type": "string", "minLength": 1, "maxLength": 512},
+        "after": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z0-9-]+$"}},
+        "condition": {
+          "oneOf": [
+            {"const": "always"},
+            {"type": "object", "additionalProperties": false, "required": ["host_browser"], "properties": {"host_browser": {"enum": ["available", "unavailable"]}}}
+          ]
+        },
+        "scope": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 128}},
+        "confirmation": {"enum": ["none", "explicit_user", "server_ticket"]},
+        "idempotency": {"enum": ["read_only", "idempotency_key", "status_lookup", "not_retryable"]}
+      }
+    },
+    "endpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["primitive_id"],
+      "properties": {"primitive_id": {"type": "string", "pattern": "^[a-z0-9-]+$"}, "input": {"type": "string", "minLength": 1}, "output": {"type": "string", "minLength": 1}},
+      "oneOf": [
+        {"required": ["input"], "properties": {"input": true, "output": false}},
+        {"required": ["output"], "properties": {"input": false, "output": true}}
+      ]
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "type", "producer", "consumer", "context_binding", "ttl_seconds", "single_use", "sensitivity"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+        "type": {"enum": ["upload_ticket", "upload_id", "resource_uri", "confirmation_ticket", "review_reference", "download_url", "browser_handoff_url"]},
+        "producer": {"$ref": "#/$defs/endpoint"},
+        "consumer": {"$ref": "#/$defs/endpoint"},
+        "context_binding": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["subject", "task", "parameter_digest"],
+          "properties": {
+            "subject": {"enum": ["required", "not_applicable"]},
+            "task": {"enum": ["required", "not_applicable"]},
+            "parameter_digest": {"enum": ["required", "not_applicable"]}
+          }
+        },
+        "ttl_seconds": {"type": ["integer", "null"], "minimum": 1, "maximum": 86400},
+        "single_use": {"type": "boolean"},
+        "sensitivity": {"enum": ["opaque", "secret", "user_action_url"]}
+      }
+    }
+  }
+}
