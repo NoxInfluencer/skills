@@ -6,6 +6,12 @@ For the full parameter list and syntax, run `node "{baseDir}/scripts/nox-cli.mjs
 
 This reference covers **when to use which filters** — the decision logic, not the syntax.
 
+Numeric units are defined in the **Numeric Units** section of `{baseDir}/references/creator.md`. For example, a user-supplied 5% engagement floor is `--engagement_rate_min 0.05`; a 60% female-audience floor is `--follower_female_pct_min 60`. These are different scales, and the CLI passes numbers unchanged.
+
+```bash
+node "{baseDir}/scripts/nox-cli.mjs" creator search --platform instagram --keywords '[glasses]' --country '[US]' --gender female --follower_min 10000 --follower_max 200000 --engagement_rate_min 0.05 --follower_ages '[25-34,35-44]' --page_size 50
+```
+
 For a new search, apply topic exclusions and SaaS hide/deduplication directly through `creator search`. Use standalone `creator search-filter` only when a page has already been returned.
 
 ## Filter Priority by User Intent

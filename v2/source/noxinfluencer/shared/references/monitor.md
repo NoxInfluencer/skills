@@ -8,6 +8,8 @@ For known published URLs, identify the target project and add only the selected 
 
 Project summaries answer aggregate performance questions. Task lists answer which videos are tracked and their current metrics. History answers how a tracked item changed over time. Keep these result types distinct.
 
+Returned `engagement_rate` and `avg_engagement_rate` use decimal ratios: `0.05` means 5%, not 0.05%. Missing/null values remain unavailable rather than zero.
+
 ## Future Content
 
 Future-content tracking watches selected creators for newly published content. A rule must define the project, creators, supported platforms, time boundary, and any matching criteria. Do not treat historical content as future tracking unless the user explicitly requests a backfill supported by the capability.

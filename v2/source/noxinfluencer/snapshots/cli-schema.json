@@ -1192,12 +1192,12 @@
         },
         {
           "flag": "--engagement_rate_min",
-          "description": "Minimum engagement rate",
+          "description": "Minimum engagement rate. Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled.",
           "required": false
         },
         {
           "flag": "--engagement_rate_max",
-          "description": "Maximum engagement rate",
+          "description": "Maximum engagement rate. Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled.",
           "required": false
         },
         {
@@ -1212,12 +1212,12 @@
         },
         {
           "flag": "--view_per_followers_min",
-          "description": "Minimum views/followers ratio",
+          "description": "Minimum views/followers ratio. Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled.",
           "required": false
         },
         {
           "flag": "--view_per_followers_max",
-          "description": "Maximum views/followers ratio",
+          "description": "Maximum views/followers ratio. Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled.",
           "required": false
         },
         {
@@ -1247,7 +1247,7 @@
         },
         {
           "flag": "--follower_female_pct_min",
-          "description": "Min female follower percentage",
+          "description": "Min female follower percentage. Percentage points: 60 = 60%, not 0.6. Null or missing output means unavailable.",
           "required": false
         },
         {
@@ -1371,7 +1371,9 @@
         "Run `collection list` first when collection IDs are unknown. The contacted scopes map to this account, other team members, or any team member.",
         "Shell-quote all bracketed array arguments in interactive shells, for example `--keywords '[makeup,beauty]'`.",
         "For next-page requests, preserve the previous filters and send both `page_num > 1` and the previous response `data.search_after`.",
-        "Prefer `--body-file -` for next-page requests so the `search_after` cursor array is passed exactly."
+        "Prefer `--body-file -` for next-page requests so the `search_after` cursor array is passed exactly.",
+        "Units: engagement_rate_min/max and view_per_followers_min/max use decimal ratios (5% -> 0.05; 150% -> 1.5). follower_female_pct_min uses percentage points (60% -> 60). Numeric values are passed unchanged; never infer units from magnitude.",
+        "Returned engagement_rate and view_per_followers use decimal ratios; follower_female_pct uses percentage points. Missing values remain unknown."
       ],
       "examples": [
         "noxinfluencer creator search --platform youtube --keywords '[makeup]' --country '[US]' --page_size 2",
@@ -1379,7 +1381,8 @@
         "noxinfluencer creator search --platform youtube --creator_name \"MrBeast\" --page_size 5",
         "noxinfluencer creator search --platform tiktok --keywords '[coffee,review]' --keyword_match all",
         "noxinfluencer creator search --platform youtube --body-file -",
-        "noxinfluencer creator search --platform youtube --keywords '[makeup]' --country '[US]' --page_size 2 --page_num 2 --search_after '[163.97083,\"UCQ-P8lGwkr0Tj4phQB9diDw\"]'"
+        "noxinfluencer creator search --platform youtube --keywords '[makeup]' --country '[US]' --page_size 2 --page_num 2 --search_after '[163.97083,\"UCQ-P8lGwkr0Tj4phQB9diDw\"]'",
+        "noxinfluencer creator search --platform instagram --keywords '[glasses]' --country '[US]' --gender female --follower_min 10000 --follower_max 200000 --engagement_rate_min 0.05 --follower_ages '[25-34,35-44]' --page_size 50"
       ]
     },
     {
@@ -2033,7 +2036,8 @@
       "usage_notes": [
         "Choose exactly one source selector: [source_creator_id], --url, or --source-platform with --source-channel-id.",
         "Always provide --target-platform; supported platforms are youtube, instagram, and tiktok.",
-        "Results are read-only recommendations. Use collection add-creators separately to save returned creator IDs."
+        "Results are read-only recommendations. Use collection add-creators separately to save returned creator IDs.",
+        "Returned engagement_rate and view_per_followers use decimal ratios (0.05 = 5%); follower_female_pct uses percentage points (60 = 60%)."
       ],
       "examples": [
         "noxinfluencer creator lookalikes <source_creator_id> --target-platform instagram --page_size 20",
@@ -2304,7 +2308,7 @@
     },
     {
       "command": "creator profile",
-      "description": "Creator profile\n\nChoose exactly one selector: [creator_id], --url, or --platform with --channel-id.\nUse --url or --platform --channel-id for the first lookup.\nReuse the returned data.creator_id for follow-up calls.",
+      "description": "Creator profile\n\nChoose exactly one selector: [creator_id], --url, or --platform with --channel-id.\nUse --url or --platform --channel-id for the first lookup.\nReuse the returned data.creator_id for follow-up calls.\nEngagement rates, view_per_followers, wave, growth ratios and rating percentiles use decimal ratios (0.05 = 5%; 1.5 = 150%). Growth may be negative. Benchmark values follow their parent metric; scores and counts are not percentages.",
       "arguments": [
         {
           "name": "creator_id",
@@ -2400,7 +2404,8 @@
       "usage_notes": [
         "Choose exactly one selector: [creator_id], --url, or --platform with --channel-id.",
         "Use --url or --platform --channel-id for the first lookup.",
-        "Reuse the returned data.creator_id for follow-up calls."
+        "Reuse the returned data.creator_id for follow-up calls.",
+        "Engagement rates, view_per_followers, wave, growth ratios and rating percentiles use decimal ratios (0.05 = 5%; 1.5 = 150%). Growth may be negative. Benchmark values follow their parent metric; scores and counts are not percentages."
       ],
       "examples": [
         "noxinfluencer creator profile --url https://www.youtube.com/channel/UC4qk9TtGhBKCkoWz5qGJcGg",
@@ -2410,7 +2415,7 @@
     },
     {
       "command": "creator audience",
-      "description": "Creator audience\n\nChoose exactly one selector: [creator_id], --url, or --platform with --channel-id.\nUse --url or --platform --channel-id for the first lookup.\nReuse the returned data.creator_id for follow-up calls.",
+      "description": "Creator audience\n\nChoose exactly one selector: [creator_id], --url, or --platform with --channel-id.\nUse --url or --platform --channel-id for the first lookup.\nReuse the returned data.creator_id for follow-up calls.\nAudience distributions, authenticity values/bounds and interest ratios use decimal proportions (0.6 = 60%). positive_audience_pct and promo_interested_audience_pct use percentage points (60 = 60%). audience_quality is a score, not a percentage.",
       "arguments": [
         {
           "name": "creator_id",
@@ -2506,7 +2511,8 @@
       "usage_notes": [
         "Choose exactly one selector: [creator_id], --url, or --platform with --channel-id.",
         "Use --url or --platform --channel-id for the first lookup.",
-        "Reuse the returned data.creator_id for follow-up calls."
+        "Reuse the returned data.creator_id for follow-up calls.",
+        "Audience distributions, authenticity values/bounds and interest ratios use decimal proportions (0.6 = 60%). positive_audience_pct and promo_interested_audience_pct use percentage points (60 = 60%). audience_quality is a score, not a percentage."
       ],
       "examples": [
         "noxinfluencer creator audience --url https://www.youtube.com/channel/UC4qk9TtGhBKCkoWz5qGJcGg",
@@ -2516,7 +2522,7 @@
     },
     {
       "command": "creator cooperation",
-      "description": "Creator cooperation\n\nChoose exactly one selector: [creator_id], --url, or --platform with --channel-id.\nUse --url or --platform --channel-id for the first lookup.\nReuse the returned data.creator_id for follow-up calls.",
+      "description": "Creator cooperation\n\nChoose exactly one selector: [creator_id], --url, or --platform with --channel-id.\nUse --url or --platform --channel-id for the first lookup.\nReuse the returned data.creator_id for follow-up calls.\nEngagement rates, ad_video_percent, start_contact_pct, cooperation_confirmation_pct and promotion_online_pct use decimal ratios (0.05 = 5%). Names ending in _pct do not imply percentage-point units.",
       "arguments": [
         {
           "name": "creator_id",
@@ -2612,7 +2618,8 @@
       "usage_notes": [
         "Choose exactly one selector: [creator_id], --url, or --platform with --channel-id.",
         "Use --url or --platform --channel-id for the first lookup.",
-        "Reuse the returned data.creator_id for follow-up calls."
+        "Reuse the returned data.creator_id for follow-up calls.",
+        "Engagement rates, ad_video_percent, start_contact_pct, cooperation_confirmation_pct and promotion_online_pct use decimal ratios (0.05 = 5%). Names ending in _pct do not imply percentage-point units."
       ],
       "examples": [
         "noxinfluencer creator cooperation --url https://www.youtube.com/channel/UC4qk9TtGhBKCkoWz5qGJcGg",
@@ -2622,7 +2629,7 @@
     },
     {
       "command": "creator content",
-      "description": "Creator content\n\nChoose exactly one selector: [creator_id], --url, or --platform with --channel-id.\nUse --url or --platform --channel-id for the first lookup.\nReuse the returned data.creator_id for follow-up calls.",
+      "description": "Creator content\n\nChoose exactly one selector: [creator_id], --url, or --platform with --channel-id.\nUse --url or --platform --channel-id for the first lookup.\nReuse the returned data.creator_id for follow-up calls.\nEngagement rates, view_per_followers, wave, growth ratios and rating percentiles use decimal ratios (0.05 = 5%; 1.5 = 150%). Growth may be negative. Benchmark values follow their parent metric; scores and counts are not percentages.",
       "arguments": [
         {
           "name": "creator_id",
@@ -2724,7 +2731,8 @@
       "usage_notes": [
         "Choose exactly one selector: [creator_id], --url, or --platform with --channel-id.",
         "Use --url or --platform --channel-id for the first lookup.",
-        "Reuse the returned data.creator_id for follow-up calls."
+        "Reuse the returned data.creator_id for follow-up calls.",
+        "Engagement rates, view_per_followers, wave, growth ratios and rating percentiles use decimal ratios (0.05 = 5%; 1.5 = 150%). Growth may be negative. Benchmark values follow their parent metric; scores and counts are not percentages."
       ],
       "examples": [
         "noxinfluencer creator content --url https://www.youtube.com/channel/UC4qk9TtGhBKCkoWz5qGJcGg",
@@ -5090,7 +5098,7 @@
     },
     {
       "command": "monitor tasks",
-      "description": "List video monitor tasks in a project",
+      "description": "List video monitor tasks in a project\n\nReturned engagement_rate and avg_engagement_rate use decimal ratios: 0.05 = 5%, not 0.05%. Null means unavailable, not zero.",
       "arguments": [],
       "required_options": [
         {
@@ -5178,7 +5186,9 @@
       ],
       "supports_body_file": false,
       "mutation": false,
-      "usage_notes": [],
+      "usage_notes": [
+        "Returned engagement_rate and avg_engagement_rate use decimal ratios: 0.05 = 5%, not 0.05%. Null means unavailable, not zero."
+      ],
       "examples": []
     },
     {
@@ -5277,7 +5287,7 @@
     },
     {
       "command": "monitor summary",
-      "description": "Get project level summary for a video monitor project",
+      "description": "Get project level summary for a video monitor project\n\nReturned engagement_rate and avg_engagement_rate use decimal ratios: 0.05 = 5%, not 0.05%. Null means unavailable, not zero.",
       "arguments": [],
       "required_options": [
         {
@@ -5350,7 +5360,9 @@
       ],
       "supports_body_file": false,
       "mutation": false,
-      "usage_notes": [],
+      "usage_notes": [
+        "Returned engagement_rate and avg_engagement_rate use decimal ratios: 0.05 = 5%, not 0.05%. Null means unavailable, not zero."
+      ],
       "examples": []
     },
     {
@@ -9156,7 +9168,7 @@
     },
     {
       "command": "email list",
-      "description": "List email tasks",
+      "description": "List email tasks\n\nReturned delivery, arrival, open/read, reply, bounce and click rates use decimal proportions: 0.05 = 5%, 1 = 100%. Null means unavailable, not zero.\ninvite_status/invite_status_name describes task progress: 1 pending, 2 inviting, 3 paused, 4 completed, 5 queued. It is not recipient delivery or subscription status.",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -9248,7 +9260,9 @@
       ],
       "supports_body_file": false,
       "mutation": false,
-      "usage_notes": [],
+      "usage_notes": [
+        "Returned delivery, arrival, open/read, reply, bounce and click rates use decimal proportions: 0.05 = 5%, 1 = 100%. Null means unavailable, not zero."
+      ],
       "examples": [
         "noxinfluencer email list --keyword shoes --page_size 10"
       ]
@@ -9351,7 +9365,7 @@
     },
     {
       "command": "email get",
-      "description": "Get email task detail\n\nsend_count/open_count/reply_count are task-list aggregates; use `email report` for deduplicated recipient and per-round metrics.",
+      "description": "Get email task detail\n\nReturned delivery, arrival, open/read, reply, bounce and click rates use decimal proportions: 0.05 = 5%, 1 = 100%. Null means unavailable, not zero.\nsend_count/open_count/reply_count are task-list aggregates; use `email report` for deduplicated recipient and per-round metrics.\nFor follow-up recipients or metrics, run `email rounds <task_id>` and select its project_id in recipients list/report.\ninvite_status/invite_status_name describes task progress: 1 pending, 2 inviting, 3 paused, 4 completed, 5 queued. It is not recipient delivery or subscription status.\nProject states: 0 draft, 1 sending, 2 scheduled, 3 active (send processing completed), 4 recalling. get/drafts expose *_status_name beside numeric codes; report/send/schedule/cancel use string primary_project_status. unknown means unavailable or unrecognized.",
       "arguments": [
         {
           "name": "task_id",
@@ -9425,7 +9439,8 @@
       "supports_body_file": false,
       "mutation": false,
       "usage_notes": [
-        "send_count/open_count/reply_count are task-list aggregates; use `email report` for deduplicated recipient and per-round metrics."
+        "send_count/open_count/reply_count are task-list aggregates; use `email report` for deduplicated recipient and per-round metrics.",
+        "Returned delivery, arrival, open/read, reply, bounce and click rates use decimal proportions: 0.05 = 5%, 1 = 100%. Null means unavailable, not zero."
       ],
       "examples": [
         "noxinfluencer email get 1829"
@@ -9518,7 +9533,7 @@
     },
     {
       "command": "email report",
-      "description": "Get email task report\n\nReport returns task summary metrics plus current primary-round delivery/open/reply metrics. `unique_recipient_count` is the deduplicated task recipient count.\n`reply_count` is the email tracking reply count; `replied_creator_count` is the message-thread replied creator count; `inbound_message_count` is inbound reply messages.",
+      "description": "Get email task report\n\nReturned delivery, arrival, open/read, reply, bounce and click rates use decimal proportions: 0.05 = 5%, 1 = 100%. Null means unavailable, not zero.\nDefaults to the primary project. Run `email rounds <task_id>` to select a follow-up via --project-id; response primary_project_* fields then describe that selected round.\nProject states: 0 draft, 1 sending, 2 scheduled, 3 active (send processing completed), 4 recalling. get/drafts expose *_status_name beside numeric codes; report/send/schedule/cancel use string primary_project_status. unknown means unavailable or unrecognized.\nReport returns task summary metrics plus selected-round delivery/open/reply metrics. Task totals and `unique_recipient_count` stay task-wide when selecting a round.\n`reply_count` is the email tracking reply count; `replied_creator_count` is the message-thread replied creator count; `inbound_message_count` is inbound reply messages.\nprimary_project_metrics.unsubscribe_count is the current round count, not a task-wide unique count; null means upstream did not provide it. Aggregate delivery/open counts cannot determine an individual recipient subscription state; zero opens means no tracked open.",
       "arguments": [
         {
           "name": "task_id",
@@ -9593,7 +9608,8 @@
       "mutation": false,
       "usage_notes": [
         "Report returns task summary metrics plus current primary-round delivery/open/reply metrics. `unique_recipient_count` is the deduplicated task recipient count.",
-        "`reply_count` is the email tracking reply count; `replied_creator_count` is the message-thread replied creator count; `inbound_message_count` is inbound reply messages."
+        "`reply_count` is the email tracking reply count; `replied_creator_count` is the message-thread replied creator count; `inbound_message_count` is inbound reply messages.",
+        "Returned delivery, arrival, open/read, reply, bounce and click rates use decimal proportions: 0.05 = 5%, 1 = 100%. Null means unavailable, not zero."
       ],
       "examples": [
         "noxinfluencer email report 1829"
@@ -9601,7 +9617,7 @@
     },
     {
       "command": "email team-summary",
-      "description": "Get email team summary\n\nTeam email metrics use SaaS team member accounts (`uid`), not Gmail, Outlook, or enterprise sender mailbox accounts.\nOptional filters: comma-separated `--task-ids`, paired ISO `--start-at`/`--end-at`, and comma-separated SaaS team member `--uids`.\nUse `email collaborators list` to discover valid team UIDs; UIDs outside the current account are rejected.\n`reply_count` is the email tracking reply count; `replied_creator_count` is the replied creator count; `inbound_message_count` is inbound reply messages.\nUse this for aggregate reply reporting across selected tasks, time windows, or team members.",
+      "description": "Get email team summary\n\nReturned delivery, arrival, open/read, reply, bounce and click rates use decimal proportions: 0.05 = 5%, 1 = 100%. Null means unavailable, not zero.\nTeam email metrics use SaaS team member accounts (`uid`), not Gmail, Outlook, or enterprise sender mailbox accounts.\nOptional filters: comma-separated `--task-ids`, paired ISO `--start-at`/`--end-at`, and comma-separated SaaS team member `--uids`.\nUse `email collaborators list` to discover valid team UIDs; UIDs outside the current account are rejected.\n`reply_count` is the email tracking reply count; `replied_creator_count` is the replied creator count; `inbound_message_count` is inbound reply messages.\nUse this for aggregate reply reporting across selected tasks, time windows, or team members.",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -9693,7 +9709,8 @@
         "Optional filters: comma-separated `--task-ids`, paired ISO `--start-at`/`--end-at`, and comma-separated SaaS team member `--uids`.",
         "Use `email collaborators list` to discover valid team UIDs; UIDs outside the current account are rejected.",
         "`reply_count` is the email tracking reply count; `replied_creator_count` is the replied creator count; `inbound_message_count` is inbound reply messages.",
-        "Use this for aggregate reply reporting across selected tasks, time windows, or team members."
+        "Use this for aggregate reply reporting across selected tasks, time windows, or team members.",
+        "Returned delivery, arrival, open/read, reply, bounce and click rates use decimal proportions: 0.05 = 5%, 1 = 100%. Null means unavailable, not zero."
       ],
       "examples": [
         "noxinfluencer email team-summary --task-ids 1829,1830",
@@ -9702,7 +9719,7 @@
     },
     {
       "command": "email team-breakdown",
-      "description": "Get email team breakdown by team member account\n\nTeam email metrics use SaaS team member accounts (`uid`), not Gmail, Outlook, or enterprise sender mailbox accounts.\nOptional filters: comma-separated `--task-ids`, paired ISO `--start-at`/`--end-at`, and comma-separated SaaS team member `--uids`.\nUse `email collaborators list` to discover valid team UIDs; UIDs outside the current account are rejected.\n`reply_count` is the email tracking reply count; `replied_creator_count` is the replied creator count; `inbound_message_count` is inbound reply messages.\nUse this for paginated rows grouped by SaaS team member, returned as `items[].user_uid` and `items[].user_name`.",
+      "description": "Get email team breakdown by team member account\n\nReturned delivery, arrival, open/read, reply, bounce and click rates use decimal proportions: 0.05 = 5%, 1 = 100%. Null means unavailable, not zero.\nTeam email metrics use SaaS team member accounts (`uid`), not Gmail, Outlook, or enterprise sender mailbox accounts.\nOptional filters: comma-separated `--task-ids`, paired ISO `--start-at`/`--end-at`, and comma-separated SaaS team member `--uids`.\nUse `email collaborators list` to discover valid team UIDs; UIDs outside the current account are rejected.\n`reply_count` is the email tracking reply count; `replied_creator_count` is the replied creator count; `inbound_message_count` is inbound reply messages.\nUse this for paginated rows grouped by SaaS team member, returned as `items[].user_uid` and `items[].user_name`.",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -9804,7 +9821,8 @@
         "Optional filters: comma-separated `--task-ids`, paired ISO `--start-at`/`--end-at`, and comma-separated SaaS team member `--uids`.",
         "Use `email collaborators list` to discover valid team UIDs; UIDs outside the current account are rejected.",
         "`reply_count` is the email tracking reply count; `replied_creator_count` is the replied creator count; `inbound_message_count` is inbound reply messages.",
-        "Use this for paginated rows grouped by SaaS team member, returned as `items[].user_uid` and `items[].user_name`."
+        "Use this for paginated rows grouped by SaaS team member, returned as `items[].user_uid` and `items[].user_name`.",
+        "Returned delivery, arrival, open/read, reply, bounce and click rates use decimal proportions: 0.05 = 5%, 1 = 100%. Null means unavailable, not zero."
       ],
       "examples": [
         "noxinfluencer email team-breakdown --task-ids 1829,1830 --page_size 20",
@@ -15763,7 +15781,7 @@
     },
     {
       "command": "affiliation campaigns create",
-      "description": "Create a Shopify affiliate campaign\n\nShopify store authorization is handled in SaaS. If no store is listed, open NoxInfluencer affiliation pages to authorize the store first.\nThis command group manages Shopify affiliate campaigns and members, not normal Nox short links.\nMutation commands default to dry-run. Add --force to execute.\nUse SaaS-aligned discount fields: commission_type, discount_method, and discount_detail.",
+      "description": "Create a Shopify affiliate campaign\n\nShopify store authorization is handled in SaaS. If no store is listed, open NoxInfluencer affiliation pages to authorize the store first.\nThis command group manages Shopify affiliate campaigns and members, not normal Nox short links.\nMutation commands default to dry-run. Add --force to execute.\nUse SaaS-aligned discount fields: commission_type, discount_method, and discount_detail.\nPercentage discounts use percentage points: discount_detail.value=5 means 5% when type=percentage; get_y_discount_amount uses the same unit when get_y_discount_type=percentage. fixed_amount values are currency amounts.",
       "arguments": [],
       "required_options": [
         {
@@ -15840,7 +15858,8 @@
         "Shopify store authorization is handled in SaaS. If no store is listed, open NoxInfluencer affiliation pages to authorize the store first.",
         "This command group manages Shopify affiliate campaigns and members, not normal Nox short links.",
         "Mutation commands default to dry-run. Add --force to execute.",
-        "Use SaaS-aligned discount fields: commission_type, discount_method, and discount_detail."
+        "Use SaaS-aligned discount fields: commission_type, discount_method, and discount_detail.",
+        "Percentage discounts use percentage points: discount_detail.value=5 means 5% when type=percentage; get_y_discount_amount uses the same unit when get_y_discount_type=percentage. fixed_amount values are currency amounts."
       ],
       "examples": [
         "noxinfluencer affiliation campaigns create --body-file affiliation-campaign.json --force"
@@ -15848,7 +15867,7 @@
     },
     {
       "command": "affiliation campaigns update",
-      "description": "Update a Shopify affiliate campaign\n\nShopify store authorization is handled in SaaS. If no store is listed, open NoxInfluencer affiliation pages to authorize the store first.\nThis command group manages Shopify affiliate campaigns and members, not normal Nox short links.\nMutation commands default to dry-run. Add --force to execute.\nUse SaaS-aligned discount fields: commission_type, discount_method, and discount_detail.",
+      "description": "Update a Shopify affiliate campaign\n\nShopify store authorization is handled in SaaS. If no store is listed, open NoxInfluencer affiliation pages to authorize the store first.\nThis command group manages Shopify affiliate campaigns and members, not normal Nox short links.\nMutation commands default to dry-run. Add --force to execute.\nUse SaaS-aligned discount fields: commission_type, discount_method, and discount_detail.\nPercentage discounts use percentage points: discount_detail.value=5 means 5% when type=percentage; get_y_discount_amount uses the same unit when get_y_discount_type=percentage. fixed_amount values are currency amounts.",
       "arguments": [
         {
           "name": "campaign_id",
@@ -15931,7 +15950,8 @@
         "Shopify store authorization is handled in SaaS. If no store is listed, open NoxInfluencer affiliation pages to authorize the store first.",
         "This command group manages Shopify affiliate campaigns and members, not normal Nox short links.",
         "Mutation commands default to dry-run. Add --force to execute.",
-        "Use SaaS-aligned discount fields: commission_type, discount_method, and discount_detail."
+        "Use SaaS-aligned discount fields: commission_type, discount_method, and discount_detail.",
+        "Percentage discounts use percentage points: discount_detail.value=5 means 5% when type=percentage; get_y_discount_amount uses the same unit when get_y_discount_type=percentage. fixed_amount values are currency amounts."
       ],
       "examples": [
         "noxinfluencer affiliation campaigns update 9101 --body-file affiliation-campaign-update.json --force"
@@ -16294,7 +16314,7 @@
     },
     {
       "command": "affiliation members pending",
-      "description": "List pending affiliate members\n\nShopify store authorization is handled in SaaS. If no store is listed, open NoxInfluencer affiliation pages to authorize the store first.\nThis command group manages Shopify affiliate campaigns and members, not normal Nox short links.",
+      "description": "List pending affiliate members\n\nShopify store authorization is handled in SaaS. If no store is listed, open NoxInfluencer affiliation pages to authorize the store first.\nThis command group manages Shopify affiliate campaigns and members, not normal Nox short links.\ncommission_amount depends on commission_type: type 1 uses percentage points (5 = 5%); other types use a currency amount. It is not the basis-point unit used by TikTok Shop target invitations.",
       "arguments": [
         {
           "name": "campaign_id",
@@ -16389,7 +16409,8 @@
       "mutation": false,
       "usage_notes": [
         "Shopify store authorization is handled in SaaS. If no store is listed, open NoxInfluencer affiliation pages to authorize the store first.",
-        "This command group manages Shopify affiliate campaigns and members, not normal Nox short links."
+        "This command group manages Shopify affiliate campaigns and members, not normal Nox short links.",
+        "commission_amount depends on commission_type: type 1 uses percentage points (5 = 5%); other types use a currency amount. It is not the basis-point unit used by TikTok Shop target invitations."
       ],
       "examples": [
         "noxinfluencer affiliation members pending 9101"
@@ -16397,7 +16418,7 @@
     },
     {
       "command": "affiliation members active",
-      "description": "List active affiliate members with tracking links\n\nShopify store authorization is handled in SaaS. If no store is listed, open NoxInfluencer affiliation pages to authorize the store first.\nThis command group manages Shopify affiliate campaigns and members, not normal Nox short links.",
+      "description": "List active affiliate members with tracking links\n\nShopify store authorization is handled in SaaS. If no store is listed, open NoxInfluencer affiliation pages to authorize the store first.\nThis command group manages Shopify affiliate campaigns and members, not normal Nox short links.\ncommission_amount depends on commission_type: type 1 uses percentage points (5 = 5%); other types use a currency amount. It is not the basis-point unit used by TikTok Shop target invitations.",
       "arguments": [
         {
           "name": "campaign_id",
@@ -16492,7 +16513,8 @@
       "mutation": false,
       "usage_notes": [
         "Shopify store authorization is handled in SaaS. If no store is listed, open NoxInfluencer affiliation pages to authorize the store first.",
-        "This command group manages Shopify affiliate campaigns and members, not normal Nox short links."
+        "This command group manages Shopify affiliate campaigns and members, not normal Nox short links.",
+        "commission_amount depends on commission_type: type 1 uses percentage points (5 = 5%); other types use a currency amount. It is not the basis-point unit used by TikTok Shop target invitations."
       ],
       "examples": [
         "noxinfluencer affiliation members active 9101"
@@ -16776,7 +16798,7 @@
     },
     {
       "command": "affiliation members update",
-      "description": "Update pending affiliate member settings\n\nShopify store authorization is handled in SaaS. If no store is listed, open NoxInfluencer affiliation pages to authorize the store first.\nThis command group manages Shopify affiliate campaigns and members, not normal Nox short links.\nMutation commands default to dry-run. Add --force to execute.",
+      "description": "Update pending affiliate member settings\n\nShopify store authorization is handled in SaaS. If no store is listed, open NoxInfluencer affiliation pages to authorize the store first.\nThis command group manages Shopify affiliate campaigns and members, not normal Nox short links.\nMutation commands default to dry-run. Add --force to execute.\ncommission_amount depends on commission_type: type 1 uses percentage points (5 = 5%); other types use a currency amount. It is not the basis-point unit used by TikTok Shop target invitations.",
       "arguments": [],
       "required_options": [
         {
@@ -16852,7 +16874,8 @@
       "usage_notes": [
         "Shopify store authorization is handled in SaaS. If no store is listed, open NoxInfluencer affiliation pages to authorize the store first.",
         "This command group manages Shopify affiliate campaigns and members, not normal Nox short links.",
-        "Mutation commands default to dry-run. Add --force to execute."
+        "Mutation commands default to dry-run. Add --force to execute.",
+        "commission_amount depends on commission_type: type 1 uses percentage points (5 = 5%); other types use a currency amount. It is not the basis-point unit used by TikTok Shop target invitations."
       ],
       "examples": [
         "noxinfluencer affiliation members update --body-file affiliation-member-update.json --force"
@@ -17029,7 +17052,7 @@
     },
     {
       "command": "affiliation members overview",
-      "description": "Get affiliate member overview\n\nShopify store authorization is handled in SaaS. If no store is listed, open NoxInfluencer affiliation pages to authorize the store first.\nThis command group manages Shopify affiliate campaigns and members, not normal Nox short links.",
+      "description": "Get affiliate member overview\n\nShopify store authorization is handled in SaaS. If no store is listed, open NoxInfluencer affiliation pages to authorize the store first.\nThis command group manages Shopify affiliate campaigns and members, not normal Nox short links.\ncommission_amount depends on commission_type: type 1 uses percentage points (5 = 5%); other types use a currency amount. It is not the basis-point unit used by TikTok Shop target invitations.",
       "arguments": [
         {
           "name": "member_id",
@@ -17104,7 +17127,8 @@
       "mutation": false,
       "usage_notes": [
         "Shopify store authorization is handled in SaaS. If no store is listed, open NoxInfluencer affiliation pages to authorize the store first.",
-        "This command group manages Shopify affiliate campaigns and members, not normal Nox short links."
+        "This command group manages Shopify affiliate campaigns and members, not normal Nox short links.",
+        "commission_amount depends on commission_type: type 1 uses percentage points (5 = 5%); other types use a currency amount. It is not the basis-point unit used by TikTok Shop target invitations."
       ],
       "examples": [
         "noxinfluencer affiliation members overview 9201"
@@ -22948,7 +22972,7 @@
     },
     {
       "command": "brand-monitor search",
-      "description": "Search the global brand catalog by name\n\nsearch looks up the global brand catalog by name and returns reusable opaque `brand_id` values.\nUse `get` to inspect access, then `add` or unlock when deeper analysis requires it. `page_size` defaults to 20 and is capped at 50.",
+      "description": "Search the global brand catalog by name\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nsearch looks up the global brand catalog by name and returns reusable opaque `brand_id` values.\nUse `get` to inspect access, then `add` or unlock when deeper analysis requires it. `page_size` defaults to 20 and is capped at 50.",
       "arguments": [
         {
           "name": "keyword",
@@ -23028,7 +23052,8 @@
       "mutation": false,
       "usage_notes": [
         "search looks up the global brand catalog by name and returns reusable opaque `brand_id` values.",
-        "Use `get` to inspect access, then `add` or unlock when deeper analysis requires it. `page_size` defaults to 20 and is capped at 50."
+        "Use `get` to inspect access, then `add` or unlock when deeper analysis requires it. `page_size` defaults to 20 and is capped at 50.",
+        "Numeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled."
       ],
       "examples": [
         "noxinfluencer brand-monitor search Hisense --page_size 5"
@@ -23036,7 +23061,7 @@
     },
     {
       "command": "brand-monitor rank",
-      "description": "Rank brands from the global catalog\n\nrank reads one JSON selector with category, optional category_level/platform/countries, sorting, and limit.\nThe upstream ranking is a single entitlement-limited result set, not a pageable list; compare `requested_limit`, `effective_limit`, and `returned_count`.\n`consumer electronic` at category_level 1 is the broad 3C category, not an exhaustive smartphone taxonomy.",
+      "description": "Rank brands from the global catalog\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nrank reads one JSON selector with category, optional category_level/platform/countries, sorting, and limit.\nThe upstream ranking is a single entitlement-limited result set, not a pageable list; compare `requested_limit`, `effective_limit`, and `returned_count`.\n`consumer electronic` at category_level 1 is the broad 3C category, not an exhaustive smartphone taxonomy.",
       "arguments": [],
       "required_options": [
         {
@@ -23112,7 +23137,8 @@
       "usage_notes": [
         "rank reads one JSON selector with category, optional category_level/platform/countries, sorting, and limit.",
         "The upstream ranking is a single entitlement-limited result set, not a pageable list; compare `requested_limit`, `effective_limit`, and `returned_count`.",
-        "`consumer electronic` at category_level 1 is the broad 3C category, not an exhaustive smartphone taxonomy."
+        "`consumer electronic` at category_level 1 is the broad 3C category, not an exhaustive smartphone taxonomy.",
+        "Numeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled."
       ],
       "examples": [
         "noxinfluencer brand-monitor rank --body-file brand-rank.json"
@@ -23120,7 +23146,7 @@
     },
     {
       "command": "brand-monitor list",
-      "description": "List brand monitor entries\n\nlist only returns this account's monitored, unlocked, or sample brands; use `search` or `rank` for the global catalog.\nIt supports `page_num` and `page_size`; every item returns a stable opaque `brand_id`.",
+      "description": "List brand monitor entries\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nlist only returns this account's monitored, unlocked, or sample brands; use `search` or `rank` for the global catalog.\nIt supports `page_num` and `page_size`; every item returns a stable opaque `brand_id`.",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -23199,7 +23225,8 @@
       "mutation": false,
       "usage_notes": [
         "list only returns this account's monitored, unlocked, or sample brands; use `search` or `rank` for the global catalog.",
-        "It supports `page_num` and `page_size`; every item returns a stable opaque `brand_id`."
+        "It supports `page_num` and `page_size`; every item returns a stable opaque `brand_id`.",
+        "Numeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled."
       ],
       "examples": [
         "noxinfluencer brand-monitor list --page_num 1 --page_size 20"
@@ -23207,7 +23234,7 @@
     },
     {
       "command": "brand-monitor get",
-      "description": "Get brand monitor detail\n\nbrand-monitor get reads one aggregated detail by opaque `brand_id`.\nThe response already aggregates brand base info, access status, data level, and quota state.",
+      "description": "Get brand monitor detail\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nbrand-monitor get reads one aggregated detail by opaque `brand_id`.\nThe response already aggregates brand base info, access status, data level, and quota state.",
       "arguments": [
         {
           "name": "brand_id",
@@ -23282,7 +23309,8 @@
       "mutation": false,
       "usage_notes": [
         "brand-monitor get reads one aggregated detail by opaque `brand_id`.",
-        "The response already aggregates brand base info, access status, data level, and quota state."
+        "The response already aggregates brand base info, access status, data level, and quota state.",
+        "Numeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled."
       ],
       "examples": [
         "noxinfluencer brand-monitor get <brand_id>"
@@ -23290,7 +23318,7 @@
     },
     {
       "command": "brand-monitor competition-matrix",
-      "description": "Get normalized brand competition matrix\n\ncompetition-matrix requires `--platform`; `--country` is optional in v1.\nThis command returns the normalized matrix only; use `rank` for global discovery and the dedicated list/export commands for assets.",
+      "description": "Get normalized brand competition matrix\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\ncompetition-matrix requires `--platform`; `--country` is optional in v1.\nThis command returns the normalized matrix only; use `rank` for global discovery and the dedicated list/export commands for assets.",
       "arguments": [
         {
           "name": "brand_id",
@@ -23376,7 +23404,8 @@
       "mutation": false,
       "usage_notes": [
         "competition-matrix requires `--platform`; `--country` is optional in v1.",
-        "This command returns the normalized matrix only; use `rank` for global discovery and the dedicated list/export commands for assets."
+        "This command returns the normalized matrix only; use `rank` for global discovery and the dedicated list/export commands for assets.",
+        "Numeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled."
       ],
       "examples": [
         "noxinfluencer brand-monitor competition-matrix <brand_id> --platform youtube --country US"
@@ -23384,7 +23413,7 @@
     },
     {
       "command": "brand-monitor cooperate-matrix",
-      "description": "Get normalized brand cooperation matrix\n\ncooperate-matrix is the strategy cooperation matrix, distinct from overview `competition-matrix`.\nIt requires `--platform` and supports either `--interval-month` or paired `--start-at` + `--end-at`.\nIf no time selector is provided, the CLI defaults to `interval_month=1`. AI, export, and other strategy tabs are not included yet.",
+      "description": "Get normalized brand cooperation matrix\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\ncooperate-matrix is the strategy cooperation matrix, distinct from overview `competition-matrix`.\nIt requires `--platform` and supports either `--interval-month` or paired `--start-at` + `--end-at`.\nIf no time selector is provided, the CLI defaults to `interval_month=1`. AI, export, and other strategy tabs are not included yet.",
       "arguments": [
         {
           "name": "brand_id",
@@ -23481,7 +23510,8 @@
       "usage_notes": [
         "cooperate-matrix is the strategy cooperation matrix, distinct from overview `competition-matrix`.",
         "It requires `--platform` and supports either `--interval-month` or paired `--start-at` + `--end-at`.",
-        "If no time selector is provided, the CLI defaults to `interval_month=1`. AI, export, and other strategy tabs are not included yet."
+        "If no time selector is provided, the CLI defaults to `interval_month=1`. AI, export, and other strategy tabs are not included yet.",
+        "Numeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled."
       ],
       "examples": [
         "noxinfluencer brand-monitor cooperate-matrix <brand_id> --platform youtube --interval-month 6"
@@ -23489,7 +23519,7 @@
     },
     {
       "command": "brand-monitor influencer-portrait",
-      "description": "Get normalized brand influencer portrait\n\ninfluencer-portrait returns follower-tier distribution, top categories, and summary stats for one brand.\nIt shares the same strategy time selector rules as `cooperate-matrix`: either `--interval-month` or paired `--start-at` + `--end-at`.",
+      "description": "Get normalized brand influencer portrait\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\ninfluencer-portrait returns follower-tier distribution, top categories, and summary stats for one brand.\nIt shares the same strategy time selector rules as `cooperate-matrix`: either `--interval-month` or paired `--start-at` + `--end-at`.",
       "arguments": [
         {
           "name": "brand_id",
@@ -23585,7 +23615,8 @@
       "mutation": false,
       "usage_notes": [
         "influencer-portrait returns follower-tier distribution, top categories, and summary stats for one brand.",
-        "It shares the same strategy time selector rules as `cooperate-matrix`: either `--interval-month` or paired `--start-at` + `--end-at`."
+        "It shares the same strategy time selector rules as `cooperate-matrix`: either `--interval-month` or paired `--start-at` + `--end-at`.",
+        "Numeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled."
       ],
       "examples": [
         "noxinfluencer brand-monitor influencer-portrait <brand_id> --platform youtube --start-at 2026-04-01T00:00:00+08:00 --end-at 2026-04-07T23:59:59+08:00"
@@ -23593,7 +23624,7 @@
     },
     {
       "command": "brand-monitor defense-gap",
-      "description": "Get normalized brand defense-gap analysis\n\ndefense-gap is the strategy defense-gap surface, distinct from overview `competition-matrix`.\nIt shares the same strategy time selector rules as `cooperate-matrix` and `influencer-portrait`.\nThis tranche only exposes normalized tag_id, cooperation percentages, and top influencer identities. AI defenseGapReport and other strategy tabs are not included yet.",
+      "description": "Get normalized brand defense-gap analysis\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\ndefense-gap is the strategy defense-gap surface, distinct from overview `competition-matrix`.\nIt shares the same strategy time selector rules as `cooperate-matrix` and `influencer-portrait`.\nThis tranche only exposes normalized tag_id, cooperation percentages, and top influencer identities. AI defenseGapReport and other strategy tabs are not included yet.",
       "arguments": [
         {
           "name": "brand_id",
@@ -23690,7 +23721,8 @@
       "usage_notes": [
         "defense-gap is the strategy defense-gap surface, distinct from overview `competition-matrix`.",
         "It shares the same strategy time selector rules as `cooperate-matrix` and `influencer-portrait`.",
-        "This tranche only exposes normalized tag_id, cooperation percentages, and top influencer identities. AI defenseGapReport and other strategy tabs are not included yet."
+        "This tranche only exposes normalized tag_id, cooperation percentages, and top influencer identities. AI defenseGapReport and other strategy tabs are not included yet.",
+        "Numeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled."
       ],
       "examples": [
         "noxinfluencer brand-monitor defense-gap <brand_id> --platform youtube --interval-month 6"
@@ -23698,7 +23730,7 @@
     },
     {
       "command": "brand-monitor product-pub-trend",
-      "description": "Get normalized brand product publication trend\n\nproduct-pub-trend is an overview product signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe trend returns a normalized trailing publication series for product signals. Product video lists and AI/report flows are still out of scope.",
+      "description": "Get normalized brand product publication trend\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nproduct-pub-trend is an overview product signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe trend returns a normalized trailing publication series for product signals. Product video lists and AI/report flows are still out of scope.",
       "arguments": [
         {
           "name": "brand_id",
@@ -23795,7 +23827,8 @@
       "usage_notes": [
         "product-pub-trend is an overview product signal, distinct from `product-list` asset rows.",
         "It currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.",
-        "The trend returns a normalized trailing publication series for product signals. Product video lists and AI/report flows are still out of scope."
+        "The trend returns a normalized trailing publication series for product signals. Product video lists and AI/report flows are still out of scope.",
+        "Numeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled."
       ],
       "examples": [
         "noxinfluencer brand-monitor product-pub-trend <brand_id> --platform youtube --interval-month 6"
@@ -23803,7 +23836,7 @@
     },
     {
       "command": "brand-monitor product-category",
-      "description": "Get normalized brand product category mix\n\nproduct-category is an overview product signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe response only exposes normalized category mix rows. Product video lists and AI/report flows are still out of scope.",
+      "description": "Get normalized brand product category mix\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nproduct-category is an overview product signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe response only exposes normalized category mix rows. Product video lists and AI/report flows are still out of scope.",
       "arguments": [
         {
           "name": "brand_id",
@@ -23900,7 +23933,8 @@
       "usage_notes": [
         "product-category is an overview product signal, distinct from `product-list` asset rows.",
         "It currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.",
-        "The response only exposes normalized category mix rows. Product video lists and AI/report flows are still out of scope."
+        "The response only exposes normalized category mix rows. Product video lists and AI/report flows are still out of scope.",
+        "Numeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled."
       ],
       "examples": [
         "noxinfluencer brand-monitor product-category <brand_id> --platform youtube --start-at 2026-04-01T00:00:00+08:00 --end-at 2026-04-07T23:59:59+08:00"
@@ -23908,7 +23942,7 @@
     },
     {
       "command": "brand-monitor product-sov-analysis",
-      "description": "Get normalized brand product SOV analysis\n\nproduct-sov-analysis is a product strategy signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe response exposes normalized share-of-voice fields and top product rows. Product video lists and AI/report flows are still out of scope.",
+      "description": "Get normalized brand product SOV analysis\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nproduct-sov-analysis is a product strategy signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe response exposes normalized share-of-voice fields and top product rows. Product video lists and AI/report flows are still out of scope.",
       "arguments": [
         {
           "name": "brand_id",
@@ -24005,7 +24039,8 @@
       "usage_notes": [
         "product-sov-analysis is a product strategy signal, distinct from `product-list` asset rows.",
         "It currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.",
-        "The response exposes normalized share-of-voice fields and top product rows. Product video lists and AI/report flows are still out of scope."
+        "The response exposes normalized share-of-voice fields and top product rows. Product video lists and AI/report flows are still out of scope.",
+        "Numeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled."
       ],
       "examples": [
         "noxinfluencer brand-monitor product-sov-analysis <brand_id> --platform youtube --interval-month 6"
@@ -24013,7 +24048,7 @@
     },
     {
       "command": "brand-monitor product-tae-analysis",
-      "description": "Get normalized brand product TAE analysis\n\nproduct-tae-analysis is a product strategy signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe response exposes normalized traffic-efficiency and interaction-quality product rows. Product video lists and AI/report flows are still out of scope.",
+      "description": "Get normalized brand product TAE analysis\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nproduct-tae-analysis is a product strategy signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe response exposes normalized traffic-efficiency and interaction-quality product rows. Product video lists and AI/report flows are still out of scope.",
       "arguments": [
         {
           "name": "brand_id",
@@ -24110,7 +24145,8 @@
       "usage_notes": [
         "product-tae-analysis is a product strategy signal, distinct from `product-list` asset rows.",
         "It currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.",
-        "The response exposes normalized traffic-efficiency and interaction-quality product rows. Product video lists and AI/report flows are still out of scope."
+        "The response exposes normalized traffic-efficiency and interaction-quality product rows. Product video lists and AI/report flows are still out of scope.",
+        "Numeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled."
       ],
       "examples": [
         "noxinfluencer brand-monitor product-tae-analysis <brand_id> --platform youtube --interval-month 6"
@@ -24118,7 +24154,7 @@
     },
     {
       "command": "brand-monitor product-pp-analysis",
-      "description": "Get normalized brand product PP analysis\n\nproduct-pp-analysis is a product strategy signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe response exposes normalized profile-purity and average-follower product rows. Product video lists and AI/report flows are still out of scope.",
+      "description": "Get normalized brand product PP analysis\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nproduct-pp-analysis is a product strategy signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe response exposes normalized profile-purity and average-follower product rows. Product video lists and AI/report flows are still out of scope.",
       "arguments": [
         {
           "name": "brand_id",
@@ -24215,7 +24251,8 @@
       "usage_notes": [
         "product-pp-analysis is a product strategy signal, distinct from `product-list` asset rows.",
         "It currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.",
-        "The response exposes normalized profile-purity and average-follower product rows. Product video lists and AI/report flows are still out of scope."
+        "The response exposes normalized profile-purity and average-follower product rows. Product video lists and AI/report flows are still out of scope.",
+        "Numeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled."
       ],
       "examples": [
         "noxinfluencer brand-monitor product-pp-analysis <brand_id> --platform youtube --interval-month 6"
@@ -24223,7 +24260,7 @@
     },
     {
       "command": "brand-monitor product-promotion-matrix",
-      "description": "Get normalized brand product promotion matrix\n\nproduct-promotion-matrix is a product strategy signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe response exposes normalized matrix product rows. Product video lists and AI/report flows are still out of scope.",
+      "description": "Get normalized brand product promotion matrix\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nproduct-promotion-matrix is a product strategy signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe response exposes normalized matrix product rows. Product video lists and AI/report flows are still out of scope.",
       "arguments": [
         {
           "name": "brand_id",
@@ -24320,7 +24357,8 @@
       "usage_notes": [
         "product-promotion-matrix is a product strategy signal, distinct from `product-list` asset rows.",
         "It currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.",
-        "The response exposes normalized matrix product rows. Product video lists and AI/report flows are still out of scope."
+        "The response exposes normalized matrix product rows. Product video lists and AI/report flows are still out of scope.",
+        "Numeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled."
       ],
       "examples": [
         "noxinfluencer brand-monitor product-promotion-matrix <brand_id> --platform youtube --interval-month 6"
@@ -24328,7 +24366,7 @@
     },
     {
       "command": "brand-monitor product-promotion-distinction",
-      "description": "Get normalized brand product promotion influencer distribution\n\nproduct-promotion-distinction is a product strategy signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe response exposes normalized top products with channel distribution rows: category_id, percent, optional category_name, and nullable channel_count. Product video lists and AI/report flows are still out of scope.",
+      "description": "Get normalized brand product promotion influencer distribution\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nproduct-promotion-distinction is a product strategy signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe response exposes normalized top products with channel distribution rows: category_id, percent, optional category_name, and nullable channel_count. Product video lists and AI/report flows are still out of scope.",
       "arguments": [
         {
           "name": "brand_id",
@@ -24425,7 +24463,8 @@
       "usage_notes": [
         "product-promotion-distinction is a product strategy signal, distinct from `product-list` asset rows.",
         "It currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.",
-        "The response exposes normalized top products with channel distribution rows: category_id, percent, optional category_name, and nullable channel_count. Product video lists and AI/report flows are still out of scope."
+        "The response exposes normalized top products with channel distribution rows: category_id, percent, optional category_name, and nullable channel_count. Product video lists and AI/report flows are still out of scope.",
+        "Numeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled."
       ],
       "examples": [
         "noxinfluencer brand-monitor product-promotion-distinction <brand_id> --platform youtube --interval-month 6"
@@ -24433,7 +24472,7 @@
     },
     {
       "command": "brand-monitor influencer-list",
-      "description": "Query normalized brand influencer assets\n\ninfluencer-list is JSON-first in this tranche. Use --body-file with a JSON object.\nThe selector body covers platform/time plus influencer filters, sorting, and pagination. No large flag matrix is exposed in the CLI.\nUse `content-list`, `tag-list`, or `product-list` for the other available brand asset views.",
+      "description": "Query normalized brand influencer assets\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\ninfluencer-list is JSON-first in this tranche. Use --body-file with a JSON object.\nThe selector body covers platform/time plus influencer filters, sorting, and pagination. No large flag matrix is exposed in the CLI.\nUse `content-list`, `tag-list`, or `product-list` for the other available brand asset views.",
       "arguments": [
         {
           "name": "brand_id",
@@ -24515,7 +24554,8 @@
       "usage_notes": [
         "influencer-list is JSON-first in this tranche. Use --body-file with a JSON object.",
         "The selector body covers platform/time plus influencer filters, sorting, and pagination. No large flag matrix is exposed in the CLI.",
-        "Use `content-list`, `tag-list`, or `product-list` for the other available brand asset views."
+        "Use `content-list`, `tag-list`, or `product-list` for the other available brand asset views.",
+        "Numeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled."
       ],
       "examples": [
         "noxinfluencer brand-monitor influencer-list <brand_id> --body-file brand-influencer-list.json"
@@ -24523,7 +24563,7 @@
     },
     {
       "command": "brand-monitor content-list",
-      "description": "Query normalized brand content assets\n\ncontent-list is JSON-first in this tranche. Use --body-file with a JSON object.\nThe selector body covers platform/time plus content filters, sorting, and pagination. No large flag matrix is exposed in the CLI.\nUse `tag-list` or `product-list` for the other available brand asset views; AI/report flows remain separate.",
+      "description": "Query normalized brand content assets\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\ncontent-list is JSON-first in this tranche. Use --body-file with a JSON object.\nThe selector body covers platform/time plus content filters, sorting, and pagination. No large flag matrix is exposed in the CLI.\nUse `tag-list` or `product-list` for the other available brand asset views; AI/report flows remain separate.",
       "arguments": [
         {
           "name": "brand_id",
@@ -24605,7 +24645,8 @@
       "usage_notes": [
         "content-list is JSON-first in this tranche. Use --body-file with a JSON object.",
         "The selector body covers platform/time plus content filters, sorting, and pagination. No large flag matrix is exposed in the CLI.",
-        "Use `tag-list` or `product-list` for the other available brand asset views; AI/report flows remain separate."
+        "Use `tag-list` or `product-list` for the other available brand asset views; AI/report flows remain separate.",
+        "Numeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled."
       ],
       "examples": [
         "noxinfluencer brand-monitor content-list <brand_id> --body-file brand-content-list.json"
@@ -24613,7 +24654,7 @@
     },
     {
       "command": "brand-monitor tag-list",
-      "description": "Query normalized brand tag assets\n\ntag-list is JSON-first in this tranche. Use --body-file with a JSON object.\nThe selector body covers platform/time plus tag filters, sorting, and pagination. No large flag matrix is exposed in the CLI.\nUse `product-list` for product assets. `otherConditions`, batch collect, and AI/report flows remain out of scope.",
+      "description": "Query normalized brand tag assets\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\ntag-list is JSON-first in this tranche. Use --body-file with a JSON object.\nThe selector body covers platform/time plus tag filters, sorting, and pagination. No large flag matrix is exposed in the CLI.\nUse `product-list` for product assets. `otherConditions`, batch collect, and AI/report flows remain out of scope.",
       "arguments": [
         {
           "name": "brand_id",
@@ -24695,7 +24736,8 @@
       "usage_notes": [
         "tag-list is JSON-first in this tranche. Use --body-file with a JSON object.",
         "The selector body covers platform/time plus tag filters, sorting, and pagination. No large flag matrix is exposed in the CLI.",
-        "Use `product-list` for product assets. `otherConditions`, batch collect, and AI/report flows remain out of scope."
+        "Use `product-list` for product assets. `otherConditions`, batch collect, and AI/report flows remain out of scope.",
+        "Numeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled."
       ],
       "examples": [
         "noxinfluencer brand-monitor tag-list <brand_id> --body-file brand-tag-list.json"
@@ -24703,7 +24745,7 @@
     },
     {
       "command": "brand-monitor product-list",
-      "description": "Query normalized brand product assets\n\nproduct-list is JSON-first in this tranche. Use --body-file with a JSON object.\nThe selector body keeps the shared brand-monitor shape, but `platform` currently only supports `youtube`.\nUse `product-pub-trend`, `product-category`, and product strategy commands for aggregate signals; `otherConditions` and AI/report flows remain out of scope.",
+      "description": "Query normalized brand product assets\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nproduct-list is JSON-first in this tranche. Use --body-file with a JSON object.\nThe selector body keeps the shared brand-monitor shape, but `platform` currently only supports `youtube`.\nUse `product-pub-trend`, `product-category`, and product strategy commands for aggregate signals; `otherConditions` and AI/report flows remain out of scope.",
       "arguments": [
         {
           "name": "brand_id",
@@ -24785,7 +24827,8 @@
       "usage_notes": [
         "product-list is JSON-first in this tranche. Use --body-file with a JSON object.",
         "The selector body keeps the shared brand-monitor shape, but `platform` currently only supports `youtube`.",
-        "Use `product-pub-trend`, `product-category`, and product strategy commands for aggregate signals; `otherConditions` and AI/report flows remain out of scope."
+        "Use `product-pub-trend`, `product-category`, and product strategy commands for aggregate signals; `otherConditions` and AI/report flows remain out of scope.",
+        "Numeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled."
       ],
       "examples": [
         "noxinfluencer brand-monitor product-list <brand_id> --body-file brand-product-list.json"
@@ -24793,7 +24836,7 @@
     },
     {
       "command": "brand-monitor influencer-export",
-      "description": "Create one brand influencer export task\n\nMutation commands default to dry-run. Add --force to execute.\nUse --body-file with a JSON object. influencer-export is async and returns a shared `export_id`.\nExport selector supports either query mode or explicit `creator_ids`, but never both in the same request.\nFollow up with shared `export get`, `export list`, and `export download` after task creation.",
+      "description": "Create one brand influencer export task\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nMutation commands default to dry-run. Add --force to execute.\nUse --body-file with a JSON object. influencer-export is async and returns a shared `export_id`.\nExport selector supports either query mode or explicit `creator_ids`, but never both in the same request.\nFollow up with shared `export get`, `export list`, and `export download` after task creation.",
       "arguments": [
         {
           "name": "brand_id",
@@ -24876,7 +24919,8 @@
         "Mutation commands default to dry-run. Add --force to execute.",
         "Use --body-file with a JSON object. influencer-export is async and returns a shared `export_id`.",
         "Export selector supports either query mode or explicit `creator_ids`, but never both in the same request.",
-        "Follow up with shared `export get`, `export list`, and `export download` after task creation."
+        "Follow up with shared `export get`, `export list`, and `export download` after task creation.",
+        "Numeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled."
       ],
       "examples": [
         "noxinfluencer brand-monitor influencer-export <brand_id> --body-file brand-influencer-export.json --force"
@@ -24884,7 +24928,7 @@
     },
     {
       "command": "brand-monitor product-export",
-      "description": "Create one brand product export task\n\nMutation commands default to dry-run. Add --force to execute.\nUse --body-file with a JSON object. product-export is async and returns a shared `export_id`.\nproduct-export supports either query mode or explicit `product_ids`, but never both in the same request.\nFollow up with shared `export get`, `export list`, and `export download` after task creation.",
+      "description": "Create one brand product export task\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nMutation commands default to dry-run. Add --force to execute.\nUse --body-file with a JSON object. product-export is async and returns a shared `export_id`.\nproduct-export supports either query mode or explicit `product_ids`, but never both in the same request.\nFollow up with shared `export get`, `export list`, and `export download` after task creation.",
       "arguments": [
         {
           "name": "brand_id",
@@ -24967,7 +25011,8 @@
         "Mutation commands default to dry-run. Add --force to execute.",
         "Use --body-file with a JSON object. product-export is async and returns a shared `export_id`.",
         "product-export supports either query mode or explicit `product_ids`, but never both in the same request.",
-        "Follow up with shared `export get`, `export list`, and `export download` after task creation."
+        "Follow up with shared `export get`, `export list`, and `export download` after task creation.",
+        "Numeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled."
       ],
       "examples": [
         "noxinfluencer brand-monitor product-export <brand_id> --body-file brand-product-export.json --force"
@@ -24975,7 +25020,7 @@
     },
     {
       "command": "brand-monitor tag-export",
-      "description": "Create one brand tag export task\n\nMutation commands default to dry-run. Add --force to execute.\nUse --body-file with a JSON object. tag-export is async and returns a shared `export_id`.\ntag-export only accepts query selectors in v1. Explicit tag ids, content ids, creator ids, and `otherConditions` are not supported.\nFollow up with shared `export get`, `export list`, and `export download` after task creation.",
+      "description": "Create one brand tag export task\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nMutation commands default to dry-run. Add --force to execute.\nUse --body-file with a JSON object. tag-export is async and returns a shared `export_id`.\ntag-export only accepts query selectors in v1. Explicit tag ids, content ids, creator ids, and `otherConditions` are not supported.\nFollow up with shared `export get`, `export list`, and `export download` after task creation.",
       "arguments": [
         {
           "name": "brand_id",
@@ -25058,7 +25103,8 @@
         "Mutation commands default to dry-run. Add --force to execute.",
         "Use --body-file with a JSON object. tag-export is async and returns a shared `export_id`.",
         "tag-export only accepts query selectors in v1. Explicit tag ids, content ids, creator ids, and `otherConditions` are not supported.",
-        "Follow up with shared `export get`, `export list`, and `export download` after task creation."
+        "Follow up with shared `export get`, `export list`, and `export download` after task creation.",
+        "Numeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled."
       ],
       "examples": [
         "noxinfluencer brand-monitor tag-export <brand_id> --body-file brand-tag-export.json --force"
@@ -25066,7 +25112,7 @@
     },
     {
       "command": "brand-monitor content-export",
-      "description": "Create one brand content export task\n\nMutation commands default to dry-run. Add --force to execute.\nUse --body-file with a JSON object. content-export is async and returns a shared `export_id`.\ncontent-export only accepts query selectors in v1. Explicit content ids and creator ids are not supported.\nFollow up with shared `export get`, `export list`, and `export download` after task creation.",
+      "description": "Create one brand content export task\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nMutation commands default to dry-run. Add --force to execute.\nUse --body-file with a JSON object. content-export is async and returns a shared `export_id`.\ncontent-export only accepts query selectors in v1. Explicit content ids and creator ids are not supported.\nFollow up with shared `export get`, `export list`, and `export download` after task creation.",
       "arguments": [
         {
           "name": "brand_id",
@@ -25149,7 +25195,8 @@
         "Mutation commands default to dry-run. Add --force to execute.",
         "Use --body-file with a JSON object. content-export is async and returns a shared `export_id`.",
         "content-export only accepts query selectors in v1. Explicit content ids and creator ids are not supported.",
-        "Follow up with shared `export get`, `export list`, and `export download` after task creation."
+        "Follow up with shared `export get`, `export list`, and `export download` after task creation.",
+        "Numeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled."
       ],
       "examples": [
         "noxinfluencer brand-monitor content-export <brand_id> --body-file brand-content-export.json --force"
@@ -25157,7 +25204,7 @@
     },
     {
       "command": "brand-monitor add",
-      "description": "Add one brand to monitor\n\nMutation commands default to dry-run. Add --force to execute.\nbrand-monitor add is a path-only mutation command that adds one brand to monitor.\nThe CLI only accepts opaque `brand_id`; raw upstream identifiers stay internal.",
+      "description": "Add one brand to monitor\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nMutation commands default to dry-run. Add --force to execute.\nbrand-monitor add is a path-only mutation command that adds one brand to monitor.\nThe CLI only accepts opaque `brand_id`; raw upstream identifiers stay internal.",
       "arguments": [
         {
           "name": "brand_id",
@@ -25233,7 +25280,8 @@
       "usage_notes": [
         "Mutation commands default to dry-run. Add --force to execute.",
         "brand-monitor add is a path-only mutation command that adds one brand to monitor.",
-        "The CLI only accepts opaque `brand_id`; raw upstream identifiers stay internal."
+        "The CLI only accepts opaque `brand_id`; raw upstream identifiers stay internal.",
+        "Numeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled."
       ],
       "examples": [
         "noxinfluencer brand-monitor add <brand_id> --force"
@@ -25241,7 +25289,7 @@
     },
     {
       "command": "brand-monitor unlock-base",
-      "description": "Unlock base scope for one brand\n\nMutation commands default to dry-run. Add --force to execute.\nunlock-base is a path-only mutation command for the base tier on one brand.",
+      "description": "Unlock base scope for one brand\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nMutation commands default to dry-run. Add --force to execute.\nunlock-base is a path-only mutation command for the base tier on one brand.",
       "arguments": [
         {
           "name": "brand_id",
@@ -25316,7 +25364,8 @@
       "mutation": true,
       "usage_notes": [
         "Mutation commands default to dry-run. Add --force to execute.",
-        "unlock-base is a path-only mutation command for the base tier on one brand."
+        "unlock-base is a path-only mutation command for the base tier on one brand.",
+        "Numeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled."
       ],
       "examples": [
         "noxinfluencer brand-monitor unlock-base <brand_id> --force"
@@ -25324,7 +25373,7 @@
     },
     {
       "command": "brand-monitor unlock-high",
-      "description": "Unlock high scope for one brand\n\nMutation commands default to dry-run. Add --force to execute.\nunlock-high is a path-only mutation command for the high tier on one brand.",
+      "description": "Unlock high scope for one brand\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nMutation commands default to dry-run. Add --force to execute.\nunlock-high is a path-only mutation command for the high tier on one brand.",
       "arguments": [
         {
           "name": "brand_id",
@@ -25399,7 +25448,8 @@
       "mutation": true,
       "usage_notes": [
         "Mutation commands default to dry-run. Add --force to execute.",
-        "unlock-high is a path-only mutation command for the high tier on one brand."
+        "unlock-high is a path-only mutation command for the high tier on one brand.",
+        "Numeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled."
       ],
       "examples": [
         "noxinfluencer brand-monitor unlock-high <brand_id> --force"
@@ -31320,7 +31370,8 @@
                     "type": "string",
                     "pattern": "^(?:(?:[0-9]|[1-9][0-9])(?:\\.[0-9]+)?|100(?:\\.0+)?)$"
                   }
-                ]
+                ],
+                "description": "Percentage points: 60 = 60%, not 0.6. Null or missing output means unavailable."
               },
               "followerFemaleGenderLte": {
                 "anyOf": [
@@ -31333,15 +31384,18 @@
                     "type": "string",
                     "pattern": "^(?:(?:[0-9]|[1-9][0-9])(?:\\.[0-9]+)?|100(?:\\.0+)?)$"
                   }
-                ]
+                ],
+                "description": "Percentage points: 60 = 60%, not 0.6. Null or missing output means unavailable."
               },
               "engagementRateGte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "engagementRateLte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "gender": {
                 "type": "string",
@@ -31410,11 +31464,13 @@
               },
               "viewPerFollowersGte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "viewPerFollowersLte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "estPriceGte": {
                 "type": "number",
@@ -31556,11 +31612,13 @@
               },
               "last15EngagementRateGte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "last15EngagementRateLte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "last10CommentsViewsGte": {
                 "type": "number",
@@ -31802,7 +31860,8 @@
                     "type": "string",
                     "pattern": "^(?:(?:[0-9]|[1-9][0-9])(?:\\.[0-9]+)?|100(?:\\.0+)?)$"
                   }
-                ]
+                ],
+                "description": "Percentage points: 60 = 60%, not 0.6. Null or missing output means unavailable."
               },
               "followerFemaleGenderLte": {
                 "anyOf": [
@@ -31815,15 +31874,18 @@
                     "type": "string",
                     "pattern": "^(?:(?:[0-9]|[1-9][0-9])(?:\\.[0-9]+)?|100(?:\\.0+)?)$"
                   }
-                ]
+                ],
+                "description": "Percentage points: 60 = 60%, not 0.6. Null or missing output means unavailable."
               },
               "engagementRateGte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "engagementRateLte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "gender": {
                 "type": "string",
@@ -31892,11 +31954,13 @@
               },
               "viewPerFollowersGte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "viewPerFollowersLte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "estPriceGte": {
                 "type": "number",
@@ -32224,7 +32288,8 @@
                     "type": "string",
                     "pattern": "^(?:(?:[0-9]|[1-9][0-9])(?:\\.[0-9]+)?|100(?:\\.0+)?)$"
                   }
-                ]
+                ],
+                "description": "Percentage points: 60 = 60%, not 0.6. Null or missing output means unavailable."
               },
               "followerFemaleGenderLte": {
                 "anyOf": [
@@ -32237,15 +32302,18 @@
                     "type": "string",
                     "pattern": "^(?:(?:[0-9]|[1-9][0-9])(?:\\.[0-9]+)?|100(?:\\.0+)?)$"
                   }
-                ]
+                ],
+                "description": "Percentage points: 60 = 60%, not 0.6. Null or missing output means unavailable."
               },
               "engagementRateGte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "engagementRateLte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "gender": {
                 "type": "string",
@@ -32314,11 +32382,13 @@
               },
               "viewPerFollowersGte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "viewPerFollowersLte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "estPriceGte": {
                 "type": "number",
@@ -32613,7 +32683,8 @@
       },
       "usage_notes": [
         "Use --body-file with the arguments described in body_schema. Keep Campaign IDs as strings.",
-        "Plan draft saving, applying invitation settings, and sending are separate operations."
+        "Plan draft saving, applying invitation settings, and sending are separate operations.",
+        "Search bounds engagementRateGte/Lte, last15EngagementRateGte/Lte and viewPerFollowersGte/Lte use decimal ratios (5% -> 0.05). followerFemaleGenderGte/Lte use percentage points (60% -> 60). Use only fields exposed for the selected platform; values are passed unchanged."
       ],
       "examples": [
         "noxinfluencer campaign discovery search --body-file arguments.json"
@@ -33738,7 +33809,8 @@
                       {
                         "const": ""
                       }
-                    ]
+                    ],
+                    "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
                   },
                   "viewPerFollowersLte": {
                     "anyOf": [
@@ -33761,7 +33833,8 @@
                       {
                         "const": ""
                       }
-                    ]
+                    ],
+                    "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
                   },
                   "engagementRateGte": {
                     "anyOf": [
@@ -33784,7 +33857,8 @@
                       {
                         "const": ""
                       }
-                    ]
+                    ],
+                    "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
                   },
                   "engagementRateLte": {
                     "anyOf": [
@@ -33807,7 +33881,8 @@
                       {
                         "const": ""
                       }
-                    ]
+                    ],
+                    "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
                   },
                   "estExposureGte": {
                     "anyOf": [
@@ -34562,7 +34637,8 @@
                       {
                         "const": ""
                       }
-                    ]
+                    ],
+                    "description": "Percentage points: 60 = 60%, not 0.6. Null or missing output means unavailable."
                   },
                   "followerFemaleGenderLte": {
                     "anyOf": [
@@ -34585,7 +34661,8 @@
                       {
                         "const": ""
                       }
-                    ]
+                    ],
+                    "description": "Percentage points: 60 = 60%, not 0.6. Null or missing output means unavailable."
                   },
                   "followerLanguage": {
                     "anyOf": [
@@ -35560,7 +35637,8 @@
         "Copy exact enum values and types from body_schema. For search-filter choices, use the live creator search-filter options; do not guess labels or IDs.",
         "Writes require a stable idempotency_key and default to dry-run; add --force to call the server.",
         "For preview/execute operations, show the full preview and obtain explicit user confirmation. --force is not confirmation.",
-        "After an unknown result, keep the original idempotency_key and query state; never automatically resend."
+        "After an unknown result, keep the original idempotency_key and query state; never automatically resend.",
+        "Search bounds engagementRateGte/Lte, last15EngagementRateGte/Lte and viewPerFollowersGte/Lte use decimal ratios (5% -> 0.05). followerFemaleGenderGte/Lte use percentage points (60% -> 60). Use only fields exposed for the selected platform; values are passed unchanged."
       ],
       "examples": [
         "noxinfluencer campaign discovery condition-save --body-file arguments.json"

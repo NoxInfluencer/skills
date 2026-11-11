@@ -70,6 +70,8 @@ Platform values are numeric: `1` YouTube, `3` X, `6` Instagram, `10` TikTok. If 
 
 The active schema describes platform-specific page filters and the separate flat discovery-search criteria. Do not turn display labels into filter values or silently omit a requested filter when validation fails. Keep returned cursor strings unchanged; parsing and reserializing large cursor IDs through floating-point numbers can change the next page.
 
+For supported search fields, `engagementRateGte/Lte`, `last15EngagementRateGte/Lte` and `viewPerFollowersGte/Lte` use decimal ratios: 5% is `0.05`. `followerFemaleGenderGte/Lte` use percentage points: 60% is `60`. The corresponding snake_case creator-search fields retain those same respective units; changing entrypoints does not change the threshold's meaning.
+
 Copy enumeration values and JSON types exactly from the active input schema or authoritative options response. Display labels, guessed IDs, translated names, numeric strings and differently cased values are not substitutes. If an option is unavailable or ambiguous, read the relevant options instead of inventing a value. On a validation error, correct only the identified field from the schema or options; do not cycle through guessed shapes.
 
 ## Automatic Discovery Settings

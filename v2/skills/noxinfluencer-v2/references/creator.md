@@ -2,6 +2,21 @@
 
 ## Discovery Inputs
 
+### Numeric Units
+
+Preserve each field's documented unit when translating the user's percentages and interpreting results. The current contract uses these different scales; `rate`, `pct`, and `percent` in a name do not define a universal unit.
+
+| Field | Numeric representation |
+| --- | --- |
+| `engagement_rate_min/max`, `view_per_followers_min/max` and returned engagement/view-to-follower ratios | Decimal ratio: 5% is `0.05`; `5` means 500%. Ratios can exceed 1. |
+| `follower_female_pct_min` and returned `follower_female_pct` | Percentage points: 60% is `60`, not `0.6`. |
+| Audience distribution and authenticity values/bounds, audience interest ratios | Decimal proportion: `0.6` means 60%. |
+| `positive_audience_pct`, `promo_interested_audience_pct` | Percentage points: `60` means 60%. |
+| `ad_video_percent`, `start_contact_pct`, `cooperation_confirmation_pct`, `promotion_online_pct` | Decimal proportion: `0.6` means 60%, despite the field suffix. |
+| Growth ratios, view volatility and ranking percentiles | Decimal ratio: `0.05` means 5%. Growth can be negative. Benchmark values use their parent metric's unit; scores and counts remain scores and counts. |
+
+Use current field descriptions for other metrics. Do not infer units from magnitude, silently divide every value above 1 by 100, or treat missing data as zero. A low result count alone is not evidence that the user's percentage threshold is too strict; check the already available parameter definition and submitted value first.
+
 Ask only for missing criteria that materially affect sourcing: platform, niche or known creator name, market, creator size, audience fit, activity, performance floor, and whether an email signal matters. Run each platform as a separate search and combine results only after preserving platform identity.
 
 A known name or handle is an identity search. Topic keywords are a discovery search. Do not combine both interpretations in one request. Apply user-specified exclusions and account-level hide, prior-contact, collection, cooperation, or CRM filters during the search when available instead of discarding paid results afterward.
@@ -57,7 +72,7 @@ TikTok product/shop/live market reads consume Skill Credit by returned item. Rea
 
 ## Connected-Store Target Invitations
 
-Use only the currently exposed store-project capability and its exact schema for Creator Marketplace target invitations. This is separate from intelligent Campaign invitations. Replace examples with the selected binding, creators, products, commission, approved message/contact and a future epoch-millisecond end time. Commission 1000 means 10%.
+Use only the currently exposed store-project capability and its exact schema for Creator Marketplace target invitations. This is separate from intelligent Campaign invitations. Replace examples with the selected binding, creators, products, commission, approved message/contact and a future epoch-millisecond end time. `target_commission_rate` and `shop_ads_commission_rate` use integer basis points: 500 means 5%, 1000 means 10%, and 10000 means 100%. Returned `targetCommissionRate` and `shopAdsCommissionRate` retain the same unit.
 
 For free samples with manual approval, the canonical `sample_approval_exempt` is false with `has_free_sample` true. True exempts approval. Use one supported field name; do not change the approval value just to bypass a field error. Preserve the error and request identity while checking runtime support. A saved draft does not send; formal submission in IMMEDIATE mode may start sending immediately, so confirm the exact sending effect before that submission. Read back the saved approval rule and distinguish submission from completed delivery.
 

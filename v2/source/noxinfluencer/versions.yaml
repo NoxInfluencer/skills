@@ -20,7 +20,7 @@ snapshots:
     sha256: 90062706a93c7434e06ed73bbf4ff69d47f65609d4737486db459da347051b60
   - id: cli-schema
     path: snapshots/cli-schema.json
-    sha256: d288eb25450d179c7d71f6f5cc8f4c6579ba9ea7c3273830857ad7f7ad1991f8
+    sha256: ba8c05fc4865942c76ae2cca2ed57c3f69203f7d85207e9a51ceb1f97550f67d
   - id: deployment
     path: snapshots/deployment.json
     sha256: f4e3f05126d31759a8e9fd09cc73e700bededa769080b0fcc3c5b974443b227a
@@ -41,4 +41,4 @@ snapshots:
     sha256: 2462ed23cb7f32374b719a9de2f2a96a986ae3b598bbf482657b3b6bd2028191
   - id: mcp-tools
     path: snapshots/mcp-tools.json
-    sha256: e6c8fb1138868d6067cd4ddd18885ffc34c21db1c2ce346a3fe267a1dd999b15
+    sha256: 35cdaff07bc1e1c199cd3faef20acd227c2f1ce9e8727b4c88ca3a4efe5fc3e5
