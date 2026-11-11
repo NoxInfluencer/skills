@@ -2,7 +2,7 @@
 
 This build contains 168 catalogued tools. Use only tools also exposed by the live provider, with their live input schemas. A catalog entry is not proof of deployment.
 
-For intelligent marketing-plan task lists, use `campaign2_plan_list` with its live pagination and filter schema. For every plugin workflow apply Handoff-first presentation from `references/handoffs.md`. The live catalog can extend this checked snapshot; use actual live names and schemas, never a historical page-opening name.
+For intelligent marketing-plan task lists, use `campaign2_plan_list` with its live pagination and filter schema. After verifying the business outcome, present it according to `references/handoffs.md`. The live catalog can extend this checked snapshot; use actual live names and schemas, never a historical page-opening name.
 
 ## collection
 

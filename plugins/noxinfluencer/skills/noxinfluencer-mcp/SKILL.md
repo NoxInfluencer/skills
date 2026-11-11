@@ -11,7 +11,7 @@ Use the connected NoxInfluencer tools for creator research, collections, CRM, mo
 
 Read `{baseDir}/references/tool-list.md` as a checked baseline, then use the connected provider's live catalog and schema as the execution authority. The live catalog may extend the baseline. Never invent a missing operation, require it for unrelated work, or switch to another backend.
 
-When invoked through an installed Agent plugin (Codex, Claude, Cursor, Grok Bot, WorkBuddy, Harness or another host), all NoxInfluencer business operations use MCP and all workflows use Handoff-first presentation. Read `{baseDir}/references/handoffs.md` before presenting results. This policy belongs to the active plugin entrypoint; it does not change separately invoked shared Skills or CLI workflows, even when both installations exist.
+When invoked through an installed Agent plugin (Codex, Claude, Cursor, Grok Bot, WorkBuddy, Harness or another host), all NoxInfluencer business operations use MCP. Prefer a configured Handoff to present verified results. Read `{baseDir}/references/handoffs.md` before presenting results. This policy belongs to the active plugin entrypoint; it does not change separately invoked shared Skills or CLI workflows, even when both installations exist.
 
 For intelligent marketing-plan task lists, the current business tool is `campaign2_plan_list`. Use its live paging and filter schema, preserve selected filters, and apply the same Handoff policy as every other function. Do not assume a separate page-opening tool or historical tool name is required.
 
@@ -50,7 +50,7 @@ For every NoxInfluencer business operation in plugin mode, use the connected MCP
 
 For every paginated MCP read, explicitly set the page-size field supported by the live schema. When the user has not specified a size and there is no existing page size to preserve, use 10 or the tool's documented default if it is higher, within the tool's allowed range. For example, a new `campaign2_plan_list` query defaults to `page_num: 1` and `page_size: 10`. Do not request a smaller page just to preview the list or obtain a Handoff. Honor an explicit smaller request when the schema allows it. When continuing a list, keep the filters and page size and use the next page number or returned cursor as declared.
 
-Every plugin workflow uses Handoff-first presentation, including search, analysis, lists, details, reports and mutation results. Check for a declared Handoff after each MCP response. When the response returns a valid `handoff_url` for the requested view, open it through the host browser as the next action, then resume the remaining work. If the host has no supported browser, present the still-valid, unused link immediately. This timing applies even when shared business guidance describes a different default. Honor explicit conversation-only requests and report presentation failures separately from business results.
+You may open a useful progress view during the workflow and continue the requested business steps. After verifying the outcome, ensure the requested result view is open and current before the final response. Reuse the view if it already shows the verified result. Otherwise use a valid, unused `handoff_url` through the host browser. If the host has no supported browser, include the still-valid, unused link in the response. Honor explicit conversation-only requests and report presentation failures separately from business results.
 
 Read only the relevant references:
 

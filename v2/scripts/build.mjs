@@ -32,7 +32,7 @@ export function renderMcpToolList(tools, { plugin = false } = {}) {
   return Buffer.from('# MCP Tool List\n\n' +
     `This build contains ${tools.length} catalogued tools. Use only tools also exposed by the live provider, with their live input schemas. A catalog entry is not proof of deployment.\n\n` +
     (plugin
-      ? 'For intelligent marketing-plan task lists, use `campaign2_plan_list` with its live pagination and filter schema. For every plugin workflow apply Handoff-first presentation from `references/handoffs.md`. The live catalog can extend this checked snapshot; use actual live names and schemas, never a historical page-opening name.\n\n'
+      ? 'For intelligent marketing-plan task lists, use `campaign2_plan_list` with its live pagination and filter schema. After verifying the business outcome, present it according to `references/handoffs.md`. The live catalog can extend this checked snapshot; use actual live names and schemas, never a historical page-opening name.\n\n'
       : 'For intelligent marketing-plan task lists, use `campaign2_plan_list` and display results in the conversation. Its inputs are `page_num`, `page_size`, `keyword`, `start_time`, `end_time`, and `invite_status`. Preserve filters when requesting the next page. Do not infer a failed status: invite_status only accepts the declared invitation states.\n\n') +
     [...groups].sort(([a], [b]) => a.localeCompare(b)).map(([group, names]) =>
       `## ${group}\n\n` + names.sort().map(name => `- \`${name}\``).join('\n')).join('\n\n') + '\n');
