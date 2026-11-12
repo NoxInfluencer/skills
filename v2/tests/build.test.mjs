@@ -63,7 +63,7 @@ test('plugin presentation and authorization overrides cannot change standalone o
   const root = fixture(t);
   const first = createOutputs(root);
   const sharedManager = readDirectoryFileMap(resolve(root, 'skills/influencer-marketing-manager'));
-  for (const name of ['handoffs.md', 'oauth-and-scopes.md', 'manager-context.md', 'references/campaign-agent-automation-mcp.md']) {
+  for (const name of ['runtime.md', 'handoffs.md', 'tool-execution.md', 'oauth-and-scopes.md', 'manager-context.md', 'references/codex-plugin-runtime.md', 'references/campaign-agent-automation-mcp.md']) {
     const path = resolve(root, 'v2/source/noxinfluencer/adapters/plugin', name);
     writeFileSync(path, readFileSync(path) + '\nPlugin-only policy revision.\n');
   }
@@ -152,6 +152,10 @@ test('standalone packaging has no source/evals/CLI adapter in the MCP package', 
   assert.equal(JSON.parse(entries.get('.mcp.json')).mcpServers.noxinfluencer.type, 'http');
   assert.equal(entries.has('skills/noxinfluencer-mcp/SKILL.md'), true);
   assert.equal(entries.has('skills/influencer-marketing-manager/SKILL.md'), true);
+  const pluginSkill = 'skills/noxinfluencer-mcp/';
+  assert.match(entries.get(pluginSkill + 'SKILL.md').toString(), /Campaign Workbench[\s\S]*never use Computer Use/);
+  assert.match(entries.get(pluginSkill + 'references/handoffs.md').toString(), /verified native host action independent of browser automation/);
+  assert.match(entries.get(pluginSkill + 'references/handoffs.md').toString(), /Do not wait for either before replying/);
   assert.equal(entries.has('skills/noxinfluencer-mcp/skill-build-manifest.json'), false);
   assert.equal(existsSync(resolve(root, 'plugins/noxinfluencer/skills/noxinfluencer-mcp/skill-build-manifest.json')), false);
   const provenance = JSON.parse(readFileSync(resolve(root, 'v2/dist/noxinfluencer-mcp.skill-build-manifest.json')));
@@ -175,6 +179,7 @@ test('standalone packaging has no source/evals/CLI adapter in the MCP package', 
   assert.deepEqual(before,readFileSync(resolve(root,'v2/dist/noxinfluencer-mcp-plugin.zip')));
   const standalone = readZipEntries(resolve(root,'v2/dist/noxinfluencer-v2.zip'));
   assert.equal(standalone.has('skills/noxinfluencer-v2/skill-build-manifest.json'), true);
+  assert.doesNotMatch(standalone.get('skills/noxinfluencer-v2/SKILL.md').toString(), /Campaign Workbench|`cua_repl`/);
 });
 
 test('snapshot refresh validates before source mutation and leaves generated artifacts for explicit rebuild', t => {

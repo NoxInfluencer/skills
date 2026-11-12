@@ -14,4 +14,6 @@ Treat Skill Credit exhaustion as a business restriction, not an OAuth failure. I
 
 ## Plugin Result Presentation
 
-Apply `{baseDir}/references/handoffs.md` when presenting progress or results. A useful intermediate view can open while work continues. Complete the requested operations, pagination and status checks, then verify that the requested view shows the latest confirmed result before the final response. Follow the original approval and idempotency protocol for writes. Shared business references and Manager examples do not choose the plugin transport or override its presentation policy.
+Apply `{baseDir}/references/handoffs.md` when presenting progress or results. Before replying, complete the requested business operations and relevant pagination and status checks. Report the verified MCP outcome and any structured opening or display status already available. Report an accepted dispatch as queued. Use subsequent authoritative business status to report sending or delivery.
+
+For Campaign, reply without waiting for navigation triggered by the host's actual turn terminal event or for its render receipt. Confirm that a result was displayed only after a matching structured page-load receipt. Report loading, editing pauses, or failed loads as observed. Never inspect the right-side workbench with Computer Use or browser automation to verify a result. Shared business references and Manager examples do not override the plugin's transport or presentation policy.

@@ -1,6 +1,6 @@
 {
   "name": "noxinfluencer",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "NoxInfluencer marketing workflows through MCP.",
   "author": {
     "name": "NoxInfluencer"
@@ -16,15 +16,18 @@
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "NoxInfluencer",
-    "shortDescription": "Use NoxInfluencer marketing workflows through MCP.",
+    "shortDescription": "Influencer marketing",
     "longDescription": "Connect to NoxInfluencer through its remote MCP server to discover creators and work with influencer marketing plans and operations.",
     "developerName": "NoxInfluencer",
-    "category": "Marketing",
+    "category": "Business & Operations",
     "capabilities": [
       "Read",
       "Write"
     ],
     "websiteURL": "https://www.noxinfluencer.com/",
+    "supportURL": "https://www.noxinfluencer.com/help/",
+    "privacyPolicyURL": "https://www.noxinfluencer.com/privacy",
+    "termsOfServiceURL": "https://www.noxinfluencer.com/terms",
     "defaultPrompt": [
       "Show my intelligent marketing-plan tasks.",
       "Show the next page of my intelligent marketing-plan tasks.",
