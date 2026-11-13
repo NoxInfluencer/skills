@@ -89,8 +89,8 @@
     },
     {
       "path": "adapters/mcp/runtime.md",
-      "bytes": 1063,
-      "sha256": "ccb2c6570b28ecce9360664a8d79df9db9f4991ca59b80a275a521988a5f308b"
+      "bytes": 1492,
+      "sha256": "f2b2197fc34f88a011f56fc8c4550df8a947c396bbe171135c45778bdf114f10"
     },
     {
       "path": "adapters/mcp/scripts/start-codex-oauth.ps1",
@@ -194,8 +194,8 @@
     },
     {
       "path": "snapshots/mcp-tools.json",
-      "bytes": 1418303,
-      "sha256": "35cdaff07bc1e1c199cd3faef20acd227c2f1ce9e8727b4c88ca3a4efe5fc3e5"
+      "bytes": 1419355,
+      "sha256": "ac118f35c89c76a8617990a3f17151515f352f753f4246b234d45c1cff5b1cad"
     },
     {
       "path": "universal.md",
@@ -371,8 +371,8 @@
     },
     {
       "path": "references/runtime-mcp.md",
-      "bytes": 1063,
-      "sha256": "ccb2c6570b28ecce9360664a8d79df9db9f4991ca59b80a275a521988a5f308b"
+      "bytes": 1492,
+      "sha256": "f2b2197fc34f88a011f56fc8c4550df8a947c396bbe171135c45778bdf114f10"
     },
     {
       "path": "scripts/start-codex-oauth.ps1",
@@ -386,8 +386,8 @@
     },
     {
       "path": "references/tool-list.md",
-      "bytes": 5857,
-      "sha256": "fc2b60a9fb21487d904172375c4cc43a90feb0916362137c16c3e9d62c0cceda"
+      "bytes": 5829,
+      "sha256": "1ac8f601bdb87563477c5a38e51c0a28b40263bd1c99ccb14b039efb6f73e840"
     },
     {
       "path": "references/setup.md",

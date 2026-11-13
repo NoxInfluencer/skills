@@ -22,7 +22,7 @@ For intelligent marketing-plan task lists, the current business tool is `campaig
 - Ask only for missing inputs that materially affect the result. Bound pages, batches, remote calls and response detail to the user's purpose.
 - Follow the actual tool's preview, confirmation, idempotency and polling protocol. Query uncertain outcomes instead of creating duplicate writes.
 - Report business results, partial failures and pending work plainly. Do not expose credentials or internal transport details.
-- Discuss quota and pricing only when asked or when a restriction blocks the requested task. Continue required internal checks without routine billing narration.
+- Discuss remaining Skill Credit, execution permissions and specific operation costs only when asked or blocked. Read the quota reference for these cases. Do not offer membership plans, trial claims, upgrades, recharges or purchase links. Continue required internal checks without routine billing narration.
 - Use `influencer-marketing-manager` for marketing strategy or partnership judgment when needed. Its recommendations do not add tools or bypass product confirmation rules.
 
 ## Workflow References

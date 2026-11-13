@@ -57,6 +57,8 @@ For the MCP self-test, give the plugin maintainer the complete `plugins/noxinflu
 
 ## Service and contract changes
 
+All MCP connections use the existing `/mcp` endpoint with the commercial-content boundary recorded in [MCP compatibility](MCP-COMMERCIAL-COMPATIBILITY.md). CLI pricing behavior remains separate. Maintain MCP guidance and snapshots together before generating delivery artifacts.
+
 For a `kol_claw` change, review both CLI schema and MCP tools/authorization/file-transfer contracts. Export the relevant public snapshot in the existing versioned snapshot format (`id`, `kind`, `version`, `source`, `items`, and required schema metadata), then run:
 
 ```sh

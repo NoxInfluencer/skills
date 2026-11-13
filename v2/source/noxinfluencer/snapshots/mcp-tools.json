@@ -14164,25 +14164,6 @@
       "workflow": "files-exports"
     },
     {
-      "name": "list_membership_pricing",
-      "scope": "noxinfluencer.codex.user",
-      "internal_scope": "noxinfluencer.pricing.read",
-      "risk": "read",
-      "backend_risk": "low",
-      "input_schema_sha256": "99334726611ccf58a148b0814696bfa6fe08c1b2d027e946beccf5a74331c9aa",
-      "source_contract": "contracts/capabilities/pricing_list_membership.json",
-      "input_schema": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {}
-      },
-      "output_schema": {
-        "type": "object",
-        "additionalProperties": true
-      },
-      "workflow": "quota-pricing"
-    },
-    {
       "name": "list_monitor_auto_track_rules",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.monitor.auto_track.read",
@@ -14297,20 +14278,34 @@
       "internal_scope": "noxinfluencer.pricing.read",
       "risk": "read",
       "backend_risk": "low",
-      "input_schema_sha256": "6c6dc2b77a454eff96b683a6287ad8d2e2ee5212d3f05ba45b29338a98ce0fec",
+      "input_schema_sha256": "d7ce4c2ce7e8877a094845967e1062a2eea81eb5da7dd8d9f0b6ac427b74712a",
       "source_contract": "contracts/capabilities/pricing_list_tools.json",
       "input_schema": {
         "type": "object",
         "additionalProperties": false,
+        "anyOf": [
+          {
+            "required": [
+              "tool"
+            ]
+          },
+          {
+            "required": [
+              "action"
+            ]
+          }
+        ],
         "properties": {
           "tool": {
             "type": "string",
             "minLength": 1,
+            "pattern": "\\S",
             "maxLength": 128
           },
           "action": {
             "type": "string",
             "minLength": 1,
+            "pattern": "\\S",
             "maxLength": 128
           },
           "include_free": {
@@ -21649,7 +21644,62 @@
       },
       "output_schema": {
         "type": "object",
-        "additionalProperties": true
+        "additionalProperties": true,
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": true,
+            "required": [
+              "total_credit",
+              "used_credit",
+              "remaining_credit",
+              "execution_available",
+              "limitation_reason"
+            ],
+            "properties": {
+              "total_credit": {
+                "type": "number",
+                "minimum": 0
+              },
+              "used_credit": {
+                "type": "number",
+                "minimum": 0
+              },
+              "remaining_credit": {
+                "type": "number",
+                "minimum": 0
+              },
+              "execution_available": {
+                "type": "boolean"
+              },
+              "limitation_reason": {
+                "enum": [
+                  null,
+                  "INSUFFICIENT_CREDIT",
+                  "ENTITLEMENT_REQUIRED"
+                ]
+              },
+              "start_time": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "end_time": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          }
+        }
       },
       "workflow": "quota-pricing"
     },

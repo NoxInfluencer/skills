@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { createOutputs, repositoryRoot } from '../scripts/build.mjs';
+import Ajv from 'ajv';
 
 test('MCP advertised tools exactly match the checked catalog and omit unsupported domain routes', () => {
   const { outputs } = createOutputs();
@@ -58,4 +59,25 @@ test('plan-list input schema and plugin prompts match the supported surface', ()
   assert.deepEqual(Object.keys(schema.properties).sort(), ['page_num', 'page_size', 'keyword', 'start_time', 'end_time', 'invite_status'].sort());
   const manifest = JSON.parse(readFileSync(resolve(repositoryRoot, 'plugins/noxinfluencer/.codex-plugin/plugin.json')));
   assert.ok(manifest.interface.defaultPrompt.some(prompt => /marketing.plan/i.test(prompt)));
+});
+
+test('MCP commercial boundary rejects broad pricing while CLI pricing stays available', () => {
+  const read = name => JSON.parse(readFileSync(resolve(repositoryRoot, `v2/source/noxinfluencer/snapshots/${name}.json`))).items;
+  const tools = read('mcp-tools');
+  assert.equal(tools.some(tool => tool.name === 'list_membership_pricing'), false);
+  const validate = new Ajv({ strict: false }).compile(tools.find(tool => tool.name === 'list_tool_pricing').input_schema);
+  for (const input of [{}, { include_free: true }, { tool: '' }, { action: '  ' }, { action: null }]) {
+    assert.equal(validate(input), false, JSON.stringify(input));
+  }
+  for (const input of [{ tool: 'discover_creators' }, { action: 'creator_search' }]) {
+    assert.equal(validate(input), true, JSON.stringify(input));
+  }
+  const quota = tools.find(tool => tool.name === 'quota').output_schema.properties.data;
+  assert.equal('claim_eligible' in quota.properties, false);
+  assert.equal('trial_claimed' in quota.properties, false);
+  assert.ok(quota.required.includes('execution_available'));
+  assert.ok(quota.required.includes('limitation_reason'));
+  const cli = read('cli-schema');
+  assert.ok(cli.some(command => command.command === 'pricing'));
+  assert.ok(cli.some(command => command.command === 'pricing tools'));
 });

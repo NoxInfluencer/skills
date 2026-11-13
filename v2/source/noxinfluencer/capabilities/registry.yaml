@@ -5968,17 +5968,6 @@ workflows:
       long_task: No polling contract is deployed.
       response_size: No result is returned while deferred.
     primitives:
-      - id: list-membership-pricing
-        type: tool
-        role: read
-        name: list_membership_pricing
-        schema_ref: snapshots/mcp-tools.json#name=list_membership_pricing
-        after: []
-        condition: always
-        scope:
-          - noxinfluencer.codex.user
-        confirmation: none
-        idempotency: read_only
       - id: list-tool-pricing
         type: tool
         role: read
