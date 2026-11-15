@@ -35,7 +35,7 @@ test('one business source produces both runtimes and preserves shared Manager bu
   const first = createOutputs(root);
   const generic = first.outputs.get('v2/skills/noxinfluencer-v2');
   const mcp = first.outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp');
-  const mcpSpecific = new Set(['references/product-overview.md', 'references/files-and-exports.md', 'references/quota-pricing-dispute-feedback.md', 'references/creator.md', 'references/monitor.md', 'references/campaign-agent-automation.md', 'references/campaign-agent-automation-mcp.md', 'references/handoffs.md', 'references/oauth-and-scopes.md', 'references/runtime-mcp.md', 'references/codex-plugin-runtime.md', 'references/tool-execution.md', 'references/tool-list.md']);
+  const mcpSpecific = new Set(['references/product-overview.md', 'references/files-and-exports.md', 'references/quota-pricing-dispute-feedback.md', 'references/creator.md', 'references/monitor.md', 'references/campaign-agent-automation.md', 'references/campaign-agent-automation-mcp.md', 'references/campaign-invitation-management.md', 'references/marketing-plan-and-campaign.md', 'references/handoffs.md', 'references/oauth-and-scopes.md', 'references/runtime-mcp.md', 'references/codex-plugin-runtime.md', 'references/tool-execution.md', 'references/tool-list.md']);
   for (const [path, bytes] of generic) if (path.startsWith('references/') && mcp.has(path) && !mcpSpecific.has(path)) assert.equal(bytes.toString(), mcp.get(path).toString(), path);
   assert.equal(generic.has('scripts/nox-cli.mjs'), true);
   assert.equal(mcp.has('scripts/nox-cli.mjs'), false);
@@ -153,9 +153,9 @@ test('standalone packaging has no source/evals/CLI adapter in the MCP package', 
   assert.equal(entries.has('skills/noxinfluencer-mcp/SKILL.md'), true);
   assert.equal(entries.has('skills/influencer-marketing-manager/SKILL.md'), true);
   const pluginSkill = 'skills/noxinfluencer-mcp/';
-  assert.match(entries.get(pluginSkill + 'SKILL.md').toString(), /Campaign Workbench[\s\S]*never use Computer Use/);
-  assert.match(entries.get(pluginSkill + 'references/handoffs.md').toString(), /verified native host action independent of browser automation/);
-  assert.match(entries.get(pluginSkill + 'references/handoffs.md').toString(), /Do not wait for either before replying/);
+  assert.match(entries.get(pluginSkill + 'SKILL.md').toString(), /## Campaign presentation[\s\S]*references\/handoffs\.md/);
+  assert.deepEqual(entries.get(pluginSkill + 'references/handoffs.md'),
+    readFileSync(resolve(root, 'v2/source/noxinfluencer/adapters/plugin/handoffs.md')));
   assert.equal(entries.has('skills/noxinfluencer-mcp/skill-build-manifest.json'), false);
   assert.equal(existsSync(resolve(root, 'plugins/noxinfluencer/skills/noxinfluencer-mcp/skill-build-manifest.json')), false);
   const provenance = JSON.parse(readFileSync(resolve(root, 'v2/dist/noxinfluencer-mcp.skill-build-manifest.json')));
@@ -179,7 +179,11 @@ test('standalone packaging has no source/evals/CLI adapter in the MCP package', 
   assert.deepEqual(before,readFileSync(resolve(root,'v2/dist/noxinfluencer-mcp-plugin.zip')));
   const standalone = readZipEntries(resolve(root,'v2/dist/noxinfluencer-v2.zip'));
   assert.equal(standalone.has('skills/noxinfluencer-v2/skill-build-manifest.json'), true);
-  assert.doesNotMatch(standalone.get('skills/noxinfluencer-v2/SKILL.md').toString(), /Campaign Workbench|`cua_repl`/);
+  assert.doesNotMatch(standalone.get('skills/noxinfluencer-v2/SKILL.md').toString(), /## Campaign presentation|`cua_repl`/);
+  assert.deepEqual(standalone.get('skills/noxinfluencer-v2/references/handoffs.md'),
+    readFileSync(resolve(root, 'v2/source/noxinfluencer/adapters/mcp/handoffs.md')));
+  assert.deepEqual(standalone.get('skills/influencer-marketing-manager/SKILL.md'),
+    readFileSync(resolve(root, 'skills/influencer-marketing-manager/SKILL.md')));
 });
 
 test('snapshot refresh validates before source mutation and leaves generated artifacts for explicit rebuild', t => {

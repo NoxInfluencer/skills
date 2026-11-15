@@ -2,7 +2,7 @@
 
 Use this workflow to manage the current Campaign's pending/sent creators, invitation settings, collection imports and dispatch state. Read the Campaign and current invitation state first. Adding creators to invitation pending or importing a collection does not send email. Preserve returned creator identities, page boundaries, failure reasons and unavailable metrics.
 
-For showing completed work in the SaaS Campaign workspace after the final answer, use the page-coordination guidance in `{baseDir}/references/campaign-agent-automation.md`. Showing invitation settings or a send preview does not confirm sending.
+For Campaign invitation presentation, follow `{baseDir}/references/handoffs.md`. Showing invitation settings or a send preview does not confirm sending.
 
 ## Settings and copy
 
@@ -42,7 +42,7 @@ The Campaign page supports up to 10,000 selected creators for supported bulk ope
 
 For authorized non-sending list changes, freeze the exact creator identities and split them into disjoint batches within the connected operation's limit. Process batches sequentially. Use a different stable idempotency key for each batch and reuse that key only for the same batch's reconciliation or retry. Aggregate only confirmed results. Stop on failure, timeout or unknown outcome, report the confirmed scope and the unfinished scope, and reconcile the original attempt before continuing. Never increase concurrency or silently truncate the selection to fit a limit.
 
-For large invitation sends, do not request or concatenate thousands of full email previews and do not start a sending loop. Add the authorized creators to pending in bounded batches, report the actual result, and direct the user to the current Campaign's invitation page to review the list, settings and copy and initiate sending there. Use the workspace navigation guidance for the page link. A page link, a successful list import or the original request is not a send confirmation. If the user wants the Agent to send a small selection instead, use the explicit preview and second-confirmation workflow below.
+For large invitation sends, do not request or concatenate thousands of full email previews and do not start a sending loop. Add the authorized creators to pending in bounded batches, report the actual result, and direct the user to the current Campaign's invitation page to review the list, settings and copy and initiate sending there. A page link, a successful list import or the original request is not a send confirmation. If the user wants the Agent to send a small selection instead, use the explicit preview and second-confirmation workflow below.
 
 ## Sending requires a second confirmation
 

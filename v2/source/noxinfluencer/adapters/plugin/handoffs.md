@@ -1,28 +1,37 @@
 # Plugin Handoff Presentation
 
-Apply these rules in the installed Agent plugin. Keep OAuth in the system browser through the host's authorization controls. Keep business verification and confirmation in the MCP workflow.
+Apply these rules in the installed Agent plugin. Keep OAuth in the system browser through the host's authorization controls. Use MCP for business operations, confirmation, idempotency, and result verification.
 
-## Campaign Workbench
+## Campaign pages
 
-Never use Computer Use, `cua_repl`, or direct or indirect browser automation to control, inspect, or verify the right-side Campaign workbench. The ban includes clicks, DOM inspection, screenshots, typing, scrolling, shortcuts, script or address-bar navigation, `tab.goto`, and `createBrowserTab`. It applies to first open, follow-up navigation, status checks, and recovery. The user may interact with the page manually.
+Honor an explicit conversation-only request for the current turn. Return the business result in conversation and skip Handoff requests made solely for display, page opening, and manual open links.
 
-1. Honor an explicit conversation-only request. Return the confirmed result in conversation and suppress automatic opening and navigation for this turn. Use the supported presentation control when available. Do not request or consume a Handoff solely for display in this turn.
-2. Read the authorized workspace context if the current host or MCP declares a structured interface. Reuse a ready binding only for the same authorized account, native host chat, workspace, and authorized target scope. Never reuse another chat's workbench, including a chat for the same account. A workspace bound before this turn is valid if these checks pass. Read the current plan or tab from structured context, not the page.
-3. For a target within a ready workspace's scope, let the workbench navigate from the confirmed business result and the host's real turn terminal event. No new Handoff is needed. Report confirmed business progress and any structured display state already received. The turn-triggered navigation and its render receipt are asynchronous. Do not wait for either before replying.
-4. On first open, after closure, or for a target outside the current scope, use the Handoff producer declared by the live MCP contract. A business tool may return `handoff_url` itself, or declare a separate producer. A list Handoff opens the list only. For an out-of-scope plan or view, obtain a Handoff for the exact authorized target. If the contract does not advertise a matching producer, report the presentation limitation with the business result. Do not probe unrelated tools or invent a producer.
-5. Pass the trusted structured MCP result with its exact valid, unused `handoff_url` to a verified native host action independent of browser automation. Validate the bound account, host chat, workspace and target through the host's trusted context and structured receipts. A receipt for action accepted, successful Handoff exchange, or a ready Companion session confirms only that stage. Confirm the result has been displayed only after receiving the corresponding page-load receipt.
-6. If the host lacks the native action, report that automatic opening is unavailable and return the confirmed business result. Use an existing host-provided manual open action only with a valid Handoff that has never been offered to the host for consumption. Record manual opening separately. Use the host's designated action surface to handle the Handoff. Never copy it to chat, another tool, or a log.
+### Reuse the exact open page
 
-### Recovery and account changes
+Reuse the current conversation's right-side page only when trusted host information confirms it is already open for the current authorized account and the exact target plan and view. Java publishes invitation changes and kol-next subscribes via SSE to refresh the matching open invitation page in place. For example, if plan A's Queued Sends view is already open, keep it when a new invitation is accepted. Skip reopening the page and requesting or consuming a Handoff for display.
 
-- After a timeout or uncertain action, check only the declared structured status interface for the current authorized binding. If the workspace is ready and the target is in scope, reuse it. If another open is needed, get a fresh Handoff from a declared producer or read-only query for that exact target. If the state cannot be established, report it as unconfirmed. Never replay a possibly consumed URL, construct or open a regular business URL, or repeat a business write to obtain a link.
-- After reauthorization as account B, treat a valid B Handoff and its ready receipt as a new binding. While waiting, ignore account A's state and late receipts. Use only the current authorized binding for navigation and never reopen from an old A Handoff.
-- Keep action acceptance, Handoff exchange, Companion readiness, and result display distinct. Report loading, navigation paused for editing, a failed load, or a missing receipt as the actual state. Report an accepted invitation as queued until a later authoritative business status establishes delivery.
+### Open a different or closed page
 
-## Other Plugin Results
+When a Campaign page is needed for a first open, reopening after closure, switching plans or result views, or when an exact match cannot be confirmed, use the original, valid, unused `handoff_url` from Claw's structured MCP result with `presentation.status=ready` for the exact authorized target. For example, use the Queued Sends Handoff to move from plan A's Overview to plan A's Queued Sends. A plan list Handoff opens only the plan list. Use the Handoff supplied with the business result or a read-only producer declared for that target by the live MCP contract. Use only the current account's Handoffs and page context, including after reauthorization.
+
+Pass the URL unchanged to an opening capability supported by the host. Prefer a suitable right-side tab in the current conversation when the host supports targeting it. Use browser capabilities only to open a valid Handoff. Keep all Campaign operations and business result checks in MCP. Do not inspect or operate the page with browser tools or open an ordinary Campaign URL as a substitute.
+
+### Report business and page status
+
+Report the verified MCP business outcome even when opening fails, is unavailable, or cannot be confirmed. Report an accepted invitation as queued and report delivery only when authoritative MCP business status establishes it. Reply without waiting for the page to load. Describe the page state using what the host actually confirms. An accepted open request supports reporting that opening was requested. Report the page as open only if host information establishes that state.
+
+When the host cannot open the page automatically, return the business result and use a supported manual open option if a valid Handoff is available and no consumption attempt has been made for that URL. Providing a manual option does not establish that the page opened.
+
+### Recover an expired or uncertain link
+
+If a Handoff has expired or its consumption status is uncertain, use only a declared read-only MCP entrypoint that returns a fresh Handoff for the exact target. Never replay the URL or repeat a business write to obtain a link. If the live contract has no matching read-only entrypoint or it cannot supply a valid link, report the presentation limitation with the business result.
+
+For example, if the live schema declares the invitation page Handoff on `campaign2_invitations_list`, request the target `campaign_id` with `view: "pending"` and `status_group: "queued"` for its Queued Sends page. Use the resulting link only when it is ready for `campaign_invitation_queued`. For the plan list, use `campaign2_plan_list` when its live schema declares the `campaign_list` Handoff.
+
+## Other plugin results
 
 Outside Campaign, use a configured Handoff from the live MCP contract for the exact result when the host supports it. Verify the authorized account and destination before reusing a view or reporting it as open. Prefer the current chat's existing matching view and continue the business workflow if presentation is pending. Honor conversation-only requests.
 
-If no Handoff is configured or advertised, present the available business result in conversation. If a configured Handoff fails, report that presentation failure with the confirmed business result. When automatic opening is unavailable, use the existing user open path for a valid unused Handoff only if no host open action has attempted to consume it. For an expired or uncertain link, obtain a fresh one through a declared producer when needed. Never replay a write for presentation.
+If no Handoff is configured or advertised, present the available business result in conversation. If a configured Handoff fails, report that presentation failure with the confirmed business result. When automatic opening is unavailable, use the existing user open path for a valid unused Handoff only if no host open action has attempted to consume it. Follow the same read-only recovery rule for an expired or uncertain link.
 
 For all Handoffs, use the exact returned URL in the allowed host or user action. Do not log, persist, prefetch, modify or replay it. Respect expiry and the single-use contract.

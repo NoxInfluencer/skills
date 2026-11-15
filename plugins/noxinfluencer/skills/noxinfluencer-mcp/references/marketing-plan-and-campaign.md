@@ -4,7 +4,7 @@
 
 An intelligent marketing plan (Campaign) is a task-oriented workspace that can carry preparation, creator selection, recipient state, outreach content, execution status, and reporting. Begin with the plan list or plan detail when the target task is unclear. Keep task identity, ownership, status, and pagination metadata for later actions.
 
-Read operations should return useful plan summaries without opening a page. Open a page only when the user asks to continue visually or explicitly approves a supported page handoff. A missing business capability alone does not authorize browser operation or changing the execution route.
+Return useful plan summaries. For Campaign presentation, follow `{baseDir}/references/handoffs.md`. A missing business capability alone does not authorize browser operation or changing the execution route.
 
 ## Campaign State
 

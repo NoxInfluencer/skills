@@ -20,6 +20,17 @@ const mcpExcludedSections = new Map([
   ['monitor.md', new Set(['Future Content'])],
   ['campaign-agent-automation.md', new Set(['Campaign workspace smart actions', 'Showing completed work in the Campaign workspace', 'Finishing a creator-reply automation run'])],
 ]);
+const mcpReferencePresentationOverrides = new Map([
+  ['campaign-invitation-management.md', [
+    ['For showing completed work in the SaaS Campaign workspace after the final answer, use the page-coordination guidance in `{baseDir}/references/campaign-agent-automation.md`.',
+      'For Campaign invitation presentation, follow `{baseDir}/references/handoffs.md`.'],
+    [' Use the workspace navigation guidance for the page link.', ''],
+  ]],
+  ['marketing-plan-and-campaign.md', [
+    ['Read operations should return useful plan summaries without opening a page. Open a page only when the user asks to continue visually or explicitly approves a supported page handoff.',
+      'Return useful plan summaries. For Campaign presentation, follow `{baseDir}/references/handoffs.md`.'],
+  ]],
+]);
 
 /** Derive the advertised MCP surface from the checked service catalog. */
 export function renderMcpToolList(tools, { plugin = false } = {}) {
@@ -97,8 +108,16 @@ export function createOutputs(root = repositoryRoot) {
         const name = path.slice('shared/references/'.length);
         if (mode === 'mcp' && (mcpExcludedReferences.has(name) || sourceFiles.has(`adapters/mcp/references/${name}`) || sourceFiles.has(`adapters/plugin/references/${name}`))) continue;
         const excluded = mode === 'mcp' && mcpExcludedSections.get(name);
-        const content = excluded ? Buffer.from(bytes.toString().split(/(?=^## )/m)
+        let content = excluded ? Buffer.from(bytes.toString().split(/(?=^## )/m)
           .filter(section => !excluded.has(section.match(/^## (.+)\r?$/m)?.[1])).join('').trimEnd() + '\n') : bytes;
+        if (mode === 'mcp' && mcpReferencePresentationOverrides.has(name)) {
+          let markdown = content.toString();
+          for (const [original, replacement] of mcpReferencePresentationOverrides.get(name)) {
+            if (!markdown.includes(original)) throw new Error(`Missing shared presentation text: ${path}`);
+            markdown = markdown.replace(original, replacement);
+          }
+          content = Buffer.from(markdown);
+        }
         add(path.replace('shared/', ''), content, path);
       }
     }
