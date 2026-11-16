@@ -61,8 +61,11 @@ export function* conversationPlan(cases, variants, repeat = 1) {
 export function requestsFor(testCase, references = []) {
   const invocation = testCase.trigger === 'should-not-trigger' ? ''
     : 'Use the influencer-marketing-manager skill to handle this request.\n\n';
+  const fileScope = testCase.requires_isolated_workspace
+    ? "Supplied isolated exercise files (local changes require the user's current request and adapter contract):"
+    : 'Supplied read-only files:';
   const files = testCase.files?.length
-    ? '\n\nSupplied read-only files:\n' + testCase.files.join('\n') : '';
+    ? '\n\n' + fileScope + '\n' + testCase.files.join('\n') : '';
   const context = references.length ? '\n\nManager references preloaded by the evaluation harness (not case evidence):\n' +
     references.map(item => `\n--- Manager reference: ${item.path} ---\n${item.text}\n--- End Manager reference ---`).join('\n') : '';
   // Later user input and all expectations stay outside the current model turn.

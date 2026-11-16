@@ -994,6 +994,117 @@
         "Carries the original studio question and version/capability evidence to the relevant M/P/W owners for the October 29 review, specifying an observation that can support the next decision rather than merely promising to monitor",
         "Distinguishes proposed checks and edits from observed task completion, continued use and payment; a single task or trial does not establish sustained use, paid demand or PMF, and extra evidence is chosen for the decision rather than forced into a universal timetable"
       ]
+    },
+    {
+      "id": 60,
+      "category": "existing-job-migration-and-scoped-confirmation",
+      "trigger": "should-trigger",
+      "requires_isolated_workspace": true,
+      "prompt": "这是给你的本地离线演练副本。把已有达人跟进任务的执行通道迁移为CLI，能力缺口时只暂停依赖步骤；先读取现状并给我两项具体改动确认，不执行修改或日任务。保留原目标、运行节奏、筛选标准、消息版本、待办和人工等待。提供的模拟适配器就是本次可用工具，不连接真实系统。不要制作HTML。",
+      "expected_output": "A concrete migration proposal followed by an authorized update of the same local job, preserving its business rules and state.",
+      "files": [
+        "inputs/operating-sim.py",
+        "inputs/operating-sim.md",
+        "inputs/case60-existing-job.json"
+      ],
+      "expectations": [
+        "Reads the actual local job and proposes only changing execution.route to cli and execution.on_gap to pause-dependent; first turn does not apply, run, create another job or claim completion",
+        "Preserves job-followups, its revision basis, weekday 10:20 Asia/Shanghai schedule, two-partnership November objective, UK/YouTube/workshop eligibility, approved message version, capacity, existing progress and object holds",
+        "Makes the proposed changes reviewable with the existing adapter rather than restarting campaign intake, inventing capability support or assuming a preview token is approval"
+      ],
+      "followups": [
+        {
+          "prompt": "确认这两项：通道改为cli，能力缺口策略改为pause-dependent。继续把迁移做完，今天先不运行日任务。",
+          "expectations": [
+            "Uses the existing authority to apply only those two changes to the same local job; does not ask for the same approval again or broaden routine sending or commercial authority",
+            "Actually invokes the supplied local adapter with a matching preview and idempotency key, then reads back stored job state; merely describing an update is incomplete",
+            "Retains the original schedule, target, eligibility, message version, progress and per-object holds, with one job and no day run, queue reservation, live call or external send",
+            "Distinguishes the completed local migration from an enabled production connection, an unattended real deployment or the monthly partnership outcome"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 61,
+      "category": "execute-once-and-verify-local-outcome",
+      "trigger": "should-trigger",
+      "requires_isolated_workspace": true,
+      "prompt": "请在提供的离线副本里把已批准的达人跟进任务实际执行一次，本次运行键用cycle-01。只允许模拟适配器按现有规则把合格动作加入本地队列，不发真实邮件、不操作线上自动化、不改营销规则。拿到完成结果后告诉我本轮实际做了什么、什么还没发生，以及离月目标还差什么；不要停在方案或再次索要已给出的例行权限。不要制作HTML。",
+      "expected_output": "One actual isolated simulation run with authoritative completion readback and a truthful distinction between queued work and business outcomes.",
+      "files": [
+        "inputs/operating-sim.py",
+        "inputs/operating-sim.md",
+        "inputs/case61-ready-job.json"
+      ],
+      "expectations": [
+        "Reads the ready job and actually calls the supplied local run operation with cycle-01; advisory steps alone do not satisfy the execution request",
+        "Uses the returned run ID and continues bounded result reads from accepted/running to completed; does not substitute another run or claim completion from acceptance",
+        "Reads back exactly one queued action for synthetic-stone using the approved message version, with one run and one queue entry; held, suppressed, replied and already-followed objects remain untouched",
+        "Keeps local reservations, dispatch, delivery, reply and cooperation distinct; reservation use becomes seven of seven but does not establish a sent or delivered email",
+        "Retains one confirmed partnership against a target of two; completing the local run does not complete the monthly business goal or a real unattended deployment",
+        "Does not modify rules, contacts, authority, host software or real services; preserves the idempotency key if querying or recovering the same run"
+      ]
+    },
+    {
+      "id": 62,
+      "category": "object-hold-persistence-across-heartbeats",
+      "trigger": "should-trigger",
+      "prompt": "请按这份独立合成状态接手今天的达人工作：River先保持等待人工确认，其他对象按已有规则继续。给运营一份够用的状态与处理建议，区分可以自主准备和需要我决定的事。只用材料，不联网、不发送、不修改记录。不要制作HTML。",
+      "expected_output": "Object-scoped holds and existing authority survive a later routine heartbeat while new evidence invalidates stale actions.",
+      "files": [
+        "inputs/case62-scoped-holds.json"
+      ],
+      "expectations": [
+        "Keeps River on the latest explicit human hold without replying, negotiating, accepting its proposal or turning its hold into a stop for every relationship",
+        "Allows Stone to continue the already-authorized, qualified follow-up after current-state checks without demanding a new approval for the same message and scope",
+        "Excludes unsubscribed Moss despite a new quote, does not exceed Lake's one-followup cap, and keeps research-only Sky provisional",
+        "Preserves the project-defined daily cap, evidence and remaining business decisions without treating interest or a quote as confirmed cooperation"
+      ],
+      "followups": [
+        {
+          "prompt": "到了下一次例行检查，继续使用原来的日任务提示。我的River决定没有变化。新的独立快照显示：Stone刚收到一条人工回复，要求讨论付费使用权；没有给这类回复自动发信的批准规则。Sky已由负责人核验符合原标准、尚未触达且不在抑制名单。请更新本轮建议，只做分析和草稿，不发送、不改记录。",
+          "expectations": [
+            "Preserves River's specific hold across the routine heartbeat; an old standing prompt is not a release or new commercial authority",
+            "Invalidates Stone's stale follow-up after the human reply, preserves the rights question and prepares a response/decision for approval instead of sending an automatic reminder or accepting rights terms",
+            "Allows Sky to enter the existing authorized workflow after the supplied qualification change, without inventing a new search or unrelated approval gate",
+            "Continues the unsubscribe and follow-up-cap exclusions and clearly attributes new state to the supplied snapshot rather than claiming live reads or completed actions"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 63,
+      "category": "outreach-counter-and-uncertain-outcome-reconciliation",
+      "trigger": "should-trigger",
+      "prompt": "请读这个独立定义的适配器契约和回读快照，给运营当前结果、下一步和周报用语。同事认为超时等于没发送，想整批重发，并把accepted_count当全部送达；还打算给所有人继续跟进。请判断。只用材料，不联网、不重发、不修改记录，不需要HTML。",
+      "expected_output": "Contract-based operational reporting and readback recovery without duplicate writes or suppression loss.",
+      "files": [
+        "inputs/case63-outreach-readback.json"
+      ],
+      "expectations": [
+        "Uses the fixture-defined semantics to distinguish four accepted, three dispatched and two delivery-confirmed recipients; reports zero observed replies without calling the entire batch delivered",
+        "Keeps r3's confirmed delivery and later unsubscribe compatible, while retaining its current suppression for all future marketing actions",
+        "Keeps r4 pending and r2's delivery unconfirmed rather than labeling them sent, failed or safe to retry from a transport timeout",
+        "Queries or proposes reconciliation through the existing run, recipient state and original request key before any retry; never recommends blindly resending the whole batch",
+        "Preserves identifiers, snapshot time and unresolved business state in a proportionate handoff; does not invent new calls, cooperation, production Nox field semantics or completed recovery"
+      ]
+    },
+    {
+      "id": 64,
+      "category": "bounded-runtime-maintenance-routing",
+      "trigger": "should-not-trigger",
+      "prompt": "这次只检查NoxInfluencer CLI和Skills的版本与实际可用能力，营销策略和原任务规则都已经确定。根据提供的独立维护清单，告诉我当前知道什么、还缺哪项核验、怎样最小恢复。不要联网或实际安装，不重做营销方案，也不修改原任务。不要制作HTML。",
+      "expected_output": "A bounded product-capability maintenance assessment that distinguishes version labels, stale registry observations and actual schema availability.",
+      "files": [
+        "inputs/case64-runtime-maintenance.json"
+      ],
+      "expectations": [
+        "Keeps the work in the product/runtime capability workflow without loading Manager or restarting campaign, audience, budget or creator strategy intake",
+        "Reports installed CLI 0.9.4 and the dated registry observation separately; does not claim it is currently latest from a two-day-old snapshot",
+        "Detects that the needed creator.content operation is absent despite matching version labels, and treats differing Skill digests as an unresolved identity/provenance check rather than proof of an available update",
+        "Proposes a minimal installed-path, package/schema and source-manifest verification or bounded recovery; does not invent installation success, authentication recovery or a verified current release",
+        "Preserves settled task rules and explicitly requested no-install/no-live-call scope without replacing the user's workflow, changing global configuration or inventing a capability"
+      ]
     }
   ]
 }

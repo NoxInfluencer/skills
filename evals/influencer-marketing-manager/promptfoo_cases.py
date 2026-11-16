@@ -13,8 +13,8 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
-DEFAULT_CASE_IDS = (9, 10, 12, 13, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 33, 34, 37, 38, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59)
-MANUAL_REVIEW_CASE_IDS = {9, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 37, 38, 39, 40, 41, 42, 43, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59}
+DEFAULT_CASE_IDS = (9, 10, 12, 13, 17, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 33, 34, 37, 38, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 63, 64)
+MANUAL_REVIEW_CASE_IDS = {9, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 37, 38, 39, 40, 41, 42, 43, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64}
 SKILL_NAME = "influencer-marketing-manager"
 
 
@@ -295,8 +295,8 @@ def create_tests(config: dict[str, Any] | None = None) -> list[dict[str, Any]]:
             raise ValueError(f"case {case_id} has no configured outcome review")
 
         case = cases[case_id]
-        if case.get("followups"):
-            raise ValueError(f"case {case_id} requires run_conversations.mjs; do not discard later turns")
+        if case.get("followups") or case.get("requires_isolated_workspace"):
+            raise ValueError(f"case {case_id} requires run_conversations.mjs; preserve isolated writes and later turns")
         routing_type = "not-skill-used" if case["trigger"] == "should-not-trigger" else "skill-used"
         tests.append(
             {
@@ -372,9 +372,9 @@ def run_self_test() -> None:
     assert brief["nested"][0]["digest"] == "sha256-prefix-16:" + "c" * 16
     assert full["digest"] == "a" * 64
     tests = create_tests({"case_ids": list(DEFAULT_CASE_IDS)})
-    assert [test["metadata"]["case_id"] for test in tests] == [9, 10, 12, 13, 17, 19, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 33, 34, 37, 38, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59]
+    assert [test["metadata"]["case_id"] for test in tests] == [9, 10, 12, 13, 17, 19, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 33, 34, 37, 38, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 63, 64]
     manual_tests = [test for test in tests if test["metadata"].get("outcome_review") == "manual"]
-    assert [test["metadata"]["case_id"] for test in manual_tests] == [9, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 37, 38, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59]
+    assert [test["metadata"]["case_id"] for test in manual_tests] == [9, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 37, 38, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 63, 64]
     assert all(test["assert"][0]["metric"] == "response-evidence" for test in manual_tests)
     assert all(all(item["metric"] != "task-outcome" for item in test["assert"]) for test in manual_tests)
     assert not _run_javascript(RESPONSE_EVIDENCE_ASSERTION, "  ")["pass"]

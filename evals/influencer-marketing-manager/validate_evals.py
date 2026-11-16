@@ -70,6 +70,9 @@ def validate_document(document: Any, fixture_root: Path = FIXTURE_ROOT) -> list[
                 if not isinstance(checks, list) or not checks or any(not isinstance(item, str) or not item.strip() for item in checks):
                     errors.append(f"{location}.followups require non-empty expectations")
 
+        if not isinstance(eval_case.get("requires_isolated_workspace", False), bool):
+            errors.append(f"{location}.requires_isolated_workspace must be a boolean")
+
         files = eval_case.get("files", [])
         if not isinstance(files, list):
             errors.append(f"{location}.files must be a list")
@@ -133,6 +136,10 @@ def run_self_test() -> None:
         {
             "skill_name": "influencer-marketing-manager",
             "evals": [{**valid_case, "trigger": ["should-trigger"]}],
+        },
+        {
+            "skill_name": "influencer-marketing-manager",
+            "evals": [{**valid_case, "requires_isolated_workspace": "true"}],
         },
         *[
             {"skill_name": "influencer-marketing-manager", "evals": [{**valid_case, "files": files}]}

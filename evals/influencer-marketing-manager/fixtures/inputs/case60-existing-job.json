@@ -1,0 +1,81 @@
+{
+  "fixture_kind": "synthetic-operating-simulation",
+  "snapshot_at": "2026-11-16T10:00:00+08:00",
+  "jobs": [
+    {
+      "id": "job-followups",
+      "revision": 7,
+      "schedule": {
+        "local_time": "10:20",
+        "timezone": "Asia/Shanghai",
+        "frequency": "weekdays"
+      },
+      "confirmed_target": 2,
+      "target_period": "2026-11",
+      "eligibility": {
+        "market": "UK",
+        "platform": "youtube",
+        "scene": "real workshop use"
+      },
+      "approved_message_version": "intro-v4-followup-v2",
+      "daily_reservation_cap": 7,
+      "max_followups": 1,
+      "execution": {
+        "route": "manual-export",
+        "on_gap": "manual-review"
+      }
+    }
+  ],
+  "confirmed_partnerships": 1,
+  "daily_reservations_used": 6,
+  "relationships": [
+    {
+      "creator_id": "synthetic-river",
+      "human_hold": true,
+      "routine_authority": true,
+      "suppressed": false,
+      "has_reply": true,
+      "followup_due": false,
+      "followups": 0
+    },
+    {
+      "creator_id": "synthetic-stone",
+      "human_hold": false,
+      "routine_authority": true,
+      "suppressed": false,
+      "has_reply": false,
+      "followup_due": true,
+      "followups": 0
+    },
+    {
+      "creator_id": "synthetic-moss",
+      "human_hold": false,
+      "routine_authority": true,
+      "suppressed": true,
+      "has_reply": false,
+      "followup_due": true,
+      "followups": 0
+    },
+    {
+      "creator_id": "synthetic-lake",
+      "human_hold": false,
+      "routine_authority": true,
+      "suppressed": false,
+      "has_reply": true,
+      "followup_due": true,
+      "followups": 0
+    },
+    {
+      "creator_id": "synthetic-sky",
+      "human_hold": false,
+      "routine_authority": true,
+      "suppressed": false,
+      "has_reply": false,
+      "followup_due": true,
+      "followups": 1
+    }
+  ],
+  "outbound_queue": [],
+  "runs": [],
+  "applied_requests": {}
+}

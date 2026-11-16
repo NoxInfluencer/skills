@@ -1,0 +1,46 @@
+{
+  "fixture_kind": "wholly-synthetic-evaluation",
+  "contract": "The fields below are defined for this invented adapter only, not claimed NoxInfluencer semantics. All snapshots refer to the same four distinct recipient IDs and run. accepted_count is distinct recipients accepted into the run, sent_count means dispatch recorded, delivery_count means delivery confirmed. Suppressed is a current independent flag; delivery may precede unsubscribe.",
+  "run_id": "synthetic-run-z",
+  "write_observation": {
+    "request_key": "batch-z",
+    "transport": "client timed out after request submission",
+    "accepted_count": 4
+  },
+  "readback_at": "2026-11-16T11:05:00+08:00",
+  "report": {
+    "accepted_count": 4,
+    "sent_count": 3,
+    "delivery_count": 2,
+    "replying_creators": 0
+  },
+  "recipients": [
+    {
+      "id": "r1",
+      "dispatch_at": "2026-11-16T11:01:00+08:00",
+      "delivery_at": "2026-11-16T11:02:00+08:00",
+      "suppressed": false
+    },
+    {
+      "id": "r2",
+      "dispatch_at": "2026-11-16T11:01:00+08:00",
+      "delivery_at": null,
+      "suppressed": false
+    },
+    {
+      "id": "r3",
+      "dispatch_at": "2026-11-16T11:01:00+08:00",
+      "delivery_at": "2026-11-16T11:02:00+08:00",
+      "suppressed": true,
+      "unsubscribed_at": "2026-11-16T11:03:00+08:00"
+    },
+    {
+      "id": "r4",
+      "dispatch_at": null,
+      "delivery_at": null,
+      "queue_state": "pending",
+      "suppressed": false
+    }
+  ],
+  "available_readback": "The owning adapter can query synthetic-run-z, its recipients and the original request key. No second send is approved merely because the client timed out."
+}

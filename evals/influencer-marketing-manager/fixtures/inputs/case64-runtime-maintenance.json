@@ -1,0 +1,25 @@
+{
+  "fixture_kind": "wholly-synthetic-evaluation",
+  "observation_at": "2026-11-16T09:00:00+08:00",
+  "installed_cli": {
+    "version": "0.9.4",
+    "location": "isolated exercise package",
+    "schema_commands": [
+      "creator.search",
+      "quota.read"
+    ],
+    "needed_command": "creator.content",
+    "needed_command_present": false
+  },
+  "registry_snapshot": {
+    "observed_at": "2026-11-14T18:00:00+08:00",
+    "latest_observed_version": "0.9.4",
+    "current_latest_not_queried": true
+  },
+  "skills": {
+    "installed_manifest_digest": "synthetic-installed-a",
+    "reference_manifest_digest": "synthetic-reference-b",
+    "reference_version_provenance": "not yet established"
+  },
+  "constraints": "No installation, authentication changes, live requests or automation changes in this check. Marketing choices and task rules are already settled."
+}

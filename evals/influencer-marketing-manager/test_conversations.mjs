@@ -45,6 +45,31 @@ test('only user input and source paths cross into each turn', () => {
     'FIRST\n\nSupplied read-only files:\ninputs/source.md');
 });
 
+test('authorized exercise writes stay in independent copies without changing read-only defaults', () => {
+  const prepared = mkdtempSync(resolve(tmpdir(), 'conversation-writable-test-'));
+  const roots = [prepared];
+  try {
+    mkdirSync(resolve(prepared, '.agents'));
+    mkdirSync(resolve(prepared, 'inputs'));
+    writeFileSync(resolve(prepared, 'inputs/state.json'), '{"runs":0}');
+    const exercise = { ...testCase, files: ['inputs/state.json'], requires_isolated_workspace: true };
+    const first = copyCaseWorkspace(prepared, exercise);
+    const second = copyCaseWorkspace(prepared, exercise);
+    roots.push(first, second);
+    writeFileSync(resolve(first, 'inputs/state.json'), '{"runs":1}');
+    assert.equal(JSON.parse(readFileSync(resolve(second, 'inputs/state.json'))).runs, 0);
+    assert.equal(JSON.parse(readFileSync(resolve(prepared, 'inputs/state.json'))).runs, 0);
+    const request = requestsFor(exercise)[0];
+    assert.match(request, /isolated exercise files/);
+    assert.match(request, /changes require the user's current request and adapter contract/);
+    assert.ok(!request.includes('Supplied read-only files:'));
+    assert.ok(!request.includes('HIDDEN RUBRIC'));
+    assert.match(requestsFor(testCase)[0], /Supplied read-only files:/);
+  } finally {
+    for (const root of roots) rmSync(root, { recursive: true, force: true });
+  }
+});
+
 test('repeated rounds alternate variant order without changing the default schedule', () => {
   const cases = [testCase, { ...testCase, id: 32 }];
   const variants = ['baseline', 'candidate'];
