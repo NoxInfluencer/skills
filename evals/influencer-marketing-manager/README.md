@@ -9,6 +9,9 @@ runtime maintenance. An exported conversation motivates the needs, not the
 answer key. The review separates confirmed investigation/harness problems,
 coverage gaps and behavioral hypotheses. Cases 60/61 use a local-only simulator
 in isolated workspaces; they never operate a real account or scheduler.
+Two bounded baseline cases (three turns) produce usable local outcomes, with
+one partially met returned-ID criterion in case 61. Cases 62–64 are unexecuted;
+the review records the evidence and limits without claiming Skill improvement.
 
 The [2026-10-25 validation-design review](review-2026-10-25-validation-design.md)
 adds opt-in repeated observations and explicit reference preloading. These
