@@ -45,6 +45,17 @@ test('only user input and source paths cross into each turn', () => {
     'FIRST\n\nSupplied read-only files:\ninputs/source.md');
 });
 
+test('natural invocation removes only the forced Skill request and preserves routing labels', () => {
+  const requests = requestsFor(testCase, [], 'natural');
+  assert.equal(requests[0], 'FIRST\n\nSupplied read-only files:\ninputs/source.md');
+  assert.equal(requests[1], 'LATER');
+  assert.equal(testCase.trigger, 'should-trigger');
+  assert.ok(!requests.join('\n').includes('RUBRIC'));
+  const negative = { ...testCase, trigger: 'should-not-trigger' };
+  assert.deepEqual(requestsFor(negative, [], 'natural'), requestsFor(negative));
+  assert.throws(() => requestsFor(testCase, [], 'unknown'), /explicit or natural/);
+});
+
 test('authorized exercise writes stay in independent copies without changing read-only defaults', () => {
   const prepared = mkdtempSync(resolve(tmpdir(), 'conversation-writable-test-'));
   const roots = [prepared];

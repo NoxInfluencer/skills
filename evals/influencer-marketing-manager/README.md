@@ -146,6 +146,10 @@ the supplied state file authoritative so an extra copy cannot hide the action
 from capture. Ordinary read-only cases retain their request and execution scope.
 Use `--no-tool-network` for local-only probes; this overrides tool network access
 without changing the model connection or the existing default for other runs.
+Use `--invocation natural` to omit the forced Manager request and observe Skill
+selection for any case. The default remains `explicit`; negative routing cases
+already omit that request in either mode. Reports record the invocation mode,
+so naturally selected and explicitly invoked behavior are not conflated.
 
 For a fixed diagnostic comparison, optionally add:
 

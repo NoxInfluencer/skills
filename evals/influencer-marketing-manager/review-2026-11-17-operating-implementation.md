@@ -118,3 +118,26 @@ expectations, first output and partial judgment are retained, and it remains
 selectable for historical diagnosis. This does not convert the original result
 into a pass. The first 65 case objects remain unchanged; automatic outcome
 graders and runtime code are unchanged in this stage.
+
+## Stage 3: measure discovery before changing business guidance
+
+The independently frozen case 66 produces the correct environment-bound
+maintenance decision and makes no host CLI call. It nevertheless explicitly
+loads both the Manager and product Skills because the request concerns an
+existing marketing workflow. The product answer is usable, but the routing
+criterion is partial. This is distinct from case 64's subject ambiguity.
+
+The runner now offers `--invocation natural`, retaining the original explicit
+default and recording the mode. It removes only the forced Manager request,
+without changing the case's routing label, facts, later prompts or expectations.
+This supports a positive routing regression as well as negative maintenance
+and missing-source controls; explicit invocation cannot establish discovery.
+
+One candidate is frozen: revise only the Manager frontmatter description to
+lead with business judgment and name settled runtime maintenance as product
+capability work. The business body and references remain unchanged, and the
+Expert copy must match. Compare case 66 with its exact pre-change request and
+conditions, and run cases 62 and 12 under natural invocation as positive business
+and negative writing controls. Keep the candidate only if all three preserve
+their intended selection and decisions. Otherwise restore it, retain the
+evaluation controls and complete evidence, and make no semantic rerun.

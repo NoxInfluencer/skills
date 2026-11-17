@@ -79,8 +79,9 @@ export function* conversationPlan(cases, variants, repeat = 1) {
   }
 }
 
-export function requestsFor(testCase, references = []) {
-  const invocation = testCase.trigger === 'should-not-trigger' ? ''
+export function requestsFor(testCase, references = [], invocationMode = 'explicit') {
+  if (!['explicit', 'natural'].includes(invocationMode)) throw new Error('Use explicit or natural invocation');
+  const invocation = invocationMode === 'natural' || testCase.trigger === 'should-not-trigger' ? ''
     : 'Use the influencer-marketing-manager skill to handle this request.\n\n';
   const fileScope = testCase.requires_isolated_workspace
     ? "Supplied isolated exercise files (local changes require the user's current request and adapter contract):"
@@ -94,14 +95,14 @@ export function requestsFor(testCase, references = []) {
     ...(testCase.followups || []).map(turn => turn.prompt)];
 }
 
-export async function runConversation(thread, testCase, save, timeoutMs, references = [], directory) {
+export async function runConversation(thread, testCase, save, timeoutMs, references = [], directory, invocationMode = 'explicit') {
   const result = { case_id: testCase.id, category: testCase.category,
     review_required: true, turns: [], completed: false };
   if (testCase.requires_isolated_workspace) {
     if (!directory) throw new Error('An isolated exercise requires its working directory for state evidence');
     result.state_snapshots = { before: captureState(directory, testCase), after_turn: {} };
   }
-  for (const request of requestsFor(testCase, references)) {
+  for (const request of requestsFor(testCase, references, invocationMode)) {
     const turn = { request, events: [], response: '', completed: false };
     result.turns.push(turn);
     save(result);
@@ -147,9 +148,11 @@ async function main() {
     repeat: { type: 'string', default: '1' },
     'preload-references': { type: 'string' },
     'no-tool-network': { type: 'boolean', default: false },
+    invocation: { type: 'string', default: 'explicit' },
     output: { type: 'string' },
   } });
   if (!values.output) throw new Error('--output is required; use an ignored workspace path');
+  if (!['explicit', 'natural'].includes(values.invocation)) throw new Error('Use explicit or natural invocation');
   const ids = values.cases.split(',').map(Number);
   const variants = values.variants.split(',');
   if (!ids.length || ids.some(id => !Number.isInteger(id)) || new Set(ids).size !== ids.length) {
@@ -195,6 +198,7 @@ async function main() {
     schema_version: 3, started_at: new Date().toISOString(),
     fixture_snapshot: JSON.parse(readFileSync(resolve(workspace, 'fixture-manifest.json'), 'utf8')),
     design: {
+      invocation_mode: values.invocation,
       repeat: Number(values.repeat),
       reference_mode: referencePaths.length ? 'preloaded-references' : 'self-selected-reads',
       preloaded_references: Object.fromEntries(variants.map(variant => [variant,
@@ -215,7 +219,7 @@ async function main() {
       const result = await runConversation(thread, testCase, value => {
         report.conversations[index] = { variant, repetition, ...value };
         save();
-      }, config.evaluateOptions.timeoutMs, references[variant], directory);
+      }, config.evaluateOptions.timeoutMs, references[variant], directory, values.invocation);
       console.log(`${variant} case ${testCase.id} repetition ${repetition}: ${result.completed ? 'recorded; review required' : 'runtime error'}`);
     } finally {
       rmSync(directory, { recursive: true, force: true });
