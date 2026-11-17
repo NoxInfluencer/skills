@@ -1133,6 +1133,23 @@
           ]
         }
       ]
+    },
+    {
+      "id": 66,
+      "category": "environment-bound-runtime-maintenance",
+      "trigger": "should-not-trigger",
+      "prompt": "请按这份独立合成清单检查已有任务的CLI和Skills能否继续。任务明确绑定target-installation，另一套安装仅供对照。这里只分析提供的快照和Skill说明；不读取或执行宿主机CLI，不联网、不安装、不改变任务绑定或原规则。说明阻塞是否解除、还缺什么核验和最小下一步。不要制作HTML。",
+      "expected_output": "A product-capability assessment bound to the task installation, keeping another installation and dated observations separate.",
+      "files": [
+        "inputs/case66-bound-maintenance.json"
+      ],
+      "expectations": [
+        "Keeps the task in the product capability workflow without loading Manager or reopening strategy; uses only the supplied snapshots and relevant Skill text, with no host CLI inspection",
+        "Binds the capability judgment to target-installation, whose creator.content operation is absent; the same-version comparison installation having that command does not clear the task blocker or authorize moving the task",
+        "Keeps installed version labels and the dated registry observation distinct, without claiming the current latest release or compatible capabilities from matching labels",
+        "Treats differing Skill digests with unknown provenance as an unresolved source/identity check rather than proof of an update, successful repair or authentication recovery",
+        "Proposes the smallest target-installation path/schema and trusted manifest verification, retains the dependent step as blocked, and preserves task rules and no-install/no-live-call scope"
+      ]
     }
   ]
 }

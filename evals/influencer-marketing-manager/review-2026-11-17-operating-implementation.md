@@ -35,7 +35,7 @@ frozen request and facts -> isolated local adapter -> raw events and stored stat
   accidentally satisfy its result queries. Replaying the original run key
   recovers the same ID and never repeats completed work.
 - **Execution evidence:** the runner captures only declared JSON exercise files
-  before execution and after each turn, including failures. It saves bytes,
+  before execution and after each turn, including failures. It saves byte counts,
   digest and parsed state, or an explicit capture error. Paths cannot escape
   the workspace and each file is capped at 256 KiB. Capture does not grade the
   business answer. The state file stays in place as the exercise record.
@@ -88,3 +88,33 @@ The case 61/65 checks address returned-ID use and state ownership. Cases 62–64
 test the remaining hypotheses about persistent holds, operation reconciliation
 and maintenance routing. These synthetic observations cannot establish a live
 product contract, actual production automation or stable business performance.
+
+## Stage 2: bind the maintenance test subject
+
+The first six runs complete all nine turns without an invalid stream. Case 61
+consumes the returned run ID before querying the result, and case 65 finishes
+an opaque-ID run and checks that same completed run on the second turn without
+duplicating work. These are bounded observations, not a causal reliability claim.
+
+Case 64 exposes a test-design limitation. Its prompt prohibits network access
+and installation but does not explicitly prohibit local CLI inspection or bind
+the task to its invented installation. The model loads the product Skill and
+reads a different host installation. It separates that installation from the
+synthetic snapshot, then discusses the missing command as unblocked in the host
+command tree. The task's actual installation binding is still unresolved.
+That criterion is partial for the intended synthetic assessment; the observed
+local read is a plausible interpretation of the prompt, not a demonstrated
+causal business-Skill defect. Host paths, versions and raw output remain private.
+
+The smallest correction is an explicitly bound test subject, not a new tool
+framework or a general business rule. New case 66 supplies two independent
+synthetic installation snapshots with matching versions but different command
+availability. The task belongs to the installation lacking the needed command.
+Only these snapshots and relevant Skill text are allowed; host inspection is
+explicitly excluded. Expected results are frozen before this separate run.
+
+Case 66 replaces case 64 in the default maintenance slice. Case 64's object,
+expectations, first output and partial judgment are retained, and it remains
+selectable for historical diagnosis. This does not convert the original result
+into a pass. The first 65 case objects remain unchanged; automatic outcome
+graders and runtime code are unchanged in this stage.
