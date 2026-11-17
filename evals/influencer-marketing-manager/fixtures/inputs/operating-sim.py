@@ -6,6 +6,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+from uuid import uuid4
 
 
 def route_request(args):
@@ -20,6 +21,10 @@ def preview_token(job, request):
 def operate(state, args):
     if state.get("fixture_kind") != "synthetic-operating-simulation":
         raise ValueError("This adapter accepts synthetic fixtures only")
+    for collection, field in (("jobs", "id"), ("relationships", "creator_id")):
+        ids = [item[field] for item in state[collection]]
+        if any(not isinstance(value, str) or not value for value in ids) or len(set(ids)) != len(ids):
+            raise ValueError(f"{collection} require distinct non-empty identities")
     if args.operation == "show":
         return state, False
     job = next((item for item in state["jobs"] if item["id"] == args.job_id), None)
@@ -55,7 +60,8 @@ def operate(state, args):
             return {"run_id": prior["id"], "status": prior["status"], "idempotent_replay": True}, False
         if job["execution"]["route"] != "cli":
             raise ValueError("The selected job has no active CLI adapter")
-        run = {"id": f"local-run-{len(state['runs']) + 1}", "job_id": job["id"],
+        run_id = "local-run-" + uuid4().hex if state.get("opaque_run_ids") else f"local-run-{len(state['runs']) + 1}"
+        run = {"id": run_id, "job_id": job["id"],
                "idempotency_key": args.idempotency_key, "status": "accepted", "polls": 0, "actions": []}
         state["runs"].append(run)
         return {"run_id": run["id"], "status": "accepted"}, True

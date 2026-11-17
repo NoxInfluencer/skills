@@ -4,7 +4,7 @@ import { mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, symlinkSync,
 import { createHash } from 'node:crypto';
 import { resolve } from 'node:path';
 import { tmpdir } from 'node:os';
-import { conversationPlan, copyCaseWorkspace, loadReferences, requestsFor, runConversation } from './run_conversations.mjs';
+import { captureState, conversationPlan, copyCaseWorkspace, loadReferences, requestsFor, runConversation } from './run_conversations.mjs';
 
 const testCase = { id: 31, trigger: 'should-trigger', prompt: 'FIRST', expectations: ['HIDDEN RUBRIC'],
   files: ['inputs/source.md'], followups: [{ prompt: 'LATER', expectations: ['HIDDEN FOLLOWUP RUBRIC'] }] };
@@ -203,4 +203,66 @@ test('an empty or truncated turn is not completion', async () => {
     assert.equal(result.completed, false);
     assert.equal(result.turns.length, 1);
   }
+});
+
+test('isolated state evidence survives each turn and a later runtime failure', async () => {
+  const root = mkdtempSync(resolve(tmpdir(), 'conversation-state-evidence-'));
+  try {
+    mkdirSync(resolve(root, 'inputs'));
+    const file = resolve(root, 'inputs/state.json');
+    writeFileSync(file, '{"runs":0}');
+    const exercise = { ...testCase, requires_isolated_workspace: true, files: ['inputs/state.json'] };
+    let calls = 0;
+    const thread = { async runStreamed() {
+      calls++;
+      return { events: (async function* () {
+        writeFileSync(file, JSON.stringify({ runs: calls }));
+        if (calls === 2) throw new Error('connection lost after local write');
+        yield { type: 'item.completed', item: { type: 'agent_message', text: 'first complete' } };
+        yield { type: 'turn.completed' };
+      })() };
+    } };
+    let saved;
+    const result = await runConversation(thread, exercise, value => { saved = structuredClone(value); }, 1000, [], root);
+    assert.equal(result.completed, false);
+    assert.equal(saved.state_snapshots.before['inputs/state.json'].state.runs, 0);
+    assert.equal(saved.state_snapshots.after_turn[1]['inputs/state.json'].state.runs, 1);
+    const after = saved.state_snapshots.after_turn[2]['inputs/state.json'];
+    assert.equal(after.state.runs, 2);
+    assert.equal(after.sha256, createHash('sha256').update(readFileSync(file)).digest('hex'));
+    assert.match(saved.turns[1].error, /connection lost/);
+    assert.equal(saved.turns[0].response, 'first complete');
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test('state capture is bounded to declared JSON inside the workspace and records missing evidence', () => {
+  const root = mkdtempSync(resolve(tmpdir(), 'conversation-state-boundary-'));
+  const outside = mkdtempSync(resolve(tmpdir(), 'conversation-private-state-'));
+  try {
+    const exercise = { requires_isolated_workspace: true,
+      files: ['linked.json', '../private.json', 'large.json', 'missing.json', 'invalid.json', 'source.md'] };
+    writeFileSync(resolve(outside, 'private.json'), '{"secret":"outside-content"}');
+    symlinkSync(resolve(outside, 'private.json'), resolve(root, 'linked.json'));
+    writeFileSync(resolve(root, 'large.json'), ' '.repeat(256 * 1024 + 1));
+    writeFileSync(resolve(root, 'invalid.json'), '{');
+    writeFileSync(resolve(root, 'source.md'), 'not a state artifact');
+    const state = captureState(root, exercise);
+    assert.equal(Object.keys(state).length, 5);
+    assert.ok(Object.values(state).every(value => value.error && !value.state));
+    assert.ok(!JSON.stringify(state).includes('outside-content'));
+    assert.match(state['linked.json'].error, /inside/);
+    assert.match(state['large.json'].error, /256 KiB/);
+    assert.equal(captureState(root, testCase), undefined);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+    rmSync(outside, { recursive: true, force: true });
+  }
+});
+
+test('an isolated exercise cannot run without a directory for its state evidence', async () => {
+  const thread = { async runStreamed() { assert.fail('must validate before execution'); } };
+  await assert.rejects(runConversation(thread, { ...testCase, requires_isolated_workspace: true },
+    () => {}, 1000), /working directory/);
 });

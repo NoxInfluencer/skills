@@ -28,6 +28,27 @@ export function copyCaseWorkspace(preparedRoot, testCase) {
   }
 }
 
+export function captureState(directory, testCase) {
+  if (!testCase.requires_isolated_workspace) return undefined;
+  const root = realpathSync(directory);
+  return Object.fromEntries((testCase.files || []).filter(name => name.endsWith('.json')).map(name => {
+    try {
+      const path = realpathSync(resolve(root, name));
+      const within = relative(root, path);
+      if (isAbsolute(within) || within === '..' || within.startsWith('..' + sep)) {
+        throw new Error('State must stay inside the exercise workspace');
+      }
+      const stat = statSync(path);
+      if (!stat.isFile() || stat.size > 256 * 1024) throw new Error('State must be a file of at most 256 KiB');
+      const bytes = readFileSync(path);
+      return [name, { sha256: createHash('sha256').update(bytes).digest('hex'),
+        bytes: bytes.length, state: JSON.parse(bytes.toString('utf8')) }];
+    } catch (error) {
+      return [name, { error: String(error.message || error) }];
+    }
+  }));
+}
+
 export function loadReferences(preparedRoot, paths) {
   if (new Set(paths).size !== paths.length) throw new Error('Provide distinct reference paths');
   if (!paths.length) return [];
@@ -73,9 +94,13 @@ export function requestsFor(testCase, references = []) {
     ...(testCase.followups || []).map(turn => turn.prompt)];
 }
 
-export async function runConversation(thread, testCase, save, timeoutMs, references = []) {
+export async function runConversation(thread, testCase, save, timeoutMs, references = [], directory) {
   const result = { case_id: testCase.id, category: testCase.category,
     review_required: true, turns: [], completed: false };
+  if (testCase.requires_isolated_workspace) {
+    if (!directory) throw new Error('An isolated exercise requires its working directory for state evidence');
+    result.state_snapshots = { before: captureState(directory, testCase), after_turn: {} };
+  }
   for (const request of requestsFor(testCase, references)) {
     const turn = { request, events: [], response: '', completed: false };
     result.turns.push(turn);
@@ -106,6 +131,7 @@ export async function runConversation(thread, testCase, save, timeoutMs, referen
       turn.completed = false;
     }
     turn.elapsed_ms = Date.now() - started;
+    if (result.state_snapshots) result.state_snapshots.after_turn[result.turns.length] = captureState(directory, testCase);
     save(result);
     if (!turn.completed) return result;
   }
@@ -120,6 +146,7 @@ async function main() {
     variants: { type: 'string', default: 'baseline,candidate' },
     repeat: { type: 'string', default: '1' },
     'preload-references': { type: 'string' },
+    'no-tool-network': { type: 'boolean', default: false },
     output: { type: 'string' },
   } });
   if (!values.output) throw new Error('--output is required; use an ignored workspace path');
@@ -150,7 +177,8 @@ async function main() {
   const options = {
     model, modelReasoningEffort: shared.model_reasoning_effort,
     skipGitRepoCheck: shared.skip_git_repo_check, sandboxMode: shared.sandbox_mode,
-    approvalPolicy: shared.approval_policy, networkAccessEnabled: shared.network_access_enabled,
+    approvalPolicy: shared.approval_policy,
+    networkAccessEnabled: values['no-tool-network'] ? false : shared.network_access_enabled,
     webSearchMode: shared.web_search_mode,
   };
   const env = Object.fromEntries(['PATH', 'HOME', 'USER', 'TMPDIR', 'LANG', 'OPENAI_API_KEY', 'CODEX_API_KEY']
@@ -164,7 +192,7 @@ async function main() {
     '127.0.0.1,localhost,::1,10.0.0.0/8';
   const codex = new Codex({ env, config: shared.cli_config });
   const report = {
-    schema_version: 2, started_at: new Date().toISOString(),
+    schema_version: 3, started_at: new Date().toISOString(),
     fixture_snapshot: JSON.parse(readFileSync(resolve(workspace, 'fixture-manifest.json'), 'utf8')),
     design: {
       repeat: Number(values.repeat),
@@ -187,7 +215,7 @@ async function main() {
       const result = await runConversation(thread, testCase, value => {
         report.conversations[index] = { variant, repetition, ...value };
         save();
-      }, config.evaluateOptions.timeoutMs, references[variant]);
+      }, config.evaluateOptions.timeoutMs, references[variant], directory);
       console.log(`${variant} case ${testCase.id} repetition ${repetition}: ${result.completed ? 'recorded; review required' : 'runtime error'}`);
     } finally {
       rmSync(directory, { recursive: true, force: true });

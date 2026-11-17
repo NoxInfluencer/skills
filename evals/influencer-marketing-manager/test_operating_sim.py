@@ -94,6 +94,39 @@ class OperatingSimulationTests(unittest.TestCase):
         (self.root / ".git").mkdir()
         self.command("show", success=False)
 
+    def test_opaque_run_identity_is_returned_and_recovered_without_duplicate_work(self):
+        self.load("case65-opaque-run.json")
+        run = self.command("run", "--job-id", "job-followups", "--idempotency-key", "opaque-cycle")
+        self.assertRegex(run["run_id"], r"^local-run-[0-9a-f]{32}$")
+        accepted = self.state()
+        self.command("result", "--job-id", "job-followups", "--run-id", "local-run-1", success=False)
+        self.assertEqual(self.state(), accepted)
+        recovered = self.command("run", "--job-id", "job-followups", "--idempotency-key", "opaque-cycle")
+        self.assertEqual(recovered["run_id"], run["run_id"])
+        self.assertEqual(self.state(), accepted)
+        args = ["result", "--job-id", "job-followups", "--run-id", recovered["run_id"]]
+        self.command(*args)
+        self.assertEqual(self.command(*args)["status"], "completed")
+        completed = self.state()
+        self.command("run", "--job-id", "job-followups", "--idempotency-key", "opaque-cycle")
+        self.command(*args)
+        self.assertEqual(self.state(), completed)
+        self.assertEqual(len(completed["runs"]), 1)
+        self.assertEqual(len(completed["outbound_queue"]), 1)
+
+    def test_duplicate_or_missing_identities_reject_before_mutation(self):
+        for collection, field in (("jobs", "id"), ("relationships", "creator_id")):
+            for missing in (False, True):
+                with self.subTest(collection=collection, missing=missing):
+                    state = self.load("case61-ready-job.json")
+                    if missing:
+                        state[collection][0][field] = ""
+                    else:
+                        state[collection].append(copy.deepcopy(state[collection][0]))
+                    self.state_path.write_text(json.dumps(state))
+                    self.command("run", "--job-id", "job-followups", "--idempotency-key", "bad-identity", success=False)
+                    self.assertEqual(self.state(), state)
+
     def test_non_exercise_state_is_rejected(self):
         state = self.load("case61-ready-job.json")
         state["fixture_kind"] = "real-account-data"

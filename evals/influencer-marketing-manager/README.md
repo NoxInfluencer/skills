@@ -2,6 +2,11 @@
 
 Use these evaluations to answer: did the user task improve, where did it fail, what should change next, and did the revision regress? Packaging checks alone do not establish task quality.
 
+The [2026-11-17 operating-validation implementation](review-2026-11-17-operating-implementation.md)
+adds opaque-ID case 65, explicit run-ID/state ownership in the local adapter
+contract, duplicate-identity rejection and saved per-turn local state evidence.
+The implementation keeps tool mechanics and manual business judgments separate.
+
 The [2026-11-16 needs-to-case review](review-2026-11-16-needs-and-usage.md)
 adds independent synthetic cases 60–64 for existing-task migration and approval,
 an actual local run, object-scoped holds, result reconciliation and bounded
@@ -106,14 +111,14 @@ The [operator follow-up review](review-2026-09-06-operator-followups.md) adds ca
 
 ## Organization
 
-- `evals.json` owns the 64 canonical prompts and qualitative expectations. IDs remain stable. Optional `followups` contain later user prompts and separate review expectations. `requires_isolated_workspace` marks exercises that must not run against shared prepared fixtures.
+- `evals.json` owns the 65 canonical prompts and qualitative expectations. IDs remain stable. Optional `followups` contain later user prompts and separate review expectations. `requires_isolated_workspace` marks exercises that must not run against shared prepared fixtures.
 - `fixtures/` contains synthetic evidence and rewritten evaluation examples, without expected answers or grading rules. A case's optional `files` list is relative to this directory.
 - `promptfoo_cases.py` selects executable cases and adds focused assertions. Expectations stay in test metadata for review; they are not sent to the model.
 - `prepare_promptfoo_fixtures.py` copies the Skills and declared files into isolated baseline/candidate workspaces. Only the Manager Skill may differ.
 - `review_results.py` reports saved results by metric and separates runtime errors. It can replay updated outcome graders without another model call, and report observed shortlist-renderer output and whether its table reached the final answer unchanged.
 - `workspace/` holds ignored run traces and review notes. Do not put live customer data, credentials, or commercial records in the case corpus.
 
-The default Promptfoo set covers cases 9, 10, 12, 13, 17, 19, 20, 21–30, 33, 34, 37, 38, 44–59 and 63/64. Cases 45–64 require manual business review. Cases 31/32/41/60/62 and other multi-turn cases use `run_conversations.mjs` because reducing them to a single turn would discard the behavior being reviewed. Single-turn case 61 also requires this runner: its local writes must be isolated from the prepared snapshot. The adapter rejects cases 60–62 instead of silently losing later turns or mutating shared fixtures. Smoke assertions check observable boundaries and source reads; they do not replace qualitative business review.
+The default Promptfoo set covers cases 9, 10, 12, 13, 17, 19, 20, 21–30, 33, 34, 37, 38, 44–59 and 63/64. Cases 45–65 require manual business review. Cases 31/32/41/60/62/65 and other multi-turn cases use `run_conversations.mjs` because reducing them to a single turn would discard the behavior being reviewed. Single-turn case 61 also requires this runner: its local writes must be isolated from the prepared snapshot. The adapter rejects cases 60–62 and 65 instead of silently losing later turns or mutating shared fixtures. Smoke assertions check observable boundaries and source reads; they do not replace qualitative business review.
 
 Cases use `should-trigger`, `should-not-trigger`, or `boundary`. These describe the intended routing, not whether the case is executable. Cases that require live discovery, sends, scheduling, or an actual SOP workspace still need a separately authorized environment and its inputs. An empty `files` list does not supply those capabilities. JSON validation establishes structure only.
 
@@ -132,6 +137,16 @@ npm run eval:manager:conversations -- --cases 31,32,33,34 \
 
 Use `--variants candidate` for an affected-case rerun. The runner also accepts existing single-turn cases for qualitative regression. It saves requests, raw events, responses, usage, errors and fixture fingerprints after each event, refuses to overwrite results, and stops dependent turns on failure. A zero exit code means complete response evidence only; it is never a business-quality pass. Review source reads, scope, usefulness, unnecessary questions, unsupported execution claims, and adaptation to new user information before retaining a Skill change. Keep raw runtime paths and thread IDs in the ignored workspace; publish only reviewed synthetic examples and findings.
 
+For isolated-write exercises, schema 3 reports also save the declared JSON input
+states before execution and after every turn, including failed turns. Capture is
+limited to files inside that case's workspace, at most 256 KiB each; missing,
+invalid or escaped files produce explicit evidence errors. These snapshots are
+review evidence, not an automatic outcome grade. The adapter contract keeps
+the supplied state file authoritative so an extra copy cannot hide the action
+from capture. Ordinary read-only cases retain their request and execution scope.
+Use `--no-tool-network` for local-only probes; this overrides tool network access
+without changing the model connection or the existing default for other runs.
+
 For a fixed diagnostic comparison, optionally add:
 
 ```bash
@@ -149,7 +164,7 @@ preferred answer appears.
 `--preload-references` defaults to none. It appends the selected Manager reference
 contents to the first request, using each prepared variant's own bytes. Only
 Markdown paths within that Manager's `references/` directory are accepted.
-Schema 2 reports record the input mode, reference paths/hashes/byte counts,
+Schema 2 and later reports record the input mode, reference paths/hashes/byte counts,
 execution order and repetition IDs; full delivered text remains in the saved
 requests. Preloading establishes that text was supplied, not that it was
 understood. It tests a different input condition from self-selected reads and
@@ -223,6 +238,7 @@ Cases 60–64 extend the operating probes:
 | 62 | Preserve one creator's hold across a later heartbeat while invalidating another creator's stale follow-up after a human reply; continue only the still-authorized work. Two turns. |
 | 63 | Use independently specified counter semantics and recipient timestamps to reconcile a timeout, partial delivery and a later unsubscribe without blind retries. |
 | 64 | Keep a version/schema/Skill-manifest check in the bounded product capability workflow. A matching version label and a dated registry snapshot do not prove current capability or freshness. Manager should not trigger. |
+| 65 | Consume a runtime-assigned unpredictable run ID, finish the actual local run, and recover the same run under its original key after a second-turn status request. No duplicate run, queue entry or business completion claim. |
 
 For cases 60/61, inspect successful simulator command outputs and final stored
 state, not merely a claim that an update or run happened. The simulator refuses

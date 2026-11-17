@@ -41,7 +41,7 @@ class ConversationContractTests(unittest.TestCase):
             create_tests({"case_ids": [41]})
 
     def test_operating_probes_cannot_mutate_shared_promptfoo_fixtures(self):
-        for case_id in (60, 61, 62):
+        for case_id in (60, 61, 62, 65):
             with self.subTest(case_id=case_id):
                 with self.assertRaisesRegex(ValueError, "requires run_conversations"):
                     create_tests({"case_ids": [case_id]})

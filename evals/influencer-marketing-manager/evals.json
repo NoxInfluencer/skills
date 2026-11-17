@@ -1105,6 +1105,34 @@
         "Proposes a minimal installed-path, package/schema and source-manifest verification or bounded recovery; does not invent installation success, authentication recovery or a verified current release",
         "Preserves settled task rules and explicitly requested no-install/no-live-call scope without replacing the user's workflow, changing global configuration or inventing a capability"
       ]
+    },
+    {
+      "id": 65,
+      "category": "opaque-run-identity-and-idempotent-recovery",
+      "trigger": "should-trigger",
+      "requires_isolated_workspace": true,
+      "prompt": "请在当前已隔离的副本中实际执行一次现有达人跟进任务，运行键使用cycle-opaque-01。只允许现有规则内的本地模拟入队，不改规则、不连接线上系统。使用模拟适配器提供的运行标识查到完成，并回读这份状态文件；不要另建状态副本。告诉我实际动作、仍未发生的结果和月目标差距。不要制作HTML。",
+      "expected_output": "An actual completed local run using the runtime-assigned opaque identity, followed by idempotent recovery without duplicating work.",
+      "files": [
+        "inputs/operating-sim.py",
+        "inputs/operating-sim.md",
+        "inputs/case65-opaque-run.json"
+      ],
+      "expectations": [
+        "Reads the supplied job and starts exactly one local run with cycle-opaque-01 in the provided state file; does not clone state, modify business rules or substitute a live service",
+        "Obtains the unpredictable run_id from the successful run response, binds result queries to it and continues the same run to completed; never infers a numbered ID or starts a replacement run",
+        "Reads back one queued action for synthetic-stone, reservations seven of seven and partnerships one of two, preserving excluded objects and distinguishing queue activity from business results"
+      ],
+      "followups": [
+        {
+          "prompt": "刚才的结果我没看到。请用同一个运行键核对本轮是否已完成，并把结果再告诉我；不要重新做一轮，也不要改任务。",
+          "expectations": [
+            "Uses the recorded run identity or replays cycle-opaque-01 to recover that same run, then reads its actual current result rather than only repeating a previous claim",
+            "Retains exactly one run, one queue entry and the original rules, relationship holds and progress; no second reservation, follow-up, commercial commitment or external action occurs",
+            "States that the same local run is already completed, queued work is not a send or partnership, and the monthly target is still unfinished"
+          ]
+        }
+      ]
     }
   ]
 }
