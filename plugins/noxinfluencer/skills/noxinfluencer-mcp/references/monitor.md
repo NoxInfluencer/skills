@@ -8,6 +8,8 @@ For known published URLs, identify the target project and add only the selected 
 
 Project summaries answer aggregate performance questions. Task lists answer which videos are tracked and their current metrics. History answers how a tracked item changed over time. Keep these result types distinct.
 
+Returned `engagement_rate` and `avg_engagement_rate` use decimal ratios: `0.05` means 5%, not 0.05%. Missing/null values remain unavailable rather than zero.
+
 ## Reports And Scale
 
 Monitoring reports are direct report jobs associated with a project or task selection. They are not shared asynchronous exports. Keep report identity and readiness state until the report can be retrieved.

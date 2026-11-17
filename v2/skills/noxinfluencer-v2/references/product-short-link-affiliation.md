@@ -16,6 +16,8 @@ Short-link reports are direct reports. They do not use the shared asynchronous e
 
 ## Shopify Affiliation
 
+Member `commission_amount` depends on `commission_type`: type 1 uses percentage points (5 means 5%); other types use currency amounts. For percentage discounts, `discount_detail.value` and `get_y_discount_amount` use percentage points when their corresponding type is `percentage`; `fixed_amount` uses currency amounts. These values do not use the integer basis points of TikTok Shop target invitations.
+
 Shopify affiliation is a separate commerce workflow covering affiliate campaigns, members, tracking links, discount codes, orders, and attributed performance. Do not substitute a normal short link for an affiliate tracking link.
 
 When store connection or entitlement is missing, surface the trusted user action supplied by the service. Do not claim that a campaign, member, tracking link, or discount code was created before store access is valid.

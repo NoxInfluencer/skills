@@ -1,6 +1,6 @@
 # NoxInfluencer V2 maintenance and self-test
 
-V2 is maintained in this repository. The one-time source migration is recorded in `migration.json`; builds and updates do not read or synchronize the private repository. The repository-root README and legacy `skills/noxinfluencer`, Connector and Expert remain their existing installation entrypoints during this self-test. Directory visibility is not an access restriction.
+V2 is maintained on this repository's `main` branch. The one-time source migration is recorded in `migration.json`; builds and updates do not read or synchronize the private repository. The repository-root README and legacy `skills/noxinfluencer`, Connector and Expert remain their existing installation entrypoints during this self-test. Directory visibility is not an access restriction.
 
 ## Source and generated outputs
 
@@ -30,7 +30,7 @@ npm run v2:package
 
 ## Self-test installation
 
-Use the `agent-plugin` branch of this repository. In a separate client test profile, install the complete `v2/skills/noxinfluencer-v2/` directory with the client's supported local Skill installer, together with the existing shared `skills/influencer-marketing-manager/`. The product Skill's name is `noxinfluencer-v2`. Keep the existing public `noxinfluencer` installation separate; do not install every Skill discovered in the repository. For an offline handoff, the generated `noxinfluencer-v2.zip` includes both required Skill directories.
+Use the `main` branch of this repository. In a separate client test profile, install the complete `v2/skills/noxinfluencer-v2/` directory with the client's supported local Skill installer, together with the existing shared `skills/influencer-marketing-manager/`. The product Skill's name is `noxinfluencer-v2`. Keep the existing public `noxinfluencer` installation separate; do not install every Skill discovered in the repository. For an offline handoff, the generated `noxinfluencer-v2.zip` includes both required Skill directories.
 
 The universal Skill chooses from the client's real capabilities, account context and task requirements. Only its selected runtime reference is loaded. A plugin installation already chooses MCP and must not install or fall back to a CLI. Actual user authorization and operating-system approvals remain in normal client controls.
 
@@ -57,6 +57,8 @@ For the MCP self-test, give the plugin maintainer the complete `plugins/noxinflu
 
 ## Service and contract changes
 
+All MCP connections use the existing `/mcp` endpoint with the commercial-content boundary recorded in [MCP compatibility](MCP-COMMERCIAL-COMPATIBILITY.md). CLI pricing behavior remains separate. Maintain MCP guidance and snapshots together before generating delivery artifacts.
+
 For a `kol_claw` change, review both CLI schema and MCP tools/authorization/file-transfer contracts. Export the relevant public snapshot in the existing versioned snapshot format (`id`, `kind`, `version`, `source`, `items`, and required schema metadata), then run:
 
 ```sh
@@ -73,3 +75,9 @@ Keep the legacy CLI/server contracts compatible while legacy clients remain inst
 Structural validation, unit tests, ZIP checks and local CLI schema verification are offline evidence. Record separate evidence for model decisions, actual client installation, authorized account identity, live tool/schema availability, file transfer and business readback before rollout. The production endpoint configuration alone does not establish that every snapshotted tool or OAuth scope is deployed.
 
 After acceptance, replacing the legacy default is a separate change to the stable `skills/noxinfluencer` artifact, installer references and relevant channel packages. Changing README text alone does not update existing installations.
+
+## Keeping legacy and V2 guidance aligned
+
+Review changes to `skills/noxinfluencer/` and its evaluation cases for applicability to V2. Put shared business semantics in `source/noxinfluencer/shared/`, command syntax in the CLI adapter, and MCP-specific behavior in the MCP/plugin adapters. Rebuild both deliveries; the presence of a legacy commit in Git history does not mean its guidance reached V2. Manager continues to have one shared source.
+
+The [reconciliation record](evals/upstream-sync-2026-11-17.md) identifies the reviewed baseline and retained branch changes. [Creator metric cases](evals/creator-metrics.md) reuse the legacy prompts for both V2 runtimes. Record semantic observations separately from build/schema checks.

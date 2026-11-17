@@ -6,6 +6,8 @@ Use an email task for first outreach to selected creators. Use a message thread 
 
 Platform outreach can add recipients by creator identity without retrieving visible contact details. External outreach requires the user to request visible contacts explicitly.
 
+Email delivery, arrival, open/read, reply, bounce and click rates are decimal proportions: `0.05` means 5%, `1` means 100%. Keep counts distinct from rates and missing metrics distinct from zero.
+
 ## Review Before Send
 
 Before any send or schedule, read and summarize the exact task or thread, effective recipients, sender, subject, body or message content, attachments, and scheduled time. Do not draft or materially rewrite outreach copy unless a separate approved content workflow supplies it.

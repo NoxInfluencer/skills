@@ -8764,7 +8764,8 @@
       },
       "output_schema": {
         "type": "object",
-        "additionalProperties": true
+        "additionalProperties": true,
+        "description": "Audience distribution and authenticity values/bounds use decimal proportions (0.6 = 60%). positive_audience_pct and promo_interested_audience_pct use percentage points (60 = 60%); audience_quality is a score."
       },
       "workflow": "creator-analysis"
     },
@@ -8809,7 +8810,8 @@
       },
       "output_schema": {
         "type": "object",
-        "additionalProperties": true
+        "additionalProperties": true,
+        "description": "Returned engagement rates and audience interest ratios use decimal ratios (0.05 = 5%). Null means unavailable."
       },
       "workflow": "creator-analysis"
     },
@@ -8850,7 +8852,8 @@
       },
       "output_schema": {
         "type": "object",
-        "additionalProperties": true
+        "additionalProperties": true,
+        "description": "Engagement rates, ad_video_percent, start_contact_pct, cooperation_confirmation_pct and promotion_online_pct use decimal ratios (0.05 = 5%), despite the pct/percent suffixes."
       },
       "workflow": "creator-analysis"
     },
@@ -8895,7 +8898,8 @@
       },
       "output_schema": {
         "type": "object",
-        "additionalProperties": true
+        "additionalProperties": true,
+        "description": "Engagement rates, view_per_followers, view volatility and rating percentiles use decimal ratios (0.05 = 5%). Growth ratios may be negative. Benchmark values follow their parent metric; rank is a decimal percentile. Scores and counts are not percentages."
       },
       "workflow": "creator-analysis"
     },
@@ -8905,7 +8909,7 @@
       "internal_scope": "noxinfluencer.creator.read",
       "risk": "normal_write",
       "backend_risk": "low",
-      "input_schema_sha256": "d8ccc8aff727bb2693956132b43fd870ad3e4e035adf993c891ffe283da432b1",
+      "input_schema_sha256": "538074e146bce186e4c007deca6969ebd8467b6d565ab8fa3c165d941ec1ec76",
       "source_contract": "contracts/capabilities/creator_search.json",
       "input_schema": {
         "type": "object",
@@ -9016,11 +9020,13 @@
           },
           "engagement_rate_min": {
             "type": "number",
-            "minimum": 0
+            "minimum": 0,
+            "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
           },
           "engagement_rate_max": {
             "type": "number",
-            "minimum": 0
+            "minimum": 0,
+            "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
           },
           "est_exposure_min": {
             "type": "integer",
@@ -9032,11 +9038,13 @@
           },
           "view_per_followers_min": {
             "type": "number",
-            "minimum": 0
+            "minimum": 0,
+            "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
           },
           "view_per_followers_max": {
             "type": "number",
-            "minimum": 0
+            "minimum": 0,
+            "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
           },
           "avg_view_min": {
             "type": "integer",
@@ -9065,7 +9073,8 @@
           "follower_female_pct_min": {
             "type": "integer",
             "minimum": 0,
-            "maximum": 100
+            "maximum": 100,
+            "description": "Percentage points: 60 = 60%, not 0.6. Null or missing output means unavailable."
           },
           "follower_language": {
             "type": "array",
@@ -14155,25 +14164,6 @@
       "workflow": "files-exports"
     },
     {
-      "name": "list_membership_pricing",
-      "scope": "noxinfluencer.codex.user",
-      "internal_scope": "noxinfluencer.pricing.read",
-      "risk": "read",
-      "backend_risk": "low",
-      "input_schema_sha256": "99334726611ccf58a148b0814696bfa6fe08c1b2d027e946beccf5a74331c9aa",
-      "source_contract": "contracts/capabilities/pricing_list_membership.json",
-      "input_schema": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {}
-      },
-      "output_schema": {
-        "type": "object",
-        "additionalProperties": true
-      },
-      "workflow": "quota-pricing"
-    },
-    {
       "name": "list_monitor_auto_track_rules",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.monitor.auto_track.read",
@@ -14288,20 +14278,34 @@
       "internal_scope": "noxinfluencer.pricing.read",
       "risk": "read",
       "backend_risk": "low",
-      "input_schema_sha256": "6c6dc2b77a454eff96b683a6287ad8d2e2ee5212d3f05ba45b29338a98ce0fec",
+      "input_schema_sha256": "d7ce4c2ce7e8877a094845967e1062a2eea81eb5da7dd8d9f0b6ac427b74712a",
       "source_contract": "contracts/capabilities/pricing_list_tools.json",
       "input_schema": {
         "type": "object",
         "additionalProperties": false,
+        "anyOf": [
+          {
+            "required": [
+              "tool"
+            ]
+          },
+          {
+            "required": [
+              "action"
+            ]
+          }
+        ],
         "properties": {
           "tool": {
             "type": "string",
             "minLength": 1,
+            "pattern": "\\S",
             "maxLength": 128
           },
           "action": {
             "type": "string",
             "minLength": 1,
+            "pattern": "\\S",
             "maxLength": 128
           },
           "include_free": {
@@ -14416,7 +14420,8 @@
       },
       "output_schema": {
         "type": "object",
-        "additionalProperties": true
+        "additionalProperties": true,
+        "description": "Returned avg_engagement_rate uses a decimal ratio (0.05 = 5%). Null means unavailable."
       },
       "workflow": "monitor"
     },
@@ -14457,7 +14462,8 @@
       },
       "output_schema": {
         "type": "object",
-        "additionalProperties": true
+        "additionalProperties": true,
+        "description": "Returned engagement_rate uses a decimal ratio (0.05 = 5%). Null means unavailable."
       },
       "workflow": "monitor"
     },
@@ -21638,7 +21644,62 @@
       },
       "output_schema": {
         "type": "object",
-        "additionalProperties": true
+        "additionalProperties": true,
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": true,
+            "required": [
+              "total_credit",
+              "used_credit",
+              "remaining_credit",
+              "execution_available",
+              "limitation_reason"
+            ],
+            "properties": {
+              "total_credit": {
+                "type": "number",
+                "minimum": 0
+              },
+              "used_credit": {
+                "type": "number",
+                "minimum": 0
+              },
+              "remaining_credit": {
+                "type": "number",
+                "minimum": 0
+              },
+              "execution_available": {
+                "type": "boolean"
+              },
+              "limitation_reason": {
+                "enum": [
+                  null,
+                  "INSUFFICIENT_CREDIT",
+                  "ENTITLEMENT_REQUIRED"
+                ]
+              },
+              "start_time": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "end_time": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          }
+        }
       },
       "workflow": "quota-pricing"
     },
@@ -32715,7 +32776,7 @@
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
       "backend_risk": "low",
-      "input_schema_sha256": "893707a53eedd848c7da061e40fef7cc841054fef4866f3c437aac771f172b22",
+      "input_schema_sha256": "78d2505c56b48b65325526aeb5572c64b18685b827a4d07d5da0b5dde78ded34",
       "source_contract": "contracts/capabilities/campaign2_discovery_search.json",
       "input_schema": {
         "type": "object",
@@ -33053,7 +33114,8 @@
                     "type": "string",
                     "pattern": "^(?:(?:[0-9]|[1-9][0-9])(?:\\.[0-9]+)?|100(?:\\.0+)?)$"
                   }
-                ]
+                ],
+                "description": "Percentage points: 60 = 60%, not 0.6. Null or missing output means unavailable."
               },
               "followerFemaleGenderLte": {
                 "anyOf": [
@@ -33066,15 +33128,18 @@
                     "type": "string",
                     "pattern": "^(?:(?:[0-9]|[1-9][0-9])(?:\\.[0-9]+)?|100(?:\\.0+)?)$"
                   }
-                ]
+                ],
+                "description": "Percentage points: 60 = 60%, not 0.6. Null or missing output means unavailable."
               },
               "engagementRateGte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "engagementRateLte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "gender": {
                 "type": "string",
@@ -33143,11 +33208,13 @@
               },
               "viewPerFollowersGte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "viewPerFollowersLte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "estPriceGte": {
                 "type": "number",
@@ -33289,11 +33356,13 @@
               },
               "last15EngagementRateGte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "last15EngagementRateLte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "last10CommentsViewsGte": {
                 "type": "number",
@@ -33535,7 +33604,8 @@
                     "type": "string",
                     "pattern": "^(?:(?:[0-9]|[1-9][0-9])(?:\\.[0-9]+)?|100(?:\\.0+)?)$"
                   }
-                ]
+                ],
+                "description": "Percentage points: 60 = 60%, not 0.6. Null or missing output means unavailable."
               },
               "followerFemaleGenderLte": {
                 "anyOf": [
@@ -33548,15 +33618,18 @@
                     "type": "string",
                     "pattern": "^(?:(?:[0-9]|[1-9][0-9])(?:\\.[0-9]+)?|100(?:\\.0+)?)$"
                   }
-                ]
+                ],
+                "description": "Percentage points: 60 = 60%, not 0.6. Null or missing output means unavailable."
               },
               "engagementRateGte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "engagementRateLte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "gender": {
                 "type": "string",
@@ -33625,11 +33698,13 @@
               },
               "viewPerFollowersGte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "viewPerFollowersLte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "estPriceGte": {
                 "type": "number",
@@ -33957,7 +34032,8 @@
                     "type": "string",
                     "pattern": "^(?:(?:[0-9]|[1-9][0-9])(?:\\.[0-9]+)?|100(?:\\.0+)?)$"
                   }
-                ]
+                ],
+                "description": "Percentage points: 60 = 60%, not 0.6. Null or missing output means unavailable."
               },
               "followerFemaleGenderLte": {
                 "anyOf": [
@@ -33970,15 +34046,18 @@
                     "type": "string",
                     "pattern": "^(?:(?:[0-9]|[1-9][0-9])(?:\\.[0-9]+)?|100(?:\\.0+)?)$"
                   }
-                ]
+                ],
+                "description": "Percentage points: 60 = 60%, not 0.6. Null or missing output means unavailable."
               },
               "engagementRateGte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "engagementRateLte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "gender": {
                 "type": "string",
@@ -34047,11 +34126,13 @@
               },
               "viewPerFollowersGte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "viewPerFollowersLte": {
                 "type": "number",
-                "minimum": 0
+                "minimum": 0,
+                "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
               },
               "estPriceGte": {
                 "type": "number",
@@ -37490,7 +37571,7 @@
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
       "backend_risk": "medium",
-      "input_schema_sha256": "5b256a0126dca4d9a9fc325fb9cf63253a863a9fa4e33440dc36ec7922fbe339",
+      "input_schema_sha256": "6ac342f0c450c369f1f49151d612d5da8a6619b1618fc6af47fa91b89e6160f4",
       "source_contract": "contracts/capabilities/campaign2_search_condition_save.json",
       "input_schema": {
         "type": "object",
@@ -37946,7 +38027,8 @@
                       {
                         "const": ""
                       }
-                    ]
+                    ],
+                    "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
                   },
                   "viewPerFollowersLte": {
                     "anyOf": [
@@ -37969,7 +38051,8 @@
                       {
                         "const": ""
                       }
-                    ]
+                    ],
+                    "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
                   },
                   "engagementRateGte": {
                     "anyOf": [
@@ -37992,7 +38075,8 @@
                       {
                         "const": ""
                       }
-                    ]
+                    ],
+                    "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
                   },
                   "engagementRateLte": {
                     "anyOf": [
@@ -38015,7 +38099,8 @@
                       {
                         "const": ""
                       }
-                    ]
+                    ],
+                    "description": "Decimal ratio: 0.05 = 5%, not 5. Ratios can exceed 1 (100%); values are not automatically rescaled."
                   },
                   "estExposureGte": {
                     "anyOf": [
@@ -38770,7 +38855,8 @@
                       {
                         "const": ""
                       }
-                    ]
+                    ],
+                    "description": "Percentage points: 60 = 60%, not 0.6. Null or missing output means unavailable."
                   },
                   "followerFemaleGenderLte": {
                     "anyOf": [
@@ -38793,7 +38879,8 @@
                       {
                         "const": ""
                       }
-                    ]
+                    ],
+                    "description": "Percentage points: 60 = 60%, not 0.6. Null or missing output means unavailable."
                   },
                   "followerLanguage": {
                     "anyOf": [

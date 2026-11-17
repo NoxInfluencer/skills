@@ -6,6 +6,12 @@ For the full parameter list and syntax, run `node "{baseDir}/scripts/nox-cli.mjs
 
 This reference covers **when to use which filters** — the decision logic, not the syntax.
 
+Numeric units are defined in the **Numeric Units** section of `{baseDir}/references/creator.md`. For example, a user-supplied 5% engagement floor is `--engagement_rate_min 0.05`; a 60% female-audience floor is `--follower_female_pct_min 60`. These are different scales, and the CLI passes numbers unchanged.
+
+```bash
+node "{baseDir}/scripts/nox-cli.mjs" creator search --platform instagram --keywords '[glasses]' --country '[US]' --gender female --follower_min 10000 --follower_max 200000 --engagement_rate_min 0.05 --follower_ages '[25-34,35-44]' --page_size 50
+```
+
 For a new search, apply topic exclusions and SaaS hide/deduplication directly through `creator search`. Use standalone `creator search-filter` only when a page has already been returned.
 
 ## Filter Priority by User Intent
@@ -24,13 +30,15 @@ For a new search, apply topic exclusions and SaaS hide/deduplication directly th
 | Active creators | `--published_within_days` | Exclude dormant channels |
 | Performance floor | `--engagement_rate_min`, `--avg_view_min` | Filter out low-engagement creators |
 | Comment activity floor | `--avg_comments_min/max` | Filter by average comments across the latest 10 contents |
-| Exposure window | `--est_exposure_min/max`, `--est_exposure_period 30d|180d` | Compare estimated exposure within an explicit SaaS time window |
+| Exposure window | `--est_exposure_min/max`, `--est_exposure_period 30d|180d` | Choose the SaaS estimation basis, distinct from actual average views |
 | YouTube content shape | `--video_type`, `--primary_video_length_type`, `--open_shorts` | Separate Shorts, long videos, live content, primary format, and Shorts availability |
 | TikTok Shop creator GMV | `--platform tiktok`, `--last30_days_products_gmv_min/max` | Filter creators by last-30-day video-attributed product GMV |
 
 ## Returned Evidence And Explicit Detail
 
 Read `{baseDir}/references/creator.md` for the shared meanings of precision, account-type combinations, actual versus estimated metrics, entitled commerce fields, market currency, recent-shop signals, unsupported/null values and protected detail. Those business rules apply to both runtime builds.
+
+For YouTube average-view thresholds, `--video_type 1` uses returned `avg_views_shorts`, `--video_type 2` uses `avg_views_normal`, and other supported selections use overall `avg_views`. Keep unavailable classified evidence unknown. For sample sizes, medians and fluctuation in `creator profile --detail`, read `{baseDir}/references/platform-support.md`; detail metrics do not replace search-index evidence.
 
 CLI search identities come from `data.items[].id`; preserve them as positional creator IDs. Current search exposes `last30_days_video_gmv`, `last30_days_video_sales_count`, `products_market` and `currency` when entitled, rather than legacy generic product totals. Check exact field support with `schema creator.search`. Public precision/account-type controls require CLI 0.5.11+; private backend support must still be confirmed.
 

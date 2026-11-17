@@ -2,6 +2,21 @@
 
 ## Discovery Inputs
 
+### Numeric Units
+
+Preserve each field's documented unit when translating the user's percentages and interpreting results. The current contract uses these different scales; `rate`, `pct`, and `percent` in a name do not define a universal unit.
+
+| Field | Numeric representation |
+| --- | --- |
+| `engagement_rate_min/max`, `view_per_followers_min/max` and returned engagement/view-to-follower ratios | Decimal ratio: 5% is `0.05`; `5` means 500%. Ratios can exceed 1. |
+| `follower_female_pct_min` and returned `follower_female_pct` | Percentage points: 60% is `60`, not `0.6`. |
+| Audience distribution and authenticity values/bounds, audience interest ratios | Decimal proportion: `0.6` means 60%. |
+| `positive_audience_pct`, `promo_interested_audience_pct` | Percentage points: `60` means 60%. |
+| `ad_video_percent`, `start_contact_pct`, `cooperation_confirmation_pct`, `promotion_online_pct` | Decimal proportion: `0.6` means 60%, despite the field suffix. |
+| Growth ratios, view volatility and ranking percentiles | Decimal ratio: `0.05` means 5%. Growth can be negative. Benchmark values use their parent metric's unit; scores and counts remain scores and counts. |
+
+Use current field descriptions for other metrics. Do not infer units from magnitude, silently divide every value above 1 by 100, or treat missing data as zero. A low result count alone is not evidence that the user's percentage threshold is too strict; check the already available parameter definition and submitted value first.
+
 Ask only for missing criteria that materially affect sourcing: platform, niche or known creator name, market, creator size, audience fit, activity, performance floor, and whether an email signal matters. Run each platform as a separate search and combine results only after preserving platform identity.
 
 A known name or handle is an identity search. Topic keywords are a discovery search. Do not combine both interpretations in one request. Apply user-specified exclusions and account-level hide, prior-contact, collection, cooperation, or CRM filters during the search when available instead of discarding paid results afterward.
@@ -12,7 +27,25 @@ Preserve requested semantic precision: `accurate` is a finite value in [0,1], so
 
 Use `channel_type_infos` only as supported by the current search schema. Empty means no account-type filter; brand and celebrity together mean OR; non-official alone means neither flag is true; brand plus non-official means brand true and celebrity not true; celebrity plus non-official means celebrity true and brand not true; all three selections mean both flags true, not all accounts. Missing flags do not verify personal ownership. Clarify ambiguous official-account intent and retain the same precision/type filters on later pages.
 
-Average views and comments cover the latest 10 contents; 30-day and 180-day exposure estimates are distinct and cannot substitute for actual average views. Select the requested exposure period explicitly. YouTube content-shape fields apply only to YouTube. For recent content, preserve platform and requested format (Shorts, long video, live, Reels or post), sorting and bounded page size; do not silently mix formats. Audience matching fields are not a full audience distribution.
+Search averages are index snapshots; average comments cover the latest 10 contents. YouTube content-shape fields apply only to YouTube. For recent content, preserve platform and requested format (Shorts, long video, live, Reels or post), sorting and bounded page size; do not silently mix formats. Audience matching fields are not a full audience distribution.
+
+### Average Views And Estimated Exposure
+
+For YouTube `avg_view_min/max`, use the returned search field matching the requested `video_type`:
+
+| `video_type` | Filter evidence |
+| --- | --- |
+| `1` (Shorts) | `avg_views_shorts` |
+| `2` (long videos) | `avg_views_normal` |
+| Omitted or another supported value | `avg_views` |
+
+`avg_views` remains the overall search-index average. A long-video search with a 22-million minimum can return overall `avg_views=21000000` and `avg_views_normal=25000000`; the long-video evidence meets the threshold. Missing/null classified values leave qualification unverified. Do not substitute overall averages, estimated exposure or profile-detail samples, or fetch paid per-creator detail just to replace a missing search metric. Use only fields supported by the live operation.
+
+`est_exposure_period` defaults to `180d`; `30d` selects `estimated_exposure_30d` instead of `estimated_exposure_180d`. These estimate subsequent content exposure using the selected historical window, not cumulative views during that window. A 30-day estimate can exceed a 180-day estimate. Preserve the requested period, do not invent an estimation formula, and never substitute exposure for an actual average-view threshold.
+
+Instagram's SaaS page hides the average-views search control; the API supports `avg_view_min/max` against search-index `avg_views`. The page's exposure filter maps to `est_exposure_min/max` with its selected period, not to average views. Discover the current runtime schema before submitting these controls.
+
+For profile-detail sample sizes, creator medians versus peer benchmarks, and fluctuation, read `{baseDir}/references/platform-support.md`. Search and detail can differ in sample or freshness; do not replace a search filter value with a detail value.
 
 ## Results, Cost, And Pagination
 

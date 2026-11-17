@@ -8,6 +8,8 @@ Use exact-name search for a known brand, ranking for category or market discover
 
 ## Analysis
 
+Rate and share selectors (`channel_interactive_rate`, `interactive_rate`, `engagement_rate`, `related_content_rate`, `share_of_voice`, `profile_purity` and their min/max bounds) use decimal ratios: 5% is `0.05`. Returned rates, distribution `percent` values and cooperation/prospect proportions use the same decimal scale. `traffic_efficiency_index` and `interaction_quality_index` are relative indices: 1 is the baseline and 1.1 is 1.1 times baseline, not 1.1%. Video-count growth is a decimal growth ratio and may be negative; a zero previous count produces the upstream sentinel 1, not a measured doubling.
+
 Brand-level analysis can cover competition, cooperation, influencer portrait, defense gaps, and product signals. Asset lists provide underlying influencer, content, tag, or product rows. Present the business conclusion first, then the bounded evidence used to support it.
 
 Product publication, category, share-of-voice, exposure, promotion matrix, and promotion distinction signals currently support YouTube only. For TikTok or Instagram questions, use supported non-product brand views and clearly state the product-signal limitation.
