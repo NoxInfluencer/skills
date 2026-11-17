@@ -141,3 +141,60 @@ conditions, and run cases 62 and 12 under natural invocation as positive busines
 and negative writing controls. Keep the candidate only if all three preserve
 their intended selection and decisions. Otherwise restore it, retain the
 evaluation controls and complete evidence, and make no semantic rerun.
+
+## Stage 4: retained correction and closure
+
+The candidate meets the frozen retention gate. Only the Manager frontmatter
+description changes: it leads with marketing business judgment and assigns
+settled version, installation, schema and capability checks to their product
+owner even when an existing marketing task is mentioned. The business body,
+references, authority and decision rules remain byte-identical. The Expert
+Skill copy is synchronized; the product Skill and Connector are unchanged.
+
+| Observation | Source, command or stored-state result | Manual conclusion |
+| --- | --- | --- |
+| 60, two turns | First-turn state is unchanged. Approved apply updates the same job's two execution settings, revision and audit only; show preserves rules/progress/holds and zero runs/queue entries. | Usable local migration; seven supported expectations. |
+| 61, one turn | The run response precedes result queries using its actual ID. Supplied-file snapshots retain one completed run, one approved queue entry, reservations 7/7 and partnerships 1/2. | Usable local run; six supported expectations. |
+| 62, two turns before the description change | River stays held; Stone's new reply invalidates its reminder; Sky enters preparation subject to the missing initial-message approval; exclusions remain. | Usable handoff; eight supported expectations. No resubscription process or unprovided first-contact authority is validated. |
+| 63, one turn | The report keeps four accepted, three dispatched, two delivered and zero observed replies distinct, retains suppression and reconciles the original operation before any retry. | Usable contract-based report; five supported expectations. |
+| 64, one turn | Host inspection adds a different installation to an unbound synthetic test. The local-read scope permits that interpretation; the intended task-capability verdict remains incomplete. | Four supported and one partial expectation. Keep the original record; use bound case 66 in the default slice. |
+| 65, two turns | A runtime-assigned unpredictable ID is returned before result lookup. The same completed run is read on turn two; stored state and digest remain identical, with one run/queue entry. | Usable opaque-ID operation and recovery; six supported expectations. |
+| 66, pre-change | The bound-installation answer is correct and no host CLI is inspected, but both Skills are explicitly loaded for an existing marketing task. | Usable answer; four supported and one partial routing expectation. |
+| 66, candidate natural invocation | Only the product Skill body and supplied snapshot are read. The target remains blocked; the comparison installation, dated registry and unknown manifest provenance do not clear it. | Five supported expectations; meets the negative routing gate. |
+| 62, candidate natural invocation | Manager is selected without a forced invocation. The hold, reply invalidation, preparation scope and exclusions survive the second turn. | Eight supported expectations; meets the positive business control. |
+| 12, candidate natural invocation | No Skill is loaded; the answer asks for the missing approved email and invents neither a translation nor research. | Three supported expectations; preserves the writing boundary. |
+
+The candidate case 66 request is byte-identical to the pre-change request and
+uses identical model/runtime options, facts and shared product Skill. Only the
+Manager description differs. Cases 12/62 are natural-invocation regression
+controls, not paired quality-improvement claims. These observations support
+this narrow retained correction; they do not establish causality or stable
+selection across future wording, clients or models.
+
+There are ten recorded observations, 14 user turns and 58 manual expectation
+judgments: 56 supported and two historical partials. Neither partial is erased
+or counted as a current all-criteria pass. No invalid stream, infrastructure
+recovery or outcome-selected rerun occurs. Complete requests, raw events,
+answers, source identities, state snapshots and manual excerpts remain in the
+ignored local workspace. Structured state captures contain no evidence errors.
+
+## Eight optimization points: final disposition
+
+| Point | Implementation and evidence | Disposition |
+| --- | --- | --- |
+| Source purpose | Independent case facts, frozen requests and manual review stay separate from the original needs export. | Earlier investigation error corrected; no exported answer is a model input or oracle. |
+| Identity fidelity | Synthetic identities remain distinct; the local adapter rejects duplicate/empty job or creator IDs before operation. | Mechanical control implemented; earlier distorted experiments remain historical. |
+| Isolation and observability | Independent case copies, bounded declared-JSON capture and failure-state evidence are in the existing runner. | Implemented and mechanically tested, including error paths. |
+| Existing-task execution | 60/61 retain the original task through approval, apply, execution and authoritative state readback. | Bounded local behavior supported; no production activation claim. |
+| Run identity and recovery | The interface consumes assigned IDs; 65 exercises unpredictable IDs and same-run recovery with unchanged completed state. | Implemented and observed; no duplicate work or invented business result. |
+| Object-scoped control | 62 preserves a hold, reacts to a new reply and continues qualified preparation under existing authority. | Core decisions supported before and after the discovery change; no extra general rule needed. |
+| State reconciliation | 63 follows independent counter definitions and the existing operation/key before retry. | Supported in the synthetic contract; real product field semantics are not inferred. |
+| Maintenance routing | 66 binds the subject installation; a description-only correction avoids extra Manager loading while 62/12 preserve both routing boundaries. | Narrow correction retained with Expert sync; original 64 and pre-change 66 partials preserved. |
+
+Final mechanical validation covers 66 canonical cases, validator/adapter
+self-tests, 54 Python tests and 14 Node tests, valid configuration, valid Skill
+frontmatter, an exact Expert mirror and clean diffs. The source 64 case objects,
+new 65 object, old input evidence and automated outcome graders remain unchanged
+apart from the separately documented local interface changes and default-slice
+replacement. This is synthetic verification, not a live account, current product
+contract, production deployment or commercial-outcome validation.

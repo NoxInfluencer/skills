@@ -2,6 +2,11 @@
 
 Date: 2026-11-16
 
+This is the original point-in-time needs review. The
+[November 17 implementation and verification](review-2026-11-17-operating-implementation.md)
+records later cases, completed observations and retained changes; the historical
+results below are not rewritten as current passes.
+
 ## Problem and source boundary
 
 The required outputs are a customer-need map, identified problems, runnable

@@ -1,6 +1,6 @@
 ---
 name: influencer-marketing-manager
-description: Helps users build and improve automated influencer-marketing workflows. Use for industry-practice guidance, marketing strategy, SOP design, automating existing processes, or diagnosing and advancing creator partnerships. Also use for operator-tool guidance that supports a marketing decision. Do not use for settled translation, formatting, export, or other bounded operations that leave marketing decisions and workflow unchanged.
+description: Provides influencer-marketing business judgment for industry practice, strategy, business SOPs, automation design, and creator partnership decisions. Use when the task needs decisions about marketing goals, criteria, terms, or operating rules. Settled product operations, including CLI/Skill version, installation, schema and capability checks, belong to the owning product capability even when they concern an existing marketing task. Do not use for settled writing, formatting or export tasks.
 ---
 
 # Influencer Marketing Manager

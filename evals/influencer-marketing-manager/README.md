@@ -6,6 +6,10 @@ The [2026-11-17 operating-validation implementation](review-2026-11-17-operating
 adds opaque-ID case 65, environment-bound maintenance case 66, explicit run-ID/state ownership in the local adapter
 contract, duplicate-identity rejection and saved per-turn local state evidence.
 The implementation keeps tool mechanics and manual business judgments separate.
+Ten recorded observations (14 user turns) retain the state/identity controls and
+a description-only Manager routing correction with its Expert mirror. The two
+historical partial judgments remain recorded; the result is not an all-criteria
+pass or a stable reliability estimate.
 
 The [2026-11-16 needs-to-case review](review-2026-11-16-needs-and-usage.md)
 adds independent synthetic cases 60–64 for existing-task migration and approval,
@@ -14,9 +18,10 @@ runtime maintenance. An exported conversation motivates the needs, not the
 answer key. The review separates confirmed investigation/harness problems,
 coverage gaps and behavioral hypotheses. Cases 60/61 use a local-only simulator
 in isolated workspaces; they never operate a real account or scheduler.
-Two bounded baseline cases (three turns) produce usable local outcomes, with
-one partially met returned-ID criterion in case 61. Cases 62–64 are unexecuted;
-the review records the evidence and limits without claiming Skill improvement.
+That November 16 baseline contains two cases (three turns), with one partially
+met returned-ID criterion in case 61; cases 62–64 had not yet been run then.
+The November 17 implementation above records the subsequent observations and
+retained change separately, preserving the original evidence.
 
 The [2026-10-25 validation-design review](review-2026-10-25-validation-design.md)
 adds opt-in repeated observations and explicit reference preloading. These
