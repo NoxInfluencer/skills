@@ -1,0 +1,32 @@
+{
+  "name": "Nox 聚星红人营销 MCP",
+  "name_zh": "Nox 聚星红人营销 MCP",
+  "name_en": "NoxInfluencer MCP",
+  "description": "在 WorkBuddy 中查找和分析红人，查看红人分组、内容监测项目和智能营销计划。",
+  "description_zh": "在 WorkBuddy 中查找和分析红人，查看红人分组、内容监测项目和智能营销计划。",
+  "description_en": "Find and analyze creators, and view creator collections, monitoring projects, and campaigns.",
+  "source": "noxinfluencer-mcp",
+  "type": "mcp",
+  "version": "1.0.3",
+  "auth_mode": "server-side",
+  "server_auth": {
+    "auth_type": "mcp_oauth",
+    "data": {
+      "mcp_oauth": {
+        "server_url": "https://skill.noxinfluencer.com/mcp",
+        "scopes": "noxinfluencer.agent.user"
+      }
+    }
+  },
+  "examples_zh": [
+    "查看我的智能营销计划任务",
+    "列出我保存的红人分组",
+    "查找近期发布过露营内容的美国 YouTube 红人"
+  ],
+  "examples_en": [
+    "Show my intelligent marketing plan tasks.",
+    "List my saved creator collections.",
+    "Find US YouTube creators who recently posted content about camping."
+  ],
+  "minWorkbuddyVersion": "4.24.0"
+}

@@ -74,9 +74,40 @@ npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer
 
 The [NoxInfluencer CLI Connector](connectors/noxinfluencer-cli) brings creator research and marketing operations to WorkBuddy. It uses the NoxInfluencer CLI device-login flow.
 
-### WorkBuddy Expert (draft)
+### WorkBuddy Expert
 
-The [Influencer Marketing Manager Expert draft](experts/influencer-marketing-manager) combines marketing workflow guidance with the NoxInfluencer CLI Connector for supported account operations.
+The [NoxInfluencer Expert](experts/influencer-marketing-manager) bundles the `noxinfluencer-plugin` and `influencer-marketing-manager-plugin` Skills and depends on the WorkBuddy MCP connector with source `noxinfluencer-mcp`. The connector is under review; platform connection and tool execution still need live acceptance after it becomes available.
+
+### Package for WorkBuddy
+
+Build the **Nox 聚星红人营销 MCP** connector from the repository root after installing npm dependencies:
+
+```bash
+npm run workbuddy:package:mcp
+```
+
+The build writes `dist/noxinfluencer-workbuddy-mcp.zip` with the v2 `noxinfluencer-mcp` Skill and WorkBuddy cloud OAuth (`auth_mode: "server-side"`, `auth_type: "mcp_oauth"`). After importing the package, use server-side authentication with dynamic registration and the `noxinfluencer.agent.user` scope. Run `npm run workbuddy:check:mcp` to validate the package inputs without writing a ZIP. The tool reference is built from the v2 MCP input schemas and the checked-in tool purposes in `scripts/workbuddy/mcp/`.
+
+The MCP connector's `source` and bundled MCP server key are both `noxinfluencer-mcp`, distinct from the CLI connector's `noxinfluencer-cli`. When replacing a package that used `source: "noxinfluencer"`, reimport the package and verify that WorkBuddy uses the new connector identity; a version update alone should not be assumed to migrate the old identity.
+
+WorkBuddy's cloud needs ongoing network access to the MCP resource metadata and the NoxInfluencer OAuth metadata, registration, and token endpoints. Verify account authorization, token exchange, and a read-only MCP operation through the platform's self-test before submitting the package for review.
+
+Build and check the Expert from the repository root:
+
+```bash
+npm run workbuddy:check:expert
+npm run workbuddy:package:expert
+```
+
+The Expert ZIP is `dist/noxinfluencer-workbuddy-expert.zip`. Both commands assemble from current canonical sources in memory, without requiring a prior V2 build or using stale Skill snapshots. Run `npm run workbuddy:sync:expert` to refresh the reviewable copies under the Expert's `skills/` directory. The previous `python scripts/workbuddy/sync_expert.py sync|check|package` entrypoint delegates to the same builder.
+
+Build the CLI Connector separately:
+
+```bash
+python scripts/workbuddy/sync_connector.py package
+```
+
+The CLI Connector script also accepts `check` to validate without creating a ZIP and `sync` to refresh its bundled Skill from the source under `skills/`. Run `sync` before packaging if that source has changed.
 
 ### NoxInfluencer CLI
 
@@ -134,7 +165,7 @@ npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer --a
 npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer --agent cursor
 ```
 
-### Codex and Claude Code Plugin Marketplace
+### Codex, Grok Build, and Claude Code Plugin Marketplace
 
 The NoxInfluencer plugin uses the connected MCP service for account operations. For setup and sign-in instructions, see the [plugin guide](plugins/noxinfluencer/README.md).
 
@@ -143,6 +174,14 @@ The NoxInfluencer plugin uses the connected MCP service for account operations. 
 ```bash
 codex plugin marketplace add NoxInfluencer/skills
 codex plugin add noxinfluencer@noxinfluencer-codex
+```
+
+#### Grok Build
+
+```bash
+grok plugin marketplace add NoxInfluencer/skills
+grok plugin install noxinfluencer --trust
+grok plugin enable noxinfluencer
 ```
 
 #### Claude Code
@@ -158,7 +197,7 @@ claude plugin install noxinfluencer@noxinfluencer-plugins
 - **Skills CLI / skills.sh**: use the CLI install command above, or browse the public listing on [skills.sh](https://skills.sh/noxinfluencer/skills/noxinfluencer)
 - **OpenClaw**: use the OpenClaw-targeted install command above
 - **Hermes Skills Hub**: install through the skills.sh identifier shown above; Hermes can also discover this repository through GitHub taps
-- **Codex and Claude Code**: use Skills CLI for the standalone Skill or Marketplace for the connected MCP plugin
+- **Codex, Grok Build, and Claude Code**: use Skills CLI for the standalone Skill or Marketplace for the connected MCP plugin
 
 ## Notes
 

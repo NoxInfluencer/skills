@@ -1,7 +1,7 @@
 {
   "name": "influencer-marketing-manager",
-  "version": "0.1.0",
-  "description": "Helps users build and improve automated influencer-marketing workflows around their goals, existing SOPs, and current needs.",
+  "version": "0.1.3",
+  "description": "Plan influencer marketing, discover and evaluate creators, and manage partnerships with verified NoxInfluencer data.",
   "author": {
     "name": "NoxInfluencer",
     "email": "enterprise@noxinfluencer.com"
@@ -10,71 +10,76 @@
     "./agents/influencer-marketing-manager.md"
   ],
   "skills": [
-    "./skills/influencer-marketing-manager"
+    "./skills/noxinfluencer-plugin",
+    "./skills/influencer-marketing-manager-plugin"
   ],
   "dependencies": {
     "connectors": [
-      "oc_e701b8b6011f3b3e"
+      "noxinfluencer-mcp"
     ]
   },
   "expertType": "agent",
   "agentName": "influencer-marketing-manager",
   "displayName": {
-    "en": "Influencer Marketing Manager",
-    "zh": "红人营销经理"
+    "en": "NoxInfluencer Marketing Expert",
+    "zh": "Nox 聚星·红人营销专家"
   },
   "profession": {
-    "en": "Influencer Marketing Workflow & Automation Manager",
-    "zh": "红人营销流程与自动化经理"
+    "en": "Influencer Marketing Expert",
+    "zh": "红人营销专家"
   },
   "displayDescription": {
-    "en": "Build and improve automated influencer-marketing workflows, with industry guidance, strategy and SOP design tailored to your current needs.",
-    "zh": "围绕用户目标和已有做法，提供行业方法、策略与SOP，搭建可验证的红人营销自动化流程并持续改进。"
+    "en": "Use NoxInfluencer creator data to develop marketing strategies, shortlist and evaluate creators, and support outreach, follow-ups and campaign management.",
+    "zh": "结合Nox聚星红人数据，提供营销策略、红人筛选与合作分析，协助推进邀约、跟进和营销计划管理。"
   },
   "avatar": "avatars/expert.png",
   "categoryId": "05-MarketingGrowth",
   "defaultInitPrompt": {
-    "zh": "想改进我们的红人营销工作，帮我判断从哪里开始",
-    "en": "Help me decide where to start improving our influencer marketing work"
+    "zh": "根据我的产品和目标市场，制定红人营销策略",
+    "en": "Develop an influencer marketing strategy for my product and target market"
   },
   "plugin": "influencer-marketing-manager",
   "tags": [
     {
-      "en": "Influencer Marketing",
-      "zh": "红人营销"
+      "en": "Marketing Strategy",
+      "zh": "营销策略"
     },
     {
-      "en": "Workflow Design",
-      "zh": "流程设计"
+      "en": "Creator Discovery",
+      "zh": "红人筛选"
     },
     {
-      "en": "SOP & Automation",
-      "zh": "SOP与自动化"
+      "en": "Partnership Management",
+      "zh": "合作管理"
     }
   ],
   "quickPrompts": [
     {
-      "zh": "想改进我们的红人营销工作，帮我判断从哪里开始",
-      "en": "Help me decide where to start improving our influencer marketing work"
+      "zh": "根据我的产品和目标市场，制定红人营销策略",
+      "en": "Develop an influencer marketing strategy for my product and target market"
     },
     {
-      "zh": "看看我们已有的SOP，哪些环节适合自动化",
-      "en": "Review our existing SOP and identify useful automation opportunities"
+      "zh": "帮我寻找并筛选适合推广这款产品的红人",
+      "en": "Find and shortlist creators suited to promoting this product"
     },
     {
-      "zh": "先了解行业通常怎么做，再讨论适合我们的策略",
-      "en": "Explain common industry approaches, then discuss a strategy that fits us"
+      "zh": "查看我的营销计划，梳理合作进展和下一步",
+      "en": "Review my campaigns, summarize partnership progress, and identify next steps"
     }
   ],
   "keywords": [
     "influencer marketing",
     "influencer marketing strategy",
     "creator partnerships",
+    "creator discovery",
+    "campaign management",
     "marketing automation",
     "SOP",
     "红人营销",
     "达人合作",
     "红人营销策略",
+    "红人筛选",
+    "合作管理",
     "营销自动化"
   ]
 }

@@ -54,7 +54,7 @@
 ```bash
 npm run check:manager-evals
 npm run eval:manager:validate
-python3 scripts/sync_expert.py check
+python3 scripts/workbuddy/sync_expert.py check
 npm run eval:manager:prepare -- --baseline-ref 1e39715 --reuse-codex-login
 INFLUENCER_EVAL_MODEL=gpt-6-astra npm run eval:manager -- --no-cache --no-table \
   --filter-pattern '^\[(26|27|28|29|30)\]' --filter-providers manager-baseline \

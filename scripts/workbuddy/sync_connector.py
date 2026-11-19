@@ -18,7 +18,7 @@ from pathlib import Path
 from typing import Iterable
 
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 SOURCE_SKILL = ROOT / "skills" / "noxinfluencer"
 CONNECTOR = ROOT / "connectors" / "noxinfluencer-cli"
 SNAPSHOT_SKILL = CONNECTOR / "skills" / "noxinfluencer"
