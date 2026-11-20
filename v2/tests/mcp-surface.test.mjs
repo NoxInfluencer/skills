@@ -82,9 +82,10 @@ test('Grok Handoffs require a verified browser in the current host instead of an
   const routing = markdownSection(plugin.get('references/handoffs.md').toString(), '## Grok Handoff browser routing');
   assert.match(routing, /only when trusted runtime context[^.]+active host as Grok Bot or Grok Build/);
   assert.match(routing, /other hosts retain their existing routing rules/);
-  assert.match(routing, /current conversation's exposed browser capabilities/);
-  assert.match(routing, /only through a verified in-app browser navigation capability for this conversation/);
-  assert.match(routing, /Grok Bot[^.]+current Bot's cloud-computer browser/);
+  assert.match(routing, /current conversation's exposed cloud-computer browser capabilities/);
+  assert.match(routing, /only through a verified navigation capability for that cloud-computer browser in this conversation/);
+  assert.match(routing, /browser running on the current Bot's cloud computer \(云电脑的浏览器\)[^.]+Bot's computer preview/);
+  assert.doesNotMatch(routing, /in-app browser/);
   assert.match(routing, /installed MCP server or Grok Build executable does not establish[^.]+browser capability/);
   assert.match(routing, /Unless the user explicitly requests external opening for that Handoff, do not pass it to the system URL opener/);
   assert.ok(routing.includes('`Start-Process`') && routing.includes('`xdg-open`'), 'OS launchers must remain covered across platforms');
@@ -98,7 +99,7 @@ test('Grok browser failure retains business results and external-opening consent
   const universal = outputs.get('v2/skills/noxinfluencer-v2');
   const handoff = plugin.get('references/handoffs.md').toString();
   const routing = markdownSection(handoff, '## Grok Handoff browser routing');
-  assert.match(routing, /no verified in-app browser capability is exposed, or its open action fails[^.]+report the presentation limitation with the verified MCP business result/);
+  assert.match(routing, /no verified cloud-computer browser capability is exposed, or its open action fails[^.]+report the presentation limitation with the verified MCP business result/);
   assert.match(routing, /Do not silently fall back to the system browser[^.]+claim that the page opened/);
   assert.match(routing, /external browser may be used only when the user explicitly requests external opening for that Handoff/);
   assert.match(routing, /request to open or display a Campaign page alone is not that request/);
