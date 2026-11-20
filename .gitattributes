@@ -3,9 +3,7 @@
 /skills/influencer-marketing-manager/** text eol=lf
 /experts/influencer-marketing-manager/skills/influencer-marketing-manager/** text eol=lf
 /scripts/skills-plugin.mjs text eol=lf
-/grok/** text eol=lf
 /.grok-plugin/** text eol=lf
-/scripts/grok-plugin*.mjs text eol=lf
 /package.json text eol=lf
 /package-lock.json text eol=lf
 /plugins/noxinfluencer/assets/*.png binary

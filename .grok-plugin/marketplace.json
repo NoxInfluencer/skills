@@ -9,7 +9,7 @@
       "name": "noxinfluencer",
       "version": "1.0.1",
       "description": "NoxInfluencer marketing workflows through MCP.",
-      "source": "./grok/noxinfluencer"
+      "source": "./plugins/noxinfluencer"
     }
   ]
 }

@@ -14,6 +14,7 @@ function fixture(t) {
   const root = mkdtempSync(join(tmpdir(), 'nox-v2-public-'));
   // Copy the public delivery surface, excluding ignored machine-local tooling.
   for (const path of ['v2/source', 'skills/influencer-marketing-manager',
+    '.grok-plugin/marketplace.json', '.claude-plugin/marketplace.json', '.agents/plugins/marketplace.json',
     ...['.codex-plugin', '.plugin', '.mcp.json', 'assets', 'skills'].map(path => `plugins/noxinfluencer/${path}`)]) {
     mkdirSync(dirname(resolve(root, path)), { recursive: true });
     cpSync(resolve(repositoryRoot, path), resolve(root, path), { recursive: true });
@@ -29,6 +30,60 @@ function assertManagerBusinessUnchanged(pluginManager, root) {
   stripped.set('SKILL.md', Buffer.from(stripped.get('SKILL.md').toString().replace('\n' + policy + '\n\n', '')));
   assert.deepEqual(stripped, shared);
 }
+
+function originalChannelFiles(root) {
+  const files = new Map();
+  for (const prefix of ['plugins/noxinfluencer', '.claude-plugin', '.agents/plugins']) {
+    for (const [path, bytes] of readDirectoryFileMap(resolve(root, prefix))) {
+      if (prefix === 'plugins/noxinfluencer' && path.startsWith('.grok-plugin/')) continue;
+      files.set(`${prefix}/${path}`, bytes);
+    }
+  }
+  return files;
+}
+
+test('Grok selects the shared plugin root and preserves existing channel files', t => {
+  const root = fixture(t);
+  const original = originalChannelFiles(root);
+  const marketplacePath = resolve(root, '.grok-plugin/marketplace.json');
+  const marketplaceBefore = readFileSync(marketplacePath);
+  build({ root });
+  const marketplace = JSON.parse(readFileSync(marketplacePath));
+  const entry = marketplace.plugins.find(plugin => plugin.name === 'noxinfluencer');
+  assert.ok(entry, 'Grok marketplace must advertise the shared NoxInfluencer plugin');
+  assert.equal(entry.source, './plugins/noxinfluencer');
+  const pluginRoot = resolve(root, entry.source);
+  assert.equal(pluginRoot, resolve(root, 'plugins/noxinfluencer'));
+  assert.notEqual(pluginRoot, resolve(root, 'plugins/noxinfluencer/.plugin'));
+  const manifestPath = resolve(pluginRoot, '.grok-plugin/plugin.json');
+  assert.equal(dirname(dirname(manifestPath)), pluginRoot);
+  const manifest = JSON.parse(readFileSync(manifestPath));
+  assert.deepEqual(manifest, JSON.parse(readFileSync(resolve(pluginRoot, '.plugin/plugin.json'))));
+  assert.equal(manifest.name, 'noxinfluencer');
+  assert.equal(manifest.version, entry.version);
+  for (const name of ['noxinfluencer-mcp', 'influencer-marketing-manager']) {
+    const skill = readFileSync(resolve(pluginRoot, 'skills', name, 'SKILL.md'), 'utf8');
+    assert.match(skill, new RegExp(`^name: ${name}\\r?$`, 'm'));
+  }
+  const mcp = JSON.parse(readFileSync(resolve(pluginRoot, '.mcp.json')));
+  assert.equal(mcp.mcpServers.noxinfluencer.type, 'http');
+  assert.equal(mcp.mcpServers.noxinfluencer.url, 'https://skill.noxinfluencer.com/mcp');
+  assert.deepEqual(originalChannelFiles(root), original);
+  assert.deepEqual(readFileSync(marketplacePath), marketplaceBefore);
+  build({ root, check: true });
+  assert.deepEqual(originalChannelFiles(root), original);
+});
+
+test('Grok manifest drift is checked without changing existing channel files', t => {
+  const root = fixture(t);
+  build({ root });
+  const original = originalChannelFiles(root);
+  const path = resolve(root, 'plugins/noxinfluencer/.grok-plugin/plugin.json');
+  writeFileSync(path, 'Grok manifest drift\n');
+  assert.throws(() => build({ root, check: true }), /Configuration drift/);
+  assert.equal(readFileSync(path, 'utf8'), 'Grok manifest drift\n');
+  assert.deepEqual(originalChannelFiles(root), original);
+});
 
 test('one business source produces both runtimes and preserves shared Manager business bytes', t => {
   const root = fixture(t);
@@ -143,12 +198,16 @@ test('public content guard rejects credentials, internal modules and concrete lo
 
 test('standalone packaging has no source/evals/CLI adapter in the MCP package', async t => {
   const root = fixture(t);
+  const originalEntries = readDirectoryFileMap(resolve(root, 'plugins/noxinfluencer'));
   build({ root });
+  assert.equal(existsSync(resolve(root, 'plugins/noxinfluencer/.grok-plugin/plugin.json')), true);
   const ignoredRoot = resolve(root, 'plugins/noxinfluencer/.codex-local/history');
   mkdirSync(ignoredRoot, { recursive: true });
   for (let i = 0; i < 270; i++) writeFileSync(resolve(ignoredRoot, `ignored-${i}.txt`), 'Local-only historical file');
   const first = await packageV2({ root });
   const entries = readZipEntries(resolve(root,'v2/dist/noxinfluencer-mcp-plugin.zip'));
+  assert.equal([...entries.keys()].some(path => path.startsWith('.grok-plugin/')), false);
+  assert.deepEqual(entries, originalEntries, 'The existing ZIP must retain exactly its pre-Grok files and bytes');
   assert.equal(JSON.parse(entries.get('.mcp.json')).mcpServers.noxinfluencer.type, 'http');
   assert.equal(entries.has('skills/noxinfluencer-mcp/SKILL.md'), true);
   assert.equal(entries.has('skills/influencer-marketing-manager/SKILL.md'), true);

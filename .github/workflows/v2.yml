@@ -4,6 +4,7 @@ on:
     paths:
       - 'v2/**'
       - 'plugins/noxinfluencer/**'
+      - '.grok-plugin/**'
       - 'skills/influencer-marketing-manager/**'
       - 'scripts/skills-plugin.mjs'
       - 'package*.json'

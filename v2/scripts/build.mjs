@@ -182,7 +182,9 @@ export function createOutputs(root = repositoryRoot) {
   const channelManifestPath = 'plugins/noxinfluencer/.plugin/plugin.json';
   const channelManifest = JSON.parse(readCanonicalTextFile(resolve(root, channelManifestPath)));
   channelManifest.version = contracts.versions.plugin_version;
-  return { outputs, mcpBuildManifest, files: new Map([[manifestPath, json(manifest)], [channelManifestPath, json(channelManifest)], ['plugins/noxinfluencer/.mcp.json', json({ mcpServers: {
+  const grokManifestPath = 'plugins/noxinfluencer/.grok-plugin/plugin.json';
+  return { outputs, mcpBuildManifest, files: new Map([[manifestPath, json(manifest)], [channelManifestPath, json(channelManifest)],
+    [grokManifestPath, json(channelManifest)], ['plugins/noxinfluencer/.mcp.json', json({ mcpServers: {
     [deployment.provider]: { type: 'http', url: deployment.url, oauth_resource: deployment.oauth_resource },
   } })]]) };
 }

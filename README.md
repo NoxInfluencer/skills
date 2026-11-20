@@ -184,7 +184,7 @@ grok plugin install noxinfluencer@NoxInfluencer/skills --trust
 grok plugin enable noxinfluencer
 ```
 
-Grok Build uses its own marketplace and plugin directory. If you installed the older shared layout, follow the [Grok migration steps](grok/README.md#replace-an-older-installation) before reinstalling. See the [Grok setup guide](grok/README.md) for verification and source maintenance.
+Grok Build installs the same `plugins/noxinfluencer` directory through its Grok-specific marketplace index and `.grok-plugin/plugin.json` manifest. If you installed a previous layout, run `grok plugin uninstall noxinfluencer --confirm --keep-data` and `grok plugin marketplace update` before reinstalling with the commands above.
 
 #### Claude Code
 
