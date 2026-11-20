@@ -2,6 +2,16 @@
 
 Apply these rules in the installed Agent plugin. Keep OAuth in the system browser through the host's authorization controls. Use MCP for business operations, confirmation, idempotency, and result verification.
 
+## Grok Handoff browser routing
+
+Apply this section only when trusted runtime context identifies the active host as Grok Bot or Grok Build. It governs business Handoffs, not OAuth authorization. Codex, Claude, WorkBuddy and other hosts retain their existing routing rules.
+
+Before consuming a Handoff, check the current conversation's exposed browser capabilities. Without an explicit user request for an external browser, open it only through a verified in-app browser navigation capability for this conversation; in Grok Bot, use the current Bot's cloud-computer browser. An installed MCP server or Grok Build executable does not establish that such a browser capability is available.
+
+Unless the user explicitly requests external opening for that Handoff, do not pass it to the system URL opener or launch an external browser through shell commands such as `Start-Process`, `start`, `open`, `xdg-open`, `webbrowser.open`, or `ShellExecute`. Do not delegate opening to another CLI, host, or local Grok Build session. A relayed task summary is not proof of the current conversation's browser capability or of the original structured Handoff result. The general preference for a right-side tab and manual fallback below do not authorize automatic external opening in Grok.
+
+If no verified in-app browser capability is exposed, or its open action fails, report the presentation limitation with the verified MCP business result. Do not silently fall back to the system browser, install a browser tool, invent a browser action, or claim that the page opened. Honor the existing single-use and uncertain-consumption recovery rules. An external browser may be used only when the user explicitly requests external opening for that Handoff; a request to open or display a Campaign page alone is not that request.
+
 ## Campaign pages
 
 Honor an explicit conversation-only request for the current turn. Return the business result in conversation and skip Handoff requests made solely for display, page opening, and manual open links.
