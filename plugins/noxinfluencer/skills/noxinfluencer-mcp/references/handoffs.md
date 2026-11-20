@@ -2,6 +2,16 @@
 
 Apply these rules in the installed Agent plugin. Keep OAuth in the system browser through the host's authorization controls. Use MCP for business operations, confirmation, idempotency, and result verification.
 
+## Business page opening
+
+Every new NoxInfluencer business page open or navigation must go through the corresponding MCP tool and use only the actual, valid, unused `handoff_url` it returns for the current authorized account and target. A valid Handoff already returned with the current business operation satisfies this requirement; do not make a redundant MCP call just to obtain another link. Keeping an exact matching page open under the reuse rules below is not a new page open.
+
+Never bypass MCP by opening an ordinary business URL, constructing or guessing an address or route, searching for another page entrance, or using direct browser navigation to reach a business page. This applies in the host's embedded browser, a cloud-computer browser, and any other browser. Browser capabilities may consume an MCP-issued Handoff; they do not independently select a business page URL.
+
+When the user asks to open a page but the corresponding MCP result provides no usable `handoff_url`, reply exactly: "没有相关页面可以打开。" Stop the page-opening action and return any verified business result. Do not find, construct, or substitute another link. A valid URL that the host cannot open is a presentation failure, not proof that no page exists; report that failure under the existing rules instead.
+
+These requirements concern business pages. OAuth authorization, file downloads, and original public creator or video evidence retain their own rules.
+
 ## Campaign pages
 
 Honor an explicit conversation-only request for the current turn. Return the business result in conversation and skip Handoff requests made solely for display, page opening, and manual open links.
@@ -24,7 +34,7 @@ When the host cannot open the page automatically, return the business result and
 
 ### Recover an expired or uncertain link
 
-If a Handoff has expired or its consumption status is uncertain, use only a declared read-only MCP entrypoint that returns a fresh Handoff for the exact target. Never replay the URL or repeat a business write to obtain a link. If the live contract has no matching read-only entrypoint or it cannot supply a valid link, report the presentation limitation with the business result.
+If a Handoff has expired or its consumption status is uncertain, use only a declared read-only MCP entrypoint that returns a fresh Handoff for the exact target. Never replay the URL or repeat a business write to obtain a link. If the live contract has no matching read-only entrypoint or it cannot supply a valid link, report the presentation limitation with the business result. When the user requested that page, also say "没有相关页面可以打开。" and stop the page-opening action without substituting an ordinary URL.
 
 For example, if the live schema declares the invitation page Handoff on `campaign2_invitations_list`, request the target `campaign_id` with `view: "pending"` and `status_group: "queued"` for its Queued Sends page. Use the resulting link only when it is ready for `campaign_invitation_queued`. For the plan list, use `campaign2_plan_list` when its live schema declares the `campaign_list` Handoff.
 
@@ -32,6 +42,6 @@ For example, if the live schema declares the invitation page Handoff on `campaig
 
 Outside Campaign, use a configured Handoff from the live MCP contract for the exact result when the host supports it. Verify the authorized account and destination before reusing a view or reporting it as open. Prefer the current chat's existing matching view and continue the business workflow if presentation is pending. Honor conversation-only requests.
 
-If no Handoff is configured or advertised, present the available business result in conversation. If a configured Handoff fails, report that presentation failure with the confirmed business result. When automatic opening is unavailable, use the existing user open path for a valid unused Handoff only if no host open action has attempted to consume it. Follow the same read-only recovery rule for an expired or uncertain link.
+If no Handoff is configured or advertised, present the available business result in conversation. When the user requested a page and no usable `handoff_url` was returned, say "没有相关页面可以打开。" and stop the page-opening action. If a configured Handoff fails, report that presentation failure with the confirmed business result. When automatic opening is unavailable, use the existing user open path for a valid unused Handoff only if no host open action has attempted to consume it. Follow the same read-only recovery rule for an expired or uncertain link.
 
 For all Handoffs, use the exact returned URL in the allowed host or user action. Do not log, persist, prefetch, modify or replay it. Respect expiry and the single-use contract.

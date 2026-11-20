@@ -77,6 +77,59 @@ test('the shared plugin routes OAuth to the running host and resolves WorkBuddy 
   assert.match(entrypoint, /A sibling Skill has its own directory/);
 });
 
+test('installed MCP entrypoint and page policy require actual tool-issued Handoffs for every new business page', () => {
+  const plugin = createOutputs().outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp');
+  const policy = markdownSection(plugin.get('references/handoffs.md').toString(), '## Business page opening');
+  const entrypoint = markdownSection(plugin.get('SKILL.md').toString(), '## Business page opening');
+  assert.match(entrypoint, /references\/handoffs\.md/);
+  assert.match(policy, /Every new NoxInfluencer business page open or navigation/);
+  for (const [name, text] of [['entrypoint', entrypoint], ['policy', policy]]) {
+    assert.match(text, /corresponding MCP tool[\s\S]+actual, valid[^.]+`handoff_url`/, name);
+    const prohibition = text.match(/(?:Never|Do not) bypass MCP[^.]+\./)?.[0];
+    assert.ok(prohibition, `${name} must explicitly prohibit bypassing MCP`);
+    for (const alternative of [/ordinary[^.]+URL/, /(?:construct|guess)[^.]+route/, /search/, /direct browser navigation/]) {
+      assert.match(prohibition, alternative, name);
+    }
+  }
+  assert.match(policy, /current authorized account and target/);
+  assert.doesNotMatch(policy, /Grok|Start-Process|xdg-open/);
+});
+
+test('missing Handoffs stop page opening across page routes while valid-link host failures remain presentation failures', () => {
+  const plugin = createOutputs().outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp');
+  const handoff = plugin.get('references/handoffs.md').toString();
+  const policy = markdownSection(handoff, '## Business page opening');
+  const entrypoint = markdownSection(plugin.get('SKILL.md').toString(), '## Business page opening');
+  const other = markdownSection(handoff, '## Other plugin results');
+  const recovery = markdownSection(handoff, '### Recover an expired or uncertain link');
+  for (const [name, text] of [['entrypoint', entrypoint], ['policy', policy], ['other results', other], ['recovery', recovery]]) {
+    assert.ok(text.includes('"没有相关页面可以打开。"'), `${name} must retain the exact unavailable-page reply`);
+    assert.match(text, /stop (?:the page-opening action|opening the page)/i, name);
+  }
+  assert.match(policy, /no usable `handoff_url`/);
+  assert.match(policy, /return any verified business result/);
+  assert.match(policy, /valid URL that the host cannot open is a presentation failure, not proof that no page exists/);
+  assert.match(recovery, /declared read-only MCP entrypoint[^.]+fresh Handoff for the exact target/);
+  assert.match(recovery, /no matching read-only entrypoint or it cannot supply a valid link/);
+});
+
+test('business-page gate preserves current Handoff reuse and separate OAuth, download, evidence and standalone workflows', () => {
+  const { outputs } = createOutputs();
+  const plugin = outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp');
+  const universal = outputs.get('v2/skills/noxinfluencer-v2');
+  const policy = markdownSection(plugin.get('references/handoffs.md').toString(), '## Business page opening');
+  assert.match(policy, /valid Handoff already returned with the current business operation[^.]+do not make a redundant MCP call/);
+  assert.match(policy, /exact matching page open under the reuse rules below is not a new page open/);
+  assert.match(policy, /OAuth authorization, file downloads, and original public creator or video evidence retain their own rules/);
+  assert.deepEqual(plugin.get('references/oauth-and-scopes.md'),
+    readFileSync(resolve(repositoryRoot, 'v2/source/noxinfluencer/adapters/plugin/oauth-and-scopes.md')));
+  assert.deepEqual(universal.get('references/handoffs.md'),
+    readFileSync(resolve(repositoryRoot, 'v2/source/noxinfluencer/adapters/mcp/handoffs.md')));
+  for (const path of ['SKILL.md', 'references/handoffs.md']) {
+    assert.doesNotMatch(universal.get(path).toString(), /## Business page opening|没有相关页面可以打开。/, path);
+  }
+});
+
 test('Campaign page reuse requires an exact current account and chat match and uses the website SSE refresh', () => {
   const { outputs } = createOutputs();
   const plugin = outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp');

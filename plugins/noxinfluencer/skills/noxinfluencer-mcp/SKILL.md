@@ -15,6 +15,10 @@ When invoked through an installed Agent plugin (Codex, Claude, Cursor, Grok Bot,
 
 For intelligent marketing-plan task lists, the current business tool is `campaign2_plan_list`. Use its live paging and filter schema, preserve selected filters, and apply the same Handoff policy as every other function. Do not assume a separate page-opening tool or historical tool name is required.
 
+## Business page opening
+
+Open NoxInfluencer business pages only through the corresponding MCP tool's actual, valid `handoff_url`. Do not bypass MCP with an ordinary URL, a constructed or guessed route, a search, or direct browser navigation. If the user asks to open a page but no usable `handoff_url` is returned, say "没有相关页面可以打开。" and stop opening the page while returning any verified business result. Follow `{baseDir}/references/handoffs.md` for exact-page reuse, single-use links, recovery, and host opening failures. OAuth, downloads, and original public creator evidence keep their separate rules.
+
 ## Working Rules
 
 - Resolve the selected Campaign, collection, CRM scope or monitoring project before writing. Campaign cooperation management and account CRM are distinct destinations.
