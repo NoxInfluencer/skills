@@ -1,0 +1,15 @@
+{
+  "name": "noxinfluencer-grok-plugins",
+  "description": "NoxInfluencer plugins for Grok Build.",
+  "owner": {
+    "name": "NoxInfluencer"
+  },
+  "plugins": [
+    {
+      "name": "noxinfluencer",
+      "version": "1.0.1",
+      "description": "NoxInfluencer marketing workflows through MCP.",
+      "source": "./grok/noxinfluencer"
+    }
+  ]
+}

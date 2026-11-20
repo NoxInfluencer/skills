@@ -180,9 +180,11 @@ codex plugin add noxinfluencer@noxinfluencer-codex
 
 ```bash
 grok plugin marketplace add NoxInfluencer/skills
-grok plugin install noxinfluencer --trust
+grok plugin install noxinfluencer@NoxInfluencer/skills --trust
 grok plugin enable noxinfluencer
 ```
+
+Grok Build uses its own marketplace and plugin directory. If you installed the older shared layout, follow the [Grok migration steps](grok/README.md#replace-an-older-installation) before reinstalling. See the [Grok setup guide](grok/README.md) for verification and source maintenance.
 
 #### Claude Code
 

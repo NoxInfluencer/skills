@@ -1,0 +1,28 @@
+name: Grok plugin adapter
+on:
+  pull_request:
+    paths:
+      - '.grok-plugin/**'
+      - 'grok/**'
+      - 'scripts/grok-plugin*'
+      - 'v2/**'
+      - 'plugins/noxinfluencer/**'
+      - 'skills/influencer-marketing-manager/**'
+      - 'package*.json'
+      - '.gitattributes'
+      - '.github/workflows/grok.yml'
+jobs:
+  offline:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.21.0'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run grok:check
+      - run: npm run grok:test
