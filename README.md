@@ -70,6 +70,20 @@ Install the NoxInfluencer tool skill when the Agent should operate NoxInfluencer
 npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer
 ```
 
+### WorkBuddy Standalone Strategy Skill
+
+Build **Nox聚星红人营销策略** for the WorkBuddy Skills market:
+
+```bash
+npm run workbuddy:check:manager
+npm run workbuddy:package:manager
+npm run workbuddy:test:manager
+```
+
+The package is `dist/noxinfluencer-marketing-manager-workbuddy.zip`, with Skill name `noxinfluencer-marketing-manager`. The builder adapts the shared `skills/influencer-marketing-manager/` source and includes its complete resources; the shared source keeps its existing name. This standalone Skill provides strategy, creator-selection criteria, cooperation planning, and SOP guidance. It bundles no Expert, connector or second Skill. The WorkBuddy output explicitly treats `noxinfluencer` as a reference to a separately installed, optional Skill: use it only when the task requires live product data or account operations and the capability is actually available. Consultation and analysis of supplied materials work independently; no automatic installation is requested. This clarifies the intended dependency boundary, but only platform review can establish whether WorkBuddy accepts this cross-package reference.
+
+Packaging also exports `dist/noxinfluencer-marketing-manager-workbuddy-icon.png` (512×512 PNG, at most 500KB). Upload this image through the avatar upload control on WorkBuddy's Skill confirmation page. The standalone Skill documentation does not define an archive avatar field, so the builder keeps the image as a separate submission asset. Maintain the bilingual listing text and version in `scripts/workbuddy/manager/skill-metadata.json`, and the brand image in `scripts/workbuddy/manager/icon.png`.
+
 ### WorkBuddy Connector
 
 The [NoxInfluencer CLI Connector](connectors/noxinfluencer-cli) brings creator research and marketing operations to WorkBuddy. It uses the NoxInfluencer CLI device-login flow.
@@ -165,7 +179,7 @@ npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer --a
 npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer --agent cursor
 ```
 
-### Codex, Grok Build, and Claude Code Plugin Marketplace
+### Codex, Grok Build, Claude Code, and WorkBuddy Plugin Marketplaces
 
 The NoxInfluencer plugin uses the connected MCP service for account operations. For setup and sign-in instructions, see the [plugin guide](plugins/noxinfluencer/README.md).
 
@@ -184,14 +198,18 @@ grok plugin install noxinfluencer@NoxInfluencer/skills --trust
 grok plugin enable noxinfluencer
 ```
 
-Grok Build installs the same `plugins/noxinfluencer` directory through its Grok-specific marketplace index and `.grok-plugin/plugin.json` manifest. If you installed a previous layout, run `grok plugin uninstall noxinfluencer --confirm --keep-data` and `grok plugin marketplace update` before reinstalling with the commands above.
-
 #### Claude Code
 
 ```bash
 claude plugin marketplace add https://github.com/NoxInfluencer/skills
 claude plugin install noxinfluencer@noxinfluencer-plugins
 ```
+
+#### WorkBuddy
+
+In WorkBuddy's plugin page, choose **Add marketplace** and enter `NoxInfluencer/skills`. Install **noxinfluencer**, then use the plugin's MCP connection action to authorize your NoxInfluencer account. See the official [WorkBuddy plugin instructions](https://www.workbuddy.cn/docs/workbuddy/Plugins).
+
+WorkBuddy installs the same `plugins/noxinfluencer/` plugin, including the Manager and MCP Skills. Its authorization uses WorkBuddy's native connection controls.
 
 ## Platform Entry Points
 
@@ -200,6 +218,7 @@ claude plugin install noxinfluencer@noxinfluencer-plugins
 - **OpenClaw**: use the OpenClaw-targeted install command above
 - **Hermes Skills Hub**: install through the skills.sh identifier shown above; Hermes can also discover this repository through GitHub taps
 - **Codex, Grok Build, and Claude Code**: use Skills CLI for the standalone Skill or Marketplace for the connected MCP plugin
+- **WorkBuddy**: add the GitHub marketplace and install the connected MCP plugin
 
 ## Notes
 

@@ -57,6 +57,26 @@ test('plugin ships live-contract Handoff and honest authorization continuation, 
   assert.equal(universal.has('references/runtime-plugin.md'), false);
 });
 
+test('the shared plugin routes OAuth to the running host and resolves WorkBuddy Skill resources', () => {
+  const plugin = createOutputs().outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp');
+  const auth = plugin.get('references/oauth-and-scopes.md').toString();
+  const common = markdownSection(auth, '## One Attempt, Then Resume');
+  const workbuddy = markdownSection(auth, '## WorkBuddy Authorization');
+  const codex = markdownSection(auth, '## Codex Authorization Only');
+  assert.doesNotMatch(common, /codex mcp login|start-codex-oauth/);
+  assert.match(workbuddy, /WorkBuddy's native authorization action/);
+  assert.match(workbuddy, /连接 \(Connect\)/);
+  assert.match(workbuddy, /do not execute the Codex section/);
+  assert.doesNotMatch(workbuddy, /codex mcp login|noxinfluencer\.codex\.user|start-codex-oauth/);
+  assert.match(codex, /only when trusted host context confirms that the running host is Codex/);
+  assert.match(codex, /codex mcp login noxinfluencer --oauth-client-registration dcr --scopes noxinfluencer\.codex\.user/);
+  assert.ok(plugin.has('scripts/start-codex-oauth.ps1'), 'Codex authorization remains available in the same shared plugin');
+  const entrypoint = plugin.get('SKILL.md').toString();
+  assert.match(entrypoint, /\$\{CODEBUDDY_SKILL_DIR\}/);
+  assert.match(entrypoint, /use this native, host-expanded location for every/);
+  assert.match(entrypoint, /A sibling Skill has its own directory/);
+});
+
 test('Campaign page reuse requires an exact current account and chat match and uses the website SSE refresh', () => {
   const { outputs } = createOutputs();
   const plugin = outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp');

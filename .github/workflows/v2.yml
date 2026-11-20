@@ -5,8 +5,10 @@ on:
       - 'v2/**'
       - 'plugins/noxinfluencer/**'
       - '.grok-plugin/**'
+      - '.workbuddy-plugin/**'
       - 'skills/influencer-marketing-manager/**'
       - 'scripts/skills-plugin.mjs'
+      - 'scripts/workbuddy/**'
       - 'package*.json'
       - '.github/workflows/v2.yml'
 jobs:
@@ -28,3 +30,5 @@ jobs:
       - run: npm run v2:check
       - run: npm run v2:test
       - run: npm run v2:package
+      - run: npm run workbuddy:check:mcp
+      - run: npm run workbuddy:check:expert

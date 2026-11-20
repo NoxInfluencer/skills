@@ -14,8 +14,8 @@ function fixture(t) {
   const root = mkdtempSync(join(tmpdir(), 'nox-v2-public-'));
   // Copy the public delivery surface, excluding ignored machine-local tooling.
   for (const path of ['v2/source', 'skills/influencer-marketing-manager',
-    '.grok-plugin/marketplace.json', '.claude-plugin/marketplace.json', '.agents/plugins/marketplace.json',
-    ...['.codex-plugin', '.plugin', '.mcp.json', 'assets', 'skills'].map(path => `plugins/noxinfluencer/${path}`)]) {
+    '.grok-plugin/marketplace.json', '.claude-plugin/marketplace.json', '.workbuddy-plugin/marketplace.json', '.agents/plugins/marketplace.json',
+    ...['.codex-plugin', '.plugin', '.workbuddy-plugin', '.mcp.json', 'assets', 'skills'].map(path => `plugins/noxinfluencer/${path}`)]) {
     mkdirSync(dirname(resolve(root, path)), { recursive: true });
     cpSync(resolve(repositoryRoot, path), resolve(root, path), { recursive: true });
   }
@@ -83,6 +83,28 @@ test('Grok manifest drift is checked without changing existing channel files', t
   assert.throws(() => build({ root, check: true }), /Configuration drift/);
   assert.equal(readFileSync(path, 'utf8'), 'Grok manifest drift\n');
   assert.deepEqual(originalChannelFiles(root), original);
+});
+
+test('WorkBuddy gets a recognized manifest and detects manifest drift', t => {
+  const root = fixture(t);
+  const marketplacePath = resolve(root, '.workbuddy-plugin/marketplace.json');
+  const marketplaceBefore = readFileSync(marketplacePath);
+  const marketplace = JSON.parse(marketplaceBefore);
+  const entry = marketplace.plugins.find(plugin => plugin.name === 'noxinfluencer');
+  assert.equal(marketplace.name, 'noxinfluencer-plugins');
+  assert.ok(entry);
+  assert.equal(entry.source, './plugins/noxinfluencer');
+  assert.equal(resolve(root, entry.source), resolve(root, 'plugins/noxinfluencer'));
+  const path = resolve(root, 'plugins/noxinfluencer/.workbuddy-plugin/plugin.json');
+  rmSync(path);
+  build({ root });
+  assert.deepEqual(readFileSync(path), readFileSync(resolve(root, 'plugins/noxinfluencer/.plugin/plugin.json')));
+  assert.equal(JSON.parse(readFileSync(path)).version, entry.version);
+  assert.deepEqual(readFileSync(marketplacePath), marketplaceBefore);
+  build({ root, check: true });
+  writeFileSync(path, 'WorkBuddy manifest drift\n');
+  assert.throws(() => build({ root, check: true }), /Configuration drift/);
+  assert.equal(readFileSync(path, 'utf8'), 'WorkBuddy manifest drift\n');
 });
 
 test('one business source produces both runtimes and preserves shared Manager business bytes', t => {
@@ -207,7 +229,8 @@ test('standalone packaging has no source/evals/CLI adapter in the MCP package', 
   const first = await packageV2({ root });
   const entries = readZipEntries(resolve(root,'v2/dist/noxinfluencer-mcp-plugin.zip'));
   assert.equal([...entries.keys()].some(path => path.startsWith('.grok-plugin/')), false);
-  assert.deepEqual(entries, originalEntries, 'The existing ZIP must retain exactly its pre-Grok files and bytes');
+  assert.deepEqual(entries, originalEntries, 'The ZIP must retain the shared delivery files and bytes');
+  assert.deepEqual(entries.get('.workbuddy-plugin/plugin.json'), entries.get('.plugin/plugin.json'));
   assert.equal(JSON.parse(entries.get('.mcp.json')).mcpServers.noxinfluencer.type, 'http');
   assert.equal(entries.has('skills/noxinfluencer-mcp/SKILL.md'), true);
   assert.equal(entries.has('skills/influencer-marketing-manager/SKILL.md'), true);

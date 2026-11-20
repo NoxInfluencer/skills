@@ -58,6 +58,7 @@ function renameSkill(bytes, expectedName, outputName) {
 /** Adapt instructions in memory; shared/V2/plugin source identities are unchanged. */
 function adaptMarkdown(bytes, { manager = false } = {}) {
   let text = bytes.toString('utf8')
+    .replace(/^## Skill resource paths\r?\n[\s\S]*?(?=^## )/m, '')
     .replaceAll('{baseDir}/references/', '@references/')
     .replace(/`(references\/[\w./-]+\.md)`/g, '`@$1`')
     .replaceAll('codex-plugin-runtime.md', 'workbuddy-runtime.md')

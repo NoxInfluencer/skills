@@ -221,8 +221,8 @@ export function assertNoSymbolicLinkComponents(
 }
 
 function assertIndependentTargets(targets, trustedRoot) {
-  if (!Array.isArray(targets) || targets.length === 0 || targets.length > 8) {
-    fail("Atomic replacement requires between one and eight targets.");
+  if (!Array.isArray(targets) || targets.length === 0 || targets.length > 9) {
+    fail("Atomic replacement requires between one and nine targets.");
   }
   if (typeof trustedRoot !== "string" || !existsSync(trustedRoot)) {
     fail("Atomic replacement requires an existing trusted root.");

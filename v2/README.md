@@ -14,6 +14,8 @@ V2 is maintained on this repository's `main` branch. The one-time source migrati
 
 Edit source files, not generated product Skills. Manager remains independently maintained in its existing source directory. Its business guidance does not choose CLI, MCP or a product version; execution remains bound to the active product entrypoint. The plugin injects `adapters/plugin/manager-context.md` into the shared Manager entrypoint during generation; stripping that context reproduces the shared source exactly. Its business text is not independently maintained. Plugin adapter overrides never enter the universal Skill. Installed Agent plugin mode selects MCP-only execution and the presentation rules in [the plugin Handoff reference](source/noxinfluencer/adapters/plugin/handoffs.md).
 
+WorkBuddy's repository-root `.workbuddy-plugin/marketplace.json` points to the same `plugins/noxinfluencer/` directory as the other plugin channels. The build generates its `.workbuddy-plugin/plugin.json` from the common manifest. Maintain host authorization routes in `adapters/plugin/oauth-and-scopes.md`; the shared entrypoint maps WorkBuddy's native Skill-directory variable to the existing resource references. WorkBuddy uses native connection controls, while the Codex authorization command remains confined to its Codex-only route.
+
 ## Build and checks
 
 Maintainers use Node 24.21.0 / npm 11.19.0 and Python 3.12. From the repository root:

@@ -1,0 +1,19 @@
+{
+  "name": "noxinfluencer-marketing-manager",
+  "display_name": "Nox聚星红人营销策略",
+  "display_name_en": "NoxInfluencer Marketing Strategy",
+  "description_zh": "结合品牌目标、产品卖点与目标市场，制定红人营销策略，明确平台选择、红人筛选、合作方式和效果评估。",
+  "description_en": "Build an influencer-marketing strategy around your brand goals, product strengths, and target market, covering platform selection, creator criteria, partnership formats, and performance measurement.",
+  "version": "0.1.3",
+  "author": "NoxInfluencer",
+  "examples_zh": [
+    "我要推广3C产品，帮我制定红人营销策略",
+    "预算有限，应该选择什么平台、什么类型的红人合作？",
+    "帮我设计红人筛选标准、合作方案和效果评估方法"
+  ],
+  "examples_en": [
+    "Help me develop an influencer-marketing strategy to promote consumer electronics products",
+    "With a limited budget, which platforms and types of creators should I work with?",
+    "Help me define creator-selection criteria, a partnership plan, and a way to measure results"
+  ]
+}

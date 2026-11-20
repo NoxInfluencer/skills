@@ -1,6 +1,6 @@
 # NoxInfluencer Plugin
 
-NoxInfluencer brings influencer-marketing guidance and connected NoxInfluencer workflows to Codex and Claude Code.
+NoxInfluencer brings influencer-marketing guidance and connected NoxInfluencer workflows to Codex, Claude Code, and WorkBuddy.
 
 The plugin combines two complementary assistants:
 
@@ -26,7 +26,7 @@ When a connected workflow provides an interactive result view, the plugin opens 
 
 ## Install from the GitHub Repository
 
-Use a current version of Codex or Claude Code with plugin support. The commands below require Git; connected account features also require a NoxInfluencer account.
+Use a current version of your app with plugin support. The terminal commands below require Git; connected account features also require a NoxInfluencer account.
 
 ### Codex
 
@@ -57,7 +57,11 @@ Alternatively, run the following inside Claude Code:
 /plugin install noxinfluencer@noxinfluencer-plugins
 ```
 
-For help with marketplace installation, see the official [Codex marketplace instructions](https://developers.openai.com/plugins/build/plugins#add-a-marketplace-from-the-cli) or [Claude Code plugin instructions](https://code.claude.com/docs/en/plugins/install).
+### WorkBuddy
+
+In WorkBuddy's plugin page, choose **Add marketplace**, enter `NoxInfluencer/skills`, and install **noxinfluencer**. This installs the same plugin and both Skills from this directory. Use WorkBuddy's native MCP connection action to authorize your account.
+
+For help with marketplace installation, see the official [Codex marketplace instructions](https://developers.openai.com/plugins/build/plugins#add-a-marketplace-from-the-cli), [Claude Code plugin instructions](https://code.claude.com/docs/en/plugins/install), or [WorkBuddy plugin instructions](https://www.workbuddy.cn/docs/workbuddy/Plugins).
 
 ## Connect Your NoxInfluencer Account
 

@@ -26,6 +26,7 @@ function input(relativePath, read = readCanonicalTextFile) {
 
 function adaptMarkdown(bytes) {
   return Buffer.from(bytes.toString('utf8')
+    .replace(/^## Skill resource paths\r?\n[\s\S]*?(?=^## )/m, '')
     .replace(/^description: Operate NoxInfluencer creator and Campaign workflows[^\n]+/m,
       'description: Use the NoxInfluencer WorkBuddy connector for creator research, collections, CRM, monitoring, and intelligent marketing plans.')
     .replaceAll('{baseDir}/references/', '@references/')
