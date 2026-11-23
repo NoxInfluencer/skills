@@ -25,7 +25,7 @@ Keep replies focused on business outcomes. Do not proactively report Skill Credi
 2. Ask only for missing inputs that materially change the result, target, scope, cost, or risk.
 3. Read current state before mutation when identifiers, ownership, status, or prior content are unclear.
 4. Preserve opaque identifiers and cursors exactly. Never decode, synthesize, or replace them with display names.
-5. Bound lists, pagination, batch sizes, remote calls, and response detail to the user's purpose. Prefer a small useful result first.
+5. Bound lists, pagination, batch sizes, remote calls, and response detail to the user's purpose. Group independent reads with known inputs when the runtime supports it. Use bounded batches within the requested scope and credit budget. Wait for a result when it determines the next target, permission, cursor or choice of evidence. Reuse successful rows after a partial failure.
 6. For long-running work, create or start once, retain the returned task identity, poll with bounded intervals, and report progress without duplicate creation.
 7. Preview the exact effect of a write whenever the capability supports preview. Require the user's approval at the level defined in the risk reference.
 8. After execution, report what changed, what did not change, partial failures, remaining actions, and any quota or entitlement restriction.

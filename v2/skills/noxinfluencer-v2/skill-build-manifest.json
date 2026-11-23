@@ -44,8 +44,8 @@
     },
     {
       "path": "adapters/cli/references/search-filters-cli.md",
-      "bytes": 8385,
-      "sha256": "6275cec28ee3febb4cdc6622b6a616f0b8c6ccb2b12556bc360502a55eeb0c58"
+      "bytes": 8701,
+      "sha256": "d7e8dd164572d6c1eaa961210734b71ba4df099c957be3389ea32bafb7d9f18e"
     },
     {
       "path": "adapters/cli/references/verdict-heuristics-cli.md",
@@ -109,8 +109,8 @@
     },
     {
       "path": "shared/core.md",
-      "bytes": 5741,
-      "sha256": "5d84a73442caf1bf5e50012d9cd209fa3fdd9dc926a644a3c17c043874ac949c"
+      "bytes": 5986,
+      "sha256": "7f7e8689841cdb2d86a083276ecdb86a5fe8df595e235034c707243165a06a95"
     },
     {
       "path": "shared/references/brand-monitor.md",
@@ -144,8 +144,8 @@
     },
     {
       "path": "shared/references/creator.md",
-      "bytes": 14729,
-      "sha256": "00c34687126082ca70c894009ea784b0adc0c0f8be2ed1cff0a3321a758ec7c6"
+      "bytes": 15073,
+      "sha256": "f86a63073f836be1e54749f3ee1e1a2bbcd3c96c7a40fc88af2be2d80cb821d5"
     },
     {
       "path": "shared/references/files-and-exports.md",
@@ -236,8 +236,8 @@
     },
     {
       "path": "references/creator.md",
-      "bytes": 14729,
-      "sha256": "00c34687126082ca70c894009ea784b0adc0c0f8be2ed1cff0a3321a758ec7c6"
+      "bytes": 15073,
+      "sha256": "f86a63073f836be1e54749f3ee1e1a2bbcd3c96c7a40fc88af2be2d80cb821d5"
     },
     {
       "path": "references/files-and-exports.md",
@@ -326,8 +326,8 @@
     },
     {
       "path": "references/search-filters-cli.md",
-      "bytes": 8385,
-      "sha256": "6275cec28ee3febb4cdc6622b6a616f0b8c6ccb2b12556bc360502a55eeb0c58"
+      "bytes": 8701,
+      "sha256": "d7e8dd164572d6c1eaa961210734b71ba4df099c957be3389ea32bafb7d9f18e"
     },
     {
       "path": "references/verdict-heuristics-cli.md",
@@ -401,8 +401,8 @@
     },
     {
       "path": "SKILL.md",
-      "bytes": 9007,
-      "sha256": "6e684c87b09004aa7491ae87d871cbbda57bdb5ae65c9d4c1679d911bfda1559"
+      "bytes": 9252,
+      "sha256": "db64cdae0cfc0068c1e067efd9c07c24bc1923839fa54e776ea276a4d8c7e21e"
     }
   ]
 }

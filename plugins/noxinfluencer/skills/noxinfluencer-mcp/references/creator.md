@@ -1,5 +1,7 @@
 # Creator Discovery And Evaluation
 
+For questions about a creator's published work, look for recent content in the current tool catalog. A post title, link or tag can identify a relevant example. Describe the evidence actually returned; a title alone cannot verify what appears on screen. Use account metrics and audience distributions for questions about performance and reach.
+
 ## Discovery Inputs
 
 ### Numeric Units

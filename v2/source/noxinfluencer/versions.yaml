@@ -20,7 +20,7 @@ snapshots:
     sha256: 90062706a93c7434e06ed73bbf4ff69d47f65609d4737486db459da347051b60
   - id: cli-schema
     path: snapshots/cli-schema.json
-    sha256: ba8c05fc4865942c76ae2cca2ed57c3f69203f7d85207e9a51ceb1f97550f67d
+    sha256: 1e821a98819cf72a1efb07f69cd5730bc946384988e22b065d83b5d34fd42791
   - id: deployment
     path: snapshots/deployment.json
     sha256: f4e3f05126d31759a8e9fd09cc73e700bededa769080b0fcc3c5b974443b227a

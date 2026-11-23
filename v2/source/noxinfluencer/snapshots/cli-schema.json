@@ -478,7 +478,7 @@
     },
     {
       "command": "auth",
-      "description": "Configure API key",
+      "description": "Configure local CLI authentication with an API key",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -560,7 +560,7 @@
     },
     {
       "command": "quota",
-      "description": "Query skill quota snapshot",
+      "description": "Check the current account quota and available Skill Credit",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -632,7 +632,7 @@
     },
     {
       "command": "quota usage",
-      "description": "Analyze historical Skill Credit usage",
+      "description": "Review past Skill Credit consumption for the requested period",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -733,7 +733,7 @@
     },
     {
       "command": "pricing",
-      "description": "Show membership plans",
+      "description": "Read membership plan options; use pricing tools for per-action Skill Credit prices",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -970,7 +970,7 @@
     },
     {
       "command": "schema",
-      "description": "Show machine-readable command schema (see also: noxinfluencer agent exit-codes)",
+      "description": "Inspect a command’s arguments, options, mutation status and available usage guidance by command path",
       "arguments": [
         {
           "name": "command_path",
@@ -1053,7 +1053,7 @@
     },
     {
       "command": "creator",
-      "description": "Creator discovery & analysis",
+      "description": "Find creators and inspect account performance, audience, past content, partnerships or contact availability",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -1125,7 +1125,7 @@
     },
     {
       "command": "creator search",
-      "description": "Search for creators on a platform",
+      "description": "Discover creator accounts matching platform, audience and performance filters; returns paginated candidates and their identifiers",
       "arguments": [],
       "required_options": [
         {
@@ -2308,7 +2308,7 @@
     },
     {
       "command": "creator profile",
-      "description": "Creator profile\n\nChoose exactly one selector: [creator_id], --url, or --platform with --channel-id.\nUse --url or --platform --channel-id for the first lookup.\nReuse the returned data.creator_id for follow-up calls.\nEngagement rates, view_per_followers, wave, growth ratios and rating percentiles use decimal ratios (0.05 = 5%; 1.5 = 150%). Growth may be negative. Benchmark values follow their parent metric; scores and counts are not percentages.",
+      "description": "Read one creator’s account identity and performance metrics, including available viewing and engagement statistics\n\nChoose exactly one selector: [creator_id], --url, or --platform with --channel-id.\nUse --url or --platform --channel-id for the first lookup.\nReuse the returned data.creator_id for follow-up calls.\nEngagement rates, view_per_followers, wave, growth ratios and rating percentiles use decimal ratios (0.05 = 5%; 1.5 = 150%). Growth may be negative. Benchmark values follow their parent metric; scores and counts are not percentages.",
       "arguments": [
         {
           "name": "creator_id",
@@ -2335,7 +2335,7 @@
         },
         {
           "flag": "--detail",
-          "description": "Deep analysis mode",
+          "description": "Include performance trends and peer benchmarks when available",
           "required": false
         },
         {
@@ -2415,7 +2415,7 @@
     },
     {
       "command": "creator audience",
-      "description": "Creator audience\n\nChoose exactly one selector: [creator_id], --url, or --platform with --channel-id.\nUse --url or --platform --channel-id for the first lookup.\nReuse the returned data.creator_id for follow-up calls.\nAudience distributions, authenticity values/bounds and interest ratios use decimal proportions (0.6 = 60%). positive_audience_pct and promo_interested_audience_pct use percentage points (60 = 60%). audience_quality is a score, not a percentage.",
+      "description": "Read one creator’s audience demographics and authenticity indicators to assess fit with a target market\n\nChoose exactly one selector: [creator_id], --url, or --platform with --channel-id.\nUse --url or --platform --channel-id for the first lookup.\nReuse the returned data.creator_id for follow-up calls.\nAudience distributions, authenticity values/bounds and interest ratios use decimal proportions (0.6 = 60%). positive_audience_pct and promo_interested_audience_pct use percentage points (60 = 60%). audience_quality is a score, not a percentage.",
       "arguments": [
         {
           "name": "creator_id",
@@ -2442,7 +2442,7 @@
         },
         {
           "flag": "--detail",
-          "description": "Deep analysis mode",
+          "description": "Read available region, language, gender and age distributions and audience quality",
           "required": false
         },
         {
@@ -2522,7 +2522,7 @@
     },
     {
       "command": "creator cooperation",
-      "description": "Creator cooperation\n\nChoose exactly one selector: [creator_id], --url, or --platform with --channel-id.\nUse --url or --platform --channel-id for the first lookup.\nReuse the returned data.creator_id for follow-up calls.\nEngagement rates, ad_video_percent, start_contact_pct, cooperation_confirmation_pct and promotion_online_pct use decimal ratios (0.05 = 5%). Names ending in _pct do not imply percentage-point units.",
+      "description": "Read one creator’s commercial collaboration indicators over a selected period to assess partnership fit\n\nChoose exactly one selector: [creator_id], --url, or --platform with --channel-id.\nUse --url or --platform --channel-id for the first lookup.\nReuse the returned data.creator_id for follow-up calls.\nEngagement rates, ad_video_percent, start_contact_pct, cooperation_confirmation_pct and promotion_online_pct use decimal ratios (0.05 = 5%). Names ending in _pct do not imply percentage-point units.",
       "arguments": [
         {
           "name": "creator_id",
@@ -2549,7 +2549,7 @@
         },
         {
           "flag": "--detail",
-          "description": "Deep analysis mode",
+          "description": "Include available partner brands and response and collaboration metrics",
           "required": false
         },
         {
@@ -2629,7 +2629,7 @@
     },
     {
       "command": "creator content",
-      "description": "Creator content\n\nChoose exactly one selector: [creator_id], --url, or --platform with --channel-id.\nUse --url or --platform --channel-id for the first lookup.\nReuse the returned data.creator_id for follow-up calls.\nEngagement rates, view_per_followers, wave, growth ratios and rating percentiles use decimal ratios (0.05 = 5%; 1.5 = 150%). Growth may be negative. Benchmark values follow their parent metric; scores and counts are not percentages.",
+      "description": "Read a creator’s recent posts and content tags; page or sort posts to find available titles, links and performance evidence\n\nChoose exactly one selector: [creator_id], --url, or --platform with --channel-id.\nUse --url or --platform --channel-id for the first lookup.\nReuse the returned data.creator_id for follow-up calls.\nEngagement rates, view_per_followers, wave, growth ratios and rating percentiles use decimal ratios (0.05 = 5%; 1.5 = 150%). Growth may be negative. Benchmark values follow their parent metric; scores and counts are not percentages.",
       "arguments": [
         {
           "name": "creator_id",
@@ -2656,7 +2656,7 @@
         },
         {
           "flag": "--detail",
-          "description": "Deep analysis mode",
+          "description": "Include available additional tags and audience interests alongside recent content",
           "required": false
         },
         {
@@ -2742,7 +2742,7 @@
     },
     {
       "command": "creator contacts",
-      "description": "Creator contacts\n\nChoose exactly one selector: [creator_id], --url, or --platform with --channel-id.\nUse --url or --platform --channel-id for the first lookup.\nReuse the returned data.creator_id for follow-up calls.\nUse contacts only for visible/exported contact info or outreach outside NoxInfluencer.\nThis can consume contact-retrieval quota; NoxInfluencer email tasks do not need visible emails.\nFor NoxInfluencer email tasks, pass creator search/profile `creator_id` to `email recipients add/replace`; do not fetch contacts first.",
+      "description": "Look up available contact channels for one creator when outreach contact information is requested\n\nChoose exactly one selector: [creator_id], --url, or --platform with --channel-id.\nUse --url or --platform --channel-id for the first lookup.\nReuse the returned data.creator_id for follow-up calls.\nUse contacts only for visible/exported contact info or outreach outside NoxInfluencer.\nThis can consume contact-retrieval quota; NoxInfluencer email tasks do not need visible emails.\nFor NoxInfluencer email tasks, pass creator search/profile `creator_id` to `email recipients add/replace`; do not fetch contacts first.",
       "arguments": [
         {
           "name": "creator_id",
@@ -2846,7 +2846,7 @@
     },
     {
       "command": "monitor",
-      "description": "Video monitoring",
+      "description": "Track known videos and future creator publications in monitoring projects",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -5193,7 +5193,7 @@
     },
     {
       "command": "monitor history",
-      "description": "Get task-level monitor history",
+      "description": "Read performance observations over time for one monitored video task",
       "arguments": [],
       "required_options": [
         {
@@ -5287,7 +5287,7 @@
     },
     {
       "command": "monitor summary",
-      "description": "Get project level summary for a video monitor project\n\nReturned engagement_rate and avg_engagement_rate use decimal ratios: 0.05 = 5%, not 0.05%. Null means unavailable, not zero.",
+      "description": "Read aggregate tracking results for all tasks in one monitoring project\n\nReturned engagement_rate and avg_engagement_rate use decimal ratios: 0.05 = 5%, not 0.05%. Null means unavailable, not zero.",
       "arguments": [],
       "required_options": [
         {
@@ -5367,7 +5367,7 @@
     },
     {
       "command": "collection",
-      "description": "Collection management",
+      "description": "Organize saved creators in collections and manage their membership, labels, refreshes and exports",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -5538,7 +5538,7 @@
     },
     {
       "command": "collection get",
-      "description": "Get collection detail",
+      "description": "Read the selected collection’s metadata by collection ID",
       "arguments": [
         {
           "name": "collection_id",
@@ -5873,7 +5873,7 @@
     },
     {
       "command": "collection items",
-      "description": "Query collection items\n\nUse --body-file with a JSON object. Complex collection filters stay JSON-first.\nUse semantic sort_by keys from the response columns. Unknown columns fall back to field_<id>.",
+      "description": "Page through creator records in one selected collection\n\nUse --body-file with a JSON object. Complex collection filters stay JSON-first.\nUse semantic sort_by keys from the response columns. Unknown columns fall back to field_<id>.",
       "arguments": [
         {
           "name": "collection_id",
@@ -5962,7 +5962,7 @@
     },
     {
       "command": "collection resources",
-      "description": "Query collection resources\n\nUse --body-file with a JSON object. Complex collection filters stay JSON-first.\nUse semantic sort_by keys from the response columns. Unknown columns fall back to field_<id>.",
+      "description": "Search saved collection resources using the supplied cross-collection filters\n\nUse --body-file with a JSON object. Complex collection filters stay JSON-first.\nUse semantic sort_by keys from the response columns. Unknown columns fall back to field_<id>.",
       "arguments": [],
       "required_options": [
         {
@@ -9096,7 +9096,7 @@
     },
     {
       "command": "email",
-      "description": "Email task management",
+      "description": "Prepare and send outreach email tasks, manage recipients and read sending reports",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -9168,7 +9168,7 @@
     },
     {
       "command": "email list",
-      "description": "List email tasks\n\nReturned delivery, arrival, open/read, reply, bounce and click rates use decimal proportions: 0.05 = 5%, 1 = 100%. Null means unavailable, not zero.\ninvite_status/invite_status_name describes task progress: 1 pending, 2 inviting, 3 paused, 4 completed, 5 queued. It is not recipient delivery or subscription status.",
+      "description": "Find outreach email tasks and their IDs using the selected filters\n\nReturned delivery, arrival, open/read, reply, bounce and click rates use decimal proportions: 0.05 = 5%, 1 = 100%. Null means unavailable, not zero.\ninvite_status/invite_status_name describes task progress: 1 pending, 2 inviting, 3 paused, 4 completed, 5 queued. It is not recipient delivery or subscription status.",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -9533,7 +9533,7 @@
     },
     {
       "command": "email report",
-      "description": "Get email task report\n\nReturned delivery, arrival, open/read, reply, bounce and click rates use decimal proportions: 0.05 = 5%, 1 = 100%. Null means unavailable, not zero.\nDefaults to the primary project. Run `email rounds <task_id>` to select a follow-up via --project-id; response primary_project_* fields then describe that selected round.\nProject states: 0 draft, 1 sending, 2 scheduled, 3 active (send processing completed), 4 recalling. get/drafts expose *_status_name beside numeric codes; report/send/schedule/cancel use string primary_project_status. unknown means unavailable or unrecognized.\nReport returns task summary metrics plus selected-round delivery/open/reply metrics. Task totals and `unique_recipient_count` stay task-wide when selecting a round.\n`reply_count` is the email tracking reply count; `replied_creator_count` is the message-thread replied creator count; `inbound_message_count` is inbound reply messages.\nprimary_project_metrics.unsubscribe_count is the current round count, not a task-wide unique count; null means upstream did not provide it. Aggregate delivery/open counts cannot determine an individual recipient subscription state; zero opens means no tracked open.",
+      "description": "Read sending results for a single outreach email task\n\nReturned delivery, arrival, open/read, reply, bounce and click rates use decimal proportions: 0.05 = 5%, 1 = 100%. Null means unavailable, not zero.\nDefaults to the primary project. Run `email rounds <task_id>` to select a follow-up via --project-id; response primary_project_* fields then describe that selected round.\nProject states: 0 draft, 1 sending, 2 scheduled, 3 active (send processing completed), 4 recalling. get/drafts expose *_status_name beside numeric codes; report/send/schedule/cancel use string primary_project_status. unknown means unavailable or unrecognized.\nReport returns task summary metrics plus selected-round delivery/open/reply metrics. Task totals and `unique_recipient_count` stay task-wide when selecting a round.\n`reply_count` is the email tracking reply count; `replied_creator_count` is the message-thread replied creator count; `inbound_message_count` is inbound reply messages.\nprimary_project_metrics.unsubscribe_count is the current round count, not a task-wide unique count; null means upstream did not provide it. Aggregate delivery/open counts cannot determine an individual recipient subscription state; zero opens means no tracked open.",
       "arguments": [
         {
           "name": "task_id",
@@ -9617,7 +9617,7 @@
     },
     {
       "command": "email team-summary",
-      "description": "Get email team summary\n\nReturned delivery, arrival, open/read, reply, bounce and click rates use decimal proportions: 0.05 = 5%, 1 = 100%. Null means unavailable, not zero.\nTeam email metrics use SaaS team member accounts (`uid`), not Gmail, Outlook, or enterprise sender mailbox accounts.\nOptional filters: comma-separated `--task-ids`, paired ISO `--start-at`/`--end-at`, and comma-separated SaaS team member `--uids`.\nUse `email collaborators list` to discover valid team UIDs; UIDs outside the current account are rejected.\n`reply_count` is the email tracking reply count; `replied_creator_count` is the replied creator count; `inbound_message_count` is inbound reply messages.\nUse this for aggregate reply reporting across selected tasks, time windows, or team members.",
+      "description": "Read aggregate outreach email results for the selected team and period\n\nReturned delivery, arrival, open/read, reply, bounce and click rates use decimal proportions: 0.05 = 5%, 1 = 100%. Null means unavailable, not zero.\nTeam email metrics use SaaS team member accounts (`uid`), not Gmail, Outlook, or enterprise sender mailbox accounts.\nOptional filters: comma-separated `--task-ids`, paired ISO `--start-at`/`--end-at`, and comma-separated SaaS team member `--uids`.\nUse `email collaborators list` to discover valid team UIDs; UIDs outside the current account are rejected.\n`reply_count` is the email tracking reply count; `replied_creator_count` is the replied creator count; `inbound_message_count` is inbound reply messages.\nUse this for aggregate reply reporting across selected tasks, time windows, or team members.",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -12286,7 +12286,7 @@
     },
     {
       "command": "email content save",
-      "description": "Save email content\n\nMutation commands default to dry-run. Add --force to execute.\nUse --body-file with a JSON object. content save only manages subject/body content, not templates, AI, or auto-reply.\nContent body shape: `{\"subject\":\"...\",\"html_body\":\"<p>...</p>\",\"text_body\":\"...\"}`; use only user-approved outreach copy.\nFor an inline local image, run `file image upload` first and embed its public `file_url` in html_body; do not add it as a private attachment.",
+      "description": "Save the email message content for the selected task\n\nMutation commands default to dry-run. Add --force to execute.\nUse --body-file with a JSON object. content save only manages subject/body content, not templates, AI, or auto-reply.\nContent body shape: `{\"subject\":\"...\",\"html_body\":\"<p>...</p>\",\"text_body\":\"...\"}`; use only user-approved outreach copy.\nFor an inline local image, run `file image upload` first and embed its public `file_url` in html_body; do not add it as a private attachment.",
       "arguments": [
         {
           "name": "task_id",
@@ -13390,7 +13390,7 @@
     },
     {
       "command": "file",
-      "description": "Shared file operations",
+      "description": "Upload files for delivery or publish images for use in rich-text content",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -13618,7 +13618,7 @@
     },
     {
       "command": "product",
-      "description": "Product center management",
+      "description": "Manage the account product catalog, product links, thumbnail images and custom tags",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -13690,7 +13690,7 @@
     },
     {
       "command": "product analyze-link",
-      "description": "Analyze a product URL\n\nUse --body-file with `{\"link\":\"https://...\"}` to preview product metadata from a URL.",
+      "description": "Preview product metadata from a supplied product link before saving a catalog record\n\nUse --body-file with `{\"link\":\"https://...\"}` to preview product metadata from a URL.",
       "arguments": [],
       "required_options": [
         {
@@ -14411,7 +14411,7 @@
     },
     {
       "command": "short-link",
-      "description": "Nox short-link management",
+      "description": "Create and manage tracking links and inspect their click performance",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -14589,7 +14589,7 @@
     },
     {
       "command": "short-link get",
-      "description": "Get normal Nox short-link effect\n\nThis is the normal Nox short-link tool, not Shopify affiliate campaign tracking links.\nEffect reads default to the last 7 days. Pass paired --start-time and --end-time ISO datetimes to override.",
+      "description": "Read click performance for a selected Nox short link\n\nThis is the normal Nox short-link tool, not Shopify affiliate campaign tracking links.\nEffect reads default to the last 7 days. Pass paired --start-time and --end-time ISO datetimes to override.",
       "arguments": [
         {
           "name": "short_link_id",
@@ -14776,7 +14776,7 @@
     },
     {
       "command": "short-link export-effect",
-      "description": "Export one normal Nox short-link effect to Excel\n\nThis is the normal Nox short-link tool, not Shopify affiliate campaign tracking links.\nEffect reads default to the last 7 days. Pass paired --start-time and --end-time ISO datetimes to override.\nThe CLI streams the SaaS-generated Excel file to --output and validates it before replacing the target file.",
+      "description": "Download click performance for one Nox short link as an Excel file\n\nThis is the normal Nox short-link tool, not Shopify affiliate campaign tracking links.\nEffect reads default to the last 7 days. Pass paired --start-time and --end-time ISO datetimes to override.\nThe CLI streams the SaaS-generated Excel file to --output and validates it before replacing the target file.",
       "arguments": [
         {
           "name": "short_link_id",
@@ -15139,7 +15139,7 @@
     },
     {
       "command": "affiliation",
-      "description": "Shopify affiliate marketing management",
+      "description": "Manage Shopify affiliate campaigns, participating creators, tracking links and order performance",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -15360,7 +15360,7 @@
     },
     {
       "command": "affiliation stores last",
-      "description": "Get last operated affiliate store\n\nShopify store authorization is handled in SaaS. If no store is listed, open NoxInfluencer affiliation pages to authorize the store first.\nThis command group manages Shopify affiliate campaigns and members, not normal Nox short links.",
+      "description": "Read the most recently operated Shopify affiliate store to resolve store context\n\nShopify store authorization is handled in SaaS. If no store is listed, open NoxInfluencer affiliation pages to authorize the store first.\nThis command group manages Shopify affiliate campaigns and members, not normal Nox short links.",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -15698,7 +15698,7 @@
     },
     {
       "command": "affiliation campaigns get",
-      "description": "Get Shopify affiliate campaign detail\n\nShopify store authorization is handled in SaaS. If no store is listed, open NoxInfluencer affiliation pages to authorize the store first.\nThis command group manages Shopify affiliate campaigns and members, not normal Nox short links.",
+      "description": "Read configuration for one Shopify affiliate campaign\n\nShopify store authorization is handled in SaaS. If no store is listed, open NoxInfluencer affiliation pages to authorize the store first.\nThis command group manages Shopify affiliate campaigns and members, not normal Nox short links.",
       "arguments": [
         {
           "name": "campaign_id",
@@ -16043,7 +16043,7 @@
     },
     {
       "command": "affiliation campaigns overview",
-      "description": "Get Shopify affiliate campaign overview\n\nShopify store authorization is handled in SaaS. If no store is listed, open NoxInfluencer affiliation pages to authorize the store first.\nThis command group manages Shopify affiliate campaigns and members, not normal Nox short links.",
+      "description": "Read performance totals for a Shopify affiliate campaign\n\nShopify store authorization is handled in SaaS. If no store is listed, open NoxInfluencer affiliation pages to authorize the store first.\nThis command group manages Shopify affiliate campaigns and members, not normal Nox short links.",
       "arguments": [
         {
           "name": "campaign_id",
@@ -17052,7 +17052,7 @@
     },
     {
       "command": "affiliation members overview",
-      "description": "Get affiliate member overview\n\nShopify store authorization is handled in SaaS. If no store is listed, open NoxInfluencer affiliation pages to authorize the store first.\nThis command group manages Shopify affiliate campaigns and members, not normal Nox short links.\ncommission_amount depends on commission_type: type 1 uses percentage points (5 = 5%); other types use a currency amount. It is not the basis-point unit used by TikTok Shop target invitations.",
+      "description": "Read performance totals for one creator in an affiliate campaign\n\nShopify store authorization is handled in SaaS. If no store is listed, open NoxInfluencer affiliation pages to authorize the store first.\nThis command group manages Shopify affiliate campaigns and members, not normal Nox short links.\ncommission_amount depends on commission_type: type 1 uses percentage points (5 = 5%); other types use a currency amount. It is not the basis-point unit used by TikTok Shop target invitations.",
       "arguments": [
         {
           "name": "member_id",
@@ -17425,7 +17425,7 @@
     },
     {
       "command": "export",
-      "description": "Export task management",
+      "description": "Track existing export jobs and retrieve their completed files",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -17497,7 +17497,7 @@
     },
     {
       "command": "export list",
-      "description": "List export records\n\nList returns all export records visible to the current account across creator, collection, CRM, and brand-monitor export domains.",
+      "description": "Find previously requested export jobs and their identifiers\n\nList returns all export records visible to the current account across creator, collection, CRM, and brand-monitor export domains.",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -17583,7 +17583,7 @@
     },
     {
       "command": "export get",
-      "description": "Get export record detail\n\nUse the export_id returned by `creator export`, `creator lookalikes-export`, `collection export`, `crm export`, or a `brand-monitor *-export` command, or pick one from `export list`.",
+      "description": "Check progress and file availability for one export job\n\nUse the export_id returned by `creator export`, `creator lookalikes-export`, `collection export`, `crm export`, or a `brand-monitor *-export` command, or pick one from `export list`.",
       "arguments": [
         {
           "name": "export_id",
@@ -17759,7 +17759,7 @@
     },
     {
       "command": "message",
-      "description": "Message thread management",
+      "description": "Read creator conversations and manage replies, drafts, assignments or schedules",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -17831,7 +17831,7 @@
     },
     {
       "command": "message list",
-      "description": "List flat message threads\n\nmessage list returns a flat thread list. The first tranche does not guarantee per-thread preview text.\nSaaS filter fields: --keyword, --platform, --status, --project_ids, --creator_uids, --coop_status, and --label_id.\nGet --project_ids from `message project-filters`, task creator/team member --creator_uids from `message creator-filters`, and --label_id from `message labels`.\nUse --business_kind email_task --business_id <email task id> to resolve the opaque thread_id for message get.\nUse `needs_reply` and `last_message_direction` to decide reply work: --status deal means creator-last-message, while --status unread only means unread.\nDraft or scheduled filters must be paired with --business_kind and --business_id because project tabs are deprecated upstream.\nSupported --status values are all, unread, collect, send, chat, deal, del, overdue, draft, and scheduled.",
+      "description": "Find individual conversation threads matching inbox filters\n\nmessage list returns a flat thread list. The first tranche does not guarantee per-thread preview text.\nSaaS filter fields: --keyword, --platform, --status, --project_ids, --creator_uids, --coop_status, and --label_id.\nGet --project_ids from `message project-filters`, task creator/team member --creator_uids from `message creator-filters`, and --label_id from `message labels`.\nUse --business_kind email_task --business_id <email task id> to resolve the opaque thread_id for message get.\nUse `needs_reply` and `last_message_direction` to decide reply work: --status deal means creator-last-message, while --status unread only means unread.\nDraft or scheduled filters must be paired with --business_kind and --business_id because project tabs are deprecated upstream.\nSupported --status values are all, unread, collect, send, chat, deal, del, overdue, draft, and scheduled.",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -18145,7 +18145,7 @@
     },
     {
       "command": "message get",
-      "description": "Get message thread detail\n\nGet reads a single thread by opaque `thread_id` and marks the thread as read in upstream detail mode.\nReading can clear unread state; use `needs_reply` instead of unread_count to judge whether the current thread still needs a reply.\nComposer state is embedded directly in `message get`; there is no separate public draft get command.\nThread metadata is embedded directly in `message get` as `metadata`; there is no separate public metadata get command.",
+      "description": "Read the messages and conversation details for one selected thread\n\nGet reads a single thread by opaque `thread_id` and marks the thread as read in upstream detail mode.\nReading can clear unread state; use `needs_reply` instead of unread_count to judge whether the current thread still needs a reply.\nComposer state is embedded directly in `message get`; there is no separate public draft get command.\nThread metadata is embedded directly in `message get` as `metadata`; there is no separate public metadata get command.",
       "arguments": [
         {
           "name": "thread_id",
@@ -18230,7 +18230,7 @@
     },
     {
       "command": "message projects",
-      "description": "List sibling threads for a creator/channel\n\nProjects returns sibling threads for the same creator/channel. All items continue to use opaque `thread_id`.\nUse projects when SaaS shows a creator in deal/pending but the currently opened task already has needs_reply=false.\nIf a pending task does not need a reply, do not send an empty reply or archive the channel; task-level mark-handled is not exposed yet.",
+      "description": "Find other project conversations for the same creator and channel\n\nProjects returns sibling threads for the same creator/channel. All items continue to use opaque `thread_id`.\nUse projects when SaaS shows a creator in deal/pending but the currently opened task already has needs_reply=false.\nIf a pending task does not need a reply, do not send an empty reply or archive the channel; task-level mark-handled is not exposed yet.",
       "arguments": [
         {
           "name": "thread_id",
@@ -20446,7 +20446,7 @@
     },
     {
       "command": "crm",
-      "description": "CRM channel and group management",
+      "description": "Manage creator relationships in the account CRM, including channel records, groups and labels",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -20518,7 +20518,7 @@
     },
     {
       "command": "crm list",
-      "description": "Query CRM channels\n\ncrm list is JSON-first in this tranche. Use --body-file with a JSON object matching the CRM query body.\nCRM channels continue to reuse opaque `creator_id`; there is no separate CRM channel id.\nUse `group_id` or inline `filter`, but not both in the same request body.",
+      "description": "Find saved CRM channel records matching the supplied filters\n\ncrm list is JSON-first in this tranche. Use --body-file with a JSON object matching the CRM query body.\nCRM channels continue to reuse opaque `creator_id`; there is no separate CRM channel id.\nUse `group_id` or inline `filter`, but not both in the same request body.",
       "arguments": [],
       "required_options": [
         {
@@ -20882,7 +20882,7 @@
     },
     {
       "command": "crm get",
-      "description": "Get CRM channel detail\n\ncrm get reads a single CRM channel by existing opaque `creator_id`.",
+      "description": "Read a saved CRM record by channel identity for relationship management\n\ncrm get reads a single CRM channel by existing opaque `creator_id`.",
       "arguments": [
         {
           "name": "creator_id",
@@ -21311,7 +21311,7 @@
     },
     {
       "command": "crm add-to-email",
-      "description": "CRM to email bridge",
+      "description": "Validate, preview or add selected CRM channels to an email task",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -21639,7 +21639,7 @@
     },
     {
       "command": "crm batch-update",
-      "description": "CRM batch update core",
+      "description": "Validate, preview or apply changes to selected CRM channel records",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -22900,7 +22900,7 @@
     },
     {
       "command": "brand-monitor",
-      "description": "Brand monitor management",
+      "description": "Discover brands and analyze monitored brands, creators, content and promoted products",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -23146,7 +23146,7 @@
     },
     {
       "command": "brand-monitor list",
-      "description": "List brand monitor entries\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nlist only returns this account's monitored, unlocked, or sample brands; use `search` or `rank` for the global catalog.\nIt supports `page_num` and `page_size`; every item returns a stable opaque `brand_id`.",
+      "description": "List the brands tracked by this account and identify a brand for analysis\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nlist only returns this account's monitored, unlocked, or sample brands; use `search` or `rank` for the global catalog.\nIt supports `page_num` and `page_size`; every item returns a stable opaque `brand_id`.",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -23234,7 +23234,7 @@
     },
     {
       "command": "brand-monitor get",
-      "description": "Get brand monitor detail\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nbrand-monitor get reads one aggregated detail by opaque `brand_id`.\nThe response already aggregates brand base info, access status, data level, and quota state.",
+      "description": "Read one brand’s overview, available data level and access status\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nbrand-monitor get reads one aggregated detail by opaque `brand_id`.\nThe response already aggregates brand base info, access status, data level, and quota state.",
       "arguments": [
         {
           "name": "brand_id",
@@ -23318,7 +23318,7 @@
     },
     {
       "command": "brand-monitor competition-matrix",
-      "description": "Get normalized brand competition matrix\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\ncompetition-matrix requires `--platform`; `--country` is optional in v1.\nThis command returns the normalized matrix only; use `rank` for global discovery and the dedicated list/export commands for assets.",
+      "description": "Compare a brand with competitors for the selected platform and market\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\ncompetition-matrix requires `--platform`; `--country` is optional in v1.\nThis command returns the normalized matrix only; use `rank` for global discovery and the dedicated list/export commands for assets.",
       "arguments": [
         {
           "name": "brand_id",
@@ -23413,7 +23413,7 @@
     },
     {
       "command": "brand-monitor cooperate-matrix",
-      "description": "Get normalized brand cooperation matrix\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\ncooperate-matrix is the strategy cooperation matrix, distinct from overview `competition-matrix`.\nIt requires `--platform` and supports either `--interval-month` or paired `--start-at` + `--end-at`.\nIf no time selector is provided, the CLI defaults to `interval_month=1`. AI, export, and other strategy tabs are not included yet.",
+      "description": "Inspect the brand’s creator cooperation matrix over a selected period\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\ncooperate-matrix is the strategy cooperation matrix, distinct from overview `competition-matrix`.\nIt requires `--platform` and supports either `--interval-month` or paired `--start-at` + `--end-at`.\nIf no time selector is provided, the CLI defaults to `interval_month=1`. AI, export, and other strategy tabs are not included yet.",
       "arguments": [
         {
           "name": "brand_id",
@@ -23519,7 +23519,7 @@
     },
     {
       "command": "brand-monitor influencer-portrait",
-      "description": "Get normalized brand influencer portrait\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\ninfluencer-portrait returns follower-tier distribution, top categories, and summary stats for one brand.\nIt shares the same strategy time selector rules as `cooperate-matrix`: either `--interval-month` or paired `--start-at` + `--end-at`.",
+      "description": "Read the follower tiers, top categories and summary statistics of a brand’s creators\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\ninfluencer-portrait returns follower-tier distribution, top categories, and summary stats for one brand.\nIt shares the same strategy time selector rules as `cooperate-matrix`: either `--interval-month` or paired `--start-at` + `--end-at`.",
       "arguments": [
         {
           "name": "brand_id",
@@ -23624,7 +23624,7 @@
     },
     {
       "command": "brand-monitor defense-gap",
-      "description": "Get normalized brand defense-gap analysis\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\ndefense-gap is the strategy defense-gap surface, distinct from overview `competition-matrix`.\nIt shares the same strategy time selector rules as `cooperate-matrix` and `influencer-portrait`.\nThis tranche only exposes normalized tag_id, cooperation percentages, and top influencer identities. AI defenseGapReport and other strategy tabs are not included yet.",
+      "description": "Compare cooperation percentages and leading creators by tag to identify coverage gaps\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\ndefense-gap is the strategy defense-gap surface, distinct from overview `competition-matrix`.\nIt shares the same strategy time selector rules as `cooperate-matrix` and `influencer-portrait`.\nThis tranche only exposes normalized tag_id, cooperation percentages, and top influencer identities. AI defenseGapReport and other strategy tabs are not included yet.",
       "arguments": [
         {
           "name": "brand_id",
@@ -23730,7 +23730,7 @@
     },
     {
       "command": "brand-monitor product-pub-trend",
-      "description": "Get normalized brand product publication trend\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nproduct-pub-trend is an overview product signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe trend returns a normalized trailing publication series for product signals. Product video lists and AI/report flows are still out of scope.",
+      "description": "Read how publication activity for a brand’s promoted products changes over time\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nproduct-pub-trend is an overview product signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe trend returns a normalized trailing publication series for product signals. Product video lists and AI/report flows are still out of scope.",
       "arguments": [
         {
           "name": "brand_id",
@@ -23836,7 +23836,7 @@
     },
     {
       "command": "brand-monitor product-category",
-      "description": "Get normalized brand product category mix\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nproduct-category is an overview product signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe response only exposes normalized category mix rows. Product video lists and AI/report flows are still out of scope.",
+      "description": "Compare product categories represented in a brand’s promotions\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nproduct-category is an overview product signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe response only exposes normalized category mix rows. Product video lists and AI/report flows are still out of scope.",
       "arguments": [
         {
           "name": "brand_id",
@@ -23942,7 +23942,7 @@
     },
     {
       "command": "brand-monitor product-sov-analysis",
-      "description": "Get normalized brand product SOV analysis\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nproduct-sov-analysis is a product strategy signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe response exposes normalized share-of-voice fields and top product rows. Product video lists and AI/report flows are still out of scope.",
+      "description": "Compare share of voice among a brand’s top promoted products\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nproduct-sov-analysis is a product strategy signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe response exposes normalized share-of-voice fields and top product rows. Product video lists and AI/report flows are still out of scope.",
       "arguments": [
         {
           "name": "brand_id",
@@ -24048,7 +24048,7 @@
     },
     {
       "command": "brand-monitor product-tae-analysis",
-      "description": "Get normalized brand product TAE analysis\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nproduct-tae-analysis is a product strategy signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe response exposes normalized traffic-efficiency and interaction-quality product rows. Product video lists and AI/report flows are still out of scope.",
+      "description": "Compare traffic efficiency and interaction quality across promoted products\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nproduct-tae-analysis is a product strategy signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe response exposes normalized traffic-efficiency and interaction-quality product rows. Product video lists and AI/report flows are still out of scope.",
       "arguments": [
         {
           "name": "brand_id",
@@ -24154,7 +24154,7 @@
     },
     {
       "command": "brand-monitor product-pp-analysis",
-      "description": "Get normalized brand product PP analysis\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nproduct-pp-analysis is a product strategy signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe response exposes normalized profile-purity and average-follower product rows. Product video lists and AI/report flows are still out of scope.",
+      "description": "Compare audience profile purity and average follower counts across promoted products\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nproduct-pp-analysis is a product strategy signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe response exposes normalized profile-purity and average-follower product rows. Product video lists and AI/report flows are still out of scope.",
       "arguments": [
         {
           "name": "brand_id",
@@ -24260,7 +24260,7 @@
     },
     {
       "command": "brand-monitor product-promotion-matrix",
-      "description": "Get normalized brand product promotion matrix\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nproduct-promotion-matrix is a product strategy signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe response exposes normalized matrix product rows. Product video lists and AI/report flows are still out of scope.",
+      "description": "Read product-level promotion matrix rows for the selected brand and period\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nproduct-promotion-matrix is a product strategy signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe response exposes normalized matrix product rows. Product video lists and AI/report flows are still out of scope.",
       "arguments": [
         {
           "name": "brand_id",
@@ -24366,7 +24366,7 @@
     },
     {
       "command": "brand-monitor product-promotion-distinction",
-      "description": "Get normalized brand product promotion influencer distribution\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nproduct-promotion-distinction is a product strategy signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe response exposes normalized top products with channel distribution rows: category_id, percent, optional category_name, and nullable channel_count. Product video lists and AI/report flows are still out of scope.",
+      "description": "Inspect the creator category mix for the brand’s top promoted products\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nproduct-promotion-distinction is a product strategy signal, distinct from `product-list` asset rows.\nIt currently only supports `youtube` and shares the same time selector rules: either `--interval-month` or paired `--start-at` + `--end-at`.\nThe response exposes normalized top products with channel distribution rows: category_id, percent, optional category_name, and nullable channel_count. Product video lists and AI/report flows are still out of scope.",
       "arguments": [
         {
           "name": "brand_id",
@@ -24472,7 +24472,7 @@
     },
     {
       "command": "brand-monitor influencer-list",
-      "description": "Query normalized brand influencer assets\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\ninfluencer-list is JSON-first in this tranche. Use --body-file with a JSON object.\nThe selector body covers platform/time plus influencer filters, sorting, and pagination. No large flag matrix is exposed in the CLI.\nUse `content-list`, `tag-list`, or `product-list` for the other available brand asset views.",
+      "description": "Page through creators associated with one brand using platform, period and creator filters\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\ninfluencer-list is JSON-first in this tranche. Use --body-file with a JSON object.\nThe selector body covers platform/time plus influencer filters, sorting, and pagination. No large flag matrix is exposed in the CLI.\nUse `content-list`, `tag-list`, or `product-list` for the other available brand asset views.",
       "arguments": [
         {
           "name": "brand_id",
@@ -24563,7 +24563,7 @@
     },
     {
       "command": "brand-monitor content-list",
-      "description": "Query normalized brand content assets\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\ncontent-list is JSON-first in this tranche. Use --body-file with a JSON object.\nThe selector body covers platform/time plus content filters, sorting, and pagination. No large flag matrix is exposed in the CLI.\nUse `tag-list` or `product-list` for the other available brand asset views; AI/report flows remain separate.",
+      "description": "Find content associated with a brand using platform, period and content filters\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\ncontent-list is JSON-first in this tranche. Use --body-file with a JSON object.\nThe selector body covers platform/time plus content filters, sorting, and pagination. No large flag matrix is exposed in the CLI.\nUse `tag-list` or `product-list` for the other available brand asset views; AI/report flows remain separate.",
       "arguments": [
         {
           "name": "brand_id",
@@ -24654,7 +24654,7 @@
     },
     {
       "command": "brand-monitor tag-list",
-      "description": "Query normalized brand tag assets\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\ntag-list is JSON-first in this tranche. Use --body-file with a JSON object.\nThe selector body covers platform/time plus tag filters, sorting, and pagination. No large flag matrix is exposed in the CLI.\nUse `product-list` for product assets. `otherConditions`, batch collect, and AI/report flows remain out of scope.",
+      "description": "List tags associated with a brand’s content for the selected platform and period\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\ntag-list is JSON-first in this tranche. Use --body-file with a JSON object.\nThe selector body covers platform/time plus tag filters, sorting, and pagination. No large flag matrix is exposed in the CLI.\nUse `product-list` for product assets. `otherConditions`, batch collect, and AI/report flows remain out of scope.",
       "arguments": [
         {
           "name": "brand_id",
@@ -24745,7 +24745,7 @@
     },
     {
       "command": "brand-monitor product-list",
-      "description": "Query normalized brand product assets\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nproduct-list is JSON-first in this tranche. Use --body-file with a JSON object.\nThe selector body keeps the shared brand-monitor shape, but `platform` currently only supports `youtube`.\nUse `product-pub-trend`, `product-category`, and product strategy commands for aggregate signals; `otherConditions` and AI/report flows remain out of scope.",
+      "description": "Find individual products associated with a brand using product filters and pagination\n\nNumeric units: channel_interactive_rate, interactive_rate, engagement_rate, related_content_rate, share_of_voice and profile_purity bounds use decimal ratios (5% -> 0.05), as do returned rate/percent/share fields. traffic_efficiency_index and interaction_quality_index are raw relative indices (1 = baseline, 1.1 = 1.1 times baseline). Values are not automatically rescaled.\nproduct-list is JSON-first in this tranche. Use --body-file with a JSON object.\nThe selector body keeps the shared brand-monitor shape, but `platform` currently only supports `youtube`.\nUse `product-pub-trend`, `product-category`, and product strategy commands for aggregate signals; `otherConditions` and AI/report flows remain out of scope.",
       "arguments": [
         {
           "name": "brand_id",
@@ -27169,7 +27169,7 @@
     },
     {
       "command": "campaign",
-      "description": "Campaign2 intelligent marketing",
+      "description": "Manage marketing plans, candidate discovery, invitations, cooperation and automation",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -27346,7 +27346,7 @@
     },
     {
       "command": "campaign auto-discovery",
-      "description": "Campaign2 auto-discovery",
+      "description": "Configure automatic creator discovery and control its switch",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -27418,7 +27418,7 @@
     },
     {
       "command": "campaign auto-discovery settings-delete",
-      "description": "Delete automatic discovery settings. Uses current Campaign context and server permissions.",
+      "description": "Clear the saved automatic creator discovery settings for the selected plan.",
       "arguments": [],
       "required_options": [
         {
@@ -27526,7 +27526,7 @@
     },
     {
       "command": "campaign auto-discovery settings-get",
-      "description": "Read automatic discovery settings. Uses current Campaign context and server permissions.",
+      "description": "Read the saved automatic creator discovery configuration for a plan.",
       "arguments": [],
       "required_options": [
         {
@@ -27865,7 +27865,7 @@
     },
     {
       "command": "campaign auto-discovery switch",
-      "description": "Enable or disable automatic discovery. Uses current Campaign context and server permissions.",
+      "description": "Turn automatic creator discovery on or off for the selected plan.",
       "arguments": [],
       "required_options": [
         {
@@ -27977,7 +27977,7 @@
     },
     {
       "command": "campaign candidates",
-      "description": "Campaign2 candidates",
+      "description": "Review and manage the shortlist of creators in a plan",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -28577,7 +28577,7 @@
     },
     {
       "command": "campaign candidates remove",
-      "description": "Remove creators from Campaign candidates. Uses current Campaign context and server permissions.",
+      "description": "Remove the selected creator targets from this plan’s candidate list.",
       "arguments": [],
       "required_options": [
         {
@@ -28781,7 +28781,7 @@
     },
     {
       "command": "campaign context",
-      "description": "Campaign2 context",
+      "description": "Read the selected plan and its discovery settings",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -28951,7 +28951,7 @@
     },
     {
       "command": "campaign cooperations",
-      "description": "Campaign2 cooperations",
+      "description": "Manage creator negotiations, statuses, labels and cooperation records in a plan",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -29980,7 +29980,7 @@
     },
     {
       "command": "campaign cooperations labels-list",
-      "description": "Campaign cooperations labels-list. Business permissions and state are checked by the server.",
+      "description": "List available cooperation labels with pagination to resolve label IDs.",
       "arguments": [],
       "required_options": [
         {
@@ -30153,7 +30153,7 @@
     },
     {
       "command": "campaign cooperations label-create",
-      "description": "Campaign cooperations label-create. Business permissions and state are checked by the server.",
+      "description": "Create a named cooperation label for use on creator cooperation records.",
       "arguments": [],
       "required_options": [
         {
@@ -30333,7 +30333,7 @@
     },
     {
       "command": "campaign cooperations label-update",
-      "description": "Campaign cooperations label-update. Business permissions and state are checked by the server.",
+      "description": "Rename an existing cooperation label by its label ID.",
       "arguments": [],
       "required_options": [
         {
@@ -30520,7 +30520,7 @@
     },
     {
       "command": "campaign cooperations label-delete",
-      "description": "Campaign cooperations label-delete. Business permissions and state are checked by the server.",
+      "description": "Delete the specified label from the cooperation label catalog.",
       "arguments": [],
       "required_options": [
         {
@@ -30699,7 +30699,7 @@
     },
     {
       "command": "campaign cooperations label-assign",
-      "description": "Campaign cooperations label-assign. Business permissions and state are checked by the server.",
+      "description": "Set the cooperation label for one creator target in the selected Campaign.",
       "arguments": [],
       "required_options": [
         {
@@ -30889,7 +30889,7 @@
     },
     {
       "command": "campaign discovery",
-      "description": "Campaign2 discovery",
+      "description": "Find new creators, manage search criteria and revisit saved discovery pages",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -30961,7 +30961,7 @@
     },
     {
       "command": "campaign discovery search",
-      "description": "Search creators for Campaign discovery. Uses current Campaign context and server permissions.",
+      "description": "Retrieve a page of creator matches for a Campaign discovery task using its search criteria and pagination cursor.",
       "arguments": [],
       "required_options": [
         {
@@ -33175,7 +33175,7 @@
     },
     {
       "command": "campaign discovery condition-get",
-      "description": "Read saved Campaign search condition. Uses current Campaign context and server permissions.",
+      "description": "Read a plan’s saved filters for the selected discovery search type.",
       "arguments": [],
       "required_options": [
         {
@@ -35646,7 +35646,7 @@
     },
     {
       "command": "campaign invitation",
-      "description": "Campaign2 invitation",
+      "description": "Add selected creators to the pending invitation list",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -35922,7 +35922,7 @@
     },
     {
       "command": "campaign invitations",
-      "description": "Campaign2 invitations",
+      "description": "Prepare invitations, manage recipients and follow delivery attempts",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -35994,7 +35994,7 @@
     },
     {
       "command": "campaign invitations automation-get",
-      "description": "Campaign invitation automation-get. Uses existing page semantics and scoped Campaign permissions.",
+      "description": "Check the invitation automation configuration for a marketing plan.",
       "arguments": [],
       "required_options": [
         {
@@ -36093,7 +36093,7 @@
     },
     {
       "command": "campaign invitations automation-switch",
-      "description": "Campaign invitation automation-switch. Uses existing page semantics and scoped Campaign permissions.",
+      "description": "Enable or disable automated invitations for this plan.",
       "arguments": [],
       "required_options": [
         {
@@ -36207,7 +36207,7 @@
     },
     {
       "command": "campaign invitations import-collection",
-      "description": "Campaign invitation import-collection. Uses existing page semantics and scoped Campaign permissions.",
+      "description": "Import selected creators or the specified collection and platform scope into Campaign invitations.",
       "arguments": [],
       "required_options": [
         {
@@ -36620,7 +36620,7 @@
     },
     {
       "command": "campaign invitations metrics",
-      "description": "Campaign invitation metrics. Uses existing page semantics and scoped Campaign permissions.",
+      "description": "Read aggregate invitation activity for this plan; use the invitation list for individual recipients.",
       "arguments": [],
       "required_options": [
         {
@@ -36719,7 +36719,7 @@
     },
     {
       "command": "campaign invitations recipient-preview",
-      "description": "Campaign invitation recipient-preview. Uses existing page semantics and scoped Campaign permissions.",
+      "description": "Preview the invitation for one selected Campaign recipient.",
       "arguments": [],
       "required_options": [
         {
@@ -36999,7 +36999,7 @@
     },
     {
       "command": "campaign invitations sequence",
-      "description": "Campaign invitation sequence. Uses existing page semantics and scoped Campaign permissions.",
+      "description": "Read the outreach sequence and its configured rounds for this plan.",
       "arguments": [],
       "required_options": [
         {
@@ -37098,7 +37098,7 @@
     },
     {
       "command": "campaign invitations settings-apply",
-      "description": "Campaign invitation settings-apply. Uses existing page semantics and scoped Campaign permissions.",
+      "description": "Apply saved invitation settings for the plan or selected recipient.",
       "arguments": [],
       "required_options": [
         {
@@ -37296,7 +37296,7 @@
     },
     {
       "command": "campaign invitations settings-get",
-      "description": "Campaign invitation settings-get. Uses existing page semantics and scoped Campaign permissions.",
+      "description": "Read the plan’s invitation settings, or the settings for a specific recipient.",
       "arguments": [],
       "required_options": [
         {
@@ -38703,7 +38703,7 @@
     },
     {
       "command": "campaign invitations task",
-      "description": "Campaign invitation task. Uses existing page semantics and scoped Campaign permissions.",
+      "description": "Look up the progress of an invitation dispatch task by its task ID.",
       "arguments": [],
       "required_options": [
         {
@@ -39353,7 +39353,7 @@
     },
     {
       "command": "campaign invitations readiness",
-      "description": "Campaign invitations readiness. Business permissions and state are checked by the server.",
+      "description": "Check plan-level invitation readiness; use preflight for specific pending recipients.",
       "arguments": [],
       "required_options": [
         {
@@ -40108,7 +40108,7 @@
     },
     {
       "command": "campaign not-interested",
-      "description": "Campaign2 not-interested",
+      "description": "Review, mark or restore creators excluded from this plan",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -40704,7 +40704,7 @@
     },
     {
       "command": "campaign not-interested restore",
-      "description": "Restore creators from not-interested. Uses current Campaign context and server permissions.",
+      "description": "Remove selected records or the specified full set from the plan’s not-interested list.",
       "arguments": [],
       "required_options": [
         {
@@ -40829,7 +40829,7 @@
     },
     {
       "command": "campaign plan",
-      "description": "Campaign2 plan",
+      "description": "Find, configure and manage marketing plans and their team members",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -40901,7 +40901,7 @@
     },
     {
       "command": "campaign plan list",
-      "description": "Campaign2 plan list",
+      "description": "Find accessible marketing plans by name, date or invitation status and return one page of results.",
       "arguments": [],
       "required_options": [
         {
@@ -43030,7 +43030,7 @@
     },
     {
       "command": "campaign plan get",
-      "description": "Campaign2 plan get",
+      "description": "Read a marketing plan’s saved detail and settings by Campaign ID.",
       "arguments": [],
       "required_options": [
         {
@@ -45248,7 +45248,7 @@
     },
     {
       "command": "campaign plan members",
-      "description": "Campaign2 plan members",
+      "description": "Update the plan’s member list using the supplied member UIDs.",
       "arguments": [],
       "required_options": [
         {
@@ -45513,7 +45513,7 @@
     },
     {
       "command": "campaign plan overview",
-      "description": "Campaign2 plan overview",
+      "description": "Read the plan overview for the requested timezone when supplied.",
       "arguments": [],
       "required_options": [
         {
@@ -45620,7 +45620,7 @@
     },
     {
       "command": "campaign plan metrics",
-      "description": "Campaign plan metrics. Business permissions and state are checked by the server.",
+      "description": "Read the overview metrics for one marketing plan.",
       "arguments": [],
       "required_options": [
         {
@@ -45789,7 +45789,7 @@
     },
     {
       "command": "campaign products",
-      "description": "Campaign2 products",
+      "description": "Attach product information to a plan draft or apply the product selection",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -46460,7 +46460,7 @@
     },
     {
       "command": "campaign automations",
-      "description": "Campaign2 automations",
+      "description": "Inspect module automation switches or change an individual switch",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -46532,7 +46532,7 @@
     },
     {
       "command": "campaign automations get",
-      "description": "Campaign automations get. Business permissions and state are checked by the server.",
+      "description": "Read the automation settings for the selected Campaign and its modules.",
       "arguments": [],
       "required_options": [
         {
@@ -46893,7 +46893,7 @@
     },
     {
       "command": "campaign auto-advance",
-      "description": "Campaign2 auto-advance",
+      "description": "Configure automatic progression through creator cooperation stages",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -46965,7 +46965,7 @@
     },
     {
       "command": "campaign auto-advance settings-get",
-      "description": "Campaign auto-advance settings-get. Business permissions and state are checked by the server.",
+      "description": "Read the plan’s instructions and settings for automatically advancing creator cooperation.",
       "arguments": [],
       "required_options": [
         {
@@ -47658,7 +47658,7 @@
     },
     {
       "command": "campaign notes",
-      "description": "Campaign2 notes",
+      "description": "Edit the user’s note within a plan",
       "arguments": [],
       "required_options": [],
       "options": [
@@ -48119,7 +48119,7 @@
     },
     {
       "command": "product get",
-      "description": "Get collected product detail",
+      "description": "Read one saved catalog product by its product collection ID",
       "arguments": [
         {
           "name": "product_collect_id",

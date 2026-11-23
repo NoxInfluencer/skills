@@ -77,6 +77,8 @@ The `nickname` in search and lookalike results is a display value; do not treat 
 - Use its standalone `body_patch` with `creator search-filter` only for already returned `data.items[].id` values.
 - Use `creator not-interested add` only after explicit approval to mark selected creators as Not interested. `list` audits those marks, and `remove` cancels them so the creators can appear in future searches again.
 
+For evidence about individual posts, inspect `creator content` for recent titles, links and metrics. Use `creator profile` for account-level signals. Check the installed command schema when the needed field or selector is unclear. Preserve full identifiers as JSON values when passing a shortlist between commands.
+
 ## Pagination Rules
 
 - For a next-page request, keep the previous search filters exactly the same and send both the next `page_num` and the previous response's `data.search_after`.
