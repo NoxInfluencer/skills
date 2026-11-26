@@ -3,7 +3,6 @@
 /skills/influencer-marketing-manager/** text eol=lf
 /skills/noxinfluencer-v2/** text eol=lf
 /skills/noxinfluencer-cli/** text eol=lf
-/connectors/noxinfluencer-cli/skills/**/*.md text eol=lf
 /experts/influencer-marketing-manager/skills/influencer-marketing-manager/** text eol=lf
 /scripts/skills-plugin.mjs text eol=lf
 /.grok-plugin/** text eol=lf

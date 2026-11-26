@@ -281,16 +281,22 @@ export function createExpertEntries({ root = repositoryRoot, version } = {}) {
     const files = readDirectoryFileMap(absolute);
     const sourceSkill = frontmatter(files.get('SKILL.md'), sourceName);
     requireValue(sourceSkill.fields.name === sourceName, `Unexpected plugin Skill identity: ${sourcePath}`);
-    descriptions[outputName === managerSkillName ? 'manager' : 'product'] = sourceSkill.fields.description;
+    const isProduct = outputName === productSkillName;
+    descriptions[isProduct ? 'product' : 'manager'] = sourceSkill.fields.description;
     for (const [path, bytes] of files) {
       inputs.add(`${sourcePath}/${path}`);
       if (path === 'scripts/start-codex-oauth.ps1') continue;
+      if (isProduct && /^references\/tool-parameters-[a-z0-9-]+\.md$/.test(path)) continue;
       requireValue(path === 'SKILL.md' || path.endsWith('.md') && path.startsWith('references/'), `Review new Expert Skill resource: ${path}`);
       const target = path.replace('codex-plugin-runtime.md', 'workbuddy-runtime.md');
-      const content = path === 'SKILL.md' ? renameSkill(bytes, sourceName, outputName) : bytes;
+      let content = path === 'SKILL.md' ? renameSkill(bytes, sourceName, outputName) : bytes;
+      if (isProduct && path === 'references/tool-list.md') {
+        content = Buffer.from(bytes.toString('utf8')
+          .replace(/^See `\{baseDir\}\/references\/tool-parameters-[a-z0-9-]+\.md` for tool purposes and parameters\.\r?\n\r?\n/gm, ''));
+      }
       const outputPath = `skills/${outputName}/${target}`;
-      entries.set(outputPath, path === 'references/oauth-and-scopes.md' && outputName === productSkillName
-        ? createOAuthReference(bytes) : adaptMarkdown(content, { manager: outputName === managerSkillName }));
+      entries.set(outputPath, path === 'references/oauth-and-scopes.md' && isProduct
+        ? createOAuthReference(bytes) : adaptMarkdown(content, { manager: !isProduct }));
     }
   }
   entries.set(`agents/${agentName}.md`, createAgent(packagedManifest, descriptions));

@@ -15,7 +15,7 @@ function fixture(t) {
   // Copy the public delivery surface, excluding ignored machine-local tooling.
   for (const path of ['v2/source', 'skills/influencer-marketing-manager',
     '.grok-plugin/marketplace.json', '.claude-plugin/marketplace.json', '.workbuddy-plugin/marketplace.json', '.agents/plugins/marketplace.json',
-    ...['.codex-plugin', '.plugin', '.workbuddy-plugin', '.mcp.json', 'assets', 'resources', 'skills'].map(path => `plugins/noxinfluencer/${path}`)]) {
+    ...['.codex-plugin', '.plugin', '.workbuddy-plugin', '.mcp.json', 'assets', 'skills'].map(path => `plugins/noxinfluencer/${path}`)]) {
     mkdirSync(dirname(resolve(root, path)), { recursive: true });
     cpSync(resolve(repositoryRoot, path), resolve(root, path), { recursive: true });
   }
@@ -263,17 +263,9 @@ test('standalone packaging has no source/evals/CLI adapter in the MCP package', 
   assert.deepEqual(entries, originalEntries, 'The ZIP must retain the shared delivery files and bytes');
   assert.deepEqual(entries.get('.workbuddy-plugin/plugin.json'), entries.get('.plugin/plugin.json'));
   assert.equal(JSON.parse(entries.get('.mcp.json')).mcpServers.noxinfluencer.type, 'http');
-  const catalogPath = 'resources/mcp-tools.json';
-  assert.equal(entries.has(catalogPath), true, 'The shared plugin ZIP must carry its public MCP tool catalog');
-  assert.deepEqual(entries.get(catalogPath), readFileSync(resolve(root, 'plugins/noxinfluencer', catalogPath)));
-  const catalog = JSON.parse(entries.get(catalogPath));
-  assert.equal(catalog.schema_version, 1);
-  assert.ok(catalog.tools.length > 0);
-  for (const tool of catalog.tools) {
-    assert.deepEqual(Object.keys(tool), ['name', 'workflow', 'description', 'input_schema']);
-    for (const field of ['name', 'workflow', 'description']) assert.ok(tool[field].trim(), `Missing ${field} for ${tool.name}`);
-    assert.equal(tool.input_schema.type, 'object');
-  }
+  const toolListPath = 'skills/noxinfluencer-mcp/references/tool-list.md';
+  assert.deepEqual(entries.get(toolListPath), readFileSync(resolve(root, 'plugins/noxinfluencer', toolListPath)));
+  assert.equal(entries.has('resources/mcp-tools.json'), false);
   assert.equal(entries.has('skills/noxinfluencer-mcp/SKILL.md'), true);
   assert.equal(entries.has('skills/influencer-marketing-manager/SKILL.md'), true);
   const pluginSkill = 'skills/noxinfluencer-mcp/';

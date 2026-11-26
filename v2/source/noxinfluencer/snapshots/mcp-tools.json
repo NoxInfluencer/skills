@@ -8,6 +8,7 @@
   "items": [
     {
       "name": "add_collection_creators",
+      "description": "Add creators to collections.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.write",
       "risk": "normal_write",
@@ -200,6 +201,7 @@
     },
     {
       "name": "add_monitor_task",
+      "description": "Add one published video URL to an authorized monitoring project.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.monitor.write",
       "risk": "normal_write",
@@ -245,6 +247,7 @@
     },
     {
       "name": "add_monitor_task_labels",
+      "description": "Add up to 100 labels to up to 100 tasks in one authorized monitoring project.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.monitor.write",
       "risk": "normal_write",
@@ -300,6 +303,7 @@
     },
     {
       "name": "add_not_interested_creators",
+      "description": "Mark up to 100 same-platform creator IDs as Not interested.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.creator.preferences.write",
       "risk": "normal_write",
@@ -340,6 +344,7 @@
     },
     {
       "name": "apply_collection_add_to_crm",
+      "description": "Apply add one whole collection + platform slice to CRM.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.crm.write",
       "risk": "normal_write",
@@ -545,6 +550,7 @@
     },
     {
       "name": "apply_collection_batch_copy",
+      "description": "Apply batch copy from one source collection.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.write",
       "risk": "normal_write",
@@ -1273,6 +1279,7 @@
     },
     {
       "name": "apply_collection_batch_delete",
+      "description": "Apply batch delete within one source collection.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.delete",
       "risk": "normal_write",
@@ -1997,6 +2004,7 @@
     },
     {
       "name": "apply_collection_batch_label",
+      "description": "Apply batch label within one source collection.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.write",
       "risk": "normal_write",
@@ -2733,6 +2741,7 @@
     },
     {
       "name": "apply_collection_batch_move",
+      "description": "Apply batch move within one source collection.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.delete",
       "risk": "normal_write",
@@ -3464,6 +3473,7 @@
     },
     {
       "name": "apply_collection_refresh",
+      "description": "Apply refresh collection base data.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.refresh",
       "risk": "normal_write",
@@ -4150,6 +4160,7 @@
     },
     {
       "name": "apply_collection_refresh_email",
+      "description": "Apply refresh collection email data.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.refresh",
       "risk": "normal_write",
@@ -4836,6 +4847,7 @@
     },
     {
       "name": "apply_collection_unlock_audience",
+      "description": "Apply unlock audience analysis for one source collection.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.audience.unlock",
       "risk": "normal_write",
@@ -5529,6 +5541,7 @@
     },
     {
       "name": "apply_crm_add_to_email",
+      "description": "Apply CRM add-to-email.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.crm.email.write",
       "risk": "normal_write",
@@ -6019,6 +6032,7 @@
     },
     {
       "name": "apply_crm_batch_update",
+      "description": "Apply CRM batch update.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.crm.write",
       "risk": "normal_write",
@@ -6650,6 +6664,7 @@
     },
     {
       "name": "archive_crm_channel",
+      "description": "Archive one CRM channel.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.crm.write",
       "risk": "normal_write",
@@ -6748,6 +6763,7 @@
     },
     {
       "name": "create_collection",
+      "description": "Create a collection.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.write",
       "risk": "normal_write",
@@ -6951,6 +6967,7 @@
     },
     {
       "name": "create_collection_export",
+      "description": "Create an async collection export task.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.export",
       "risk": "normal_write",
@@ -7361,6 +7378,7 @@
     },
     {
       "name": "create_creator_export",
+      "description": "Create a base or deep asynchronous export for 1-100 selected creator search results after user approval; deep contact fields can consume business quota.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.creator.export",
       "risk": "normal_write",
@@ -7435,6 +7453,7 @@
     },
     {
       "name": "create_creator_lookalikes_export",
+      "description": "Create a base or deep asynchronous export for 1-100 selected similar-creator results after user approval; deep contact fields can consume business quota.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.creator.export",
       "risk": "normal_write",
@@ -7567,6 +7586,7 @@
     },
     {
       "name": "create_crm_export",
+      "description": "Create async CRM export task.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.crm.export",
       "risk": "normal_write",
@@ -8096,6 +8116,7 @@
     },
     {
       "name": "create_crm_group",
+      "description": "Create CRM group.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.crm.write",
       "risk": "normal_write",
@@ -8491,6 +8512,7 @@
     },
     {
       "name": "create_crm_label",
+      "description": "Create CRM label.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.crm.write",
       "risk": "normal_write",
@@ -8655,6 +8677,7 @@
     },
     {
       "name": "create_monitor_label",
+      "description": "Create or reuse one video monitor label in a selected label group.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.monitor.write",
       "risk": "normal_write",
@@ -8695,6 +8718,7 @@
     },
     {
       "name": "create_monitor_project",
+      "description": "Create one video monitoring project for the authorized account.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.monitor.write",
       "risk": "normal_write",
@@ -8729,6 +8753,7 @@
     },
     {
       "name": "creator_audience",
+      "description": "Read audience demographics and authenticity metrics for a creator.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.creator.read",
       "risk": "normal_write",
@@ -8771,6 +8796,7 @@
     },
     {
       "name": "creator_content",
+      "description": "Read recent content and topic signals for a creator.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.creator.read",
       "risk": "normal_write",
@@ -8817,6 +8843,7 @@
     },
     {
       "name": "creator_cooperation",
+      "description": "Read brand cooperation and sponsorship performance metrics for a creator.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.creator.read",
       "risk": "normal_write",
@@ -8859,6 +8886,7 @@
     },
     {
       "name": "creator_profile",
+      "description": "Read profile metrics for a creator returned by search, or by direct platform selector. creator_id is an opaque creator ID returned by creator_search; channel_id is the raw platform ID used by Campaign2 and other legacy business APIs. Never substitute creator_id for channel_id.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.creator.read",
       "risk": "normal_write",
@@ -8905,6 +8933,7 @@
     },
     {
       "name": "creator_search",
+      "description": "Search YouTube, TikTok, or Instagram creators by topic keywords or one creator name/handle, with optional exclusions and SaaS hide filters. Results contain entitled filter values and SaaS list fields; TikTok live overviews require explicit creator_profile detail=true, include_shop=true. Search never fetches details or returns cumulative/product GMV snapshots or contact addresses. The returned item.id is an opaque creator ID for creator_profile and must never be copied into Campaign2 targets[].channelId; Campaign2 requires the raw platform channel_id. YouTube avg_views stays overall; average-view bounds use avg_views_shorts for video_type=1, avg_views_normal for video_type=2, and avg_views otherwise. These are search-index snapshots, not profile-detail samples; missing classified values stay null.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.creator.read",
       "risk": "normal_write",
@@ -9143,6 +9172,7 @@
     },
     {
       "name": "delete_collection",
+      "description": "Delete a collection.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.delete",
       "risk": "normal_write",
@@ -9427,6 +9457,7 @@
     },
     {
       "name": "delete_crm_group",
+      "description": "Delete CRM group.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.crm.delete",
       "risk": "normal_write",
@@ -9644,6 +9675,7 @@
     },
     {
       "name": "delete_crm_label",
+      "description": "Delete CRM label.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.crm.delete",
       "risk": "normal_write",
@@ -9915,6 +9947,7 @@
     },
     {
       "name": "delete_monitor_label",
+      "description": "Delete one authorized video monitor label after explicit user approval.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.monitor.delete",
       "risk": "normal_write",
@@ -9948,6 +9981,7 @@
     },
     {
       "name": "filter_creator_search_results",
+      "description": "Evaluate up to 100 returned creator IDs against SaaS hide and deduplication rules.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.creator.read",
       "risk": "read",
@@ -10038,6 +10072,7 @@
     },
     {
       "name": "find_similar_creators",
+      "description": "Find a bounded page of creators similar to one source creator on a selected target platform.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.creator.read",
       "risk": "read",
@@ -10225,6 +10260,7 @@
     },
     {
       "name": "get_collection",
+      "description": "Get collection detail.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.read",
       "risk": "read",
@@ -10418,6 +10454,7 @@
     },
     {
       "name": "get_collection_import_template",
+      "description": "Download the SaaS owned-creator import template.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.read",
       "risk": "read",
@@ -10523,6 +10560,7 @@
     },
     {
       "name": "get_creator_contacts",
+      "description": "Retrieve visible contact data for one creator when external outreach is explicitly required; this can consume contact quota.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.creator.contacts.read",
       "risk": "read",
@@ -10636,6 +10674,7 @@
     },
     {
       "name": "get_crm_channel",
+      "description": "Get CRM channel detail.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.crm.read",
       "risk": "read",
@@ -11046,6 +11085,7 @@
     },
     {
       "name": "get_crm_group",
+      "description": "Get CRM group detail.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.crm.read",
       "risk": "read",
@@ -11465,6 +11505,7 @@
     },
     {
       "name": "get_crm_import_template",
+      "description": "Download the SaaS CRM channel import template.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.crm.read",
       "risk": "read",
@@ -11570,6 +11611,7 @@
     },
     {
       "name": "get_export",
+      "description": "Read one authorized asynchronous export task and its readiness state.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.export.read",
       "risk": "read",
@@ -11598,6 +11640,7 @@
     },
     {
       "name": "get_export_download",
+      "description": "Prepare a safe download reference for one ready authorized export; file bytes are never embedded in MCP JSON.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.export.read",
       "risk": "read",
@@ -11626,6 +11669,7 @@
     },
     {
       "name": "get_monitor_auto_track_import_template",
+      "description": "Get the validated HTTPS download reference for the SaaS auto-track creator workbook.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.monitor.read",
       "risk": "read",
@@ -11654,6 +11698,7 @@
     },
     {
       "name": "get_monitor_auto_track_rule",
+      "description": "Get one authorized auto-track rule and its creator set.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.monitor.auto_track.read",
       "risk": "read",
@@ -11686,6 +11731,7 @@
     },
     {
       "name": "get_monitor_import_template",
+      "description": "Get the validated HTTPS download reference for the SaaS video task import workbook.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.monitor.read",
       "risk": "read",
@@ -11714,6 +11760,7 @@
     },
     {
       "name": "list_collection_items",
+      "description": "Query collection items.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.read",
       "risk": "read",
@@ -12120,6 +12167,7 @@
     },
     {
       "name": "list_collection_resources",
+      "description": "Query collection resources.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.read",
       "risk": "read",
@@ -12538,6 +12586,7 @@
     },
     {
       "name": "list_collections",
+      "description": "List collections.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.read",
       "risk": "read",
@@ -12796,6 +12845,7 @@
     },
     {
       "name": "list_creator_search_filter_options",
+      "description": "List stable SaaS hide and deduplication choices for creator search.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.creator.read",
       "risk": "read",
@@ -12815,6 +12865,7 @@
     },
     {
       "name": "list_crm_channels",
+      "description": "Query CRM channels.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.crm.read",
       "risk": "read",
@@ -13510,6 +13561,7 @@
     },
     {
       "name": "list_crm_groups",
+      "description": "List CRM groups.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.crm.read",
       "risk": "read",
@@ -13972,6 +14024,7 @@
     },
     {
       "name": "list_crm_labels",
+      "description": "List CRM labels.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.crm.read",
       "risk": "read",
@@ -14134,6 +14187,7 @@
     },
     {
       "name": "list_exports",
+      "description": "List authorized asynchronous export tasks with bounded pagination.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.export.read",
       "risk": "read",
@@ -14165,6 +14219,7 @@
     },
     {
       "name": "list_monitor_auto_track_rules",
+      "description": "List auto-track rules in one authorized video monitor project.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.monitor.auto_track.read",
       "risk": "read",
@@ -14206,6 +14261,7 @@
     },
     {
       "name": "list_monitor_labels",
+      "description": "List the authorized account's video monitor labels, optionally by group.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.monitor.read",
       "risk": "read",
@@ -14231,6 +14287,7 @@
     },
     {
       "name": "list_not_interested_creators",
+      "description": "List creators marked as Not interested for the authorized account.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.creator.read",
       "risk": "read",
@@ -14274,6 +14331,7 @@
     },
     {
       "name": "list_tool_pricing",
+      "description": "List current Skill Credit unit prices for public actions, including authorized account overrides.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.pricing.read",
       "risk": "read",
@@ -14322,6 +14380,7 @@
     },
     {
       "name": "monitor_history",
+      "description": "Read time-series performance history for a monitored video task.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.monitor.read",
       "risk": "normal_write",
@@ -14365,6 +14424,7 @@
     },
     {
       "name": "monitor_list",
+      "description": "List video monitoring projects available to the authorized account.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.monitor.read",
       "risk": "normal_write",
@@ -14399,6 +14459,7 @@
     },
     {
       "name": "monitor_summary",
+      "description": "Read aggregate performance summary for a video monitoring project.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.monitor.read",
       "risk": "normal_write",
@@ -14427,6 +14488,7 @@
     },
     {
       "name": "monitor_tasks",
+      "description": "List tracked videos and creators in a video monitoring project.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.monitor.read",
       "risk": "normal_write",
@@ -14469,6 +14531,7 @@
     },
     {
       "name": "prepare_crm_import_report_download",
+      "description": "Download failed or repeated CRM import rows as SaaS Excel.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.crm.read",
       "risk": "normal_write",
@@ -14657,6 +14720,7 @@
     },
     {
       "name": "prepare_monitor_auto_track_import_report_download",
+      "description": "Create a one-time download URL for a bounded auto-track import failure workbook.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.monitor.export",
       "risk": "normal_write",
@@ -14755,6 +14819,7 @@
     },
     {
       "name": "prepare_monitor_dashboard_report_download",
+      "description": "Create a one-time download URL for an authorized monitoring dashboard workbook.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.monitor.export",
       "risk": "normal_write",
@@ -14911,6 +14976,7 @@
     },
     {
       "name": "prepare_monitor_import_report_download",
+      "description": "Create a one-time download URL for a bounded task import failure workbook.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.monitor.export",
       "risk": "normal_write",
@@ -15028,6 +15094,7 @@
     },
     {
       "name": "prepare_monitor_project_report_download",
+      "description": "Create a one-time download URL for an authorized project monitoring workbook.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.monitor.export",
       "risk": "normal_write",
@@ -15174,6 +15241,7 @@
     },
     {
       "name": "prepare_monitor_task_report_download",
+      "description": "Create a one-time download URL for one authorized video monitoring task workbook.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.monitor.export",
       "risk": "normal_write",
@@ -15251,6 +15319,7 @@
     },
     {
       "name": "preview_collection_add_to_crm",
+      "description": "Preview add one whole collection + platform slice to CRM.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.crm.write",
       "risk": "read",
@@ -15452,6 +15521,7 @@
     },
     {
       "name": "preview_collection_batch_copy",
+      "description": "Preview batch copy from one source collection.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.write",
       "risk": "read",
@@ -16138,6 +16208,7 @@
     },
     {
       "name": "preview_collection_batch_delete",
+      "description": "Preview batch delete within one source collection.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.delete",
       "risk": "normal_write",
@@ -16831,6 +16902,7 @@
     },
     {
       "name": "preview_collection_batch_label",
+      "description": "Preview batch label within one source collection.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.write",
       "risk": "read",
@@ -17525,6 +17597,7 @@
     },
     {
       "name": "preview_collection_batch_move",
+      "description": "Preview batch move within one source collection.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.delete",
       "risk": "normal_write",
@@ -18225,6 +18298,7 @@
     },
     {
       "name": "preview_collection_refresh",
+      "description": "Preview refresh collection base data.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.refresh",
       "risk": "read",
@@ -18907,6 +18981,7 @@
     },
     {
       "name": "preview_collection_refresh_email",
+      "description": "Preview refresh collection email data.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.refresh",
       "risk": "read",
@@ -19589,6 +19664,7 @@
     },
     {
       "name": "preview_collection_unlock_audience",
+      "description": "Preview unlock audience analysis for one source collection.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.audience.unlock",
       "risk": "normal_write",
@@ -20289,6 +20365,7 @@
     },
     {
       "name": "preview_creator_export",
+      "description": "Estimate deep creator export, email, and WhatsApp business quota without creating an export task.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.creator.export",
       "risk": "read",
@@ -20358,6 +20435,7 @@
     },
     {
       "name": "preview_crm_add_to_email",
+      "description": "Preview CRM add-to-email target set.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.crm.email.write",
       "risk": "read",
@@ -20925,6 +21003,7 @@
     },
     {
       "name": "preview_crm_batch_update",
+      "description": "Preview CRM batch update target set.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.crm.write",
       "risk": "normal_write",
@@ -21631,6 +21710,7 @@
     },
     {
       "name": "quota",
+      "description": "Read authoritative Credit and execution access for the authorized account without claiming a trial or consuming Credit. The response includes execution_available, claim_eligible, trial_claimed and, when needed, a Dashboard or billing action. Remaining Credit alone does not grant execution access.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.quota.read",
       "risk": "read",
@@ -21705,6 +21785,7 @@
     },
     {
       "name": "remove_monitor_task_labels",
+      "description": "Remove up to 100 labels from up to 100 tasks in one authorized monitoring project.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.monitor.write",
       "risk": "normal_write",
@@ -21760,6 +21841,7 @@
     },
     {
       "name": "remove_not_interested_creators",
+      "description": "Remove the Not interested mark from up to 100 same-platform creator IDs.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.creator.preferences.write",
       "risk": "normal_write",
@@ -21800,6 +21882,7 @@
     },
     {
       "name": "replace_monitor_task_labels",
+      "description": "Replace one label group on exactly one authorized video monitor task.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.monitor.write",
       "risk": "normal_write",
@@ -21861,6 +21944,7 @@
     },
     {
       "name": "restore_crm_channel",
+      "description": "Restore one archived CRM channel.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.crm.write",
       "risk": "normal_write",
@@ -21959,6 +22043,7 @@
     },
     {
       "name": "update_collection",
+      "description": "Update a collection.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.write",
       "risk": "normal_write",
@@ -22182,6 +22267,7 @@
     },
     {
       "name": "update_crm_channel",
+      "description": "Update one CRM channel.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.crm.write",
       "risk": "normal_write",
@@ -22674,6 +22760,7 @@
     },
     {
       "name": "update_crm_group",
+      "description": "Update CRM group.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.crm.write",
       "risk": "normal_write",
@@ -23075,6 +23162,7 @@
     },
     {
       "name": "update_crm_label",
+      "description": "Update CRM label.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.crm.write",
       "risk": "normal_write",
@@ -23244,6 +23332,7 @@
     },
     {
       "name": "update_monitor_label",
+      "description": "Rename one authorized video monitor label and optionally move its group.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.monitor.write",
       "risk": "normal_write",
@@ -23288,6 +23377,7 @@
     },
     {
       "name": "validate_collection_add_to_crm",
+      "description": "Validate add one whole collection + platform slice to CRM.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.crm.write",
       "risk": "read",
@@ -23429,6 +23519,7 @@
     },
     {
       "name": "validate_collection_batch_copy",
+      "description": "Validate batch copy from one source collection.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.write",
       "risk": "read",
@@ -24104,6 +24195,7 @@
     },
     {
       "name": "validate_collection_batch_delete",
+      "description": "Validate batch delete within one source collection.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.delete",
       "risk": "read",
@@ -24768,6 +24860,7 @@
     },
     {
       "name": "validate_collection_batch_label",
+      "description": "Validate batch label within one source collection.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.write",
       "risk": "read",
@@ -25451,6 +25544,7 @@
     },
     {
       "name": "validate_collection_batch_move",
+      "description": "Validate batch move within one source collection.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.delete",
       "risk": "read",
@@ -26122,6 +26216,7 @@
     },
     {
       "name": "validate_collection_refresh",
+      "description": "Validate refresh collection base data.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.refresh",
       "risk": "read",
@@ -26744,6 +26839,7 @@
     },
     {
       "name": "validate_collection_refresh_email",
+      "description": "Validate refresh collection email data.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.refresh",
       "risk": "read",
@@ -27366,6 +27462,7 @@
     },
     {
       "name": "validate_collection_unlock_audience",
+      "description": "Validate unlock audience analysis for one source collection.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.collection.audience.unlock",
       "risk": "read",
@@ -27988,6 +28085,7 @@
     },
     {
       "name": "validate_crm_add_to_email",
+      "description": "Validate CRM add-to-email request.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.crm.email.write",
       "risk": "read",
@@ -28457,6 +28555,7 @@
     },
     {
       "name": "validate_crm_batch_update",
+      "description": "Validate CRM batch update request.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.crm.write",
       "risk": "read",
@@ -29060,6 +29159,7 @@
     },
     {
       "name": "list_products",
+      "description": "List collected products.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.product.read",
       "risk": "read",
@@ -29518,6 +29618,7 @@
     },
     {
       "name": "get_product",
+      "description": "Get collected product detail.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.product.read",
       "risk": "read",
@@ -29858,6 +29959,7 @@
     },
     {
       "name": "create_product",
+      "description": "Create a collected product.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.product.write",
       "risk": "normal_write",
@@ -30472,6 +30574,7 @@
     },
     {
       "name": "update_product",
+      "description": "Update a collected product.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.product.write",
       "risk": "normal_write",
@@ -31086,6 +31189,7 @@
     },
     {
       "name": "campaign2_auto_discovery_settings_delete",
+      "description": "Delete automatic discovery settings. Uses current Campaign context and server permissions.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -31138,6 +31242,7 @@
     },
     {
       "name": "campaign2_auto_discovery_settings_get",
+      "description": "Read automatic discovery settings. Uses current Campaign context and server permissions.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -31183,6 +31288,7 @@
     },
     {
       "name": "campaign2_auto_discovery_settings_save",
+      "description": "Save automatic-discovery settings as {enabled,config}; the selected campaign_id determines scope. Saving does not start discovery.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -31368,6 +31474,7 @@
     },
     {
       "name": "campaign2_auto_discovery_switch",
+      "description": "Enable or disable automatic discovery. Uses current Campaign context and server permissions.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -31424,6 +31531,7 @@
     },
     {
       "name": "campaign2_candidates_add",
+      "description": "Add creators returned by creator_search to a Campaign candidate list. Pass the encrypted search/profile creator_id in each target; the server converts it to the raw platform channel ID before calling Campaign2. Do not pass creator_id as channel_id.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -31609,6 +31717,7 @@
     },
     {
       "name": "campaign2_candidates_list",
+      "description": "Read the current Campaign candidates list with pagination, platform counts, profile status and plan notes. For YouTube, Instagram and TikTok pass returned creator_id directly to Campaign write targets. X (platform 3) has creator_id=null and raw channel_id; creator-token tools do not support X.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -31843,6 +31952,7 @@
     },
     {
       "name": "campaign2_candidates_remove",
+      "description": "Remove creators from Campaign candidates. Uses current Campaign context and server permissions.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -31991,6 +32101,7 @@
     },
     {
       "name": "campaign2_context",
+      "description": "Read the authorized Campaign detail and discovery settings. data.campaign.inputOptions.targetMarkets contains current country wire values and status; copy items[].value when status=ok. Unavailable options are not an empty allowed set. inputOptions is read-only and must not be submitted as settings.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -32036,6 +32147,7 @@
     },
     {
       "name": "campaign2_cooperations_list",
+      "description": "Read the cooperation workspace with its actual status and counts. Platform filtering is not supported by this server endpoint.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -32107,6 +32219,7 @@
     },
     {
       "name": "campaign2_cooperations_add",
+      "description": "Add one creator by verified public profile URL to the Campaign negotiation list using the page's manual-add workflow. Does not create a formal CRM cooperation record or send outreach. Read back the cooperation list; do not overwrite existing cooperation states.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -32199,6 +32312,7 @@
     },
     {
       "name": "campaign2_cooperations_record_save",
+      "description": "Save shared CRM cooperation details: mode full requires complete commercial fields; mode inline uses the Campaign partial-entry endpoint. New records use version 0, edits use the returned id/version. The adapter converts platform identity and derives a stable UUIDv4 requestId.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -32667,6 +32781,7 @@
     },
     {
       "name": "campaign2_cooperations_status_update",
+      "description": "Update one Campaign creator cooperation status. Use the current cooperation record and version when available.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -32772,6 +32887,7 @@
     },
     {
       "name": "campaign2_discovery_search",
+      "description": "Search creators for Campaign discovery. Uses current Campaign context and server permissions.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -34449,6 +34565,7 @@
     },
     {
       "name": "campaign2_discovery_snapshot_get",
+      "description": "Read one historical Campaign discovery search condition and bounded creator result page.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -34501,6 +34618,7 @@
     },
     {
       "name": "campaign2_discovery_snapshot_save",
+      "description": "Save an immutable completed discovery page with resolved creator identities. Does not run a search or add candidates. Reuse request_id only for the same page payload; normal Campaign discovery uses conversation/list history instead of extra snapshots.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -34713,6 +34831,7 @@
     },
     {
       "name": "campaign2_discovery_snapshots_list",
+      "description": "List bounded historical Campaign discovery search summaries by cursor.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -34770,6 +34889,7 @@
     },
     {
       "name": "campaign2_invitation_pending_add",
+      "description": "Move creators returned by creator_search directly to invitation pending. Pass encrypted creator_id values; the server converts them to raw platform channel IDs.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -34918,6 +35038,7 @@
     },
     {
       "name": "campaign2_invitations_automation_get",
+      "description": "Read invitation automation settings for the selected Campaign.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -34964,6 +35085,7 @@
     },
     {
       "name": "campaign2_invitations_automation_switch",
+      "description": "Change the invitation automation switch for the selected Campaign.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -35022,6 +35144,7 @@
     },
     {
       "name": "campaign2_invitations_import_collection",
+      "description": "Import creators from a collection into the selected Campaign's invitation workflow.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -35186,6 +35309,7 @@
     },
     {
       "name": "campaign2_invitations_list",
+      "description": "Read the current invitation list. pending allows waiting or queued; sent allows unreplied, readUnreply, replied or bounce. Failures, bounces and uncertain delivery results are in sent/bounce. Do not use pending/failed. Uses scoped Campaign permissions and preserves actual unknown, empty and zero values.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -35326,6 +35450,7 @@
     },
     {
       "name": "campaign2_invitations_metrics",
+      "description": "Read invitation metrics for the selected Campaign.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -35372,6 +35497,7 @@
     },
     {
       "name": "campaign2_invitations_recipient_preview",
+      "description": "Preview the selected invitation recipients.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -35500,6 +35626,7 @@
     },
     {
       "name": "campaign2_invitations_sender_options",
+      "description": "Read sender accounts for this Campaign through its unique invitation project and creator-owned account directory. Returns all available Gmail, enterprise, Outlook and Nox business identities. auth_info_id and primary_project_id are exact decimal strings. Copy invitation_sender for available accounts into settings.sender; account_settings_read_only describes account management, not Campaign send permission. This is read-only and does not confirm sender selection, quota or sending.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -35546,6 +35673,7 @@
     },
     {
       "name": "campaign2_invitations_sequence",
+      "description": "Read the invitation sequence for the selected Campaign.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -35592,6 +35720,7 @@
     },
     {
       "name": "campaign2_invitations_settings_apply",
+      "description": "Apply invitation settings to the selected Campaign.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -35734,6 +35863,7 @@
     },
     {
       "name": "campaign2_invitations_settings_get",
+      "description": "Read invitation settings for the selected Campaign.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -35869,6 +35999,7 @@
     },
     {
       "name": "campaign2_invitations_settings_save",
+      "description": "Save an invitation draft with readable content. Sender uses type (1 Gmail, 2 enterprise, 3 Nox, 4 Outlook) and authInfoIds from sender-options; aliases are normalized. Does not apply settings or send email. In target scope, provide a non-empty rounds array from settings-get and preserve its structure. Legacy contents-only settings are for global scope. For a frozen legacyContents journey, preserve all round timing fields and edit copy only.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -36717,6 +36848,7 @@
     },
     {
       "name": "campaign2_invitations_state",
+      "description": "Change invitation state. Bulk cancel waiting or queued invitations in ONE request with targets (1-1000 creators), or all_matching plus expected_count and optional min_sub/max_sub/regions filters. For queued cancellation set status_group=queued: creators already sent, sending, uncertain, replied or otherwise changed are skipped; other cancellable creators continue. Report data.cancelledCount and data.skippedCount, including zero cancellations. Waiting is the default strict scope. Never loop single-creator cancellation for a batch. Choose exactly one scope: target, task_id, targets, all_matching. Batch scopes only support action=cancel; status_group is only valid with targets or all_matching. All-matching queued counts may shrink but must not grow beyond expected_count.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -36976,6 +37108,7 @@
     },
     {
       "name": "campaign2_invitations_task",
+      "description": "Read the selected Campaign invitation task.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -37029,6 +37162,7 @@
     },
     {
       "name": "campaign2_not_interested_list",
+      "description": "Read the current Campaign not-interested list with pagination, platform counts, profile status and plan notes. For YouTube, Instagram and TikTok pass returned creator_id directly to Campaign write targets. X (platform 3) has creator_id=null and raw channel_id; creator-token tools do not support X.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -37263,6 +37397,7 @@
     },
     {
       "name": "campaign2_not_interested_mark",
+      "description": "Mark creators returned by creator_search as not interested. Pass encrypted creator_id values; the server converts them to raw platform channel IDs.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -37444,6 +37579,7 @@
     },
     {
       "name": "campaign2_not_interested_restore",
+      "description": "Restore creators from not-interested. Uses current Campaign context and server permissions.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -37513,6 +37649,7 @@
     },
     {
       "name": "campaign2_search_condition_get",
+      "description": "Read saved Campaign search condition. Uses current Campaign context and server permissions.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -37567,6 +37704,7 @@
     },
     {
       "name": "campaign2_search_condition_save",
+      "description": "Save a JSON-object search condition snapshot. search_type is required: 1 ordinary search for manual paging, 2 AI matching, 3 AI expansion. This saves filters only; it does not start search or invitation sending.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -39864,6 +40002,7 @@
     },
     {
       "name": "campaign2_plan_list",
+      "description": "List and filter intelligent marketing plans for the authorized account.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -39939,6 +40078,7 @@
     },
     {
       "name": "campaign2_plan_init",
+      "description": "Allocate a new Campaign ID; does not create or apply a plan.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -39984,6 +40124,7 @@
     },
     {
       "name": "campaign2_plan_create",
+      "description": "Create a Campaign2 draft using an allocated ID. Does not apply settings or send invitations. Uses the existing Campaign create/update Skill Credit price (default 1); quota is checked before mutation.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -41828,6 +41969,7 @@
     },
     {
       "name": "campaign2_plan_get",
+      "description": "Read details for the selected intelligent marketing plan.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -41873,6 +42015,7 @@
     },
     {
       "name": "campaign2_plan_settings_save",
+      "description": "Save a plan draft patch. Omitted fields are preserved; explicit null clears. Applied settings remain unchanged.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -43717,6 +43860,7 @@
     },
     {
       "name": "campaign2_plan_settings_apply",
+      "description": "Apply the saved plan draft. Does not apply invitation settings or send email. Uses the existing Campaign create/update Skill Credit price (default 1); quota is checked before mutation.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -43769,6 +43913,7 @@
     },
     {
       "name": "campaign2_plan_status",
+      "description": "Set the existing Campaign master automation status; manual operations and history remain available.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -43825,6 +43970,7 @@
     },
     {
       "name": "campaign2_plan_members",
+      "description": "List members of the selected intelligent marketing plan.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -43891,6 +44037,7 @@
     },
     {
       "name": "campaign2_plan_delete",
+      "description": "Preview then confirm soft deletion of a Campaign. Obtain explicit user confirmation before execute.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "high_risk_write",
@@ -43987,6 +44134,7 @@
     },
     {
       "name": "campaign2_plan_overview",
+      "description": "Read the overview of the selected intelligent marketing plan.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -44041,6 +44189,7 @@
     },
     {
       "name": "campaign2_invitations_send",
+      "description": "Preview actual recipients, sender, effective content and schedule, then wait for explicit second user confirmation before execute. Start: 1–100 creators; resend/retry: one. Unknown results must be queried, never automatically resent.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "high_risk_write",
@@ -44238,6 +44387,7 @@
     },
     {
       "name": "campaign2_invitations_send_result",
+      "description": "Read the original sending attempt by its idempotency key. Accepted does not mean sent or delivered.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -44289,6 +44439,7 @@
     },
     {
       "name": "campaign2_products_add",
+      "description": "Add one existing product-center record or inline product to a Campaign. mode=draft saves only; mode=apply applies only this product and preserves unrelated draft edits. Existing matching products are preserved. No fixed search/create sequence is required.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -44832,6 +44983,7 @@
     },
     {
       "name": "campaign2_invitations_settings_reset",
+      "description": "Discard unapplied invitation edits in the plan or one creator scope. Preserves applied settings and sent history.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -44972,6 +45124,7 @@
     },
     {
       "name": "campaign2_invitations_readiness",
+      "description": "Check invitation readiness for the selected Campaign.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -45088,6 +45241,7 @@
     },
     {
       "name": "campaign2_invitations_regions",
+      "description": "Read the current invitation region options. pending allows waiting or queued; sent allows unreplied, readUnreply, replied or bounce. Failures, bounces and uncertain delivery results are in sent/bounce. Do not use pending/failed. Uses scoped Campaign permissions and preserves actual unknown, empty and zero values.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -45237,6 +45391,7 @@
     },
     {
       "name": "campaign2_invitations_detail",
+      "description": "Read actual invitation history and frozen plaintext for one creator. Use optional dispatch_task_id from a previous detail response to pin the same task or legacy message bounds; omit for latest history. Does not prepare, apply, send or unlock contacts.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -45382,6 +45537,7 @@
     },
     {
       "name": "campaign2_invitations_preflight",
+      "description": "Check the exact 1–100 selected pending creators without creating a task, unlocking email or charging sending quota. This is the authoritative contact and configuration diagnosis.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -45515,6 +45671,7 @@
     },
     {
       "name": "campaign2_automations_get",
+      "description": "Read which automation settings are active for the selected intelligent marketing plan.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -45631,6 +45788,7 @@
     },
     {
       "name": "campaign2_automations_switch",
+      "description": "Set one existing module switch. The campaign master switch still gates automatic work; this does not immediately send mail.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -45767,6 +45925,7 @@
     },
     {
       "name": "campaign2_auto_advance_settings_get",
+      "description": "Read the auto-advance settings for the selected intelligent marketing plan.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -45883,6 +46042,7 @@
     },
     {
       "name": "campaign2_auto_advance_settings_apply",
+      "description": "Apply only submitted automatic advancement fields; does not apply unrelated plan drafts or change any switch.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -46351,6 +46511,7 @@
     },
     {
       "name": "campaign2_plan_metrics",
+      "description": "Read metrics for the selected intelligent marketing plan.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -46467,6 +46628,7 @@
     },
     {
       "name": "campaign2_notes_save",
+      "description": "Edit a plan note only when the user requests it; preserves concurrent-edit protection. AI selection reasons belong in candidate/invitation/cooperation actions, not this USER-note endpoint.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -46619,6 +46781,7 @@
     },
     {
       "name": "campaign2_cooperations_labels_list",
+      "description": "List cooperation labels for the selected Campaign.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.read",
       "risk": "read",
@@ -46739,6 +46902,7 @@
     },
     {
       "name": "campaign2_cooperations_label_create",
+      "description": "Create a cooperation label for a Campaign.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -46863,6 +47027,7 @@
     },
     {
       "name": "campaign2_cooperations_label_update",
+      "description": "Update the selected Campaign cooperation label.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -46994,6 +47159,7 @@
     },
     {
       "name": "campaign2_cooperations_label_delete",
+      "description": "Delete the selected Campaign cooperation label.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",
@@ -47117,6 +47283,7 @@
     },
     {
       "name": "campaign2_cooperations_label_assign",
+      "description": "Assign cooperation labels to the selected Campaign cooperation records.",
       "scope": "noxinfluencer.codex.user",
       "internal_scope": "noxinfluencer.campaign.write",
       "risk": "normal_write",

@@ -89,8 +89,8 @@
     },
     {
       "path": "shared/references/campaign-invitation-management.md",
-      "bytes": 16004,
-      "sha256": "8363a3eadce5672f7f3d403d11f9578bd2f2c181cac01116559764e05f307e79"
+      "bytes": 17910,
+      "sha256": "8f06c33ca9ab7731db2d55f8b608dbca0bdf5ac3653389be96e654e585f5d3cc"
     },
     {
       "path": "shared/references/campaign-products.md",
@@ -104,8 +104,8 @@
     },
     {
       "path": "shared/references/creator.md",
-      "bytes": 15073,
-      "sha256": "f86a63073f836be1e54749f3ee1e1a2bbcd3c96c7a40fc88af2be2d80cb821d5"
+      "bytes": 17084,
+      "sha256": "bfb59c1a3a18076e10ef0a2dcaf98ff2ab289aa3a4452dd1bf5c4d73eaf761f0"
     },
     {
       "path": "shared/references/files-and-exports.md",
@@ -114,8 +114,8 @@
     },
     {
       "path": "shared/references/marketing-plan-and-campaign.md",
-      "bytes": 12175,
-      "sha256": "7c8215b8a36ed10f3c8e083812c3834bb2f2685203dd54203ef185dfd5ba9f72"
+      "bytes": 13468,
+      "sha256": "baf5a0f2019a3588e1222c5603fbbccfeededb2fc2910b14c5c71f0164776621"
     },
     {
       "path": "shared/references/monitor.md",
@@ -176,8 +176,8 @@
     },
     {
       "path": "references/campaign-invitation-management.md",
-      "bytes": 16004,
-      "sha256": "8363a3eadce5672f7f3d403d11f9578bd2f2c181cac01116559764e05f307e79"
+      "bytes": 17910,
+      "sha256": "8f06c33ca9ab7731db2d55f8b608dbca0bdf5ac3653389be96e654e585f5d3cc"
     },
     {
       "path": "references/campaign-products.md",
@@ -191,8 +191,8 @@
     },
     {
       "path": "references/creator.md",
-      "bytes": 15073,
-      "sha256": "f86a63073f836be1e54749f3ee1e1a2bbcd3c96c7a40fc88af2be2d80cb821d5"
+      "bytes": 17084,
+      "sha256": "bfb59c1a3a18076e10ef0a2dcaf98ff2ab289aa3a4452dd1bf5c4d73eaf761f0"
     },
     {
       "path": "references/files-and-exports.md",
@@ -201,8 +201,8 @@
     },
     {
       "path": "references/marketing-plan-and-campaign.md",
-      "bytes": 12175,
-      "sha256": "7c8215b8a36ed10f3c8e083812c3834bb2f2685203dd54203ef185dfd5ba9f72"
+      "bytes": 13468,
+      "sha256": "baf5a0f2019a3588e1222c5603fbbccfeededb2fc2910b14c5c71f0164776621"
     },
     {
       "path": "references/monitor.md",

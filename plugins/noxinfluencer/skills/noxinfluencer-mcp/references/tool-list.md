@@ -6,6 +6,8 @@ For intelligent marketing-plan task lists, use `campaign2_plan_list` with its li
 
 ## collection
 
+See `{baseDir}/references/tool-parameters-collection.md` for tool purposes and parameters.
+
 - `add_collection_creators`
 - `apply_collection_add_to_crm`
 - `apply_collection_batch_copy`
@@ -43,6 +45,8 @@ For intelligent marketing-plan task lists, use `campaign2_plan_list` with its li
 
 ## creator-analysis
 
+See `{baseDir}/references/tool-parameters-creator-analysis.md` for tool purposes and parameters.
+
 - `creator_audience`
 - `creator_content`
 - `creator_cooperation`
@@ -50,9 +54,13 @@ For intelligent marketing-plan task lists, use `campaign2_plan_list` with its li
 
 ## creator-contact
 
+See `{baseDir}/references/tool-parameters-creator-contact.md` for tool purposes and parameters.
+
 - `get_creator_contacts`
 
 ## creator-discovery
+
+See `{baseDir}/references/tool-parameters-creator-discovery.md` for tool purposes and parameters.
 
 - `add_not_interested_creators`
 - `create_creator_export`
@@ -66,6 +74,8 @@ For intelligent marketing-plan task lists, use `campaign2_plan_list` with its li
 - `remove_not_interested_creators`
 
 ## crm
+
+See `{baseDir}/references/tool-parameters-crm.md` for tool purposes and parameters.
 
 - `apply_crm_add_to_email`
 - `apply_crm_batch_update`
@@ -93,11 +103,15 @@ For intelligent marketing-plan task lists, use `campaign2_plan_list` with its li
 
 ## files-exports
 
+See `{baseDir}/references/tool-parameters-files-exports.md` for tool purposes and parameters.
+
 - `get_export`
 - `get_export_download`
 - `list_exports`
 
 ## marketing-plan
+
+See `{baseDir}/references/tool-parameters-marketing-plan.md` for tool purposes and parameters.
 
 - `campaign2_auto_advance_settings_apply`
 - `campaign2_auto_advance_settings_get`
@@ -166,6 +180,8 @@ For intelligent marketing-plan task lists, use `campaign2_plan_list` with its li
 
 ## monitor
 
+See `{baseDir}/references/tool-parameters-monitor.md` for tool purposes and parameters.
+
 - `add_monitor_task`
 - `add_monitor_task_labels`
 - `create_monitor_label`
@@ -191,12 +207,16 @@ For intelligent marketing-plan task lists, use `campaign2_plan_list` with its li
 
 ## product
 
+See `{baseDir}/references/tool-parameters-product.md` for tool purposes and parameters.
+
 - `create_product`
 - `get_product`
 - `list_products`
 - `update_product`
 
 ## quota-pricing
+
+See `{baseDir}/references/tool-parameters-quota-pricing.md` for tool purposes and parameters.
 
 - `list_tool_pricing`
 - `quota`

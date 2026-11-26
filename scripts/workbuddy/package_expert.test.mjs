@@ -104,6 +104,11 @@ test('Expert builds from a plugin-only fixture without any separate content sour
   assert.ok(result.inputs.every(path => path.startsWith(`${pluginPath}/`)));
   assert.equal(result.entries.get('avatars/expert.png').equals(readFileSync(resolve(root, pluginPath, 'assets/logo.png'))), true);
   assert.equal(result.entries.get('LICENSE').equals(readFileSync(resolve(root, pluginPath, 'LICENSE'))), true);
+  const sourceIndex = readFileSync(resolve(root, pluginPath, 'skills/noxinfluencer-mcp/references/tool-list.md'), 'utf8');
+  const index = result.entries.get(`skills/${productName}/references/tool-list.md`).toString();
+  assert.match(sourceIndex, /references\/tool-parameters-/);
+  assert.doesNotMatch(index, /references\/tool-parameters-/);
+  assert.deepEqual(index.match(/^- `[^`]+`$/gm), sourceIndex.match(/^- `[^`]+`$/gm));
 });
 
 test('Expert packaging follows edits to actual plugin files and metadata', t => {
@@ -262,6 +267,7 @@ test('two independently written Expert ZIPs contain the complete MCP Expert and 
     assert.ok(!/^skills\/(?:noxinfluencer|noxinfluencer-v2|noxinfluencer-mcp|influencer-marketing-manager)\//.test(path), `Unexpected legacy Skill: ${path}`);
     assert.ok(!/(?:^|\/)(?:evals|node_modules|\.codex-plugin)(?:\/|$)/.test(path), `Unexpected development resource: ${path}`);
     assert.ok(!/(?:^|\/)(?:\.mcp\.json|mcp\.json|connector-meta\.json|start-codex-oauth\.ps1)$/.test(path), `Expert bundles its own connector or Codex OAuth: ${path}`);
+    assert.doesNotMatch(path, /\/tool-parameters-[\w-]+\.md$/);
   }
   assert.deepEqual(sourceSnapshot(root), originalSources);
 });

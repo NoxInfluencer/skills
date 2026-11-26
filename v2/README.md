@@ -69,7 +69,7 @@ node v2/scripts/update-snapshot.mjs cli-schema <cli-schema-snapshot.json>
 node v2/scripts/update-snapshot.mjs mcp-tools <mcp-tools-snapshot.json>
 ```
 
-The updater stages the complete public source in a temporary workspace and validates it before atomically updating a snapshot and its digest. CLI Campaign contracts are derived from the imported command schema. An incompatible capability-registry change fails validation and leaves source untouched; update the paired registry/versions and business guidance as part of the same reviewed change. Do not remove confirmation, idempotency or account bindings to make validation pass. Then build, check and run affected tests. New service operations need appropriate adapters and semantic cases; a generated digest is not behavioral acceptance.
+The updater stages the complete public source in a temporary workspace and validates it before atomically updating a snapshot and its digest. CLI Campaign contracts are derived from the imported command schema. Include a public `description` for each MCP tool in the snapshot. The installed MCP Skill's reference pages are generated from those descriptions and the input schemas. An incompatible capability-registry change fails validation and leaves source untouched; update the paired registry/versions and business guidance as part of the same reviewed change. Do not remove confirmation, idempotency or account bindings to make validation pass. Then build, check and run affected tests. New service operations need appropriate adapters and semantic cases; a generated digest is not behavioral acceptance.
 
 Keep the legacy CLI/server contracts compatible while legacy clients remain installed. Skill directory isolation does not itself guarantee API compatibility.
 

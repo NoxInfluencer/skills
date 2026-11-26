@@ -28,6 +28,14 @@ Compatibility fields such as quote method, optimization goal and negotiation swi
 
 Automatic-discovery configuration saves replace the complete configuration. Preserve fields that should remain. Its readable response contains both serialized and parsed configuration, so delivery size is checked before saving; reduce an oversized proposed configuration instead of retrying with a new attempt identity. Omitting or clearing configuration saves an empty object, while omitting the enabled field preserves its current switch.
 
+## Requests With Multiple Operations
+
+Advance each requested operation when its actual prerequisites are available, honoring any order the user requires. Resolve the Campaign identity before reading its invitation or candidate list. Run creator discovery with the supplied criteria as soon as its inputs are ready. Wait for a list read when it establishes part of those criteria, for example when the user wants to exclude creators already invited to that Campaign.
+
+If missing data, a permission restriction, a tool error or a pending send confirmation blocks an operation, pause that operation and any step that needs its result. Continue requested reads and screening that can run independently. A send blocker does not stop a plan list, a recipient list or creator review that is already executable. Use the normal preview and approval rules before dispatch.
+
+Report verified results by requested operation, including the plans, lists, candidate rows and detailed reviews actually obtained. For each unfinished operation, state the blocker and which result or approval is needed to continue. If the account connection is unavailable, identify the account results that could not be retrieved. Retain confirmed progress and resume the remaining operations when their prerequisites are met.
+
 ## Execution And Reporting
 
 For invitation management, read `{baseDir}/references/campaign-invitation-management.md`. It defines permitted copy drafting, page operations, and the mandatory reviewed second confirmation for start, resend and retry.

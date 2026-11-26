@@ -1,7 +1,6 @@
 import { createHash } from 'node:crypto';
 import { resolve, relative, isAbsolute } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import Ajv from 'ajv';
 import { parseDocument } from 'yaml';
 import yazl from 'yazl';
 import { assertPublicFile, repositoryRoot, validateSkill } from '../../v2/scripts/build.mjs';
@@ -9,7 +8,6 @@ import {
   assertNoSymbolicLinkComponents, assertSafeRelativePath, comparePortablePaths, readBoundedRegularFile,
   readCanonicalTextFile, readDirectoryFileMap, replaceTargetsAtomically,
 } from '../../v2/scripts/lib/canonical-files.mjs';
-import { renderToolReferences } from './mcp_tool_references.mjs';
 
 const skillName = 'noxinfluencer-mcp';
 const connectorSource = 'noxinfluencer-mcp';
@@ -82,26 +80,6 @@ function createOAuthReference(bytes) {
     [workbuddy, continuation, markdownSection(text, '## Failure Boundaries')].join('\n\n') + '\n'));
 }
 
-function readTools(bytes, sourceToolList) {
-  const catalog = JSON.parse(bytes);
-  requireValue(catalog.schema_version === 1 && Array.isArray(catalog.tools)
-    && catalog.tools.length > 0 && catalog.tools.length <= 2048, 'Invalid plugin MCP tool catalog');
-  const names = new Set();
-  const ajv = new Ajv({ strict: false });
-  for (const tool of catalog.tools) {
-    requireValue(tool && typeof tool.name === 'string' && /^[a-z][a-z0-9_]*$/.test(tool.name)
-      && !names.has(tool.name), `Invalid or duplicate MCP tool name: ${tool?.name}`);
-    names.add(tool.name);
-    requireValue(typeof tool.description === 'string' && tool.description.trim(), `Missing MCP tool description: ${tool.name}`);
-    requireValue(typeof tool.workflow === 'string' && /^[a-z0-9-]+$/.test(tool.workflow), `Invalid MCP workflow: ${tool.name}`);
-    requireValue(tool.input_schema?.type === 'object' && ajv.validateSchema(tool.input_schema), `Invalid MCP input schema: ${tool.name}`);
-  }
-  const listed = [...sourceToolList.toString('utf8').matchAll(/^- `([a-z][a-z0-9_]*)`\s*$/gm)].map(match => match[1]);
-  requireValue(listed.length === names.size && new Set(listed).size === names.size && listed.every(name => names.has(name)),
-    'Plugin MCP tool catalog does not match the Skill tool-list; update both plugin resources together');
-  return catalog.tools;
-}
-
 function adaptMarkdown(bytes) {
   return Buffer.from(bytes.toString('utf8')
     .replace(/^## Skill resource paths\r?\n[\s\S]*?(?=^## )/m, '')
@@ -146,10 +124,11 @@ export function createMcpEntries({ root = repositoryRoot, version = mcpVersion }
     const target = path === 'references/codex-plugin-runtime.md' ? runtimePath : path;
     skill.set(target, adaptMarkdown(bytes));
   }
-  requireValue(source.has('references/oauth-and-scopes.md') && source.has('references/tool-list.md'), 'Missing plugin OAuth/tool-list resource');
+  const toolList = skill.get('references/tool-list.md');
+  requireValue(source.has('references/oauth-and-scopes.md') && toolList, 'Missing plugin OAuth/tool-list resource');
   skill.set('references/oauth-and-scopes.md', createOAuthReference(source.get('references/oauth-and-scopes.md')));
-  const tools = readTools(read('resources/mcp-tools.json'), source.get('references/tool-list.md'));
-  for (const [path, bytes] of renderToolReferences(tools)) skill.set(path, bytes);
+  const tools = [...toolList.toString('utf8').matchAll(/^- `([a-z][a-z0-9_]*)`\s*$/gm)].map(match => match[1]);
+  requireValue(tools.length > 0 && new Set(tools).size === tools.length, 'Plugin tool-list requires at least one tool and unique tool names');
 
   requireValue(skill.has('SKILL.md'), 'Missing plugin SKILL.md');
   const frontmatter = parseDocument(skill.get('SKILL.md').toString().split(/^---\s*$/m)[1]);
@@ -238,7 +217,7 @@ async function main() {
   requireValue(!check || !outputPath, '--output requires package mode');
   if (check) {
     const { entries, toolCount, meta } = createMcpEntries({ version });
-    console.log(`WorkBuddy MCP checks passed (version ${meta.version}, ${entries.size} files, ${toolCount} tools documented)`);
+    console.log(`WorkBuddy MCP checks passed (version ${meta.version}, ${entries.size} files, ${toolCount} tools listed)`);
   } else console.log(JSON.stringify(await packageMcp({ version, outputPath }), null, 2));
 }
 

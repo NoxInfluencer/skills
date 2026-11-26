@@ -91,10 +91,10 @@ For renewal or content-reuse decisions, read the [reuse handoff](references/oper
 
 ## Two-pass creator discovery
 
-When creator discovery serves the requested task, use search to map supply and richer qualification evidence for recommendations. For an underspecified creator brief, start with qualitative exploration. Defer creator counts, lane shares, scores, weights, and performance thresholds until approved constraints or observed project evidence supports them. Label provisional ranges as planning assumptions tied to capacity and a bounded learning test.
+When the brief gives enough information for a meaningful creator search, proceed with the user's stated filters, exclusions, candidate count and fine-review count. Those instructions authorize the requested read-only screening. For a missing reversible choice, such as initial sorting, state the assumption and run a bounded search. Ask a targeted question only when the missing information prevents a meaningful search. For an underspecified brief, start with qualitative exploration and use project constraints or observed evidence before setting unspecified lane shares, scores, weights or qualification thresholds. Label provisional ranges as planning assumptions for a bounded test.
 
-- **Coarse screen:** use structured search and filters to form a deduplicated candidate queue. Preserve the query, source, snapshot time, supported fields, and open questions.
-- **Fine selection:** review a smaller, purposeful set with creator detail data and, when available, browser inspection of original channel/video pages for visual or content evidence. Decide fit, priority, and the next qualification action from the richer evidence.
+- **Coarse screen:** use structured search and filters to form a deduplicated candidate queue. Deliver the requested candidate page and report the actual eligible count if it is shorter than requested. Preserve the query, source, snapshot time, supported fields, and open questions.
+- **Fine selection:** choose a smaller, purposeful subset of the coarse results and use the requested fine-review count when enough candidates qualify. Review creator detail data and, when available, original channel/video pages for visual or content evidence. Decide fit, priority, and the next qualification action from the richer evidence.
 
 Read [the complete discovery method](references/playbook.md#2-discover-creators-in-two-passes) before qualification. Reconcile machine signals with representative, format-specific content; keep creator fit and contact readiness separate. Incomplete evidence leaves a provisional decision and a named next check. The playbook links to provisional review defaults when project rules leave a gap.
 

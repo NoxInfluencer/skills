@@ -53,9 +53,9 @@ npm run workbuddy:test:mcp
 
 The check command validates the package inputs without writing a ZIP. Packaging writes `dist/noxinfluencer-workbuddy-mcp.zip` (default version `1.0.4`) with the `noxinfluencer-mcp` Skill and WorkBuddy cloud OAuth (`auth_mode: "server-side"`, `auth_type: "mcp_oauth"`). After importing the package, use server-side authentication with dynamic registration and the `noxinfluencer.agent.user` scope.
 
-All content inputs are physical files under [plugins/noxinfluencer](../../plugins/noxinfluencer/): `.mcp.json`, `assets/icon.png`, the `noxinfluencer-mcp` Skill, and the shared [MCP tool catalog](../../plugins/noxinfluencer/resources/mcp-tools.json). The catalog keeps tool names, workflows, purposes and input schemas together; update it together with the plugin Skill's tool list. The connected server's live catalog and schemas remain authoritative. The full plugin ZIP also includes this resource.
+The content inputs under [plugins/noxinfluencer](../../plugins/noxinfluencer/) are `.mcp.json`, `assets/icon.png`, and the `noxinfluencer-mcp` Skill. The connector packages the Skill's [V2-generated tool list and linked parameter references](../../plugins/noxinfluencer/skills/noxinfluencer-mcp/references/tool-list.md). Tool calls use the connected server's live catalog and input schemas.
 
-The packager generates WorkBuddy's connector metadata, MCP layout, resource paths and parameter references in memory. It selects the plugin's WorkBuddy OAuth route and shared continuation rules, and omits the Codex-only login route and script. It reads no V2 source snapshots, runs no V2 regeneration, and maintains no separate WorkBuddy content directory. Shared guidance prohibiting CLI fallback is retained.
+The packager adapts the connector metadata, MCP layout and resource paths in memory. It uses the plugin's WorkBuddy OAuth route and shared continuation rules. Run `v2:build` when updating the canonical tool snapshot, then package the generated plugin Skill.
 
 Use `--version x.y.z` to select a release version and `--output dist/name.zip` to preserve a named archive, for example:
 
@@ -71,7 +71,7 @@ WorkBuddy's cloud needs ongoing network access to the MCP resource metadata and 
 
 The NoxInfluencer Expert is packaged directly from the existing [plugin directory](../../plugins/noxinfluencer/). Its content inputs are the physical plugin manifests, MCP configuration, README, license, two Skill directories and brand image in that directory. The packager generates WorkBuddy's manifest, Agent wrapper, package layout and connector dependency in memory.
 
-The package contains the `noxinfluencer-plugin` and `influencer-marketing-manager-plugin` Skills and depends on the published WorkBuddy MCP connector with source `noxinfluencer-mcp`. The Manager uses the same-package product Skill only when it is installed and available in the current WorkBuddy context.
+The package contains the `noxinfluencer-plugin` and `influencer-marketing-manager-plugin` Skills and depends on the published WorkBuddy MCP connector with source `noxinfluencer-mcp`. Its tool list includes tool names. The connector package carries the detailed parameter references. The Manager uses the same-package product Skill only when it is installed and available in the current WorkBuddy context.
 
 ```bash
 npm run workbuddy:check:expert
@@ -91,11 +91,10 @@ The MCP connector v1.0.3 is published with source `noxinfluencer-mcp`. Local pac
 
 The [NoxInfluencer CLI Connector](../../connectors/noxinfluencer-cli/) uses the generated [V2 CLI Skill](../../skills/noxinfluencer-cli/). Its archive bundles `skills/noxinfluencer-cli/SKILL.md` and the corresponding references. WorkBuddy's managed Node.js runtime installs the CLI pinned in `cli.json` and runs its device-login flow. The bundled Skill uses that same CLI and connection.
 
-Build and synchronize the connector from the repository root.
+Build and package the connector from the repository root. The packager reads `skills/noxinfluencer-cli/` and assembles the WorkBuddy Skill inside the ZIP.
 
 ```bash
 npm run v2:build
-python scripts/workbuddy/sync_connector.py sync
 python scripts/workbuddy/sync_connector.py check
 python scripts/workbuddy/sync_connector.py package
 ```

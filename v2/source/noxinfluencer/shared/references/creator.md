@@ -19,7 +19,7 @@ Preserve each field's documented unit when translating the user's percentages an
 
 Use current field descriptions for other metrics. Do not infer units from magnitude, silently divide every value above 1 by 100, or treat missing data as zero. A low result count alone is not evidence that the user's percentage threshold is too strict; check the already available parameter definition and submitted value first.
 
-Ask only for missing criteria that materially affect sourcing: platform, niche or known creator name, market, creator size, audience fit, activity, performance floor, and whether an email signal matters. Run each platform as a separate search and combine results only after preserving platform identity.
+When the brief supports a meaningful search, apply the user's stated filters and exclusions directly. Use the documented default or state a reversible assumption for an unspecified choice such as initial sorting. Ask one targeted question when an unresolved criterion, such as the platform or creator identity, prevents a meaningful search. Run each platform as a separate search and combine results only after preserving platform identity.
 
 A known name or handle is an identity search. Topic keywords are a discovery search. Do not combine both interpretations in one request. Apply user-specified exclusions and account-level hide, prior-contact, collection, cooperation, or CRM filters during the search when available instead of discarding paid results afterward.
 
@@ -33,7 +33,7 @@ Search averages are index snapshots; average comments cover the latest 10 conten
 
 ### Average Views And Estimated Exposure
 
-For YouTube `avg_view_min/max`, use the returned search field matching the requested `video_type`:
+For YouTube `avg_view_min/max`, use the returned search field matching the requested `video_type`. If the live search schema lacks `video_type`, a generic average-view bound cannot enforce a long-video or Shorts threshold. Report the unsupported filter and keep the user's qualification criteria.
 
 | `video_type` | Filter evidence |
 | --- | --- |
@@ -57,7 +57,11 @@ Creator identifiers are opaque and stable for follow-up work. Preserve `creator_
 
 Retain the complete returned records with their platform and search scope for selection and follow-up actions, using the runtime's supported result-retention mechanism. A shortened display must not replace the original records. Do not fetch the same page again solely because a summary omitted an identifier.
 
-Present three to five comparable candidates first. Include name, platform, scale, performance, geography, useful tags, and why each candidate matches. If the page is noisy, ask for one high-value narrowing criterion rather than returning a larger weak list.
+Use the requested candidate page size within the live tool's limit. Build each candidate row from the actual returned creator record. Include the exact returned creator identifier when requested or needed for follow-up, along with the requested metrics and their units. For example, use the returned engagement rate, female audience percentage and average views for the requested content format when the user asks for those fields. Include visible identity, platform, scale, performance, geography, useful tags and why each creator matches when supported by the evidence. Keep the stated filters unless the user authorizes a change. Present three to five comparable candidates by default when the user leaves the candidate count open.
+
+Mark missing or null metrics as unknown. When a hard requirement cannot be verified from available results, mark the creator as unverified for that requirement and exclude them from the confirmed match count. If the page is shorter than requested, report the actual number returned. Distinguish returned, confirmed-match and unverified counts when they differ. Explain shortfalls using supported evidence, such as the returned page size or an entitlement restriction the tool reported. Distinguish a successful search with zero matches from an unavailable or failed search. If live results could not be retrieved, state what remains unavailable and label any query plan or template as preparation.
+
+Apply the requested fine-review count separately from the candidate page size. Select that many eligible candidates from the coarse results when available. Use their preserved identifiers with the supported profile, audience or content tools to collect the evidence needed for the decision. For each reviewed creator, tie the assessment to the details or content actually retrieved and flag any material evidence still missing. If fewer qualify, review the eligible subset and report the shortfall.
 
 A masked nickname is a display restriction, not permission to reconstruct the name. Preserve the returned creator identity and allowed fields. Search rows are coarse evidence; do not present a final recommendation without the necessary qualification. Keep creator fit separate from contact readiness. When the brief lacks a business baseline, use the available marketing manager for qualitative exploration rather than inventing counts, weights or performance thresholds.
 

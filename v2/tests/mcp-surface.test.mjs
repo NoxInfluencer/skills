@@ -17,8 +17,23 @@ test('MCP advertised tools exactly match the checked catalog and omit unsupporte
   const mcp = outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp');
   const universal = outputs.get('skills/noxinfluencer-v2');
   const tools = JSON.parse(readFileSync(resolve(repositoryRoot, 'v2/source/noxinfluencer/snapshots/mcp-tools.json'))).items;
-  const listed = [...mcp.get('references/tool-list.md').toString().matchAll(/^- `([^`]+)`$/gm)].map(match => match[1]);
+  const index = mcp.get('references/tool-list.md').toString();
+  const listed = [...index.matchAll(/^- `([^`]+)`$/gm)].map(match => match[1]);
   assert.deepEqual(listed.sort(), tools.map(tool => tool.name).sort());
+  for (const tool of tools) {
+    const path = `references/tool-parameters-${tool.workflow}.md`;
+    assert.ok(index.includes(`\`{baseDir}/${path}\``), path);
+    const section = markdownSection(mcp.get(path).toString(), `## \`${tool.name}\``);
+    assert.ok(section.startsWith(`\n${tool.description}\n`), tool.name);
+    const fields = Object.keys(tool.input_schema.properties ?? {});
+    const parameters = [...section.matchAll(/^- `([^`]+)` \(([^\n]+?)\)\./gm)];
+    assert.deepEqual(parameters.map(([, field]) => field), fields, tool.name);
+    for (const [, field, details] of parameters) {
+      const status = tool.input_schema.required?.includes(field) ? 'required' : 'optional';
+      assert.ok(details.split(', ').includes(status), `${tool.name}.${field}`);
+    }
+    if (!fields.length) assert.match(section, /No input parameters\./);
+  }
   const entrypoint = mcp.get('SKILL.md').toString();
   assert.match(entrypoint, /campaign2_plan_list/);
   for (const name of ['brand-monitor', 'outreach-and-messaging', 'product-short-link-affiliation']) {

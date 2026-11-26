@@ -5,6 +5,7 @@ import { parseDocument } from 'yaml';
 import { loadContracts } from './lib/contract-loader.mjs';
 import { validateCapabilityRegistry } from './lib/capability-registry.mjs';
 import { validateSharedSemanticSource, validateAssembledMarkdown } from './lib/semantic-source.mjs';
+import { renderMcpToolReferences } from './lib/mcp-tool-references.mjs';
 import { readDirectoryFileMap, readCanonicalTextFile, assertNoSymbolicLinkComponents,
   assertSafeRelativePath, createFileRecord, replaceTargetsAtomically } from './lib/canonical-files.mjs';
 
@@ -55,23 +56,6 @@ const mcpReferencePresentationOverrides = new Map([
       'Return useful plan summaries. For Campaign presentation, follow `{baseDir}/references/handoffs.md`.'],
   ]],
 ]);
-
-/** Derive the advertised MCP surface from the checked service catalog. */
-export function renderMcpToolList(tools, { plugin = false } = {}) {
-  const groups = new Map();
-  for (const tool of tools) {
-    const group = tool.workflow ?? 'creator-collection-crm-monitor-exports-quota';
-    if (!groups.has(group)) groups.set(group, []);
-    groups.get(group).push(tool.name);
-  }
-  return Buffer.from('# MCP Tool List\n\n' +
-    `This build contains ${tools.length} catalogued tools. Use only tools also exposed by the live provider, with their live input schemas. A catalog entry is not proof of deployment.\n\n` +
-    (plugin
-      ? 'For intelligent marketing-plan task lists, use `campaign2_plan_list` with its live pagination and filter schema. After verifying the business outcome, present it according to `references/handoffs.md`. The live catalog can extend this checked snapshot; use actual live names and schemas, never a historical page-opening name.\n\n'
-      : 'For intelligent marketing-plan task lists, use `campaign2_plan_list` and display results in the conversation. Its inputs are `page_num`, `page_size`, `keyword`, `start_time`, `end_time`, and `invite_status`. Preserve filters when requesting the next page. Do not infer a failed status: invite_status only accepts the declared invitation states.\n\n') +
-    [...groups].sort(([a], [b]) => a.localeCompare(b)).map(([group, names]) =>
-      `## ${group}\n\n` + names.sort().map(name => `- \`${name}\``).join('\n')).join('\n\n') + '\n');
-}
 
 /** 检查公开输入和产物，拒绝密钥、本机路径、内网地址及内嵌宿主依赖。 */
 export function assertPublicFile(path, bytes) {
@@ -164,7 +148,10 @@ export function createOutputs(root = repositoryRoot) {
       }
     }
     if (adapters.includes('mcp')) {
-      add('references/tool-list.md', renderMcpToolList(contracts.snapshots.get('mcp-tools').items, { plugin: mode === 'mcp' }), 'snapshots/mcp-tools.json');
+      const tools = contracts.snapshots.get('mcp-tools').items;
+      for (const [path, content] of renderMcpToolReferences(tools, { plugin: mode === 'mcp' })) {
+        add(path, content, 'snapshots/mcp-tools.json');
+      }
     }
     if (mode === 'universal') add('references/setup.md', read('setup.md'), 'setup.md');
     if (adapters.includes('cli')) {

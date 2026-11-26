@@ -41,4 +41,4 @@ snapshots:
     sha256: 2462ed23cb7f32374b719a9de2f2a96a986ae3b598bbf482657b3b6bd2028191
   - id: mcp-tools
     path: snapshots/mcp-tools.json
-    sha256: ac118f35c89c76a8617990a3f17151515f352f753f4246b234d45c1cff5b1cad
+    sha256: b62bdb0773c3482ff108f46e5c9e3b7d82f64a02c769b52dcd2d7467e23656a4

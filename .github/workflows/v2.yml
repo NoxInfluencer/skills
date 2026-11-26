@@ -9,6 +9,7 @@ on:
       - 'skills/influencer-marketing-manager/**'
       - 'skills/noxinfluencer-v2/**'
       - 'skills/noxinfluencer-cli/**'
+      - 'connectors/noxinfluencer-cli/**'
       - 'scripts/skills-plugin.mjs'
       - 'scripts/workbuddy/**'
       - 'package*.json'
@@ -37,3 +38,4 @@ jobs:
       - run: npm run workbuddy:check:expert
       - run: npm run workbuddy:check:product
       - run: npm run workbuddy:test:product
+      - run: python -m unittest discover -s scripts/workbuddy -p test_cli_connector.py

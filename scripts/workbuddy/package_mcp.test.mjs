@@ -12,11 +12,11 @@ import { readZipEntries } from '../../v2/tests/helpers/zip-reader.mjs';
 const repositoryRoot = resolve(fileURLToPath(new URL('../..', import.meta.url)));
 const pluginPath = 'plugins/noxinfluencer';
 const skillPath = 'skills/noxinfluencer-mcp';
-const catalogPath = `${pluginPath}/resources/mcp-tools.json`;
+const toolListPath = `${skillPath}/references/tool-list.md`;
 const fixturePrefix = 'nox-workbuddy-mcp-test-';
 // Copy only public plugin content, excluding developer caches and node_modules.
 const fixturePaths = [
-  '.mcp.json', 'assets/icon.png', 'skills/noxinfluencer-mcp', 'resources/mcp-tools.json',
+  '.mcp.json', 'assets/icon.png', skillPath,
 ].map(path => `${pluginPath}/${path}`);
 
 function sourceSnapshot(root) {
@@ -50,13 +50,6 @@ function fixture(t) {
     cpSync(resolve(repositoryRoot, path), target, { recursive: true });
   }
   return root;
-}
-
-function editCatalog(root, edit) {
-  const path = resolve(root, catalogPath);
-  const catalog = JSON.parse(readFileSync(path));
-  edit(catalog);
-  writeFileSync(path, JSON.stringify(catalog, null, 2) + '\n');
 }
 
 function toolNames(markdown) {
@@ -115,23 +108,24 @@ test('MCP defaults to 1.0.4 and can reproduce 1.0.3 metadata without changing an
   assert.throws(() => createMcpEntries({ version: 'not-a-version' }), /version/i);
 });
 
-test('MCP includes one correctly named Skill and documents every catalogued tool across ten parameter references', () => {
+test('MCP includes one correctly named Skill with generated documentation for every listed tool', () => {
   const skill = assembled.entries.get(`${skillPath}/SKILL.md`).toString();
   const frontmatter = skill.match(/^---\r?\n([\s\S]*?)\r?\n---/);
   assert.ok(frontmatter);
   assert.equal(parseDocument(frontmatter[1]).get('name'), 'noxinfluencer-mcp');
   assert.deepEqual([...assembled.entries.keys()].filter(path => /^skills\/[^/]+\/SKILL\.md$/.test(path)), [`${skillPath}/SKILL.md`]);
-  const catalog = JSON.parse(readFileSync(resolve(repositoryRoot, catalogPath)));
-  assert.equal(catalog.schema_version, 1);
-  assert.equal(catalog.tools.length, 167);
-  const expectedNames = catalog.tools.map(tool => tool.name).sort();
-  const listedNames = toolNames(assembled.entries.get(`${skillPath}/references/tool-list.md`).toString());
-  assert.deepEqual(listedNames.sort(), expectedNames);
-  const references = [...assembled.entries.keys()].filter(path => /\/references\/tool-parameters-[a-z0-9-]+\.md$/.test(path));
-  assert.equal(references.length, 10);
-  const documentedNames = references.flatMap(path => [...assembled.entries.get(path).toString().matchAll(/^## `([^`]+)`\s*$/gm)].map(match => match[1]));
-  assert.deepEqual(documentedNames.sort(), expectedNames);
-  assert.equal(new Set(documentedNames).size, 167);
+  const original = readFileSync(resolve(repositoryRoot, pluginPath, toolListPath), 'utf8');
+  const packaged = assembled.entries.get(toolListPath).toString();
+  assert.equal(packaged, original.replaceAll('{baseDir}/references/', '@references/')
+    .replaceAll('`references/handoffs.md`', '`@references/handoffs.md`'));
+  assert.equal(toolNames(packaged).length, 167);
+  const documented = [...packaged.matchAll(/@(references\/tool-parameters-[\w-]+\.md)/g)].flatMap(([, path]) => {
+    const packagedReference = assembled.entries.get(`${skillPath}/${path}`);
+    assert.deepEqual(packagedReference, readFileSync(resolve(repositoryRoot, pluginPath, skillPath, path)));
+    return [...packagedReference.toString().matchAll(/^## `([^`]+)`$/gm)].map(([, name]) => name);
+  });
+  assert.deepEqual(documented.sort(), toolNames(packaged).sort());
+  assert.ok(![...assembled.entries.keys()].some(path => /mcp-tools\.json$/.test(path)));
 });
 
 test('MCP omits Manager and Codex OAuth execution while preserving the prohibition on CLI fallback', () => {
@@ -149,44 +143,34 @@ test('MCP omits Manager and Codex OAuth execution while preserving the prohibiti
   assert.match(oauth, /native|连接|Connect/);
 });
 
-test('MCP takes reference and tool-description edits from the actual plugin without generated-source drift checks', t => {
+test('MCP packages changes to the plugin references and tool list directly', t => {
   const root = fixture(t);
-  const reference = resolve(root, pluginPath, 'skills/noxinfluencer-mcp/references/creator.md');
+  const reference = resolve(root, pluginPath, skillPath, 'references/creator.md');
   writeFileSync(reference, readFileSync(reference) + '\nPlugin-directory-reference-proof.\n');
-  editCatalog(root, catalog => { catalog.tools[0].description = 'Plugin-directory-tool-purpose-proof.'; });
+  const path = resolve(root, pluginPath, toolListPath);
+  const original = readFileSync(path, 'utf8');
+  const [firstTool] = toolNames(original);
+  writeFileSync(path, original.replace(`- \`${firstTool}\``, '- `plugin_directory_tool_proof`'));
   const result = createMcpEntries({ root });
   assert.match(result.entries.get(`${skillPath}/references/creator.md`).toString(), /Plugin-directory-reference-proof/);
-  const parameterText = [...result.entries].filter(([path]) => /tool-parameters-/.test(path)).map(([, bytes]) => bytes.toString()).join('\n');
-  assert.match(parameterText, /Plugin-directory-tool-purpose-proof/);
+  assert.match(result.entries.get(toolListPath).toString(), /^- `plugin_directory_tool_proof`$/m);
 });
 
-test('MCP rejects duplicate names in the plugin tool catalog', t => {
+test('MCP rejects a missing plugin tool list', t => {
   const root = fixture(t);
-  editCatalog(root, catalog => { catalog.tools.push(structuredClone(catalog.tools[0])); });
-  assert.throws(() => createMcpEntries({ root }), /duplicate/i);
+  rmSync(resolve(root, pluginPath, toolListPath));
+  assert.throws(() => createMcpEntries({ root }), /Missing plugin OAuth\/tool-list resource/);
 });
 
-test('MCP rejects a catalog tool without its human-readable purpose', t => {
+test('MCP rejects an empty list or duplicate tool names', t => {
   const root = fixture(t);
-  editCatalog(root, catalog => { delete catalog.tools[0].description; });
-  assert.throws(() => createMcpEntries({ root }), /description|purpose/i);
-});
-
-test('MCP rejects malformed parameter schemas instead of emitting incomplete documentation', t => {
-  const root = fixture(t);
-  editCatalog(root, catalog => { catalog.tools[0].input_schema = { type: 'object', properties: [] }; });
-  assert.throws(() => createMcpEntries({ root }), /schema|properties/i);
-});
-
-test('MCP rejects a source Skill tool list that differs from the canonical plugin catalog', t => {
-  const root = fixture(t);
-  const path = resolve(root, pluginPath, 'skills/noxinfluencer-mcp/references/tool-list.md');
-  const firstTool = JSON.parse(readFileSync(resolve(root, catalogPath))).tools[0].name;
+  const path = resolve(root, pluginPath, toolListPath);
   const original = readFileSync(path, 'utf8');
-  const changed = original.replace(`- \`${firstTool}\``, '- `missing_catalog_tool_for_test`');
-  assert.notEqual(changed, original);
-  writeFileSync(path, changed);
-  assert.throws(() => createMcpEntries({ root }), /catalog|tool.list|tool list|mismatch/i);
+  const [firstTool] = toolNames(original);
+  writeFileSync(path, original + `\n- \`${firstTool}\`\n`);
+  assert.throws(() => createMcpEntries({ root }), /unique tool names/);
+  writeFileSync(path, '# MCP Tool List\n');
+  assert.throws(() => createMcpEntries({ root }), /at least one tool/);
 });
 
 test('two independently written MCP ZIPs are deterministic, complete and leave plugin inputs unchanged', async t => {

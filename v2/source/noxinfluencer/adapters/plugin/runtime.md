@@ -20,7 +20,7 @@ Read only the relevant references:
 
 - Page reuse, Handoff opening, status, and recovery: `{baseDir}/references/handoffs.md`
 - Installed host capabilities: `{baseDir}/references/codex-plugin-runtime.md`
-- Host-owned authorization and resuming the original request: `{baseDir}/references/oauth-and-scopes.md`
+- Connector setup when WorkBuddy has no ready NoxInfluencer connection, host-owned authorization, and resuming the original request: `{baseDir}/references/oauth-and-scopes.md`
 - Business tool execution and confirmation: `{baseDir}/references/tool-execution.md`
 - Checked tool baseline; live schemas remain authoritative: `{baseDir}/references/tool-list.md`
 - Files and downloads: `{baseDir}/references/resources-and-files.md`
