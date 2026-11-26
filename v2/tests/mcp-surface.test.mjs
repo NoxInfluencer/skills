@@ -15,7 +15,7 @@ function markdownSection(markdown, heading) {
 test('MCP advertised tools exactly match the checked catalog and omit unsupported domain routes', () => {
   const { outputs } = createOutputs();
   const mcp = outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp');
-  const universal = outputs.get('v2/skills/noxinfluencer-v2');
+  const universal = outputs.get('skills/noxinfluencer-v2');
   const tools = JSON.parse(readFileSync(resolve(repositoryRoot, 'v2/source/noxinfluencer/snapshots/mcp-tools.json'))).items;
   const listed = [...mcp.get('references/tool-list.md').toString().matchAll(/^- `([^`]+)`$/gm)].map(match => match[1]);
   assert.deepEqual(listed.sort(), tools.map(tool => tool.name).sort());
@@ -38,7 +38,7 @@ test('MCP advertised tools exactly match the checked catalog and omit unsupporte
 test('plugin ships live-contract Handoff and honest authorization continuation, isolated from historical standalone policy', () => {
   const { outputs } = createOutputs();
   const plugin = outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp');
-  const universal = outputs.get('v2/skills/noxinfluencer-v2');
+  const universal = outputs.get('skills/noxinfluencer-v2');
   for (const name of ['handoffs', 'oauth-and-scopes', 'codex-plugin-runtime']) {
     const path = `references/${name}.md`;
     assert.ok(plugin.has(path));
@@ -116,7 +116,7 @@ test('missing Handoffs stop page opening across page routes while valid-link hos
 test('business-page gate preserves current Handoff reuse and separate OAuth, download, evidence and standalone workflows', () => {
   const { outputs } = createOutputs();
   const plugin = outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp');
-  const universal = outputs.get('v2/skills/noxinfluencer-v2');
+  const universal = outputs.get('skills/noxinfluencer-v2');
   const policy = markdownSection(plugin.get('references/handoffs.md').toString(), '## Business page opening');
   assert.match(policy, /valid Handoff already returned with the current business operation[^.]+do not make a redundant MCP call/);
   assert.match(policy, /exact matching page open under the reuse rules below is not a new page open/);
@@ -190,7 +190,7 @@ test('Campaign link recovery requires a declared read-only MCP entrypoint for th
 test('installed Campaign references delegate opening to Handoff policy and standalone retains its separate workflow', () => {
   const { outputs } = createOutputs();
   const plugin = outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp');
-  const universal = outputs.get('v2/skills/noxinfluencer-v2');
+  const universal = outputs.get('skills/noxinfluencer-v2');
   const runtime = plugin.get('references/runtime-mcp.md').toString();
   assert.ok(plugin.get('SKILL.md').toString().includes(runtime));
   const obsoleteOpeningRules = /turn terminal|terminal-triggered|host turn ends|page-load receipt|render receipt|verified native (?:host|Handoff) action|structured (?:workbench|status interface)|authorized workspace context interface|SaaS Campaign workspace after the final answer|workspace navigation guidance for the page link|Open a page only when the user asks/i;

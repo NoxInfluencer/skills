@@ -10,11 +10,7 @@ Check the live tool catalog for the user's task. One missing business tool on an
 
 ## Isolated V2 CLI
 
-When a permitted terminal and Node.js/npm are available, run `node "{baseDir}/scripts/nox-cli.mjs" --install`. The helper installs the pinned compatible package under the current user's V2 cache, without a global install, and checks the declared Campaign schema before activating it. Run all subsequent commands through `node "{baseDir}/scripts/nox-cli.mjs"`; the bare global `noxinfluencer` executable belongs to a separate installation and is not evidence that V2 is ready.
-
-The helper uses a separate default V2 login configuration. Follow `{baseDir}/references/auth.md`: start device login, show the returned user-safe link/code, let the user open the link and authorize, then wait through the CLI. Do not launch a browser or use browser/computer-use tools to perform this step. Do not read, copy or print the legacy CLI's saved credentials. Do not ask the user to paste credentials into chat.
-
-For a maintainer-provided local test package, use `node "{baseDir}/scripts/nox-cli.mjs" --install-from <local-package.tgz>`. The same installed package version and schema checks still apply. Never substitute npm `latest`, an incompatible global executable, or a package obtained from an arbitrary URL. If the pinned package is unavailable, explain the distribution gap; do not invent a successful installation. Node/npm installation itself uses the client's normal authorized mechanism when available, otherwise explain the necessary setup step in plain language.
+When the workflow selects CLI, follow `{baseDir}/references/auth.md` for the isolated installer, CLI schema verification, and user-completed device login. Run the V2 CLI through its bundled helper and use its separate per-user login configuration.
 
 ## Updates
 

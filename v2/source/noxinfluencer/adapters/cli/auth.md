@@ -4,10 +4,11 @@ Use this reference only for the independently installed NoxInfluencer CLI runtim
 
 ## Installation And Command Tree
 
-1. Confirm that `noxinfluencer` is executable.
-2. If it is absent, use the authorized isolated installer in `{baseDir}/references/setup.md`; never install npm latest or replace the global executable.
-3. After installation or reinstall, verify the actual command tree with `node "{baseDir}/scripts/nox-cli.mjs" schema --all`; a version string alone does not prove that stale compiled files were replaced.
-4. If the expected command family remains absent, stop that workflow and report a CLI package or command-tree mismatch.
+Check the isolated executable with `node "{baseDir}/scripts/nox-cli.mjs" --version`. If it is missing and an authorized terminal with Node.js and npm is available, run `node "{baseDir}/scripts/nox-cli.mjs" --install`. The helper installs the pinned package in the user's V2 cache and checks its declared Campaign schema before activation. Run subsequent commands through the helper to use the same package and default V2 login configuration.
+
+Use `node "{baseDir}/scripts/nox-cli.mjs" --install-from <local-package.tgz>` for a matching package supplied by a maintainer. Both installation methods verify package identity and schema. If the pinned package is unavailable, report the distribution gap. Use the client's normal setup controls for a missing terminal, Node.js, or npm.
+
+After installation or a Skill update, run `node "{baseDir}/scripts/nox-cli.mjs" --verify` and check the required operation with `schema <cmd>` through the helper. If the expected command family remains absent, report a CLI package or command-tree mismatch. Keep the legacy global installation and its saved credentials separate.
 
 The expected families include creator, monitor, campaign, collection, email, message, CRM, product, short-link, affiliation, brand-monitor, dispute, export, file, feedback, quota, pricing, and agent operations.
 

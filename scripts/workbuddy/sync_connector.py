@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 """Synchronize and package the WorkBuddy NoxInfluencer CLI Connector.
 
-The repository Skill under ``skills/noxinfluencer`` is the only hand-edited
-business source.  WorkBuddy requires a self-contained Skill inside a
-Connector, so this script generates that distribution snapshot and checks it
-for drift before packaging.
+Use the generated V2 CLI Skill and adapt it to the CLI installation and
+device authorization managed by WorkBuddy.
 """
 
 from __future__ import annotations
@@ -19,11 +17,14 @@ from typing import Iterable
 
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE_SKILL = ROOT / "skills" / "noxinfluencer"
-CONNECTOR = ROOT / "connectors" / "noxinfluencer-cli"
-SNAPSHOT_SKILL = CONNECTOR / "skills" / "noxinfluencer"
+SKILL_NAME = "noxinfluencer-cli"
+SOURCE_SKILL = ROOT / "skills" / SKILL_NAME
+CONNECTOR = ROOT / "connectors" / SKILL_NAME
+SNAPSHOT_SKILL = CONNECTOR / "skills" / SKILL_NAME
 REFERENCE_TOKEN = b"{baseDir}/references/"
 WORKBUDDY_REFERENCE_TOKEN = b"@references/"
+STANDALONE_COMMAND = b'node "{baseDir}/scripts/nox-cli.mjs"'
+WORKBUDDY_REFERENCE_RE = re.compile(rb"@references/([a-z0-9_./-]+\.md)")
 SEMVER_RE = re.compile(r"^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$")
 PACKAGE_VERSION_RE = re.compile(
     rb"@noxinfluencer/cli@([0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?)"
@@ -33,6 +34,16 @@ SECRET_RE = re.compile(
     re.IGNORECASE,
 )
 PLATFORMS = ("darwin", "linux", "win32")
+WORKBUDDY_AUTH = b"""# WorkBuddy CLI Installation And Authorization
+
+WorkBuddy prepares the pinned NoxInfluencer CLI when the user connects this connector. Run `noxinfluencer` in the WorkBuddy CLI environment. On Windows, use `noxinfluencer.cmd` when the shell requires it.
+
+Check the installed CLI with `noxinfluencer --version` and the current connection with `noxinfluencer auth status`. Check the required operation with `noxinfluencer schema <cmd>` before setting arguments. If the command or schema is unavailable, report the installation or version issue and ask the user to reconnect through WorkBuddy.
+
+When authorization is required, direct the user to the WorkBuddy connector's Connect control. The user completes the device login shown by WorkBuddy. Resume business operations once `noxinfluencer auth status` reports authentication. Use the connector's Disconnect control for sign-out.
+
+Use the CLI credentials maintained by this connection. Keep credentials out of chat, files, command arguments and logs. Opening a business page or calling a business command does not perform device authorization.
+"""
 
 
 class ValidationError(Exception):
@@ -46,18 +57,32 @@ def iter_files(directory: Path) -> Iterable[Path]:
 
 
 def transformed_source_bytes(path: Path) -> bytes:
+    relative = path.relative_to(SOURCE_SKILL).as_posix()
+    if relative == "references/auth.md":
+        return WORKBUDDY_AUTH
     content = path.read_bytes()
-    if path.suffix.lower() == ".md":
-        content = content.replace(REFERENCE_TOKEN, WORKBUDDY_REFERENCE_TOKEN)
-    return content
+    if path.suffix.lower() != ".md":
+        return content
+    return (
+        content.replace(STANDALONE_COMMAND, b"noxinfluencer")
+        .replace(REFERENCE_TOKEN, WORKBUDDY_REFERENCE_TOKEN)
+        .replace(b"the isolated NoxInfluencer", b"the WorkBuddy-managed NoxInfluencer")
+        .replace(b"{baseDir}/SKILL.md", b"Skill entrypoint provided by WorkBuddy")
+        .replace(b"This generated standalone Skill uses only the NoxInfluencer CLI", b"This connector uses the WorkBuddy-managed NoxInfluencer CLI")
+        .replace(b"use the device-login start/wait flow", b"use the WorkBuddy connector device-login flow")
+    )
 
 
 def expected_snapshot() -> dict[Path, bytes]:
-    if not SOURCE_SKILL.is_dir():
-        raise ValidationError(f"source Skill directory is missing: {SOURCE_SKILL}")
+    entrypoint = SOURCE_SKILL / "SKILL.md"
+    require_file(entrypoint)
+    if not re.match(rb"\A---\r?\nname: noxinfluencer-cli\r?\n", entrypoint.read_bytes()):
+        raise ValidationError("source Skill name must be noxinfluencer-cli")
+    require_file(SOURCE_SKILL / "references" / "auth.md")
+    # WorkBuddy owns installation and login. Bundle the business and command guidance.
     return {
         path.relative_to(SOURCE_SKILL): transformed_source_bytes(path)
-        for path in iter_files(SOURCE_SKILL)
+        for path in (entrypoint, *iter_files(SOURCE_SKILL / "references"))
     }
 
 
@@ -119,7 +144,7 @@ def validate_metadata() -> dict:
     metadata = load_json(path)
     for key in ("name", "name_en", "description", "description_zh", "description_en", "source", "type", "version"):
         require_string(metadata, key, path)
-    if metadata["source"] != "noxinfluencer-cli":
+    if metadata["source"] != SKILL_NAME:
         raise ValidationError("connector-meta.json source must be noxinfluencer-cli")
     if metadata["type"] != "cli":
         raise ValidationError("connector-meta.json type must be cli")
@@ -165,11 +190,13 @@ def validate_cli_config() -> dict:
         if not match:
             raise ValidationError("each init command must pin @noxinfluencer/cli to a version")
         package_versions.add(match.group(1).decode())
-    if len(package_versions) != 1:
-        raise ValidationError("all init commands must use the same CLI version")
+    cli_package = load_json(SOURCE_SKILL / "cli-package.json")
+    source_version = require_string(cli_package, "version", SOURCE_SKILL / "cli-package.json")
+    if cli_package.get("name") != "@noxinfluencer/cli" or package_versions != {source_version}:
+        raise ValidationError("all init commands must match the generated Skill's CLI package and version")
 
     version_check = config.get("versionCheck")
-    if not isinstance(version_check, dict) or version_check.get("minVersion") != next(iter(package_versions)):
+    if not isinstance(version_check, dict) or version_check.get("minVersion") != source_version:
         raise ValidationError("versionCheck.minVersion must match the pinned CLI version")
     platform_commands(version_check.get("command"), "versionCheck.command")
     if version_check.get("versionPattern") != r"(\d+\.\d+\.\d+)":
@@ -212,13 +239,23 @@ def validate_snapshot() -> None:
     for relative, expected_bytes in expected.items():
         if actual[relative] != expected_bytes:
             raise ValidationError(f"Skill snapshot drift: {relative}")
-    snapshot_bytes = b"\n".join(actual.values())
-    if b"{baseDir}" in snapshot_bytes:
-        raise ValidationError("WorkBuddy Skill snapshot still contains {baseDir} references")
+        if relative.suffix.lower() != ".md":
+            continue
+        content = actual[relative]
+        if b"{baseDir}" in content or b"nox-cli.mjs" in content:
+            raise ValidationError(f"Standalone Skill path in WorkBuddy Skill: {relative}")
+        for name in WORKBUDDY_REFERENCE_RE.findall(content):
+            reference = Path("references") / name.decode()
+            if reference not in actual:
+                raise ValidationError(f"Missing WorkBuddy Skill reference: {relative} -> {reference}")
 
 
 def validate_package_scope() -> None:
     require_file(CONNECTOR / "icon.svg")
+    if {path.name for path in CONNECTOR.iterdir()} != {"connector-meta.json", "cli.json", "icon.svg", "skills"}:
+        raise ValidationError("Connector root must contain connector-meta.json, cli.json, icon.svg and skills/")
+    if {path.name for path in (CONNECTOR / "skills").iterdir()} != {SKILL_NAME}:
+        raise ValidationError("Connector must bundle only the noxinfluencer-cli product Skill")
     for path in iter_files(CONNECTOR):
         relative = path.relative_to(CONNECTOR)
         if any(part == "__MACOSX" or part.startswith(".") for part in relative.parts):
@@ -259,6 +296,8 @@ def main() -> int:
     args = parse_args()
     try:
         if args.action == "sync":
+            validate_metadata()
+            validate_cli_config()
             count = sync_snapshot()
             validate()
             print(f"synchronized {count} Skill files")

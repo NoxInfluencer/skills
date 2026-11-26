@@ -6,8 +6,9 @@ V2 is maintained on this repository's `main` branch. The one-time source migrati
 
 | Maintain here | Generated result |
 | --- | --- |
-| `v2/source/noxinfluencer/shared/` | The same business guidance in the universal Skill and MCP plugin |
-| `v2/source/noxinfluencer/universal.md`, `setup.md`, `adapters/cli/`, `adapters/mcp/` | `v2/skills/noxinfluencer-v2/`, with on-demand CLI/MCP adaptation |
+| `v2/source/noxinfluencer/shared/` | Business guidance reused by the universal Skill, CLI Skill, and MCP plugin |
+| `v2/source/noxinfluencer/universal.md`, `setup.md`, `adapters/cli/`, `adapters/mcp/` | `skills/noxinfluencer-v2/`, with on-demand CLI/MCP adaptation |
+| Shared source, `v2/source/noxinfluencer/cli.md` and `adapters/cli/` | `skills/noxinfluencer-cli/`, with a fixed CLI route |
 | Shared source, `adapters/mcp/` and plugin-only `adapters/plugin/` overrides | `plugins/noxinfluencer/skills/noxinfluencer-mcp/`, with MCP execution and Handoff presentation |
 | Existing `skills/influencer-marketing-manager/` | Shared business bytes plus generated plugin installation context; standalone source and universal ZIP remain unchanged |
 | Versioned public contracts in `snapshots/`, `capabilities/`, `versions.yaml` | Validated schemas, package identity, runtime evidence and file hashes |
@@ -32,17 +33,17 @@ npm run v2:package
 
 ## Self-test installation
 
-Use the `main` branch of this repository. In a separate client test profile, install the complete `v2/skills/noxinfluencer-v2/` directory with the client's supported local Skill installer, together with the existing shared `skills/influencer-marketing-manager/`. The product Skill's name is `noxinfluencer-v2`. Keep the existing public `noxinfluencer` installation separate; do not install every Skill discovered in the repository. For an offline handoff, the generated `noxinfluencer-v2.zip` includes both required Skill directories.
+Use the `main` branch of this repository. In a separate client test profile, select `noxinfluencer-v2` by name or install the complete `skills/noxinfluencer-v2/` directory with the client's local Skill installer. Add `influencer-marketing-manager` when testing collaboration with the Manager. The offline `noxinfluencer-v2.zip` includes both Skill directories.
 
 The universal Skill chooses from the client's real capabilities, account context and task requirements. Only its selected runtime reference is loaded. A plugin installation already chooses MCP and must not install or fall back to a CLI. Actual user authorization and operating-system approvals remain in normal client controls.
 
-For CLI testing, the installed product exposes:
+To test the fixed CLI route, select `noxinfluencer-cli` by name or install the complete `skills/noxinfluencer-cli/` directory. Both standalone V2 Skills use the same isolated CLI installation and schema verification. Run these commands from the installed Skill directory.
 
 ```sh
-node "<installed-v2-skill>/scripts/nox-cli.mjs" --install
-node "<installed-v2-skill>/scripts/nox-cli.mjs" --verify
-node "<installed-v2-skill>/scripts/nox-cli.mjs" login start --json
-node "<installed-v2-skill>/scripts/nox-cli.mjs" login wait <login_id>
+node scripts/nox-cli.mjs --install
+node scripts/nox-cli.mjs --verify
+node scripts/nox-cli.mjs login start --json
+node scripts/nox-cli.mjs login wait <login_id>
 ```
 
 The CLI package version comes from the checked `cli-schema` snapshot, not npm `latest`. Installation and default login configuration live in a separate per-user V2 cache. No global CLI is replaced and no legacy credential file is copied. User-safe login links/codes can be shown; device secrets and credentials must not be exposed.
@@ -50,7 +51,7 @@ The CLI package version comes from the checked `cli-schema` snapshot, not npm `l
 **Distribution observation, 2026-10-29:** the required CLI 0.6.3 is not available from the official npm registry. Until it is published separately, maintainers can supply a local package from the matching CLI build:
 
 ```sh
-node "<installed-v2-skill>/scripts/nox-cli.mjs" --install-from <authorized-local-cli-package.tgz>
+node scripts/nox-cli.mjs --install-from <authorized-local-cli-package.tgz>
 ```
 
 The local package must pass the same package-identity and actual Campaign-schema checks before activation. An unavailable package is a distribution gap; do not silently use the legacy CLI. Publishing the CLI or deploying `kol_claw` is separate from this Skill change.
@@ -80,6 +81,6 @@ After acceptance, replacing the legacy default is a separate change to the stabl
 
 ## Keeping legacy and V2 guidance aligned
 
-Review changes to `skills/noxinfluencer/` and its evaluation cases for applicability to V2. Put shared business semantics in `source/noxinfluencer/shared/`, command syntax in the CLI adapter, and MCP-specific behavior in the MCP/plugin adapters. Rebuild both deliveries; the presence of a legacy commit in Git history does not mean its guidance reached V2. Manager continues to have one shared source.
+Review changes to `skills/noxinfluencer/` and its evaluation cases for applicability to V2. Put shared business semantics in `source/noxinfluencer/shared/`, command syntax in the CLI adapter, and MCP-specific behavior in the MCP/plugin adapters. Rebuild the generated Skills after syncing applicable guidance. Manager continues to have one shared source.
 
 The [reconciliation record](evals/upstream-sync-2026-11-17.md) identifies the reviewed baseline and retained branch changes. [Creator metric cases](evals/creator-metrics.md) reuse the legacy prompts for both V2 runtimes. Record semantic observations separately from build/schema checks.

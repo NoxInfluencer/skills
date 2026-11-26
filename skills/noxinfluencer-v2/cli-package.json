@@ -1,0 +1,5 @@
+{
+  "name": "@noxinfluencer/cli",
+  "version": "0.6.3",
+  "bin": "dist/main.js"
+}

@@ -11,8 +11,32 @@ import { readDirectoryFileMap, readCanonicalTextFile, assertNoSymbolicLinkCompon
 export const repositoryRoot = resolve(fileURLToPath(new URL('../..', import.meta.url)));
 const sourcePath = 'v2/source/noxinfluencer';
 const mcpBuildManifestPath = 'v2/dist/noxinfluencer-mcp.skill-build-manifest.json';
-const outputPaths = ['v2/skills/noxinfluencer-v2', 'plugins/noxinfluencer/skills/noxinfluencer-mcp',
-  'plugins/noxinfluencer/skills/influencer-marketing-manager'];
+const productSkills = [
+  {
+    mode: 'universal',
+    outputPath: 'skills/noxinfluencer-v2',
+    corePath: 'shared/core.md',
+    runtimePath: 'universal.md',
+    adapters: ['cli', 'mcp'],
+    description: 'Operate NoxInfluencer V2 creator and Campaign workflows, including setup and access recovery. Use the available supported CLI or MCP connection selected for this V2 workflow; preserve explicitly selected legacy workflows.',
+  },
+  {
+    mode: 'cli',
+    outputPath: 'skills/noxinfluencer-cli',
+    corePath: 'shared/core.md',
+    runtimePath: 'cli.md',
+    adapters: ['cli'],
+    description: 'Operate NoxInfluencer V2 creator and Campaign workflows through the isolated NoxInfluencer CLI, including installation, authorization, and access recovery.',
+  },
+  {
+    mode: 'mcp',
+    outputPath: 'plugins/noxinfluencer/skills/noxinfluencer-mcp',
+    corePath: 'adapters/mcp/core.md',
+    runtimePath: 'adapters/plugin/runtime.md',
+    adapters: ['mcp', 'plugin'],
+    description: 'Operate NoxInfluencer creator and Campaign workflows through this plugin’s connected MCP provider. Use for product operations in this plugin; explicitly selected standalone workflows keep their own entrypoint.',
+  },
+];
 const json = value => Buffer.from(JSON.stringify(value, null, 2) + '\n');
 const mcpExcludedReferences = new Set(['brand-monitor.md', 'outreach-and-messaging.md', 'product-short-link-affiliation.md']);
 const mcpExcludedSections = new Map([
@@ -81,7 +105,7 @@ export function validateSkill(files) {
   }
 }
 
-/** 用同一业务源组装通用入口和固定 MCP 入口；适配详情按需加载。 */
+/** 用同一业务源组装通用、固定 CLI 和固定 MCP 入口。 */
 export function createOutputs(root = repositoryRoot) {
   const source = resolve(root, sourcePath);
   assertNoSymbolicLinkComponents(root, source);
@@ -94,10 +118,8 @@ export function createOutputs(root = repositoryRoot) {
   let mcpBuildManifest;
   const read = path => sourceFiles.get(path) ?? (() => { throw new Error(`Missing source: ${path}`); })();
   const cliVersion = contracts.snapshots.get('cli-schema').version;
-  for (const mode of ['universal', 'mcp']) {
+  for (const { mode, outputPath, corePath, runtimePath, adapters, description } of productSkills) {
     const files = new Map();
-    const corePath = mode === 'mcp' ? 'adapters/mcp/core.md' : 'shared/core.md';
-    const runtimePath = mode === 'mcp' ? 'adapters/plugin/runtime.md' : 'universal.md';
     const used = new Set([corePath, runtimePath]);
     const add = (target, bytes, original) => {
       if (files.has(target)) throw new Error(`Output collision: ${target}`);
@@ -121,7 +143,7 @@ export function createOutputs(root = repositoryRoot) {
         add(path.replace('shared/', ''), content, path);
       }
     }
-    for (const runtime of mode === 'mcp' ? ['mcp', 'plugin'] : ['cli', 'mcp']) {
+    for (const runtime of adapters) {
       const prefix = `adapters/${runtime}/`;
       for (const [path, bytes] of sourceFiles) {
         if (!path.startsWith(prefix)) continue;
@@ -141,16 +163,14 @@ export function createOutputs(root = repositoryRoot) {
         add(target, bytes, path);
       }
     }
-    add('references/tool-list.md', renderMcpToolList(contracts.snapshots.get('mcp-tools').items, { plugin: mode === 'mcp' }));
-    used.add('snapshots/mcp-tools.json');
-    if (mode === 'universal') {
-      add('references/setup.md', read('setup.md'), 'setup.md');
-      add('cli-package.json', json({ name: '@noxinfluencer/cli', version: cliVersion, bin: 'dist/main.js' }));
+    if (adapters.includes('mcp')) {
+      add('references/tool-list.md', renderMcpToolList(contracts.snapshots.get('mcp-tools').items, { plugin: mode === 'mcp' }), 'snapshots/mcp-tools.json');
     }
-    const name = mode === 'mcp' ? 'noxinfluencer-mcp' : 'noxinfluencer-v2';
-    const description = mode === 'mcp'
-      ? 'Operate NoxInfluencer creator and Campaign workflows through this plugin’s connected MCP provider. Use for product operations in this plugin; explicitly selected standalone workflows keep their own entrypoint.'
-      : 'Operate NoxInfluencer V2 creator and Campaign workflows, including setup and access recovery. Use the available supported CLI or MCP connection selected for this V2 workflow; preserve explicitly selected legacy workflows.';
+    if (mode === 'universal') add('references/setup.md', read('setup.md'), 'setup.md');
+    if (adapters.includes('cli')) {
+      add('cli-package.json', json({ name: '@noxinfluencer/cli', version: cliVersion, bin: 'dist/main.js' }), 'snapshots/cli-schema.json');
+    }
+    const name = posix.basename(outputPath);
     const body = read(runtimePath).toString();
     const managerBoundary = '\n\nThe shared influencer-marketing-manager supplies business judgment, not transport selection. Its examples do not override this product entrypoint. Read the required runtime rules before executing NoxInfluencer operations; reuse loaded instructions without recursive handoffs.\n';
     add('SKILL.md', Buffer.from(`---\nname: ${name}\ndescription: ${description}\n---\n\n${read(corePath)}\n${body}${managerBoundary}`));
@@ -160,7 +180,7 @@ export function createOutputs(root = repositoryRoot) {
       output_files: [...files].map(([path, bytes]) => createFileRecord(path, bytes)) });
     if (mode === 'mcp') mcpBuildManifest = buildManifest;
     else add('skill-build-manifest.json', buildManifest);
-    outputs.set(outputPaths[mode === 'mcp' ? 1 : 0], files);
+    outputs.set(outputPath, files);
   }
   // Keep shared Manager business text unchanged; inject installation context only in the plugin.
   const managerRoot = resolve(root, 'skills/influencer-marketing-manager');
@@ -172,7 +192,7 @@ export function createOutputs(root = repositoryRoot) {
   const managerPolicy = read('adapters/plugin/manager-context.md').toString().trim();
   manager.set('SKILL.md', Buffer.from(manager.get('SKILL.md').toString().replace(/^(---\r?\n[\s\S]*?\r?\n---\r?\n)/, `$1\n${managerPolicy}\n\n`)));
   validateSkill(manager);
-  outputs.set(outputPaths[2], manager);
+  outputs.set('plugins/noxinfluencer/skills/influencer-marketing-manager', manager);
   const manifestPath = 'plugins/noxinfluencer/.codex-plugin/plugin.json';
   const manifest = JSON.parse(readCanonicalTextFile(resolve(root, manifestPath)));
   manifest.version = contracts.versions.plugin_version;

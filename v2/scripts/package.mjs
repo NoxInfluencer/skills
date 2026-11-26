@@ -22,7 +22,7 @@ export async function packageV2({ root = repositoryRoot, outputDirectory = resol
     for (const [name, bytes] of readDirectoryFileMap(path)) pluginEntries.set(`${directory}/${name}`, bytes);
   }
   if (pluginEntries.size > 256) throw new Error('Plugin delivery file count exceeds 256.');
-  const general = readDirectoryFileMap(resolve(root, 'v2/skills/noxinfluencer-v2'));
+  const general = readDirectoryFileMap(resolve(root, 'skills/noxinfluencer-v2'));
   const manager = readDirectoryFileMap(resolve(root, 'skills/influencer-marketing-manager'));
   const generalEntries = new Map([...general].map(([path, bytes]) => [`skills/noxinfluencer-v2/${path}`, bytes]));
   for (const [path, bytes] of manager) generalEntries.set(`skills/influencer-marketing-manager/${path}`, bytes);

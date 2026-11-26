@@ -17,6 +17,7 @@ const maxCanonicalFileCount = 256;
 const maxCanonicalAggregateBytes = 8 * 1024 * 1024;
 const maxCanonicalDirectoryEntries = 512;
 const maxCanonicalDirectoryDepth = 16;
+const maxAtomicTargets = 10;
 
 function fail(message) {
   throw new Error(message);
@@ -221,8 +222,8 @@ export function assertNoSymbolicLinkComponents(
 }
 
 function assertIndependentTargets(targets, trustedRoot) {
-  if (!Array.isArray(targets) || targets.length === 0 || targets.length > 9) {
-    fail("Atomic replacement requires between one and nine targets.");
+  if (!Array.isArray(targets) || targets.length === 0 || targets.length > maxAtomicTargets) {
+    fail(`Atomic replacement requires between 1 and ${maxAtomicTargets} targets.`);
   }
   if (typeof trustedRoot !== "string" || !existsSync(trustedRoot)) {
     fail("Atomic replacement requires an existing trusted root.");

@@ -74,15 +74,15 @@ The MCP connector v1.0.3 is published with source `noxinfluencer-mcp`. Local pac
 
 ## CLI Connector
 
-The [NoxInfluencer CLI Connector](../../connectors/noxinfluencer-cli/) uses the NoxInfluencer CLI device-login flow and is packaged separately from the MCP connector:
+The [NoxInfluencer CLI Connector](../../connectors/noxinfluencer-cli/) uses the generated [V2 CLI Skill](../../skills/noxinfluencer-cli/). Its archive bundles `skills/noxinfluencer-cli/SKILL.md` and the corresponding references. WorkBuddy's managed Node.js runtime installs the CLI pinned in `cli.json` and runs its device-login flow. The bundled Skill uses that same CLI and connection.
+
+Build and synchronize the connector from the repository root.
 
 ```bash
+npm run v2:build
+python scripts/workbuddy/sync_connector.py sync
 python scripts/workbuddy/sync_connector.py check
 python scripts/workbuddy/sync_connector.py package
 ```
 
-The default archive is `dist/noxinfluencer-cli-<Connector version>.zip`. The script also accepts `sync` to refresh its bundled Skill from the [shared NoxInfluencer source](../../skills/noxinfluencer/). Run sync before checking and packaging if that source has changed:
-
-```bash
-python scripts/workbuddy/sync_connector.py sync
-```
+The default archive is `dist/noxinfluencer-cli-<Connector version>.zip`. When the CLI package contract changes, keep `cli.json` aligned with `skills/noxinfluencer-cli/cli-package.json`. WorkBuddy's configured registry must have that version for installation. Packaging checks the archive inputs locally. Verify device login and a read-only command in WorkBuddy before submitting the connector.

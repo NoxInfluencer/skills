@@ -110,7 +110,7 @@ test('WorkBuddy gets a recognized manifest and detects manifest drift', t => {
 test('one business source produces both runtimes and preserves shared Manager business bytes', t => {
   const root = fixture(t);
   const first = createOutputs(root);
-  const generic = first.outputs.get('v2/skills/noxinfluencer-v2');
+  const generic = first.outputs.get('skills/noxinfluencer-v2');
   const mcp = first.outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp');
   const mcpSpecific = new Set(['references/product-overview.md', 'references/files-and-exports.md', 'references/quota-pricing-dispute-feedback.md', 'references/creator.md', 'references/monitor.md', 'references/campaign-agent-automation.md', 'references/campaign-agent-automation-mcp.md', 'references/campaign-invitation-management.md', 'references/marketing-plan-and-campaign.md', 'references/handoffs.md', 'references/oauth-and-scopes.md', 'references/runtime-mcp.md', 'references/codex-plugin-runtime.md', 'references/tool-execution.md', 'references/tool-list.md']);
   for (const [path, bytes] of generic) if (path.startsWith('references/') && mcp.has(path) && !mcpSpecific.has(path)) assert.equal(bytes.toString(), mcp.get(path).toString(), path);
@@ -122,7 +122,7 @@ test('one business source produces both runtimes and preserves shared Manager bu
   const path = resolve(root, 'v2/source/noxinfluencer/shared/references/creator.md');
   writeFileSync(path, readFileSync(path)+'\nUse current evidence for this creator decision.\n');
   const next = createOutputs(root);
-  assert.notDeepEqual(next.outputs.get('v2/skills/noxinfluencer-v2'), generic);
+  assert.notDeepEqual(next.outputs.get('skills/noxinfluencer-v2'), generic);
   assert.notDeepEqual(next.outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp'), mcp);
 });
 
@@ -132,8 +132,38 @@ test('CLI adapter changes do not change the fixed MCP artifact', t => {
   const path = resolve(root,'v2/source/noxinfluencer/adapters/cli/files.md');
   writeFileSync(path, readFileSync(path)+'\nPreserve the chosen local destination.\n');
   const next = createOutputs(root);
-  assert.notDeepEqual(first.outputs.get('v2/skills/noxinfluencer-v2'), next.outputs.get('v2/skills/noxinfluencer-v2'));
+  assert.notDeepEqual(first.outputs.get('skills/noxinfluencer-v2'), next.outputs.get('skills/noxinfluencer-v2'));
+  assert.notDeepEqual(first.outputs.get('skills/noxinfluencer-cli'), next.outputs.get('skills/noxinfluencer-cli'));
   assert.deepEqual(first.outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp'), next.outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp'));
+});
+
+test('the fixed CLI Skill reuses shared and CLI files and ships its own entrypoint', t => {
+  const root = fixture(t);
+  const { outputs } = createOutputs(root);
+  const cli = outputs.get('skills/noxinfluencer-cli');
+  const universal = outputs.get('skills/noxinfluencer-v2');
+  const entrypoint = cli.get('SKILL.md').toString();
+  assert.match(entrypoint, /^name: noxinfluencer-cli$/m);
+  assert.match(entrypoint, /Use the isolated NoxInfluencer V2 CLI for every NoxInfluencer operation/);
+  assert.doesNotMatch(entrypoint, /Runtime Selection|runtime-mcp\.md/);
+  assert.match(cli.get('references/auth.md').toString(), /nox-cli\.mjs" --install/);
+
+  const manifest = JSON.parse(cli.get('skill-build-manifest.json'));
+  assert.equal(manifest.runtime, 'cli');
+  assert.ok(manifest.source_files.some(({ path }) => path === 'shared/core.md'));
+  assert.ok(manifest.source_files.some(({ path }) => path === 'cli.md'));
+  assert.ok(manifest.source_files.some(({ path }) => path === 'snapshots/cli-schema.json'));
+  assert.ok(manifest.source_files.every(({ path }) => !/^(?:adapters\/(?:mcp|plugin)\/|snapshots\/mcp-)/.test(path)));
+  for (const path of ['references/creator.md', 'references/campaign-agent-automation-cli.md',
+    'scripts/nox-cli.mjs', 'cli-package.json', 'campaign-runtime-contract.json']) {
+    assert.ok(cli.has(path), path);
+    assert.deepEqual(cli.get(path), universal.get(path));
+  }
+  for (const path of ['references/setup.md', 'references/runtime-mcp.md', 'references/tool-list.md', 'scripts/start-codex-oauth.ps1']) {
+    assert.ok(universal.has(path), path);
+    assert.equal(cli.has(path), false, path);
+  }
+  for (const record of manifest.output_files) assert.deepEqual(record, createFileRecord(record.path, cli.get(record.path)));
 });
 
 test('plugin presentation and authorization overrides cannot change standalone outputs or sources', t => {
@@ -145,7 +175,8 @@ test('plugin presentation and authorization overrides cannot change standalone o
     writeFileSync(path, readFileSync(path) + '\nPlugin-only policy revision.\n');
   }
   const next = createOutputs(root);
-  assert.deepEqual(next.outputs.get('v2/skills/noxinfluencer-v2'), first.outputs.get('v2/skills/noxinfluencer-v2'));
+  assert.deepEqual(next.outputs.get('skills/noxinfluencer-v2'), first.outputs.get('skills/noxinfluencer-v2'));
+  assert.deepEqual(next.outputs.get('skills/noxinfluencer-cli'), first.outputs.get('skills/noxinfluencer-cli'));
   assert.deepEqual(readDirectoryFileMap(resolve(root, 'skills/influencer-marketing-manager')), sharedManager);
   for (const path of ['plugins/noxinfluencer/skills/noxinfluencer-mcp', 'plugins/noxinfluencer/skills/influencer-marketing-manager']) {
     assert.notDeepEqual(next.outputs.get(path), first.outputs.get(path));
@@ -155,18 +186,18 @@ test('plugin presentation and authorization overrides cannot change standalone o
 test('generated hashes cover actual final bytes and repeated builds are deterministic', t => {
   const root = fixture(t);
   build({ root });
-  const first = readDirectoryFileMap(resolve(root,'v2/skills/noxinfluencer-v2'));
+  const first = readDirectoryFileMap(resolve(root,'skills/noxinfluencer-v2'));
   const manifest = JSON.parse(first.get('skill-build-manifest.json'));
   for (const record of manifest.output_files) assert.deepEqual(record, createFileRecord(record.path, first.get(record.path)));
   build({ root });
-  assert.deepEqual(readDirectoryFileMap(resolve(root,'v2/skills/noxinfluencer-v2')), first);
+  assert.deepEqual(readDirectoryFileMap(resolve(root,'skills/noxinfluencer-v2')), first);
   build({ root, check: true });
 });
 
 test('check mode reports drift without modifying files', t => {
   const root = fixture(t);
   build({ root });
-  const path = resolve(root,'v2/skills/noxinfluencer-v2/SKILL.md');
+  const path = resolve(root,'skills/noxinfluencer-v2/SKILL.md');
   writeFileSync(path, 'drift');
   assert.throws(() => build({ root, check: true }), /drift/);
   assert.equal(readFileSync(path).toString(), 'drift');
@@ -178,7 +209,7 @@ test('invalid snapshot and a broken relative link fail before any output mutatio
   const snapshot = resolve(root,'v2/source/noxinfluencer/snapshots/mcp-tools.json');
   const original = readFileSync(snapshot);
   writeFileSync(snapshot, '{}');
-  const output = resolve(root,'v2/skills/noxinfluencer-v2');
+  const output = resolve(root,'skills/noxinfluencer-v2');
   const first = readDirectoryFileMap(output);
   assert.throws(() => build({ root }));
   assert.deepEqual(readDirectoryFileMap(output), first);

@@ -7,6 +7,8 @@ on:
       - '.grok-plugin/**'
       - '.workbuddy-plugin/**'
       - 'skills/influencer-marketing-manager/**'
+      - 'skills/noxinfluencer-v2/**'
+      - 'skills/noxinfluencer-cli/**'
       - 'scripts/skills-plugin.mjs'
       - 'scripts/workbuddy/**'
       - 'package*.json'
