@@ -26,6 +26,21 @@ Packaging also exports `dist/noxinfluencer-marketing-manager-workbuddy-icon.png`
 
 Maintain the bilingual listing text and version in [manager/skill-metadata.json](manager/skill-metadata.json), and the brand image in [manager/icon.png](manager/icon.png).
 
+## Standalone Product Skill
+
+Build **Nox聚星红人营销** for the WorkBuddy Skills market from the generated [V2 product Skill](../../skills/noxinfluencer-v2/).
+
+```bash
+npm run v2:build
+npm run workbuddy:check:product
+npm run workbuddy:package:product
+npm run workbuddy:test:product
+```
+
+The output is `dist/noxinfluencer-v2-workbuddy.zip`, with one Skill named `noxinfluencer-v2`. Upload the separate `dist/noxinfluencer-v2-workbuddy-icon.png` on the Skill submission form. Listing fields are maintained in [product/skill-metadata.json](product/skill-metadata.json).
+
+The Skill prefers an existing authorized NoxInfluencer MCP connection that supports the task. It also includes the isolated V2 CLI launcher and contracts for compatible terminal environments. WorkBuddy manages MCP OAuth through its connection controls. The CLI follows the pinned package contract in the V2 build and has its own login flow. Import the archive through the standalone Skill upload flow.
+
 ## MCP Connector
 
 Build the **Nox 聚星红人营销 MCP** connector:
