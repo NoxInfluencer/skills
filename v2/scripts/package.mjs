@@ -16,7 +16,7 @@ export async function packageV2({ root = repositoryRoot, outputDirectory = resol
   assertNoSymbolicLinkComponents(root, configPath);
   const pluginEntries = new Map([['.mcp.json', Buffer.from(readCanonicalTextFile(configPath))]]);
   // Select deliverable roots before traversal: ignored backups/dependencies are not package inputs.
-  for (const directory of ['.codex-plugin', '.plugin', '.workbuddy-plugin', 'assets', 'skills']) {
+  for (const directory of ['.codex-plugin', '.plugin', '.workbuddy-plugin', 'assets', 'resources', 'skills']) {
     const path = resolve(pluginRoot, directory);
     assertNoSymbolicLinkComponents(root, path);
     for (const [name, bytes] of readDirectoryFileMap(path)) pluginEntries.set(`${directory}/${name}`, bytes);

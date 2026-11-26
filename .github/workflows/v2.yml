@@ -31,4 +31,5 @@ jobs:
       - run: npm run v2:test
       - run: npm run v2:package
       - run: npm run workbuddy:check:mcp
+      - run: npm run workbuddy:test:mcp
       - run: npm run workbuddy:check:expert

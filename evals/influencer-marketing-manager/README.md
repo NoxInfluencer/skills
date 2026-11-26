@@ -326,7 +326,7 @@ Run local checks first; these make no model or marketing-system calls:
 ```bash
 npm run check:manager-evals
 npm run eval:manager:validate
-python3 scripts/workbuddy/sync_expert.py check
+npm run workbuddy:check:expert
 git diff --check
 ```
 

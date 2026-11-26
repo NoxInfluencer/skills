@@ -14,14 +14,17 @@ ROOT = Path(__file__).resolve().parents[2]
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("action", choices=("sync", "check", "package"))
+    parser.add_argument("action", choices=("check", "package"))
     parser.add_argument("--output", type=Path, help="ZIP destination inside the repository dist directory")
+    parser.add_argument("--version", help="Release version assigned by the package builder")
     args = parser.parse_args()
     if args.output and args.action != "package":
         parser.error("--output requires package mode")
     command = ["node", str(ROOT / "scripts" / "workbuddy" / "package_expert.mjs"), args.action]
     if args.output:
         command.extend(["--output", str(args.output)])
+    if args.version:
+        command.extend(["--version", args.version])
     try:
         return subprocess.run(command, cwd=ROOT, check=False).returncode
     except FileNotFoundError:

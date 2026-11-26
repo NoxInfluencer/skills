@@ -71,7 +71,7 @@ In WorkBuddy's plugin page, choose **Add marketplace**, enter `NoxInfluencer/ski
 
 See the official [WorkBuddy plugin instructions](https://www.workbuddy.cn/docs/workbuddy/Plugins) for marketplace help.
 
-Other WorkBuddy setups are described in the [CLI Connector](connectors/noxinfluencer-cli) and [Marketing Expert](experts/influencer-marketing-manager/README.md) documentation. The CLI Connector uses CLI login; the Expert combines marketing guidance and product operations through a separate MCP connector. These are separate from the marketplace plugin above.
+Other WorkBuddy setups are described in the [CLI Connector](connectors/noxinfluencer-cli) and [Marketing Expert packaging guide](scripts/workbuddy/README.md#expert). The CLI Connector uses CLI login; the Expert package adapts the same plugin contents for WorkBuddy's Expert market and uses the published MCP connector.
 
 ### Connect Your Account
 

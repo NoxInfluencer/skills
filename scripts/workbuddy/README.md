@@ -33,9 +33,20 @@ Build the **Nox 聚星红人营销 MCP** connector:
 ```bash
 npm run workbuddy:check:mcp
 npm run workbuddy:package:mcp
+npm run workbuddy:test:mcp
 ```
 
-The check command validates the package inputs without writing a ZIP. Packaging writes `dist/noxinfluencer-workbuddy-mcp.zip` with the v2 `noxinfluencer-mcp` Skill and WorkBuddy cloud OAuth (`auth_mode: "server-side"`, `auth_type: "mcp_oauth"`). After importing the package, use server-side authentication with dynamic registration and the `noxinfluencer.agent.user` scope. The tool reference is built from the [v2 MCP input schemas](../../v2/source/noxinfluencer/snapshots/mcp-tools.json) and the checked-in tool purposes in [mcp/](mcp/).
+The check command validates the package inputs without writing a ZIP. Packaging writes `dist/noxinfluencer-workbuddy-mcp.zip` (default version `1.0.4`) with the `noxinfluencer-mcp` Skill and WorkBuddy cloud OAuth (`auth_mode: "server-side"`, `auth_type: "mcp_oauth"`). After importing the package, use server-side authentication with dynamic registration and the `noxinfluencer.agent.user` scope.
+
+All content inputs are physical files under [plugins/noxinfluencer](../../plugins/noxinfluencer/): `.mcp.json`, `assets/icon.png`, the `noxinfluencer-mcp` Skill, and the shared [MCP tool catalog](../../plugins/noxinfluencer/resources/mcp-tools.json). The catalog keeps tool names, workflows, purposes and input schemas together; update it together with the plugin Skill's tool list. The connected server's live catalog and schemas remain authoritative. The full plugin ZIP also includes this resource.
+
+The packager generates WorkBuddy's connector metadata, MCP layout, resource paths and parameter references in memory. It selects the plugin's WorkBuddy OAuth route and shared continuation rules, and omits the Codex-only login route and script. It reads no V2 source snapshots, runs no V2 regeneration, and maintains no separate WorkBuddy content directory. Shared guidance prohibiting CLI fallback is retained.
+
+Use `--version x.y.z` to select a release version and `--output dist/name.zip` to preserve a named archive, for example:
+
+```bash
+npm run workbuddy:package:mcp -- --version 1.0.4 --output dist/noxinfluencer-workbuddy-mcp-1.0.4.zip
+```
 
 The MCP connector's `source` and bundled MCP server key are both `noxinfluencer-mcp`, distinct from the CLI connector's `noxinfluencer-cli`. When replacing a package that used `source: "noxinfluencer"`, reimport the package and verify that WorkBuddy uses the new connector identity; a version update alone should not be assumed to migrate the old identity.
 
@@ -43,7 +54,9 @@ WorkBuddy's cloud needs ongoing network access to the MCP resource metadata and 
 
 ## Expert
 
-The [NoxInfluencer Expert](../../experts/influencer-marketing-manager/README.md) bundles the `noxinfluencer-plugin` and `influencer-marketing-manager-plugin` Skills and depends on the WorkBuddy MCP connector with source `noxinfluencer-mcp`.
+The NoxInfluencer Expert is packaged directly from the existing [plugin directory](../../plugins/noxinfluencer/). Its content inputs are the physical plugin manifests, MCP configuration, README, license, two Skill directories and brand image in that directory. The packager generates WorkBuddy's manifest, Agent wrapper, package layout and connector dependency in memory.
+
+The package contains the `noxinfluencer-plugin` and `influencer-marketing-manager-plugin` Skills and depends on the published WorkBuddy MCP connector with source `noxinfluencer-mcp`. The Manager uses the same-package product Skill only when it is installed and available in the current WorkBuddy context.
 
 ```bash
 npm run workbuddy:check:expert
@@ -51,17 +64,13 @@ npm run workbuddy:package:expert
 npm run workbuddy:test:expert
 ```
 
-The Expert ZIP is `dist/noxinfluencer-workbuddy-expert.zip`. Check and package assemble from current canonical sources in memory, without requiring a prior V2 build or using stale Skill snapshots.
+The Expert ZIP defaults to `dist/noxinfluencer-workbuddy-expert-<version>.zip`. Check and package read the stored plugin files directly. Update `plugins/noxinfluencer/` when changing package content; the Expert packager does not regenerate the plugin from another source tree or maintain a second copy of its business guidance.
 
-To refresh the reviewable copies under the [Expert's skills directory](../../experts/influencer-marketing-manager/skills/), run:
+The packager maps the public Expert and Agent identity, WorkBuddy resource references and Skill availability conditions in memory. The plugin's original names and business guidance remain shared, including MCP-only execution boundaries, explanatory comparisons and maintenance commands. Use `--version x.y.z` after the package or check command to select an explicit release version.
 
-```bash
-npm run workbuddy:sync:expert
-```
+The compatibility entrypoint `python scripts/workbuddy/sync_expert.py check|package` delegates to the same builder and also accepts `--version`. Packaging writes only the selected archive under `dist/`; it does not create a separate Expert source directory or synchronized Skill snapshots.
 
-The previous `python scripts/workbuddy/sync_expert.py sync|check|package` entrypoint delegates to the same builder. Edit maintained business sources and plugin adapters rather than generated Skill snapshots.
-
-The connector was marked as under review in the existing distribution documentation. Local package checks do not establish platform availability; verify connector discovery, account authorization, and live tool execution in WorkBuddy when the connector becomes available.
+The MCP connector v1.0.3 is published with source `noxinfluencer-mcp`. Local package checks validate the declared dependency; connector discovery, account authorization and a live tool operation still require client acceptance.
 
 ## CLI Connector
 
