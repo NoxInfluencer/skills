@@ -55,7 +55,9 @@ function editFrontmatter(entries, edit) {
 }
 
 function adaptedText(bytes) {
-  return bytes.toString().replace(/\r\n?/g, '\n').replaceAll('{baseDir}/references/', '@references/');
+  return bytes.toString().replace(/\r\n?/g, '\n')
+    .replaceAll('{baseDir}/references/', '@references/')
+    .replaceAll('`noxinfluencer-v2`', '`noxinfluencer`');
 }
 
 function fixture(t) {
@@ -208,6 +210,25 @@ test('the published Manager retains external product references without shipping
   assert.equal(Object.hasOwn(fields, 'skills'), false);
   assert.equal(assembled.entries.size, 6);
   assert.ok([...assembled.entries.keys()].every(path => path.startsWith(`${skillName}/`)));
+});
+
+test('the WorkBuddy Manager archive keeps its published product reference when the source defaults to V2', async t => {
+  const root = fixture(t);
+  const skillPath = resolve(root, sourcePath, 'SKILL.md');
+  const source = readFileSync(skillPath, 'utf8').replace(/Otherwise use the `noxinfluencer(?:-v2)?` product Skill/,
+    'Otherwise use the `noxinfluencer-v2` product Skill');
+  assert.match(source, /Otherwise use the `noxinfluencer-v2` product Skill/);
+  writeFileSync(skillPath, source);
+  const playbookPath = resolve(root, sourcePath, 'references/playbook.md');
+  const playbook = readFileSync(playbookPath, 'utf8') + '\nUse the `noxinfluencer-v2` product Skill for this operation.\n';
+  writeFileSync(playbookPath, playbook);
+
+  const archive = await packageManager({ root });
+  const entries = readZipEntries(archive.path);
+  assert.match(frontmatter(entries.get(entrypoint)).body, /Otherwise use the `noxinfluencer` product Skill when available/);
+  assert.match(entries.get(`${skillName}/references/playbook.md`).toString(), /Use the `noxinfluencer` product Skill for this operation/);
+  assert.equal(readFileSync(skillPath, 'utf8'), source);
+  assert.equal(readFileSync(playbookPath, 'utf8'), playbook);
 });
 
 test('actual standalone ZIPs are repeatable, self-contained and preserve the maintained sources', async t => {

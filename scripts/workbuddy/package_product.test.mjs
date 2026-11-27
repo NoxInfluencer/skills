@@ -10,14 +10,14 @@ import { readZipEntries } from '../../v2/tests/helpers/zip-reader.mjs';
 import { createProductEntries, packageProduct, skillName } from './package_product.mjs';
 import { frontmatter } from './standalone_skill.mjs';
 
-test('WorkBuddy product ZIP preserves both runtime routes and an executable relocated CLI', async t => {
+test('WorkBuddy product ZIP keeps the published Skill identity and bundles both V2 runtime routes', async t => {
   const root = mkdtempSync(join(tmpdir(), 'nox-workbuddy-product-'));
   t.after(() => {
     const contained = relative(resolve(tmpdir()), resolve(root));
     assert.ok(contained.startsWith('nox-workbuddy-product-') && !isAbsolute(contained));
     rmSync(root, { recursive: true, force: true });
   });
-  const sourcePath = `skills/${skillName}`;
+  const sourcePath = 'skills/noxinfluencer-v2';
   const iconPath = 'plugins/noxinfluencer/assets/logo.png';
   for (const path of [sourcePath, 'scripts/workbuddy/product/skill-metadata.json', iconPath]) {
     const target = resolve(root, path);
@@ -26,6 +26,7 @@ test('WorkBuddy product ZIP preserves both runtime routes and an executable relo
   }
 
   const original = readDirectoryFileMap(resolve(root, sourcePath));
+  assert.equal(frontmatter(original.get('SKILL.md'), 'V2 source SKILL.md').fields.name, 'noxinfluencer-v2');
   const expected = createProductEntries({ root });
   const first = await packageProduct({ root });
   const second = await packageProduct({ root });
@@ -37,8 +38,9 @@ test('WorkBuddy product ZIP preserves both runtime routes and an executable relo
 
   const prefix = `${skillName}/`;
   const { fields, body } = frontmatter(entries.get(prefix + 'SKILL.md'), 'Packaged V2 SKILL.md');
-  assert.equal(fields.name, 'noxinfluencer-v2');
+  assert.equal(fields.name, 'noxinfluencer');
   assert.equal(fields.display_name, 'Nox聚星红人营销');
+  assert.ok([...entries.keys()].every(path => path.startsWith('noxinfluencer/')));
   assert.match(body, /prefer an already connected official NoxInfluencer provider/);
   assert.match(body, /@references\/runtime-mcp\.md/);
   assert.match(body, /@references\/runtime-cli\.md/);
@@ -54,6 +56,7 @@ test('WorkBuddy product ZIP preserves both runtime routes and an executable relo
   const revised = createProductEntries({ root });
   assert.match(revised.entries.get(prefix + 'references/oauth-and-scopes.md').toString(), /Authorization source proof/);
   assert.match(entries.get(prefix + 'references/auth.md').toString(), /\$\{CODEBUDDY_SKILL_DIR\}\/scripts\/nox-cli\.mjs/);
+  assert.deepEqual(entries.get(prefix + 'scripts/external-login.mjs'), original.get('scripts/external-login.mjs'));
   assert.ok(![...entries.keys()].some(path => /(?:^|\/)(?:cli\.json|mcp\.json|connector-meta\.json|start-codex-oauth\.ps1)$/.test(path)));
   for (const path of ['cli-package.json', 'campaign-runtime-contract.json']) {
     assert.deepEqual(entries.get(`${prefix}scripts/${path}`), original.get(path));
@@ -68,7 +71,7 @@ test('WorkBuddy product ZIP preserves both runtime routes and an executable relo
   const contract = JSON.parse(entries.get(prefix + 'scripts/cli-package.json'));
   const schema = entries.get(prefix + 'scripts/campaign-runtime-contract.json');
   const cache = resolve(root, 'cache');
-  const fakePackage = resolve(cache, skillName, 'cli', contract.version, 'node_modules', '@noxinfluencer', 'cli');
+  const fakePackage = resolve(cache, 'noxinfluencer-v2', 'cli', contract.version, 'node_modules', '@noxinfluencer', 'cli');
   const fakeEntry = resolve(fakePackage, contract.bin);
   mkdirSync(dirname(fakeEntry), { recursive: true });
   writeFileSync(resolve(fakePackage, 'package.json'), JSON.stringify({

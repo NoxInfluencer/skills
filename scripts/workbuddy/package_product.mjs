@@ -7,13 +7,14 @@ import {
   frontmatter, readSkillIcon, readSkillMetadata, requireValue, validateStandaloneEntries, writeStandaloneArchive,
 } from './standalone_skill.mjs';
 
-export const skillName = 'noxinfluencer-v2';
+export const skillName = 'noxinfluencer';
 export const displayName = 'Nox聚星红人营销';
-const sourcePath = `skills/${skillName}`;
+const sourceSkillName = 'noxinfluencer-v2';
+const sourcePath = `skills/${sourceSkillName}`;
 const metadataPath = 'scripts/workbuddy/product/skill-metadata.json';
 const iconSourcePath = 'plugins/noxinfluencer/assets/logo.png';
-const defaultArchive = `dist/${skillName}-workbuddy.zip`;
-const iconOutput = `dist/${skillName}-workbuddy-icon.png`;
+const defaultArchive = `dist/${sourceSkillName}-workbuddy.zip`;
+const iconOutput = `dist/${sourceSkillName}-workbuddy-icon.png`;
 const cliContracts = ['cli-package.json', 'campaign-runtime-contract.json'];
 const excluded = new Set(['skill-build-manifest.json', 'scripts/start-codex-oauth.ps1']);
 
@@ -49,7 +50,7 @@ export function createProductEntries({ root = repositoryRoot } = {}) {
   const files = readDirectoryFileMap(sourceRoot);
   validateSkill(files);
   const { document, fields, body } = frontmatter(files.get('SKILL.md'), 'V2 SKILL.md');
-  requireValue(fields.name === skillName, `V2 product Skill name must be ${skillName}`);
+  requireValue(fields.name === sourceSkillName, `V2 source Skill name must be ${sourceSkillName}`);
   for (const path of ['references/runtime-mcp.md', 'references/oauth-and-scopes.md',
     'references/runtime-cli.md', 'references/auth.md', 'scripts/nox-cli.mjs', ...cliContracts]) {
     requireValue(files.has(path), `Missing V2 runtime resource: ${path}`);

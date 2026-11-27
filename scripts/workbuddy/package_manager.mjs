@@ -10,6 +10,7 @@ export const skillName = 'noxinfluencer-marketing-manager';
 export const displayName = 'Nox聚星红人营销策略';
 const sourcePath = 'skills/influencer-marketing-manager';
 const sourceName = 'influencer-marketing-manager';
+const productSkillName = 'noxinfluencer';
 const metadataPath = 'scripts/workbuddy/manager/skill-metadata.json';
 const iconSourcePath = 'scripts/workbuddy/manager/icon.png';
 const iconArchivePath = 'dist/noxinfluencer-marketing-manager-workbuddy-icon.png';
@@ -17,7 +18,11 @@ const defaultArchive = 'dist/noxinfluencer-marketing-manager-workbuddy.zip';
 
 /** Validate the single-Skill archive and every local resource after adaptation. */
 export function validateManagerEntries(entries) {
-  return validateStandaloneEntries(entries, { skillName, displayName });
+  const fields = validateStandaloneEntries(entries, { skillName, displayName });
+  const { body } = frontmatter(entries.get(`${skillName}/SKILL.md`), 'WorkBuddy Manager SKILL.md');
+  requireValue(body.includes(`Otherwise use the \`${productSkillName}\` product Skill when available`),
+    `WorkBuddy Manager must default to the ${productSkillName} product Skill`);
+  return fields;
 }
 
 /** Add WorkBuddy metadata and adapt resource references. */
@@ -37,7 +42,8 @@ export function createManagerEntries({ root = repositoryRoot } = {}) {
     const content = path === 'SKILL.md' ? Buffer.from(`---\n${document.toString()}---\n${body}`) : bytes;
     const adapted = path.endsWith('.md')
       ? Buffer.from(content.toString('utf8').replace(/\r\n?/g, '\n')
-        .replaceAll('{baseDir}/references/', '@references/'))
+        .replaceAll('{baseDir}/references/', '@references/')
+        .replaceAll('`noxinfluencer-v2`', `\`${productSkillName}\``))
       : content;
     entries.set(`${skillName}/${path}`, adapted);
   }

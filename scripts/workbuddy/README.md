@@ -20,7 +20,7 @@ npm run workbuddy:test:manager
 
 The package is `dist/noxinfluencer-marketing-manager-workbuddy.zip`, with Skill name `noxinfluencer-marketing-manager`. The builder adapts the shared [Manager source](../../skills/influencer-marketing-manager/) and includes its complete resources; the shared source keeps its existing `influencer-marketing-manager` name.
 
-This standalone Skill provides strategy, creator-selection criteria, cooperation planning, and SOP guidance. Its shared collaboration rules use the active product entrypoint for account work and default to the separately installed `noxinfluencer` Skill when available. The archive contains the standalone Manager and its resources.
+This standalone Skill provides strategy, creator-selection criteria, cooperation planning, and SOP guidance. Its collaboration rules use the active product entrypoint for account work. At packaging time, the builder normalizes `noxinfluencer-v2` references to the published WorkBuddy product Skill `noxinfluencer` and verifies that the Manager defaults to it. The archive contains the standalone Manager and its resources.
 
 Packaging also exports `dist/noxinfluencer-marketing-manager-workbuddy-icon.png` (512×512 PNG, at most 500KB). Upload this image through the avatar upload control on WorkBuddy's Skill confirmation page. The standalone Skill documentation does not define an archive avatar field, so the builder keeps the image as a separate submission asset.
 
@@ -37,7 +37,7 @@ npm run workbuddy:package:product
 npm run workbuddy:test:product
 ```
 
-The output is `dist/noxinfluencer-v2-workbuddy.zip`, with one Skill named `noxinfluencer-v2`. Upload the separate `dist/noxinfluencer-v2-workbuddy-icon.png` on the Skill submission form. Listing fields are maintained in [product/skill-metadata.json](product/skill-metadata.json).
+The output is `dist/noxinfluencer-v2-workbuddy.zip`. Inside it, the Skill keeps the published WorkBuddy name `noxinfluencer` so the archive can update that listing. Upload the separate `dist/noxinfluencer-v2-workbuddy-icon.png` on the Skill submission form. Listing fields are maintained in [product/skill-metadata.json](product/skill-metadata.json).
 
 The Skill prefers an existing authorized NoxInfluencer MCP connection that supports the task. Its MCP authorization guide uses the common setup, WorkBuddy route, and recovery rules from the generated V2 Skill. It also includes the isolated V2 CLI launcher and contracts for compatible terminal environments. The CLI follows the pinned package contract in the V2 build and has its own login flow. Import the archive through the standalone Skill upload flow.
 
