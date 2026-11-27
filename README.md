@@ -2,44 +2,86 @@
 
 Use NoxInfluencer with your AI assistant to plan influencer campaigns, research creators, and manage marketing workflows.
 
-- Official website: [NoxInfluencer](https://www.noxinfluencer.com/)
-- Account and API access: [NoxInfluencer Skills Dashboard](https://www.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli)
-- Skill directories: [skills.sh](https://skills.sh/noxinfluencer/skills/noxinfluencer) · [ClawHub](https://clawhub.ai/noxinfluencer/skills/nox-influencer-marketing)
+## Install Standalone Skills
+
+Use Node.js and npm to install either Skill or both.
+
+### NoxInfluencer V2
+
+Use the product Skill for creator research and NoxInfluencer account operations. It selects the available connection and tools for the current task.
+
+```bash
+npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer-v2
+```
+
+### Influencer Marketing Manager
+
+Use the Manager for marketing strategy, creator selection, partnership decisions, and SOPs. For account operations, it uses the product Skill already selected for the task or defaults to `noxinfluencer-v2`.
+
+```bash
+npx skills add https://github.com/NoxInfluencer/skills --skill influencer-marketing-manager
+```
+
+See [agent-specific commands](#select-an-agent) to choose an installation target.
+For local installation, use the complete [V2 Skill directory](skills/noxinfluencer-v2/) or [Manager Skill directory](skills/influencer-marketing-manager/).
+
+## Connect Your Account
+
+Strategy, writing, and analysis of materials you provide can work without an account connection. Live data and account operations require authorization. Available operations depend on the permissions, entitlements, and tools in your setup.
+
+When the Skill prompts you to connect, follow the setup steps for your client. For MCP, sign in and authorize NoxInfluencer through your client's connection controls.
+
+Account changes and sends follow the preview and approval steps required by the operation.
+
+## Example Requests
+
+- "Help me define creator-selection criteria for a skincare campaign in the US."
+- "Find creators for this campaign and explain how they match my criteria."
+- "Show my intelligent marketing-plan tasks."
+- "Track matching campaign videos these creators publish next."
 
 ## What You Can Do
 
-- Turn a campaign brief into a marketing strategy, creator-selection criteria, cooperation plan, and SOP.
-- Improve existing marketing processes and, when requested, implement SOPs and automation with the tools and systems available to your assistant.
-- Discover creators and similar accounts, filter results, and organize creator collections and CRM records.
-- Evaluate creator audiences, content, and collaboration risks; check dispute history and submit evidence-backed dispute reports when approved.
-- Find available creator contact details and manage email outreach and supported message workflows, including TikTok Shop private-message projects.
-- Manage campaigns, products, short links, and Shopify affiliate collaborations.
-- Find TikTok creators with Shop and video GMV filters, and research product, shop, and livestream GMV performance.
-- Discover brands by name, category, or market, and analyze their creator, content, and product signals.
-- Monitor campaign videos and automatically track matching content that selected creators publish later.
-- Track shipped samples, including batch imports and tracking reports.
-- Use spreadsheet templates, bulk imports, and report exports for supported workflows.
-- Check account quota, Skill Credit prices, and historical usage to plan your work.
+- **Creator research** Discover creators, similar accounts, and brands. Evaluate audiences, content, contacts, and collaboration risks. Review disputes and submit evidence when approved.
+- **Campaign operations** Manage campaigns, collections, CRM records, outreach, products, short links, sample shipments, and Shopify affiliate collaborations.
+- **Monitoring and reporting** Track published videos and future creator content. Use spreadsheet templates, bulk imports, and exports. Check quota, prices, and credit usage.
+- **TikTok Shop research** Filter creators by Shop and video GMV, or research product, shop, and livestream performance.
 
-Strategy, writing, and analysis of materials you provide can work without connecting a NoxInfluencer account. Live data and account operations require authorization; available operations depend on your account and the tools provided by your installation.
-
-TikTok Shop Creator Marketplace discovery, private messages, and target invitations require a connected store. These store workflows are separate from TikTok product, shop, and livestream market-data research. Shopify affiliate workflows require an authorized Shopify store.
-
-For changes to your account or external sends, the assistant prepares a preview where supported and acts within the scope you approve. Existing approved operating rules can cover recurring work.
+TikTok Shop Creator Marketplace discovery, private messages, and target invitations require a connected store. Shopify affiliate workflows require an authorized Shopify store.
 
 ## Choose Your Setup
 
-| Option | What it provides | Choose it when |
-| --- | --- | --- |
-| **Standalone Skills** | `influencer-marketing-manager` for strategy, SOPs, and automation. Product options include `noxinfluencer-v2` for MCP or CLI, `noxinfluencer-cli` for the isolated V2 CLI, and `noxinfluencer` for the public CLI. | Your Agent supports installing individual Skills |
-| **Plugin** | The marketing manager and NoxInfluencer MCP Skills together | You use Codex, Claude Code, Grok Build, or WorkBuddy and want an integrated setup |
-| **MCP connection** | Direct access to NoxInfluencer tools through a connected account | Your AI client supports remote HTTP MCP servers and OAuth |
+| What you need | Setup |
+| --- | --- |
+| Install only the Skills you choose | [Standalone Skills](#install-standalone-skills) |
+| Install the product Skill and Manager together through MCP | [Plugin](#install-the-plugin) |
+| Connect your existing MCP client to NoxInfluencer | [Direct MCP](#connect-mcp-directly) |
 
-The manager helps define your strategy, workflow, and next business action. NoxInfluencer supplies product data, interpretation, and supported account operations. Use either Skill independently or use both together; the manager can also work with other systems available to your assistant.
+### Select an Agent
+
+Add `--agent` to either standalone install command. Supported examples include `codex`, `claude-code`, `cursor`, `openclaw`, and `grok`. Add `-g` for a user-level installation across projects.
+
+```bash
+npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer-v2 --agent codex
+```
+
+#### Grok Build standalone Skills
+
+**V2 product Skill**
+
+```bash
+npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer-v2 --agent grok -g
+```
+
+**Manager Skill**
+
+```bash
+npx skills add https://github.com/NoxInfluencer/skills --skill influencer-marketing-manager --agent grok -g
+```
 
 ## Install the Plugin
 
-Choose the instructions for your app. Terminal installation requires Git and a version of the app with plugin support.
+The plugin bundles the Manager and the MCP product Skill. Terminal installation requires Git and a client version with plugin support.
 
 ### Codex
 
@@ -48,7 +90,7 @@ codex plugin marketplace add NoxInfluencer/skills
 codex plugin add noxinfluencer@noxinfluencer-codex
 ```
 
-In the desktop app, you can also select **NoxInfluencer Marketplace** in the plugin directory after adding the marketplace, then install **NoxInfluencer**.
+After adding the marketplace, desktop users can also install **NoxInfluencer** from **NoxInfluencer Marketplace** in the plugin directory.
 
 ### Claude Code
 
@@ -67,137 +109,13 @@ grok plugin enable noxinfluencer
 
 ### WorkBuddy
 
-In WorkBuddy's plugin page, choose **Add marketplace**, enter `NoxInfluencer/skills`, and install **noxinfluencer**.
+In WorkBuddy's plugin page, choose **Add marketplace**, enter `NoxInfluencer/skills`, and install **noxinfluencer**. [WorkBuddy plugin instructions](https://www.workbuddy.cn/docs/workbuddy/Plugins)
 
-See the official [WorkBuddy plugin instructions](https://www.workbuddy.cn/docs/workbuddy/Plugins) for marketplace help.
-
-Other WorkBuddy setups are described in the [CLI Connector](connectors/noxinfluencer-cli) and [Marketing Expert packaging guide](scripts/workbuddy/README.md#expert). The CLI Connector uses CLI login; the Expert package adapts the same plugin contents for WorkBuddy's Expert market and uses the published MCP connector.
-
-### Connect Your Account
-
-After installing the plugin, use your app's MCP connection controls to connect NoxInfluencer. Complete sign-in and authorization in the browser, then return to your app and continue your request.
-
-The plugin connects through MCP. It does not require the NoxInfluencer CLI or a manually copied API key. See the [plugin guide](plugins/noxinfluencer/README.md) for more setup help.
-
-## Install Standalone Skills
-
-Use the Skills CLI with Node.js and npm. Install the product Skill for account operations, the Manager for strategy and workflow design, or both.
-
-### NoxInfluencer V2
-
-Use a connected MCP provider or a compatible isolated CLI for creator research and NoxInfluencer account operations.
-
-```bash
-npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer-v2
-```
-
-For local installation, select the complete [V2 Skill directory](skills/noxinfluencer-v2/). See the [V2 setup guide](v2/README.md#self-test-installation) for connection and CLI requirements.
-
-### Influencer Marketing Manager
-
-Use the Manager for marketing strategy, creator selection, partnership decisions, SOPs, and workflow design. For account operations, it uses the active product Skill or defaults to `noxinfluencer-v2`.
-
-```bash
-npx skills add https://github.com/NoxInfluencer/skills --skill influencer-marketing-manager
-```
-
-### NoxInfluencer V2 CLI
-
-Select this standalone Skill for workflows that use the isolated V2 CLI for all NoxInfluencer operations.
-
-```bash
-npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer-cli
-```
-
-For local installation, select the complete [V2 CLI Skill directory](skills/noxinfluencer-cli/). See the [V2 setup guide](v2/README.md#self-test-installation) for the pinned CLI package and device login.
-
-### Select an Agent
-
-Use `--agent` to target a specific Agent. These examples install the V2 product Skill in the current project. Use the same Agent flag with the Manager command to install it for that Agent.
-
-```bash
-# Codex
-npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer-v2 --agent codex
-
-# Claude Code
-npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer-v2 --agent claude-code
-
-# Cursor
-npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer-v2 --agent cursor
-
-# OpenClaw
-npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer-v2 --agent openclaw
-```
-
-#### Grok Build standalone Skills
-
-Use `--agent grok` for Grok Build. These commands install each Skill at user scope with `-g`.
-
-**V2 product Skill**
-
-```bash
-npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer-v2 --agent grok -g
-```
-
-**Manager Skill**
-
-```bash
-npx skills add https://github.com/NoxInfluencer/skills --skill influencer-marketing-manager --agent grok -g
-```
-
-### Legacy NoxInfluencer CLI Skill
-
-For creator research, product-data interpretation, product guidance, and NoxInfluencer account workflows:
-
-```bash
-npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer
-```
-
-To use NoxInfluencer account features with this standalone Skill, install the CLI and sign in:
-
-```bash
-npm install -g @noxinfluencer/cli@latest
-noxinfluencer login
-```
-
-Open the authorization link shown by the CLI if your browser does not open automatically. Sign in or create a NoxInfluencer account, approve access, and return to your terminal.
-
-For an Agent, container, or remote terminal without a local browser, start login separately:
-
-```bash
-noxinfluencer login start --json
-```
-
-Open the returned `verification_uri_complete` in your browser and complete authorization. Then use the returned `login_id` to finish login in the original environment:
-
-```bash
-noxinfluencer login wait <login_id>
-```
-
-If an assistant is helping, use the authorization link and user code it provides to complete sign-in in your own browser.
-
-For account registration or manual API key setup:
-
-- English: [Sign up](https://www.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard&utm_source=skill&utm_medium=cli) · [Skills dashboard](https://www.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli)
-- 中文：[注册账号](https://cn.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard&utm_source=skill&utm_medium=cli) · [Skills 控制台](https://cn.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli)
-
-### Hermes Skills Hub
-
-Install the NoxInfluencer Skill through Hermes:
-
-```bash
-hermes skills install skills-sh/noxinfluencer/skills/noxinfluencer
-```
-
-To preview it first:
-
-```bash
-hermes skills inspect skills-sh/noxinfluencer/skills/noxinfluencer
-```
+Use your app's MCP controls to [connect your account](#connect-your-account).
 
 ## Connect MCP Directly
 
-If your AI client supports remote HTTP MCP servers with OAuth, add a connection with these settings:
+Your client needs support for remote HTTP MCP servers and OAuth.
 
 | Setting | Value |
 | --- | --- |
@@ -206,21 +124,20 @@ If your AI client supports remote HTTP MCP servers with OAuth, add a connection 
 | Transport | HTTP |
 | Authentication | OAuth |
 
-Use your client's connection controls to sign in and authorize your NoxInfluencer account. Once connected, ask your assistant to use the available NoxInfluencer tools. The connection uses your account's permissions and service entitlements.
+## Hermes Skills Hub
 
-## Example Requests
+```bash
+hermes skills install skills-sh/noxinfluencer/skills/noxinfluencer-v2
+```
 
-- "Help me define creator-selection criteria for a skincare campaign in the US."
-- "Turn our creator outreach process into an SOP with clear follow-up steps."
-- "Help automate our weekly creator follow-ups using our existing tools and approved rules."
-- "Draft an outreach message based on this campaign brief."
-- "Find creators for this campaign and explain how they match my criteria."
-- "Review these creators' collaboration risks and available dispute history."
-- "Track matching campaign videos these creators publish next."
-- "Show my intelligent marketing-plan tasks."
-- "Show the next page of my marketing-plan tasks."
+To inspect the Skill first, run `hermes skills inspect skills-sh/noxinfluencer/skills/noxinfluencer-v2`.
 
-For strategy advice, share your campaign goal, target market, budget, and current process. For account tasks, connect NoxInfluencer first and describe the data or workflow you need.
+## Resources
+
+- **NoxInfluencer** [Official website](https://www.noxinfluencer.com/) · [Sign up](https://www.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard&utm_source=skill&utm_medium=cli) · [注册账号](https://cn.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard&utm_source=skill&utm_medium=cli) · [Skills dashboard](https://www.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli) · [Skills 控制台](https://cn.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli)
+- **Skill directories** [skills.sh](https://www.skills.sh/noxinfluencer/skills/noxinfluencer-v2) · [ClawHub](https://clawhub.ai/noxinfluencer/skills/nox-influencer-marketing)
+- **Setup and maintenance** [Plugin guide](plugins/noxinfluencer/README.md) · [V2 build and self-test](v2/README.md) · [WorkBuddy packaging](scripts/workbuddy/README.md)
+- **WorkBuddy** [Marketing Expert](scripts/workbuddy/README.md#expert)
 
 ## License
 
