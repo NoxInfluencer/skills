@@ -81,17 +81,71 @@ The plugin connects through MCP. It does not require the NoxInfluencer CLI or a 
 
 ## Install Standalone Skills
 
-Use the Skills CLI with Node.js and npm available. Choose a NoxInfluencer product Skill for account operations and add the Manager for strategy and workflow design.
+Use the Skills CLI with Node.js and npm. Install the product Skill for account operations, the Manager for strategy and workflow design, or both.
+
+### NoxInfluencer V2
+
+Use a connected MCP provider or a compatible isolated CLI for creator research and NoxInfluencer account operations.
+
+```bash
+npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer-v2
+```
+
+For local installation, select the complete [V2 Skill directory](skills/noxinfluencer-v2/). See the [V2 setup guide](v2/README.md#self-test-installation) for connection and CLI requirements.
 
 ### Influencer Marketing Manager
 
-For marketing strategy, creator-selection criteria, partnership decisions, SOPs, workflow improvement, and automation using available tools:
+Use the Manager for marketing strategy, creator selection, partnership decisions, SOPs, and workflow design. For account operations, it uses the active product Skill or defaults to `noxinfluencer-v2`.
 
 ```bash
 npx skills add https://github.com/NoxInfluencer/skills --skill influencer-marketing-manager
 ```
 
-### NoxInfluencer
+### NoxInfluencer V2 CLI
+
+Select this standalone Skill for workflows that use the isolated V2 CLI for all NoxInfluencer operations.
+
+```bash
+npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer-cli
+```
+
+For local installation, select the complete [V2 CLI Skill directory](skills/noxinfluencer-cli/). See the [V2 setup guide](v2/README.md#self-test-installation) for the pinned CLI package and device login.
+
+### Select an Agent
+
+Use `--agent` to target a specific Agent. These examples install the V2 product Skill in the current project. Use the same Agent flag with the Manager command to install it for that Agent.
+
+```bash
+# Codex
+npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer-v2 --agent codex
+
+# Claude Code
+npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer-v2 --agent claude-code
+
+# Cursor
+npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer-v2 --agent cursor
+
+# OpenClaw
+npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer-v2 --agent openclaw
+```
+
+#### Grok Build standalone Skills
+
+Use `--agent grok` for Grok Build. These commands install each Skill at user scope with `-g`.
+
+**V2 product Skill**
+
+```bash
+npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer-v2 --agent grok -g
+```
+
+**Manager Skill**
+
+```bash
+npx skills add https://github.com/NoxInfluencer/skills --skill influencer-marketing-manager --agent grok -g
+```
+
+### Legacy NoxInfluencer CLI Skill
 
 For creator research, product-data interpretation, product guidance, and NoxInfluencer account workflows:
 
@@ -126,46 +180,6 @@ For account registration or manual API key setup:
 
 - English: [Sign up](https://www.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard&utm_source=skill&utm_medium=cli) · [Skills dashboard](https://www.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli)
 - 中文：[注册账号](https://cn.noxinfluencer.com/signup?userType=brand&service=%2Fskills%2Fdashboard&utm_source=skill&utm_medium=cli) · [Skills 控制台](https://cn.noxinfluencer.com/skills/dashboard?utm_source=skill&utm_medium=cli)
-
-### NoxInfluencer V2
-
-Install the standalone V2 product Skill by name. It uses a connected MCP provider when the provider supports the task, or a compatible isolated CLI.
-
-```bash
-npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer-v2
-```
-
-For local installation, select the complete [V2 Skill directory](skills/noxinfluencer-v2/). See the [V2 setup guide](v2/README.md#self-test-installation) for connection and CLI requirements.
-
-### NoxInfluencer V2 CLI
-
-Select this standalone Skill when the workflow should use the isolated V2 CLI for all NoxInfluencer operations.
-
-```bash
-npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer-cli
-```
-
-For local installation, select the complete [V2 CLI Skill directory](skills/noxinfluencer-cli/). See the [V2 setup guide](v2/README.md#self-test-installation) for the pinned CLI package and device login.
-
-### Select an Agent
-
-You can target a compatible Agent during installation:
-
-```bash
-# Codex
-npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer --agent codex
-
-# Claude Code
-npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer --agent claude-code
-
-# Cursor
-npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer --agent cursor
-
-# OpenClaw
-npx skills add https://github.com/NoxInfluencer/skills --skill noxinfluencer --agent openclaw
-```
-
-Use `noxinfluencer-v2`, `noxinfluencer-cli`, or `influencer-marketing-manager` as the Skill name to install it for the same Agent.
 
 ### Hermes Skills Hub
 
