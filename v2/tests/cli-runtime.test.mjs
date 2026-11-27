@@ -3,9 +3,14 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, mkdirSync, writeFileSync, rmSync, existsSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
-import { runtimePaths, resolveInstalled, verifySchema, installCli } from '../source/noxinfluencer/adapters/cli/scripts/nox-cli.mjs';
+import { runtimePaths, resolveInstalled, verifySchema, installCli, commandTimeoutMs } from '../source/noxinfluencer/adapters/cli/scripts/nox-cli.mjs';
 
 const contract = { name:'@noxinfluencer/cli',version:'0.6.3',bin:'dist/main.js' };
+
+test('launcher permits the full login wait and keeps the ordinary deadline for business commands', () => {
+  assert.ok(commandTimeoutMs(['--config', 'test.json', '--json', 'login', 'wait', 'id']) > 1800_000);
+  assert.equal(commandTimeoutMs(['--config', 'login', 'creator', 'search']), 120_000);
+});
 const schema = { commands: [{ command:'campaign plan get',arguments:[],required_options:[],mutation:false,supports_body_file:true,body_schema:{type:'object',additionalProperties:false} }] };
 
 /** 用假 npm 写入实际目录布局，安装流程本身走真实验证和原子激活，不访问网络。 */

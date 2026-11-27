@@ -103,6 +103,17 @@ export function installCli({ paths, contract, schemaContract, localPackage, run 
   }
 }
 
+/** 登录最长可等待 30 分钟，另留时间给设备授权请求与进程收尾。 */
+export function commandTimeoutMs(argv) {
+  const valueOptions = new Set(['--config', '--env', '--lang', '--enable-commands', '--idempotency-key']);
+  for (let i = 0; i < argv.length; i++) {
+    const arg = argv[i];
+    if (valueOptions.has(arg)) i++;
+    else if (!arg.startsWith('-')) return arg === 'login' ? 31 * 60_000 : 120_000;
+  }
+  return 120_000;
+}
+
 /** 统一执行入口仅解析隔离版本，实际命令和授权交互仍由 CLI 提供。 */
 export function main(argv = process.argv.slice(2)) {
   const skill = resolve(fileURLToPath(new URL('..', import.meta.url)));
@@ -120,7 +131,7 @@ export function main(argv = process.argv.slice(2)) {
     verifySchema(JSON.parse(runNode(entry, ['schema','--all'], { env: { ...process.env, NOXINFLUENCER_CONFIG: paths.config } })), expected);
     console.log('V2 CLI schema verified.'); return;
   }
-  const result = spawnSync(process.execPath, [entry, ...argv], { windowsHide: true, timeout: 120000,
+  const result = spawnSync(process.execPath, [entry, ...argv], { windowsHide: true, timeout: commandTimeoutMs(argv),
     stdio: 'inherit', env: { ...process.env, NOXINFLUENCER_CONFIG: paths.config } });
   if (result.error) throw new Error(`V2 CLI launch failed: ${result.error.code}`);
   process.exitCode = result.status ?? 1;

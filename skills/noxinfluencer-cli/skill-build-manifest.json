@@ -59,8 +59,8 @@
     },
     {
       "path": "adapters/cli/scripts/nox-cli.mjs",
-      "bytes": 8569,
-      "sha256": "37a3ed776ad04bbfa71611f15c539da7dec9c3d991fac1751459a3f74a36079b"
+      "bytes": 9037,
+      "sha256": "2f2e5771c8a66bd482a13ad251885d7f4645d842f26a62acde9270fbba4a189f"
     },
     {
       "path": "cli.md",
@@ -296,8 +296,8 @@
     },
     {
       "path": "scripts/nox-cli.mjs",
-      "bytes": 8569,
-      "sha256": "37a3ed776ad04bbfa71611f15c539da7dec9c3d991fac1751459a3f74a36079b"
+      "bytes": 9037,
+      "sha256": "2f2e5771c8a66bd482a13ad251885d7f4645d842f26a62acde9270fbba4a189f"
     },
     {
       "path": "cli-package.json",
