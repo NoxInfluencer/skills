@@ -21,7 +21,8 @@ ROOT = Path(__file__).resolve().parents[2]
 SKILL_NAME = "noxinfluencer-cli"
 SOURCE_SKILL = ROOT / "skills" / SKILL_NAME
 CONNECTOR = ROOT / "connectors" / SKILL_NAME
-CONNECTOR_FILES = ("connector-meta.json", "cli.json", "icon.svg")
+CONNECTOR_FILES = ("connector-meta.json", "cli.json")
+ICON_SOURCE = ROOT / "plugins" / "noxinfluencer" / "assets" / "icon.png"
 REFERENCE_TOKEN = b"{baseDir}/references/"
 WORKBUDDY_REFERENCE_TOKEN = b"@references/"
 STANDALONE_COMMAND = b'node "{baseDir}/scripts/nox-cli.mjs"'
@@ -216,6 +217,8 @@ def create_entries() -> tuple[dict[Path, bytes], dict]:
         path = CONNECTOR / name
         require_file(path)
         entries[Path(name)] = path.read_bytes()
+    require_file(ICON_SOURCE)
+    entries[Path("icon.png")] = ICON_SOURCE.read_bytes()
 
     metadata = validate_metadata(entries[Path("connector-meta.json")])
     validate_cli_config(entries[Path("cli.json")])

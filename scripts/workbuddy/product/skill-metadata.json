@@ -4,7 +4,7 @@
   "display_name_en": "NoxInfluencer Marketing",
   "description_zh": "通过自然语言发现和分析红人、管理营销计划与合作、监测内容并导出业务数据。支持通过已连接的 MCP 或独立 CLI 执行。",
   "description_en": "Discover and evaluate creators, manage campaigns and partnerships, monitor content, and export results through a connected MCP provider or the isolated NoxInfluencer CLI.",
-  "version": "0.1.0",
+  "version": "1.0.1",
   "author": "NoxInfluencer",
   "examples_zh": [
     "找一批适合美国户外品牌的 YouTube 红人",
