@@ -10,7 +10,7 @@ Read `{baseDir}/references/setup.md` when installation, connection, or runtime s
 
 After selecting MCP, read `{baseDir}/references/runtime-mcp.md`. After selecting CLI, read `{baseDir}/references/runtime-cli.md`. The selected runtime determines all tool calls and presentation for the workflow.
 
-In CLI mode, never open or operate NoxInfluencer SaaS pages through an embedded browser, external browser automation, computer use, or a shell browser launcher. Give the user the relevant link for any required manual step, including an explicit request to open a page. Follow the CLI runtime's user-handoff rules. This CLI boundary does not change MCP host-managed authorization or supported page handoffs.
+In CLI mode, use `{baseDir}/references/auth.md` to open sign-in in the user's external browser. For NoxInfluencer business pages, give the user the relevant link according to the CLI runtime's handoff rules and leave page operation to the user. In MCP mode, use the host's authorization controls and the MCP handoff rules.
 
 Read only the selected runtime's execution references and the business references needed for the task. Keep that runtime and account for reads, previews, writes, polling and recovery. An authentication, permission, quota, missing-tool or network error does not authorize an automatic backend switch. Before intentionally changing runtimes, resolve outstanding writes and confirm matching identity and target scope. Never resend an uncertain write through the other runtime.
 

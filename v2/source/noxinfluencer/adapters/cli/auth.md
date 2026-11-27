@@ -12,15 +12,14 @@ After installation or a Skill update, run `node "{baseDir}/scripts/nox-cli.mjs" 
 
 The expected families include creator, monitor, campaign, collection, email, message, CRM, product, short-link, affiliation, brand-monitor, dispute, export, file, feedback, quota, pricing, and agent operations.
 
-## User-Completed Device Flow Login
+## Device Login In The User's External Browser
 
-- Whenever the Agent initiates login, run `node "{baseDir}/scripts/nox-cli.mjs" login start --json`, show only the returned user-safe verification address and user code, let the user open the link and authorize, then run `node "{baseDir}/scripts/nox-cli.mjs" login wait <login_id>`.
-- Do not run bare `login`, `login --browser`, or any browser launcher, and do not open or complete authorization using browser or computer-use tools. A terminal being interactive does not make Agent-driven login a manual user action.
-- Treat `login_id` as an opaque polling identity. Never reveal a device code, saved credential, callback value, or any field that the CLI does not mark user-safe.
-- Do not construct an authorization address, exchange a code, or store a credential outside the CLI.
+- From a terminal with access to the user's local desktop, run `node "{baseDir}/scripts/nox-cli.mjs" --login`. The helper starts device login, opens the CLI-issued authorization page in the user's normal Chrome session or system default external browser, and waits for the same login. Let the user complete sign-in and consent there and wait for the command to finish. Use `--login --force` when the current credentials are rejected and reauthorization is needed.
+- Keep the authorization URL, login identity, and codes inside the helper. Do not print them in the conversation, open the page inside the Agent, run the interactive `login` command, or use browser automation to sign in or consent.
+- If the desktop browser is unavailable, fails to open, or the user declines or lets authorization expire, explain the observed state and keep the task pending. If a supported host-managed authorization control is available, guide the user to it. Do not offer the authorization URL as a chat link, retry automatically, or switch runtimes.
 
 ## API-Key Fallback
 
 Manual API-key entry is a fallback only when the user explicitly chooses it. Read the key from standard input with `node "{baseDir}/scripts/nox-cli.mjs" auth --key-stdin`. Never place an API key in a command argument, log, output, transcript, environment example, or Skill file.
 
-On cancellation or authentication failure, report the safe CLI error and keep the affected account task pending. Direct the user to complete or restart the supported login flow. Continue the retained task after the CLI confirms authorization for the intended account. Do not print configuration files, retry in a loop, or switch runtimes.
+Continue the retained task after the CLI confirms authorization for the intended account. Do not print configuration files or copy stored credentials.

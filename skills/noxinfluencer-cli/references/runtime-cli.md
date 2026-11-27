@@ -4,9 +4,9 @@ This generated standalone Skill uses only the NoxInfluencer CLI for NoxInfluence
 
 ## SaaS Pages Belong To The User
 
-Never open, inspect or operate NoxInfluencer SaaS pages with an embedded browser, external browser automation, computer use, or shell commands that launch a browser. This applies to normal work, troubleshooting and explicit requests to open a platform page. Do not log in, switch accounts, or manipulate browser sessions on the user's behalf.
+Never open, inspect or operate NoxInfluencer business pages with an embedded browser, external browser automation, computer use, or shell commands that launch a browser. This applies to normal work, troubleshooting and explicit requests to open a platform page.
 
-When a step requires the website, provide the relevant trusted link and a short explanation for the user to complete it themselves. Interpret CLI help or returned actions saying "open SaaS" as instructions for the user, not permission for the Agent to open the page. For authorization use the device-login start/wait flow in `{baseDir}/references/auth.md`. If a required capability is unavailable, explain the gap and continue only independent work; do not use the website as a fallback.
+For business steps that require the website, provide the relevant trusted link and a short explanation for the user to complete the step. For CLI sign-in, follow the authorization procedure in `{baseDir}/references/auth.md`. The user completes sign-in and consent. If a required capability is unavailable, explain the gap and continue only independent work.
 
 This restriction concerns Agent-controlled access to NoxInfluencer SaaS. It does not prohibit ordinary research on external creator or brand websites, CLI file transfers, or existing host-managed SaaS workspace result receipts. A receipt does not authorize browser automation or prove that a page opened.
 

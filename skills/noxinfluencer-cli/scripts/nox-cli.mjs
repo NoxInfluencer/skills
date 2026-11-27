@@ -3,6 +3,7 @@ import { dirname, resolve, join, relative, isAbsolute } from 'node:path';
 import { homedir } from 'node:os';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { loginInExternalBrowser } from './external-login.mjs';
 
 /** V2 包及默认登录配置放在独立用户目录，旧全局 CLI 不参与解析。 */
 export function runtimePaths({ cacheHome = process.env.LOCALAPPDATA || process.env.XDG_CACHE_HOME || join(homedir(), '.cache'), version } = {}) {
@@ -115,7 +116,7 @@ export function commandTimeoutMs(argv) {
 }
 
 /** 统一执行入口仅解析隔离版本，实际命令和授权交互仍由 CLI 提供。 */
-export function main(argv = process.argv.slice(2)) {
+export async function main(argv = process.argv.slice(2)) {
   const skill = resolve(fileURLToPath(new URL('..', import.meta.url)));
   const contract = JSON.parse(readFileSync(join(skill, 'cli-package.json')));
   const expected = JSON.parse(readFileSync(join(skill, 'campaign-runtime-contract.json')));
@@ -127,16 +128,23 @@ export function main(argv = process.argv.slice(2)) {
     return;
   }
   const entry = resolveInstalled(paths.installation, contract);
+  const env = { ...process.env, NOXINFLUENCER_CONFIG: paths.config };
+  if (argv[0] === '--login') {
+    const force = argv.length === 2 && argv[1] === '--force';
+    if (argv.length !== 1 && !force) throw new Error('Expected --login or --login --force');
+    await loginInExternalBrowser(entry, env, { force });
+    return;
+  }
   if (argv[0] === '--verify') {
-    verifySchema(JSON.parse(runNode(entry, ['schema','--all'], { env: { ...process.env, NOXINFLUENCER_CONFIG: paths.config } })), expected);
+    verifySchema(JSON.parse(runNode(entry, ['schema','--all'], { env })), expected);
     console.log('V2 CLI schema verified.'); return;
   }
   const result = spawnSync(process.execPath, [entry, ...argv], { windowsHide: true, timeout: commandTimeoutMs(argv),
-    stdio: 'inherit', env: { ...process.env, NOXINFLUENCER_CONFIG: paths.config } });
+    stdio: 'inherit', env });
   if (result.error) throw new Error(`V2 CLI launch failed: ${result.error.code}`);
   process.exitCode = result.status ?? 1;
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  try { main(); } catch (error) { console.error(error.message); process.exitCode = 1; }
+  try { await main(); } catch (error) { console.error(error.message); process.exitCode = 1; }
 }

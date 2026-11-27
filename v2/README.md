@@ -44,11 +44,10 @@ To test the fixed CLI route, select `noxinfluencer-cli` by name or install the c
 ```sh
 node scripts/nox-cli.mjs --install
 node scripts/nox-cli.mjs --verify
-node scripts/nox-cli.mjs login start --json
-node scripts/nox-cli.mjs login wait <login_id>
+node scripts/nox-cli.mjs --login
 ```
 
-The CLI package version comes from the checked `cli-schema` snapshot, not npm `latest`. Installation and default login configuration live in a separate per-user V2 cache. No global CLI is replaced and no legacy credential file is copied. User-safe login links/codes can be shown; device secrets and credentials must not be exposed.
+The CLI package version comes from the checked `cli-schema` snapshot. Installation and login configuration live in a separate per-user V2 cache. The login helper opens the authorization page in Chrome or the system default external browser on the user's desktop and waits for the user to sign in and approve access. Authorization links and codes stay inside the login flow.
 
 **Distribution observation, 2026-10-29:** the required CLI 0.6.3 is not available from the official npm registry. Until it is published separately, maintainers can supply a local package from the matching CLI build:
 

@@ -4,12 +4,76 @@ import { mkdtempSync, mkdirSync, writeFileSync, rmSync, existsSync, readFileSync
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { runtimePaths, resolveInstalled, verifySchema, installCli, commandTimeoutMs } from '../source/noxinfluencer/adapters/cli/scripts/nox-cli.mjs';
+import { loginInExternalBrowser, openExternalBrowser } from '../source/noxinfluencer/adapters/cli/scripts/external-login.mjs';
 
 const contract = { name:'@noxinfluencer/cli',version:'0.6.3',bin:'dist/main.js' };
 
 test('launcher permits the full login wait and keeps the ordinary deadline for business commands', () => {
   assert.ok(commandTimeoutMs(['--config', 'test.json', '--json', 'login', 'wait', 'id']) > 1800_000);
   assert.equal(commandTimeoutMs(['--config', 'login', 'creator', 'search']), 120_000);
+});
+
+test('desktop login opens the CLI-issued page and waits for the same login without displaying its URL', async () => {
+  const url = 'https://cn.noxinfluencer.com/oauth/device?user_code=TEST-CODE';
+  const env = { NOXINFLUENCER_CONFIG: 'test-config.json' };
+  const calls = [];
+  const messages = [];
+  await loginInExternalBrowser('test-entry.js', env, {
+    force: true,
+    async run(entry, args, options) {
+      assert.equal(entry, 'test-entry.js');
+      assert.equal(options, env);
+      calls.push(args);
+      return args[1] === 'start'
+        ? { status: 'pending', login_id: 'login_example', verification_uri_complete: url }
+        : { success: true };
+    },
+    async open(address, { env: options }) {
+      assert.equal(options, env);
+      calls.push(address);
+      return true;
+    },
+    report: message => messages.push(message),
+  });
+  assert.deepEqual(calls, [['login', 'start', '--force'], url, ['login', 'wait', 'login_example']]);
+  assert.equal(messages.length, 2);
+  assert.doesNotMatch(messages.join(' '), /https:|TEST-CODE|login_example/);
+});
+
+test('desktop login neither opens a non-Nox authorization URL nor waits after a failed browser launch', async () => {
+  const pending = { status: 'pending', login_id: 'login_example' };
+  for (const url of ['https://noxinfluencer.com.example.org/oauth/device?user_code=TEST-CODE',
+    'https://www.noxinfluencer.com/oauth/device?user_code=TEST-CODE']) {
+    let openCount = 0;
+    await assert.rejects(loginInExternalBrowser('test-entry.js', {}, {
+      run(_entry, args) {
+        assert.deepEqual(args, ['login', 'start']);
+        return { ...pending, verification_uri_complete: url };
+      },
+      open() { openCount++; return false; },
+    }), /valid NoxInfluencer device authorization page|Could not open the external browser/);
+    assert.equal(openCount, url.includes('example.org') ? 0 : 1);
+  }
+});
+
+test('desktop login prefers Chrome and uses the OS default when Chrome is unavailable', async () => {
+  const url = 'https://www.noxinfluencer.com/oauth/device?user_code=TEST-CODE';
+  const calls = [];
+  assert.equal(await openExternalBrowser(url, {
+    platform: 'darwin', env: {},
+    async launch(command, args) { calls.push([command, ...args]); return args[0] !== '-b'; },
+  }), true);
+  assert.deepEqual(calls, [['open', '-b', 'com.google.Chrome', url], ['open', url]]);
+
+  await openExternalBrowser(url, {
+    platform: 'win32', env: {},
+    async launch(command, args, { env }) {
+      assert.equal(command, 'powershell.exe');
+      assert.equal(env.NOX_V2_EXTERNAL_LOGIN_URL, url);
+      assert.doesNotMatch(args.join(' '), /TEST-CODE/);
+      return true;
+    },
+  });
 });
 const schema = { commands: [{ command:'campaign plan get',arguments:[],required_options:[],mutation:false,supports_body_file:true,body_schema:{type:'object',additionalProperties:false} }] };
 
