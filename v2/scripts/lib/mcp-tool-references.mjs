@@ -21,8 +21,8 @@ function renderTool({ name, description, input_schema: schema }) {
   return [`## \`${name}\``, description.trim(), parameters.join('\n') || 'No input parameters.'].join('\n\n');
 }
 
-/** Derive the index and the installed MCP Skill's parameter references from one catalog. */
-export function renderMcpToolReferences(tools, { plugin }) {
+/** Derive the index and optional parameter references from one catalog. */
+export function renderMcpToolReferences(tools, { includeParameters }) {
   const groups = new Map();
   for (const tool of tools) {
     const group = tool.workflow ?? 'creator-collection-crm-monitor-exports-quota';
@@ -35,14 +35,12 @@ export function renderMcpToolReferences(tools, { plugin }) {
   const index = [
     '# MCP Tool List',
     `This build contains ${tools.length} catalogued tools. Use only tools also exposed by the live provider, with their live input schemas. A catalog entry is not proof of deployment.`,
-    plugin
-      ? 'For intelligent marketing-plan task lists, use `campaign2_plan_list` with its live pagination and filter schema. After verifying the business outcome, present it according to `references/handoffs.md`. The live catalog can extend this checked snapshot; use actual live names and schemas, never a historical page-opening name.'
-      : 'For intelligent marketing-plan task lists, use `campaign2_plan_list` and display results in the conversation. Its inputs are `page_num`, `page_size`, `keyword`, `start_time`, `end_time`, and `invite_status`. Preserve filters when requesting the next page. Do not infer a failed status: invite_status only accepts the declared invitation states.',
+    'For intelligent marketing-plan task lists, use `campaign2_plan_list` with its live pagination and filter schema. Preserve filters for the next page. After verifying the business outcome, present it according to `references/handoffs.md`. Use actual live names and schemas, including tools added after this snapshot.',
   ];
   for (const [group, entries] of [...groups].sort(([a], [b]) => a.localeCompare(b))) {
     entries.sort((a, b) => a.name.localeCompare(b.name, 'en'));
     index.push(`## ${group}`);
-    if (plugin) {
+    if (includeParameters) {
       const path = `references/tool-parameters-${group}.md`;
       index.push(`See \`{baseDir}/${path}\` for tool purposes and parameters.`);
       files.set(path, Buffer.from([`# MCP tools for ${group}`, ...entries.map(renderTool)].join('\n\n') + '\n'));

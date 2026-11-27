@@ -1,4 +1,4 @@
-# Quota And Operation Credit Costs
+# MCP Quota And Operation Credit Costs
 
 Use `quota` for remaining Skill Credit and authoritative execution access. A positive balance does not grant permission to execute a tool. Distinguish insufficient credits, missing execution permission and a separate feature limit using the service's error code and confirmed facts.
 

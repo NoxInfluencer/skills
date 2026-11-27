@@ -15,9 +15,10 @@ const manifestPath = '.codebuddy-plugin/plugin.json';
 const agentPath = 'agents/influencer-marketing-manager.md';
 const productName = 'noxinfluencer-plugin';
 const managerName = 'influencer-marketing-manager-plugin';
+const agentTemplatePath = '.workbuddy-plugin/expert-agent.md.tmpl';
 const fixturePaths = [
   '.codex-plugin/plugin.json', '.plugin/plugin.json', '.mcp.json', 'README.md', 'LICENSE', 'assets/logo.png',
-  'skills/noxinfluencer-mcp', 'skills/influencer-marketing-manager',
+  'skills/noxinfluencer-mcp', 'skills/influencer-marketing-manager', agentTemplatePath,
 ].map(path => `${pluginPath}/${path}`);
 
 function sourceSnapshot(root) {
@@ -115,12 +116,15 @@ test('Expert packaging follows edits to actual plugin files and metadata', t => 
   const root = fixture(t);
   const creator = resolve(root, pluginPath, 'skills/noxinfluencer-mcp/references/creator.md');
   writeFileSync(creator, readFileSync(creator) + '\nPlugin-directory-source-proof.\n');
+  const agentTemplate = resolve(root, pluginPath, agentTemplatePath);
+  writeFileSync(agentTemplate, readFileSync(agentTemplate) + '\nPlugin Agent template proof.\n');
   const metadataPath = resolve(root, pluginPath, '.plugin/plugin.json');
   const metadata = JSON.parse(readFileSync(metadataPath));
   metadata.author = { name: 'Plugin Fixture Author', email: 'fixture@example.com' };
   writeFileSync(metadataPath, JSON.stringify(metadata, null, 2) + '\n');
   const result = createExpertEntries({ root });
   assert.match(result.entries.get(`skills/${productName}/references/creator.md`).toString(), /Plugin-directory-source-proof/);
+  assert.match(result.entries.get(agentPath).toString(), /Plugin Agent template proof/);
   assert.deepEqual(result.manifest.author, metadata.author);
 });
 
@@ -135,41 +139,60 @@ test('Expert requires its avatar and author metadata in the source plugin', t =>
   assert.throws(() => createExpertEntries({ root }), /author name\/email/);
 });
 
-test('Manager references the installed and available product Skill from the same Expert', () => {
+test('Manager routes account tasks to the bundled product Skill even while MCP is disconnected', () => {
   const manager = assembled.entries.get(`skills/${managerName}/SKILL.md`).toString();
-  assert.match(manager, /Every reference to `noxinfluencer-plugin`/);
-  assert.match(manager, /already installed and available in the current WorkBuddy context/);
-  assert.match(manager, /continue strategy, workflow design and analysis/);
-  assert.match(manager, /\.\.\/noxinfluencer-plugin\/SKILL\.md/);
-  assert.doesNotMatch(manager, /`noxinfluencer`|`noxinfluencer-mcp` product Skill/);
+  assert.match(manager, /Otherwise use the `noxinfluencer-plugin` product Skill when available/);
+  assert.match(manager, /Use its setup guidance even if its account connection is not ready/);
+  assert.match(manager, /If the product Skill is not available/);
+  assert.match(manager, /continue strategy, workflow design, and analysis/);
+  assert.doesNotMatch(manager, /`noxinfluencer`|`noxinfluencer-mcp`/);
+  const pluginManager = readFileSync(resolve(repositoryRoot, pluginPath, 'skills/influencer-marketing-manager/SKILL.md'), 'utf8');
+  const body = text => text.replace(/^---\n[\s\S]*?\n---\n/, '').trim();
+  assert.equal(body(manager), body(pluginManager).replaceAll('`noxinfluencer-mcp`', '`noxinfluencer-plugin`'));
+});
+
+test('Expert Agent directs account tasks without a ready connector to the bundled authorization guide', () => {
+  const agent = assembled.entries.get(agentPath).toString();
+  const authLink = `[connection and authorization guide](../skills/${productName}/references/oauth-and-scopes.md)`;
+  assert.ok(agent.includes(authLink));
+  assert.match(agent, /load the bundled product Skill even if the MCP connector is disconnected/);
+  assert.match(agent, /Follow its common host setup, then the WorkBuddy-specific route if needed/);
+  assert.match(agent, /If WorkBuddy returns `skipped`.*retain the original request/);
+  assert.match(agent, /local output files while the account connection is unavailable/);
+  assert.doesNotMatch(agent, /连接和授权由 WorkBuddy 引导/);
   const entries = new Map(assembled.entries);
-  entries.set(`skills/${managerName}/SKILL.md`, Buffer.from(manager.replace('already installed and available in the current WorkBuddy context', 'provided here')));
-  assert.throws(() => validateExpertEntries(entries), /Manager must check/);
+  entries.set(agentPath, Buffer.from(agent.replace(authLink, 'connection and authorization guidance')));
+  assert.throws(() => validateExpertEntries(entries), /Agent must link directly/);
+});
+
+test('Expert packages the shared same-page Handoff rules without losing reuse conditions', () => {
+  const path = 'references/handoffs.md';
+  const source = readFileSync(resolve(repositoryRoot, pluginPath, 'skills/noxinfluencer-mcp', path), 'utf8');
+  const expected = source.replaceAll('{baseDir}/references/', '@references/');
+  assert.equal(assembled.entries.get(`skills/${productName}/${path}`).toString(), expected);
 });
 
 test('Expert preserves MCP-only boundaries and explanatory CLI context from the plugin', () => {
   const product = assembled.entries.get(`skills/${productName}/SKILL.md`).toString();
   assert.match(product, /all NoxInfluencer business operations use the connected NoxInfluencer MCP connector/);
   assert.match(product, /Do not install or fall back to a business CLI/);
-  assert.match(product, /shared Skills or CLI workflows/);
-  const manager = assembled.entries.get(`skills/${managerName}/SKILL.md`).toString();
-  assert.match(manager, /Use MCP only for these operations/);
-  assert.match(manager, /refers to the CLI or a browser/);
-  assert.match(manager, /standalone Skills\/CLI/);
+  assert.doesNotMatch(product, /Runtime Selection|references\/runtime-cli\.md|nox-cli\.mjs/);
   const automation = assembled.entries.get(`skills/${productName}/references/campaign-agent-automation-mcp.md`).toString();
   assert.match(automation, /same business meaning as the CLI addition command/);
   assert.match(automation, /there is no CLI body-file wrapper/);
   assert.match(assembled.entries.get(`skills/${productName}/references/tool-execution.md`).toString(), /Never invent a missing tool or fall back to CLI/);
-  assert.match(assembled.entries.get(`skills/${productName}/references/workbuddy-runtime.md`).toString(), /Never substitute a CLI backend/);
+  assert.match(assembled.entries.get(`skills/${productName}/references/mcp-host-runtime.md`).toString(), /Never substitute a CLI backend/);
   assert.match(assembled.entries.get(agentPath).toString(), /不安装或切换到 CLI/);
   const readme = assembled.entries.get('README.md').toString();
   assert.match(readme, /installing the NoxInfluencer CLI or copying an API key is not required/);
   assert.match(readme, /source `noxinfluencer-mcp`/);
   assert.doesNotMatch(readme, /under review/);
   const auth = assembled.entries.get(`skills/${productName}/references/oauth-and-scopes.md`).toString();
+  assert.deepEqual(auth.match(/^## .+$/gm), ['## Common Host Connection Setup', '## WorkBuddy Authorization',
+    '## One Attempt, Then Resume', '## Failure Boundaries']);
   assert.match(auth, /WorkBuddy's native authorization action/);
   assert.match(auth, /connection declared as a dependency by this Expert/);
-  assert.match(auth, /continuation steps in “One Attempt, Then Resume”/);
+  assert.match(auth, /follow “One Attempt, Then Resume”/);
   assert.match(auth, /Never build an authorization URL or run NoxInfluencer CLI login\/business commands/);
   assert.doesNotMatch(auth, /codex mcp login|Codex Authorization Only|supplied by this installed plugin|steps above/);
 });

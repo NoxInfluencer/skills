@@ -58,37 +58,6 @@ function adaptedText(bytes) {
   return bytes.toString().replace(/\r\n?/g, '\n').replaceAll('{baseDir}/references/', '@references/');
 }
 
-function boundedParagraph(text, kind) {
-  if (kind === 'collaboration') {
-    const heading = '## Capability collaboration\n\n';
-    const headingPosition = text.indexOf(heading);
-    assert.ok(headingPosition >= 0, 'Manager collaboration heading must remain present');
-    const start = headingPosition + heading.length;
-    const end = text.indexOf('\n\nFor a Manager-led operation,', start);
-    assert.ok(end > start, 'The unchanged Manager-led handoff paragraph must remain present');
-    return {
-      paragraph: text.slice(start, end),
-      surrounding: text.slice(0, start) + '<workbuddy-distribution-adaptation>' + text.slice(end),
-    };
-  }
-  const paragraphs = text.split('\n\n');
-  assert.equal(paragraphs[0], '# Operational Tool Prompts');
-  const index = 2;
-  assert.ok(paragraphs[index]?.trim(), `Missing bounded ${kind} paragraph`);
-  return {
-    paragraph: paragraphs[index],
-    surrounding: paragraphs.map((paragraph, position) => position === index ? '<workbuddy-distribution-adaptation>' : paragraph).join('\n\n'),
-  };
-}
-
-function assertBoundedAdaptation(actual, original, kind) {
-  const adapted = boundedParagraph(actual, kind);
-  const shared = boundedParagraph(original, kind);
-  assert.equal(adapted.surrounding, shared.surrounding, `Changed text outside the ${kind} adaptation`);
-  assert.notEqual(adapted.paragraph, shared.paragraph, `Expected a WorkBuddy ${kind} adaptation`);
-  return adapted.paragraph;
-}
-
 function fixture(t) {
   const root = mkdtempSync(join(tmpdir(), 'nox-workbuddy-manager-test-'));
   t.after(() => {
@@ -123,7 +92,7 @@ before(() => {
   validateManagerEntries(assembled.entries);
 });
 
-test('standalone WorkBuddy assembly preserves sources and limits business changes to two distribution regions', () => {
+test('standalone WorkBuddy packages the shared Manager guidance with metadata and adapted resource paths', () => {
   assert.deepEqual(sourceAfter, sourceBefore);
   assert.deepEqual(metadataAfter, metadataBefore);
   assert.deepEqual(iconAfter, iconBefore);
@@ -132,15 +101,13 @@ test('standalone WorkBuddy assembly preserves sources and limits business change
   assert.equal(frontmatter(sourceAfter.get('SKILL.md')).fields.name, 'influencer-marketing-manager');
   assert.equal(frontmatter(assembled.entries.get(entrypoint)).fields.description,
     frontmatter(sourceBefore.get('SKILL.md')).fields.description);
-  assertBoundedAdaptation(frontmatter(assembled.entries.get(entrypoint)).body,
-    adaptedText(Buffer.from(frontmatter(sourceBefore.get('SKILL.md')).body)), 'collaboration');
+  assert.equal(frontmatter(assembled.entries.get(entrypoint)).body,
+    adaptedText(Buffer.from(frontmatter(sourceBefore.get('SKILL.md')).body)));
   assert.equal(assembled.entries.size, sourceBefore.size);
   for (const [path, bytes] of sourceBefore) {
     if (path === 'SKILL.md') continue;
     const actual = assembled.entries.get(`${skillName}/${path}`)?.toString().replace(/\r\n?/g, '\n');
-    if (path === 'references/operational-tool-prompts.md') {
-      assertBoundedAdaptation(actual, adaptedText(bytes), 'native-tracking');
-    } else assert.equal(actual, adaptedText(bytes), path);
+    assert.equal(actual, adaptedText(bytes), path);
   }
 });
 
@@ -215,7 +182,7 @@ test('WorkBuddy adapts a valid Skill-root reference without rewriting normal Mar
   writeFileSync(path, source);
   const { entries } = createManagerEntries({ root });
   const body = frontmatter(entries.get(entrypoint)).body;
-  assertBoundedAdaptation(body, adaptedText(Buffer.from(frontmatter(Buffer.from(source)).body)), 'collaboration');
+  assert.equal(body, adaptedText(Buffer.from(frontmatter(Buffer.from(source)).body)));
   assert.match(body, /@references\/playbook\.md/);
   assert.match(body, /\]\(references\/playbook\.md#/);
   assert.equal(readFileSync(path).toString(), source);
@@ -235,8 +202,8 @@ test('standalone Skill package has one Skill root and no Expert or connector bin
 
 test('the published Manager retains external product references without shipping or declaring a second Skill', () => {
   const { fields, body } = frontmatter(assembled.entries.get(entrypoint));
-  const collaboration = boundedParagraph(body, 'collaboration').paragraph;
-  assert.ok(collaboration.includes('`noxinfluencer`'));
+  assert.match(body, /Otherwise use the `noxinfluencer` product Skill when available/);
+  assert.match(body, /If the product Skill is not available, continue strategy/);
   assert.equal(Object.hasOwn(fields, 'dependencies'), false);
   assert.equal(Object.hasOwn(fields, 'skills'), false);
   assert.equal(assembled.entries.size, 6);

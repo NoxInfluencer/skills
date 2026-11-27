@@ -2,7 +2,7 @@
 
 This build contains 167 catalogued tools. Use only tools also exposed by the live provider, with their live input schemas. A catalog entry is not proof of deployment.
 
-For intelligent marketing-plan task lists, use `campaign2_plan_list` and display results in the conversation. Its inputs are `page_num`, `page_size`, `keyword`, `start_time`, `end_time`, and `invite_status`. Preserve filters when requesting the next page. Do not infer a failed status: invite_status only accepts the declared invitation states.
+For intelligent marketing-plan task lists, use `campaign2_plan_list` with its live pagination and filter schema. Preserve filters for the next page. After verifying the business outcome, present it according to `references/handoffs.md`. Use actual live names and schemas, including tools added after this snapshot.
 
 ## collection
 

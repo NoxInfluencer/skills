@@ -29,7 +29,7 @@ Keep replies focused on business outcomes. Do not proactively report Skill Credi
 6. For long-running work, create or start once, retain the returned task identity, poll with bounded intervals, and report progress without duplicate creation.
 7. Preview the exact effect of a write whenever the capability supports preview. Require the user's approval at the level defined in the risk reference.
 8. After execution, report what changed, what did not change, partial failures, remaining actions, and any quota or entitlement restriction.
-9. Before finishing Campaign automatic advancement on a creator reply, restore the exact conversation's unread reminder when no message was actually sent and its latest message is still inbound. Read the final-check rule in `{baseDir}/references/campaign-agent-automation.md` and the runtime instructions before performing it.
+9. For a creator-reply automation run, follow the selected runtime's final check when it supports reading the latest message and restoring that conversation's unread reminder. See `{baseDir}/references/campaign-agent-automation.md` for the business rule.
 
 ## Business Collaboration
 
@@ -70,10 +70,11 @@ This is the V2 product entrypoint. Use the sibling installed `influencer-marketi
 
 Read `{baseDir}/references/setup.md` when installation, connection, or runtime selection is needed. Do not ask a nontechnical customer to choose CLI versus MCP. Select from observed client capabilities, authorized account context, available operations and setup effort. Respect an explicitly selected product or transport. A shell, installed package, provider name or successful authorization alone does not establish business capability.
 
-- Reuse the runtime already selected for this workflow and its account identity.
-- Otherwise prefer an already connected official NoxInfluencer provider when its live tools support the requested task. Read `{baseDir}/references/runtime-mcp.md` before calling it.
-- Otherwise use the isolated V2 CLI when the client has an authorized terminal and Node/npm capability and a compatible package is available. Read `{baseDir}/references/runtime-cli.md` before operating it.
-- If neither is ready, follow setup guidance to choose the available supported connection or installation path. Keep required user login or operating-system approval in the client's normal controls. Continue independent preparation when execution is blocked; never claim a missing operation succeeded.
+1. Honor the explicitly selected runtime or retain the runtime and account already selected for the current workflow. If MCP is selected and the connection is not ready, follow `{baseDir}/references/oauth-and-scopes.md`. If CLI is selected and needs setup, follow `{baseDir}/references/auth.md`. Continue through the selected runtime's recovery, including when the other runtime is ready.
+2. For a new workflow with no selected runtime, prefer an already connected official NoxInfluencer provider when its live tools support the requested task for the intended account. Otherwise use the isolated V2 CLI if it is installed, authorized for that account, and its live schema covers the task.
+3. If neither is ready for the new workflow, follow `{baseDir}/references/setup.md` to choose one available setup path. Prefer MCP when the host can establish the official connection and there is evidence the provider supports the required operation. Choose CLI when its supported installation and operation are the available path. Keep login and approval in the client's normal controls. Continue independent preparation while execution is blocked.
+
+After selecting MCP, read `{baseDir}/references/runtime-mcp.md`. After selecting CLI, read `{baseDir}/references/runtime-cli.md`. The selected runtime determines all tool calls and presentation for the workflow.
 
 In CLI mode, never open or operate NoxInfluencer SaaS pages through an embedded browser, external browser automation, computer use, or a shell browser launcher. Give the user the relevant link for any required manual step, including an explicit request to open a page. Follow the CLI runtime's user-handoff rules. This CLI boundary does not change MCP host-managed authorization or supported page handoffs.
 

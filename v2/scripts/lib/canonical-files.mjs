@@ -17,7 +17,7 @@ const maxCanonicalFileCount = 256;
 const maxCanonicalAggregateBytes = 8 * 1024 * 1024;
 const maxCanonicalDirectoryEntries = 512;
 const maxCanonicalDirectoryDepth = 16;
-const maxAtomicTargets = 10;
+const maxAtomicTargets = 11;
 
 function fail(message) {
   throw new Error(message);

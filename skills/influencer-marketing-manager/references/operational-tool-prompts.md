@@ -2,7 +2,7 @@
 
 Use these prompts when a routine partnership task benefits from a focused external observation or artifact. Connect the result to the current stage result and next business action.
 
-For samples tracked in NoxInfluencer, first use the active `noxinfluencer` product Skill for supported native tracking evidence. External tracking tools supplement unavailable or incomplete native evidence. Let the product Skill resolve current capability and pricing through its selected runtime; registration and saved tracking reads can have different costs.
+For samples tracked in NoxInfluencer, use the product Skill selected in the Manager's capability collaboration rules for supported native tracking evidence. If it is unavailable, work from tracking information the user supplied or explain the missing capability. External tracking tools can supplement incomplete evidence. Let the product Skill resolve current support and pricing through its selected runtime. Registration and saved tracking reads can have different costs.
 
 | Tool | What it helps with | Prompt when | Result to use |
 | --- | --- | --- | --- |

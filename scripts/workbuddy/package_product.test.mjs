@@ -43,8 +43,16 @@ test('WorkBuddy product ZIP preserves both runtime routes and an executable relo
   assert.match(body, /@references\/runtime-mcp\.md/);
   assert.match(body, /@references\/runtime-cli\.md/);
   const oauth = entries.get(prefix + 'references/oauth-and-scopes.md').toString();
-  assert.match(oauth, /WorkBuddy connection's Connect or Reauthorize control/);
-  assert.doesNotMatch(oauth, /codex mcp login|start-codex-oauth/);
+  assert.deepEqual(oauth.match(/^## .+$/gm), ['## Common Host Connection Setup', '## WorkBuddy Authorization',
+    '## One Attempt, Then Resume', '## Failure Boundaries']);
+  assert.match(oauth, /WorkBuddy's native authorization action/);
+  assert.match(oauth, /resume the retained original operation immediately/);
+  assert.doesNotMatch(oauth, /codex mcp login|start-codex-oauth|## Other Hosts/);
+  const guide = resolve(root, sourcePath, 'references/oauth-and-scopes.md');
+  writeFileSync(guide, original.get('references/oauth-and-scopes.md').toString()
+    .replace('## WorkBuddy Authorization\n\n', '## WorkBuddy Authorization\n\nAuthorization source proof.\n\n'));
+  const revised = createProductEntries({ root });
+  assert.match(revised.entries.get(prefix + 'references/oauth-and-scopes.md').toString(), /Authorization source proof/);
   assert.match(entries.get(prefix + 'references/auth.md').toString(), /\$\{CODEBUDDY_SKILL_DIR\}\/scripts\/nox-cli\.mjs/);
   assert.ok(![...entries.keys()].some(path => /(?:^|\/)(?:cli\.json|mcp\.json|connector-meta\.json|start-codex-oauth\.ps1)$/.test(path)));
   for (const path of ['cli-package.json', 'campaign-runtime-contract.json']) {

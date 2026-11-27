@@ -139,7 +139,9 @@ test('MCP omits Manager and Codex OAuth execution while preserving the prohibiti
   assert.match(assembled.entries.get(`${skillPath}/references/tool-execution.md`).toString(), /source: `noxinfluencer-mcp`/);
   assert.doesNotMatch(assembled.entries.get(`${skillPath}/references/tool-execution.md`).toString(), /connected `noxinfluencer` provider/);
   const oauth = assembled.entries.get(`${skillPath}/references/oauth-and-scopes.md`).toString();
-  assert.match(oauth, /WorkBuddy/);
+  assert.match(oauth, /^## Common Host Connection Setup$/m);
+  assert.match(oauth, /^## WorkBuddy Authorization$/m);
+  assert.doesNotMatch(oauth, /^## (?:Codex Authorization Only|Other Hosts)$/m);
   assert.match(oauth, /native|连接|Connect/);
 });
 

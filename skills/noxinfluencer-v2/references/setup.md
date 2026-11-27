@@ -4,9 +4,7 @@ The user installs NoxInfluencer, not a technical transport choice. Check the cur
 
 ## Connected provider
 
-Use the official endpoint `https://skill.noxinfluencer.com/mcp` with provider name `noxinfluencer`, configured through the client's supported connection controls. Read the MCP authorization reference for the exact host-specific flow. Only Codex uses its documented Codex bootstrap; other clients use their own supported OAuth controls. Do not infer identity from a provider's display name or construct authorization URLs.
-
-Check the live tool catalog for the user's task. One missing business tool on an otherwise connected provider is a capability gap, not a reason to repeat login. File upload/download and page handoff require the supported host and server contracts; do not infer them from ordinary business tools. Never install a CLI as recovery inside the MCP plugin.
+When the workflow selects MCP, follow `{baseDir}/references/oauth-and-scopes.md` to check the live connection, install or configure the provider if needed, authorize in the host, and resume the task. File upload, download and page handoff require their own supported host and server capabilities.
 
 ## Isolated V2 CLI
 

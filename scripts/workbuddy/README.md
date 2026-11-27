@@ -20,7 +20,7 @@ npm run workbuddy:test:manager
 
 The package is `dist/noxinfluencer-marketing-manager-workbuddy.zip`, with Skill name `noxinfluencer-marketing-manager`. The builder adapts the shared [Manager source](../../skills/influencer-marketing-manager/) and includes its complete resources; the shared source keeps its existing `influencer-marketing-manager` name.
 
-This standalone Skill provides strategy, creator-selection criteria, cooperation planning, and SOP guidance. It bundles no Expert, connector, or second Skill. The WorkBuddy output treats `noxinfluencer` as a reference to a separately installed, optional Skill: use it only when the task requires live product data or account operations and the capability is actually available. Consultation and analysis of supplied materials work independently; no automatic installation is requested. Only platform review can establish whether WorkBuddy accepts this cross-package reference.
+This standalone Skill provides strategy, creator-selection criteria, cooperation planning, and SOP guidance. Its shared collaboration rules use the active product entrypoint for account work and default to the separately installed `noxinfluencer` Skill when available. The archive contains the standalone Manager and its resources.
 
 Packaging also exports `dist/noxinfluencer-marketing-manager-workbuddy-icon.png` (512×512 PNG, at most 500KB). Upload this image through the avatar upload control on WorkBuddy's Skill confirmation page. The standalone Skill documentation does not define an archive avatar field, so the builder keeps the image as a separate submission asset.
 
@@ -39,7 +39,7 @@ npm run workbuddy:test:product
 
 The output is `dist/noxinfluencer-v2-workbuddy.zip`, with one Skill named `noxinfluencer-v2`. Upload the separate `dist/noxinfluencer-v2-workbuddy-icon.png` on the Skill submission form. Listing fields are maintained in [product/skill-metadata.json](product/skill-metadata.json).
 
-The Skill prefers an existing authorized NoxInfluencer MCP connection that supports the task. It also includes the isolated V2 CLI launcher and contracts for compatible terminal environments. WorkBuddy manages MCP OAuth through its connection controls. The CLI follows the pinned package contract in the V2 build and has its own login flow. Import the archive through the standalone Skill upload flow.
+The Skill prefers an existing authorized NoxInfluencer MCP connection that supports the task. Its MCP authorization guide uses the common setup, WorkBuddy route, and recovery rules from the generated V2 Skill. It also includes the isolated V2 CLI launcher and contracts for compatible terminal environments. The CLI follows the pinned package contract in the V2 build and has its own login flow. Import the archive through the standalone Skill upload flow.
 
 ## MCP Connector
 
@@ -69,9 +69,9 @@ WorkBuddy's cloud needs ongoing network access to the MCP resource metadata and 
 
 ## Expert
 
-The NoxInfluencer Expert is packaged directly from the existing [plugin directory](../../plugins/noxinfluencer/). Its content inputs are the physical plugin manifests, MCP configuration, README, license, two Skill directories and brand image in that directory. The packager generates WorkBuddy's manifest, Agent wrapper, package layout and connector dependency in memory.
+The NoxInfluencer Expert is packaged directly from the existing [plugin directory](../../plugins/noxinfluencer/). Its inputs include the plugin manifests, MCP configuration, README, license, two Skill directories, brand image and generated `.workbuddy-plugin/expert-agent.md.tmpl`. The packager fills in the Agent template and assembles the WorkBuddy manifest, layout and connector dependency in memory.
 
-The package contains the `noxinfluencer-plugin` and `influencer-marketing-manager-plugin` Skills and depends on the published WorkBuddy MCP connector with source `noxinfluencer-mcp`. Its tool list includes tool names. The connector package carries the detailed parameter references. The Manager uses the same-package product Skill only when it is installed and available in the current WorkBuddy context.
+The package contains the `noxinfluencer-plugin` and `influencer-marketing-manager-plugin` Skills and depends on the published WorkBuddy MCP connector with source `noxinfluencer-mcp`. Packaging binds the Manager's default product Skill to `noxinfluencer-plugin`. The connector package carries the detailed tool parameter references. The Agent links to the bundled product Skill's connection guide for account tasks without a ready connection. The guide includes the common setup, WorkBuddy fallback, and shared recovery rules.
 
 ```bash
 npm run workbuddy:check:expert
@@ -79,9 +79,9 @@ npm run workbuddy:package:expert
 npm run workbuddy:test:expert
 ```
 
-The Expert ZIP defaults to `dist/noxinfluencer-workbuddy-expert-<version>.zip`. Check and package read the stored plugin files directly. Update `plugins/noxinfluencer/` when changing package content; the Expert packager does not regenerate the plugin from another source tree or maintain a second copy of its business guidance.
+The Expert ZIP defaults to `dist/noxinfluencer-workbuddy-expert-<version>.zip`. Run `npm run v2:build` after changing the V2 connection guide or Agent template. Check and package read the generated plugin files directly.
 
-The packager maps the public Expert and Agent identity, WorkBuddy resource references and Skill availability conditions in memory. The plugin's original names and business guidance remain shared, including MCP-only execution boundaries, explanatory comparisons and maintenance commands. Use `--version x.y.z` after the package or check command to select an explicit release version.
+The packager maps the public Expert and Agent identity and WorkBuddy resource references in memory. Use `--version x.y.z` after the package or check command to select an explicit release version.
 
 The compatibility entrypoint `python scripts/workbuddy/sync_expert.py check|package` delegates to the same builder and also accepts `--version`. Packaging writes only the selected archive under `dist/`; it does not create a separate Expert source directory or synchronized Skill snapshots.
 

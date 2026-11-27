@@ -6,12 +6,14 @@ import { loadContracts } from './lib/contract-loader.mjs';
 import { validateCapabilityRegistry } from './lib/capability-registry.mjs';
 import { validateSharedSemanticSource, validateAssembledMarkdown } from './lib/semantic-source.mjs';
 import { renderMcpToolReferences } from './lib/mcp-tool-references.mjs';
+import { bindManagerProductSkill } from './lib/manager-skill.mjs';
 import { readDirectoryFileMap, readCanonicalTextFile, assertNoSymbolicLinkComponents,
   assertSafeRelativePath, createFileRecord, replaceTargetsAtomically } from './lib/canonical-files.mjs';
 
 export const repositoryRoot = resolve(fileURLToPath(new URL('../..', import.meta.url)));
 const sourcePath = 'v2/source/noxinfluencer';
 const mcpBuildManifestPath = 'v2/dist/noxinfluencer-mcp.skill-build-manifest.json';
+const expertAgentPath = 'adapters/mcp/workbuddy-expert-agent.md';
 const productSkills = [
   {
     mode: 'universal',
@@ -33,28 +35,18 @@ const productSkills = [
     mode: 'mcp',
     outputPath: 'plugins/noxinfluencer/skills/noxinfluencer-mcp',
     corePath: 'adapters/mcp/core.md',
-    runtimePath: 'adapters/plugin/runtime.md',
-    adapters: ['mcp', 'plugin'],
+    runtimePath: 'adapters/mcp/runtime.md',
+    adapters: ['mcp'],
     description: 'Operate NoxInfluencer creator and Campaign workflows through this plugin’s connected MCP provider. Use for product operations in this plugin; explicitly selected standalone workflows keep their own entrypoint.',
   },
 ];
 const json = value => Buffer.from(JSON.stringify(value, null, 2) + '\n');
-const mcpExcludedReferences = new Set(['brand-monitor.md', 'outreach-and-messaging.md', 'product-short-link-affiliation.md']);
+const mcpExcludedReferences = new Set(['brand-monitor.md', 'outreach-and-messaging.md', 'product-short-link-affiliation.md',
+  'product-overview.md', 'files-and-exports.md', 'quota-pricing-dispute-feedback.md']);
 const mcpExcludedSections = new Map([
   ['creator.md', new Set(['Connected-Store Target Invitations'])],
   ['monitor.md', new Set(['Future Content'])],
   ['campaign-agent-automation.md', new Set(['Campaign workspace smart actions', 'Showing completed work in the Campaign workspace', 'Finishing a creator-reply automation run'])],
-]);
-const mcpReferencePresentationOverrides = new Map([
-  ['campaign-invitation-management.md', [
-    ['For showing completed work in the SaaS Campaign workspace after the final answer, use the page-coordination guidance in `{baseDir}/references/campaign-agent-automation.md`.',
-      'For Campaign invitation presentation, follow `{baseDir}/references/handoffs.md`.'],
-    [' Use the workspace navigation guidance for the page link.', ''],
-  ]],
-  ['marketing-plan-and-campaign.md', [
-    ['Read operations should return useful plan summaries without opening a page. Open a page only when the user asks to continue visually or explicitly approves a supported page handoff.',
-      'Return useful plan summaries. For Campaign presentation, follow `{baseDir}/references/handoffs.md`.'],
-  ]],
 ]);
 
 /** 检查公开输入和产物，拒绝密钥、本机路径、内网地址及内嵌宿主依赖。 */
@@ -112,18 +104,10 @@ export function createOutputs(root = repositoryRoot) {
     for (const [path, bytes] of sourceFiles) {
       if (path.startsWith('shared/references/')) {
         const name = path.slice('shared/references/'.length);
-        if (mode === 'mcp' && (mcpExcludedReferences.has(name) || sourceFiles.has(`adapters/mcp/references/${name}`) || sourceFiles.has(`adapters/plugin/references/${name}`))) continue;
+        if (mode === 'mcp' && mcpExcludedReferences.has(name)) continue;
         const excluded = mode === 'mcp' && mcpExcludedSections.get(name);
-        let content = excluded ? Buffer.from(bytes.toString().split(/(?=^## )/m)
+        const content = excluded ? Buffer.from(bytes.toString().split(/(?=^## )/m)
           .filter(section => !excluded.has(section.match(/^## (.+)\r?$/m)?.[1])).join('').trimEnd() + '\n') : bytes;
-        if (mode === 'mcp' && mcpReferencePresentationOverrides.has(name)) {
-          let markdown = content.toString();
-          for (const [original, replacement] of mcpReferencePresentationOverrides.get(name)) {
-            if (!markdown.includes(original)) throw new Error(`Missing shared presentation text: ${path}`);
-            markdown = markdown.replace(original, replacement);
-          }
-          content = Buffer.from(markdown);
-        }
         add(path.replace('shared/', ''), content, path);
       }
     }
@@ -132,14 +116,9 @@ export function createOutputs(root = repositoryRoot) {
       for (const [path, bytes] of sourceFiles) {
         if (!path.startsWith(prefix)) continue;
         const name = path.slice(prefix.length);
-        if (name === 'frontmatter.yaml' || name === 'core.md') continue;
-        if (runtime === 'plugin' && name === 'manager-context.md') continue;
-        // Plugin policy overrides only the installed-plugin output, never the universal Skill.
-        if (mode === 'mcp' && runtime === 'mcp' && sourceFiles.has(`adapters/plugin/${name}`)) continue;
-        // Runtime-specific replacements belong only to the fixed MCP entrypoint.
-        if (mode === 'universal' && name.startsWith('references/') && sourceFiles.has(`shared/${name}`)) continue;
+        if (name === 'frontmatter.yaml' || name === 'core.md' || path === expertAgentPath) continue;
         let target;
-        if (name === 'runtime.md') target = `references/runtime-${runtime === 'plugin' ? 'mcp' : runtime}.md`;
+        if (name === 'runtime.md') target = `references/runtime-${runtime}.md`;
         else if (name.startsWith('assets/')) target = name.slice(7);
         else if (name.startsWith('scripts/') || name.startsWith('references/')) target = name;
         else if (name.endsWith('.md')) target = `references/${name}`;
@@ -149,7 +128,7 @@ export function createOutputs(root = repositoryRoot) {
     }
     if (adapters.includes('mcp')) {
       const tools = contracts.snapshots.get('mcp-tools').items;
-      for (const [path, content] of renderMcpToolReferences(tools, { plugin: mode === 'mcp' })) {
+      for (const [path, content] of renderMcpToolReferences(tools, { includeParameters: mode === 'mcp' })) {
         add(path, content, 'snapshots/mcp-tools.json');
       }
     }
@@ -169,17 +148,16 @@ export function createOutputs(root = repositoryRoot) {
     else add('skill-build-manifest.json', buildManifest);
     outputs.set(outputPath, files);
   }
-  // Keep shared Manager business text unchanged; inject installation context only in the plugin.
+  // Bind the bundled Manager to the product Skill generated for this plugin.
   const managerRoot = resolve(root, 'skills/influencer-marketing-manager');
   assertNoSymbolicLinkComponents(root, managerRoot);
   const manager = readDirectoryFileMap(managerRoot);
   validateSkill(manager);
   const document = parseDocument(manager.get('SKILL.md').toString().split('---')[1]);
   if (document.toJS().name !== 'influencer-marketing-manager') throw new Error('Manager identity drift');
-  const managerPolicy = read('adapters/plugin/manager-context.md').toString().trim();
-  manager.set('SKILL.md', Buffer.from(manager.get('SKILL.md').toString().replace(/^(---\r?\n[\s\S]*?\r?\n---\r?\n)/, `$1\n${managerPolicy}\n\n`)));
-  validateSkill(manager);
-  outputs.set('plugins/noxinfluencer/skills/influencer-marketing-manager', manager);
+  const pluginManager = bindManagerProductSkill(manager, 'noxinfluencer', 'noxinfluencer-mcp');
+  validateSkill(pluginManager);
+  outputs.set('plugins/noxinfluencer/skills/influencer-marketing-manager', pluginManager);
   const manifestPath = 'plugins/noxinfluencer/.codex-plugin/plugin.json';
   const manifest = JSON.parse(readCanonicalTextFile(resolve(root, manifestPath)));
   manifest.version = contracts.versions.plugin_version;
@@ -192,7 +170,9 @@ export function createOutputs(root = repositoryRoot) {
   const grokManifestPath = 'plugins/noxinfluencer/.grok-plugin/plugin.json';
   const workbuddyManifestPath = 'plugins/noxinfluencer/.workbuddy-plugin/plugin.json';
   return { outputs, mcpBuildManifest, files: new Map([[manifestPath, json(manifest)], [channelManifestPath, json(channelManifest)],
-    [grokManifestPath, json(channelManifest)], [workbuddyManifestPath, json(channelManifest)], ['plugins/noxinfluencer/.mcp.json', json({ mcpServers: {
+    [grokManifestPath, json(channelManifest)], [workbuddyManifestPath, json(channelManifest)],
+    ['plugins/noxinfluencer/.workbuddy-plugin/expert-agent.md.tmpl', read(expertAgentPath)],
+    ['plugins/noxinfluencer/.mcp.json', json({ mcpServers: {
     [deployment.provider]: { type: 'http', url: deployment.url, oauth_resource: deployment.oauth_resource },
   } })]]) };
 }

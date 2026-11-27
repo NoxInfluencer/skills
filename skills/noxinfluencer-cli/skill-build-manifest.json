@@ -29,8 +29,8 @@
     },
     {
       "path": "adapters/cli/references/campaign-agent-automation-cli.md",
-      "bytes": 14229,
-      "sha256": "062ec6c16322f031c138d78b2f1bf9ef7fabd7745a102760d04528b0b6c11967"
+      "bytes": 14291,
+      "sha256": "49ff5653c97c228ac035b510d250b37a74ef0adbec4553e01498b229606e2f56"
     },
     {
       "path": "adapters/cli/references/marketing-ops-cli.md",
@@ -69,8 +69,8 @@
     },
     {
       "path": "shared/core.md",
-      "bytes": 5986,
-      "sha256": "7f7e8689841cdb2d86a083276ecdb86a5fe8df595e235034c707243165a06a95"
+      "bytes": 5914,
+      "sha256": "04f8f9f03acad1cab06a0633ff3e14375d81f1bad3892a0981e4a1d4745c909b"
     },
     {
       "path": "shared/references/brand-monitor.md",
@@ -79,8 +79,8 @@
     },
     {
       "path": "shared/references/campaign-agent-automation.md",
-      "bytes": 9291,
-      "sha256": "d31a7546ef148f26e63b15b7770471c1b95b9d23a9b6305029a0ad70e8533c7a"
+      "bytes": 9391,
+      "sha256": "7890a9fd339294d9cb0a951dfb8a1b53b2ae299a67f6efac7980ce55da60b970"
     },
     {
       "path": "shared/references/campaign-cooperation-management.md",
@@ -89,8 +89,8 @@
     },
     {
       "path": "shared/references/campaign-invitation-management.md",
-      "bytes": 17910,
-      "sha256": "8f06c33ca9ab7731db2d55f8b608dbca0bdf5ac3653389be96e654e585f5d3cc"
+      "bytes": 17803,
+      "sha256": "dedd49f6faebb98e1d5b8bdf75450c9636444c2e65f97c74b44e901246f43c77"
     },
     {
       "path": "shared/references/campaign-products.md",
@@ -114,8 +114,8 @@
     },
     {
       "path": "shared/references/marketing-plan-and-campaign.md",
-      "bytes": 13468,
-      "sha256": "baf5a0f2019a3588e1222c5603fbbccfeededb2fc2910b14c5c71f0164776621"
+      "bytes": 14084,
+      "sha256": "a0333b3829f43247a1660ab3a78aba858a17adac2190379b077dc23949e9e867"
     },
     {
       "path": "shared/references/monitor.md",
@@ -166,8 +166,8 @@
     },
     {
       "path": "references/campaign-agent-automation.md",
-      "bytes": 9291,
-      "sha256": "d31a7546ef148f26e63b15b7770471c1b95b9d23a9b6305029a0ad70e8533c7a"
+      "bytes": 9391,
+      "sha256": "7890a9fd339294d9cb0a951dfb8a1b53b2ae299a67f6efac7980ce55da60b970"
     },
     {
       "path": "references/campaign-cooperation-management.md",
@@ -176,8 +176,8 @@
     },
     {
       "path": "references/campaign-invitation-management.md",
-      "bytes": 17910,
-      "sha256": "8f06c33ca9ab7731db2d55f8b608dbca0bdf5ac3653389be96e654e585f5d3cc"
+      "bytes": 17803,
+      "sha256": "dedd49f6faebb98e1d5b8bdf75450c9636444c2e65f97c74b44e901246f43c77"
     },
     {
       "path": "references/campaign-products.md",
@@ -201,8 +201,8 @@
     },
     {
       "path": "references/marketing-plan-and-campaign.md",
-      "bytes": 13468,
-      "sha256": "baf5a0f2019a3588e1222c5603fbbccfeededb2fc2910b14c5c71f0164776621"
+      "bytes": 14084,
+      "sha256": "a0333b3829f43247a1660ab3a78aba858a17adac2190379b077dc23949e9e867"
     },
     {
       "path": "references/monitor.md",
@@ -266,8 +266,8 @@
     },
     {
       "path": "references/campaign-agent-automation-cli.md",
-      "bytes": 14229,
-      "sha256": "062ec6c16322f031c138d78b2f1bf9ef7fabd7745a102760d04528b0b6c11967"
+      "bytes": 14291,
+      "sha256": "49ff5653c97c228ac035b510d250b37a74ef0adbec4553e01498b229606e2f56"
     },
     {
       "path": "references/marketing-ops-cli.md",
@@ -306,8 +306,8 @@
     },
     {
       "path": "SKILL.md",
-      "bytes": 7121,
-      "sha256": "45e30072e5bafbde4cabad74c9b9e0395488fa9c3dce5cfb818fa70564b4f035"
+      "bytes": 7049,
+      "sha256": "6961cfe1ccd527e2afa3e39efe9e7d846ec8c5788530f28fe1db72cde74a0e45"
     }
   ]
 }

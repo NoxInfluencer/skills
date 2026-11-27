@@ -3,6 +3,7 @@ import { resolve, relative, isAbsolute } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseDocument } from 'yaml';
 import yazl from 'yazl';
+import { workBuddyOAuthReference } from './markdown.mjs';
 import { assertPublicFile, repositoryRoot, validateSkill } from '../../v2/scripts/build.mjs';
 import {
   assertNoSymbolicLinkComponents, assertSafeRelativePath, comparePortablePaths, readBoundedRegularFile,
@@ -14,7 +15,6 @@ const connectorSource = 'noxinfluencer-mcp';
 const upstreamMcpServerName = 'noxinfluencer';
 const pluginPath = 'plugins/noxinfluencer';
 const skillPath = `${pluginPath}/skills/${skillName}`;
-const runtimePath = 'references/workbuddy-runtime.md';
 export const mcpVersion = '1.0.4';
 const defaultArchive = 'dist/noxinfluencer-workbuddy-mcp.zip';
 const semver = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
@@ -55,29 +55,10 @@ function createMetadata(server, version) {
   };
 }
 
-function markdownSection(text, heading) {
-  const start = text.indexOf(`\n${heading}\n`);
-  requireValue(start >= 0, `Missing plugin documentation section: ${heading}`);
-  const rest = text.slice(start + 1);
-  const end = rest.indexOf('\n## ', heading.length);
-  return (end < 0 ? rest : rest.slice(0, end)).trim();
-}
-
 /** Select the plugin's WorkBuddy route and shared recovery rules; omit other hosts' login routes. */
 function createOAuthReference(bytes) {
-  const text = bytes.toString('utf8');
-  const workbuddy = markdownSection(text, '## WorkBuddy Authorization')
-    .replaceAll('this installed plugin', 'this connector')
-    .replaceAll("this plugin's NoxInfluencer MCP connection", 'this NoxInfluencer MCP connector')
-    .replace('through the shared continuation steps above', 'through the shared continuation steps below')
-    .replace(/^In WorkBuddy, do not execute the Codex section below[^\n]+/m,
-      'Use the actual connection and reconnect controls provided by WorkBuddy for this connector.');
-  const continuation = markdownSection(text, '## One Attempt, Then Resume')
-    .replace(' The additional first-connection condition in the Codex route applies only to Codex.', '')
-    .replace('and the matching route below', 'for this connector');
-  return adaptMarkdown(Buffer.from('# WorkBuddy MCP Authorization And Task Continuation\n\n' +
-    `Use the WorkBuddy MCP connector with source \`${connectorSource}\` and scope \`noxinfluencer.agent.user\`. Keep account identity and authorization inside WorkBuddy.\n\n` +
-    [workbuddy, continuation, markdownSection(text, '## Failure Boundaries')].join('\n\n') + '\n'));
+  const intro = `Use the WorkBuddy MCP connector with source \`${connectorSource}\` and scope \`noxinfluencer.agent.user\`.`;
+  return adaptMarkdown(Buffer.from(workBuddyOAuthReference(bytes.toString('utf8'), intro)));
 }
 
 function adaptMarkdown(bytes) {
@@ -87,18 +68,12 @@ function adaptMarkdown(bytes) {
       'description: Use the NoxInfluencer WorkBuddy connector for creator research, collections, CRM, monitoring, and intelligent marketing plans.')
     .replaceAll('{baseDir}/references/', '@references/')
     .replace(/`(references\/[\w./-]+\.md)`/g, '`@$1`')
-    .replaceAll('@references/codex-plugin-runtime.md', `@${runtimePath}`)
-    .replace(/^When invoked through an installed Agent plugin .*? all NoxInfluencer business operations use MCP\./m,
+    .replace('The installed Agent plugin uses MCP for all NoxInfluencer operations.',
       'When using the NoxInfluencer WorkBuddy connector, all NoxInfluencer business operations use MCP.')
-    .replace(/^These rules apply only when the active invocation is through an installed Agent plugin[^\n]+/m,
-      'These rules apply when using the NoxInfluencer WorkBuddy connector.')
-    .replace(/^This adapter applies only to the active installed Agent plugin entrypoint\.[^\n]+/m,
-      'This adapter applies when using the NoxInfluencer WorkBuddy connector.')
-    .replace('In an installed Agent plugin, call only tools exposed by the connected `noxinfluencer` provider.',
+    .replace('Call only tools exposed by the connected `noxinfluencer` provider.',
       'In WorkBuddy, call only live tools exposed by this NoxInfluencer MCP connector (source: `noxinfluencer-mcp`).')
     .replace(/^- Use `influencer-marketing-manager`[^\n]+\n/m, '')
     .replaceAll(' Shared Manager examples do not override this entrypoint.', '')
-    .replaceAll(' Shared business references and Manager examples follow this plugin policy in the installed plugin.', '')
     .replace(/^The shared influencer-marketing-manager supplies business judgment[^\n]+\n/m,
       'Read the required runtime rules before executing NoxInfluencer operations. Reuse loaded instructions without recursive handoffs.\n')
     .trimEnd() + '\n');
@@ -121,8 +96,7 @@ export function createMcpEntries({ root = repositoryRoot, version = mcpVersion }
     if (path !== 'SKILL.md' && !/^references\/[^/]+\.md$/.test(path)) {
       throw new Error(`Review new WorkBuddy Skill resource: ${path}`);
     }
-    const target = path === 'references/codex-plugin-runtime.md' ? runtimePath : path;
-    skill.set(target, adaptMarkdown(bytes));
+    skill.set(path, adaptMarkdown(bytes));
   }
   const toolList = skill.get('references/tool-list.md');
   requireValue(source.has('references/oauth-and-scopes.md') && toolList, 'Missing plugin OAuth/tool-list resource');

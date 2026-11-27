@@ -4,7 +4,7 @@
 
 An intelligent marketing plan (Campaign) is a task-oriented workspace that can carry preparation, creator selection, recipient state, outreach content, execution status, and reporting. Begin with the plan list or plan detail when the target task is unclear. Keep task identity, ownership, status, and pagination metadata for later actions.
 
-Return useful plan summaries. For Campaign presentation, follow `{baseDir}/references/handoffs.md`. A missing business capability alone does not authorize browser operation or changing the execution route.
+Return useful plan summaries and follow the selected runtime's presentation rules. A missing business capability alone does not authorize browser operation or changing the execution route.
 
 ## Campaign State
 
@@ -36,11 +36,15 @@ If missing data, a permission restriction, a tool error or a pending send confir
 
 Report verified results by requested operation, including the plans, lists, candidate rows and detailed reviews actually obtained. For each unfinished operation, state the blocker and which result or approval is needed to continue. If the account connection is unavailable, identify the account results that could not be retrieved. Retain confirmed progress and resume the remaining operations when their prerequisites are met.
 
+When the user requests an output file, write the parts supported by their materials and any verified results to the requested path and format if the host can write it. Mark draft configuration as proposed, and blocked account steps as pending or unverified. Do not add placeholder account rows to reach a requested count. Keep this file available when resuming the blocked work.
+
 ## Execution And Reporting
 
 For invitation management, read `{baseDir}/references/campaign-invitation-management.md`. It defines permitted copy drafting, page operations, and the mandatory reviewed second confirmation for start, resend and retry.
 
 Validation checks whether the current state is executable. Preview explains the intended change or send scope. Execution applies the already approved state. If recipients, sender, content, schedule, or key parameters change after approval, create a new preview and request confirmation again.
+
+For a requested draft, apply and verification workflow, save the draft before applying it. After apply, use the declared read operation to compare the actual applied fields with the intended values and report any differences or unread fields. A draft read or successful apply response alone does not verify the applied configuration.
 
 Bulk send, payment, irreversible removal, and destructive campaign changes are high risk. See `{baseDir}/references/risk-confirmation.md` before execution.
 

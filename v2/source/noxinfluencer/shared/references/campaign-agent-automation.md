@@ -50,7 +50,7 @@ Automatic discovery may continue after the user enables it. The Agent can refine
 
 ## Campaign workspace smart actions
 
-In the SaaS Campaign workspace, the Smart initial selection and Smart curation buttons prepare an editable message in the left Agent collaboration panel. They do not submit the message automatically and do not send invitations. The user must review and send the prepared message.
+This section applies to the interactive SaaS Campaign workspace. Its Smart initial selection and Smart curation buttons prepare an editable message in the left Agent collaboration panel. They do not submit the message automatically and do not send invitations. The user must review and send the prepared message.
 
 - Smart initial selection acts on the current search recommendation result context and moves suitable creators to Candidates or marks them not interested.
 - Smart curation acts on the current Campaign candidate list and moves suitable creators to Invitation Pending, marks unsuitable creators not interested, and keeps insufficient-evidence creators in Candidates unless the user changes the task instruction.
@@ -59,7 +59,7 @@ In the SaaS Campaign workspace, the Smart initial selection and Smart curation b
 
 ## Showing completed work in the Campaign workspace
 
-Completed work can expose result links and request one corresponding page after the final answer. Navigation never grants permission to mutate data or send mail. A queued dispatch is not a sent invitation; failed delivery belongs to Invited / Bounced. Restoring unsuitable creators returns them to Candidates. Show completed discovery work through the actual Campaign candidate or not-interested list; do not rerun a search merely to recreate a historical page.
+When the selected runtime supports SaaS workspace result receipts, completed work can expose result links and request one corresponding page after the final answer. Navigation never grants permission to mutate data or send mail. A queued dispatch is not a sent invitation; failed delivery belongs to Invited / Bounced. Restoring unsuitable creators returns them to Candidates. Show completed discovery work through the actual Campaign candidate or not-interested list; do not rerun a search merely to recreate a historical page.
 
 Do not claim the page changed just because a view request was accepted. The platform protects editing, open dialogs, inactive tabs and users who moved away. History keeps manual result links. Consult the runtime-specific Campaign automation reference for the available page-coordination mechanism.
 

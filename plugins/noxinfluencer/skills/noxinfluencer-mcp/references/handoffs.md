@@ -1,6 +1,6 @@
-# Plugin Handoff Presentation
+# MCP Handoff Presentation
 
-Apply these rules in the installed Agent plugin. Keep OAuth in the system browser through the host's authorization controls. Use MCP for business operations, confirmation, idempotency, and result verification.
+Apply these rules when the active workflow uses MCP. Keep OAuth in the host's authorization flow. Use MCP for business operations, confirmation, idempotency, and result verification.
 
 ## Business page opening
 
@@ -18,7 +18,7 @@ Honor an explicit conversation-only request for the current turn. Return the bus
 
 ### Reuse the exact open page
 
-Reuse the current conversation's right-side page only when trusted host information confirms it is already open for the current authorized account and the exact target plan and view. Java publishes invitation changes and kol-next subscribes via SSE to refresh the matching open invitation page in place. For example, if plan A's Queued Sends view is already open, keep it when a new invitation is accepted. Skip reopening the page and requesting or consuming a Handoff for display.
+Reuse an existing view in the current conversation only when trusted host information confirms it is already open for the current authorized account and the exact target plan and view. Java publishes invitation changes and kol-next subscribes via SSE to refresh the matching open invitation page in place. For example, if plan A's Queued Sends view is already open, keep it when a new invitation is accepted. Skip reopening the page and requesting or consuming a Handoff for display.
 
 ### Open a different or closed page
 
@@ -38,7 +38,7 @@ If a Handoff has expired or its consumption status is uncertain, use only a decl
 
 For example, if the live schema declares the invitation page Handoff on `campaign2_invitations_list`, request the target `campaign_id` with `view: "pending"` and `status_group: "queued"` for its Queued Sends page. Use the resulting link only when it is ready for `campaign_invitation_queued`. For the plan list, use `campaign2_plan_list` when its live schema declares the `campaign_list` Handoff.
 
-## Other plugin results
+## Other MCP results
 
 Outside Campaign, use a configured Handoff from the live MCP contract for the exact result when the host supports it. Verify the authorized account and destination before reusing a view or reporting it as open. Prefer the current chat's existing matching view and continue the business workflow if presentation is pending. Honor conversation-only requests.
 

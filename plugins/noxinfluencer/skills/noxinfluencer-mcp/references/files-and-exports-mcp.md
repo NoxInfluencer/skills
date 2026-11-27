@@ -1,4 +1,4 @@
-# Exports And Reports
+# MCP Exports And Reports
 
 Creator, lookalike, collection and CRM exports use the shared export lifecycle. Preview when available, create once for the approved selection, retain the export identity, and poll `get_export` with a bounded stopping condition. Use `list_exports` to find an existing task instead of recreating it.
 

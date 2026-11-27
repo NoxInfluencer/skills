@@ -43,50 +43,69 @@ test('MCP advertised tools exactly match the checked catalog and omit unsupporte
   for (const [path, bytes] of mcp) {
     if (path.endsWith('.md')) assert.doesNotMatch(bytes.toString(), /open_marketing_plan_tasks|list_marketing_plan_tasks|plan_list\/[^\n]*\/copy\//);
   }
-  assert.doesNotMatch(mcp.get('references/product-overview.md').toString(), /Shopify|brand monitoring|message threads/i);
+  assert.doesNotMatch(mcp.get('references/product-overview-mcp.md').toString(), /Shopify|brand monitoring|message threads/i);
   assert.doesNotMatch(mcp.get('references/campaign-agent-automation.md').toString(), /workspace smart actions|creator-reply automation run|request one corresponding page/);
   assert.match(mcp.get('references/campaign-agent-automation.md').toString(), /User attachments/);
   assert.match(universal.get('references/campaign-agent-automation.md').toString(), /creator-reply automation run/);
   assert.doesNotMatch(mcp.get('references/creator.md').toString(), /Connected-Store Target Invitations/);
 });
 
-test('plugin ships live-contract Handoff and honest authorization continuation, isolated from historical standalone policy', () => {
+test('plugin and universal Skills ship the same MCP rules', () => {
   const { outputs } = createOutputs();
   const plugin = outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp');
   const universal = outputs.get('skills/noxinfluencer-v2');
-  for (const name of ['handoffs', 'oauth-and-scopes', 'codex-plugin-runtime']) {
+  for (const name of ['handoffs', 'mcp-host-runtime', 'tool-execution', 'runtime-mcp', 'campaign-agent-automation-mcp',
+    'files-and-exports-mcp', 'product-overview-mcp', 'quota-pricing-dispute-feedback-mcp']) {
     const path = `references/${name}.md`;
     assert.ok(plugin.has(path));
-    assert.notDeepEqual(plugin.get(path), universal.get(path));
+    assert.deepEqual(plugin.get(path), universal.get(path));
   }
   const handoff = plugin.get('references/handoffs.md').toString();
   assert.match(handoff, /If no Handoff is configured or advertised, present the available business result in conversation/);
   assert.match(handoff, /If a configured Handoff fails, report that presentation failure with the confirmed business result/);
   assert.doesNotMatch(handoff, /currently deferred|only after the user explicitly asks/);
   const auth = plugin.get('references/oauth-and-scopes.md').toString();
+  assert.equal(auth, universal.get('references/oauth-and-scopes.md').toString());
+  const selection = markdownSection(universal.get('SKILL.md').toString(), '## Runtime Selection');
+  assert.match(selection, /If MCP is selected and the connection is not ready, follow .*references\/oauth-and-scopes\.md/);
+  assert.match(selection, /If CLI is selected and needs setup, follow .*references\/auth\.md/);
+  assert.match(selection, /Continue through the selected runtime's recovery, including when the other runtime is ready/);
+  assert.match(selection, /For a new workflow with no selected runtime/);
+  assert.match(selection, /isolated V2 CLI if it is installed, authorized for that account, and its live schema covers the task/);
   assert.match(auth, /successful exit and explicit login-success result mean authorization succeeded/);
   assert.match(auth, /do not assume launching a separate login process refreshed the active task/);
   assert.match(auth, /resume the retained original operation immediately/);
   assert.match(plugin.get('SKILL.md').toString(), /installed Agent plugin/);
-  assert.match(plugin.get('references/runtime-mcp.md').toString(), /Agent Plugin Installation Context/);
+  assert.match(plugin.get('references/runtime-mcp.md').toString(), /MCP Runtime Boundary/);
   assert.equal(universal.has('references/runtime-plugin.md'), false);
 });
 
 test('the shared plugin routes OAuth to the running host and resolves WorkBuddy Skill resources', () => {
   const plugin = createOutputs().outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp');
   const auth = plugin.get('references/oauth-and-scopes.md').toString();
-  const common = markdownSection(auth, '## One Attempt, Then Resume');
+  const setup = markdownSection(auth, '## Common Host Connection Setup');
+  const continuation = markdownSection(auth, '## One Attempt, Then Resume');
   const workbuddy = markdownSection(auth, '## WorkBuddy Authorization');
   const codex = markdownSection(auth, '## Codex Authorization Only');
-  assert.doesNotMatch(common, /codex mcp login|start-codex-oauth/);
+  assert.match(setup, /Install if confirmed missing, enable if disabled, and reuse any valid authorization/);
+  assert.match(setup, /invoke the host's native authorization or reconnect action once/);
+  assert.match(setup, /Use the confirmed host's section/);
+  assert.match(setup, /Use the connection declared by the plugin or Expert when present/);
+  assert.match(setup, /Reuse an existing pending flow/);
+  assert.match(setup, /When authorization succeeds but tools are still absent, follow the readiness checks.*Do not start authorization again/);
+  assert.doesNotMatch(setup + continuation, /codex mcp login|start-codex-oauth/);
   assert.match(workbuddy, /WorkBuddy's native authorization action/);
   assert.match(workbuddy, /连接 \(Connect\)/);
-  assert.match(workbuddy, /do not execute the Codex section/);
+  assert.match(workbuddy, /skipped, cancelled or failed, go directly to the recovery controls/);
+  assert.match(workbuddy, /without invoking another host's login commands/);
   assert.doesNotMatch(workbuddy, /codex mcp login|noxinfluencer\.codex\.user|start-codex-oauth/);
   assert.match(codex, /only when trusted host context confirms that the running host is Codex/);
   assert.match(codex, /codex mcp login noxinfluencer --oauth-client-registration dcr --scopes noxinfluencer\.codex\.user/);
   assert.ok(plugin.has('scripts/start-codex-oauth.ps1'), 'Codex authorization remains available in the same shared plugin');
   const entrypoint = plugin.get('SKILL.md').toString();
+  const operation = markdownSection(entrypoint, '## Choose The Available Operation');
+  assert.match(operation, /first read .*references\/oauth-and-scopes\.md/);
+  assert.ok(operation.indexOf('references/oauth-and-scopes.md') < operation.indexOf('references/tool-list.md'));
   assert.match(entrypoint, /\$\{CODEBUDDY_SKILL_DIR\}/);
   assert.match(entrypoint, /use this native, host-expanded location for every/);
   assert.match(entrypoint, /A sibling Skill has its own directory/);
@@ -115,7 +134,7 @@ test('missing Handoffs stop page opening across page routes while valid-link hos
   const handoff = plugin.get('references/handoffs.md').toString();
   const policy = markdownSection(handoff, '## Business page opening');
   const entrypoint = markdownSection(plugin.get('SKILL.md').toString(), '## Business page opening');
-  const other = markdownSection(handoff, '## Other plugin results');
+  const other = markdownSection(handoff, '## Other MCP results');
   const recovery = markdownSection(handoff, '### Recover an expired or uncertain link');
   for (const [name, text] of [['entrypoint', entrypoint], ['policy', policy], ['other results', other], ['recovery', recovery]]) {
     assert.ok(text.includes('"没有相关页面可以打开。"'), `${name} must retain the exact unavailable-page reply`);
@@ -137,12 +156,11 @@ test('business-page gate preserves current Handoff reuse and separate OAuth, dow
   assert.match(policy, /exact matching page open under the reuse rules below is not a new page open/);
   assert.match(policy, /OAuth authorization, file downloads, and original public creator or video evidence retain their own rules/);
   assert.deepEqual(plugin.get('references/oauth-and-scopes.md'),
-    readFileSync(resolve(repositoryRoot, 'v2/source/noxinfluencer/adapters/plugin/oauth-and-scopes.md')));
+    readFileSync(resolve(repositoryRoot, 'v2/source/noxinfluencer/adapters/mcp/oauth-and-scopes.md')));
   assert.deepEqual(universal.get('references/handoffs.md'),
     readFileSync(resolve(repositoryRoot, 'v2/source/noxinfluencer/adapters/mcp/handoffs.md')));
-  for (const path of ['SKILL.md', 'references/handoffs.md']) {
-    assert.doesNotMatch(universal.get(path).toString(), /## Business page opening|没有相关页面可以打开。/, path);
-  }
+  assert.deepEqual(plugin.get('references/handoffs.md'), universal.get('references/handoffs.md'));
+  assert.doesNotMatch(universal.get('SKILL.md').toString(), /## Business page opening|没有相关页面可以打开。/);
 });
 
 test('Campaign page reuse requires an exact current account and chat match and uses the website SSE refresh', () => {
@@ -150,7 +168,7 @@ test('Campaign page reuse requires an exact current account and chat match and u
   const plugin = outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp');
   const handoff = plugin.get('references/handoffs.md').toString();
   const reuse = markdownSection(handoff, '### Reuse the exact open page');
-  assert.match(reuse, /current conversation's right-side page only when[^.]+host information confirms[^.]+current authorized account[^.]+exact target plan and view/);
+  assert.match(reuse, /existing view in the current conversation only when[^.]+host information confirms[^.]+current authorized account[^.]+exact target plan and view/);
   assert.match(reuse, /Java publishes invitation changes[^.]+kol-next subscribes via SSE[^.]+page in place/);
   assert.match(reuse, /Queued Sends view is already open[^.]+keep it/);
   assert.match(reuse, /Skip reopening the page and requesting or consuming a Handoff for display/);
@@ -202,15 +220,14 @@ test('Campaign link recovery requires a declared read-only MCP entrypoint for th
   assert.match(recover, /only when it is ready for `campaign_invitation_queued`/);
 });
 
-test('installed Campaign references delegate opening to Handoff policy and standalone retains its separate workflow', () => {
+test('Campaign references delegate presentation to the selected runtime', () => {
   const { outputs } = createOutputs();
   const plugin = outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp');
   const universal = outputs.get('skills/noxinfluencer-v2');
   const runtime = plugin.get('references/runtime-mcp.md').toString();
   assert.ok(plugin.get('SKILL.md').toString().includes(runtime));
   const obsoleteOpeningRules = /turn terminal|terminal-triggered|host turn ends|page-load receipt|render receipt|verified native (?:host|Handoff) action|structured (?:workbench|status interface)|authorized workspace context interface|SaaS Campaign workspace after the final answer|workspace navigation guidance for the page link|Open a page only when the user asks/i;
-  for (const name of ['runtime-mcp', 'tool-execution', 'codex-plugin-runtime', 'campaign-agent-automation-mcp',
-    'campaign-invitation-management', 'marketing-plan-and-campaign']) {
+  for (const name of ['runtime-mcp', 'tool-execution', 'mcp-host-runtime', 'campaign-agent-automation-mcp']) {
     const path = `references/${name}.md`;
     const content = plugin.get(path).toString();
     assert.match(content, /references\/handoffs\.md/, path);
@@ -218,12 +235,14 @@ test('installed Campaign references delegate opening to Handoff policy and stand
   }
   assert.doesNotMatch(plugin.get('references/handoffs.md').toString(), obsoleteOpeningRules);
   const manager = outputs.get('plugins/noxinfluencer/skills/influencer-marketing-manager');
-  assert.match(manager.get('SKILL.md').toString(), /references\/handoffs\.md/);
+  assert.match(manager.get('SKILL.md').toString(), /Otherwise use the `noxinfluencer-mcp` product Skill/);
   assert.doesNotMatch(manager.get('SKILL.md').toString(), obsoleteOpeningRules);
   assert.doesNotMatch(universal.get('SKILL.md').toString(), /## Campaign presentation|`cua_repl`/);
-  assert.match(universal.get('references/handoffs.md').toString(), /Campaign and page Handoff are currently deferred/);
-  assert.match(universal.get('references/campaign-invitation-management.md').toString(), /SaaS Campaign workspace after the final answer/);
-  assert.match(universal.get('references/marketing-plan-and-campaign.md').toString(), /Open a page only when the user asks to continue visually/);
+  for (const name of ['campaign-invitation-management', 'marketing-plan-and-campaign']) {
+    const path = `references/${name}.md`;
+    assert.deepEqual(plugin.get(path), universal.get(path));
+    assert.match(universal.get(path).toString(), /selected runtime's (?:Campaign )?presentation rules/);
+  }
 });
 
 test('plan-list input schema and plugin prompts match the supported surface', () => {
@@ -232,6 +251,18 @@ test('plan-list input schema and plugin prompts match the supported surface', ()
   assert.deepEqual(Object.keys(schema.properties).sort(), ['page_num', 'page_size', 'keyword', 'start_time', 'end_time', 'invite_status'].sort());
   const manifest = JSON.parse(readFileSync(resolve(repositoryRoot, 'plugins/noxinfluencer/.codex-plugin/plugin.json')));
   assert.ok(manifest.interface.defaultPrompt.some(prompt => /marketing.plan/i.test(prompt)));
+});
+
+test('MCP uses explicit write scope and retains verification and local output when a workflow is interrupted', () => {
+  const { outputs } = createOutputs();
+  const plugin = outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp');
+  const execution = plugin.get('references/tool-execution.md').toString();
+  assert.match(execution, /an explicit request for the exact object and action establishes approval/);
+  assert.match(execution, /tool has no additional confirmation step/);
+  assert.match(execution, /For a declared preview\/execute flow, preview the impact, obtain exact user confirmation/);
+  const plan = plugin.get('references/marketing-plan-and-campaign.md').toString();
+  assert.match(markdownSection(plan, '## Requests With Multiple Operations'), /write the parts supported by their materials and any verified results to the requested path and format/);
+  assert.match(markdownSection(plan, '## Execution And Reporting'), /After apply, use the declared read operation to compare the actual applied fields/);
 });
 
 test('MCP commercial boundary rejects broad pricing while CLI pricing stays available', () => {

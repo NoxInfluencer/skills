@@ -4,9 +4,11 @@ Use the connected NoxInfluencer tools for creator research, collections, CRM, mo
 
 ## Choose The Available Operation
 
+When the task requires NoxInfluencer account access and the provider is not ready in the current session, first read `{baseDir}/references/oauth-and-scopes.md`. Start with the common host setup and use the confirmed host's guide when it is needed. Loading this Skill and connecting its MCP provider are separate steps.
+
 Read `{baseDir}/references/tool-list.md` as a checked baseline, then use the connected provider's live catalog and schema as the execution authority. The live catalog may extend the baseline. Never invent a missing operation, require it for unrelated work, or switch to another backend.
 
-When invoked through an installed Agent plugin (Codex, Claude, Cursor, Grok Bot, WorkBuddy, Harness or another host), all NoxInfluencer business operations use MCP. Prefer a configured Handoff to present verified results. Read `{baseDir}/references/handoffs.md` before presenting results. This policy belongs to the active plugin entrypoint; it does not change separately invoked shared Skills or CLI workflows, even when both installations exist.
+The installed Agent plugin uses MCP for all NoxInfluencer operations. Follow the shared MCP runtime below for business execution and `{baseDir}/references/handoffs.md` for presentation.
 
 For intelligent marketing-plan task lists, the current business tool is `campaign2_plan_list`. Use its live paging and filter schema, preserve selected filters, and apply the same Handoff policy as every other function. Do not assume a separate page-opening tool or historical tool name is required.
 
@@ -34,8 +36,8 @@ Open NoxInfluencer business pages only through the corresponding MCP tool's actu
 - Campaign cooperation: `{baseDir}/references/campaign-cooperation-management.md`
 - Campaign invitations: `{baseDir}/references/campaign-invitation-management.md`
 - Products and Campaign product application: `{baseDir}/references/campaign-products.md`
-- Exports and report results: `{baseDir}/references/files-and-exports.md`
-- Quota and pricing: `{baseDir}/references/quota-pricing-dispute-feedback.md`
+- Exports and report results: `{baseDir}/references/files-and-exports-mcp.md`
+- Quota and pricing: `{baseDir}/references/quota-pricing-dispute-feedback-mcp.md`
 - Write approval: `{baseDir}/references/risk-confirmation.md`
 - Platform data availability: `{baseDir}/references/platform-support.md`
 

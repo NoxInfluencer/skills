@@ -24,7 +24,7 @@ Keep replies focused on business outcomes. Do not proactively report Skill Credi
 6. For long-running work, create or start once, retain the returned task identity, poll with bounded intervals, and report progress without duplicate creation.
 7. Preview the exact effect of a write whenever the capability supports preview. Require the user's approval at the level defined in the risk reference.
 8. After execution, report what changed, what did not change, partial failures, remaining actions, and any quota or entitlement restriction.
-9. Before finishing Campaign automatic advancement on a creator reply, restore the exact conversation's unread reminder when no message was actually sent and its latest message is still inbound. Read the final-check rule in `{baseDir}/references/campaign-agent-automation.md` and the runtime instructions before performing it.
+9. For a creator-reply automation run, follow the selected runtime's final check when it supports reading the latest message and restoring that conversation's unread reminder. See `{baseDir}/references/campaign-agent-automation.md` for the business rule.
 
 ## Business Collaboration
 

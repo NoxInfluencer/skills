@@ -6,7 +6,9 @@ Use `campaign2_products_add` with string `campaign_id`, exactly one of `product_
 
 Use the connected provider's `campaign2_*` tools and live input schemas. Pass JSON arguments directly; there is no CLI body-file wrapper. If a required tool is absent, report unavailable instead of inventing a result or using generic email tools.
 
-Read `campaign2_context` for the current Campaign and applied settings. Use `campaign2_plan_list/init/create/get/settings_save/settings_apply/status/members/overview` as individual tool names with the `campaign2_` prefix and underscores. For the intelligent marketing-plan task list, call `campaign2_plan_list` with schema-supported `page_num`, `page_size`, `keyword`, `start_time`, `end_time` and `invite_status`, and present the returned page in the conversation. Preserve filters for subsequent pages. Keep Campaign IDs as strings. Draft saving, applying settings and sending are separate operations.
+Read `campaign2_context` for Campaign business data and applied settings. Use `campaign2_plan_list/init/create/get/settings_save/settings_apply/status/members/overview` as individual tool names with the `campaign2_` prefix and underscores. For the intelligent marketing-plan task list, call `campaign2_plan_list` with schema-supported `page_num`, `page_size`, `keyword`, `start_time`, `end_time` and `invite_status`. Preserve filters for subsequent pages. Keep Campaign IDs as strings. Draft saving, applying settings and sending are separate operations.
+
+For presentation of Campaign results in MCP, follow `{baseDir}/references/handoffs.md`. This also applies when a shared business reference directs the user to continue on the SaaS Campaign page.
 
 Use `creator_search` for interactive evidence. Use `campaign2_discovery_search` only with an authoritative returned `task_id`, never an invented task ID. Use `campaign2_search_condition_get/save` when maintaining the current search condition. Keep search conditions, result summaries and evidence in the Campaign conversation, and save selection reasons with business list writes. Do not call `campaign2_discovery_snapshot_save` or persist separate discovery-result snapshots. Never rerun a search only to reproduce a historical page.
 
@@ -22,7 +24,7 @@ For an explicit request to add creators to the current Campaign negotiation list
 
 Every mutation requires a stable `idempotency_key` of 8–128 characters. For `campaign2_invitations_send`, submit action, explicit targets, Campaign ID, attempt key and `phase:"preview"`. Show `data.review`, respect blockers and require `data.can_execute:true`. Wait for a separate affirmative user reply. Execute the same tool with unchanged business arguments and key, `phase:"execute"`, returned `confirmation_token`, and `confirmed:true`. The token is bound to subject, client, Campaign, action and reviewed arguments; it expires within five minutes. Revalidation or expiry requires a new review and confirmation.
 
-On timeout or unknown outcome, call `campaign2_invitations_send_result` using `execution_key` equal to the original attempt key. Accepted is not sent or delivered. Never resend with a new key to bypass an uncertain result. `campaign2_plan_delete` uses the same phased review protocol. External clients do not emit SaaS CLI workspace navigation receipts.
+On timeout or unknown outcome, call `campaign2_invitations_send_result` using `execution_key` equal to the original attempt key. Report accepted dispatch as queued until authoritative delivery status confirms the outcome. Never resend with a new key to bypass an uncertain result. `campaign2_plan_delete` uses the same phased review protocol.
 
 ## Bulk cancellation
 

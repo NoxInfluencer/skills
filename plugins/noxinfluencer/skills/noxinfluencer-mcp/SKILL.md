@@ -9,9 +9,11 @@ Use the connected NoxInfluencer tools for creator research, collections, CRM, mo
 
 ## Choose The Available Operation
 
+When the task requires NoxInfluencer account access and the provider is not ready in the current session, first read `{baseDir}/references/oauth-and-scopes.md`. Start with the common host setup and use the confirmed host's guide when it is needed. Loading this Skill and connecting its MCP provider are separate steps.
+
 Read `{baseDir}/references/tool-list.md` as a checked baseline, then use the connected provider's live catalog and schema as the execution authority. The live catalog may extend the baseline. Never invent a missing operation, require it for unrelated work, or switch to another backend.
 
-When invoked through an installed Agent plugin (Codex, Claude, Cursor, Grok Bot, WorkBuddy, Harness or another host), all NoxInfluencer business operations use MCP. Prefer a configured Handoff to present verified results. Read `{baseDir}/references/handoffs.md` before presenting results. This policy belongs to the active plugin entrypoint; it does not change separately invoked shared Skills or CLI workflows, even when both installations exist.
+The installed Agent plugin uses MCP for all NoxInfluencer operations. Follow the shared MCP runtime below for business execution and `{baseDir}/references/handoffs.md` for presentation.
 
 For intelligent marketing-plan task lists, the current business tool is `campaign2_plan_list`. Use its live paging and filter schema, preserve selected filters, and apply the same Handoff policy as every other function. Do not assume a separate page-opening tool or historical tool name is required.
 
@@ -39,16 +41,16 @@ Open NoxInfluencer business pages only through the corresponding MCP tool's actu
 - Campaign cooperation: `{baseDir}/references/campaign-cooperation-management.md`
 - Campaign invitations: `{baseDir}/references/campaign-invitation-management.md`
 - Products and Campaign product application: `{baseDir}/references/campaign-products.md`
-- Exports and report results: `{baseDir}/references/files-and-exports.md`
-- Quota and pricing: `{baseDir}/references/quota-pricing-dispute-feedback.md`
+- Exports and report results: `{baseDir}/references/files-and-exports-mcp.md`
+- Quota and pricing: `{baseDir}/references/quota-pricing-dispute-feedback-mcp.md`
 - Write approval: `{baseDir}/references/risk-confirmation.md`
 - Platform data availability: `{baseDir}/references/platform-support.md`
 
 Business references explain domain semantics; only the provided tools establish executable actions. Keep the selected account, target set and user authority throughout the workflow. Treat missing data as unknown and retain failed or skipped records in the result.
 
-## Agent Plugin Installation Context
+## MCP Runtime Boundary
 
-These rules apply only when the active invocation is through an installed Agent plugin, including Codex, Claude, Cursor, Grok Bot, WorkBuddy and Harness. Host names, an installed CLI executable, or the presence of a shared Skill do not select this mode by themselves. Separately invoked standalone Skills and CLI retain their own routing and presentation rules.
+Apply these rules whenever the active product entrypoint uses MCP. Use the verified connection and live schemas for the selected account.
 
 ## Skill resource paths
 
@@ -56,7 +58,7 @@ These rules apply only when the active invocation is through an installed Agent 
 
 ## Business operations
 
-For every NoxInfluencer business operation in plugin mode, use the connected MCP provider. Do not install or fall back to a business CLI after authorization, connectivity, missing-tool or Handoff failures. Shared Manager examples do not override this entrypoint. Business confirmation, permissions, account binding and idempotency still apply.
+Use the connected NoxInfluencer MCP provider for every operation in this workflow. Do not install or fall back to a business CLI after authorization, connectivity, missing-tool or Handoff failures. Shared Manager examples do not override this entrypoint. Business confirmation, permissions, account binding and idempotency still apply.
 
 For every paginated MCP read, explicitly set the page-size field supported by the live schema. When the user has not specified a size and there is no existing page size to preserve, use 10 or the tool's documented default if it is higher, within the tool's allowed range. For example, a new `campaign2_plan_list` query defaults to `page_num: 1` and `page_size: 10`. Do not request a smaller page just to preview the list or obtain a Handoff. Honor an explicit smaller request when the schema allows it. When continuing a list, keep the filters and page size and use the next page number or returned cursor as declared.
 
@@ -64,11 +66,13 @@ For every paginated MCP read, explicitly set the page-size field supported by th
 
 Follow `{baseDir}/references/handoffs.md` for page reuse, opening, and reporting. Use the connected MCP provider for Campaign business operations and result verification.
 
+For product scope, exports and quota, read `{baseDir}/references/product-overview-mcp.md`, `{baseDir}/references/files-and-exports-mcp.md` and `{baseDir}/references/quota-pricing-dispute-feedback-mcp.md` as relevant. Use this runtime's guidance for execution and presentation when a shared business reference describes another workflow or a SaaS workspace action.
+
 Read only the relevant references:
 
 - Page reuse, Handoff opening, status, and recovery: `{baseDir}/references/handoffs.md`
-- Installed host capabilities: `{baseDir}/references/codex-plugin-runtime.md`
-- Connector setup when WorkBuddy has no ready NoxInfluencer connection, host-owned authorization, and resuming the original request: `{baseDir}/references/oauth-and-scopes.md`
+- Host capabilities: `{baseDir}/references/mcp-host-runtime.md`
+- Common connector setup, host-specific authorization and task continuation: `{baseDir}/references/oauth-and-scopes.md`
 - Business tool execution and confirmation: `{baseDir}/references/tool-execution.md`
 - Checked tool baseline; live schemas remain authoritative: `{baseDir}/references/tool-list.md`
 - Files and downloads: `{baseDir}/references/resources-and-files.md`

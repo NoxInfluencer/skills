@@ -42,6 +42,8 @@ After a timeout or unknown outcome, use `campaign invitations send-result` with 
 
 ## Showing completed work in the Campaign workspace
 
+Return plan summaries in the conversation for ordinary reads. Use a supported page view for an explicit request to continue visually.
+
 When working in an interactive SaaS Campaign conversation with the CLI, successful supported writes emit bounded workspace receipts. Preserve CLI stderr when redirecting business JSON to a file; do not fabricate or echo receipt markers. Ordinary reads, dry-runs, failures and explicit zero-change results do not request navigation. The platform waits for the final answer and a successful Run, then selects one destination. It never treats a navigation receipt as permission to send mail.
 
 For an explicit request to view a page, or after verified work in message/CRM tools that has no automatic Campaign receipt, use `node "{baseDir}/scripts/nox-cli.mjs" campaign workspace-view <campaign_id> --destination <view>` once near the end of the turn. This is a read-only view request, not evidence that a business mutation succeeded. Read authoritative results before describing completed work; never use a view request to conceal a failed operation. Do not call it for incidental reads or background automation. Use `--help` to verify availability on the runtime; if unavailable, explain where the user can view the result without claiming that the page was changed.
@@ -61,7 +63,7 @@ For a specific creator, use `--channel-id` and `--platform` only with raw Campai
 
 After discovery, show the actual destination list after a confirmed business write. Read-only searches remain in the conversation; opening `discovery` shows the search workspace, not a saved historical result page. After curation, prefer Invitation Pending when creators advanced there; secondary unsuitable results remain available as links. Restoring unsuitable creators goes to Candidates. Accepted dispatch goes to the queue, never to Sent; Failed belongs to Invited / Bounced in the current UI. A send preview opens read-only invitation settings; the exact proposed recipients, content and confirmation remain in the conversation and still require the existing second-confirmation workflow.
 
-Automatic navigation is suppressed if the user moved away, is editing, has an open dialog, or is in another tab. History and other sessions retain manual result links. Do not promise that navigation happened merely because a receipt was emitted. This page-coordination channel applies to the SaaS CLI runtime; external MCP clients do not share the user's browser navigation channel.
+Automatic navigation is suppressed if the user moved away, is editing, has an open dialog, or is in another tab. History and other sessions retain manual result links. Do not promise that navigation happened merely because a receipt was emitted. This page-coordination channel applies to the SaaS CLI runtime.
 
 ### Bulk cancellation
 

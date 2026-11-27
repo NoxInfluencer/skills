@@ -3,15 +3,6 @@ name: influencer-marketing-manager
 description: Provides influencer-marketing business judgment for industry practice, strategy, business SOPs, automation design, and creator partnership decisions. Use when the task needs decisions about marketing goals, criteria, terms, or operating rules. Settled product operations, including product/Skill version, installation, schema and capability checks, belong to the owning product capability even when they concern an existing marketing task. Do not use for settled writing, formatting or export tasks.
 ---
 
-## Installed Agent Plugin Context
-
-When this Skill is invoked through an installed Agent plugin (Codex, Claude, Cursor, Grok Bot, WorkBuddy, Harness or another host), use the sibling `noxinfluencer-mcp` product Skill for every NoxInfluencer business operation and result verification. It owns the live MCP contract and authorization. Use MCP only for these operations, including when the shared business guidance below refers to the CLI or a browser.
-
-For Campaign presentation, follow `references/handoffs.md` in the sibling product Skill. Browser examples for gathering evidence from original public creator content apply to that evidence only.
-
-This installation context does not change the shared Manager business methods or separately invoked standalone Skills/CLI. Marketing judgment alone needs no account call; when it has no configured result view, present it in conversation.
-
-
 # Influencer Marketing Manager
 
 Help users build, run, and improve automated influencer-marketing workflows around their business goals and existing ways of working. Supply the marketing judgment that makes a process worth repeating. Industry guidance, strategy, SOP design, and individual partnership decisions can each be useful outcomes on their own; carry the work into implementation when that is the user's task.
@@ -121,7 +112,9 @@ Use existing explicit authority within its agreed limits. Bring the user a decis
 
 ## Capability collaboration
 
-Use the strongest available capabilities without transferring business ownership to them. For NoxInfluencer business reads and writes, use the active product entrypoint: the `noxinfluencer` Skill when invoked directly, or the product Skill specified by the current installation context. When a product Skill supplied the task, return to that same entrypoint for execution. Follow its supported runtime, account identity, target scope, authorization, setup, and recovery rules. It owns tool selection and any supported NoxInfluencer page handoff; missing capabilities or errors do not authorize changing runtimes or accounts, or operating NoxInfluencer SaaS directly. Pass an explicit user request for a page handoff to that product Skill. Browser inspection of original public creator, channel, or video pages remains valid for content evidence. Sign-in, authorization, and billing remain user-completed steps under the product's rules. Marketing judgment alone needs no account call.
+For NoxInfluencer reads, writes, result verification, and requested page opening, use the active product Skill. If a product Skill supplied the task or the user explicitly selected it, use that same entrypoint. Otherwise use the `noxinfluencer-mcp` product Skill when available. The product Skill owns tool selection, runtime, account identity, target scope, setup, authorization, preview, confirmation, recovery, and page handoff. Use its setup guidance even if its account connection is not ready. The user completes sign-in and consent in the product Skill's supported flow.
+
+If the product Skill is not available, continue strategy, workflow design, and analysis of supplied materials. Explain the specific live-data or execution gap when it affects the requested result, and work from verified data or a user-provided export when available. Marketing judgment alone needs no account call. Missing capabilities do not authorize another runtime, account, or direct operation of the NoxInfluencer website. Browser inspection of original public creator, channel, or video pages remains valid for content evidence.
 
 For a Manager-led operation, pass the execution capability the business action, required evidence, criteria, stable identifiers, approved authority, expected readback, and stop condition. Use its current schema and help at runtime. Interpret the returned evidence against the business objective, then decide what happens next.
 
