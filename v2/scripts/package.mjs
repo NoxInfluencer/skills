@@ -5,7 +5,6 @@ import { fileURLToPath } from 'node:url';
 import yazl from 'yazl';
 import { build, repositoryRoot, assertPublicFile } from './build.mjs';
 import { readDirectoryFileMap, readCanonicalTextFile, assertNoSymbolicLinkComponents } from './lib/canonical-files.mjs';
-import { bindManagerProductSkill } from './lib/manager-skill.mjs';
 
 /** 有界打包独立插件和通用 Skill，不安装客户端或发布渠道。 */
 export async function packageV2({ root = repositoryRoot, outputDirectory = resolve(root, 'v2/dist') } = {}) {
@@ -24,9 +23,7 @@ export async function packageV2({ root = repositoryRoot, outputDirectory = resol
   }
   if (pluginEntries.size > 256) throw new Error('Plugin delivery file count exceeds 256.');
   const general = readDirectoryFileMap(resolve(root, 'skills/noxinfluencer-v2'));
-  const manager = bindManagerProductSkill(
-    readDirectoryFileMap(resolve(root, 'skills/influencer-marketing-manager')), 'noxinfluencer', 'noxinfluencer-v2',
-  );
+  const manager = readDirectoryFileMap(resolve(root, 'skills/influencer-marketing-manager'));
   const generalEntries = new Map([...general].map(([path, bytes]) => [`skills/noxinfluencer-v2/${path}`, bytes]));
   for (const [path, bytes] of manager) generalEntries.set(`skills/influencer-marketing-manager/${path}`, bytes);
   mkdirSync(outputDirectory, { recursive: true });

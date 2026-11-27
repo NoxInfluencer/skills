@@ -155,7 +155,7 @@ export function createOutputs(root = repositoryRoot) {
   validateSkill(manager);
   const document = parseDocument(manager.get('SKILL.md').toString().split('---')[1]);
   if (document.toJS().name !== 'influencer-marketing-manager') throw new Error('Manager identity drift');
-  const pluginManager = bindManagerProductSkill(manager, 'noxinfluencer', 'noxinfluencer-mcp');
+  const pluginManager = bindManagerProductSkill(manager, 'noxinfluencer-v2', 'noxinfluencer-mcp');
   validateSkill(pluginManager);
   outputs.set('plugins/noxinfluencer/skills/influencer-marketing-manager', pluginManager);
   const manifestPath = 'plugins/noxinfluencer/.codex-plugin/plugin.json';

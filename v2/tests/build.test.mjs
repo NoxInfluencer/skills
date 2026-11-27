@@ -26,7 +26,7 @@ function fixture(t) {
 function assertManagerProductBinding(manager, root, productSkill) {
   const shared = readDirectoryFileMap(resolve(root, 'skills/influencer-marketing-manager'));
   assert.deepEqual(manager, new Map([...shared].map(([path, bytes]) => [
-    path, path.endsWith('.md') ? Buffer.from(bytes.toString().replaceAll('`noxinfluencer`', `\`${productSkill}\``)) : bytes,
+    path, path.endsWith('.md') ? Buffer.from(bytes.toString().replaceAll('`noxinfluencer-v2`', `\`${productSkill}\``)) : bytes,
   ])));
   assert.ok(manager.get('SKILL.md').toString().includes(`Otherwise use the \`${productSkill}\` product Skill`));
 }
@@ -335,7 +335,8 @@ test('standalone packaging has no source/evals/CLI adapter in the MCP package', 
   const managerPrefix = 'skills/influencer-marketing-manager/';
   const standaloneManager = new Map([...standalone].filter(([path]) => path.startsWith(managerPrefix))
     .map(([path, bytes]) => [path.slice(managerPrefix.length), bytes]));
-  assertManagerProductBinding(standaloneManager, root, 'noxinfluencer-v2');
+  assert.deepEqual(standaloneManager, readDirectoryFileMap(resolve(root, 'skills/influencer-marketing-manager')));
+  assert.match(standaloneManager.get('SKILL.md').toString(), /Otherwise use the `noxinfluencer-v2` product Skill/);
 });
 
 test('snapshot refresh validates before source mutation and leaves generated artifacts for explicit rebuild', t => {
