@@ -143,8 +143,8 @@ test('Manager routes account tasks to the bundled product Skill even while MCP i
   const manager = assembled.entries.get(`skills/${managerName}/SKILL.md`).toString();
   assert.match(manager, /Otherwise use the `noxinfluencer-plugin` product Skill when available/);
   assert.match(manager, /Use its setup guidance even if its account connection is not ready/);
-  assert.match(manager, /If the product Skill is not available/);
-  assert.match(manager, /continue strategy, workflow design, and analysis/);
+  assert.match(manager, /If the product Skill or its authorized connection is unavailable, keep the account task pending/);
+  assert.match(manager, /analysis explicitly requested independently of account work can proceed/);
   assert.doesNotMatch(manager, /`noxinfluencer`|`noxinfluencer-mcp`/);
   const pluginManager = readFileSync(resolve(repositoryRoot, pluginPath, 'skills/influencer-marketing-manager/SKILL.md'), 'utf8');
   const body = text => text.replace(/^---\n[\s\S]*?\n---\n/, '').trim();
@@ -158,7 +158,9 @@ test('Expert Agent directs account tasks without a ready connector to the bundle
   assert.match(agent, /load the bundled product Skill even if the MCP connector is disconnected/);
   assert.match(agent, /Follow its common host setup, then the WorkBuddy-specific route if needed/);
   assert.match(agent, /If WorkBuddy returns `skipped`.*retain the original request/);
-  assert.match(agent, /local output files while the account connection is unavailable/);
+  assert.match(agent, /If the required account connection is unavailable, pause the account task and its result files/);
+  assert.match(agent, /supported authorization or reconnect action, and retain the task for continuation/);
+  assert.match(agent, /Do not deliver empty or substitute results/);
   assert.doesNotMatch(agent, /连接和授权由 WorkBuddy 引导/);
   const entries = new Map(assembled.entries);
   entries.set(agentPath, Buffer.from(agent.replace(authLink, 'connection and authorization guidance')));

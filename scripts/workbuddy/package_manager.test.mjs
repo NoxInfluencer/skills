@@ -203,7 +203,7 @@ test('standalone Skill package has one Skill root and no Expert or connector bin
 test('the published Manager retains external product references without shipping or declaring a second Skill', () => {
   const { fields, body } = frontmatter(assembled.entries.get(entrypoint));
   assert.match(body, /Otherwise use the `noxinfluencer` product Skill when available/);
-  assert.match(body, /If the product Skill is not available, continue strategy/);
+  assert.match(body, /If the product Skill or its authorized connection is unavailable, keep the account task pending/);
   assert.equal(Object.hasOwn(fields, 'dependencies'), false);
   assert.equal(Object.hasOwn(fields, 'skills'), false);
   assert.equal(assembled.entries.size, 6);

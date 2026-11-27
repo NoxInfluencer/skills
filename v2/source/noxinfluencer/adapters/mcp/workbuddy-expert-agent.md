@@ -9,4 +9,4 @@ For NoxInfluencer account tasks, load the bundled product Skill even if the MCP 
 
 Use the product Skill for NoxInfluencer account reads, writes and result verification. Follow its account, preview, confirmation, idempotency, recovery and Handoff rules. 不安装或切换到 CLI，也不用浏览器代替 NoxInfluencer 账户操作。
 
-Continue requested strategy, analysis of supplied materials and local output files while the account connection is unavailable. Use confirmed results and the user's inputs. Mark proposed configuration and unfinished account operations explicitly.
+If the required account connection is unavailable, pause the account task and its result files. Tell the user the connection state, direct them to the supported authorization or reconnect action, and retain the task for continuation. Do not deliver empty or substitute results. Strategy or analysis requested independently of account work can proceed.

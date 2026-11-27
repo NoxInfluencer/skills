@@ -61,8 +61,8 @@ test('plugin and universal Skills ship the same MCP rules', () => {
     assert.deepEqual(plugin.get(path), universal.get(path));
   }
   const handoff = plugin.get('references/handoffs.md').toString();
-  assert.match(handoff, /If no Handoff is configured or advertised, present the available business result in conversation/);
-  assert.match(handoff, /If a configured Handoff fails, report that presentation failure with the confirmed business result/);
+  assert.match(handoff, /Present the available business result in conversation if the contract has no Handoff for that result/);
+  assert.match(handoff, /report a confirmed opening failure separately from the business result/);
   assert.doesNotMatch(handoff, /currently deferred|only after the user explicitly asks/);
   const auth = plugin.get('references/oauth-and-scopes.md').toString();
   assert.equal(auth, universal.get('references/oauth-and-scopes.md').toString());
@@ -87,6 +87,8 @@ test('the shared plugin routes OAuth to the running host and resolves WorkBuddy 
   const continuation = markdownSection(auth, '## One Attempt, Then Resume');
   const workbuddy = markdownSection(auth, '## WorkBuddy Authorization');
   const codex = markdownSection(auth, '## Codex Authorization Only');
+  assert.match(setup, /If access is missing or the connection drops, pause the affected account work/);
+  assert.match(setup, /Do not produce empty tables, placeholder files, or substitute data/);
   assert.match(setup, /Install if confirmed missing, enable if disabled, and reuse any valid authorization/);
   assert.match(setup, /invoke the host's native authorization or reconnect action once/);
   assert.match(setup, /Use the confirmed host's section/);
@@ -97,6 +99,8 @@ test('the shared plugin routes OAuth to the running host and resolves WorkBuddy 
   assert.match(workbuddy, /WorkBuddy's native authorization action/);
   assert.match(workbuddy, /连接 \(Connect\)/);
   assert.match(workbuddy, /skipped, cancelled or failed, go directly to the recovery controls/);
+  assert.match(workbuddy, /use the matching card already shown in the conversation first/);
+  assert.match(workbuddy, /no matching card and the required action cannot be taken through native controls/);
   assert.match(workbuddy, /without invoking another host's login commands/);
   assert.doesNotMatch(workbuddy, /codex mcp login|noxinfluencer\.codex\.user|start-codex-oauth/);
   assert.match(codex, /only when trusted host context confirms that the running host is Codex/);
@@ -129,22 +133,25 @@ test('installed MCP entrypoint and page policy require actual tool-issued Handof
   assert.doesNotMatch(policy, /Grok|Start-Process|xdg-open/);
 });
 
-test('missing Handoffs stop page opening across page routes while valid-link host failures remain presentation failures', () => {
+test('all MCP page routes try a declared read-only Handoff before reporting a missing link', () => {
   const plugin = createOutputs().outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp');
   const handoff = plugin.get('references/handoffs.md').toString();
   const policy = markdownSection(handoff, '## Business page opening');
   const entrypoint = markdownSection(plugin.get('SKILL.md').toString(), '## Business page opening');
   const other = markdownSection(handoff, '## Other MCP results');
-  const recovery = markdownSection(handoff, '### Recover an expired or uncertain link');
-  for (const [name, text] of [['entrypoint', entrypoint], ['policy', policy], ['other results', other], ['recovery', recovery]]) {
+  for (const [name, text] of [['entrypoint', entrypoint], ['policy', policy]]) {
     assert.ok(text.includes('"没有相关页面可以打开。"'), `${name} must retain the exact unavailable-page reply`);
     assert.match(text, /stop (?:the page-opening action|opening the page)/i, name);
   }
-  assert.match(policy, /no usable `handoff_url`/);
-  assert.match(policy, /return any verified business result/);
-  assert.match(policy, /valid URL that the host cannot open is a presentation failure, not proof that no page exists/);
-  assert.match(recovery, /declared read-only MCP entrypoint[^.]+fresh Handoff for the exact target/);
-  assert.match(recovery, /no matching read-only entrypoint or it cannot supply a valid link/);
+  assert.match(policy, /If the account connection is unavailable, follow .*references\/oauth-and-scopes\.md/);
+  assert.match(policy, /If the current result has no usable link, or a previous Handoff is expired or its consumption is uncertain[^.]+live MCP contract for a declared read-only entrypoint[^.]+fresh Handoff for the exact account and target/);
+  assert.match(policy, /at most one additional read-only request for this page open/);
+  assert.match(policy, /Preserve the plan, view, filters and page when they define the requested target/);
+  assert.match(policy, /Do not repeat the same lookup after it already returned no usable link, replay a URL, or repeat a business write/);
+  assert.match(policy, /If no matching read-only entrypoint exists or it supplies no usable `handoff_url`, stop the page-opening action and return any verified business result/);
+  assert.ok(policy.indexOf('at most one additional read-only request') < policy.indexOf('没有相关页面可以打开。'));
+  assert.match(other, /follow the same selection, recovery and reporting order/);
+  assert.match(policy, /valid URL that the host cannot open is a presentation failure/);
 });
 
 test('business-page gate preserves current Handoff reuse and separate OAuth, download, evidence and standalone workflows', () => {
@@ -152,8 +159,8 @@ test('business-page gate preserves current Handoff reuse and separate OAuth, dow
   const plugin = outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp');
   const universal = outputs.get('skills/noxinfluencer-v2');
   const policy = markdownSection(plugin.get('references/handoffs.md').toString(), '## Business page opening');
-  assert.match(policy, /valid Handoff already returned with the current business operation[^.]+do not make a redundant MCP call/);
-  assert.match(policy, /exact matching page open under the reuse rules below is not a new page open/);
+  assert.match(policy, /valid Handoff already returned with the current business result for this account and target\. Do not make a redundant MCP call/);
+  assert.match(policy, /Reuse an exact matching view only when trusted host information confirms the current conversation, authorized account and destination/);
   assert.match(policy, /OAuth authorization, file downloads, and original public creator or video evidence retain their own rules/);
   assert.deepEqual(plugin.get('references/oauth-and-scopes.md'),
     readFileSync(resolve(repositoryRoot, 'v2/source/noxinfluencer/adapters/mcp/oauth-and-scopes.md')));
@@ -183,7 +190,7 @@ test('Campaign first open, reopen and plan or view switches use the exact ready 
   assert.match(open, /original, valid, unused `handoff_url`[^.]+structured MCP result with `presentation\.status=ready` for the exact authorized target/);
   assert.match(open, /Queued Sends Handoff[^.]+plan A's Overview to plan A's Queued Sends/);
   assert.match(open, /plan list Handoff opens only the plan list/);
-  assert.match(open, /Handoff supplied with the business result or a read-only producer declared for that target/);
+  assert.match(open, /Follow the shared selection and read-only recovery order/);
   assert.match(open, /URL unchanged to an opening capability supported by the host/);
   assert.match(open, /Prefer a suitable right-side tab in the current conversation when the host supports targeting it/);
   assert.match(open, /Use browser capabilities only to open a valid Handoff/);
@@ -194,30 +201,28 @@ test('Campaign replies report business results independently of page opening and
   const { outputs } = createOutputs();
   const plugin = outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp');
   const handoff = plugin.get('references/handoffs.md').toString();
-  const campaign = markdownSection(handoff, '## Campaign pages');
-  assert.match(campaign, /conversation-only request for the current turn/);
-  assert.match(campaign, /business result in conversation[^.]+skip Handoff requests made solely for display, page opening, and manual open links/);
+  const policy = markdownSection(handoff, '## Business page opening');
+  assert.match(policy, /Honor a conversation-only request and skip actions solely for page display/);
   const report = markdownSection(handoff, '### Report business and page status');
-  assert.match(report, /Report the verified MCP business outcome even when opening fails, is unavailable, or cannot be confirmed/);
-  assert.match(report, /accepted invitation as queued[^.]+delivery only when authoritative MCP business status establishes it/);
-  assert.match(report, /Reply without waiting for the page to load/);
-  assert.match(report, /Report the page as open only if host information establishes that state/);
-  assert.match(report, /cannot open the page automatically[^.]+business result[^.]+supported manual open option[^.]+valid Handoff[^.]+no consumption attempt/);
+  assert.match(report, /accepted invitation as queued\. Report delivery only when authoritative MCP business status establishes it/);
+  assert.match(policy, /Return the verified business result without waiting for the page to load/);
+  assert.match(policy, /An accepted open request establishes that opening was requested/);
+  assert.match(policy, /Report the page as open only when the host confirms it/);
+  assert.match(policy, /automatic opening is unavailable[^.]+supported manual open option[^.]+valid and unused[^.]+no consumption attempt/);
   const execution = plugin.get('references/tool-execution.md').toString();
   assert.match(execution, /preview\/execute.*explicit user confirmation/);
   assert.match(execution, /original execution key/);
 });
 
-test('Campaign link recovery requires a declared read-only MCP entrypoint for the same target', () => {
+test('Campaign read-only Handoff examples preserve the requested view', () => {
   const { outputs } = createOutputs();
   const plugin = outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp');
   const handoff = plugin.get('references/handoffs.md').toString();
-  const recover = markdownSection(handoff, '### Recover an expired or uncertain link');
-  assert.match(recover, /expired or its consumption status is uncertain[^.]+use only a declared read-only MCP entrypoint[^.]+fresh Handoff for the exact target/);
-  assert.match(recover, /Never replay the URL or repeat a business write to obtain a link/);
-  assert.match(recover, /no matching read-only entrypoint[^.]+report the presentation limitation with the business result/);
+  const recover = markdownSection(handoff, '### Read-only Handoff examples');
   assert.match(recover, /`campaign2_invitations_list`[^.]+`campaign_id`[^.]+`view: "pending"`[^.]+`status_group: "queued"`/);
   assert.match(recover, /only when it is ready for `campaign_invitation_queued`/);
+  assert.match(recover, /Keep the original page and filters/);
+  assert.match(recover, /If the contract cannot open the requested filtered view, report that limitation with the verified filtered results/);
 });
 
 test('Campaign references delegate presentation to the selected runtime', () => {
@@ -253,16 +258,27 @@ test('plan-list input schema and plugin prompts match the supported surface', ()
   assert.ok(manifest.interface.defaultPrompt.some(prompt => /marketing.plan/i.test(prompt)));
 });
 
-test('MCP uses explicit write scope and retains verification and local output when a workflow is interrupted', () => {
+test('account output waits for restored access and uses verified results', () => {
   const { outputs } = createOutputs();
   const plugin = outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp');
-  const execution = plugin.get('references/tool-execution.md').toString();
-  assert.match(execution, /an explicit request for the exact object and action establishes approval/);
-  assert.match(execution, /tool has no additional confirmation step/);
-  assert.match(execution, /For a declared preview\/execute flow, preview the impact, obtain exact user confirmation/);
   const plan = plugin.get('references/marketing-plan-and-campaign.md').toString();
-  assert.match(markdownSection(plan, '## Requests With Multiple Operations'), /write the parts supported by their materials and any verified results to the requested path and format/);
+  const interrupted = markdownSection(plan, '## Requests With Multiple Operations');
+  assert.match(interrupted, /keep the file delivery pending and retain the requested path and format/);
+  assert.match(interrupted, /Once the connection is restored, complete the requested operations and write their verified results/);
+  assert.match(interrupted, /Do not create an empty template or substitute a proposal for the account result/);
   assert.match(markdownSection(plan, '## Execution And Reporting'), /After apply, use the declared read operation to compare the actual applied fields/);
+});
+
+test('MCP and CLI use the shared approval policy for writes', () => {
+  const { outputs } = createOutputs();
+  const plugin = outputs.get('plugins/noxinfluencer/skills/noxinfluencer-mcp');
+  const cli = outputs.get('skills/noxinfluencer-cli');
+  const universal = outputs.get('skills/noxinfluencer-v2');
+  const policyPath = 'references/risk-confirmation.md';
+  const policy = readFileSync(resolve(repositoryRoot, `v2/source/noxinfluencer/shared/${policyPath}`));
+  for (const output of [plugin, cli, universal]) assert.deepEqual(output.get(policyPath), policy);
+  assert.match(plugin.get('references/tool-execution.md').toString(), /preview the impact, verify the required user approval, and pass the server-issued single-use token/);
+  assert.match(plugin.get('references/tool-execution.md').toString(), /Campaign sending and deletion[^\n]+wait for explicit user confirmation/);
 });
 
 test('MCP commercial boundary rejects broad pricing while CLI pricing stays available', () => {

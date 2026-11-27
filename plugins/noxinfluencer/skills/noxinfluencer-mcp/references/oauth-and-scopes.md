@@ -8,10 +8,12 @@ Select a host-specific route only from trusted information about the running hos
 
 ## Common Host Connection Setup
 
+Account reads, writes, verification, and their requested result files require a ready, authorized connection. If access is missing or the connection drops, pause the affected account work and retain the original task and confirmed progress. Tell the user the observed connection state and give the current host's action to connect, authorize, or reconnect. Report confirmed results already obtained when relevant. Do not produce empty tables, placeholder files, or substitute data for blocked account work.
+
 Check the named connection, the intended account when specified, and the live tool needed next. If ready for that account, execute the original operation. If the account differs or cannot be verified, use the account check in “One Attempt, Then Resume”. If a ready connection lacks a specific operation, report the gap and continue independent work. If readiness is unclear, inspect status with the host's actual connector controls. An empty generic tool search or installed-plugin list alone does not establish whether the connector is installed.
 
 1. Keep the original task and confirmed progress as described in “One Attempt, Then Resume”. Use the current host's exposed native actions for the exact required connection. Install if confirmed missing, enable if disabled, and reuse any valid authorization. Use the connection declared by the plugin or Expert when present. For standalone direct setup without a declared or existing connection, use provider `noxinfluencer` at `https://skill.noxinfluencer.com/mcp` through supported host controls.
-2. Check the host result after installation or enabling. Reuse an existing pending flow. If authorization is required, expired, or returns `AuthRequired` or HTTP `401`, invoke the host's native authorization or reconnect action once for this request. Let the host open its authorization page or card for the user to complete sign-in and consent there. Keep credentials inside this flow.
+2. Check the host result after installation or enabling. If the connection is already authorized, verify readiness and resume. Reuse an existing pending flow. If authorization is required, expired, or returns `AuthRequired` or HTTP `401`, invoke the host's native authorization or reconnect action once for this request. Let the host open its authorization page or card for the user to complete sign-in and consent there. Keep credentials inside this flow.
 3. When authorization succeeds but tools are still absent, follow the readiness checks in “One Attempt, Then Resume”. Do not start authorization again. Use the confirmed host's section when a required setup action is unavailable or the host returns skipped, cancelled or failed. Do not repeat the failed action. If the host is unknown, use only its visible connection controls.
 
 ## One Attempt, Then Resume
@@ -34,9 +36,9 @@ For the WorkBuddy marketplace connector, match source `noxinfluencer-mcp` or the
 2. **Installed but disabled.** Use WorkBuddy's native enable action for that connection in the active conversation when available. Reuse its existing authorization.
 3. **Not authorized or authorization expired.** Invoke WorkBuddy's native authorization action or reconnect action for that connector. If installing or enabling already produced a pending connection card, use that card. WorkBuddy opens the authorization flow and the user completes login and consent there. Await WorkBuddy's confirmed result, then follow “One Attempt, Then Resume”.
 
-After a WorkBuddy `skipped` result, report the skipped step if WorkBuddy identifies it. Use “本次授权未完成” for skipped or cancelled authorization, “授权失败” for a confirmed authorization error, or “本次连接未完成” if the stage is unclear. If WorkBuddy still shows the connector card, direct the user to **连接 (Connect)** or **重新连接 (Reconnect)** on that card.
+After a WorkBuddy `skipped` result, report the skipped step if WorkBuddy identifies it. Use “本次授权未完成” for skipped or cancelled authorization, “授权失败” for a confirmed authorization error, or “本次连接未完成” if the stage is unclear. For a connection or reconnection that needs user action, use the matching card already shown in the conversation first. Direct the user to **连接 (Connect)** or **重新连接 (Reconnect)** on that card and keep the account task pending.
 
-If no matching card or needed native action is available, direct the user to **专家·技能·连接器 → 连接器** and search **Nox 聚星红人营销 MCP**. Use the displayed add, connect or reconnect action for the connector's state. For a connector disabled in this conversation, use **+ → 连接器** to enable it here.
+If the conversation has no matching card and the required action cannot be taken through native controls, direct the user to **专家·技能·连接器 → 连接器** and search **Nox 聚星红人营销 MCP**. Use the displayed add, connect or reconnect action for the connector's state. For a connector disabled in this conversation, use **+ → 连接器** to enable it here.
 
 Use only WorkBuddy's actual controls for setup and recovery. Keep authorization inside WorkBuddy, without invoking another host's login commands, scripts or agent.
 

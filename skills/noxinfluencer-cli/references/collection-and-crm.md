@@ -8,6 +8,8 @@ List or read the target collection before adding or removing creators when its i
 
 For batch changes, preview requested count, already-present count, valid new count, invalid items, and final projected size. Apply only the approved effective change. Removal must show which selected creators will leave the collection and must not expand to the entire collection.
 
+Treat a broad audience unlock as a high-risk write. Resolve the collection from current account data, use the supported validation and preview, and verify the affected scope and cost through the available tools. Apply only within the approval defined in `{baseDir}/references/risk-confirmation.md`. Report the actual unlock result from the execution receipt.
+
 ## CRM
 
 Read current records before changing status, labels, collaborators, notes, or archive state. Treat labels as a set unless ordering has documented business meaning. Avoid repeated writes when the desired status or label set already matches current state.

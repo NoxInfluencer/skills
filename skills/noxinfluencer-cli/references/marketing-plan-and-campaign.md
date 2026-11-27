@@ -36,7 +36,7 @@ If missing data, a permission restriction, a tool error or a pending send confir
 
 Report verified results by requested operation, including the plans, lists, candidate rows and detailed reviews actually obtained. For each unfinished operation, state the blocker and which result or approval is needed to continue. If the account connection is unavailable, identify the account results that could not be retrieved. Retain confirmed progress and resume the remaining operations when their prerequisites are met.
 
-When the user requests an output file, write the parts supported by their materials and any verified results to the requested path and format if the host can write it. Mark draft configuration as proposed, and blocked account steps as pending or unverified. Do not add placeholder account rows to reach a requested count. Keep this file available when resuming the blocked work.
+If an output file depends on Campaign account work and the connection is unavailable, keep the file delivery pending and retain the requested path and format. Once the connection is restored, complete the requested operations and write their verified results. Do not create an empty template or substitute a proposal for the account result.
 
 ## Execution And Reporting
 

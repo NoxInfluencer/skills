@@ -31,6 +31,8 @@ Do not pipe the only copy through `head` or discard fields before saving it. Do 
 
 ## Writes, Approval, And Idempotency
 
+Use `{baseDir}/references/risk-confirmation.md` to determine the required approval, including when the user asks to execute directly.
+
 - A write without `--force` remains a dry-run or server preview when the command supports that contract. Do not report a dry-run as completion.
 - For a staged workflow, run `validate`, then `preview`, show the exact effective objects, business payment impact, destructive effect, and partial-failure policy, and use `apply --force` only after the required approval. Follow the main Skill's reporting rule for routine Skill Credit details.
 - For a direct write, use `--dry-run` when supported and pass `--force` only after the user has approved that exact object and action. Re-read state before high-risk sends, schedules, deletes, charged unlocks, or broad batch writes.

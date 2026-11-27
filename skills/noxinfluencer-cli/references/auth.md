@@ -23,4 +23,4 @@ The expected families include creator, monitor, campaign, collection, email, mes
 
 Manual API-key entry is a fallback only when the user explicitly chooses it. Read the key from standard input with `node "{baseDir}/scripts/nox-cli.mjs" auth --key-stdin`. Never place an API key in a command argument, log, output, transcript, environment example, or Skill file.
 
-On cancellation or authentication failure, report the safe CLI error and stop. Do not print configuration files, retry in a loop, or switch runtimes.
+On cancellation or authentication failure, report the safe CLI error and keep the affected account task pending. Direct the user to complete or restart the supported login flow. Continue the retained task after the CLI confirms authorization for the intended account. Do not print configuration files, retry in a loop, or switch runtimes.

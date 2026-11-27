@@ -9,7 +9,7 @@ NoxInfluencer supports creator discovery, due diligence, outreach operations, ca
 
 The user works in natural language. Perform the workflow, preserve returned identifiers exactly, and report business results in plain language. Do not expose credentials, internal transport details, or implementation syntax.
 
-Keep replies focused on business outcomes. Do not proactively report Skill Credit consumption, remaining balances, or routine billing details, even when returned by a tool. Discuss these only when the user explicitly asks or a credit or entitlement restriction blocks the requested workflow; explain only the relevant restriction and necessary next action. Continue required internal quota checks without narrating them.
+Keep replies focused on business outcomes. Discuss Skill Credit only when the user asks, the cost is material to a required approval, or a credit or entitlement restriction blocks the workflow. Continue internal quota checks without narrating routine billing details.
 
 ## When To Use
 
@@ -21,13 +21,15 @@ Keep replies focused on business outcomes. Do not proactively report Skill Credi
 
 ## Shared Operating Model
 
+Pause account operations and their result files when account authorization is missing or the connection drops. Report the observed state and follow the selected runtime's recovery controls. Retain the request and confirmed progress for continuation after access is restored. Account results come from verified product responses. Do not deliver empty tables, placeholder files, or substitute data for unavailable results.
+
 1. Identify the business domain and the user's intended outcome using the current turn's page context. In a Campaign conversation, a request to add creators to cooperation management means that Campaign's cooperation workspace. Use account-level CRM only when the user explicitly selects it. If neither context nor the conversation identifies the destination Campaign, resolve the plan before writing; do not silently substitute CRM.
 2. Ask only for missing inputs that materially change the result, target, scope, cost, or risk.
 3. Read current state before mutation when identifiers, ownership, status, or prior content are unclear.
 4. Preserve opaque identifiers and cursors exactly. Never decode, synthesize, or replace them with display names.
 5. Bound lists, pagination, batch sizes, remote calls, and response detail to the user's purpose. Group independent reads with known inputs when the runtime supports it. Use bounded batches within the requested scope and credit budget. Wait for a result when it determines the next target, permission, cursor or choice of evidence. Reuse successful rows after a partial failure.
 6. For long-running work, create or start once, retain the returned task identity, poll with bounded intervals, and report progress without duplicate creation.
-7. Preview the exact effect of a write whenever the capability supports preview. Require the user's approval at the level defined in the risk reference.
+7. Preview writes as supported and follow `{baseDir}/references/risk-confirmation.md` for ordinary writes, high-risk confirmation, and requests to execute directly.
 8. After execution, report what changed, what did not change, partial failures, remaining actions, and any quota or entitlement restriction.
 9. For a creator-reply automation run, follow the selected runtime's final check when it supports reading the latest message and restoring that conversation's unread reminder. See `{baseDir}/references/campaign-agent-automation.md` for the business rule.
 
@@ -72,7 +74,7 @@ Read `{baseDir}/references/setup.md` when installation, connection, or runtime s
 
 1. Honor the explicitly selected runtime or retain the runtime and account already selected for the current workflow. If MCP is selected and the connection is not ready, follow `{baseDir}/references/oauth-and-scopes.md`. If CLI is selected and needs setup, follow `{baseDir}/references/auth.md`. Continue through the selected runtime's recovery, including when the other runtime is ready.
 2. For a new workflow with no selected runtime, prefer an already connected official NoxInfluencer provider when its live tools support the requested task for the intended account. Otherwise use the isolated V2 CLI if it is installed, authorized for that account, and its live schema covers the task.
-3. If neither is ready for the new workflow, follow `{baseDir}/references/setup.md` to choose one available setup path. Prefer MCP when the host can establish the official connection and there is evidence the provider supports the required operation. Choose CLI when its supported installation and operation are the available path. Keep login and approval in the client's normal controls. Continue independent preparation while execution is blocked.
+3. If neither is ready for the new workflow, follow `{baseDir}/references/setup.md` to choose one available setup path. Prefer MCP when the host can establish the official connection and there is evidence the provider supports the required operation. Choose CLI when its supported installation and operation are the available path. Keep login and approval in the client's normal controls and hold the account task pending until access is ready.
 
 After selecting MCP, read `{baseDir}/references/runtime-mcp.md`. After selecting CLI, read `{baseDir}/references/runtime-cli.md`. The selected runtime determines all tool calls and presentation for the workflow.
 

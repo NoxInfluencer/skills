@@ -19,16 +19,16 @@ For intelligent marketing-plan task lists, the current business tool is `campaig
 
 ## Business page opening
 
-Open NoxInfluencer business pages only through the corresponding MCP tool's actual, valid `handoff_url`. Do not bypass MCP with an ordinary URL, a constructed or guessed route, a search, or direct browser navigation. If the user asks to open a page but no usable `handoff_url` is returned, say "没有相关页面可以打开。" and stop opening the page while returning any verified business result. Follow `{baseDir}/references/handoffs.md` for exact-page reuse, single-use links, recovery, and host opening failures. OAuth, downloads, and original public creator evidence keep their separate rules.
+Open NoxInfluencer business pages only through the corresponding MCP tool's actual, valid `handoff_url`. Do not bypass MCP with an ordinary URL, a constructed or guessed route, a search, or direct browser navigation. Follow `{baseDir}/references/handoffs.md` to reuse an exact view, use the business result's Handoff, or check the declared read-only route for the same target. If that process yields no usable link for a requested page, say "没有相关页面可以打开。" and stop opening the page while returning any verified business result. OAuth, downloads, and original public creator evidence keep their separate rules.
 
 ## Working Rules
 
 - Resolve the selected Campaign, collection, CRM scope or monitoring project before writing. Campaign cooperation management and account CRM are distinct destinations.
 - Read current state when identity, ownership, status or existing content is unclear. Keep opaque IDs and cursors unchanged.
 - Ask only for missing inputs that materially affect the result. Bound pages, batches, remote calls and response detail to the user's purpose.
-- Follow the actual tool's preview, confirmation, idempotency and polling protocol. Query uncertain outcomes instead of creating duplicate writes.
+- Apply `{baseDir}/references/risk-confirmation.md` to ordinary writes, high-risk confirmation, and requests to execute directly. Follow the actual tool's preview, confirmation, idempotency and polling protocol. Query uncertain outcomes instead of creating duplicate writes.
 - Report business results, partial failures and pending work plainly. Do not expose credentials or internal transport details.
-- Discuss remaining Skill Credit, execution permissions and specific operation costs only when asked or blocked. Read the quota reference for these cases. Do not offer membership plans, trial claims, upgrades, recharges or purchase links. Continue required internal checks without routine billing narration.
+- Discuss remaining Skill Credit, execution permissions and specific operation costs when asked, when material to a required approval, or when they block the task. Read the quota reference for these cases. Do not offer membership plans, trial claims, upgrades, recharges or purchase links. Continue internal checks without routine billing narration.
 - Use `influencer-marketing-manager` for marketing strategy or partnership judgment when needed. Its recommendations do not add tools or bypass product confirmation rules.
 
 ## Workflow References

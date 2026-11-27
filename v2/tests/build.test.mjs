@@ -153,6 +153,7 @@ test('the fixed CLI Skill reuses shared and CLI files and ships its own entrypoi
   const entrypoint = cli.get('SKILL.md').toString();
   assert.match(entrypoint, /^name: noxinfluencer-cli$/m);
   assert.match(entrypoint, /Use the isolated NoxInfluencer V2 CLI for every NoxInfluencer operation/);
+  assert.match(entrypoint, /Pause account operations and their result files when account authorization is missing or the connection drops/);
   assert.doesNotMatch(entrypoint, /Runtime Selection|runtime-mcp\.md/);
   assert.match(cli.get('references/auth.md').toString(), /nox-cli\.mjs" --install/);
 
